@@ -1,4 +1,4 @@
-# SwiftTimecode
+# TimecodeKit
 
 <p>
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift%205.3-compatible-orange.svg?style=flat" alt="Swift 5.3 compatible" /></a>
@@ -8,7 +8,7 @@
 <a href="https://raw.githubusercontent.com/uraimo/Bitter/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
-A robust library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
+A robust multiplatform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
 
 ## Supported Frame Rates
 
@@ -43,10 +43,10 @@ A robust library for working with SMPTE timecode supporting 20 industry frame ra
   - [ ] Needs to be added to String getters/setters
     - Add 100-120 fps 3-digit frames display support
 
-- [ ] Add method to convert to another framerate by producing a new `OTTimecode` object. But make it clear that it's a LOSSY process. Suggested API:
+- [ ] Add method to convert to another framerate by producing a new `Timecode` object. But make it clear that it's a LOSSY process. Suggested API:
 
   ```swift
-  func convert(to: FrameRate, limit: UpperLimit) -> OTTimecode
+  func convert(to: FrameRate, limit: UpperLimit) -> Timecode
   ```
 
 ### Maintenance

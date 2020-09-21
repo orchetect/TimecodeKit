@@ -5,13 +5,13 @@ import PackageDescription
 
 let package = Package(
 	
-    name: "SwiftTimecode",
+    name: "TimecodeKit",
 	
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "SwiftTimecode",
-            targets: ["SwiftTimecode"])
+            name: "TimecodeKit",
+            targets: ["TimecodeKit"])
     ],
 	
     dependencies: [
@@ -23,15 +23,15 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-			name: "SwiftTimecode",
+			name: "TimecodeKit",
 			dependencies: []),
 		.testTarget(
-			name: "SwiftTimecode-Unit-Tests",
-			dependencies: ["SwiftTimecode"]),
+			name: "TimecodeKit-Unit-Tests",
+			dependencies: ["TimecodeKit"]),
 		
 		.testTarget(
-			name: "SwiftTimecode-Dev-Tests",
-			dependencies: ["SwiftTimecode"]
+			name: "TimecodeKit-Dev-Tests",
+			dependencies: ["TimecodeKit"]
 		)
 	]
 	
