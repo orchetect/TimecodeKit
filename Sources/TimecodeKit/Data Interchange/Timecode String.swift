@@ -1,5 +1,5 @@
 //
-//  Timecode stringValue.swift
+//  Timecode String.swift
 //  TimecodeKit
 //
 //  Created by Steffan Andrews on 2020-06-15.

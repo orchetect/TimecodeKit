@@ -9,6 +9,8 @@
 import XCTest
 @testable import TimecodeKit
 
+import SegmentedProgress
+
 class Timecode_ET_ExtendedTests: XCTestCase {
 	
 	func testTimecode_Iterative() {

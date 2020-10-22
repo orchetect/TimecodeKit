@@ -1,12 +1,23 @@
 # TimecodeKit
 
 <p>
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Swift%205.3-compatible-orange.svg?style=flat" alt="Swift 5.3 compatible" /></a>
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/SPM-compatible-orange.svg?style=flat" alt="Swift Package Manager (SPM) compatible" /></a>
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-green.svg?style=flat" alt="Platform - macOS | iOS | tvOS | watchOS" /></a>
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/Linux-not%20tested-black.svg?style=flat" alt="Linux - not tested" /></a>
-<a href="https://raw.githubusercontent.com/uraimo/Bitter/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
+<a href="https://developer.apple.com/swift">
+<img src="https://img.shields.io/badge/Swift%205.3-compatible-orange.svg?style=flat"
+     alt="Swift 5.3 compatible" /></a>
+<a href="https://developer.apple.com/swift">
+<img src="https://img.shields.io/badge/SPM-compatible-orange.svg?style=flat"
+     alt="Swift Package Manager (SPM) compatible" /></a>
+<a href="https://developer.apple.com/swift">
+<img src="https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-green.svg?style=flat"
+     alt="Platform - macOS | iOS | tvOS | watchOS" /></a>
+<a href="#">
+<img src="https://img.shields.io/badge/Linux-not%20tested-black.svg?style=flat"
+     alt="Linux - not tested" /></a>
+<a href="https://github.com/orchetect/TimecodeKit/blob/main/LICENSE">
+<img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"
+     alt="License: MIT" /></a>
 </p>
+
 
 A robust multiplatform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
 
@@ -38,14 +49,14 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 ### Incomplete Features (Still in Development)
 
 - [ ] Complete sub-frame support
-
-  - [ ] Test subFrameDivisor effect when set to -1, 0, 1, or 1000000
   - [ ] Needs to be added to String getters/setters
     - Add 100-120 fps 3-digit frames display support
+  - [ ] Test subFrameDivisor effect when set to -1, 0, 1, or 1000000
 
 - [ ] Add method to convert to another framerate by producing a new `Timecode` object. But make it clear that it's a LOSSY process. Suggested API:
 
   ```swift
+  /// Convert timecode to a new frame rate. Note: this may be lossy.
   func convert(to: FrameRate, limit: UpperLimit) -> Timecode
   ```
 
@@ -62,3 +73,15 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 - The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
 - Unit Tests won't build/run for watchOS Simulator because XCTest does not work on watchOS
   - Workaround: Don't run unit tests for a watchOS target. Using macOS or iOS as a unit test target should be sufficient enough. If anyone runs into issues with the library on watchOS, feel free to contribute a solution or fix anything that requires fixing.
+
+## Author
+
+Coded by a bunch of 🐹 hamsters in a trenchcoat that calls itself [@orchetect](https://github.com/orchetect).
+
+## License
+
+Licensed under the MIT license. See [LICENSE](https://github.com/orchetect/TimecodeKit/blob/master/LICENSE) for details.
+
+## Contributions
+
+Contributions are welcome. Feel free to post an Issue to discuss.
