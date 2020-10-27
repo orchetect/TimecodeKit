@@ -62,7 +62,7 @@ extension Timecode {
 extension Timecode.Components: Equatable {
 	
 	public static func ==(lhs: Self, rhs: Self) -> Bool {
-		return lhs.d == rhs.d &&
+		lhs.d == rhs.d &&
 			lhs.h == rhs.h &&
 			lhs.m == rhs.m &&
 			lhs.s == rhs.s &&
@@ -83,15 +83,15 @@ extension Timecode.Components {
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit,
-							  subFramesDivisor: sfd)
+							at: frameRate,
+							limit: limit,
+							subFramesDivisor: sfd)
 			
 		} else {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit)
+							at: frameRate,
+							limit: limit)
 			
 		}
 	}
@@ -105,16 +105,16 @@ extension Timecode.Components {
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(rawValues: self,
-							  at: frameRate,
-							  limit: limit,
-							  subFramesDivisor: sfd)
+							at: frameRate,
+							limit: limit,
+							subFramesDivisor: sfd)
 			
 		} else {
 			
 			return Timecode(rawValues: self,
-							  at: frameRate,
-							  limit: limit)
-							  
+							at: frameRate,
+							limit: limit)
+			
 		}
 	}
 	

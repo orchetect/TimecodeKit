@@ -11,7 +11,7 @@ import Foundation
 extension Timecode: Equatable {
 	
 	static public func ==(lhs: Self, rhs: Self) -> Bool {
-		return lhs.realTime == rhs.realTime
+		lhs.realTime == rhs.realTime
 	}
 	
 }
@@ -19,7 +19,7 @@ extension Timecode: Equatable {
 extension Timecode: Comparable {
 	
 	static public func <(lhs: Self, rhs: Self) -> Bool {
-		return (lhs.realTime < rhs.realTime)
+		lhs.realTime < rhs.realTime
 	}
 	
 }

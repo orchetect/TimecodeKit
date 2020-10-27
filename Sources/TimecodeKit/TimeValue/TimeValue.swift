@@ -24,31 +24,39 @@ public struct TimeValue {
 	public let backing: UnitBacking
 	
 	public var ms: Double {
+		
 		if msValue != nil { return msValue! }
 		if secondsValue != nil { return secondsValue! * 1000.0 }
 		return 0.0
+		
 	}
 	
 	public var seconds: Double {
+		
 		if secondsValue != nil { return secondsValue! }
 		if msValue != nil { return msValue! / 1000.0 }
 		return 0.0
+		
 	}
 	
 	// MARK: init
 	
 	public init(ms: Double) {
+		
 		backing = .ms
 		
 		msValue = ms
 		secondsValue = nil
+		
 	}
 	
 	public init(seconds: Double) {
+		
 		backing = .seconds
 		
 		msValue = nil
 		secondsValue = seconds
+		
 	}
 	
 }
@@ -56,9 +64,11 @@ public struct TimeValue {
 extension TimeValue: Equatable {
 	
 	public static func ==(lhs: Self, rhs: Self) -> Bool {
+		
 		// limit precision to help ensure comparison is meaningful
 		
-		return lhs.ms.truncated(decimalPlaces: 9) == rhs.ms.truncated(decimalPlaces: 9)
+		lhs.ms.truncated(decimalPlaces: 9) == rhs.ms.truncated(decimalPlaces: 9)
+		
 	}
 	
 }
@@ -67,9 +77,11 @@ extension TimeValue: Equatable {
 extension TimeValue: Comparable {
 	
 	public static func <(lhs: Self, rhs: Self) -> Bool {
+		
 		// limit precision to help ensure comparison is meaningful
 		
 		lhs.ms.truncated(decimalPlaces: 9) < rhs.ms.truncated(decimalPlaces: 9)
+		
 	}
 	
 }
@@ -78,8 +90,10 @@ extension TimeValue {
 	
 	/// Enum describing units of time, as stored by `TimeValue`
 	public enum UnitBacking {
+		
 		case ms
 		case seconds
+		
 	}
 	
 }

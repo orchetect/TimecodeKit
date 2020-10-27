@@ -92,10 +92,10 @@ extension Timecode {
 		
 		#if os(macOS)
 		let invalidColor = invalidAttributes
-			?? [NSAttributedString.Key.foregroundColor : NSColor.red]
+			?? [.foregroundColor : NSColor.red]
 		#elseif os(iOS) || os(tvOS) || os(watchOS)
 		let invalidColor = invalidAttributes
-			?? [NSAttributedString.Key.foregroundColor : UIColor.red]
+			?? [.foregroundColor : UIColor.red]
 		#endif
 		
 		let invalids = invalidComponents

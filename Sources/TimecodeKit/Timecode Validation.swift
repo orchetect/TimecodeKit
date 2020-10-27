@@ -93,6 +93,7 @@ extension Timecode {
 		{ invalids.insert(.seconds) }
 		
 		// frames
+		
 		if !components.validRange(of: .frames,
 								  at: frameRate,
 								  limit: limit,
@@ -101,6 +102,7 @@ extension Timecode {
 		{ invalids.insert(.frames) }
 		
 		// subframes
+		
 		if !components.validRange(of: .subFrames,
 								  at: frameRate,
 								  limit: limit,

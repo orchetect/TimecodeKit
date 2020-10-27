@@ -1,5 +1,5 @@
 //
-//  Timecode Elapsed Frames.swift
+//  Timecode Elapsed Frames Tests.swift
 //  TimecodeKitTests
 //
 //  Created by Steffan Andrews on 2020-06-16.

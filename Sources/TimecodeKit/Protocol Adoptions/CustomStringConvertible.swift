@@ -12,11 +12,12 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
 	
 	public var description: String {
 		
-		return stringValue
+		stringValue
 		
 	}
 	
 	public var debugDescription: String {
+		
 		// include Days even if it's 0 if we have a mode set that enables Days
 		let daysString =
 			upperLimit == UpperLimit._100days
@@ -24,11 +25,12 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
 			: ""
 		
 		return "Timecode<\(daysString)\(stringValue) @ \(frameRate.stringValue)>"
+		
 	}
 	
 	public var verboseDescription: String {
 		
-		return "\(stringValue) @ \(frameRate.stringValue)"
+		"\(stringValue) @ \(frameRate.stringValue)"
 		
 	}
 	

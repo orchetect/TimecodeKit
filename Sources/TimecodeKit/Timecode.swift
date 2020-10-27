@@ -81,8 +81,7 @@ public struct Timecode {
 	
 	/// Timecode subframe component.
 	///
-	/// To remain platform agnostic, this value is represented as a floating-point unit interval (0.0...1.0) since there are no consistent standards on subframe divisions.
-	/// (ie: traditionally Cubase/Nuendo and Logic Pro use 80 subframes, Pro Tools uses 100 subframes, etc.)
+	/// (ie: traditionally Cubase/Nuendo and Logic Pro use 80 subframes per frame, Pro Tools uses 100 subframes, etc.)
 	///
 	/// Setting this value directly does not trigger any validation.
 	public var subFrames: Int = 0

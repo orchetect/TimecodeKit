@@ -16,9 +16,9 @@ extension Timecode {
 	public var totalElapsedFrames: Double {
 		
 		get {
-			return Self.totalElapsedFrames(of: components,
-										   at: frameRate,
-										   subFramesDivisor: subFramesDivisor)
+			Self.totalElapsedFrames(of: components,
+									at: frameRate,
+									subFramesDivisor: subFramesDivisor)
 		}
 		set {
 			guard newValue >= 0.0

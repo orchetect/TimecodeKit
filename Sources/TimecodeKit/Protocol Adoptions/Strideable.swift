@@ -17,7 +17,7 @@ extension Timecode: Strideable {
 	/// Will clamp to valid timecode range.
 	public func advanced(by n: Int) -> Self {
 		
-		return self.adding(clamping: Components(f: n))
+		self.adding(clamping: Components(f: n))
 		
 	}
 	
@@ -25,7 +25,7 @@ extension Timecode: Strideable {
 	/// Implemented in order to allow Timecode to conform to `Strideable`.
 	public func distance(to other: Self) -> Int {
 		
-		return Int(trunc(other.totalElapsedFrames) - trunc(self.totalElapsedFrames))
+		Int(trunc(other.totalElapsedFrames) - trunc(self.totalElapsedFrames))
 		
 	}
 	
