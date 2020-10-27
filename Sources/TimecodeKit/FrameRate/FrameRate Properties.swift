@@ -16,61 +16,63 @@ extension Timecode.FrameRate {
 	/// Returns human-readable frame rate string.
 	public var stringValue: String {
 		switch self {
-		case ._23_976:		return "23.976 NDF"
-		case ._24:			return "24 NDF"
-		case ._24_98:		return "24.98 NDF"
-		case ._25:			return "25 NDF"
-		case ._29_97:		return "29.97 NDF"
-		case ._29_97_drop:	return "29.97 DF"
-		case ._30:			return "30 NDF"
-		case ._30_drop:		return "30 DF"
-		case ._47_952:		return "47.952 NDF"
-		case ._48:			return "48 NDF"
-		case ._50:			return "50 NDF"
-		case ._59_94:		return "59.94 NDF"
-		case ._59_94_drop:	return "59.94 DF"
-		case ._60:			return "60 NDF"
-		case ._60_drop:		return "60 DF"
-		case ._100:			return "100 NDF"
-		case ._119_88:		return "119.88 NDF"
-		case ._119_88_drop:	return "119.88 DF"
-		case ._120:			return "120 NDF"
-		case ._120_drop:	return "120 DF"
+		case ._23_976:		return "23.976"
+		case ._24:			return "24"
+		case ._24_98:		return "24.98"
+		case ._25:			return "25"
+		case ._29_97:		return "29.97"
+		case ._29_97_drop:	return "29.97d"
+		case ._30:			return "30"
+		case ._30_drop:		return "30d"
+		case ._47_952:		return "47.952"
+		case ._48:			return "48"
+		case ._50:			return "50"
+		case ._59_94:		return "59.94"
+		case ._59_94_drop:	return "59.94d"
+		case ._60:			return "60"
+		case ._60_drop:		return "60d"
+		case ._100:			return "100"
+		case ._119_88:		return "119.88"
+		case ._119_88_drop:	return "119.88d"
+		case ._120:			return "120"
+		case ._120_drop:	return "120d"
+		}
+	}
+	
+	/// Returns human-readable frame rate string in long form.
+	public var stringValueVerbose: String {
+		switch self {
+		case ._23_976:		return "23.976 fps"
+		case ._24:			return "24 fps"
+		case ._24_98:		return "24.98 fps"
+		case ._25:			return "25 fps"
+		case ._29_97:		return "29.97 fps"
+		case ._29_97_drop:	return "29.97 fps drop"
+		case ._30:			return "30 fps"
+		case ._30_drop:		return "30 fps drop"
+		case ._47_952:		return "47.952 fps"
+		case ._48:			return "48 fps"
+		case ._50:			return "50 fps"
+		case ._59_94:		return "59.94 fps"
+		case ._59_94_drop:	return "59.94 fps drop"
+		case ._60:			return "60 fps"
+		case ._60_drop:		return "60 fps drop"
+		case ._100:			return "100 fps"
+		case ._119_88:		return "119.88 fps"
+		case ._119_88_drop:	return "119.88 fps drop"
+		case ._120:			return "120 fps"
+		case ._120_drop:	return "120 fps drop"
 		}
 	}
 	
 	/// Initializes from a `stringValue` string. Case-sensitive.
 	public init?(stringValue: String) {
-		if let findMatch = Self.allCases.first(where: { $0.stringValue == stringValue }) {
+		if let findMatch = Self.allCases
+			.first(where: { $0.stringValue == stringValue })
+		{
 			self = findMatch
 		} else {
 			return nil
-		}
-	}
-	
-	/// Returns human-readable frame rate string, ie: suitable for use in filenames.
-	public var stringValueFileNameCompatible: String {
-		switch self {
-		case ._23_976:		return "23_976NDF"
-		case ._24:			return "24NDF"
-		case ._24_98:		return "24_98DNF"
-		case ._25:			return "25NDF"
-		case ._29_97:		return "29_97NDF"
-		case ._29_97_drop:	return "29_97DF"
-		case ._30:			return "30NDF"
-		case ._30_drop:		return "30DF"
-		case ._47_952:		return "47_952NDF"
-		case ._48:			return "48NDF"
-		case ._50:			return "50NDF"
-		case ._59_94:		return "59_94NDF"
-		case ._59_94_drop:	return "59_94DF"
-		case ._60:			return "60NDF"
-		case ._60_drop:		return "60DF"
-		case ._100:			return "100NDF"
-		case ._119_88:		return "119_88NDF"
-		case ._119_88_drop:	return "119_88DF"
-		case ._120:			return "120NDF"
-		case ._120_drop:	return "120DF"
 		}
 	}
 	
@@ -107,35 +109,43 @@ extension Timecode.FrameRate {
 		}
 	}
 	
-	/// Total number of elapsed frames that comprise 1 second of timecode.
-	public var maxFrames: Int {
+	/// Returns the number of digits required for frames within the timecode string.
+	///
+	/// ie: 24 fps would return 2, but 120 fps would return 3.
+	public var numberOfDigits: Int {
 		switch self {
-		case ._23_976:		return 24
-		case ._24:			return 24
-		case ._24_98:		return 25
-		case ._25:			return 25
-		case ._29_97:		return 30
-		case ._29_97_drop:	return 30
-		case ._30:			return 30
-		case ._30_drop:		return 30
-		case ._47_952:		return 48
-		case ._48:			return 48
-		case ._50:			return 50
-		case ._59_94:		return 60
-		case ._59_94_drop:	return 60
-		case ._60:			return 60
-		case ._60_drop:		return 60
-		case ._100:			return 100
-		case ._119_88:		return 120
-		case ._119_88_drop:	return 120
-		case ._120:			return 120
-		case ._120_drop:	return 120
+		case ._23_976,
+			 ._24,
+			 ._24_98,
+			 ._25,
+			 ._29_97,
+			 ._29_97_drop,
+			 ._30,
+			 ._30_drop,
+			 ._47_952,
+			 ._48,
+			 ._50,
+			 ._59_94,
+			 ._59_94_drop,
+			 ._60,
+			 ._60_drop:
+			
+			return 2
+			
+		case ._100,
+			 ._119_88,
+			 ._119_88_drop,
+			 ._120,
+			 ._120_drop:
+			
+			return 3
+			
 		}
 	}
 	
 	/// Max frame number displayable before seconds roll over.
 	public var maxFrameNumberDisplayable: Int {
-		return maxFrames - 1
+		maxFrames - 1
 	}
 	
 	/// Returns max elapsed frames from 0 to and including rolling over to `extent`.
@@ -177,7 +187,7 @@ extension Timecode.FrameRate {
 	/// Returns max elapsed frames possible before rolling over to 0.
 	/// (Number of frames from 0 to `extent` minus one subframe).
 	public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
-		return maxTotalFrames(in: extent) - 1
+		maxTotalFrames(in: extent) - 1
 	}
 	
 }
@@ -186,6 +196,32 @@ extension Timecode.FrameRate {
 // MARK: Internal properties
 
 extension Timecode.FrameRate {
+	
+	/// Internal use. Total number of elapsed frames that comprise 1 second of timecode.
+	internal var maxFrames: Int {
+		switch self {
+		case ._23_976:		return 24
+		case ._24:			return 24
+		case ._24_98:		return 25
+		case ._25:			return 25
+		case ._29_97:		return 30
+		case ._29_97_drop:	return 30
+		case ._30:			return 30
+		case ._30_drop:		return 30
+		case ._47_952:		return 48
+		case ._48:			return 48
+		case ._50:			return 50
+		case ._59_94:		return 60
+		case ._59_94_drop:	return 60
+		case ._60:			return 60
+		case ._60_drop:		return 60
+		case ._100:			return 100
+		case ._119_88:		return 120
+		case ._119_88_drop:	return 120
+		case ._120:			return 120
+		case ._120_drop:	return 120
+		}
+	}
 	
 	/// Internal use.
 	internal var frameRateForElapsedFramesCalculation: Double {
@@ -197,7 +233,7 @@ extension Timecode.FrameRate {
 		case ._29_97:		return 30.0
 		case ._29_97_drop:	return 29.97	// used in special drop-frame calculation
 		case ._30:			return 30.0
-		case ._30_drop:		return 29.97
+		case ._30_drop:		return 29.97	// used in special drop-frame calculation
 		case ._47_952:		return 48.0
 		case ._48:			return 48.0
 		case ._50:			return 50.0
@@ -268,35 +304,6 @@ extension Timecode.FrameRate {
 			// this is only here so that when adding frame rates to the framework, the compiler will throw an error to remind you to add the enum case here
 			return 0.0
 			
-		}
-		
-	}
-	
-	/// Returns the number of digits required for frames within the timecode string.
-	///
-	/// ie: 24 fps would return 2, but 120 fps would return 3.
-	public var numberOfDigits: Int {
-		switch self {
-		case ._23_976:		return 2
-		case ._24:			return 2
-		case ._24_98:		return 2
-		case ._25:			return 2
-		case ._29_97:		return 2
-		case ._29_97_drop:	return 2
-		case ._30:			return 2
-		case ._30_drop:		return 2
-		case ._47_952:		return 2
-		case ._48:			return 2
-		case ._50:			return 2
-		case ._59_94:		return 2
-		case ._59_94_drop:	return 2
-		case ._60:			return 2
-		case ._60_drop:		return 2
-		case ._100:			return 3
-		case ._119_88:		return 3
-		case ._119_88_drop:	return 3
-		case ._120:			return 3
-		case ._120_drop:	return 3
 		}
 	}
 	
