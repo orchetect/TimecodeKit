@@ -16,7 +16,7 @@ extension Timecode {
 		// convert to new frame rate, retaining all ancillary property values
 		
 		var newTC =
-			Timecode(realTime,
+			Timecode(realTimeValue,
 					 at: frameRate,
 					 limit: upperLimit,
 					 subFramesDivisor: subFramesDivisor)

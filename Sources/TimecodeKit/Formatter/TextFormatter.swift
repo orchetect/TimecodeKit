@@ -346,10 +346,12 @@ extension Timecode.TextFormatter {
 	
 	public var timecodeWithProperties: Timecode? {
 		
-		guard let frameRate = frameRate else { return nil }
-		guard let upperLimit = upperLimit else { return nil }
-		guard let subFramesDivisor = subFramesDivisor else { return nil }
-		guard let displaySubFrames = displaySubFrames else { return nil }
+		guard
+			let frameRate = frameRate,
+			let upperLimit = upperLimit,
+			let subFramesDivisor = subFramesDivisor,
+			let displaySubFrames = displaySubFrames
+		else { return nil }
 		
 		var tc = Timecode(at: frameRate,
 							limit: upperLimit,

@@ -128,20 +128,29 @@ class Timecode_UT_Validation_Tests: XCTestCase {
 	
 	func testMaxFrames() {
 		
-		let tc = Timecode(at: ._24, limit: ._24hours)
+		let subFramesDivisor = 80
+		
+		let tc = Timecode(at: ._24,
+						  limit: ._24hours,
+						  subFramesDivisor: subFramesDivisor)
 		
 		let mf = tc.maxFramesAndSubframesExpressible
 		
 		let tcc = Timecode.components(from: mf,
-										at: tc.frameRate,
-										subFramesDivisor: tc.subFramesDivisor)
+									  at: tc.frameRate,
+									  subFramesDivisor: tc.subFramesDivisor)
 		
-		XCTAssertEqual(tc.validRange(of: .subFrames), 0...79)
+		XCTAssertEqual(tc.validRange(of: .subFrames), 0...(subFramesDivisor-1))
 		XCTAssertEqual(mf, 2073599.9875)
 		XCTAssertEqual(tc.subFrames, 0)
-		XCTAssertEqual(tc.subFramesDivisor, 80)
+		XCTAssertEqual(tc.subFramesDivisor, subFramesDivisor)
 		
-		XCTAssertEqual(tcc, TCC(d: 0, h: 23, m: 59, s: 59, f: 23, sf: 79))
+		XCTAssertEqual(tcc, TCC(d: 0,
+								h: 23,
+								m: 59,
+								s: 59,
+								f: 23,
+								sf: subFramesDivisor-1) )
 		
 	}
 	

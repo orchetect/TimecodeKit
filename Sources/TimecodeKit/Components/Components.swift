@@ -13,9 +13,10 @@ public typealias TCC = Timecode.Components
 
 extension Timecode {
 	
-	/// Primitive struct that can contain timecode values, agnostic of frame rate.
-	/// Raw values are stored and are not internally limited or clamped.
-	/// The global typealias TCC() is also available for convenience.
+	/// Primitive struct describing timecode values, agnostic of frame rate.
+	/// (The global typealias `TCC()` is also available for convenience.)
+	///
+	/// Raw values are stored and are not implicitly validated or clamped.
 	public struct Components {
 		
 		// MARK: Contents
@@ -47,12 +48,14 @@ extension Timecode {
 					f: Int = 0,
 					sf: Int = 0)
 		{
+			
 			self.d = d
 			self.h = h
 			self.m = m
 			self.s = s
 			self.f = f
 			self.sf = sf
+			
 		}
 		
 	}
@@ -62,12 +65,14 @@ extension Timecode {
 extension Timecode.Components: Equatable {
 	
 	public static func ==(lhs: Self, rhs: Self) -> Bool {
+		
 		lhs.d == rhs.d &&
 			lhs.h == rhs.h &&
 			lhs.m == rhs.m &&
 			lhs.s == rhs.s &&
 			lhs.f == rhs.f &&
 			lhs.sf == rhs.sf
+		
 	}
 	
 }

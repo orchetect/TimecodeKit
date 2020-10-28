@@ -128,16 +128,18 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
 		
 		// test for precision and rounding issues by iterating every subframe for each frame rate
 		
-		for subframe in 0...79 {
+		let subFramesDivisor = 80
+		
+		for subFrame in 0..<subFramesDivisor {
 			
-			let tcc = TCC(d: 99, h: 23, sf: subframe)
+			let tcc = TCC(d: 99, h: 23, sf: subFrame)
 			
 			Timecode.FrameRate.allCases.forEach {
 				
 				var tc = Timecode(tcc,
-									at: $0,
-									limit: ._100days,
-									subFramesDivisor: 80)!
+								  at: $0,
+								  limit: ._100days,
+								  subFramesDivisor: subFramesDivisor)!
 				
 				let sRate = 48000
 				
@@ -149,11 +151,11 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
 				
 				XCTAssertTrue(tc.setTimecode(fromSamplesValue: samples,
 											 atSampleRate: sRate),
-							  "at: \($0) subframe: \(subframe)")
+							  "at: \($0) subframe: \(subFrame)")
 				
 				XCTAssertEqual(tc.components,
 							   tcc,
-							   "at: \($0) subframe: \(subframe)")
+							   "at: \($0) subframe: \(subFrame)")
 				
 			}
 			
