@@ -4,19 +4,20 @@
 <a href="https://developer.apple.com/swift">
 <img src="https://img.shields.io/badge/Swift%205.3-compatible-orange.svg?style=flat"
      alt="Swift 5.3 compatible" /></a>
-<a href="https://developer.apple.com/swift">
+<a href="#installation">
 <img src="https://img.shields.io/badge/SPM-compatible-orange.svg?style=flat"
      alt="Swift Package Manager (SPM) compatible" /></a>
 <a href="https://developer.apple.com/swift">
 <img src="https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-green.svg?style=flat"
      alt="Platform - macOS | iOS | tvOS | watchOS" /></a>
-<a href="#">
+<a href="#contributions">
 <img src="https://img.shields.io/badge/Linux-not%20tested-black.svg?style=flat"
      alt="Linux - not tested" /></a>
 <a href="https://github.com/orchetect/TimecodeKit/blob/main/LICENSE">
 <img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"
      alt="License: MIT" /></a>
 </p>
+
 
 A robust multiplatform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
 
@@ -43,7 +44,16 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 - Common math operations between timecodes: add, subtract, multiply, divide
 - Exhaustive unit tests ensuring accuracy
 
-## Usage
+## Installation
+
+### Swift Package Manager (SPM)
+
+To add SwiftRadix to your Xcode project:
+
+1. Select File → Swift Packages → Add Package Depedancy
+2. Add package using  `https://github.com/orchetect/TimecodeKit` as the URL.
+
+## Documentation
 
 Note: This documentation does not cover every property and initializer available but covers most typical use cases.
 
@@ -70,6 +80,8 @@ Note: This documentation does not cover every property and initializer available
 
 ### Initialization
 
+Using `(_ exaclty:, ...)` by default:
+
 ```swift
 // from Int timecode component values
 Timecode(TCC(h: 01, m: 00, s: 00, f: 00), at: ._23_976)
@@ -85,6 +97,30 @@ TimeValue(seconds: 4723.241579).toTimecode(at: ._23_976) // alternate method
 
 // from elapsed number of audio samples at a given sample rate
 Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
+```
+
+Using `(clamping:, ...)`:
+
+```swift
+// clamps individual timecode component values to valid values if the are out-of-bounds
+
+Timecode(clamping: "01:00:85:50", at: ._24)?
+    .stringValue // == "01:00:59:23"
+
+Timecode(clamping: "26:00:00:00", at: ._24)?
+    .stringValue // == "23:59:59:23"
+```
+
+Using `(wrapping:, ...)`:
+
+```swift
+// wraps around clock continuously if entire timecode overflows or underflows
+
+Timecode(wrapping: "26:00:00:00", at: ._24)?
+    .stringValue // == "02:00:00:00"
+
+Timecode(wrapping: "23:59:59:24", at: ._24)?
+    .stringValue // == "00:00:00:00"
 ```
 
 ### Properties
@@ -191,7 +227,7 @@ Non-mutating methods that produce a new `Timecode` instance:
 // timecode to real-world time
 let tc = "01:00:00:00"
     .toTimecode(at: ._23_976)?
-    .realTime // TimeValue()
+    .realTimeValue // == TimeValue()
 
 tc?.seconds // == 3603.6
 tc?.ms      // == 3603600.0
@@ -349,11 +385,11 @@ tc?.displaySubFrames = true
 Two `Timecode` instances can be compared linearly.
 
 ```swift
-"01:00:00:00".toTimecode(at: ._24) == "01:00:00:00".toTimecode(at: ._24) // true
+"01:00:00:00".toTimecode(at: ._24) == "01:00:00:00".toTimecode(at: ._24) // == true
 
-"00:59:50:00".toTimecode(at: ._24) < "01:00:00:00".toTimecode(at: ._24) // true
+"00:59:50:00".toTimecode(at: ._24) < "01:00:00:00".toTimecode(at: ._24) // == true
 
-"00:59:50:00".toTimecode(at: ._24) > "01:00:00:00".toTimecode(at: ._24) // false
+"00:59:50:00".toTimecode(at: ._24) > "01:00:00:00".toTimecode(at: ._24) // == false
 ```
 
 #### Range, Strideable
@@ -425,24 +461,6 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 01:00:00:15
 01:00:00:20
 ```
-
-## Development Status
-
-### Incomplete Features (Still in Development)
-
-- [ ] Complete sub-frame support
-  - [ ] Needs to be added to String getters/setters
-    - Add 100-120 fps 3-digit frames display support
-  - [ ] Test subFrameDivisor effect when set to -1, 0, 1, or 1000000
-- [ ] Add timecode offset value?
-
-### Maintenance
-
-- [ ] Add code examples to README.md or wiki.
-
-### Future Features Planned
-
-- None at this time.
 
 ## Known Issues
 
