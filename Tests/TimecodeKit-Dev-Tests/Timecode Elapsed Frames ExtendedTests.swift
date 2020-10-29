@@ -32,13 +32,15 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 		
 		// ======= parameters =======
 		
-		let limit: Timecode.UpperLimit = ._24hours
-//		let limit: Timecode.UpperLimit = ._100days
+		let limit: Timecode.UpperLimit =
+			._24hours
+			//._100days
 		
-		let frameRatesToTest: [Timecode.FrameRate] = Timecode.FrameRate.allCases
-//		let frameRatesToTest: [Timecode.FrameRate] = Timecode.FrameRate.allDrop
-//		let frameRatesToTest: [Timecode.FrameRate] = Timecode.FrameRate.allNonDrop
-//		let frameRatesToTest: [Timecode.FrameRate] = [._60_drop, ._120_drop]
+		let frameRatesToTest: [Timecode.FrameRate] =
+			Timecode.FrameRate.allCases
+			// Timecode.FrameRate.allDrop
+			// Timecode.FrameRate.allNonDrop
+			// [._60_drop, ._120_drop]
 		
 		// ======= run ==============
 		
@@ -57,11 +59,11 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 			
 			for i in 0...ubound {
 				let vals = Timecode.components(from: i,
-												 at: tc.frameRate,
-												 subFramesDivisor: tc.subFramesDivisor)
+											   at: tc.frameRate,
+											   subFramesDivisor: tc.subFramesDivisor)
 				
 				if i != Int(floor(Timecode.totalElapsedFrames(of: vals, at: tc.frameRate,
-																subFramesDivisor: tc.subFramesDivisor)))
+															  subFramesDivisor: tc.subFramesDivisor)))
 				
 				{ failures.append((i, vals)) }
 				
@@ -83,8 +85,8 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 					  failures.first!.1,
 					  "converted back to",
 					  Timecode.totalElapsedFrames(of: failures.first!.1,
-													at: tc.frameRate,
-													subFramesDivisor: tc.subFramesDivisor),
+												  at: tc.frameRate,
+												  subFramesDivisor: tc.subFramesDivisor),
 					  "elapsed frames.")
 				
 			}
@@ -97,8 +99,8 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 					  failures.last!.1,
 					  "converted back to",
 					  Timecode.totalElapsedFrames(of: failures.last!.1,
-													at: tc.frameRate,
-													subFramesDivisor: tc.subFramesDivisor),
+												  at: tc.frameRate,
+												  subFramesDivisor: tc.subFramesDivisor),
 					  "elapsed frames.")
 				
 			}

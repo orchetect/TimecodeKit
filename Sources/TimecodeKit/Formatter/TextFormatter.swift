@@ -311,17 +311,18 @@ extension Timecode {
 
 extension Timecode.TextFormatter {
 	public var timecodeWithProperties: Timecode? {
+    
 		guard let frameRate = frameRate,
 			  let upperLimit = upperLimit,
 			  let subFramesDivisor = subFramesDivisor,
 			  let displaySubFrames = displaySubFrames else { return nil }
-
+    
 		var tc = Timecode(at: frameRate,
 						  limit: upperLimit,
 						  subFramesDivisor: subFramesDivisor)
-
+    
 		tc.displaySubFrames = displaySubFrames
-
+    
 		return tc
 	}
 }

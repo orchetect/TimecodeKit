@@ -10,10 +10,11 @@ import Foundation
 
 extension Timecode {
 	
-	/// Returns the current timecode converted to a duration in real-time milliseconds (wall-clock time), based on the frame rate. Value is returned as a Double so a high level of precision can be maintained.
-	/// Generally, `.realTime` -> `setTimecode(from: TimeValue)` will produce equivalent results where 'from timecode' will == 'out timecode'.
+	/// (Lossy) Returns the current timecode converted to a duration in real-time milliseconds (wall-clock time), based on the frame rate. Value is returned as a Double so a high level of precision can be maintained.
+	///
+	/// Generally, `.realTimeValue` -> `.setTimecode(from: TimeValue)` will produce equivalent results where 'from timecode' == 'out timecode'.
 	/// When setting, invalid values will cause the setter to fail silently. (Validation is based on the frame rate and `upperLimit` property.)
-	public var realTime: TimeValue {
+	public var realTimeValue: TimeValue {
 		
 		get {
 			var calc = Double(totalElapsedFrames) * (1000.0 / frameRate.frameRateForRealTimeCalculation)
@@ -28,13 +29,14 @@ extension Timecode {
 		}
 		
 		set {
+			// set, suppressing failure silently
 			_ = setTimecode(from: newValue)
 		}
 		
 	}
 	
 	/// Sets the timecode to the nearest frame at the current frame rate from real-time milliseconds.
-	///  Returns false if it underflows or overflows valid timecode range.
+	/// Returns false if it underflows or overflows valid timecode range.
 	@discardableResult
 	public mutating func setTimecode(from realTimeValue: TimeValue) -> Bool {
 		

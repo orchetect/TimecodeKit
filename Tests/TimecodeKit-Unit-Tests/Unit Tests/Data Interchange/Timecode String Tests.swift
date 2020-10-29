@@ -247,7 +247,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		XCTAssertEqual(Timecode.decode(timecode:		"0:0:0:0"),
 					   TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
 		
-		XCTAssertEqual(Timecode.decode(timecode:		"0:00:00:00"),
+		XCTAssertEqual(Timecode.decode(timecode:	 "0:00:00:00"),
 					   TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
 		
 		XCTAssertEqual(Timecode.decode(timecode:    "00:00:00:00"),
@@ -308,7 +308,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		
 		// subframes
 		
-		XCTAssertEqual(Timecode.decode(timecode:	   "0:00:00:00.05"),
+		XCTAssertEqual(Timecode.decode(timecode:	 "0:00:00:00.05"),
 					   TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 05))
 		
 		XCTAssertEqual(Timecode.decode(timecode:    "00:00:00:00.05"),
@@ -328,7 +328,6 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		
 		XCTAssertEqual(Timecode.decode(timecode: "12:01:56:45:23.05"),
 					   TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05))
-		
 		
 	}
 	

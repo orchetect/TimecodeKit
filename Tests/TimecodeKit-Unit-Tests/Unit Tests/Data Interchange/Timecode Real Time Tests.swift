@@ -14,7 +14,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 	override func setUp() { }
 	override func tearDown() { }
 	
-	func testTimecode_RealTime() {
+	func testTimecode_RealTimeValue() {
 		
 		// pre-computed constants
 		
@@ -40,7 +40,9 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._59_94,
 				 ._119_88:
 				
-				XCTAssertEqual(tc.realTime.ms, msIn10Hr_ShrunkFrameRates, accuracy: accuracy, "at: \($0)")
+				XCTAssertEqual(tc.realTimeValue.ms,
+							   msIn10Hr_ShrunkFrameRates,
+							   accuracy: accuracy, "at: \($0)")
 				
 			case ._24,
 				 ._25,
@@ -51,7 +53,9 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._100,
 				 ._120:
 				
-				XCTAssertEqual(tc.realTime.ms, msIn10Hr_BaseFrameRates, accuracy: accuracy, "at: \($0)")
+				XCTAssertEqual(tc.realTimeValue.ms,
+							   msIn10Hr_BaseFrameRates,
+							   accuracy: accuracy, "at: \($0)")
 				
 			case ._29_97_drop,
 				 ._30_drop,
@@ -60,7 +64,9 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._119_88_drop,
 				 ._120_drop:
 				
-				XCTAssertEqual(tc.realTime.ms, msIn10Hr_DropFrameRates, accuracy: accuracy, "at: \($0)")
+				XCTAssertEqual(tc.realTimeValue.ms,
+							   msIn10Hr_DropFrameRates,
+							   accuracy: accuracy, "at: \($0)")
 				
 			}
 		}
@@ -112,35 +118,37 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 		
 	}
 	
-	func testTimecode_RealTime_SubFrames() {
+	func testTimecode_RealTimeValue_SubFrames() {
 		
 		// ensure subframes are calculated correctly
 		
 		// test for precision and rounding issues by iterating every subframe for each frame rate
 		
-		for subframe in 0...79 {
+		let subFramesDivisor = 80
+		
+		for subFrame in 0..<subFramesDivisor {
 			
-			let tcc = TCC(d: 99, h: 23, sf: subframe)
+			let tcc = TCC(d: 99, h: 23, sf: subFrame)
 			
 			Timecode.FrameRate.allCases.forEach {
 				
 				var tc = Timecode(tcc,
-									at: $0,
-									limit: ._100days,
-									subFramesDivisor: 80)!
+								  at: $0,
+								  limit: ._100days,
+								  subFramesDivisor: subFramesDivisor)!
 				
 				// timecode to samples
 				
-				let realTime = tc.realTime
+				let realTime = tc.realTimeValue
 				
 				// samples to timecode
 				
 				XCTAssertTrue(tc.setTimecode(from: realTime),
-							  "at: \($0) subframe: \(subframe)")
+							  "at: \($0) subframe: \(subFrame)")
 				
 				XCTAssertEqual(tc.components,
 							   tcc,
-							   "at: \($0) subframe: \(subframe)")
+							   "at: \($0) subframe: \(subFrame)")
 				
 			}
 			
