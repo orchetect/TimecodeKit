@@ -44,9 +44,9 @@ extension Timecode {
 		public var validationAttributes: [NSAttributedString.Key : Any]
 			= {
 				#if os(macOS)
-				return [ .foregroundColor : NSColor.red ]
+				return [.foregroundColor: NSColor.red]
 				#elseif os(iOS) || os(tvOS) || os(watchOS)
-				return [ .foregroundColor : UIColor.red ]
+				return [.foregroundColor: UIColor.red]
 				#endif
 			}()
 		
@@ -54,7 +54,9 @@ extension Timecode {
 		// MARK: init
 		
 		public required init?(coder: NSCoder) {
+			
 			super.init(coder: coder)
+			
 		}
 		
 		public init(frameRate: Timecode.FrameRate? = nil,
@@ -62,35 +64,36 @@ extension Timecode {
 					displaySubFrames: Bool? = nil,
 					subFramesDivisor: Int? = nil,
 					showsValidation: Bool = false,
-					validationAttributes: [NSAttributedString.Key : Any]? = nil)
-		{
+					validationAttributes: [NSAttributedString.Key: Any]? = nil) {
+			
 			super.init()
 			
 			self.frameRate = frameRate
 			self.upperLimit = limit
 			self.subFramesDivisor = subFramesDivisor
 			self.displaySubFrames = displaySubFrames
-			
+
 			self.showsValidation = showsValidation
 			
-			if validationAttributes != nil {
-				self.validationAttributes = validationAttributes!
+			if let validationAttributes = validationAttributes {
+				self.validationAttributes = validationAttributes
 			}
+			
 		}
 		
 		/// Initializes with properties from an `Timecode` object.
 		public convenience init(using timecode: Timecode,
 								showsValidation: Bool = false,
-								validationAttributes: [NSAttributedString.Key : Any]? = nil)
-		{
+								validationAttributes: [NSAttributedString.Key: Any]? = nil) {
+			
 			self.init(frameRate: timecode.frameRate,
 					  limit: timecode.upperLimit,
 					  displaySubFrames: timecode.displaySubFrames,
 					  subFramesDivisor: timecode.subFramesDivisor,
 					  showsValidation: showsValidation,
 					  validationAttributes: validationAttributes)
+			
 		}
-		
 		
 		public func inheritProperties(from other: Timecode.TextFormatter) {
 			self.frameRate = other.frameRate
@@ -105,21 +108,19 @@ extension Timecode {
 		
 		// MARK: - Override methods
 		
-		
-		
 		// MARK: string
-		
-		public override func string(for obj: Any?) -> String? {
+
+		override public func string(for obj: Any?) -> String? {
 			
 			guard let string = obj as? String
-				else { return nil }
+			else { return nil }
 			
 			guard var tc = timecodeWithProperties
-				else { return string }
-			
+			else { return string }
+
 			// form timecode components without validating
 			guard let tcc = Timecode.decode(timecode: string)
-				else { return string }
+			else { return string }
 			
 			// set values without validating
 			tc.setTimecode(rawValues: tcc)
@@ -128,81 +129,80 @@ extension Timecode {
 			
 		}
 		
-		
 		// MARK: attributedString
-		
-		public override func attributedString(for obj: Any,
-											  withDefaultAttributes attrs: [NSAttributedString.Key : Any]? = nil) -> NSAttributedString? {
+
+		override public func attributedString(for obj: Any,
+											  withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString? {
 			
 			guard let string = string(for: obj)
-				else { return nil }
-			
+			else { return nil }
+
 			func entirelyInvalid() -> NSAttributedString {
-				return showsValidation
+				self.showsValidation
 					? NSAttributedString(string: string,
-										 attributes: validationAttributes
-											.merging(attrs ?? [:], uniquingKeysWith: { (current, _) in current }))
-						.addingAttribute(alignment: self.alignment)
+										 attributes: self.validationAttributes
+											.merging(attrs ?? [:], uniquingKeysWith: { current, _ in current }))
+					.addingAttribute(alignment: self.alignment)
 					: NSAttributedString(string: string, attributes: attrs)
-						.addingAttribute(alignment: self.alignment)
+					.addingAttribute(alignment: self.alignment)
 			}
-			
+
 			// grab properties from the formatter
 			guard var tc = timecodeWithProperties
-				else { return entirelyInvalid() }
-			
+			else { return entirelyInvalid() }
+
 			// form timecode components without validating
 			guard let tcc = Timecode.decode(timecode: string)
-				else { return entirelyInvalid() }
-			
+			else { return entirelyInvalid() }
+
 			// set values without validating
 			tc.setTimecode(rawValues: tcc)
-			
+
 			return
 				(
-				showsValidation
-					? tc.stringValueValidated(invalidAttributes: validationAttributes,
-											  withDefaultAttributes: attrs)
-					: NSAttributedString(string: string, attributes: attrs)
+					self.showsValidation
+						? tc.stringValueValidated(invalidAttributes: self.validationAttributes,
+												  withDefaultAttributes: attrs)
+						: NSAttributedString(string: string, attributes: attrs)
 				)
 				.addingAttribute(alignment: self.alignment)
 			
 		}
-		
-		public override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?,
+
+		override public func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?,
 											for string: String,
-											errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool
-		{
+											errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+			
 			obj?.pointee = string as NSString
 			return true
+			
 		}
-		
-		
+
 		// MARK: isPartialStringValid
-		
-		public override func isPartialStringValid(_ partialStringPtr: AutoreleasingUnsafeMutablePointer<NSString>,
+
+		override public func isPartialStringValid(_ partialStringPtr: AutoreleasingUnsafeMutablePointer<NSString>,
 												  proposedSelectedRange proposedSelRangePtr: NSRangePointer?,
 												  originalString origString: String,
 												  originalSelectedRange origSelRange: NSRange,
-												  errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool
-		{
-			guard let frameRate = frameRate else { return true }
-			guard let limit = upperLimit else { return true }
-			//guard let subFramesDivisor = subFramesDivisor else { return true }
-			guard let displaySubFrames = displaySubFrames else { return true }
+												  errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
 			
+			guard let frameRate = frameRate,
+				  let limit = upperLimit,
+				  //let subFramesDivisor = subFramesDivisor,
+				  let displaySubFrames = displaySubFrames else { return true }
+
 			let partialString = partialStringPtr.pointee as String
 			
 			// sanity checks
 			
-			if partialString.isEmpty { return true }		// allow empty field
-			//if partialString.count > 20 { return false }	// don't allow too many chars
+			if partialString.isEmpty { return true } // allow empty field
+			// if partialString.count > 20 { return false }	// don't allow too many chars
 			
 			// constants
 			
 			let numberChars = CharacterSet(charactersIn: "0123456789")
-			//let coreSeparatorChars = CharacterSet(charactersIn: ":;")
-			//let allSeparatorChars = CharacterSet(charactersIn: ":;. ")
+			// let coreSeparatorChars = CharacterSet(charactersIn: ":;")
+			// let allSeparatorChars = CharacterSet(charactersIn: ":;. ")
 			
 			let allowedChars = CharacterSet(charactersIn: "0123456789:;. ")
 			let disallowedChars = allowedChars.inverted
@@ -210,8 +210,7 @@ extension Timecode {
 			// more sanity checks
 			
 			if let _ = partialString.rangeOfCharacter(from: disallowedChars,
-													  options: .caseInsensitive)
-			{
+													  options: .caseInsensitive) {
 				error?.pointee = NSString("Invalid characters.")
 				return false
 			}
@@ -220,23 +219,21 @@ extension Timecode {
 			
 			var string = ""
 			var fixed = false
-			
 			var consecutiveIntCount = 0
 			var intGrouping = 0
 			var spaceCount = 0
 			var colonCount = 0
 			var periodCount = 0
-			var lastChar: Character? = nil
+			var lastChar: Character?
 			
 			for var char in partialString {
 				
 				// prep
 				
-				let originalChar = char ; _ = originalChar
-				
-				if numberChars.contains(char)
-				{ consecutiveIntCount += 1 }
-				
+				if numberChars.contains(char) {
+					consecutiveIntCount += 1
+				}
+
 				// separators
 				
 				switch char {
@@ -265,23 +262,19 @@ extension Timecode {
 					if limit == ._24hours
 					{ return false }
 					
-					if !(intGrouping == 1 && spaceCount == 0 && colonCount == 0 && periodCount == 0)
+					if !(intGrouping == 1
+							&& spaceCount == 0
+							&& colonCount == 0
+							&& periodCount == 0)
 					{ return false }
 					
 					spaceCount += 1
 				}
 				
-				// // don't allow two separators in a row
-				//
-				// if allSeparatorChars.containsUnicodeScalars(of: char),
-				// 	lastChar != nil,
-				// 	allSeparatorChars.containsUnicodeScalars(of: lastChar!)
-				// { return false }
-				
 				// separator validation
 				
-				if (char == ":" || char == ";")
-				{ colonCount += 1 ; consecutiveIntCount = 0 }
+				if char == ":" || char == ";"
+				{ colonCount += 1; consecutiveIntCount = 0 }
 				
 				if (char == ":" || char == ";") && colonCount >= 4
 				{ return false }
@@ -299,38 +292,31 @@ extension Timecode {
 				
 				// number validation (?)
 				
-				
 				// cleanup
 				
 				if numberChars.contains(char) {
-					if lastChar != nil {
-						if !numberChars.contains(lastChar!)
+					if let unwrappedLastChar = lastChar {
+						if !numberChars.contains(unwrappedLastChar)
 						{ intGrouping += 1 }
 					} else {
 						intGrouping += 1
 					}
 				}
-				
+
 				// cycle variables
 				
 				lastChar = char
-				
+
 				// append char
 				
 				string += "\(char)"
-				
 			}
-			
+
 			if fixed {
-				
 				partialStringPtr.pointee = NSString(string: string)
-				
 				return false
-				
 			} else {
-				
 				return true
-				
 			}
 			
 		}
@@ -339,28 +325,24 @@ extension Timecode {
 	
 }
 
-
 // MARK: timecodeWithProperties
 
 extension Timecode.TextFormatter {
 	
 	public var timecodeWithProperties: Timecode? {
 		
-		guard
-			let frameRate = frameRate,
-			let upperLimit = upperLimit,
-			let subFramesDivisor = subFramesDivisor,
-			let displaySubFrames = displaySubFrames
-		else { return nil }
+		guard let frameRate = frameRate,
+			  let upperLimit = upperLimit,
+			  let subFramesDivisor = subFramesDivisor,
+			  let displaySubFrames = displaySubFrames else { return nil }
 		
 		var tc = Timecode(at: frameRate,
-							limit: upperLimit,
-							subFramesDivisor: subFramesDivisor)
+						  limit: upperLimit,
+						  subFramesDivisor: subFramesDivisor)
 		
 		tc.displaySubFrames = displaySubFrames
 		
 		return tc
-		
 	}
 	
 }
