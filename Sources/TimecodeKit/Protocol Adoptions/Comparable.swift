@@ -19,7 +19,7 @@ extension Timecode: Equatable {
 }
 
 extension Timecode: Comparable {
-
+	
 	static public func <(lhs: Self, rhs: Self) -> Bool {
 		
 		lhs.realTimeValue < rhs.realTimeValue

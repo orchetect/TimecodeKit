@@ -9,6 +9,7 @@
 import Foundation
 
 extension Timecode: Hashable {
+	
 	// This relies on "enum FrameRate: Int"
 	
 	// To make the struct truly hashed, any crucial differentiating attributes must be encoded...
@@ -20,5 +21,7 @@ extension Timecode: Hashable {
 		
 		hasher.combine(totalElapsedFrames)
 		hasher.combine(frameRate.rawValue)
+		
 	}
+	
 }
