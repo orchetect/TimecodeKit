@@ -8,23 +8,19 @@
 import Foundation
 
 extension Timecode {
-	
 	/// Return a new `Timecode` object converted to a new frame rate, based on real time.
 	/// Note: this process may be lossy.
 	public func converted(to frameRate: FrameRate) -> Timecode? {
-		
 		// convert to new frame rate, retaining all ancillary property values
-		
+
 		var newTC =
 			Timecode(realTime,
 					 at: frameRate,
 					 limit: upperLimit,
 					 subFramesDivisor: subFramesDivisor)
-		
+
 		newTC?.displaySubFrames = displaySubFrames
-		
+
 		return newTC
-		
 	}
-	
 }
