@@ -34,21 +34,22 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 
 ## Core Features
 
-- Convert timecode to string, or a timecode string to values
-- Convert timecode to real wall-clock time, and vice-versa
+- Convert timecode values to timecode display string, and vice-versa
+- Convert timecode values to real wall-clock time, and vice-versa
 - Convert timecode to # of samples at any audio sample-rate, and vice-versa
 - Granular timecode validation
-- A Formatter object that can format timecode and also provide an NSAttributedString showing invalid timecode components in an alternate color (such as red)
+- A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
 - Support for Days as a timecode component (which Cubase supports as part of its timecode format)
-- Support for sub-frames
+- Support for Subframes
 - Common math operations between timecodes: add, subtract, multiply, divide
+- Form a `Range` or `Stride` between two timecodes
 - Exhaustive unit tests ensuring accuracy
 
 ## Installation
 
 ### Swift Package Manager (SPM)
 
-To add SwiftRadix to your Xcode project:
+To add TimecodeKit to your Xcode project:
 
 1. Select File → Swift Packages → Add Package Depedancy
 2. Add package using  `https://github.com/orchetect/TimecodeKit` as the URL.
@@ -464,9 +465,9 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 
 ## Known Issues
 
-- The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
 - Unit Tests won't build/run for watchOS Simulator because XCTest does not work on watchOS
-  - Workaround: Don't run unit tests for a watchOS target. Using macOS or iOS as a unit test target should be sufficient enough. If anyone runs into issues with the library on watchOS, feel free to contribute a solution or fix anything that requires fixing.
+  - Workaround: Don't run unit tests for a watchOS target
+- The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
 
 ## Author
 
