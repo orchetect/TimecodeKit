@@ -40,6 +40,7 @@ extension Timecode {
 	public var stringValue: String {
 		
 		get {
+			
 			let sepDays = " "
 			let sepMain = ":"
 			let sepFrames = frameRate.isDrop ? ";" : ":"
@@ -60,10 +61,13 @@ extension Timecode {
 			}
 			
 			return output
+			
 		}
 		
 		set {
+			
 			_ = setTimecode(exactly: newValue)
+			
 		}
 		
 	}
@@ -202,11 +206,13 @@ extension Timecode {
 	*/
 	@discardableResult
 	public mutating func setTimecode(clamping string: String) -> Bool {
+		
 		guard let tcVals = Timecode.decode(timecode: string) else { return false }
 		
 		setTimecode(clamping: tcVals)
 		
 		return true
+		
 	}
 	
 	/** Returns true/false depending on whether the string is formatted correctly or not.
@@ -214,9 +220,11 @@ extension Timecode {
 	*/
 	@discardableResult
 	public mutating func setTimecode(exactly string: String) -> Bool {
+		
 		guard let decoded = Timecode.decode(timecode: string) else { return false }
 		
 		return setTimecode(exactly: decoded)
+		
 	}
 	
 	/** Returns true/false depending on whether the string is formatted correctly or not.
@@ -224,11 +232,13 @@ extension Timecode {
 	*/
 	@discardableResult
 	public mutating func setTimecode(wrapping string: String) -> Bool {
+		
 		guard let tcVals = Timecode.decode(timecode: string) else { return false }
 		
 		setTimecode(wrapping: tcVals)
 		
 		return true
+		
 	}
 	
 	/** Returns true/false depending on whether the string is formatted correctly or not.
@@ -236,11 +246,13 @@ extension Timecode {
 	*/
 	@discardableResult
 	public mutating func setTimecode(rawValues string: String) -> Bool {
+		
 		guard let tcVals = Timecode.decode(timecode: string) else { return false }
 		
 		setTimecode(rawValues: tcVals)
 		
 		return true
+		
 	}
 	
 }
@@ -273,13 +285,14 @@ extension Timecode {
 
 		let matches = string.regexMatches(captureGroupsFromPattern: pattern)
 
-		// map [String?] to [Int?], preserving indexes and preserving nils
+		// attempt to convert strings to integers, preserving indexes and preserving nils
+		// essentially converting [String?] to [Int?]
 		
 		let ints = matches.map { $0 == nil ? nil : Int($0!) }
 		
 		// basic sanity check - ensure there's at least 4 values but no more than 6
 		
-		let nonNilCount = ints.filter { $0 != nil }.count
+		let nonNilCount = ints.reduce(0, { $1 != nil ? $0 + 1 : $0 })
 		
 		guard (4...6).contains(nonNilCount) else { return nil }
 		
