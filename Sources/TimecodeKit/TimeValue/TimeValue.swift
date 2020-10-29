@@ -23,15 +23,27 @@ public struct TimeValue {
 	public let backing: UnitBacking
 
 	public var ms: Double {
-		if let msValue = msValue { return msValue }
-		if let secondsValue = secondsValue { return secondsValue * 1000.0 }
-		return 0.0
+		if let msValue = msValue {
+			return msValue
+
+		} else if let secondsValue = secondsValue {
+			return secondsValue * 1000.0
+
+		} else {
+			return 0.0
+		}
 	}
 
 	public var seconds: Double {
-		if let secondsValue = secondsValue { return secondsValue }
-		if let msValue = msValue { return msValue / 1000.0 }
-		return 0.0
+		if let secondsValue = secondsValue {
+			return secondsValue
+
+		} else if let msValue = msValue {
+			return msValue / 1000.0
+
+		} else {
+			return 0.0
+		}
 	}
 
 	// MARK: init
