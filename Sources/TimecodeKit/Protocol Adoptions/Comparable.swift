@@ -9,13 +9,13 @@
 import Foundation
 
 extension Timecode: Equatable {
-	public static func ==(lhs: Self, rhs: Self) -> Bool {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
 		lhs.realTime == rhs.realTime
 	}
 }
 
 extension Timecode: Comparable {
-	public static func <(lhs: Self, rhs: Self) -> Bool {
+	public static func < (lhs: Self, rhs: Self) -> Bool {
 		lhs.realTime < rhs.realTime
 	}
 }
