@@ -62,4 +62,41 @@ class TimeValue_UT_Tests: XCTestCase {
 		
 	}
 	
+	func testCodable() {
+		
+		// set up JSON coders with default settings
+		
+		let encoder = JSONEncoder()
+		let decoder = JSONDecoder()
+		
+		// set up a TimeValue object that has all non-defaults
+		
+		let time = 50505050.123456789123456789
+		
+		let ott1 = TimeValue(ms: time)
+		
+		// encode
+		
+		guard let encoded = try? encoder.encode(ott1)
+		else {
+			XCTFail("JSON encode failed.") ; return
+		}
+		
+		// decode
+		
+		guard let decoded = try? decoder.decode(TimeValue.self, from: encoded)
+		else {
+			XCTFail("JSON decode failed.") ; return
+		}
+		
+		// compare original to reconstructed
+		
+		XCTAssertEqual(ott1, decoded)
+		
+		XCTAssertEqual(ott1.msValue, decoded.msValue)
+		XCTAssertEqual(ott1.secondsValue, decoded.secondsValue)
+		XCTAssertEqual(ott1.backing, decoded.backing)
+		
+	}
+	
 }

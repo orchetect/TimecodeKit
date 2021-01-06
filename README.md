@@ -44,6 +44,7 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 - Common math operations between timecodes: add, subtract, multiply, divide
 - Form a `Range` or `Stride` between two timecodes
 - Exhaustive unit tests ensuring accuracy
+- Conforms to `Codable`
 
 ## Installation
 

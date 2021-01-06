@@ -11,13 +11,13 @@ import Foundation
 extension Timecode {
 	
 	/// Enum describing the maximum timecode ceiling.
-	public enum UpperLimit: Int {
+	public enum UpperLimit: String, Codable {
 		
 		/// Pro Tools' upper limit is "23:59:59:FF" which is 1 day (24 hours) in duration.
-		case _24hours
+		case _24hours = "24 hours"
 		
 		/// Cubase's upper limit is "99 23:59:59:FF" which is 100 days in duration.
-		case _100days
+		case _100days = "100 days"
 		
 		/// Internal use.
 		internal var maxDays: Int {

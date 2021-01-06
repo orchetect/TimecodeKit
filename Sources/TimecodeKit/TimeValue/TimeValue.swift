@@ -11,13 +11,13 @@ import Foundation
 /// Primitive struct to represent real time.
 ///
 /// In effort to retain precision, the value used when initializing will be stored unchanged, but can be accessed by either accessor. The backing value can be read as either `.seconds` or `.ms`. If the original format's property is get, the backing value will be returned unchanged. Otherwise it will be converted when needed when the properties are accessed.
-public struct TimeValue {
+public struct TimeValue: Codable {
 	
 	// MARK: Data backing
 	
-	private let msValue: Double?
+	internal let msValue: Double?
 	
-	private let secondsValue: Double?
+	internal let secondsValue: Double?
 	
 	// MARK: Public properties
 	
@@ -101,10 +101,10 @@ extension TimeValue: Comparable {
 extension TimeValue {
 	
 	/// Enum describing units of time, as stored by `TimeValue`
-	public enum UnitBacking {
+	public enum UnitBacking: String, Codable {
 		
-		case ms
-		case seconds
+		case ms = "ms"
+		case seconds = "seconds"
 		
 	}
 	

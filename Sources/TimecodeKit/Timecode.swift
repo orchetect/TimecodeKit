@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Object representing SMPTE timecode data with a variety of number- and string- based constructors, including helper functions to convert between them operators to perform math operations between them.
-public struct Timecode {
+public struct Timecode: Codable {
 	
 	// MARK: - Immutable properties
 	

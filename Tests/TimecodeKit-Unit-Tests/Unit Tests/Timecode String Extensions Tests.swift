@@ -14,7 +14,6 @@ class Timecode_UT_Swift_Extensions_Tests: XCTestCase {
 	override func setUp() { }
 	override func tearDown() { }
 	
-	
 	func testString_toTimeCode() {
 		
 		XCTAssertEqual("01:05:20:14".toTimecode(at: ._23_976),
