@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import OTCore
+@_implementationOnly import OTCore
 
 extension Timecode {
 	
