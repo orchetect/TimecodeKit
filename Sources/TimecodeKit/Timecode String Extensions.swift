@@ -22,15 +22,15 @@ extension String {
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit,
-							  subFramesDivisor: sfd)
+							at: frameRate,
+							limit: limit,
+							subFramesDivisor: sfd)
 			
 		} else {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit)
+							at: frameRate,
+							limit: limit)
 			
 		}
 		
@@ -46,15 +46,15 @@ extension String {
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(rawValues: self,
-							  at: frameRate,
-							  limit: limit,
-							  subFramesDivisor: sfd)
+							at: frameRate,
+							limit: limit,
+							subFramesDivisor: sfd)
 			
 		} else {
 			
 			return Timecode(rawValues: self,
-							  at: frameRate,
-							  limit: limit)
+							at: frameRate,
+							limit: limit)
 			
 		}
 		

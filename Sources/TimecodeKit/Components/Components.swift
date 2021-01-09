@@ -104,7 +104,7 @@ extension Timecode.Components {
 	/// Returns an instance of `Timecode(rawValues:)`.
 	public func toTimecode(rawValuesAt frameRate: Timecode.FrameRate,
 						   limit: Timecode.UpperLimit = ._24hours,
-						   subFramesDivisor: Int? = nil) -> Timecode?
+						   subFramesDivisor: Int? = nil) -> Timecode
 	{
 		
 		if let sfd = subFramesDivisor {
