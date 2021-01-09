@@ -17,8 +17,6 @@
 <img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"
      alt="License: MIT" /></a>
 </p>
-
-
 A robust multiplatform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
 
 ## Supported Frame Rates
