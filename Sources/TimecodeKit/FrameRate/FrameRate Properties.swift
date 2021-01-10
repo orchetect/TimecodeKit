@@ -111,7 +111,7 @@ extension Timecode.FrameRate {
 	
 	/// Returns the number of digits required for frames within the timecode string.
 	///
-	/// ie: 24 fps would return 2, but 120 fps would return 3.
+	/// ie: 24 or 30 fps would return 2, but 120 fps would return 3.
 	public var numberOfDigits: Int {
 		switch self {
 		case ._23_976,

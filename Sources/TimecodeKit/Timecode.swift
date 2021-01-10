@@ -8,8 +8,12 @@
 
 import Foundation
 
-
-/// Object representing SMPTE timecode data with a variety of number- and string- based constructors, including helper functions to convert between them operators to perform math operations between them.
+/// Value type representing SMPTE timecode.
+///
+/// - A variety of initializers and utility methods are available for string and numeric representation, validation, conversion
+/// - Global mathematical operators to perform calculations: `+`, `-`, `*`, `\`
+/// - Instances can be compared (`==`, `!=`, `<`, `>`)
+/// - `Range` and `Stride` can be formed between two instances
 public struct Timecode: Codable {
 	
 	// MARK: - Immutable properties
@@ -32,7 +36,7 @@ public struct Timecode: Codable {
 	///
 	/// The number of subframes that make up a single frame.
 	///
-	/// (ie: a divisor of 80 implies a range of 0...79)
+	/// (ie: a divisor of 80 subframes per frame implies a visible value range of 00...79)
 	///
 	/// This will vary depending on application. Most common divisors are 80 or 100.
 	public let subFramesDivisor: Int

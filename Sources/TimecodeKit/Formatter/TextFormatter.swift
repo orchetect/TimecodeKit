@@ -193,7 +193,7 @@ extension Timecode {
 
 			let partialString = partialStringPtr.pointee as String
 			
-			// sanity checks
+			// baseline checks
 			
 			if partialString.isEmpty { return true } // allow empty field
 			// if partialString.count > 20 { return false }	// don't allow too many chars
@@ -207,7 +207,7 @@ extension Timecode {
 			let allowedChars = CharacterSet(charactersIn: "0123456789:;. ")
 			let disallowedChars = allowedChars.inverted
 			
-			// more sanity checks
+			// more baseline checks
 			
 			if let _ = partialString.rangeOfCharacter(from: disallowedChars,
 													  options: .caseInsensitive) {

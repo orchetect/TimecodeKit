@@ -48,7 +48,7 @@ extension Timecode {
 		/// (ATSC) This is the frame count of NTSC broadcast video. However, the actual frame rate or speed of the video format runs at 29.97 fps.
 		///
 		/// This timecode clock does not run in realtime. It is slightly slower by 0.1%.
-		/// ie: 1:00:00:00:00 at 30 fps is approx 1:00:00:00;02 in 29.97df
+		/// ie: 1:00:00:00:00 (1 day/24 hours) at 30 fps is approx 1:00:00:00;02 in 29.97df
 		case _30 = "30"
 		
 		/// 30 drop fps:

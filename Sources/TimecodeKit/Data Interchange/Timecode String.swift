@@ -290,7 +290,7 @@ extension Timecode {
 		
 		let ints = matches.map { $0 == nil ? nil : Int($0!) }
 		
-		// basic sanity check - ensure there's at least 4 values but no more than 6
+		// basic check - ensure there's at least 4 values but no more than 6
 		
 		let nonNilCount = ints.reduce(0, { $1 != nil ? $0 + 1 : $0 })
 		
