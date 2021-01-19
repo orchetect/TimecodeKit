@@ -8,7 +8,7 @@
 
 #if os(macOS)
 
-import Cocoa
+import AppKit
 
 extension Timecode {
 	
@@ -21,16 +21,19 @@ extension Timecode {
 	public class TextField: NSTextField {
 		
 		public required init?(coder: NSCoder) {
+			
 			super.init(coder: coder)
 			
 			self.formatter = TextFormatter()
 			
 			self.allowsEditingTextAttributes = false
 			self.cell?.allowsEditingTextAttributes = false
+			
 		}
 		
 		// responder chain: triggered when user presses Esc key
 		public override func cancelOperation(_ sender: Any?) {
+			
 			//super.cancelOperation(sender)
 			
 			// cancel changes to text
@@ -38,6 +41,7 @@ extension Timecode {
 			
 			// give focus back to self
 			window?.makeFirstResponder(self)
+			
 		}
 		
 	}
@@ -51,11 +55,13 @@ extension Timecode {
 	public class TextFieldCell: NSTextFieldCell {
 		
 		public required init(coder: NSCoder) {
+			
 			super.init(coder: coder)
 			
 			formatter = TextFormatter()
 			
-			self.allowsEditingTextAttributes = false
+			allowsEditingTextAttributes = false
+			
 		}
 		
 	}

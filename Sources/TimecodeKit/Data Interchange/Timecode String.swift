@@ -6,38 +6,35 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 #if os(macOS)
-import Cocoa
+import AppKit
 #elseif os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
+#else
+import Foundation
 #endif
 
 extension Timecode {
 	
 	// MARK: stringValue
 	
-	/** Timecode string representation.
-	
-	Valid formats for 24-hour:
-	
-	```
-	"00:00:00:00" "00:00:00;00"
-	"0:00:00:00" "0:00:00;00"
-	"00000000"
-	```
-	
-	Valid formats for 100-day: All of the above, as well as:
-	
-	```
-	"0 00:00:00:00" "0 00:00:00;00"
-	"0:00:00:00:00" "0:00:00:00;00"
-	```
-	
-	When setting, an improperly formatted timecode string or one with invalid values will cause the setter to fail silently. (Validation is based on the frame rate and `upperLimit` property.)
-	*/
-	public var stringValue: String {
+	/// Timecode string representation.
+	///
+	/// Valid formats for 24-hour:
+	///
+	///     "00:00:00:00" "00:00:00;00"
+	///     "0:00:00:00" "0:00:00;00"
+	///     "00000000"
+	///
+	/// Valid formats for 100-day: All of the above, as well as:
+	///
+	///     "0 00:00:00:00" "0 00:00:00;00"
+	///     "0:00:00:00:00" "0:00:00:00;00"
+	///
+	/// When setting, an improperly formatted timecode string or one with invalid values will cause the setter to fail silently.
+	///
+	/// (Validation is based on the frame rate and `upperLimit` property.)
+	@inlinable public var stringValue: String {
 		
 		get {
 			
@@ -105,6 +102,9 @@ extension Timecode {
 		#elseif os(iOS) || os(tvOS) || os(watchOS)
 		let invalidColor = invalidAttributes
 			?? [.foregroundColor : UIColor.red]
+		#else
+		let invalidColor = invalidAttributes
+			?? []
 		#endif
 		
 		let invalids = invalidComponents

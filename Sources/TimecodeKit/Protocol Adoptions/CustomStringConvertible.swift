@@ -6,11 +6,9 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
 	
-	public var description: String {
+	@inlinable public var description: String {
 		
 		stringValue
 		

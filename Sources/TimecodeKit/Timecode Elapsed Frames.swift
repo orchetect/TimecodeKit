@@ -6,14 +6,14 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
+import Darwin
 
 extension Timecode {
 	
 	/// Returns the total number of whole frames elapsed from zero up to the timecode values.
 	/// When set, timecode is updated as long as the value passed is in valid range.
 	/// (Validation is based on the frame rate and `upperLimit` property.)
-	public var totalElapsedFrames: Double {
+	@inlinable public var totalElapsedFrames: Double {
 		
 		get {
 			Self.totalElapsedFrames(of: components,
@@ -94,22 +94,22 @@ extension Timecode {
 	
 	/// Internal func: calculates resulting values from total frames at the current frame rate.
 	/// (You can add subframes afterward to the `sf` property if needed.)
-	public static func components(from totalElapsedFrames: Int,
-								  at frameRate: FrameRate,
-								  subFramesDivisor: Int?) -> Components
+	@inlinable public static func components(from totalElapsedFrames: Int,
+											 at frameRate: FrameRate,
+											 subFramesDivisor: Int?) -> Components
 	{
 		
-		return components(from: Double(totalElapsedFrames),
-						  at: frameRate,
-						  subFramesDivisor: subFramesDivisor)
+		components(from: Double(totalElapsedFrames),
+				   at: frameRate,
+				   subFramesDivisor: subFramesDivisor)
 		
 	}
 	
 	/// Internal func: calculates resulting values from total frames at the current frame rate.
 	/// (You can add subframes afterward to the `sf` property if needed.)
-	public static func components(from totalElapsedFrames: Double,
-								  at frameRate: FrameRate,
-								  subFramesDivisor: Int?) -> Components
+	@inlinable public static func components(from totalElapsedFrames: Double,
+											 at frameRate: FrameRate,
+											 subFramesDivisor: Int?) -> Components
 	{
 		
 		// prep vars

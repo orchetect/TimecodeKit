@@ -6,8 +6,6 @@
 //  Copyright © 2018 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	// MARK: - FrameRate

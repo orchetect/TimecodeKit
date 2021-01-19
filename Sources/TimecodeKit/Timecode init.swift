@@ -6,17 +6,14 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	// MARK: Basic
 	
 	/// Instance with default timecode (00:00:00:00) at a given frame rate.
-	public init(at frameRate: FrameRate,
-				limit: UpperLimit = ._24hours,
-				subFramesDivisor: Int = 80)
-	{
+	@inlinable public init(at frameRate: FrameRate,
+						   limit: UpperLimit = ._24hours,
+						   subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -32,11 +29,10 @@ extension Timecode {
 	/// If any values are out-of-bounds `nil` will be returned, indicating an invalid timecode.
 	///
 	/// Validation is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.
-	public init?(_ exactly: Components,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
+	@inlinable public init?(_ exactly: Components,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -51,11 +47,10 @@ extension Timecode {
 	/// Values which are out-of-bounds will be clamped to minimum or maximum possible values.
 	///
 	/// Clamping is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.
-	public init(clamping: Components,
-				at frameRate: FrameRate,
-				limit: UpperLimit = ._24hours,
-				subFramesDivisor: Int = 80)
-	{
+	@inlinable public init(clamping: Components,
+						   at frameRate: FrameRate,
+						   limit: UpperLimit = ._24hours,
+						   subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -70,11 +65,10 @@ extension Timecode {
 	/// Timecodes will be wrapped around the timecode clock if out-of-bounds.
 	///
 	/// Wrapping is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.
-	public init(wrapping: Components,
-				at frameRate: FrameRate,
-				limit: UpperLimit = ._24hours,
-				subFramesDivisor: Int = 80)
-	{
+	@inlinable public init(wrapping: Components,
+						   at frameRate: FrameRate,
+						   limit: UpperLimit = ._24hours,
+						   subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -88,11 +82,10 @@ extension Timecode {
 	///
 	/// Timecode values will not be validated or rejected if they overflow.
 	/// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-	public init(rawValues: Components,
-				at frameRate: FrameRate,
-				limit: UpperLimit = ._24hours,
-				subFramesDivisor: Int = 80)
-	{
+	@inlinable public init(rawValues: Components,
+						   at frameRate: FrameRate,
+						   limit: UpperLimit = ._24hours,
+						   subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -110,11 +103,10 @@ extension Timecode {
 	/// An improperly formatted timecode string or one with out-of-bounds values will return `nil`.
 	///
 	/// Validation is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.
-	public init?(_ exactly: String,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
+	@inlinable public init?(_ exactly: String,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -128,17 +120,16 @@ extension Timecode {
 	///
 	/// Values which are out-of-bounds will be clamped to minimum or maximum possible values.
 	/// (Clamping is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.)
-	public init?(clamping: String,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
+	@inlinable public init?(clamping: String,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
 		
-		if !setTimecode(clamping: clamping) { return nil } // validation is triggered by this method
+		if !setTimecode(clamping: clamping) { return nil }
 		
 	}
 	
@@ -147,11 +138,10 @@ extension Timecode {
 	/// An improperly formatted timecode string or one with invalid values will return `nil`.
 	///
 	/// Wrapping is based on the frame rate and `upperLimit` property, as well as `subFrameDivisor` if subframes are non-zero.
-	public init?(wrapping: String,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
+	@inlinable public init?(wrapping: String,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -165,11 +155,10 @@ extension Timecode {
 	///
 	/// Timecode values will not be validated or rejected if they overflow.
 	/// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-	public init?(rawValues: String,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
+	@inlinable public init?(rawValues: String,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
@@ -184,16 +173,15 @@ extension Timecode {
 	/// Instance from real time and frame rate.
 	///
 	/// Note: this may be lossy.
-	public init?(_ lossy: TimeValue,
-				at frameRate: FrameRate,
-				limit: UpperLimit = ._24hours,
-				subFramesDivisor: Int = 80)
-	{
-	
+	@inlinable public init?(_ lossy: TimeValue,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
+		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
-	
+		
 		if !self.setTimecode(from: lossy) { return nil }
 		
 	}
@@ -201,18 +189,18 @@ extension Timecode {
 	/// Instance from real time and frame rate.
 	///
 	/// Note: this may be lossy.
-	public init?(samples: Double,
-				 sampleRate: Int,
-				 at frameRate: FrameRate,
-				 limit: UpperLimit = ._24hours,
-				 subFramesDivisor: Int = 80)
-	{
-	
+	@inlinable public init?(samples: Double,
+							sampleRate: Int,
+							at frameRate: FrameRate,
+							limit: UpperLimit = ._24hours,
+							subFramesDivisor: Int = 80) {
+		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
-	
-		if !self.setTimecode(fromSamplesValue: samples, atSampleRate: sampleRate) { return nil }
+		
+		if !self.setTimecode(fromSamplesValue: samples,
+							 atSampleRate: sampleRate) { return nil }
 		
 	}
 	

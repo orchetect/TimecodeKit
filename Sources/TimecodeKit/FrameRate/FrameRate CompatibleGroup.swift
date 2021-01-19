@@ -6,14 +6,13 @@
 //  Copyright © 2021 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode.FrameRate {
 	
 	/// Enum describing compatible groupings of frame rates.
 	///
 	/// - note: These are intended for internal logic and not for end-user user interface.
 	public enum CompatibleGroup {
+		
 		case NTSC
 		case NTSC_drop
 		case ATSC
@@ -68,7 +67,7 @@ extension Timecode.FrameRate {
 	}
 	
 	/// Returns the frame rate's `CompatibleGroup` categorization.
-	public var compatibleGroup: CompatibleGroup {
+	@inlinable public var compatibleGroup: CompatibleGroup {
 		
 		// Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
 		
@@ -85,7 +84,7 @@ extension Timecode.FrameRate {
 	/// - 01:00:00:00 @ 30 fps
 	/// - 01:00:00:00 @ 60 fps
 	/// - 00:59:56:12 @ 29.97 fps
-	public func isCompatible(with timecode: Self) -> Bool {
+	@inlinable public func isCompatible(with timecode: Self) -> Bool {
 		
 		Self.CompatibleGroup.table
 			.values

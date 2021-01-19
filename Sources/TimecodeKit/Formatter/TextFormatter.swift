@@ -6,12 +6,12 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 #if os(macOS)
-import Cocoa
+import AppKit
 #elseif os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
+#else
+import Foundation
 #endif
 
 // MARK: - TextFormatter
@@ -47,6 +47,8 @@ extension Timecode {
 				return [.foregroundColor: NSColor.red]
 				#elseif os(iOS) || os(tvOS) || os(watchOS)
 				return [.foregroundColor: UIColor.red]
+				#else
+				return []
 				#endif
 			}()
 		
@@ -140,20 +142,21 @@ extension Timecode {
 			func entirelyInvalid() -> NSAttributedString {
 				self.showsValidation
 					? NSAttributedString(string: string,
-										 attributes: self.validationAttributes
-											.merging(attrs ?? [:], uniquingKeysWith: { current, _ in current }))
+										 attributes: self
+											.validationAttributes
+											.merging(attrs ?? [:],
+													 uniquingKeysWith: { current, _ in current })
+					)
 					.addingAttribute(alignment: self.alignment)
 					: NSAttributedString(string: string, attributes: attrs)
 					.addingAttribute(alignment: self.alignment)
 			}
 
 			// grab properties from the formatter
-			guard var tc = timecodeWithProperties
-			else { return entirelyInvalid() }
+			guard var tc = timecodeWithProperties else { return entirelyInvalid() }
 
 			// form timecode components without validating
-			guard let tcc = Timecode.decode(timecode: string)
-			else { return entirelyInvalid() }
+			guard let tcc = Timecode.decode(timecode: string) else { return entirelyInvalid() }
 
 			// set values without validating
 			tc.setTimecode(rawValues: tcc)
@@ -334,7 +337,11 @@ extension Timecode.TextFormatter {
 		guard let frameRate = frameRate,
 			  let upperLimit = upperLimit,
 			  let subFramesDivisor = subFramesDivisor,
-			  let displaySubFrames = displaySubFrames else { return nil }
+			  let displaySubFrames = displaySubFrames else {
+			
+			return nil
+			
+		}
 		
 		var tc = Timecode(at: frameRate,
 						  limit: upperLimit,
@@ -343,6 +350,7 @@ extension Timecode.TextFormatter {
 		tc.displaySubFrames = displaySubFrames
 		
 		return tc
+		
 	}
 	
 }

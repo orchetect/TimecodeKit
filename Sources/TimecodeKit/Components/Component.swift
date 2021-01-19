@@ -6,8 +6,6 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	/// Enum naming an individual timecode component

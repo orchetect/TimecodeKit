@@ -6,8 +6,6 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension String {
 	
 	/// Convenience method to call `Timecode.FrameRate(stringValue: self)`

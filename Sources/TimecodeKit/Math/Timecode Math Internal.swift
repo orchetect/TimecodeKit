@@ -6,14 +6,14 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	// MARK: - Add
 	
 	/// Utility function to add a duration to a base timecode. Returns nil if it overflows possible timecode values.
-	internal func __add(exactly duration: Components, to base: Components) -> Components? {
+	@usableFromInline
+	internal func __add(exactly duration: Components,
+						to base: Components) -> Components? {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -32,7 +32,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to add a duration to a base timecode. Clamps to maximum timecode expressible.
-	internal func __add(clamping duration: Components, to base: Components) -> Components {
+	@usableFromInline
+	internal func __add(clamping duration: Components,
+						to base: Components) -> Components {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -51,7 +53,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to add a duration to a base timecode. Wraps around the clock as set by the `upperLimit` property.
-	internal func __add(wrapping duration: Components, to base: Components) -> Components {
+	@usableFromInline
+	internal func __add(wrapping duration: Components,
+						to base: Components) -> Components {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -82,7 +86,9 @@ extension Timecode {
 	// MARK: - Subtract
 	
 	/// Utility function to add a duration to a base timecode. Returns nil if overflows possible timecode values.
-	internal func __subtract(exactly duration: Components, from base: Components) -> Components? {
+	@usableFromInline
+	internal func __subtract(exactly duration: Components,
+							 from base: Components) -> Components? {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -101,7 +107,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to add a duration to a base timecode. Clamps to maximum timecode expressible.
-	internal func __subtract(clamping duration: Components, from base: Components) -> Components {
+	@usableFromInline
+	internal func __subtract(clamping duration: Components,
+							 from base: Components) -> Components {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -120,7 +128,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to add a duration to a base timecode. Wraps around the clock as set by the `upperLimit` property.
-	internal func __subtract(wrapping duration: Components, from base: Components) -> Components {
+	@usableFromInline
+	internal func __subtract(wrapping duration: Components,
+							 from base: Components) -> Components {
 		
 		let tcOrigin = Self.totalElapsedFrames(of: base,
 											   at: frameRate,
@@ -151,7 +161,9 @@ extension Timecode {
 	// MARK: - Multiply
 	
 	/// Utility function to multiply a base timecode by a duration. Returns nil if it overflows possible timecode values.
-	internal func __multiply(exactly duration: Double, with: Components) -> Components? {
+	@usableFromInline
+	internal func __multiply(exactly duration: Double,
+							 with: Components) -> Components? {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: with,
 													  at: frameRate,
@@ -167,7 +179,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to multiply a base timecode by a duration. Clamps to maximum timecode expressible.
-	internal func __multiply(clamping duration: Double, with: Components) -> Components {
+	@usableFromInline
+	internal func __multiply(clamping duration: Double,
+							 with: Components) -> Components {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: with,
 													  at: frameRate,
@@ -183,7 +197,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to multiply a base timecode by a duration. Wraps around the clock as set by the `upperLimit` property.
-	internal func __multiply(wrapping duration: Double, with: Components) -> Components {
+	@usableFromInline
+	internal func __multiply(wrapping duration: Double,
+							 with: Components) -> Components {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: with,
 													  at: frameRate,
@@ -211,7 +227,9 @@ extension Timecode {
 	// MARK: - Divide
 	
 	/// Utility function to divide a base timecode by a duration. Returns nil if it overflows possible timecode values.
-	internal func __divide(exactly duration: Double, into: Components) -> Components? {
+	@usableFromInline
+	internal func __divide(exactly duration: Double,
+						   into: Components) -> Components? {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: into,
 													  at: frameRate,
@@ -227,7 +245,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to divide a base timecode by a duration. Clamps to maximum timecode expressible.
-	internal func __divide(clamping duration: Double, into: Components) -> Components {
+	@usableFromInline
+	internal func __divide(clamping duration: Double,
+						   into: Components) -> Components {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: into,
 													  at: frameRate,
@@ -243,7 +263,9 @@ extension Timecode {
 	}
 	
 	/// Utility function to divide a base timecode by a duration. Wraps around the clock as set by the `upperLimit` property.
-	internal func __divide(wrapping duration: Double, into: Components) -> Components {
+	@usableFromInline
+	internal func __divide(wrapping duration: Double,
+						   into: Components) -> Components {
 		
 		let tcOrigin = Double(Self.totalElapsedFrames(of: into,
 													  at: frameRate,

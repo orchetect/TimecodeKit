@@ -6,8 +6,6 @@
 //  Copyright © 2018 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 /// Value type representing SMPTE timecode.
 ///
 /// - A variety of initializers and utility methods are available for string and numeric representation, validation, conversion

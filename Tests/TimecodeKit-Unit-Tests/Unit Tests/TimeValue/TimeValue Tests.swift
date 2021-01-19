@@ -6,6 +6,8 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
+#if !os(watchOS)
+
 import XCTest
 @testable import TimecodeKit
 
@@ -100,3 +102,5 @@ class TimeValue_UT_Tests: XCTestCase {
 	}
 	
 }
+
+#endif
