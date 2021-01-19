@@ -17,7 +17,7 @@
 <img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"
      alt="License: MIT" /></a>
 </p>
-A robust multiplatform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
+A robust multi-platform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
 
 ## Supported Frame Rates
 
@@ -50,7 +50,7 @@ A robust multiplatform Swift library for working with SMPTE timecode supporting 
 
 To add TimecodeKit to your Xcode project:
 
-1. Select File → Swift Packages → Add Package Depedancy
+1. Select File → Swift Packages → Add Package Dependency
 2. Add package using  `https://github.com/orchetect/TimecodeKit` as the URL.
 
 ## Documentation
