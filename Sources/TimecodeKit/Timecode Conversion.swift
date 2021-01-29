@@ -5,8 +5,6 @@
 //  Created by Steffan Andrews on 2020-10-26.
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 
-import Foundation
-
 extension Timecode {
 	
 	/// Return a new `Timecode` object converted to a new frame rate, based on real time.

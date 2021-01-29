@@ -6,8 +6,6 @@
 //  Copyright © 2018 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 /// Convenience typealias for cleaner code.
 public typealias TCC = Timecode.Components
 
@@ -41,12 +39,12 @@ extension Timecode {
 		
 		// MARK: init
 		
-		public init(d: Int = 0,
-					h: Int = 0,
-					m: Int = 0,
-					s: Int = 0,
-					f: Int = 0,
-					sf: Int = 0)
+		@inlinable public init(d: Int = 0,
+							   h: Int = 0,
+							   m: Int = 0,
+							   s: Int = 0,
+							   f: Int = 0,
+							   sf: Int = 0)
 		{
 			
 			self.d = d
@@ -64,7 +62,7 @@ extension Timecode {
 
 extension Timecode.Components: Equatable {
 	
-	public static func ==(lhs: Self, rhs: Self) -> Bool {
+	@inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
 		
 		lhs.d == rhs.d &&
 			lhs.h == rhs.h &&
@@ -80,9 +78,9 @@ extension Timecode.Components: Equatable {
 extension Timecode.Components {
 	
 	/// Returns an instance of `Timecode(exactly:)`.
-	public func toTimecode(at frameRate: Timecode.FrameRate,
-						   limit: Timecode.UpperLimit = ._24hours,
-						   subFramesDivisor: Int? = nil) -> Timecode?
+	@inlinable public func toTimecode(at frameRate: Timecode.FrameRate,
+									  limit: Timecode.UpperLimit = ._24hours,
+									  subFramesDivisor: Int? = nil) -> Timecode?
 	{
 		
 		if let sfd = subFramesDivisor {
@@ -102,9 +100,9 @@ extension Timecode.Components {
 	}
 	
 	/// Returns an instance of `Timecode(rawValues:)`.
-	public func toTimecode(rawValuesAt frameRate: Timecode.FrameRate,
-						   limit: Timecode.UpperLimit = ._24hours,
-						   subFramesDivisor: Int? = nil) -> Timecode
+	@inlinable public func toTimecode(rawValuesAt frameRate: Timecode.FrameRate,
+									  limit: Timecode.UpperLimit = ._24hours,
+									  subFramesDivisor: Int? = nil) -> Timecode
 	{
 		
 		if let sfd = subFramesDivisor {

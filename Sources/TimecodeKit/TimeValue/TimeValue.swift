@@ -6,8 +6,6 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 /// Primitive struct to represent real time.
 ///
 /// In effort to retain precision, the value used when initializing will be stored unchanged, but can be accessed by either accessor. The backing value can be read as either `.seconds` or `.ms`. If the original format's property is get, the backing value will be returned unchanged. Otherwise it will be converted when needed when the properties are accessed.
@@ -15,15 +13,15 @@ public struct TimeValue: Codable {
 	
 	// MARK: Data backing
 	
-	internal let msValue: Double?
+	@usableFromInline internal let msValue: Double?
 	
-	internal let secondsValue: Double?
+	@usableFromInline internal let secondsValue: Double?
 	
 	// MARK: Public properties
 	
 	public let backing: UnitBacking
 	
-	public var ms: Double {
+	@inlinable public var ms: Double {
 		
 		if let msValue = msValue {
 			return msValue
@@ -37,7 +35,7 @@ public struct TimeValue: Codable {
 		
 	}
 	
-	public var seconds: Double {
+	@inlinable public var seconds: Double {
 		
 		if let secondsValue = secondsValue {
 			return secondsValue
@@ -53,7 +51,7 @@ public struct TimeValue: Codable {
 	
 	// MARK: init
 	
-	public init(ms: Double) {
+	@inlinable public init(ms: Double) {
 		
 		backing = .ms
 		
@@ -62,7 +60,7 @@ public struct TimeValue: Codable {
 		
 	}
 	
-	public init(seconds: Double) {
+	@inlinable public init(seconds: Double) {
 		
 		backing = .seconds
 		
@@ -75,7 +73,7 @@ public struct TimeValue: Codable {
 
 extension TimeValue: Equatable {
 	
-	public static func ==(lhs: Self, rhs: Self) -> Bool {
+	@inlinable public static func ==(lhs: Self, rhs: Self) -> Bool {
 		
 		// limit precision to help ensure comparison is meaningful
 		
@@ -88,7 +86,7 @@ extension TimeValue: Equatable {
 
 extension TimeValue: Comparable {
 	
-	public static func <(lhs: Self, rhs: Self) -> Bool {
+	@inlinable public static func <(lhs: Self, rhs: Self) -> Bool {
 		
 		// limit precision to help ensure comparison is meaningful
 		

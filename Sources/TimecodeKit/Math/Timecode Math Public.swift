@@ -6,8 +6,6 @@
 //  Copyright © 2018 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	// MARK: - Add
@@ -15,64 +13,82 @@ extension Timecode {
 	/// Add a duration to the current timecode.
 	/// Returns false if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func add(_ exactly: Components) -> Bool {
-		guard let newTC = __add(exactly: exactly, to: components) else { return false }
+	@inlinable public mutating func add(_ exactly: Components) -> Bool {
+		
+		guard let newTC = __add(exactly: exactly,
+								to: components) else { return false }
 		
 		return setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Add a duration to the current timecode.
 	/// Clamps to valid timecodes.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func add(clamping values: Components) {
-		let newTC = __add(clamping: values, to: components)
+	@inlinable public mutating func add(clamping values: Components) {
+		
+		let newTC = __add(clamping: values,
+						  to: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Add a duration to the current timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func add(wrapping values: Components) {
-		let newTC = __add(wrapping: values, to: components)
+	@inlinable public mutating func add(wrapping values: Components) {
+		
+		let newTC = __add(wrapping: values,
+						  to: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Add a duration to the current timecode and return a new instance with the new timecode.
 	/// Returns nil if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func adding(_ exactly: Components) -> Timecode? {
-		guard let newTC = __add(exactly: exactly, to: components) else { return nil }
+	@inlinable public func adding(_ exactly: Components) -> Timecode? {
+		
+		guard let newTC = __add(exactly: exactly,
+								to: components) else { return nil }
 		
 		var newTimecode = self // copy self
 		guard newTimecode.setTimecode(exactly: newTC) else { return nil }
 		
 		return newTimecode
+		
 	}
 	
 	/// Add a duration to the current timecode and return a new instance with the new timecode.
 	/// Clamps to valid timecodes as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func adding(clamping values: Components) -> Timecode {
-		let newTC = __add(clamping: values, to: components)
+	@inlinable public func adding(clamping values: Components) -> Timecode {
+		
+		let newTC = __add(clamping: values,
+						  to: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	/// Add a duration to the current timecode and return a new instance with the new timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func adding(wrapping values: Components) -> Timecode {
-		let newTC = __add(wrapping: values, to: components)
+	@inlinable public func adding(wrapping values: Components) -> Timecode {
+		
+		let newTC = __add(wrapping: values,
+						  to: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	
@@ -81,64 +97,82 @@ extension Timecode {
 	/// Subtract a duration from the current timecode.
 	/// Returns false if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func subtract(_ exactly: Components) -> Bool {
-		guard let newTC = __subtract(exactly: exactly, from: components) else { return false }
+	@inlinable public mutating func subtract(_ exactly: Components) -> Bool {
+		
+		guard let newTC = __subtract(exactly: exactly,
+									 from: components) else { return false }
 		
 		return setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Subtract a duration from the current timecode.
 	/// Clamps to valid timecodes.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func subtract(clamping: Components) {
-		let newTC = __subtract(clamping: clamping, from: components)
+	@inlinable public mutating func subtract(clamping: Components) {
+		
+		let newTC = __subtract(clamping: clamping,
+							   from: components)
 		
 		_ = setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Subtract a duration from the current timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public mutating func subtract(wrapping: Components) {
-		let newTC = __subtract(wrapping: wrapping, from: components)
+	@inlinable public mutating func subtract(wrapping: Components) {
+		
+		let newTC = __subtract(wrapping: wrapping,
+							   from: components)
 		
 		_ = setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Subtract a duration from the current timecode and return a new instance with the new timecode.
 	/// Returns nil if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func subtracting(_ exactly: Components) -> Timecode? {
-		guard let newTC = __subtract(exactly: exactly, from: components) else { return nil }
+	@inlinable public func subtracting(_ exactly: Components) -> Timecode? {
+		
+		guard let newTC = __subtract(exactly: exactly,
+									 from: components) else { return nil }
 		
 		var newTimecode = self // copy self
 		guard newTimecode.setTimecode(exactly: newTC) else { return nil }
 		
 		return newTimecode
+		
 	}
 	
 	/// Subtract a duration from the current timecode and return a new instance with the new timecode.
 	/// Clamps to valid timecodes.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func subtracting(clamping values: Components) -> Timecode {
-		let newTC = __subtract(clamping: values, from: components)
+	@inlinable public func subtracting(clamping values: Components) -> Timecode {
+		
+		let newTC = __subtract(clamping: values,
+							   from: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	/// Subtract a duration from the current timecode and return a new instance with the new timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-	public func subtracting(wrapping values: Components) -> Timecode {
-		let newTC = __subtract(wrapping: values, from: components)
+	@inlinable public func subtracting(wrapping values: Components) -> Timecode {
+		
+		let newTC = __subtract(wrapping: values,
+							   from: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	
@@ -147,9 +181,12 @@ extension Timecode {
 	/// Multiply the current timecode by an amount.
 	/// Returns false if resulting value is > the `upperLimit` property.
 	public mutating func multiply(_ exactly: Double) -> Bool {
-		guard let newTC = __multiply(exactly: exactly, with: components) else { return false }
+		
+		guard let newTC = __multiply(exactly: exactly,
+									 with: components) else { return false }
 		
 		return setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Multiply the current timecode by an amount.

@@ -6,15 +6,13 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
-
 // MARK: stringValue ...
 
 extension Timecode.FrameRate {
 	
 	/// Returns human-readable frame rate string.
 	public var stringValue: String {
+		
 		switch self {
 		case ._23_976:		return "23.976"
 		case ._24:			return "24"
@@ -37,10 +35,12 @@ extension Timecode.FrameRate {
 		case ._120:			return "120"
 		case ._120_drop:	return "120d"
 		}
+		
 	}
 	
 	/// Returns human-readable frame rate string in long form.
 	public var stringValueVerbose: String {
+		
 		switch self {
 		case ._23_976:		return "23.976 fps"
 		case ._24:			return "24 fps"
@@ -63,10 +63,12 @@ extension Timecode.FrameRate {
 		case ._120:			return "120 fps"
 		case ._120_drop:	return "120 fps drop"
 		}
+		
 	}
 	
 	/// Initializes from a `stringValue` string. Case-sensitive.
 	public init?(stringValue: String) {
+		
 		if let findMatch = Self.allCases
 			.first(where: { $0.stringValue == stringValue })
 		{
@@ -74,6 +76,7 @@ extension Timecode.FrameRate {
 		} else {
 			return nil
 		}
+		
 	}
 	
 }
@@ -84,7 +87,8 @@ extension Timecode.FrameRate {
 extension Timecode.FrameRate {
 	
 	/// Returns true if frame rate is drop-frame.
-	public var isDrop: Bool {
+	@inlinable public var isDrop: Bool {
+		
 		switch self {
 		case ._23_976:		return false
 		case ._24:			return false
@@ -107,12 +111,14 @@ extension Timecode.FrameRate {
 		case ._120:			return false
 		case ._120_drop:	return true
 		}
+		
 	}
 	
 	/// Returns the number of digits required for frames within the timecode string.
 	///
-	/// ie: 24 fps would return 2, but 120 fps would return 3.
-	public var numberOfDigits: Int {
+	/// ie: 24 or 30 fps would return 2, but 120 fps would return 3.
+	@inlinable public var numberOfDigits: Int {
+		
 		switch self {
 		case ._23_976,
 			 ._24,
@@ -128,12 +134,12 @@ extension Timecode.FrameRate {
 			 ._59_94,
 			 ._59_94_drop,
 			 ._60,
-			 ._60_drop:
+			 ._60_drop,
+			 ._100:
 			
 			return 2
 			
-		case ._100,
-			 ._119_88,
+		case ._119_88,
 			 ._119_88_drop,
 			 ._120,
 			 ._120_drop:
@@ -141,15 +147,19 @@ extension Timecode.FrameRate {
 			return 3
 			
 		}
+		
 	}
 	
 	/// Max frame number displayable before seconds roll over.
-	public var maxFrameNumberDisplayable: Int {
+	@inlinable public var maxFrameNumberDisplayable: Int {
+		
 		maxFrames - 1
+		
 	}
 	
 	/// Returns max elapsed frames from 0 to and including rolling over to `extent`.
-	public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
+	@inlinable public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
+		
 		// template to calculate:
 		// Int(Double(extent.maxDays) * 24 * 60 * 60 * self.frameRateForCalculation)
 		
@@ -180,14 +190,17 @@ extension Timecode.FrameRate {
 			
 		case ._100days:
 			return self.maxTotalFrames(in: ._24hours) * extent.maxDays
+			
 		}
 		
 	}
 	
 	/// Returns max elapsed frames possible before rolling over to 0.
 	/// (Number of frames from 0 to `extent` minus one subframe).
-	public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
+	@inlinable public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
+		
 		maxTotalFrames(in: extent) - 1
+		
 	}
 	
 }
@@ -198,7 +211,8 @@ extension Timecode.FrameRate {
 extension Timecode.FrameRate {
 	
 	/// Internal use. Total number of elapsed frames that comprise 1 second of timecode.
-	internal var maxFrames: Int {
+	@inlinable internal var maxFrames: Int {
+		
 		switch self {
 		case ._23_976:		return 24
 		case ._24:			return 24
@@ -221,10 +235,12 @@ extension Timecode.FrameRate {
 		case ._120:			return 120
 		case ._120_drop:	return 120
 		}
+		
 	}
 	
 	/// Internal use.
-	internal var frameRateForElapsedFramesCalculation: Double {
+	@inlinable internal var frameRateForElapsedFramesCalculation: Double {
+		
 		switch self {
 		case ._23_976:		return 24.0
 		case ._24:			return 24.0
@@ -247,10 +263,12 @@ extension Timecode.FrameRate {
 		case ._120:			return 120.0
 		case ._120_drop:	return 119.88	// used in special drop-frame calculation
 		}
+		
 	}
 	
 	/// Internal use. Used in marker MIDI file export.
-	internal var frameRateForRealTimeCalculation: Double {
+	@inlinable internal var frameRateForRealTimeCalculation: Double {
+		
 		switch self {
 		case ._23_976:		return 24.0 / 1.001 // confirmed correct
 		case ._24:			return 24.0			// confirmed correct
@@ -273,10 +291,12 @@ extension Timecode.FrameRate {
 		case ._120:			return 120.0
 		case ._120_drop:	return 120.0 / 1.001
 		}
+		
 	}
 	
 	/// Internal use.
-	internal var framesDroppedPerMinute: Double {
+	@inlinable internal var framesDroppedPerMinute: Double {
+		
 		switch self {
 		case ._29_97_drop:	return 2.0
 		case ._30_drop:		return 2.0
@@ -305,6 +325,7 @@ extension Timecode.FrameRate {
 			return 0.0
 			
 		}
+		
 	}
 	
 }

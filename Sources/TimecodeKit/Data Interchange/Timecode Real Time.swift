@@ -6,8 +6,6 @@
 //  Copyright © 2018 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	/// (Lossy) Returns the current timecode converted to a duration in real-time milliseconds (wall-clock time), based on the frame rate. Value is returned as a Double so a high level of precision can be maintained.
@@ -67,20 +65,20 @@ extension TimeValue {
 	/// Convenience method to create an `Timecode` struct using the default `(_ exactly:)` initializer.
 	public func toTimecode(at frameRate: Timecode.FrameRate,
 						   limit: Timecode.UpperLimit = ._24hours,
-						   subFramesDivisor: Int? = nil) -> Timecode?
-	{
+						   subFramesDivisor: Int? = nil) -> Timecode? {
+		
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit,
-							  subFramesDivisor: sfd)
+							at: frameRate,
+							limit: limit,
+							subFramesDivisor: sfd)
 			
 		} else {
 			
 			return Timecode(self,
-							  at: frameRate,
-							  limit: limit)
+							at: frameRate,
+							limit: limit)
 			
 		}
 		

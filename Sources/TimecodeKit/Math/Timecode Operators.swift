@@ -6,26 +6,32 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 // MARK: - Math operators: Self, Self
 
 extension Timecode {
 	
-	static public func +(lhs: Self, rhs: Self) -> Timecode {
-		return lhs.adding(clamping: rhs.components)
+	@inlinable static public func +(lhs: Self, rhs: Self) -> Timecode {
+		
+		lhs.adding(clamping: rhs.components)
+		
 	}
 	
-	static public func +=(lhs: inout Self, rhs: Self) {
+	@inlinable static public func +=(lhs: inout Self, rhs: Self) {
+		
 		lhs.add(clamping: rhs.components)
+		
 	}
 	
-	static public func -(lhs: Self, rhs: Self) -> Timecode {
-		return lhs.subtracting(clamping: rhs.components)
+	@inlinable static public func -(lhs: Self, rhs: Self) -> Timecode {
+		
+		lhs.subtracting(clamping: rhs.components)
+		
 	}
 	
-	static public func -=(lhs: inout Self, rhs: Self) {
+	@inlinable static public func -=(lhs: inout Self, rhs: Self) {
+		
 		lhs.subtract(clamping: rhs.components)
+		
 	}
 	
 }
@@ -36,19 +42,27 @@ extension Timecode {
 extension Timecode {
 	
 	static public func *<T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-		return lhs.multiplying(clamping: Double(rhs))
+		
+		lhs.multiplying(clamping: Double(rhs))
+		
 	}
 	
 	static public func *=<T: BinaryInteger>(lhs: inout Self, rhs: T) {
+		
 		lhs.multiply(clamping: Double(rhs))
+		
 	}
 	
 	static public func /<T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-		return lhs.dividing(clamping: Double(rhs))
+		
+		lhs.dividing(clamping: Double(rhs))
+		
 	}
 	
 	static public func /=<T: BinaryInteger>(lhs: inout Self, rhs: T) {
+		
 		lhs.divide(clamping: Double(rhs))
+		
 	}
 	
 }

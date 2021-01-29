@@ -6,11 +6,9 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode: Equatable {
 	
-	static public func ==(lhs: Self, rhs: Self) -> Bool {
+	@inlinable static public func ==(lhs: Self, rhs: Self) -> Bool {
 		
 		lhs.realTimeValue == rhs.realTimeValue
 		
@@ -20,7 +18,7 @@ extension Timecode: Equatable {
 
 extension Timecode: Comparable {
 	
-	static public func <(lhs: Self, rhs: Self) -> Bool {
+	@inlinable static public func <(lhs: Self, rhs: Self) -> Bool {
 		
 		lhs.realTimeValue < rhs.realTimeValue
 		

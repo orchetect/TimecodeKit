@@ -6,25 +6,25 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	/// (Lossy)
 	/// Returns the current timecode converted to a duration in real-time audio samples at the given sample rate, rounded to the nearest sample.
 	/// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be passed as 48000)
-	public func samplesValue(atSampleRate: Int) -> Double {
+	@inlinable public func samplesValue(atSampleRate: Int) -> Double {
 		
 		// prepare coefficients
 		
 		var fRate = frameRate.frameRateForElapsedFramesCalculation
 		
-		if frameRate.isDrop
-		&& frameRate != ._30_drop
-		&& frameRate != ._60_drop
-		&& frameRate != ._120_drop {
+		if frameRate.isDrop,
+		   frameRate != ._30_drop,
+		   frameRate != ._60_drop,
+		   frameRate != ._120_drop {
+			
 			// all dropframe rates require this except 30 DF and its multiples
 			fRate = Double(frameRate.maxFrames) / 1.001
+			
 		}
 		
 		var offset = 1.0
@@ -35,7 +35,9 @@ extension Timecode {
 			 ._47_952,
 			 ._59_94,
 			 ._119_88:
-			offset = 1.001	// not sure why this works, but it makes for an accurate calculation
+			
+			// not sure why this works, but it makes for an accurate calculation
+			offset = 1.001
 			
 		case ._24,
 			 ._25,
@@ -48,11 +50,13 @@ extension Timecode {
 			 ._100,
 			 ._119_88_drop,
 			 ._120:
+			
 			break
 			
 		case ._30_drop,
 			 ._60_drop,
 			 ._120_drop:
+			
 			offset = 0.999
 			
 		}
@@ -76,8 +80,8 @@ extension Timecode {
 	/// Returns false if it underflows or overflows valid timecode range.
 	/// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
 	@discardableResult
-	public mutating func setTimecode(fromSamplesValue: Double,
-									 atSampleRate: Int) -> Bool {
+	@inlinable public mutating func setTimecode(fromSamplesValue: Double,
+												atSampleRate: Int) -> Bool {
 		
 		// prepare coefficients
 		

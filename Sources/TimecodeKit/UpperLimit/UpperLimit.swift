@@ -6,8 +6,6 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
-
 extension Timecode {
 	
 	/// Enum describing the maximum timecode ceiling.
@@ -20,43 +18,53 @@ extension Timecode {
 		case _100days = "100 days"
 		
 		/// Internal use.
-		internal var maxDays: Int {
+		@inlinable internal var maxDays: Int {
+			
 			switch self {
 			case ._24hours: return 1
 			case ._100days: return 100
 			}
+			
 		}
 		
 		/// Internal use.
-		internal var maxDaysExpressible: Int {
+		@inlinable internal var maxDaysExpressible: Int {
+			
 			switch self {
 			case ._24hours: return maxDays - 1
 			case ._100days: return maxDays - 1
 			}
+			
 		}
 		
 		/// Internal use.
-		internal var maxHours: Int {
+		@inlinable internal var maxHours: Int {
+			
 			switch self {
 			case ._24hours: return 24
 			case ._100days: return 24
 			}
+			
 		}
 		
 		/// Internal use.
-		internal var maxHoursExpressible: Int {
+		@inlinable internal var maxHoursExpressible: Int {
+			
 			switch self {
 			case ._24hours: return maxHours - 1
 			case ._100days: return maxHours - 1
 			}
+			
 		}
 		
 		/// Internal use.
-		internal var maxHoursTotal: Int {
+		@inlinable internal var maxHoursTotal: Int {
+			
 			switch self {
 			case ._24hours: return maxDays - 1
 			case ._100days: return (24 * maxDays) - 1
 			}
+			
 		}
 		
 	}

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
-import Foundation
 @_implementationOnly import OTCore
 
 extension Timecode {
@@ -119,7 +118,7 @@ extension Timecode {
 extension Timecode {
 	
 	/// Returns valid range of values for a timecdoe component, given the current `frameRate` and `upperLimit`.
-	public func validRange(of component: Component) -> (ClosedRange<Int>)
+	@inlinable public func validRange(of component: Component) -> (ClosedRange<Int>)
 	{
 		
 		components.validRange(of: component,
@@ -219,7 +218,7 @@ extension Timecode {
 extension Timecode {
 	
 	/// Returns the largest subframe value displayable before rolling over to the next frame.
-	public var maxSubFramesExpressible: Int {
+	@inlinable public var maxSubFramesExpressible: Int {
 		
 		validRange(of: .subFrames)
 			.upperBound
@@ -227,7 +226,7 @@ extension Timecode {
 	}
 	
 	/// Returns the `upperLimit` minus 1 subframe.
-	public var maxFramesAndSubframesExpressible: Double {
+	@inlinable public var maxFramesAndSubframesExpressible: Double {
 		
 		Double(frameRate.maxTotalFramesExpressible(in: upperLimit))
 			+ Double(maxSubFramesExpressible)

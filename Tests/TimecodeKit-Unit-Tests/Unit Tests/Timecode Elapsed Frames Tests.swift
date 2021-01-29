@@ -6,6 +6,8 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
+#if !os(watchOS)
+
 import XCTest
 @testable import TimecodeKit
 
@@ -93,3 +95,5 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
 	}
 	
 }
+
+#endif
