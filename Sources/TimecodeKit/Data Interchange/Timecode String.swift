@@ -283,8 +283,10 @@ extension Timecode {
 		
 		let pattern = #"^(\d+)??[\:\s]??(\d+)[\:](\d+)[\:](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
 
-		let matches = string.regexMatches(captureGroupsFromPattern: pattern)
-
+		let matches = string
+			.regexMatches(captureGroupsFromPattern: pattern)
+			.dropFirst()
+		
 		// attempt to convert strings to integers, preserving indexes and preserving nils
 		// essentially converting [String?] to [Int?]
 		
