@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
 		
 		// utility/support code:
-		.package(url: "https://github.com/orchetect/OTCore", from: "1.1.0"),
+		.package(url: "https://github.com/orchetect/OTCore", from: "1.1.6"),
 		
 		// console progress module for dev tests:
 		.package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
