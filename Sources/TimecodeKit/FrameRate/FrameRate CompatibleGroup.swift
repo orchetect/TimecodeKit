@@ -66,6 +66,38 @@ extension Timecode.FrameRate {
 		
 	}
 	
+}
+
+extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
+	
+	public var description: String {
+		
+		stringValue
+		
+	}
+	
+	/// Returns human-readable group string.
+	public var stringValue: String {
+		switch self {
+		case .NTSC:
+			return "NTSC"
+			
+		case .NTSC_drop:
+			return "NTSC Drop-Frame"
+			
+		case .ATSC:
+			return "ATSC"
+			
+		case .ATSC_drop:
+			return "ATSC Drop-Frame"
+			
+		}
+	}
+	
+}
+
+extension Timecode.FrameRate {
+	
 	/// Returns the frame rate's `CompatibleGroup` categorization.
 	@inlinable public var compatibleGroup: CompatibleGroup {
 		
