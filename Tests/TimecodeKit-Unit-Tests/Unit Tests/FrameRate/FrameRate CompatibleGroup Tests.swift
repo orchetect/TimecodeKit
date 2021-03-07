@@ -29,7 +29,7 @@ class Timecode_UT_FrameRate_CompatibleGroup: XCTestCase {
 		
 	}
 	
-	func testCompatibleGroup_Basic() {
+	func testCompatibleGroup_compatibleGroup() {
 		
 		// methods basic spot-check
 		
@@ -52,6 +52,32 @@ class Timecode_UT_FrameRate_CompatibleGroup: XCTestCase {
 		XCTAssertEqual(Timecode.FrameRate._30_drop.compatibleGroup, .ATSC_drop)
 		XCTAssertEqual(Timecode.FrameRate._60_drop.compatibleGroup, .ATSC_drop)
 		XCTAssertTrue(Timecode.FrameRate._30_drop.isCompatible(with: ._60_drop))
+		
+	}
+	
+	func testCompatibleGroup_compatibleGroupRates() {
+		
+		for grouping in Timecode.FrameRate.CompatibleGroup.table {
+			
+			let otherGroupingsRates = Timecode.FrameRate.CompatibleGroup.table
+				.compactMap { $0.key != grouping.key ? $0 : nil }
+				.reduce(into: [], { $0 += ($1.value) })
+			
+			for rate in grouping.value {
+				XCTAssertEqual(
+					rate.compatibleGroupRates,
+					grouping.value
+				)
+			}
+			
+			for rate in otherGroupingsRates {
+				XCTAssertNotEqual(
+					rate.compatibleGroupRates,
+					grouping.value
+				)
+			}
+			
+		}
 		
 	}
 	
