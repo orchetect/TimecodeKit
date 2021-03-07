@@ -29,7 +29,6 @@ extension Timecode.FrameRate {
 		/// - 00:59:56:12 @ 29.97 fps
 		public static var table: [CompatibleGroup : [Timecode.FrameRate]] =
 			[
-				
 				.NTSC: [
 					._23_976,
 					._24_98,
@@ -61,7 +60,6 @@ extension Timecode.FrameRate {
 					._60_drop,
 					._120_drop
 				]
-				
 			]
 		
 	}
