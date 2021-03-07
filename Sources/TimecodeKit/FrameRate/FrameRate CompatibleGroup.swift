@@ -77,19 +77,30 @@ extension Timecode.FrameRate {
 		
 	}
 	
-	/// Returns true if the source `FrameRate` shares a compatible grouping with the passed `timecode`.
+	/// Returns the members of the frame rate's `CompatibleGroup` categorization.
+	@inlinable public var compatibleGroupRates: [Self] {
+		
+		// Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
+		
+		Self.CompatibleGroup.table
+			.first(where: { $0.value.contains(self) })!
+			.value
+		
+	}
+	
+	/// Returns true if the source `FrameRate` shares a compatible grouping with the passed `other` frame rate.
 	///
 	/// For example, at the same point of elapsed real time, 30 and 60 fps are compatible with each other, but 29.97 is not:
 	///
 	/// - 01:00:00:00 @ 30 fps
 	/// - 01:00:00:00 @ 60 fps
 	/// - 00:59:56:12 @ 29.97 fps
-	@inlinable public func isCompatible(with timecode: Self) -> Bool {
+	@inlinable public func isCompatible(with other: Self) -> Bool {
 		
 		Self.CompatibleGroup.table
 			.values
 			.first(where: { $0.contains(self) })?
-			.contains(timecode)
+			.contains(other)
 			?? false
 		
 	}
