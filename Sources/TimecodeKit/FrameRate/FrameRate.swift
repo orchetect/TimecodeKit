@@ -131,3 +131,12 @@ extension Timecode.FrameRate: CaseIterable {
 	public static let allNonDrop: [Self] = allCases.filter { !$0.isDrop }
 	
 }
+
+@available(macOS 10.15, macCatalyst 13, iOS 13, *)
+extension Timecode.FrameRate: Identifiable {
+	
+	public var id: String {
+		rawValue
+	}
+	
+}
