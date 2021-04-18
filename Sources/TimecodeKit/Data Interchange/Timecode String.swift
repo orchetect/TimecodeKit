@@ -72,12 +72,10 @@ extension Timecode {
 	/// Forms `.stringValue` using filename-compatible characters.
 	public var stringValueFileNameCompatible: String {
 		
-		let result = stringValue
+		stringValue
 			.replacingOccurrences(of: ":", with: "-")
 			.replacingOccurrences(of: ";", with: "-")
 			.replacingOccurrences(of: " ", with: "-")
-		
-		return result
 		
 	}
 	
@@ -86,10 +84,11 @@ extension Timecode {
 	/// Returns `stringValue` as `NSAttributedString`, highlighting invalid values.
 	///
 	/// `invalidAttributes` are the `NSAttributedString` attributes applied to invalid values.
-	/// If `invalidAttributes` are not passed, the default of red forground color is used.
-	public func stringValueValidated(invalidAttributes: [NSAttributedString.Key : Any]? = nil,
-									 withDefaultAttributes attrs: [NSAttributedString.Key : Any]? = nil) -> NSAttributedString
-	{
+	/// If `invalidAttributes` are not passed, the default of red foreground color is used.
+	public func stringValueValidated(
+		invalidAttributes: [NSAttributedString.Key : Any]? = nil,
+		withDefaultAttributes attrs: [NSAttributedString.Key : Any]? = nil
+	) -> NSAttributedString{
 		
 		let sepDays = NSAttributedString(string: " ", attributes: attrs)
 		let sepMain = NSAttributedString(string: ":", attributes: attrs)
