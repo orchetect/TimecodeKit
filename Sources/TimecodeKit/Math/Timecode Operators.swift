@@ -13,28 +13,56 @@ extension Timecode {
 	/// a.k.a. `lhs.adding(wrapping: rhs)`
 	@inlinable static public func + (lhs: Self, rhs: Self) -> Timecode {
 		
-		lhs.adding(wrapping: rhs.components)
+		if lhs.frameRate == rhs.frameRate {
+			return lhs.adding(wrapping: rhs.components)
+		} else {
+			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			else { return lhs }
+			
+			return lhs.adding(wrapping: rhsConverted.components)
+		}
 		
 	}
 	
 	/// a.k.a. `lhs.add(wrapping: rhs)`
 	@inlinable static public func += (lhs: inout Self, rhs: Self) {
 		
-		lhs.add(wrapping: rhs.components)
+		if lhs.frameRate == rhs.frameRate {
+			lhs.add(wrapping: rhs.components)
+		} else {
+			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			else { return }
+			
+			return lhs.add(wrapping: rhsConverted.components)
+		}
 		
 	}
 	
 	/// a.k.a. `lhs.subtracting(wrapping: rhs)`
 	@inlinable static public func - (lhs: Self, rhs: Self) -> Timecode {
 		
-		lhs.subtracting(wrapping: rhs.components)
+		if lhs.frameRate == rhs.frameRate {
+			return lhs.subtracting(wrapping: rhs.components)
+		} else {
+			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			else { return lhs }
+			
+			return lhs.subtracting(wrapping: rhsConverted.components)
+		}
 		
 	}
 	
 	/// a.k.a. `lhs.subtract(wrapping: rhs)`
 	@inlinable static public func -= (lhs: inout Self, rhs: Self) {
 		
-		lhs.subtract(wrapping: rhs.components)
+		if lhs.frameRate == rhs.frameRate {
+			lhs.subtract(wrapping: rhs.components)
+		} else {
+			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			else { return }
+			
+			return lhs.subtract(wrapping: rhsConverted.components)
+		}
 		
 	}
 	
