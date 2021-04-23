@@ -16,7 +16,7 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			return lhs.adding(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
 			else { return lhs }
 			
 			return lhs.adding(wrapping: rhsConverted.components)
@@ -30,7 +30,7 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			lhs.add(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
 			else { return }
 			
 			return lhs.add(wrapping: rhsConverted.components)
@@ -44,7 +44,7 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			return lhs.subtracting(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
 			else { return lhs }
 			
 			return lhs.subtracting(wrapping: rhsConverted.components)
@@ -58,7 +58,7 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			lhs.subtract(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = lhs.converted(to: lhs.frameRate)
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
 			else { return }
 			
 			return lhs.subtract(wrapping: rhsConverted.components)
