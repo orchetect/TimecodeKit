@@ -13,10 +13,10 @@ extension Timecode {
 	/// Represents an abstract delta between two `Timecode` structs.
 	public struct Delta {
 		
-		let delta: Timecode
-		let sign: Sign
+		@usableFromInline let delta: Timecode
+		@usableFromInline let sign: Sign
 		
-		public init(_ delta: Timecode,
+		@inlinable public init(_ delta: Timecode,
 					_ sign: Sign = .positive) {
 			
 			self.delta = delta
@@ -25,14 +25,14 @@ extension Timecode {
 		}
 		
 		/// Returns true if sign is negative.
-		public var isNegative: Bool {
+		@inlinable public var isNegative: Bool {
 			
 			sign == .negative
 			
 		}
 		
 		/// Returns the delta value expressed as a concrete `Timecode` value by wrapping around lower/upper timecode limit bounds if necessary.
-		public var timecode: Timecode {
+		@inlinable public var timecode: Timecode {
 			
 			switch sign {
 			case .positive:
@@ -52,14 +52,14 @@ extension Timecode {
 		}
 		
 		/// Returns a `Timecode` value offsetting it by the delta value, wrapping around lower/upper timecode limit bounds if necessary.
-		public func timecode(offsetting base: Timecode) -> Timecode {
+		@inlinable public func timecode(offsetting base: Timecode) -> Timecode {
 			
 			base + timecode
 			
 		}
 		
 		/// Returns real time equivalent of the delta time.
-		public var realTimeValue: TimeInterval {
+		@inline(__always) public var realTimeValue: TimeInterval {
 			
 			switch sign {
 			case .positive:
