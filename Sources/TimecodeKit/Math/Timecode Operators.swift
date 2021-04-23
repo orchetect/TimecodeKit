@@ -16,8 +16,10 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			return lhs.adding(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
-			else { return lhs }
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate) else {
+				assertionFailure("Could not convert right-hand Timecode operand to left-hand Timecode frameRate.")
+				return lhs
+			}
 			
 			return lhs.adding(wrapping: rhsConverted.components)
 		}
@@ -30,8 +32,10 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			lhs.add(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
-			else { return }
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate) else {
+				assertionFailure("Could not convert right-hand Timecode operand to left-hand Timecode frameRate.")
+				return
+			}
 			
 			return lhs.add(wrapping: rhsConverted.components)
 		}
@@ -44,8 +48,10 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			return lhs.subtracting(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
-			else { return lhs }
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate) else {
+				assertionFailure("Could not convert right-hand Timecode operand to left-hand Timecode frameRate.")
+				return lhs
+			}
 			
 			return lhs.subtracting(wrapping: rhsConverted.components)
 		}
@@ -58,8 +64,10 @@ extension Timecode {
 		if lhs.frameRate == rhs.frameRate {
 			lhs.subtract(wrapping: rhs.components)
 		} else {
-			guard let rhsConverted = rhs.converted(to: lhs.frameRate)
-			else { return }
+			guard let rhsConverted = rhs.converted(to: lhs.frameRate) else {
+				assertionFailure("Could not convert right-hand Timecode operand to left-hand Timecode frameRate.")
+				return
+			}
 			
 			return lhs.subtract(wrapping: rhsConverted.components)
 		}
