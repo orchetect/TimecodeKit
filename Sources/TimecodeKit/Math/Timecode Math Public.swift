@@ -192,53 +192,63 @@ extension Timecode {
 	/// Multiply the current timecode by an amount.
 	/// Clamps the result to the `upperLimit` property.
 	public mutating func multiply(clamping value: Double) {
+		
 		let newTC = __multiply(clamping: value, with: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Multiply the current timecode by an amount.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	public mutating func multiply(wrapping value: Double) {
+		
 		let newTC = __multiply(wrapping: value, with: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Multiply a duration from the current timecode and return a new instance with the new timecode.
 	/// Returns nil if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func multiplying(_ exactly: Double) -> Timecode? {
+		
 		guard let newTC = __multiply(exactly: exactly, with: components) else { return nil }
 		
 		var newTimecode = self // copy self
 		guard newTimecode.setTimecode(exactly: newTC) else { return nil }
 		
 		return newTimecode
+		
 	}
 	
 	/// Multiply a duration from the current timecode and return a new instance with the new timecode.
 	/// Clamps to valid timecodes.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func multiplying(clamping value: Double) -> Timecode {
+		
 		let newTC = __multiply(clamping: value, with: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	/// Multiply a duration from the current timecode and return a new instance with the new timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func multiplying(wrapping value: Double) -> Timecode {
+		
 		let newTC = __multiply(wrapping: value, with: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	
@@ -247,61 +257,73 @@ extension Timecode {
 	/// Divide the current timecode by a duration.
 	/// Returns false if resulting value is > the `upperLimit` property.
 	public mutating func divide(_ exactly: Double) -> Bool {
+		
 		guard let newTC = __divide(exactly: exactly, into: components) else { return false }
 		
 		return setTimecode(exactly: newTC)
+		
 	}
 	
 	/// Divide the current timecode by a duration.
 	/// Clamps to valid timecodes.
 	public mutating func divide(clamping value: Double) {
+		
 		let newTC = __divide(clamping: value, into: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Divide the current timecode by a duration.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	public mutating func divide(wrapping value: Double) {
+		
 		let newTC = __divide(wrapping: value, into: components)
 		
 		_ = setTimecode(exactly: newTC) // guaranteed to work
+		
 	}
 	
 	/// Divide the current timecode by a duration and return a new instance with the new timecode.
 	/// Returns nil if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func dividing(_ exactly: Double) -> Timecode? {
+		
 		guard let newTC = __divide(exactly: exactly, into: components) else { return nil }
 		
 		var newTimecode = self // copy self
 		guard newTimecode.setTimecode(exactly: newTC) else { return nil }
 		
 		return newTimecode
+		
 	}
 	
 	/// Divide the current timecode by a duration and return a new instance with the new timecode.
 	/// Clamps to valid timecodes.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func dividing(clamping value: Double) -> Timecode {
+		
 		let newTC = __divide(clamping: value, into: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	/// Divide the current timecode by a duration and return a new instance with the new timecode.
 	/// Wraps around the clock as set by the `upperLimit` property.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
 	public func dividing(wrapping value: Double) -> Timecode {
+		
 		let newTC = __divide(wrapping: value, into: components)
 		
 		var newTimecode = self // copy self
 		_ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
 		
 		return newTimecode
+		
 	}
 	
 	
