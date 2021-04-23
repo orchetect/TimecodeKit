@@ -304,4 +304,23 @@ extension Timecode {
 		return newTimecode
 	}
 	
+	
+	// MARK: - Offset
+	
+	/// Offsets the current timecode by a `Delta` amount.
+	/// Wraps around the clock as set by the `upperLimit` property.
+	public mutating func offset(by delta: Delta) {
+		
+		self = delta.timecode(offsetting: self)
+		
+	}
+	
+	/// Returns the timecode offset by a `Delta` amount.
+	/// Wraps around the clock as set by the `upperLimit` property.
+	public func offsetting(by delta: Delta) -> Timecode {
+		
+		delta.timecode(offsetting: self)
+		
+	}
+	
 }

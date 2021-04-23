@@ -227,6 +227,40 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
 		
 	}
 	
+	func testOffset() {
+		
+		// mutating
+		
+		var tc = Timecode(				TCC(h: 01, m: 00, s: 00, f: 00),
+										at: ._23_976, limit: ._24hours)!
+		
+		let deltaTC = Timecode(			TCC(h: 00, m: 01, s: 00, f: 00),
+										at: ._23_976, limit: ._24hours)!
+		
+		tc.offset(by: .init(deltaTC, .positive))
+		
+		XCTAssertEqual(tc.components,	TCC(h: 01, m: 01, s: 00, f: 00))
+		
+		tc.offset(by: .init(deltaTC, .positive))
+		
+		XCTAssertEqual(tc.components,	TCC(h: 01, m: 02, s: 00, f: 00))
+		
+		tc.offset(by: .init(deltaTC, .negative))
+		
+		XCTAssertEqual(tc.components,	TCC(h: 01, m: 01, s: 00, f: 00))
+		
+		// non-mutating
+		
+		tc = Timecode(					TCC(h: 01, m: 00, s: 00, f: 00),
+										at: ._23_976, limit: ._24hours)!
+		
+		XCTAssertEqual(tc
+						.offsetting(by: .init(deltaTC, .positive))
+						.components,
+										TCC(h: 01, m: 01, s: 00, f: 00))
+		
+	}
+	
 }
 
 #endif
