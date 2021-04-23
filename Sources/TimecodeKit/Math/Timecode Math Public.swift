@@ -327,7 +327,7 @@ extension Timecode {
 	}
 	
 	
-	// MARK: - Offset
+	// MARK: - Offset / Delta
 	
 	/// Offsets the current timecode by a `Delta` amount.
 	/// Wraps around the clock as set by the `upperLimit` property.
@@ -342,6 +342,13 @@ extension Timecode {
 	public func offsetting(by delta: Delta) -> Timecode {
 		
 		delta.timecode(offsetting: self)
+		
+	}
+	
+	/// Returns an abstract delta distance between the current timecode and another timecode.
+	public func delta(to other: Timecode) -> Delta {
+		
+		__offset(to: other.components)
 		
 	}
 	

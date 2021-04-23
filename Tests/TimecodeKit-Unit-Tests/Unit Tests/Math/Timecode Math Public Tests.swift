@@ -261,6 +261,59 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
 		
 	}
 	
+	func testDelta() {
+		
+		let tc1 = Timecode(				TCC(h: 01, m: 00, s: 00, f: 00),
+										at: ._23_976, limit: ._24hours)!
+		
+		let tc2 = Timecode(				TCC(h: 01, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._24hours)!
+		
+		// positive
+		
+		var delta = tc1.delta(to: tc2)
+		
+		XCTAssertEqual(delta.isNegative, false)
+		XCTAssertEqual(delta.timecode,	Timecode(TCC(h: 00, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._24hours)!)
+		
+		// negative
+		
+		delta = tc2.delta(to: tc1)
+		
+		XCTAssertEqual(delta.isNegative, true) // 23:55:22:09
+		XCTAssertEqual(delta.delta,		Timecode(TCC(h: 00, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._24hours)!)
+		XCTAssertEqual(delta.timecode,	Timecode(TCC(h: 23, m: 55, s: 22, f: 09),
+										at: ._23_976, limit: ._24hours)!)
+		
+		// edge cases
+		
+		let tc3 = Timecode(				TCC(d: 1, h: 03, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._100days)!
+		
+		// positive, > 24 hours delta
+		
+		delta = tc1.delta(to: tc3)
+		
+		XCTAssertEqual(delta.isNegative, false)
+		XCTAssertEqual(delta.delta,		Timecode(TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._100days)!)
+		XCTAssertEqual(delta.timecode,	Timecode(TCC(h: 02, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._24hours)!)
+		
+		// negative, > 24 hours delta, 100 days limit
+		
+		delta = tc3.delta(to: tc1)
+		
+		XCTAssertEqual(delta.isNegative, true)
+		XCTAssertEqual(delta.delta,		Timecode(TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
+										at: ._23_976, limit: ._100days)!)
+		XCTAssertEqual(delta.timecode,	Timecode(rawValues: TCC(d: 98, h: 21, m: 55, s: 22, f: 09),
+										at: ._23_976, limit: ._100days))
+		
+	}
+	
 }
 
 #endif
