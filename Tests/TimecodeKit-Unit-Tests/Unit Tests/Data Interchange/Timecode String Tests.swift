@@ -95,7 +95,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 	
 	func testStringValue_Get_Formatting_WithDays() {
 		
-		// string formatting with days - ie: D:HH:MM:SS:FF
+		// string formatting with days - ie: "D HH:MM:SS:FF"
 		// using known valid timecode components; not testing for invalid values here
 		
 		// non-drop
@@ -147,7 +147,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
-			XCTAssertEqual(sv, "2 01:02:03:\(t)04", "for \($0)")	// omits days since they are 0
+			XCTAssertEqual(sv, "2 01:02:03:\(t)04", "for \($0)")
 		}
 		
 		// drop
@@ -159,14 +159,14 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
-			XCTAssertEqual(sv, "2 01:02:03;\(t)04", "for \($0)")	// omits days since they are 0
+			XCTAssertEqual(sv, "2 01:02:03;\(t)04", "for \($0)")
 		}
 		
 	}
 	
 	func testStringValue_Get_Formatting_WithSubframes() {
 		
-		// string formatting with subframes - ie: HH:MM:SS:FF.sf
+		// string formatting with subframes - ie: "HH:MM:SS:FF.sf" (or "D HH:MM:SS:FF.sf" in case of 100 days limit)
 		// using known valid timecode components; not testing for invalid values here
 		
 		// non-drop
@@ -221,7 +221,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
 			let sv = tc?.stringValue
-			XCTAssertEqual(sv, "2 01:02:03:\(t)04.12", "for \($0)")	// omits days since they are 0
+			XCTAssertEqual(sv, "2 01:02:03:\(t)04.12", "for \($0)")
 		}
 		
 		// drop
@@ -234,7 +234,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
 			let sv = tc?.stringValue
-			XCTAssertEqual(sv, "2 01:02:03;\(t)04.12", "for \($0)")	// omits days since they are 0
+			XCTAssertEqual(sv, "2 01:02:03;\(t)04.12", "for \($0)")
 		}
 		
 	}

@@ -152,7 +152,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
 								m: 59,
 								s: 59,
 								f: 23,
-								sf: subFramesDivisor-1) )
+								sf: subFramesDivisor-1))
 		
 	}
 	

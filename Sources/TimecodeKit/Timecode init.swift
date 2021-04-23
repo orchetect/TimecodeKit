@@ -6,6 +6,8 @@
 //  Copyright © 2020 Steffan Andrews. All rights reserved.
 //
 
+import Foundation
+
 extension Timecode {
 	
 	// MARK: Basic
@@ -173,7 +175,7 @@ extension Timecode {
 	/// Instance from real time and frame rate.
 	///
 	/// Note: this may be lossy.
-	@inlinable public init?(_ lossy: TimeValue,
+	@inlinable public init?(realTimeValue: TimeInterval,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
 							subFramesDivisor: Int = 80) {
@@ -182,7 +184,7 @@ extension Timecode {
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
 		
-		if !self.setTimecode(from: lossy) { return nil }
+		if !self.setTimecode(fromRealTimeValue: realTimeValue) { return nil }
 		
 	}
 	

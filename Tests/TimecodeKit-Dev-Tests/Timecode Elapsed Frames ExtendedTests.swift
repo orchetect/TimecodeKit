@@ -15,6 +15,41 @@ import SegmentedProgress
 
 class Timecode_ET_ExtendedTests: XCTestCase {
 	
+	func testCalc() {
+		
+		let international = TCC(m: 0, s: 28, f: 07)
+			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		
+		let domestic = TCC(s: 10, f: 9)
+			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		
+		var calc = international - domestic
+		calc.displaySubFrames = true
+		
+		print()
+		print(calc.stringValue)
+		print()
+		
+	}
+	
+	func testCalc2() {
+		
+		let tc1 = TCC(m: 0, s: 17, f: 16)
+			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		
+		let tc2 = TCC(s: 2, f: 18)
+			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		
+		var calc = tc1 + tc2
+		calc.displaySubFrames = true
+		
+		print()
+		print(calc.stringValue)
+		print()
+		
+	}
+	
+	
 	func testTimecode_Iterative() {
 		
 		// return early to bypass this dev-only test

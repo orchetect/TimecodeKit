@@ -24,7 +24,8 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
 		let samplesIn1DayTC_BaseFrameRates = 4147200000.0
 		let samplesIn1DayTC_DropFrameRates = 4147195853.0
 		
-		let samplesIn1DayTC_30DF = 4143052800.0 // confirmed correct in PT and Cubase
+		// confirmed correct in PT and Cubase
+		let samplesIn1DayTC_30DF = 4143052800.0
 		
 		// allow for the over-estimate padding value that gets added in the TC->samples method
 		let accuracy = 0.001

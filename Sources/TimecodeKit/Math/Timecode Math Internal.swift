@@ -288,5 +288,56 @@ extension Timecode {
 							   subFramesDivisor: subFramesDivisor)
 		
 	}
+	
+	
+	// MARK: - Offset / Delta
+	
+	/// Utility function to return a Delta duration.
+	@usableFromInline
+	internal func __offset(to other: Components) -> Delta {
+		
+		if self.components == other {
+			return .init(TCC().toTimecode(rawValuesAt: frameRate,
+										  limit: upperLimit,
+										  subFramesDivisor: subFramesDivisor),
+						 .positive)
+		}
+		
+		let otherTimecode = Timecode(rawValues: other,
+									 at: frameRate,
+									 limit: ._100days,
+									 subFramesDivisor: subFramesDivisor)
+		
+		if otherTimecode > self {
+			
+			let diff = otherTimecode
+				.__subtract(wrapping: components,
+							from: otherTimecode.components)
+			
+			let deltaTC = diff.toTimecode(rawValuesAt: frameRate,
+										  limit: upperLimit,
+										  subFramesDivisor: subFramesDivisor)
+			
+			let delta = Delta(deltaTC, .positive)
+			
+			return delta
+			
+		} else /* other < self */ {
+			
+			let diff = otherTimecode
+				.__subtract(wrapping: other,
+							from: components)
+			
+			let deltaTC = diff.toTimecode(rawValuesAt: frameRate,
+										  limit: upperLimit,
+										  subFramesDivisor: subFramesDivisor)
+			
+			let delta = Delta(deltaTC, .negative)
+			
+			return delta
+			
+		}
+		
+	}
 		
 }

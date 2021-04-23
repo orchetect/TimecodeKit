@@ -80,7 +80,7 @@ Note: This documentation does not cover every property and initializer available
 
 ### Initialization
 
-Using `(_ exaclty:, ...)` by default:
+Using `(_ exactly:, ...)` by default:
 
 ```swift
 // from Int timecode component values
@@ -91,9 +91,9 @@ TCC(h: 01, m: 00, s: 00, f: 00).toTimecode(at: ._23_976) // alternate method
 Timecode("01:00:00:00", at: ._23_976)
 "01:00:00:00".toTimecode(at: ._23_976) // alternate method
 
-// from real time (wall clock) elapsed
-Timecode(TimeValue(seconds: 4723.241579), at: ._23_976)
-TimeValue(seconds: 4723.241579).toTimecode(at: ._23_976) // alternate method
+// from real time (wall clock) elapsed in seconds
+Timecode(realTimeValue: 4723.241579, at: ._23_976)
+(4723.241579).toTimecode(at: ._23_976) // alternate method on TimeInterval
 
 // from elapsed number of audio samples at a given sample rate
 Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
@@ -181,7 +181,7 @@ TCC(h: 01, m: 00, s: 00, f: 00)
 
 ### Math
 
-Using operators:
+Using operators (which use `wrapping:` internally if the result underflows or overflows timecode bounds):
 
 ```swift
 guard let tc1 = "01:00:00:00".toTimecode(at: ._23_976) else { return }
@@ -201,6 +201,7 @@ Mutating methods:
 - `.subtract()`
 - `.multiply()`
 - `.divide()`
+- `.offset()`
 
 Non-mutating methods that produce a new `Timecode` instance:
 
@@ -208,6 +209,7 @@ Non-mutating methods that produce a new `Timecode` instance:
 - `.subtracting()`
 - `.multiplying()`
 - `.dividing()`
+- `.offsetting()`
 
 ### Conversions
 
@@ -227,13 +229,13 @@ Non-mutating methods that produce a new `Timecode` instance:
 // timecode to real-world time
 let tc = "01:00:00:00"
     .toTimecode(at: ._23_976)?
-    .realTimeValue // == TimeValue()
+    .realTimeValue // == TimeInterval (aka Double)
 
 tc?.seconds // == 3603.6
 tc?.ms      // == 3603600.0
 
 // real-world time to timecode
-TimeValue(seconds: 3603.6)
+(3603.6) // TimeInterval, aka Double
     .toTimecode(at: ._23_976)?
     .stringValue // == "01:00:00:00"
 ```

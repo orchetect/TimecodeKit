@@ -26,7 +26,8 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
 			
 			// max frames in 24 hours
 			
-			var maxFramesIn24hours = 0
+			var maxFramesIn24hours: Int
+			
 			switch $0 {
 			case ._23_976		: maxFramesIn24hours = 2073600
 			case ._24			: maxFramesIn24hours = 2073600
@@ -62,7 +63,8 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
 			
 			// max frames in 24 hours - 1
 			
-			var maxFramesExpressibleIn24hours = 0
+			var maxFramesExpressibleIn24hours: Int
+			
 			switch $0 {
 			case ._23_976		: maxFramesExpressibleIn24hours = 2073600 - 1
 			case ._24			: maxFramesExpressibleIn24hours = 2073600 - 1

@@ -8,9 +8,9 @@
 
 extension Timecode: Equatable {
 	
-	@inlinable static public func ==(lhs: Self, rhs: Self) -> Bool {
+	@inlinable static public func == (lhs: Self, rhs: Self) -> Bool {
 		
-		lhs.realTimeValue == rhs.realTimeValue
+		lhs.realTimeValue.rounded(decimalPlaces: 9) == rhs.realTimeValue.rounded(decimalPlaces: 9)
 		
 	}
 	
@@ -18,9 +18,9 @@ extension Timecode: Equatable {
 
 extension Timecode: Comparable {
 	
-	@inlinable static public func <(lhs: Self, rhs: Self) -> Bool {
+	@inlinable static public func < (lhs: Self, rhs: Self) -> Bool {
 		
-		lhs.realTimeValue < rhs.realTimeValue
+		lhs.realTimeValue.rounded(decimalPlaces: 9) < rhs.realTimeValue.rounded(decimalPlaces: 9)
 		
 	}
 	

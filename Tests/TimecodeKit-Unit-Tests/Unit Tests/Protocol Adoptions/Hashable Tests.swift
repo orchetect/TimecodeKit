@@ -53,14 +53,14 @@ class Timecode_UT_Hashable_Tests: XCTestCase {
 		// unique timecodes are based on frame counts, irrespective of frame rate
 		
 		let tcSet: Set<Timecode> = ["01:00:00:00".toTimecode(at: ._23_976)!,
-									  "01:00:00:00".toTimecode(at: ._24)!,
-									  "01:00:00:00".toTimecode(at: ._25)!,
-									  "01:00:00:00".toTimecode(at: ._29_97)!,
-									  "01:00:00:00".toTimecode(at: ._29_97_drop)!,
-									  "01:00:00:00".toTimecode(at: ._30)!,
-									  "01:00:00:00".toTimecode(at: ._59_94)!,
-									  "01:00:00:00".toTimecode(at: ._59_94_drop)!,
-									  "01:00:00:00".toTimecode(at: ._60)!]
+									"01:00:00:00".toTimecode(at: ._24)!,
+									"01:00:00:00".toTimecode(at: ._25)!,
+									"01:00:00:00".toTimecode(at: ._29_97)!,
+									"01:00:00:00".toTimecode(at: ._29_97_drop)!,
+									"01:00:00:00".toTimecode(at: ._30)!,
+									"01:00:00:00".toTimecode(at: ._59_94)!,
+									"01:00:00:00".toTimecode(at: ._59_94_drop)!,
+									"01:00:00:00".toTimecode(at: ._60)!]
 		
 		XCTAssertNotEqual(tcSet.count, 1)	// doesn't matter what frame rate it is, the same total elapsed frames matters
 		
