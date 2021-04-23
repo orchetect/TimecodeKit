@@ -57,6 +57,18 @@ class Timecode_UT_Delta_DeltaTests: XCTestCase {
 		
 	}
 	
+	func testIsNegative() {
+		
+		XCTAssertEqual(Timecode.Delta(.init(at: ._24))
+						.isNegative,
+					   false)
+		
+		XCTAssertEqual(Timecode.Delta(.init(at: ._24), .negative)
+						.isNegative,
+					   true)
+		
+	}
+	
 	func testTimecodeA() {
 		
 		// positive
