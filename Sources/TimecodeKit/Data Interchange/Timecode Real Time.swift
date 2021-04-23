@@ -12,7 +12,7 @@ extension Timecode {
 	
 	/// (Lossy) Returns the current timecode converted to a duration in real-time (wall-clock time), based on the frame rate.
 	///
-	/// Generally, `.realTimeValue` -> `.setTimecode(from: TimeValue)` will produce equivalent results where 'from timecode' == 'out timecode'.
+	/// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent results where 'from timecode' == 'out timecode'.
 	/// When setting, invalid values will cause the setter to fail silently. (Validation is based on the frame rate and `upperLimit` property.)
 	public var realTimeValue: TimeInterval {
 		
