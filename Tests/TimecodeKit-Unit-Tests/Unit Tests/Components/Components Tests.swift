@@ -18,8 +18,10 @@ class Timecode_UT_Components_Tests: XCTestCase {
 	
 	func testTCC_toTimecode() {
 		
-		XCTAssertEqual(TCC(d: 0, h: 1, m: 2, s: 3, f: 4, sf: 0).toTimecode(at: ._23_976),
-		Timecode(TCC(h: 1, m: 2, s: 3, f: 4), at: ._23_976))
+		XCTAssertEqual(
+			TCC(d: 0, h: 1, m: 2, s: 3, f: 4, sf: 0).toTimecode(at: ._23_976),
+			Timecode(TCC(h: 1, m: 2, s: 3, f: 4), at: ._23_976)
+		)
 		
 	}
 	

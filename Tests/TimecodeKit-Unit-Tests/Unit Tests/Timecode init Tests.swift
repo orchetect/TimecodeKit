@@ -16,8 +16,8 @@ class Timecode_UT_init_Tests: XCTestCase {
 	override func setUp() { }
 	override func tearDown() { }
 	
-	
 	func testTimecode_init_Defaults() {
+		
 		// essential inits
 		
 		// defaults
@@ -29,7 +29,7 @@ class Timecode_UT_init_Tests: XCTestCase {
 		XCTAssertEqual(tc.components, TCC(d: 0, h: 0, m: 0, s: 0, f: 0))
 		XCTAssertEqual(tc.stringValue, "00:00:00:00")
 		
-		// expected intitalizers
+		// expected initializers
 		
 		tc = Timecode(at: ._24)
 		tc = Timecode(at: ._24, limit: ._24hours)
@@ -41,7 +41,9 @@ class Timecode_UT_init_Tests: XCTestCase {
 	func testTimecode_init_String() {
 		
 		Timecode.FrameRate.allCases.forEach {
-			let tc = Timecode("00:00:00:00", at: $0, limit: ._24hours)
+			let tc = Timecode("00:00:00:00",
+							  at: $0,
+							  limit: ._24hours)
 			
 			XCTAssertEqual(tc?.days		, 0		, "for \($0)")
 			XCTAssertEqual(tc?.hours	, 0		, "for \($0)")
@@ -52,7 +54,9 @@ class Timecode_UT_init_Tests: XCTestCase {
 		}
 		
 		Timecode.FrameRate.allCases.forEach {
-			let tc = Timecode("01:02:03:04", at: $0, limit: ._24hours)
+			let tc = Timecode("01:02:03:04",
+							  at: $0,
+							  limit: ._24hours)
 			
 			XCTAssertEqual(tc?.days		, 0		, "for \($0)")
 			XCTAssertEqual(tc?.hours	, 1		, "for \($0)")
@@ -68,8 +72,8 @@ class Timecode_UT_init_Tests: XCTestCase {
 		
 		Timecode.FrameRate.allCases.forEach {
 			let tc = Timecode(TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
-									 at: $0,
-									 limit: ._24hours)
+							  at: $0,
+							  limit: ._24hours)
 			
 			XCTAssertEqual(tc?.days		, 0		, "for \($0)")
 			XCTAssertEqual(tc?.hours	, 0		, "for \($0)")
@@ -81,8 +85,8 @@ class Timecode_UT_init_Tests: XCTestCase {
 		
 		Timecode.FrameRate.allCases.forEach {
 			let tc = Timecode(TCC(d: 0, h: 1, m: 2, s: 3, f: 4),
-									 at: $0,
-									 limit: ._24hours)
+							  at: $0,
+							  limit: ._24hours)
 			
 			XCTAssertEqual(tc?.days		, 0		, "for \($0)")
 			XCTAssertEqual(tc?.hours	, 1		, "for \($0)")

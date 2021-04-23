@@ -76,39 +76,63 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
 	// MARK: Integration Tests
 	
 	func testTimecode_Strideable_Ranges() {
+		
 		// Stride through & array
 		
-		let strideThrough = stride(from: "01:00:00:00".toTimecode(at: ._23_976)!, through: "01:00:00:06".toTimecode(at: ._23_976)!, by: 2)
+		let strideThrough = stride(from: "01:00:00:00".toTimecode(at: ._23_976)!,
+								   through: "01:00:00:06".toTimecode(at: ._23_976)!,
+								   by: 2)
 		var array = Array(strideThrough)
+		
 		XCTAssertEqual(array.count, 4)
-		XCTAssertEqual(array, ["01:00:00:00".toTimecode(at: ._23_976)!, "01:00:00:02".toTimecode(at: ._23_976)!, "01:00:00:04".toTimecode(at: ._23_976)!, "01:00:00:06".toTimecode(at: ._23_976)!])
+		XCTAssertEqual(array,
+					   ["01:00:00:00".toTimecode(at: ._23_976)!,
+						"01:00:00:02".toTimecode(at: ._23_976)!,
+						"01:00:00:04".toTimecode(at: ._23_976)!,
+						"01:00:00:06".toTimecode(at: ._23_976)!
+					   ])
 		
 		
 		// Stride to
-		let strideTo = stride(from: "01:00:00:00".toTimecode(at: ._23_976)!, to: "01:00:00:06".toTimecode(at: ._23_976)!, by: 2)
+		let strideTo = stride(from: "01:00:00:00".toTimecode(at: ._23_976)!,
+							  to: "01:00:00:06".toTimecode(at: ._23_976)!,
+							  by: 2)
 		array = Array(strideTo)
+		
 		XCTAssertEqual(array.count, 3)
-		XCTAssertEqual(array, ["01:00:00:00".toTimecode(at: ._23_976)!, "01:00:00:02".toTimecode(at: ._23_976)!, "01:00:00:04".toTimecode(at: ._23_976)!])
+		XCTAssertEqual(array,
+					   ["01:00:00:00".toTimecode(at: ._23_976)!,
+						"01:00:00:02".toTimecode(at: ._23_976)!,
+						"01:00:00:04".toTimecode(at: ._23_976)!
+					   ])
 		
 		
 		// Strideable
 		
-		XCTAssertEqual("01:00:00:00".toTimecode(at: ._23_976)!.advanced(by: 6),
+		XCTAssertEqual("01:00:00:00".toTimecode(at: ._23_976)!
+						.advanced(by: 6),
 					   "01:00:00:06".toTimecode(at: ._23_976)!)
 		
-		XCTAssertEqual("01:00:00:00".toTimecode(at: ._23_976)!.distance(to: "02:00:00:00".toTimecode(at: ._23_976)!),
+		XCTAssertEqual("01:00:00:00".toTimecode(at: ._23_976)!
+						.distance(to: "02:00:00:00".toTimecode(at: ._23_976)!),
 					   Int("01:00:00:00".toTimecode(at: ._23_976)!.totalElapsedFrames))
 		
 		let strs = Array(
-			stride(from: "01:00:00:05".toTimecode(at: ._23_976)!, through: "01:00:10:05".toTimecode(at: ._23_976)!,
+			stride(from: "01:00:00:05".toTimecode(at: ._23_976)!,
+				   through: "01:00:10:05".toTimecode(at: ._23_976)!,
 				   by: Int(Timecode(TCC(s: 1), at: ._23_976)!.totalElapsedFrames))
-			).map({ $0.stringValue })
+		)
+		.map { $0.stringValue }
+		
 		XCTAssertEqual(strs.count, 11)
 		
 		let strs2 = Array(
-			stride(from: "01:00:00:05".toTimecode(at: ._23_976)!, to: "01:00:10:07".toTimecode(at: ._23_976)!,
+			stride(from: "01:00:00:05".toTimecode(at: ._23_976)!,
+				   to: "01:00:10:07".toTimecode(at: ._23_976)!,
 				   by: Int(Timecode(TCC(s: 1), at: ._23_976)!.totalElapsedFrames))
-			).map({ $0.stringValue })
+		)
+		.map { $0.stringValue }
+		
 		XCTAssertEqual(strs2.count, 11)
 		
 		// Strideable with drop-frames
@@ -117,21 +141,48 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
 		
 		// Range .contains
 		
-		XCTAssertTrue(("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!).contains(Timecode("01:00:00:02", at: ._23_976)!))
-		XCTAssertFalse(("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!).contains(Timecode("01:00:00:10", at: ._23_976)!))
-		XCTAssertTrue(("01:00:00:00".toTimecode(at: ._23_976)!...).contains(Timecode("01:00:00:02", at: ._23_976)!))
-		XCTAssertTrue((..."01:00:00:06".toTimecode(at: ._23_976)!).contains(Timecode("01:00:00:02", at: ._23_976)!))
+		XCTAssertTrue(
+			("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!)
+				.contains(Timecode("01:00:00:02", at: ._23_976)!)
+		)
+		XCTAssertFalse(
+			("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!)
+				.contains(Timecode("01:00:00:10", at: ._23_976)!)
+		)
+		XCTAssertTrue(
+			("01:00:00:00".toTimecode(at: ._23_976)!...)
+				.contains(Timecode("01:00:00:02", at: ._23_976)!)
+		)
+		XCTAssertTrue(
+			(..."01:00:00:06".toTimecode(at: ._23_976)!)
+				.contains(Timecode("01:00:00:02", at: ._23_976)!)
+		)
 		
 		// (same tests, but with ~= operator instead of .contains(...) which should produce the same result)
 		
-		XCTAssertTrue("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)! ~= Timecode("01:00:00:02", at: ._23_976)!)
-		XCTAssertFalse("01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)! ~= Timecode("01:00:00:10", at: ._23_976)!)
-		XCTAssertTrue("01:00:00:00".toTimecode(at: ._23_976)!... ~= Timecode("01:00:00:02", at: ._23_976)!)
-		XCTAssertTrue(..."01:00:00:06".toTimecode(at: ._23_976)! ~= Timecode("01:00:00:02", at: ._23_976)!)
+		XCTAssertTrue(
+			"01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!
+				~= Timecode("01:00:00:02", at: ._23_976)!
+		)
+		XCTAssertFalse(
+			"01:00:00:00".toTimecode(at: ._23_976)!..."01:00:00:06".toTimecode(at: ._23_976)!
+				~= Timecode("01:00:00:10", at: ._23_976)!
+		)
+		XCTAssertTrue(
+			"01:00:00:00".toTimecode(at: ._23_976)!...
+				~= Timecode("01:00:00:02", at: ._23_976)!
+		)
+		XCTAssertTrue(
+			..."01:00:00:06".toTimecode(at: ._23_976)!
+				~= Timecode("01:00:00:02", at: ._23_976)!
+		)
 		
 		// sort
 		
-		let sort = ["01:00:00:06".toTimecode(at: ._23_976)!, "01:00:00:00".toTimecode(at: ._23_976)!].sorted()
+		let sort = ["01:00:00:06".toTimecode(at: ._23_976)!,
+					"01:00:00:00".toTimecode(at: ._23_976)!]
+			.sorted()
+		
 		XCTAssertEqual(sort[0], "01:00:00:00".toTimecode(at: ._23_976)!)
 		
 	}
