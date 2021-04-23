@@ -348,7 +348,16 @@ extension Timecode {
 	/// Returns an abstract delta distance between the current timecode and another timecode.
 	public func delta(to other: Timecode) -> Delta {
 		
-		__offset(to: other.components)
+		if frameRate == other.frameRate {
+			return __offset(to: other.components)
+		} else {
+			guard let otherConverted = other.converted(to: frameRate) else {
+				assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
+				return .init(TCC().toTimecode(rawValuesAt: frameRate))
+			}
+			
+			return __offset(to: otherConverted.components)
+		}
 		
 	}
 	
