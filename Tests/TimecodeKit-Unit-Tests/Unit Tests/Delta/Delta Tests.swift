@@ -145,7 +145,7 @@ class Timecode_UT_Delta_DeltaTests: XCTestCase {
 		
 		let delta = Timecode.Delta(deltaTC)
 		
-		XCTAssertEqual(delta.realTimeValue, deltaTC.realTimeValue.seconds)
+		XCTAssertEqual(delta.realTimeValue, deltaTC.realTimeValue)
 		
 	}
 	
@@ -157,7 +157,7 @@ class Timecode_UT_Delta_DeltaTests: XCTestCase {
 		
 		let delta = Timecode.Delta(deltaTC, .negative)
 		
-		XCTAssertEqual(delta.realTimeValue, -deltaTC.realTimeValue.seconds)
+		XCTAssertEqual(delta.realTimeValue, -deltaTC.realTimeValue)
 		
 	}
 	

@@ -58,15 +58,15 @@ extension Timecode {
 			
 		}
 		
-		/// Returns real time equivalent of the delta time.
+		/// Returns real-time (wall-clock time) equivalent of the delta time.
 		@inline(__always) public var realTimeValue: TimeInterval {
 			
 			switch sign {
 			case .positive:
-				return delta.realTimeValue.seconds
+				return delta.realTimeValue
 				
 			case .negative:
-				return -delta.realTimeValue.seconds
+				return -delta.realTimeValue
 			}
 			
 		}
