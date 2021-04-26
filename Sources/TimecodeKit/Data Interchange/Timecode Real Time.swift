@@ -12,8 +12,10 @@ extension Timecode {
 	
 	/// (Lossy) Returns the current timecode converted to a duration in real-time (wall-clock time), based on the frame rate.
 	///
-	/// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent results where 'from timecode' == 'out timecode'.
-	/// When setting, invalid values will cause the setter to fail silently. (Validation is based on the frame rate and `upperLimit` property.)
+	/// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecodes.
+	///
+	/// When setting, invalid values will cause the setter to fail silently.
+	/// (Validation is based on the frame rate and `upperLimit` property.)
 	public var realTimeValue: TimeInterval {
 		
 		get {
@@ -23,7 +25,7 @@ extension Timecode {
 			// so calculations of real time back into timecode work reliably
 			// otherwise, this math produces a real time value that can be a hair under the actual elapsed real time that would trigger the equivalent timecode
 			
-			calc += 0.00000001
+			calc += 0.000_000_010 // 10 nanoseconds
 			
 			return calc
 		}
@@ -36,7 +38,9 @@ extension Timecode {
 	}
 	
 	/// Sets the timecode to the nearest frame at the current frame rate from real-time (wall-clock time).
+	///
 	/// Returns false if it underflows or overflows valid timecode range.
+	/// (Validation is based on the frame rate and `upperLimit` property.)
 	@discardableResult
 	public mutating func setTimecode(fromRealTimeValue: TimeInterval) -> Bool {
 		
@@ -47,7 +51,7 @@ extension Timecode {
 		// so calculations of real time back into timecode work reliably
 		// otherwise, this math produces a real time value that can be a hair under the actual elapsed real time that would trigger the equivalent timecode
 		
-		calc += 0.0000006
+		calc += 0.000_000_600 // 600 nanoseconds
 		
 		// final calculation
 		
