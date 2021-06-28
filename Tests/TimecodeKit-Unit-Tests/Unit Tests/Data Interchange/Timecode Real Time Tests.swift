@@ -27,8 +27,8 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 		
 		// get real time
 		
-		// allow for the over-estimate padding value that gets added in the TC->realtime method
-		let accuracy = 0.0000001
+		// set up a reasonable accuracy to account for floating-point precision/rounding
+		let accuracy = 0.000000001
 		
 		Timecode.FrameRate.allCases.forEach {
 			
