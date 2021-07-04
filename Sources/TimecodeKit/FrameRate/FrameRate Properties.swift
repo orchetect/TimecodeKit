@@ -266,7 +266,7 @@ extension Timecode.FrameRate {
 		
 	}
 	
-	/// Internal use. Used in marker MIDI file export.
+	/// Internal use. Used in SMF export.
 	@inlinable internal var frameRateForRealTimeCalculation: Double {
 		
 		switch self {

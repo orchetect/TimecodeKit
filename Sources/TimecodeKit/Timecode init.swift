@@ -15,11 +15,13 @@ extension Timecode {
 	/// Instance with default timecode (00:00:00:00) at a given frame rate.
 	@inlinable public init(at frameRate: FrameRate,
 						   limit: UpperLimit = ._24hours,
-						   subFramesDivisor: Int = 80) {
+						   subFramesDivisor: Int = 80,
+						   displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 	}
 	
@@ -34,11 +36,13 @@ extension Timecode {
 	@inlinable public init?(_ exactly: Components,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !setTimecode(exactly: exactly) { return nil }
 		
@@ -52,11 +56,13 @@ extension Timecode {
 	@inlinable public init(clamping: Components,
 						   at frameRate: FrameRate,
 						   limit: UpperLimit = ._24hours,
-						   subFramesDivisor: Int = 80) {
+						   subFramesDivisor: Int = 80,
+						   displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		setTimecode(clamping: clamping)
 		
@@ -70,11 +76,13 @@ extension Timecode {
 	@inlinable public init(wrapping: Components,
 						   at frameRate: FrameRate,
 						   limit: UpperLimit = ._24hours,
-						   subFramesDivisor: Int = 80) {
+						   subFramesDivisor: Int = 80,
+						   displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		setTimecode(wrapping: wrapping)
 		
@@ -87,11 +95,13 @@ extension Timecode {
 	@inlinable public init(rawValues: Components,
 						   at frameRate: FrameRate,
 						   limit: UpperLimit = ._24hours,
-						   subFramesDivisor: Int = 80) {
+						   subFramesDivisor: Int = 80,
+						   displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		setTimecode(rawValues: rawValues)
 		
@@ -108,11 +118,13 @@ extension Timecode {
 	@inlinable public init?(_ exactly: String,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !setTimecode(exactly: exactly) { return nil }
 		
@@ -125,11 +137,13 @@ extension Timecode {
 	@inlinable public init?(clamping: String,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !setTimecode(clamping: clamping) { return nil }
 		
@@ -143,11 +157,13 @@ extension Timecode {
 	@inlinable public init?(wrapping: String,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !setTimecode(wrapping: wrapping) { return nil }
 		
@@ -160,11 +176,13 @@ extension Timecode {
 	@inlinable public init?(rawValues: String,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !setTimecode(rawValues: rawValues) { return nil }
 		
@@ -178,11 +196,13 @@ extension Timecode {
 	@inlinable public init?(realTimeValue: TimeInterval,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !self.setTimecode(fromRealTimeValue: realTimeValue) { return nil }
 		
@@ -195,11 +215,13 @@ extension Timecode {
 							sampleRate: Int,
 							at frameRate: FrameRate,
 							limit: UpperLimit = ._24hours,
-							subFramesDivisor: Int = 80) {
+							subFramesDivisor: Int = 80,
+							displaySubFrames: Bool = false) {
 		
 		self.frameRate = frameRate
 		self.upperLimit = limit
 		self.subFramesDivisor = subFramesDivisor
+		self.displaySubFrames = displaySubFrames
 		
 		if !self.setTimecode(fromSamplesValue: samples,
 							 atSampleRate: sampleRate) { return nil }

@@ -13,22 +13,21 @@ import XCTest
 
 class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 	
+	// pre-computed constants
+	
+	let secInTC10Days_ShrunkFrameRates = 864864.000
+	let secInTC10Days_BaseFrameRates = 864000.000
+	let secInTC10Days_DropFrameRates = 863999.136
+	
 	override func setUp() { }
 	override func tearDown() { }
 	
 	func testTimecode_RealTimeValue() {
 		
-		// pre-computed constants
-		
-		let secIn10Hr_ShrunkFrameRates = 864864.000
-		let secIn10Hr_BaseFrameRates = 864000.000
-		let secIn10Hr_DropFrameRates = 863999.136
-		
-		
 		// get real time
 		
-		// allow for the over-estimate padding value that gets added in the TC->realtime method
-		let accuracy = 0.0000001
+		// set up a reasonable accuracy to account for floating-point precision/rounding
+		let accuracy = 0.000000001
 		
 		Timecode.FrameRate.allCases.forEach {
 			
@@ -43,7 +42,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._119_88:
 				
 				XCTAssertEqual(tc.realTimeValue,
-							   secIn10Hr_ShrunkFrameRates,
+							   secInTC10Days_ShrunkFrameRates,
 							   accuracy: accuracy,
 							   "at: \($0)")
 				
@@ -57,7 +56,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._120:
 				
 				XCTAssertEqual(tc.realTimeValue,
-							   secIn10Hr_BaseFrameRates,
+							   secInTC10Days_BaseFrameRates,
 							   accuracy: accuracy,
 							   "at: \($0)")
 				
@@ -69,7 +68,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._120_drop:
 				
 				XCTAssertEqual(tc.realTimeValue,
-							   secIn10Hr_DropFrameRates,
+							   secInTC10Days_DropFrameRates,
 							   accuracy: accuracy,
 							   "at: \($0)")
 				
@@ -92,7 +91,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._59_94,
 				 ._119_88:
 				
-				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secIn10Hr_ShrunkFrameRates), "at: \($0)")
+				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secInTC10Days_ShrunkFrameRates), "at: \($0)")
 				XCTAssertEqual(tc.components, tcc, "at: \($0)")
 				
 			case ._24,
@@ -104,7 +103,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._100,
 				 ._120:
 				
-				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secIn10Hr_BaseFrameRates), "at: \($0)")
+				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secInTC10Days_BaseFrameRates), "at: \($0)")
 				XCTAssertEqual(tc.components, tcc, "at: \($0)")
 				
 			case ._29_97_drop,
@@ -114,7 +113,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				 ._119_88_drop,
 				 ._120_drop:
 				
-				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secIn10Hr_DropFrameRates), "at: \($0)")
+				XCTAssertTrue(tc.setTimecode(fromRealTimeValue: secInTC10Days_DropFrameRates), "at: \($0)")
 				XCTAssertEqual(tc.components, tcc, "at: \($0)")
 				
 			}
@@ -255,6 +254,68 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
 				.realTimeValue,
 			_00_49_27_15_00 + _00_49_38_01_79_delta,
 			accuracy: 0.0000005
+		)
+		
+	}
+	
+	// extension TimeInterval
+	
+	func testTCC_toTimecode() {
+		
+		// toTimecode(rawValuesAt:)
+		
+		XCTAssertEqual(
+			TCC(h: 1, m: 5, s: 20, f: 14)
+				.toTimecode(at: ._23_976),
+			Timecode(TCC(h: 1, m: 5, s: 20, f: 14),
+					 at: ._23_976)
+		)
+		
+		// toTimecode(rawValuesAt:) with subframes
+		
+		let tcWithSubFrames = TCC(h: 1, m: 5, s: 20, f: 14, sf: 94)
+			.toTimecode(at: ._23_976,
+						subFramesDivisor: 100,
+						displaySubFrames: true)
+		XCTAssertEqual(
+			tcWithSubFrames,
+			Timecode(TCC(h: 1, m: 5, s: 20, f: 14, sf: 94),
+					 at: ._23_976,
+					 subFramesDivisor: 100,
+					 displaySubFrames: true)
+		)
+		XCTAssertEqual(
+			tcWithSubFrames?.stringValue,
+			"01:05:20:14.94"
+		)
+		
+	}
+	
+	func testTimeInterval_toTimeCode_at() {
+		
+		// toTimecode(at:)
+		
+		XCTAssertEqual(TimeInterval(secInTC10Days_BaseFrameRates)
+						.toTimecode(at: ._24, limit: ._100days)?
+						.components,
+					   TCC(d: 10))
+		
+		// toTimecode(at:) with subframes
+		
+		let tcWithSubFrames = TimeInterval(3600.0)
+			.toTimecode(at: ._24,
+						subFramesDivisor: 100,
+						displaySubFrames: true)
+		XCTAssertEqual(
+			tcWithSubFrames,
+			Timecode(TCC(h: 1),
+					 at: ._24,
+					 subFramesDivisor: 100,
+					 displaySubFrames: true)
+		)
+		XCTAssertEqual(
+			tcWithSubFrames?.stringValue,
+			"01:00:00:00.00"
 		)
 		
 	}

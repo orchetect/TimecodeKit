@@ -78,9 +78,12 @@ extension Timecode.Components: Equatable {
 extension Timecode.Components {
 	
 	/// Returns an instance of `Timecode(exactly:)`.
-	@inlinable public func toTimecode(at frameRate: Timecode.FrameRate,
-									  limit: Timecode.UpperLimit = ._24hours,
-									  subFramesDivisor: Int? = nil) -> Timecode?
+	@inlinable public func toTimecode(
+		at frameRate: Timecode.FrameRate,
+		limit: Timecode.UpperLimit = ._24hours,
+		subFramesDivisor: Int? = nil,
+		displaySubFrames: Bool = false
+	) -> Timecode?
 	{
 		
 		if let sfd = subFramesDivisor {
@@ -88,21 +91,26 @@ extension Timecode.Components {
 			return Timecode(self,
 							at: frameRate,
 							limit: limit,
-							subFramesDivisor: sfd)
+							subFramesDivisor: sfd,
+							displaySubFrames: displaySubFrames)
 			
 		} else {
 			
 			return Timecode(self,
 							at: frameRate,
-							limit: limit)
+							limit: limit,
+							displaySubFrames: displaySubFrames)
 			
 		}
 	}
 	
 	/// Returns an instance of `Timecode(rawValues:)`.
-	@inlinable public func toTimecode(rawValuesAt frameRate: Timecode.FrameRate,
-									  limit: Timecode.UpperLimit = ._24hours,
-									  subFramesDivisor: Int? = nil) -> Timecode
+	@inlinable public func toTimecode(
+		rawValuesAt frameRate: Timecode.FrameRate,
+		limit: Timecode.UpperLimit = ._24hours,
+		subFramesDivisor: Int? = nil,
+		displaySubFrames: Bool = false
+	) -> Timecode
 	{
 		
 		if let sfd = subFramesDivisor {
@@ -110,13 +118,15 @@ extension Timecode.Components {
 			return Timecode(rawValues: self,
 							at: frameRate,
 							limit: limit,
-							subFramesDivisor: sfd)
+							subFramesDivisor: sfd,
+							displaySubFrames: displaySubFrames)
 			
 		} else {
 			
 			return Timecode(rawValues: self,
 							at: frameRate,
-							limit: limit)
+							limit: limit,
+							displaySubFrames: displaySubFrames)
 			
 		}
 	}

@@ -13,6 +13,7 @@ extension Timecode {
 	/// Add a duration to the current timecode.
 	/// Returns false if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+	@discardableResult
 	@inlinable public mutating func add(_ exactly: Components) -> Bool {
 		
 		guard let newTC = __add(exactly: exactly,
@@ -97,6 +98,7 @@ extension Timecode {
 	/// Subtract a duration from the current timecode.
 	/// Returns false if resulting value is not within valid timecode range.
 	/// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+	@discardableResult
 	@inlinable public mutating func subtract(_ exactly: Components) -> Bool {
 		
 		guard let newTC = __subtract(exactly: exactly,
@@ -180,6 +182,7 @@ extension Timecode {
 	
 	/// Multiply the current timecode by an amount.
 	/// Returns false if resulting value is > the `upperLimit` property.
+	@discardableResult
 	public mutating func multiply(_ exactly: Double) -> Bool {
 		
 		guard let newTC = __multiply(exactly: exactly,
@@ -256,6 +259,7 @@ extension Timecode {
 	
 	/// Divide the current timecode by a duration.
 	/// Returns false if resulting value is > the `upperLimit` property.
+	@discardableResult
 	public mutating func divide(_ exactly: Double) -> Bool {
 		
 		guard let newTC = __divide(exactly: exactly, into: components) else { return false }
