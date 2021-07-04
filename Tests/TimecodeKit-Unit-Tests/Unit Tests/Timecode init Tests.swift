@@ -33,6 +33,8 @@ class Timecode_UT_init_Tests: XCTestCase {
 		
 		tc = Timecode(at: ._24)
 		tc = Timecode(at: ._24, limit: ._24hours)
+		tc = Timecode(at: ._24, limit: ._24hours, subFramesDivisor: 80)
+		tc = Timecode(at: ._24, limit: ._24hours, subFramesDivisor: 80, displaySubFrames: true)
 		
 	}
 	
@@ -94,6 +96,32 @@ class Timecode_UT_init_Tests: XCTestCase {
 			XCTAssertEqual(tc?.seconds	, 3		, "for \($0)")
 			XCTAssertEqual(tc?.frames	, 4		, "for \($0)")
 			XCTAssertEqual(tc?.subFrames, 0		, "for \($0)")
+		}
+		
+	}
+	
+	func testTimecode_init_All_DisplaySubFrames() {
+		
+		Timecode.FrameRate.allCases.forEach {
+			let tc = Timecode("00:00:00:00",
+							  at: $0,
+							  limit: ._24hours,
+							  subFramesDivisor: 100,
+							  displaySubFrames: true)
+			
+			var frm: String
+			switch $0.numberOfDigits {
+			case 2: frm = "00"
+			case 3: frm = "000"
+			default:
+				XCTFail("Unhandled number of frames digits.")
+				return
+			}
+			
+			let frSep = $0.isDrop ? ";" : ":"
+			
+			XCTAssertEqual(tc?.stringValue, "00:00:00\(frSep)\(frm).00")
+			
 		}
 		
 	}

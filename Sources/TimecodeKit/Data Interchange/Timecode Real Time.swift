@@ -61,22 +61,27 @@ extension Timecode {
 extension TimeInterval {
 	
 	/// Convenience method to create an `Timecode` struct using the default `(_ exactly:)` initializer.
-	public func toTimecode(at frameRate: Timecode.FrameRate,
-						   limit: Timecode.UpperLimit = ._24hours,
-						   subFramesDivisor: Int? = nil) -> Timecode? {
+	@inlinable public func toTimecode(
+		at frameRate: Timecode.FrameRate,
+		limit: Timecode.UpperLimit = ._24hours,
+		subFramesDivisor: Int? = nil,
+		displaySubFrames: Bool = false
+	) -> Timecode? {
 		
 		if let sfd = subFramesDivisor {
 			
 			return Timecode(realTimeValue: self,
 							at: frameRate,
 							limit: limit,
-							subFramesDivisor: sfd)
+							subFramesDivisor: sfd,
+							displaySubFrames: displaySubFrames)
 			
 		} else {
 			
 			return Timecode(realTimeValue: self,
 							at: frameRate,
-							limit: limit)
+							limit: limit,
+							displaySubFrames: displaySubFrames)
 			
 		}
 		
