@@ -382,6 +382,15 @@ tc?.displaySubFrames = true
 (tc * 2).stringValue // == "00:00:00:01.00"
 ```
 
+It is also possible to set this flag during construction.
+
+```swift
+var tc = "01:12:20:05.62"
+    .toTimecode(at: ._24, subFramesDivisor: 80, displaySubFrames: true)
+
+tc?.stringValue // == "01:12:20:05.62"
+```
+
 #### Comparable
 
 Two `Timecode` instances can be compared linearly.

@@ -173,9 +173,8 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		
 		Timecode.FrameRate.allNonDrop.forEach {
 			var tc = TCC(h: 1, m: 02, s: 03, f: 04, sf: 12)
-				.toTimecode(at: $0)
-			tc?.displaySubFrames = true
-			tc?.days = 2						// set days after init since init fails if we pass days
+				.toTimecode(at: $0, displaySubFrames: true)
+			tc?.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
@@ -193,9 +192,8 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		
 		Timecode.FrameRate.allDrop.forEach {
 			var tc = TCC(h: 1, m: 02, s: 03, f: 04, sf: 12)
-				.toTimecode(at: $0)
-			tc?.displaySubFrames = true
-			tc?.days = 2						// set days after init since init fails if we pass days
+				.toTimecode(at: $0, displaySubFrames: true)
+			tc?.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
@@ -214,9 +212,8 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		// non-drop
 		
 		Timecode.FrameRate.allNonDrop.forEach {
-			var tc = TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-				.toTimecode(at: $0, limit: ._100days)
-			tc?.displaySubFrames = true
+			let tc = TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
+				.toTimecode(at: $0, limit: ._100days, displaySubFrames: true)
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			
@@ -227,9 +224,8 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
 		// drop
 		
 		Timecode.FrameRate.allDrop.forEach {
-			var tc = TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-				.toTimecode(at: $0, limit: ._100days)
-			tc?.displaySubFrames = true
+            let tc = TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
+				.toTimecode(at: $0, limit: ._100days, displaySubFrames: true)
 			
 			let t = $0.numberOfDigits == 2 ? "" : "0"
 			

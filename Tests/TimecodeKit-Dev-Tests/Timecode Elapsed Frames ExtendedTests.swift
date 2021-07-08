@@ -18,13 +18,16 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 	func testCalc() {
 		
 		let international = TCC(m: 0, s: 28, f: 07)
-			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+			.toTimecode(at: ._23_976,
+                        subFramesDivisor: 1000,
+                        displaySubFrames: true)!
 		
 		let domestic = TCC(s: 10, f: 9)
-			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+			.toTimecode(at: ._23_976,
+                        subFramesDivisor: 1000,
+                        displaySubFrames: true)!
 		
-		var calc = international - domestic
-		calc.displaySubFrames = true
+		let calc = international - domestic
 		
 		print()
 		print(calc.stringValue)
@@ -34,14 +37,17 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 	
 	func testCalc2() {
 		
-		let tc1 = TCC(m: 0, s: 17, f: 16)
-			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		let tc1 = TCC(m: 0, s: 5, f: 17)
+			.toTimecode(at: ._23_976,
+                        subFramesDivisor: 1000,
+                        displaySubFrames: true)!
 		
-		let tc2 = TCC(s: 2, f: 18)
-			.toTimecode(at: ._23_976, subFramesDivisor: 1000)!
+		let tc2 = TCC(s: 9, f: 9)
+			.toTimecode(at: ._23_976,
+                        subFramesDivisor: 1000,
+                        displaySubFrames: true)!
 		
-		var calc = tc1 + tc2
-		calc.displaySubFrames = true
+        let calc = tc2 - tc1
 		
 		print()
 		print(calc.stringValue)
@@ -49,6 +55,20 @@ class Timecode_ET_ExtendedTests: XCTestCase {
 		
 	}
 	
+	func testCalc3() {
+		
+		let tc = TCC(s: 5, f: 17)
+			.toTimecode(at: ._23_976,
+                        subFramesDivisor: 80,
+                        displaySubFrames: true)!
+		
+        let calc = tc.converted(to: ._30)!
+		
+		print()
+		print(calc.stringValue)
+		print()
+		
+	}
 	
 	func testTimecode_Iterative() {
 		
