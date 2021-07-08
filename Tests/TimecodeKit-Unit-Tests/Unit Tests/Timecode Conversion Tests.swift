@@ -15,10 +15,10 @@ class Timecode_UT_Conversion: XCTestCase {
 	override func setUp() { }
 	override func tearDown() { }
 	
-	func testConverted1to1() {
+	func testConverted() {
 		
 		// baseline check:
-		// ensure frame rates convert to themselves
+		// ensure conversion produces identical output if frame rates are equal
 		
 		Timecode.FrameRate.allCases.forEach {
 			
@@ -27,10 +27,23 @@ class Timecode_UT_Conversion: XCTestCase {
 			
 			let convertedTC = tc?.converted(to: $0)
 			
+            XCTAssertNotNil(convertedTC)
 			XCTAssertEqual(tc, convertedTC)
 			
 		}
 		
+        // spot-check an example conversion
+        
+        let convertedTC = TCC(h: 1)
+            .toTimecode(at: ._23_976,
+                        subFramesDivisor: 100,
+                        displaySubFrames: true)?
+            .converted(to: ._30)
+        
+        XCTAssertNotNil(convertedTC)
+        XCTAssertEqual(convertedTC?.frameRate, ._30)
+        XCTAssertEqual(convertedTC?.components, TCC(h: 1, m: 00, s: 03, f: 18, sf: 00))
+        
 	}
 	
 }
