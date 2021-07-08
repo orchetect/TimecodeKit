@@ -117,7 +117,7 @@ extension Timecode {
 			guard let string = obj as? String
 			else { return nil }
 			
-			guard var tc = timecodeWithProperties
+			guard var tc = timecodeTemplate
 			else { return string }
 
 			// form timecode components without validating
@@ -153,7 +153,7 @@ extension Timecode {
 			}
 
 			// grab properties from the formatter
-			guard var tc = timecodeWithProperties else { return entirelyInvalid() }
+			guard var tc = timecodeTemplate else { return entirelyInvalid() }
 
 			// form timecode components without validating
 			guard let tcc = Timecode.decode(timecode: string) else { return entirelyInvalid() }
@@ -328,11 +328,16 @@ extension Timecode {
 	
 }
 
-// MARK: timecodeWithProperties
+// MARK: timecodeTemplate
 
 extension Timecode.TextFormatter {
 	
-	public var timecodeWithProperties: Timecode? {
+    @available(swift, obsoleted: 0.1, renamed: "timecodeTemplate")
+    public var timecodeWithProperties: Timecode? {
+        timecodeTemplate
+    }
+    
+	public var timecodeTemplate: Timecode? {
 		
 		guard let frameRate = frameRate,
 			  let upperLimit = upperLimit,
@@ -342,15 +347,12 @@ extension Timecode.TextFormatter {
 			return nil
 			
 		}
-		
-		var tc = Timecode(at: frameRate,
-						  limit: upperLimit,
-						  subFramesDivisor: subFramesDivisor)
-		
-		tc.displaySubFrames = displaySubFrames
-		
-		return tc
-		
-	}
-	
+        
+        return Timecode(at: frameRate,
+                        limit: upperLimit,
+                        subFramesDivisor: subFramesDivisor,
+                        displaySubFrames: displaySubFrames)
+        
+    }
+    
 }

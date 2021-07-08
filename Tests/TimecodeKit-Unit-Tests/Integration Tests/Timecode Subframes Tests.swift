@@ -31,8 +31,9 @@ class Timecode_IT_SubframesTests: XCTestCase {
 		
 		sfDiv = -1
 		
-		tc = Timecode(at: ._24, subFramesDivisor: sfDiv)
-		tc.displaySubFrames = true
+		tc = Timecode(at: ._24,
+                      subFramesDivisor: sfDiv,
+                      displaySubFrames: true)
 		
 		// init allows illegal divisor to be stored
 		XCTAssertEqual(tc.subFramesDivisor, sfDiv)
@@ -54,8 +55,9 @@ class Timecode_IT_SubframesTests: XCTestCase {
 		
 		sfDiv = 0
 		
-		tc = Timecode(at: ._24, subFramesDivisor: sfDiv)
-		tc.displaySubFrames = true
+		tc = Timecode(at: ._24,
+                      subFramesDivisor: sfDiv,
+                      displaySubFrames: true)
 		
 		// init allows illegal divisor to be stored
 		XCTAssertEqual(tc.subFramesDivisor, sfDiv)
@@ -77,8 +79,9 @@ class Timecode_IT_SubframesTests: XCTestCase {
 		
 		sfDiv = 1
 		
-		tc = Timecode(at: ._24, subFramesDivisor: sfDiv)
-		tc.displaySubFrames = true
+		tc = Timecode(at: ._24,
+                      subFramesDivisor: sfDiv,
+                      displaySubFrames: true)
 		
 		// init allows illegal divisor to be stored
 		XCTAssertEqual(tc.subFramesDivisor, sfDiv)
@@ -100,8 +103,9 @@ class Timecode_IT_SubframesTests: XCTestCase {
 		
 		sfDiv = 2 // max value displayable: 1, 1 digit wide
 		
-		tc = Timecode(at: ._24, subFramesDivisor: sfDiv)
-		tc.displaySubFrames = true
+		tc = Timecode(at: ._24,
+                      subFramesDivisor: sfDiv,
+                      displaySubFrames: true)
 		
 		XCTAssertEqual(tc.subFramesDivisor, sfDiv)
 		
@@ -122,8 +126,9 @@ class Timecode_IT_SubframesTests: XCTestCase {
 		
 		sfDiv = 1_000_000 // max value displayable: 999999, 6 digits wide
 		
-		tc = Timecode(at: ._24, subFramesDivisor: sfDiv)
-		tc.displaySubFrames = true
+		tc = Timecode(at: ._24,
+                      subFramesDivisor: sfDiv,
+                      displaySubFrames: true)
 		
 		XCTAssertEqual(tc.subFramesDivisor, sfDiv)
 		

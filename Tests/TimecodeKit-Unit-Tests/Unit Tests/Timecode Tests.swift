@@ -27,12 +27,11 @@ class Timecode_UT_Tests: XCTestCase {
 			
 			// set up a timecode object that has all non-defaults
 			
-			var tc = "1 12:34:56:11.85"
+			let tc = "1 12:34:56:11.85"
 				.toTimecode(at: $0,
 							limit: ._100days,
-							subFramesDivisor: 100)!
-			
-			tc.displaySubFrames = true
+							subFramesDivisor: 100,
+                            displaySubFrames: true)!
 			
 			// encode
 			
