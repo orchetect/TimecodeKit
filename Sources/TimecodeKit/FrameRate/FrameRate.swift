@@ -132,7 +132,7 @@ extension Timecode.FrameRate: CaseIterable {
 	
 }
 
-@available(macOS 10.15, macCatalyst 13, iOS 13, *)
+@available(macOS 10.15, macCatalyst 13, iOS 11, *)
 extension Timecode.FrameRate: Identifiable {
 	
 	public var id: String {
