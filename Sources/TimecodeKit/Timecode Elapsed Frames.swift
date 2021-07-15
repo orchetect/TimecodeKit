@@ -47,7 +47,7 @@ extension Timecode {
 extension Timecode {
 	
 	/// Internal func: calculates total frames from given values at the current frame rate.
-	/// (To keep values clean, instead of returning a Double including subframes, this returns an Int with total frames, truncating the subframes. You can then add subframes to this return value to get a floating-point number representing total frames to the subframe precision in a single value.)
+	/// Subframes are represented by the fractional portion of the number.
 	public static func totalElapsedFrames(of values: Components,
 										  at frameRate: FrameRate,
 										  subFramesDivisor: Int? = nil) -> Double
