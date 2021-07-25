@@ -1,8 +1,6 @@
 //
 //  SwiftUI Text Tests.swift
-//  TimecodeKitTests
-//
-//  Created by Steffan Andrews on 2021-07-10.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 /// -------------------------------------------------
