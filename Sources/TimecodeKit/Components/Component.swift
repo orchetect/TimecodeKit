@@ -7,17 +7,17 @@
 //
 
 extension Timecode {
-	
-	/// Enum naming an individual timecode component
-	public enum Component {
-		
-		case days
-		case hours
-		case minutes
-		case seconds
-		case frames
-		case subFrames
-		
-	}
-	
+    
+    /// Enum naming an individual timecode component
+    public enum Component {
+        
+        case days
+        case hours
+        case minutes
+        case seconds
+        case frames
+        case subFrames
+        
+    }
+    
 }
