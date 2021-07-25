@@ -1,8 +1,6 @@
 //
 //  SwiftUI Text.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2021-04-17.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 #if canImport(SwiftUI)

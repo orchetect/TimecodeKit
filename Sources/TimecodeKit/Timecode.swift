@@ -1,9 +1,6 @@
 //
 //  Timecode.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2018-07-08.
-//  Copyright © 2018 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 /// Value type representing SMPTE timecode.

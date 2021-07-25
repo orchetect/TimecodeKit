@@ -1,9 +1,6 @@
 //
 //  TimecodeKitTests.swift
-//  TimecodeKitTests
-//
-//  Created by Steffan Andrews on 2019-09-30.
-//  Copyright © 2019 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 #if !os(watchOS)

@@ -1,9 +1,6 @@
 //
 //  Transformer.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2021-04-23.
-//  Copyright © 2021 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 extension Timecode {

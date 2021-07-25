@@ -1,9 +1,6 @@
 //
 //  Timecode Subframes Tests.swift
-//  TimecodeKitTests
-//
-//  Created by Steffan Andrews on 2020-10-27.
-//  Copyright © 2019 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 #if !os(watchOS)

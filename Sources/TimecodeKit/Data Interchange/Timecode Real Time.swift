@@ -1,9 +1,6 @@
 //
 //  Timecode Real Time.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2018-07-20.
-//  Copyright © 2018 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 import Foundation

@@ -1,9 +1,6 @@
 //
 //  Comparable.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2020-06-15.
-//  Copyright © 2020 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 extension Timecode: Equatable {

@@ -1,9 +1,6 @@
 //
 //  FrameRate CompatibleGroup.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2021-01-09.
-//  Copyright © 2021 Steffan Andrews. All rights reserved.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
 extension Timecode.FrameRate {
