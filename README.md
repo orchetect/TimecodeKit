@@ -1,34 +1,21 @@
 # TimecodeKit
 
-<p>
-<a href="https://developer.apple.com/swift">
-<img src="https://img.shields.io/badge/Swift%205.3-compatible-orange.svg?style=flat"
-     alt="Swift 5.3 compatible" /></a>
-<a href="#installation">
-<img src="https://img.shields.io/badge/SPM-compatible-orange.svg?style=flat"
-     alt="Swift Package Manager (SPM) compatible" /></a>
-<a href="https://developer.apple.com/swift">
-<img src="https://img.shields.io/badge/platform-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS-green.svg?style=flat"
-     alt="Platform - macOS | iOS | tvOS | watchOS" /></a>
-<a href="#contributions">
-<img src="https://img.shields.io/badge/Linux-not%20tested-black.svg?style=flat"
-     alt="Linux - not tested" /></a>
-<a href="https://github.com/orchetect/TimecodeKit/blob/main/LICENSE">
-<img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"
-     alt="License: MIT" /></a>
-</p>
-A robust multi-platform Swift library for working with SMPTE timecode supporting 20 industry frame rates, and including methods to convert to/from timecode strings and perform calculations.
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS | iOS | tvOS | watchOS](https://img.shields.io/badge/platforms-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20-lightgrey.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-## Supported Frame Rates
+A robust and precise Swift library for working with SMPTE timecode supporting 20 industry frame rates, including conversions to/from timecode strings and timecode-based calculations.
 
-| NTSC      | PAL  | HD / Film | Other  |
-| --------- | ---- | --------- | ------ |
-| 29.97     | 25   | 23.976    | 30     |
-| 29.97 DF  | 50   | 24        | 30 DF  |
-| 59.94     | 100  | 24.98     | 60     |
-| 59.94 DF  |      | 47.952    | 60 DF  |
-| 119.88    |      | 48        | 120    |
-| 119.88 DF |      |           | 120 DF |
+## Supported Timecode Frame Rates
+
+The following BITC frame rates are supported. These are used widely in DAWs (digital audio workstation software) and video editing applications.
+
+| Film / ATSC / HD | PAL / SECAM / DVB / ATSC | NTSC / ATSC / PAL-M | NTSC Non-Standard | ATSC |
+| ---------------- | ------------------------ | ------------------- | ----------------- | ---- |
+| 23.976           | 25                       | 29.97               | 30 DF             | 30   |
+| 24               | 50                       | 29.97 DF            | 60 DF             | 60   |
+| 24.98            | 100                      | 59.94               | 120 DF            | 120  |
+| 47.952           |                          | 59.94 DF            |                   |      |
+| 48               |                          | 119.88              |                   |      |
+|                  |                          | 119.88 DF           |                   |      |
 
 ## Core Features
 
@@ -36,13 +23,14 @@ A robust multi-platform Swift library for working with SMPTE timecode supporting
 - Convert timecode values to real wall-clock time, and vice-versa
 - Convert timecode to # of samples at any audio sample-rate, and vice-versa
 - Granular timecode validation
-- A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
 - Support for Days as a timecode component (which Cubase supports as part of its timecode format)
 - Support for Subframes
 - Common math operations between timecodes: add, subtract, multiply, divide
 - Form a `Range` or `Stride` between two timecodes
-- Exhaustive unit tests ensuring accuracy
 - Conforms to `Codable`
+- A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
+- A SwiftUI `Text` object showing invalid timecode components using alternate attributes (such as red text color)
+- Exhaustive unit tests ensuring accuracy
 
 ## Installation
 
@@ -478,6 +466,10 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 - Unit Tests won't build/run for watchOS Simulator because XCTest does not work on watchOS
   - Workaround: Don't run unit tests for a watchOS target
 - The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
+
+## References
+
+- Wikipedia: [SMPTE Timecode](https://en.wikipedia.org/wiki/SMPTE_timecode)
 
 ## Author
 
