@@ -59,6 +59,7 @@ Note: This documentation does not cover every property and initializer available
 - [Validation](#Validation)
   - [Timecode Component Validtion](#Timecode-Component-Validation)
   - [NSAttributedString](#Timecode-Validation-NSAttributedString)
+  - [SwiftUI Text](#Timecode-Validation-SwiftUI-Text)
   - [NSFormatter](#Timecode-Validation-NSFormatter)
 - [Advanced](#Advanced)
   - [Days Component](#Days-Component)
@@ -68,12 +69,15 @@ Note: This documentation does not cover every property and initializer available
 
 ### Initialization
 
-Using `(_ exactly:, ...)` by default:
+Using `(_ exactly:)` by default:
 
 ```swift
 // from Int timecode component values
 Timecode(TCC(h: 01, m: 00, s: 00, f: 00), at: ._23_976)
 TCC(h: 01, m: 00, s: 00, f: 00).toTimecode(at: ._23_976) // alternate method
+
+// from frame number (total elapsed frames)
+Timecode(.frames(40000), at: ._23_976)
 
 // from timecode string
 Timecode("01:00:00:00", at: ._23_976)
@@ -87,22 +91,22 @@ Timecode(realTimeValue: 4723.241579, at: ._23_976)
 Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
 ```
 
-Using `(clamping:, ...)`:
+Using  `(clamping:, ...)` and `(clampingEach:, ...)`:
 
 ```swift
-// clamps individual timecode component values to valid values if the are out-of-bounds
-
-Timecode(clamping: "01:00:85:50", at: ._24)?
-    .stringValue // == "01:00:59:23"
-
+// clamp full timecode to valid range
 Timecode(clamping: "26:00:00:00", at: ._24)?
     .stringValue // == "23:59:59:23"
+
+// clamp individual timecode component values to valid values if they are out-of-bounds
+Timecode(clampingEach: "01:00:85:50", at: ._24)?
+    .stringValue // == "01:00:59:23"
 ```
 
 Using `(wrapping:, ...)`:
 
 ```swift
-// wraps around clock continuously if entire timecode overflows or underflows
+// wrap around clock continuously if entire timecode overflows or underflows
 
 Timecode(wrapping: "26:00:00:00", at: ._24)?
     .stringValue // == "02:00:00:00"
@@ -214,7 +218,7 @@ Non-mutating methods that produce a new `Timecode` instance:
 #### Real Time
 
 ```swift
-// timecode to real-world time
+// timecode to real-world time in seconds
 let tc = "01:00:00:00"
     .toTimecode(at: ._23_976)?
     .realTimeValue // == TimeInterval (aka Double)
@@ -263,7 +267,7 @@ TCC(h: 1, m: 20, s: 75, f: 60)
 
 // granular validation
 TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)? // rawValues methods allow invalid values to be set
+    .toTimecode(rawValuesAt: ._23_976) // rawValues methods allow invalid values to be set
     .invalidComponents // == [.seconds, .frames]
 ```
 
@@ -273,7 +277,7 @@ This method can produce an `NSAttributedString` highlighting individual invalid 
 
 ```swift
 TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)?
+    .toTimecode(rawValuesAt: ._23_976)
     .stringValueValidated
 ```
 
@@ -291,9 +295,33 @@ let defaultAttr: [NSAttributedString.Key : Any] =
     [ .font : NSFont.systemFont(ofSize: 16) ]
 
 TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)?
+    .toTimecode(rawValuesAt: ._23_976)
     .stringValueValidated(invalidAttributes: invalidAttr,
                           withDefaultAttributes: defaultAttr)
+```
+
+#### Timecode Validation: SwiftUI Text
+
+This method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of modifiers.
+
+```swift
+TCC(h: 1, m: 20, s: 75, f: 60)
+    .toTimecode(rawValuesAt: ._23_976)
+    .stringValueValidatedText()
+```
+
+The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components. You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+
+```swift
+TCC(h: 1, m: 20, s: 75, f: 60)
+    .toTimecode(rawValuesAt: ._23_976)
+    .stringValueValidatedText(
+        invalidModifiers: {
+            $0.foregroundColor(.blue)
+        }, withDefaultModifiers: {
+            $0.foregroundColor(.black)
+        }
+    )
 ```
 
 #### Timecode Validation: NSFormatter
@@ -464,7 +492,7 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 ## Known Issues
 
 - Unit Tests won't build/run for watchOS Simulator because XCTest does not work on watchOS
-  - Workaround: Don't run unit tests for a watchOS target
+  - Workaround: Don't run unit tests for a watchOS target. watchOS support for XCTest is coming from Apple soon, in which case this will be addressed.
 - The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
 
 ## References
