@@ -59,7 +59,7 @@ class Timecode_UT_Hashable_Tests: XCTestCase {
                                     "01:00:00:00".toTimecode(at: ._59_94_drop)!,
                                     "01:00:00:00".toTimecode(at: ._60)!]
         
-        XCTAssertNotEqual(tcSet.count, 1)	// doesn't matter what frame rate it is, the same total elapsed frames matters
+        XCTAssertNotEqual(tcSet.count, 1) // doesn't matter what frame rate it is, the same total elapsed frames matters
         
     }
     

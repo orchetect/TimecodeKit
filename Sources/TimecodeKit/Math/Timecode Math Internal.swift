@@ -14,11 +14,11 @@ extension Timecode {
                         to base: Components) -> Components? {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcAdd = Self.frameCount(of: duration,
-                                            at: frameRate,
-                                            subFramesDivisor: subFramesDivisor)
+                                    at: frameRate,
+                                    subFramesDivisor: subFramesDivisor)
         
         let tcNew = tcOrigin.adding(tcAdd, usingSubFramesDivisor: subFramesDivisor)
         
@@ -38,11 +38,11 @@ extension Timecode {
                         to base: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcAdd = Self.frameCount(of: duration,
-                                            at: frameRate,
-                                            subFramesDivisor: subFramesDivisor)
+                                    at: frameRate,
+                                    subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
             + tcAdd.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
@@ -65,11 +65,11 @@ extension Timecode {
                         to base: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcAdd = Self.frameCount(of: duration,
-                                            at: frameRate,
-                                            subFramesDivisor: subFramesDivisor)
+                                    at: frameRate,
+                                    subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
             + tcAdd.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
@@ -107,11 +107,11 @@ extension Timecode {
                              from base: Components) -> Components? {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcSubtract = Self.frameCount(of: duration,
-                                                 at: frameRate,
-                                                 subFramesDivisor: subFramesDivisor)
+                                         at: frameRate,
+                                         subFramesDivisor: subFramesDivisor)
         
         let tcNew = tcOrigin.subtracting(tcSubtract, usingSubFramesDivisor: subFramesDivisor)
         
@@ -131,11 +131,11 @@ extension Timecode {
                              from base: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcSubtract = Self.frameCount(of: duration,
-                                                 at: frameRate,
-                                                 subFramesDivisor: subFramesDivisor)
+                                         at: frameRate,
+                                         subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
             - tcSubtract.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
@@ -158,11 +158,11 @@ extension Timecode {
                              from base: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: base,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         let tcSubtract = Self.frameCount(of: duration,
-                                                 at: frameRate,
-                                                 subFramesDivisor: subFramesDivisor)
+                                         at: frameRate,
+                                         subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
             - tcSubtract.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
@@ -200,8 +200,8 @@ extension Timecode {
                              with: Components) -> Components? {
         
         let tcOrigin = Self.frameCount(of: with,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         
         let tcNewSF = Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor
         
@@ -224,8 +224,8 @@ extension Timecode {
                              with: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: with,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor)
         
@@ -247,8 +247,8 @@ extension Timecode {
                              with: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: with,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor)
         
@@ -285,8 +285,8 @@ extension Timecode {
                            into: Components) -> Components? {
         
         let tcOrigin = Self.frameCount(of: into,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         
         let tcNewSF = Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor
         
@@ -309,8 +309,8 @@ extension Timecode {
                            into: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: into,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor)
         
         tcNewSF = tcNewSF.clamped(to: 0...maxTotalSubframesExpressible)
@@ -331,8 +331,8 @@ extension Timecode {
                            into: Components) -> Components {
         
         let tcOrigin = Self.frameCount(of: into,
-                                               at: frameRate,
-                                               subFramesDivisor: subFramesDivisor)
+                                       at: frameRate,
+                                       subFramesDivisor: subFramesDivisor)
         
         var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor)
         

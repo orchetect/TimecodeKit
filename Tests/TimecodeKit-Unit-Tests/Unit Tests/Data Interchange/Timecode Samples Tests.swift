@@ -7,7 +7,6 @@
 
 import XCTest
 @testable import TimecodeKit
-import OTCore
 
 class Timecode_UT_DI_Samples_Tests: XCTestCase {
     
@@ -163,7 +162,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                     frameRatesWithSetTimecodeErrorsCount += 1
                     if logErrors {
                         let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
-                        Log.error("setTimecode(fromSamplesValue:) failed @ \(fr)")
+                        print("setTimecode(fromSamplesValue:) failed @ \(fr)")
                     }
                 }
                 
@@ -172,7 +171,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                     frameRatesWithMismatchingComponentsCount += 1
                     if logErrors {
                         let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
-                        Log.error("TCC match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)")
+                        print("TCC match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)")
                     }
                 }
                 

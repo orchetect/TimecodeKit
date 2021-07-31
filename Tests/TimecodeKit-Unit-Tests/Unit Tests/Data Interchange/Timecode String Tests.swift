@@ -21,11 +21,11 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         tc.stringValue = "01:05:20:14"
         XCTAssertEqual(tc.stringValue, "01:05:20:14")
         
-        tc.stringValue = "50:05:20:14"							// fails silently
-        XCTAssertEqual(tc.stringValue, "01:05:20:14")			// old value
+        tc.stringValue = "50:05:20:14"                          // fails silently
+        XCTAssertEqual(tc.stringValue, "01:05:20:14")           // old value
         
         XCTAssertFalse(tc.setTimecode(exactly: "50:05:20:14"))
-        XCTAssertEqual(tc.stringValue, "01:05:20:14")			// no change
+        XCTAssertEqual(tc.stringValue, "01:05:20:14")           // no change
         
         XCTAssertTrue(tc.setTimecode(clampingEach: "50:05:20:14"))
         XCTAssertEqual(tc.stringValue, "23:05:20:14")
@@ -74,7 +74,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
-            XCTAssertEqual(sv, "01:02:03:\(t)04", "for \($0)")	// omits days since they are 0
+            XCTAssertEqual(sv, "01:02:03:\(t)04", "for \($0)")  // omits days since they are 0
         }
         
         // drop
@@ -86,7 +86,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
-            XCTAssertEqual(sv, "01:02:03;\(t)04", "for \($0)")	// omits days since they are 0
+            XCTAssertEqual(sv, "01:02:03;\(t)04", "for \($0)")  // omits days since they are 0
         }
     }
     
@@ -100,7 +100,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         Timecode.FrameRate.allNonDrop.forEach {
             var tc = TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
-            tc?.days = 2						// set days after init since init fails if we pass days
+            tc?.days = 2                        // set days after init since init fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -119,7 +119,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         Timecode.FrameRate.allDrop.forEach {
             var tc = TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
-            tc?.days = 2						// set days after init since init fails if we pass days
+            tc?.days = 2                        // set days after init since init fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -236,12 +236,12 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop frame
         
-        XCTAssertNil(  Timecode.decode(timecode:		""))
-        XCTAssertNil(  Timecode.decode(timecode:		"01564523"))
-        XCTAssertEqual(Timecode.decode(timecode:		"0:0:0:0"),
+        XCTAssertNil(  Timecode.decode(timecode:        ""))
+        XCTAssertNil(  Timecode.decode(timecode:        "01564523"))
+        XCTAssertEqual(Timecode.decode(timecode:        "0:0:0:0"),
                        TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
         
-        XCTAssertEqual(Timecode.decode(timecode:	 "0:00:00:00"),
+        XCTAssertEqual(Timecode.decode(timecode:     "0:00:00:00"),
                        TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
         
         XCTAssertEqual(Timecode.decode(timecode:    "00:00:00:00"),
@@ -302,7 +302,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // subframes
         
-        XCTAssertEqual(Timecode.decode(timecode:	 "0:00:00:00.05"),
+        XCTAssertEqual(Timecode.decode(timecode:     "0:00:00:00.05"),
                        TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 05))
         
         XCTAssertEqual(Timecode.decode(timecode:    "00:00:00:00.05"),

@@ -196,7 +196,7 @@ extension Timecode {
             // baseline checks
             
             if partialString.isEmpty { return true } // allow empty field
-            // if partialString.count > 20 { return false }	// don't allow too many chars
+            // if partialString.count > 20 { return false } // don't allow too many chars
             
             // constants
             

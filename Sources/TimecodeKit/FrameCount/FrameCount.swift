@@ -37,7 +37,7 @@ extension Timecode {
                 
             case .combined(let double):
                 return Int(double.integral)
-            
+                
             case .splitUnitInterval(let frames, _):
                 return frames
             }

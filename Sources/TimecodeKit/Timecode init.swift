@@ -29,10 +29,10 @@ extension Timecode {
     ///
     /// Validation is based on the `upperLimit` and `subFramesDivisor` properties.
     @inlinable public init?(_ exactly: FrameCount,
-                           at frameRate: FrameRate,
-                           limit: UpperLimit = ._24hours,
-                           subFramesDivisor: Int = 80,
-                           displaySubFrames: Bool = false) {
+                            at frameRate: FrameRate,
+                            limit: UpperLimit = ._24hours,
+                            subFramesDivisor: Int = 80,
+                            displaySubFrames: Bool = false) {
         
         self.frameRate = frameRate
         self.upperLimit = limit

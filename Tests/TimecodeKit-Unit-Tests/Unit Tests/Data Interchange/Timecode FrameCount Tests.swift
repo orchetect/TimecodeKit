@@ -26,26 +26,26 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
             var maxFramesIn24hours: Int
             
             switch $0 {
-            case ._23_976		: maxFramesIn24hours = 2073600
-            case ._24			: maxFramesIn24hours = 2073600
-            case ._24_98		: maxFramesIn24hours = 2160000
-            case ._25			: maxFramesIn24hours = 2160000
-            case ._29_97		: maxFramesIn24hours = 2592000
-            case ._29_97_drop	: maxFramesIn24hours = 2589408
-            case ._30			: maxFramesIn24hours = 2592000
-            case ._30_drop		: maxFramesIn24hours = 2589408
-            case ._47_952		: maxFramesIn24hours = 4147200
-            case ._48			: maxFramesIn24hours = 4147200
-            case ._50			: maxFramesIn24hours = 4320000
-            case ._59_94		: maxFramesIn24hours = 5184000
-            case ._59_94_drop	: maxFramesIn24hours = 5178816
-            case ._60			: maxFramesIn24hours = 5184000
-            case ._60_drop		: maxFramesIn24hours = 5178816
-            case ._100			: maxFramesIn24hours = 8640000
-            case ._119_88		: maxFramesIn24hours = 10368000
-            case ._119_88_drop	: maxFramesIn24hours = 10357632
-            case ._120			: maxFramesIn24hours = 10368000
-            case ._120_drop		: maxFramesIn24hours = 10357632
+            case ._23_976       : maxFramesIn24hours = 2073600
+            case ._24           : maxFramesIn24hours = 2073600
+            case ._24_98        : maxFramesIn24hours = 2160000
+            case ._25           : maxFramesIn24hours = 2160000
+            case ._29_97        : maxFramesIn24hours = 2592000
+            case ._29_97_drop   : maxFramesIn24hours = 2589408
+            case ._30           : maxFramesIn24hours = 2592000
+            case ._30_drop      : maxFramesIn24hours = 2589408
+            case ._47_952       : maxFramesIn24hours = 4147200
+            case ._48           : maxFramesIn24hours = 4147200
+            case ._50           : maxFramesIn24hours = 4320000
+            case ._59_94        : maxFramesIn24hours = 5184000
+            case ._59_94_drop   : maxFramesIn24hours = 5178816
+            case ._60           : maxFramesIn24hours = 5184000
+            case ._60_drop      : maxFramesIn24hours = 5178816
+            case ._100          : maxFramesIn24hours = 8640000
+            case ._119_88       : maxFramesIn24hours = 10368000
+            case ._119_88_drop  : maxFramesIn24hours = 10357632
+            case ._120          : maxFramesIn24hours = 10368000
+            case ._120_drop     : maxFramesIn24hours = 10357632
             }
             
             XCTAssertEqual($0.maxTotalFrames(in: ._24hours),
@@ -63,26 +63,26 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
             var maxFramesExpressibleIn24hours: Int
             
             switch $0 {
-            case ._23_976		: maxFramesExpressibleIn24hours = 2073600 - 1
-            case ._24			: maxFramesExpressibleIn24hours = 2073600 - 1
-            case ._24_98		: maxFramesExpressibleIn24hours = 2160000 - 1
-            case ._25			: maxFramesExpressibleIn24hours = 2160000 - 1
-            case ._29_97		: maxFramesExpressibleIn24hours = 2592000 - 1
-            case ._29_97_drop	: maxFramesExpressibleIn24hours = 2589408 - 1
-            case ._30			: maxFramesExpressibleIn24hours = 2592000 - 1
-            case ._30_drop		: maxFramesExpressibleIn24hours = 2589408 - 1
-            case ._47_952		: maxFramesExpressibleIn24hours = 4147200 - 1
-            case ._48			: maxFramesExpressibleIn24hours = 4147200 - 1
-            case ._50			: maxFramesExpressibleIn24hours = 4320000 - 1
-            case ._59_94		: maxFramesExpressibleIn24hours = 5184000 - 1
-            case ._59_94_drop	: maxFramesExpressibleIn24hours = 5178816 - 1
-            case ._60			: maxFramesExpressibleIn24hours = 5184000 - 1
-            case ._60_drop		: maxFramesExpressibleIn24hours = 5178816 - 1
-            case ._100			: maxFramesExpressibleIn24hours = 8640000 - 1
-            case ._119_88		: maxFramesExpressibleIn24hours = 10368000 - 1
-            case ._119_88_drop	: maxFramesExpressibleIn24hours = 10357632 - 1
-            case ._120			: maxFramesExpressibleIn24hours = 10368000 - 1
-            case ._120_drop		: maxFramesExpressibleIn24hours = 10357632 - 1
+            case ._23_976       : maxFramesExpressibleIn24hours = 2073600 - 1
+            case ._24           : maxFramesExpressibleIn24hours = 2073600 - 1
+            case ._24_98        : maxFramesExpressibleIn24hours = 2160000 - 1
+            case ._25           : maxFramesExpressibleIn24hours = 2160000 - 1
+            case ._29_97        : maxFramesExpressibleIn24hours = 2592000 - 1
+            case ._29_97_drop   : maxFramesExpressibleIn24hours = 2589408 - 1
+            case ._30           : maxFramesExpressibleIn24hours = 2592000 - 1
+            case ._30_drop      : maxFramesExpressibleIn24hours = 2589408 - 1
+            case ._47_952       : maxFramesExpressibleIn24hours = 4147200 - 1
+            case ._48           : maxFramesExpressibleIn24hours = 4147200 - 1
+            case ._50           : maxFramesExpressibleIn24hours = 4320000 - 1
+            case ._59_94        : maxFramesExpressibleIn24hours = 5184000 - 1
+            case ._59_94_drop   : maxFramesExpressibleIn24hours = 5178816 - 1
+            case ._60           : maxFramesExpressibleIn24hours = 5184000 - 1
+            case ._60_drop      : maxFramesExpressibleIn24hours = 5178816 - 1
+            case ._100          : maxFramesExpressibleIn24hours = 8640000 - 1
+            case ._119_88       : maxFramesExpressibleIn24hours = 10368000 - 1
+            case ._119_88_drop  : maxFramesExpressibleIn24hours = 10357632 - 1
+            case ._120          : maxFramesExpressibleIn24hours = 10368000 - 1
+            case ._120_drop     : maxFramesExpressibleIn24hours = 10357632 - 1
             }
             
             XCTAssertEqual($0.maxTotalFramesExpressible(in: ._24hours),

@@ -14,8 +14,8 @@ extension Timecode {
     @inlinable public var frameCount: FrameCount {
         
         Self.frameCount(of: components,
-                                at: frameRate,
-                                subFramesDivisor: subFramesDivisor)
+                        at: frameRate,
+                        subFramesDivisor: subFramesDivisor)
         
     }
     
@@ -145,35 +145,35 @@ extension Timecode {
         let frMaxFrames = Decimal(frameRate.maxFrames)
         
         dd = Int(truncating:
-            (inElapsedFrames / (frMaxFrames * 60 * 60 * 24))
-                .truncated(decimalPlaces: 0)
-            as NSDecimalNumber
+                    (inElapsedFrames / (frMaxFrames * 60 * 60 * 24))
+                    .truncated(decimalPlaces: 0)
+                    as NSDecimalNumber
         )
         
         hh = Int(truncating:
-            (inElapsedFrames / (frMaxFrames * 60 * 60))
-                .truncated(decimalPlaces: 0)
-                .truncatingRemainder(dividingBy: 24)
+                    (inElapsedFrames / (frMaxFrames * 60 * 60))
+                    .truncated(decimalPlaces: 0)
+                    .truncatingRemainder(dividingBy: 24)
                     as NSDecimalNumber
         )
         
         mm = Int(truncating:
-            (inElapsedFrames / (frMaxFrames * 60))
-                .truncated(decimalPlaces: 0)
-                .truncatingRemainder(dividingBy: 60)
+                    (inElapsedFrames / (frMaxFrames * 60))
+                    .truncated(decimalPlaces: 0)
+                    .truncatingRemainder(dividingBy: 60)
                     as NSDecimalNumber
         )
         
         ss = Int(truncating:
-            (inElapsedFrames / frMaxFrames)
-                .truncated(decimalPlaces: 0)
-                .truncatingRemainder(dividingBy: 60)
+                    (inElapsedFrames / frMaxFrames)
+                    .truncated(decimalPlaces: 0)
+                    .truncatingRemainder(dividingBy: 60)
                     as NSDecimalNumber
         )
         
         ff = Int(truncating:
-            inElapsedFrames
-                .truncatingRemainder(dividingBy: frMaxFrames)
+                    inElapsedFrames
+                    .truncatingRemainder(dividingBy: frMaxFrames)
                     as NSDecimalNumber
         )
         
