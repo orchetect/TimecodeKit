@@ -222,12 +222,28 @@ extension Timecode {
         
     }
     
-    /// Returns the `upperLimit` minus 1 subframe.
-    @inlinable public var maxFramesAndSubframesExpressible: Double {
+    /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+    @inlinable public var maxFramesAndSubframesExpressibleDouble: Double {
         
         Double(frameRate.maxTotalFramesExpressible(in: upperLimit))
-            + Double(maxSubFramesExpressible)
-            / Double(subFramesDivisor)
+            + (Double(maxSubFramesExpressible) / Double(subFramesDivisor))
+        
+    }
+    
+    /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+    @inlinable public var maxFrameCountExpressible: FrameCount {
+        
+        FrameCount.split(frames: frameRate.maxTotalFramesExpressible(in: upperLimit),
+                         subFrames: maxSubFramesExpressible)
+        
+    }
+    
+    /// Returns the `upperLimit` minus 1 subframe expressed as total subframes.
+    @inlinable public var maxTotalSubframesExpressible: Int {
+        
+        frameRate.maxTotalSubFramesExpressible(in: upperLimit,
+                                               usingSubFramesDivisor: subFramesDivisor)
+        
         
     }
     

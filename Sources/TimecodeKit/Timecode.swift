@@ -5,9 +5,9 @@
 
 /// Value type representing SMPTE timecode.
 ///
-/// - A variety of initializers and utility methods are available for string and numeric representation, validation, conversion
-/// - Global mathematical operators to perform calculations: `+`, `-`, `*`, `\`
-/// - Instances can be compared (`==`, `!=`, `<`, `>`)
+/// - A variety of initializers and methods are available for string and numeric representation, validation, and conversion
+/// - Mathematical operators are available between two instances: `+`, `-`, `*`, `\`
+/// - Compared operators are available between two instances (`==`, `!=`, `<`, `>`)
 /// - `Range` and `Stride` can be formed between two instances
 public struct Timecode: Codable {
     
@@ -73,14 +73,16 @@ public struct Timecode: Codable {
     
     /// Timecode frames.
     ///
-    /// Valid range is dependent on the `frameRate` property (0-23 for 24NDF, 0-29 for 30NDF, 2-29 every minute except 0-29 for every 10th minute for 29.97DF, etc.).
+    /// Valid range is dependent on the `frameRate` property.
     ///
     /// Setting this value directly does not trigger any validation.
     public var frames: Int = 0
     
-    /// Timecode subframe component.
+    /// Timecode subframes component. Represents a fractional division of a frame.
     ///
-    /// (ie: traditionally Cubase/Nuendo and Logic Pro use 80 subframes per frame, Pro Tools uses 100 subframes, etc.)
+    /// Some implementations refer to these as SMPTE frame "bits".
+    ///
+    /// There are no set industry standards regarding subframe divisors. Traditionally Cubase/Nuendo and Logic Pro use 80 subframes per frame (0-79); Pro Tools uses 100 subframes (0-99).
     ///
     /// Setting this value directly does not trigger any validation.
     public var subFrames: Int = 0

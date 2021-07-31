@@ -10,18 +10,11 @@ extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in real-time (wall-clock time), based on the frame rate.
     ///
     /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecodes.
-    ///
-    /// When setting, invalid values will cause the setter to fail silently.
-    /// (Validation is based on the frame rate and `upperLimit` property.)
     public var realTimeValue: TimeInterval {
         
         get {
-            Double(totalElapsedFrames) * (1.0 / frameRate.frameRateForRealTimeCalculation)
-        }
-        
-        set {
-            // set, suppressing failure silently
-            _ = setTimecode(fromRealTimeValue: newValue)
+            frameCount.doubleValue(usingSubFramesDivisor: subFramesDivisor)
+                * (1.0 / frameRate.frameRateForRealTimeCalculation)
         }
         
     }
@@ -44,7 +37,7 @@ extension Timecode {
         // final calculation
         
         let elapsedFrames = calc
-        let convertedComponents = Self.components(from: elapsedFrames,
+        let convertedComponents = Self.components(from: .combined(frames: elapsedFrames),
                                                   at: frameRate,
                                                   subFramesDivisor: subFramesDivisor)
         

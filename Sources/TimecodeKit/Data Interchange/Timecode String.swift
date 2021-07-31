@@ -197,9 +197,11 @@ extension Timecode {
 
 extension Timecode {
     
-    /** Returns true/false depending on whether the string is formatted correctly or not.
-     Values which are out-of-bounds will be clamped to minimum or maximum possible values. (Clamping is based on the frame rate and `upperLimit` property.)
-     */
+    /// Set timecode from a timecode string, clamping to valid timecodes if necessary.
+    ///
+    /// Returns true/false depending on whether the string is formatted correctly or not.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
     @discardableResult
     public mutating func setTimecode(clamping string: String) -> Bool {
         
@@ -211,9 +213,31 @@ extension Timecode {
         
     }
     
-    /** Returns true/false depending on whether the string is formatted correctly or not.
-     Values which are out-of-bounds will also cause the setter to fail, and return false. (Validation is based on the frame rate and `upperLimit` property.)
-     */
+    /// Set timecode from a timecode string, clamping individual values if necessary.
+    ///
+    /// Individual values which are out-of-bounds will be clamped to minimum or maximum possible values.
+    ///
+    /// Returns true/false depending on whether the string is formatted correctly or not.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
+    @discardableResult
+    public mutating func setTimecode(clampingEach string: String) -> Bool {
+        
+        guard let tcVals = Timecode.decode(timecode: string) else { return false }
+        
+        setTimecode(clampingEach: tcVals)
+        
+        return true
+        
+    }
+    
+    /// Set timecode from a timecode string.
+    ///
+    /// Returns true/false depending on whether the string is formatted correctly or not.
+    ///
+    /// Values which are out-of-bounds will also cause the setter to fail, and return false.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesDivisor` properties.
     @discardableResult
     public mutating func setTimecode(exactly string: String) -> Bool {
         
@@ -223,9 +247,11 @@ extension Timecode {
         
     }
     
-    /** Returns true/false depending on whether the string is formatted correctly or not.
-     Values which are out-of-bounds will be clamped to minimum or maximum possible values. (Clamping is based on the frame rate and `upperLimit` property.)
-     */
+    /// Returns true/false depending on whether the string is formatted correctly or not.
+    ///
+    /// Values which are out-of-bounds will be clamped to minimum or maximum possible values.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
     @discardableResult
     public mutating func setTimecode(wrapping string: String) -> Bool {
         
@@ -237,9 +263,11 @@ extension Timecode {
         
     }
     
-    /** Returns true/false depending on whether the string is formatted correctly or not.
-     Timecode values will not be validated or rejected if they overflow.
-     */
+    /// Returns true/false depending on whether the string is formatted correctly or not.
+    ///
+    /// Timecode values will not be validated or rejected if they overflow.
+    ///
+    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
     @discardableResult
     public mutating func setTimecode(rawValues string: String) -> Bool {
         

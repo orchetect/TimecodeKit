@@ -60,13 +60,8 @@ extension Timecode {
         
         // perform calculation
         
-        var dbl = totalElapsedFrames * (Double(atSampleRate) / fRate * offset)
-        
-        // over-estimate so samples are just past the equivalent timecode
-        // so calculations of samples back into timecode work reliably
-        // otherwise, this math produces a samples value that can be a hair under the actual elapsed samples that would trigger the equivalent timecode
-        
-        dbl += 0.0001
+        let dbl = frameCount.doubleValue(usingSubFramesDivisor: subFramesDivisor)
+            * (Double(atSampleRate) / fRate * offset)
         
         return dbl
         
@@ -124,10 +119,16 @@ extension Timecode {
         
         // perform calculation
         
-        let dbl = fromSamplesValue / (Double(atSampleRate) / fRate * offset)
+        var dbl = fromSamplesValue / (Double(atSampleRate) / fRate * offset)
+        
+        // over-estimate so samples are just past the equivalent timecode
+        // so calculations of samples back into timecode work reliably
+        // otherwise, this math produces a samples value that can be a hair under the actual elapsed samples that would trigger the equivalent timecode
+        
+        dbl += 0.0001
         
         // then derive components
-        let convertedComponents = Self.components(from: dbl,
+        let convertedComponents = Self.components(from: .combined(frames: dbl),
                                                   at: frameRate,
                                                   subFramesDivisor: subFramesDivisor)
         

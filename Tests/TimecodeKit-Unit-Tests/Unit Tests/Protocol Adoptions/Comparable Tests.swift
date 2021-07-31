@@ -26,11 +26,11 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
         
         // < >
         
-        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! < "01:00:00:00".toTimecode(at: ._29_97)!)		// false because they're ==
-        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! > "01:00:00:00".toTimecode(at: ._29_97)!)		// false because they're ==
+        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! < "01:00:00:00".toTimecode(at: ._29_97)!)  // false because they're ==
+        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! > "01:00:00:00".toTimecode(at: ._29_97)!)  // false because they're ==
         
-        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! < "01:00:00:00".toTimecode(at: ._23_976)!)	// false because they're ==
-        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! > "01:00:00:00".toTimecode(at: ._23_976)!)	// false because they're ==
+        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! < "01:00:00:00".toTimecode(at: ._23_976)!) // false because they're ==
+        XCTAssertFalse(   "01:00:00:00".toTimecode(at: ._23_976)! > "01:00:00:00".toTimecode(at: ._23_976)!) // false because they're ==
         
     }
     

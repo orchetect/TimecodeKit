@@ -6,7 +6,10 @@
 extension Timecode {
     
     /// Timecode components.
-    /// When setting, invalid values will cause the setter to fail silently. (Validation is based on the frame rate and `upperLimit` property.)
+    ///
+    /// When setting, invalid values will cause the setter to fail silently.
+    ///
+    /// (Validation is based on the frame rate and `upperLimit` property.)
     @inlinable public var components: Components {
         
         get {
@@ -23,10 +26,13 @@ extension Timecode {
         
     }
     
-    /** Set timecode from tuple values.
-     Returns true/false depending on whether the string values are valid or not.
-     Values which are out-of-bounds will return false. (Validation is based on the frame rate and `upperLimit` property.)
-     */
+    /// Set timecode from tuple values.
+    ///
+    /// Returns true/false depending on whether the string values are valid or not.
+    ///
+    /// Values which are out-of-bounds will return false.
+    ///
+    /// (Validation is based on the frame rate and `upperLimit` property.)
     @discardableResult
     @inlinable public mutating func setTimecode(exactly values: Components) -> Bool {
         
@@ -48,10 +54,21 @@ extension Timecode {
         
     }
     
-    /** Set timecode from tuple values.
-     (Validation is based on the frame rate and `upperLimit` property.)
-     */
-    @inlinable public mutating func setTimecode(clamping values: Components) {
+    /// Set timecode from components.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    ///
+    /// (Validation is based on the frame rate and `upperLimit` property.)
+    @inlinable public mutating func setTimecode(clamping source: Components) {
+        
+        let result = __add(clamping: source, to: TCC())
+        setTimecode(exactly: result)
+        
+    }
+    
+    /// Set timecode from components, clamping individual values if necessary.
+    ///
+    /// (Validation is based on the frame rate and `upperLimit` property.)
+    @inlinable public mutating func setTimecode(clampingEach values: Components) {
         
         days = values.d
         hours = values.h
@@ -64,9 +81,11 @@ extension Timecode {
         
     }
     
-    /** Set timecode from tuple values.
-     Timecode will wrap if out-of-bounds. Will handle negative values and wrap accordingly. (Wrapping is based on the frame rate and `upperLimit` property.)
-     */
+    /// Set timecode from tuple values.
+    ///
+    /// Timecode will wrap if out-of-bounds. Will handle negative values and wrap accordingly.
+    ///
+    /// (Wrapping is based on the frame rate and `upperLimit` property.)
     @inlinable public mutating func setTimecode(wrapping values: Components) {
         
         // guaranteed to work so we can ignore the value returned

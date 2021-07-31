@@ -14,7 +14,7 @@ import XCTest
 //
 //    func testTimecode_Iterative() {
 //
-//        // test conversions from components(from:) and totalElapsedFrames(of:)
+//        // test conversions from components(from:) and frameCount(of:)
 //
 //        // ==============================================================================
 //        // NOTE:
@@ -56,8 +56,8 @@ import XCTest
 //                                               at: tc.frameRate,
 //                                               subFramesDivisor: tc.subFramesDivisor)
 //
-//                if i != Int(floor(Timecode.totalElapsedFrames(of: vals, at: tc.frameRate,
-//                                                              subFramesDivisor: tc.subFramesDivisor)))
+//                if i != Int(floor(Timecode.frameCount(of: vals, at: tc.frameRate,
+//                                                      subFramesDivisor: tc.subFramesDivisor)))
 //
 //                { failures.append((i, vals)) }
 //
@@ -78,9 +78,9 @@ import XCTest
 //                      "converted to components",
 //                      failures.first!.1,
 //                      "converted back to",
-//                      Timecode.totalElapsedFrames(of: failures.first!.1,
-//                                                  at: tc.frameRate,
-//                                                  subFramesDivisor: tc.subFramesDivisor),
+//                      Timecode.frameCount(of: failures.first!.1,
+//                                          at: tc.frameRate,
+//                                          subFramesDivisor: tc.subFramesDivisor),
 //                      "elapsed frames.")
 //
 //            }
@@ -92,9 +92,9 @@ import XCTest
 //                      "converted to components",
 //                      failures.last!.1,
 //                      "converted back to",
-//                      Timecode.totalElapsedFrames(of: failures.last!.1,
-//                                                  at: tc.frameRate,
-//                                                  subFramesDivisor: tc.subFramesDivisor),
+//                      Timecode.frameCount(of: failures.last!.1,
+//                                          at: tc.frameRate,
+//                                          subFramesDivisor: tc.subFramesDivisor),
 //                      "elapsed frames.")
 //
 //            }

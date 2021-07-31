@@ -16,7 +16,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         
         Timecode.FrameRate.allCases.forEach {
             
-            XCTAssertEqual(Timecode(clamping: TCC(h: -1, m: -1, s: -1, f: -1),
+            XCTAssertEqual(Timecode(clampingEach: TCC(h: -1, m: -1, s: -1, f: -1),
                                     at: $0)
                             .components,
                            TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -25,7 +25,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         }
         
         Timecode.FrameRate.allCases.forEach {
-            let clamped = Timecode(clamping: TCC(h: 99, m: 99, s: 99, f: 10000),
+            let clamped = Timecode(clampingEach: TCC(h: 99, m: 99, s: 99, f: 10000),
                                    at: $0)
                 .components
             
@@ -36,7 +36,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         
         Timecode.FrameRate.allCases.forEach {
             
-            XCTAssertEqual(Timecode(clamping: TCC(d: -1, h: -1, m: -1, s: -1, f: -1),
+            XCTAssertEqual(Timecode(clampingEach: TCC(d: -1, h: -1, m: -1, s: -1, f: -1),
                                     at: $0)
                             .components,
                            TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -45,7 +45,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         }
         
         Timecode.FrameRate.allCases.forEach {
-            let clamped = Timecode(clamping: TCC(d: 99, h: 99, m: 99, s: 99, f: 10000),
+            let clamped = Timecode(clampingEach: TCC(d: 99, h: 99, m: 99, s: 99, f: 10000),
                                    at: $0)
                 .components
             
@@ -57,7 +57,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         
         Timecode.FrameRate.allCases.forEach {
             
-            XCTAssertEqual(Timecode(clamping: TCC(h: -1, m: -1, s: -1, f: -1),
+            XCTAssertEqual(Timecode(clampingEach: TCC(h: -1, m: -1, s: -1, f: -1),
                                     at: $0)
                             .components,
                            TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -66,7 +66,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         }
         
         Timecode.FrameRate.allCases.forEach {
-            let clamped = Timecode(clamping: TCC(h: 99, m: 99, s: 99, f: 10000),
+            let clamped = Timecode(clampingEach: TCC(h: 99, m: 99, s: 99, f: 10000),
                                    at: $0)
                 .components
             
@@ -78,7 +78,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         
         Timecode.FrameRate.allCases.forEach {
             
-            XCTAssertEqual(Timecode(clamping: TCC(d: -1, h: -1, m: -1, s: -1, f: -1),
+            XCTAssertEqual(Timecode(clampingEach: TCC(d: -1, h: -1, m: -1, s: -1, f: -1),
                                     at: $0, limit: ._100days)
                             .components,
                            TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -87,7 +87,7 @@ class Timecode_IT_IntegrationTests: XCTestCase {
         }
         
         Timecode.FrameRate.allCases.forEach {
-            let clamped = Timecode(clamping: TCC(d: 99, h: 99, m: 99, s: 99, f: 10000),
+            let clamped = Timecode(clampingEach: TCC(d: 99, h: 99, m: 99, s: 99, f: 10000),
                                    at: $0, limit: ._100days)
                 .components
             
