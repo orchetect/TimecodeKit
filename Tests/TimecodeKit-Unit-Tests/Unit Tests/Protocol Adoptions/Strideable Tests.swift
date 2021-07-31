@@ -17,7 +17,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         
         Timecode.FrameRate.allCases.forEach {
             
-            let frames = Int(Timecode.totalElapsedFrames(of: TCC(h: 1), at: $0))
+            let frames = Timecode.frameCount(of: TCC(h: 1), at: $0).wholeFrames
             
             let advanced = TCC(f: 00)
                 .toTimecode(at: $0)!
@@ -112,12 +112,12 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         
         XCTAssertEqual("01:00:00:00".toTimecode(at: ._23_976)!
                         .distance(to: "02:00:00:00".toTimecode(at: ._23_976)!),
-                       Int("01:00:00:00".toTimecode(at: ._23_976)!.totalElapsedFrames))
+                       "01:00:00:00".toTimecode(at: ._23_976)!.frameCount.wholeFrames)
         
         let strs = Array(
             stride(from: "01:00:00:05".toTimecode(at: ._23_976)!,
                    through: "01:00:10:05".toTimecode(at: ._23_976)!,
-                   by: Int(Timecode(TCC(s: 1), at: ._23_976)!.totalElapsedFrames))
+                   by: Timecode(TCC(s: 1), at: ._23_976)!.frameCount.wholeFrames)
         )
         .map { $0.stringValue }
         
@@ -126,7 +126,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         let strs2 = Array(
             stride(from: "01:00:00:05".toTimecode(at: ._23_976)!,
                    to: "01:00:10:07".toTimecode(at: ._23_976)!,
-                   by: Int(Timecode(TCC(s: 1), at: ._23_976)!.totalElapsedFrames))
+                   by: Timecode(TCC(s: 1), at: ._23_976)!.frameCount.wholeFrames)
         )
         .map { $0.stringValue }
         

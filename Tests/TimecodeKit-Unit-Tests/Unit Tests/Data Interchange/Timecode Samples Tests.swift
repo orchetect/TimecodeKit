@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import TimecodeKit
+import OTCore
 
 class Timecode_UT_DI_Samples_Tests: XCTestCase {
     
@@ -126,9 +127,16 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
         // ensure subframes are calculated correctly
         
-        // test for precision and rounding issues by iterating every subframe for each frame rate
+        // test for precision and rounding issues by iterating every subframe for each frame rate just below the timecode upper limit
+        
+        let logErrors = true
         
         let subFramesDivisor = 80
+        
+        var frameRatesWithSetTimecodeErrors: Set<Timecode.FrameRate> = []
+        var frameRatesWithSetTimecodeErrorsCount = 0
+        var frameRatesWithMismatchingComponents: Set<Timecode.FrameRate> = []
+        var frameRatesWithMismatchingComponentsCount = 0
         
         for subFrame in 0..<subFramesDivisor {
             
@@ -149,16 +157,35 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                 
                 // samples to timecode
                 
-                XCTAssertTrue(tc.setTimecode(fromSamplesValue: samples,
-                                             atSampleRate: sRate),
-                              "at: \($0) subframe: \(subFrame)")
+                if false == tc.setTimecode(fromSamplesValue: samples,
+                                           atSampleRate: sRate) {
+                    frameRatesWithSetTimecodeErrors.insert($0)
+                    frameRatesWithSetTimecodeErrorsCount += 1
+                    if logErrors {
+                        let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
+                        Log.error("setTimecode(fromSamplesValue:) failed @ \(fr)")
+                    }
+                }
                 
-                XCTAssertEqual(tc.components,
-                               tcc,
-                               "at: \($0) subframe: \(subFrame)")
+                if tc.components != tcc {
+                    frameRatesWithMismatchingComponents.insert($0)
+                    frameRatesWithMismatchingComponentsCount += 1
+                    if logErrors {
+                        let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
+                        Log.error("TCC match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)")
+                    }
+                }
                 
             }
             
+        }
+        
+        if !frameRatesWithSetTimecodeErrors.isEmpty {
+            XCTFail("These frame rates had \(frameRatesWithSetTimecodeErrorsCount) errors setting timecode from samples: \(frameRatesWithSetTimecodeErrors.sorted())")
+        }
+        
+        if !frameRatesWithMismatchingComponents.isEmpty {
+            XCTFail("These frame rates had \(frameRatesWithMismatchingComponentsCount) errors with mismatching timecode components after converting samples: \(frameRatesWithSetTimecodeErrors.sorted())")
         }
         
     }

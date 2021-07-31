@@ -27,7 +27,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         XCTAssertFalse(tc.setTimecode(exactly: "50:05:20:14"))
         XCTAssertEqual(tc.stringValue, "01:05:20:14")			// no change
         
-        XCTAssertTrue(tc.setTimecode(clamping: "50:05:20:14"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "50:05:20:14"))
         XCTAssertEqual(tc.stringValue, "23:05:20:14")
         
     }

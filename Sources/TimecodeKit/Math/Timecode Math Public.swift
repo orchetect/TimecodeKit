@@ -21,7 +21,7 @@ extension Timecode {
     }
     
     /// Add a duration to the current timecode.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public mutating func add(clamping values: Components) {
         
@@ -45,7 +45,7 @@ extension Timecode {
     }
     
     /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Returns nil if resulting value is not within valid timecode range.
+    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func adding(_ exactly: Components) -> Timecode? {
         
@@ -130,7 +130,7 @@ extension Timecode {
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Returns nil if resulting value is not within valid timecode range.
+    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func subtracting(_ exactly: Components) -> Timecode? {
         
@@ -145,7 +145,7 @@ extension Timecode {
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func subtracting(clamping values: Components) -> Timecode {
         
@@ -178,7 +178,7 @@ extension Timecode {
     // MARK: - Multiply
     
     /// Multiply the current timecode by an amount.
-    /// Returns false if resulting value is > the `upperLimit` property.
+    /// Returns `false` if resulting value is > the `upperLimit` property.
     @discardableResult
     public mutating func multiply(_ exactly: Double) -> Bool {
         
@@ -190,7 +190,7 @@ extension Timecode {
     }
     
     /// Multiply the current timecode by an amount.
-    /// Clamps the result to the `upperLimit` property.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
     public mutating func multiply(clamping value: Double) {
         
         let newTC = __multiply(clamping: value, with: components)
@@ -210,7 +210,7 @@ extension Timecode {
     }
     
     /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Returns nil if resulting value is not within valid timecode range.
+    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func multiplying(_ exactly: Double) -> Timecode? {
         
@@ -255,7 +255,7 @@ extension Timecode {
     // MARK: - Divide
     
     /// Divide the current timecode by a duration.
-    /// Returns false if resulting value is > the `upperLimit` property.
+    /// Returns `false` if resulting value is > the `upperLimit` property.
     @discardableResult
     public mutating func divide(_ exactly: Double) -> Bool {
         
@@ -266,7 +266,7 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
     public mutating func divide(clamping value: Double) {
         
         let newTC = __divide(clamping: value, into: components)
@@ -286,7 +286,7 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Returns nil if resulting value is not within valid timecode range.
+    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func dividing(_ exactly: Double) -> Timecode? {
         
@@ -300,7 +300,7 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecodes as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func dividing(clamping value: Double) -> Timecode {
         

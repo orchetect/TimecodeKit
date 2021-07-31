@@ -1,5 +1,5 @@
 //
-//  Timecode Elapsed Frames Tests.swift
+//  Timecode FrameCount Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
@@ -54,7 +54,7 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
             
         }
         
-        // number of total elapsed frames in (24 hours - 1 frame), or essentially the maximum timecode expressable for each frame rate
+        // number of total elapsed frames in (24 hours - 1 frame), or essentially the maximum timecode expressible for each frame rate
         
         Timecode.FrameRate.allCases.forEach {
             
@@ -90,6 +90,39 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
                            "for \($0)")
             
         }
+        
+    }
+    
+    func testSetTimecodeExactly() {
+        
+        // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
+        
+        var tc = Timecode(at: ._30)
+        
+        tc.setTimecode(exactly: .frames(670907))
+        
+        XCTAssertEqual(tc.days      , 0)
+        XCTAssertEqual(tc.hours     , 6)
+        XCTAssertEqual(tc.minutes   , 12)
+        XCTAssertEqual(tc.seconds   , 43)
+        XCTAssertEqual(tc.frames    , 17)
+        XCTAssertEqual(tc.subFrames , 0)
+        
+    }
+    
+    func testStatic_componentsFromFrameCount_2997d() {
+        
+        // edge cases
+        
+        let totalFramesin24Hr = 2589408
+        //let totalSubFramesin24Hr = 207152640
+        
+        let tcc = Timecode.components(from: .split(frames: totalFramesin24Hr - 1,
+                                                   subFrames: 79),
+                                      at: ._29_97_drop,
+                                      subFramesDivisor: 80)
+        
+        XCTAssertEqual(tcc, TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79))
         
     }
     

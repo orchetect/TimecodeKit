@@ -58,8 +58,8 @@ extension Timecode {
         @inlinable internal var maxHoursTotal: Int {
             
             switch self {
-            case ._24hours: return maxDays - 1
-            case ._100days: return (24 * maxDays) - 1
+            case ._24hours: return maxHours - 1
+            case ._100days: return (maxHours * maxDays) - 1
             }
             
         }

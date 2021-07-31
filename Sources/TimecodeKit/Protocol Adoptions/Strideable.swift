@@ -22,7 +22,7 @@ extension Timecode: Strideable {
     /// Implemented in order to allow Timecode to conform to `Strideable`.
     @inlinable public func distance(to other: Self) -> Int {
         
-        Int(trunc(other.totalElapsedFrames) - trunc(self.totalElapsedFrames))
+        other.frameCount.wholeFrames - self.frameCount.wholeFrames
         
     }
     

@@ -110,7 +110,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
         
         var tc = Timecode(at: ._30)
         
-        tc.setTimecode(clamping: TCC(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500))
+        tc.setTimecode(clampingEach: TCC(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500))
         
         XCTAssertEqual(tc.days		, 0)
         XCTAssertEqual(tc.hours		, 23)

@@ -129,6 +129,16 @@ extension Timecode.FrameRate: CaseIterable {
     
 }
 
+extension Timecode.FrameRate: CustomStringConvertible {
+    
+    public var description: String {
+        
+        stringValue
+        
+    }
+    
+}
+
 @available(macOS 10.15, macCatalyst 13, iOS 11, *)
 extension Timecode.FrameRate: Identifiable {
     

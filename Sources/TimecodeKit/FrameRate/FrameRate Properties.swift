@@ -154,7 +154,7 @@ extension Timecode.FrameRate {
         
     }
     
-    /// Returns max elapsed frames from 0 to and including rolling over to `extent`.
+    /// Returns max total frames from 0 to and including rolling over to `extent`.
     @inlinable public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
         
         // template to calculate:
@@ -174,13 +174,13 @@ extension Timecode.FrameRate {
             case ._47_952:		return 4147200	// @ 24hours
             case ._48:			return 4147200	// @ 24hours
             case ._50:			return 4320000	// @ 24hours
-            case ._59_94:		return 5184000	// @ 24hours (_29_97 * 2 in theory)
-            case ._59_94_drop:	return 5178816	// @ 24hours (_29_97_drop * 2, in theory)
+            case ._59_94:		return 5184000	// @ 24hours (._29_97 * 2 in theory)
+            case ._59_94_drop:	return 5178816	// @ 24hours (._29_97_drop * 2, in theory)
             case ._60:			return 5184000	// @ 24hours
             case ._60_drop:		return 5178816	// @ 24hours
             case ._100:			return 8640000	// @ 24hours
-            case ._119_88:		return 10368000 // @ 24hours (_29_97 * 4 in theory)
-            case ._119_88_drop:	return 10357632	// @ 24hours (_29_97_drop * 4, in theory)
+            case ._119_88:		return 10368000 // @ 24hours (._29_97 * 4 in theory)
+            case ._119_88_drop:	return 10357632	// @ 24hours (._29_97_drop * 4, in theory)
             case ._120:			return 10368000	// @ 24hours
             case ._120_drop:	return 10357632	// @ 24hours
             }
@@ -193,10 +193,27 @@ extension Timecode.FrameRate {
     }
     
     /// Returns max elapsed frames possible before rolling over to 0.
-    /// (Number of frames from 0 to `extent` minus one subframe).
+    /// (Number of frames from 0 to `extent` minus one frame).
     @inlinable public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
         
         maxTotalFrames(in: extent) - 1
+        
+    }
+    
+    /// Returns max total subframes from 0 to and including rolling over to `extent`.
+    @inlinable public func maxTotalSubFrames(in extent: Timecode.UpperLimit,
+                                             usingSubFramesDivisor: Int) -> Int {
+        
+        maxTotalFrames(in: extent) * usingSubFramesDivisor
+        
+    }
+    
+    /// Returns max elapsed subframes possible before rolling over to 0.
+    /// (Number of subframes from 0 to `extent` minus one subframe).
+    @inlinable public func maxTotalSubFramesExpressible(in extent: Timecode.UpperLimit,
+                                                        usingSubFramesDivisor: Int) -> Int {
+        
+        maxTotalSubFrames(in: extent, usingSubFramesDivisor: usingSubFramesDivisor) - 1
         
     }
     

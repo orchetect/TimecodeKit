@@ -38,7 +38,7 @@ class Timecode_IT_SubframesTests: XCTestCase {
         // single digit width
         XCTAssertEqual(tc.stringValue, "00:00:00:00.0")
         
-        XCTAssertTrue(tc.setTimecode(clamping: "01:00:00:00.20"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "01:00:00:00.20"))
         
         // clamps to min of 0
         XCTAssertEqual(tc.components, TCC(h: 1, sf: 0))
@@ -62,7 +62,7 @@ class Timecode_IT_SubframesTests: XCTestCase {
         // single digit width
         XCTAssertEqual(tc.stringValue, "00:00:00:00.0")
         
-        XCTAssertTrue(tc.setTimecode(clamping: "01:00:00:00.20"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "01:00:00:00.20"))
         
         // clamps to min of 0
         XCTAssertEqual(tc.components, TCC(h: 1, sf: 0))
@@ -86,7 +86,7 @@ class Timecode_IT_SubframesTests: XCTestCase {
         // single digit width
         XCTAssertEqual(tc.stringValue, "00:00:00:00.0")
         
-        XCTAssertTrue(tc.setTimecode(clamping: "01:00:00:00.20"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "01:00:00:00.20"))
         
         // clamps to min of 0
         XCTAssertEqual(tc.components, TCC(h: 1, sf: 0))
@@ -109,7 +109,7 @@ class Timecode_IT_SubframesTests: XCTestCase {
         // single digit width
         XCTAssertEqual(tc.stringValue, "00:00:00:00.0")
         
-        XCTAssertTrue(tc.setTimecode(clamping: "01:00:00:00.20"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "01:00:00:00.20"))
         
         // clamps to max of 1
         XCTAssertEqual(tc.components, TCC(h: 1, sf: 1))
@@ -132,7 +132,7 @@ class Timecode_IT_SubframesTests: XCTestCase {
         // 6-digit width
         XCTAssertEqual(tc.stringValue, "00:00:00:00.000000")
         
-        XCTAssertTrue(tc.setTimecode(clamping: "01:00:00:00.2000000"))
+        XCTAssertTrue(tc.setTimecode(clampingEach: "01:00:00:00.2000000"))
         
         // clamps to max of 999,999
         XCTAssertEqual(tc.components, TCC(h: 1, sf: 999_999))

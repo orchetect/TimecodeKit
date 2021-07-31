@@ -13,7 +13,7 @@ extension Timecode {
     public var realTimeValue: TimeInterval {
         
         get {
-            totalElapsedFrames.doubleValue(usingSubFramesDivisor: subFramesDivisor)
+            frameCount.doubleValue(usingSubFramesDivisor: subFramesDivisor)
                 * (1.0 / frameRate.frameRateForRealTimeCalculation)
         }
         

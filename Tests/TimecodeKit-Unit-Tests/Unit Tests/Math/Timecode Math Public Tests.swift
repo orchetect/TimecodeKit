@@ -148,6 +148,28 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         XCTAssertTrue (tc.add(			TCC(m: 08)))
         XCTAssertEqual(tc.components,	TCC(h: 00, m: 10, s: 00, f: 00))
         
+        // .adding()
+        
+        tc = Timecode(                    TCC(h: 00, m: 10, s: 00, f: 00),
+                                          at: ._29_97_drop, limit: ._24hours)!
+        
+        // exactly
+        XCTAssertEqual(tc.adding(TCC(h: 1))?.components,
+                       TCC(h: 1, m: 10, s: 00, f: 00))
+        XCTAssertEqual(tc.adding(wrapping: TCC(h: 26)).components,
+                       TCC(h: 2, m: 10, s: 00, f: 00))
+        XCTAssertEqual(tc.adding(clamping: TCC(h: 26)).components,
+                       TCC(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesDivisor - 1))
+        
+        // .subtracting()
+        
+        tc = Timecode(                    TCC(h: 00, m: 10, s: 00, f: 00),
+                                          at: ._29_97_drop, limit: ._24hours)!
+        
+        // exactly
+        XCTAssertEqual(tc.subtracting(TCC(m: 5))?.components,
+                       TCC(h: 0, m: 05, s: 00, f: 02)) // dropframe!
+        
     }
     
     func testMultiply_and_Divide() {
@@ -181,7 +203,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         tc = Timecode(					TCC(h: 01, m: 00, s: 00, f: 00),
                                           at: ._23_976, limit: ._24hours)!
         tc.multiply(clamping: 25.0)
-        XCTAssertEqual(tc.components,	TCC(h: 23, m: 59, s: 59, f: 23))
+        XCTAssertEqual(tc.components,	TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesDivisor - 1))
         
         tc = Timecode(					TCC(h: 00, m: 00, s: 00, f: 00),
                                           at: ._23_976, limit: ._24hours)!
@@ -221,6 +243,24 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
                                           at: ._23_976, limit: ._24hours)!
         tc.divide(wrapping: -2)
         XCTAssertEqual(tc.components,	TCC(h: 18, m: 00, s: 00, f: 00))	// wraps
+        
+        // .multiplying()
+        
+        tc = Timecode(                  TCC(h: 04, m: 00, s: 00, f: 00),
+                                          at: ._23_976, limit: ._24hours)!
+        
+        // exactly
+        XCTAssertEqual(tc.multiplying(2)?.components,
+                       TCC(h: 08, m: 00, s: 00, f: 00))
+        
+        // .dividing()
+        
+        tc = Timecode(                  TCC(h: 04, m: 00, s: 00, f: 00),
+                                        at: ._23_976, limit: ._24hours)!
+        
+        // exactly
+        XCTAssertEqual(tc.dividing(2)?.components,
+                       TCC(h: 02, m: 00, s: 00, f: 00))
         
     }
     
