@@ -302,7 +302,7 @@ TCC(h: 1, m: 20, s: 75, f: 60)
 
 #### Timecode Validation: SwiftUI Text
 
-This method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of modifiers.
+This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
 
 ```swift
 TCC(h: 1, m: 20, s: 75, f: 60)
