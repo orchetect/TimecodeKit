@@ -99,7 +99,7 @@ extension Timecode {
         
         // subframes
         
-        if displaySubFrames {
+        if stringFormat.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
             output = output + sepSubFrames

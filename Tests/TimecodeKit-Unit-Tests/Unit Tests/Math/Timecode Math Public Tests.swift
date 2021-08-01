@@ -86,7 +86,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         // clamping
         
         tc = Timecode(                  TCC(h: 00, m: 00, s: 00, f: 00),
-                                        at: ._23_976, limit: ._24hours)!
+                                        at: ._23_976, limit: ._24hours, base: ._80SubFrames)!
         tc.add(clamping:                TCC(h: 25))
         XCTAssertEqual(tc.components,   TCC(h: 23, m: 59, s: 59, f: 23, sf: 79))
         
@@ -159,7 +159,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(tc.adding(wrapping: TCC(h: 26)).components,
                        TCC(h: 2, m: 10, s: 00, f: 00))
         XCTAssertEqual(tc.adding(clamping: TCC(h: 26)).components,
-                       TCC(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesDivisor - 1))
+                       TCC(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesBase.rawValue - 1))
         
         // .subtracting()
         
@@ -203,7 +203,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         tc = Timecode(                  TCC(h: 01, m: 00, s: 00, f: 00),
                                         at: ._23_976, limit: ._24hours)!
         tc.multiply(clamping: 25.0)
-        XCTAssertEqual(tc.components,   TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesDivisor - 1))
+        XCTAssertEqual(tc.components,   TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1))
         
         tc = Timecode(                  TCC(h: 00, m: 00, s: 00, f: 00),
                                         at: ._23_976, limit: ._24hours)!

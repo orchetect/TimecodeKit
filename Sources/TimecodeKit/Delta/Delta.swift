@@ -48,7 +48,8 @@ extension Timecode {
                         rawValues: TCC(f: 0),
                         at: delta.frameRate,
                         limit: delta.upperLimit,
-                        subFramesDivisor: delta.subFramesDivisor
+                        base: delta.subFramesBase,
+                        format: delta.stringFormat
                     )
                     .subtracting(wrapping: delta.components)
             }

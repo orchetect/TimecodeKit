@@ -130,14 +130,14 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
         let logErrors = true
         
-        let subFramesDivisor = 80
+        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         
         var frameRatesWithSetTimecodeErrors: Set<Timecode.FrameRate> = []
         var frameRatesWithSetTimecodeErrorsCount = 0
         var frameRatesWithMismatchingComponents: Set<Timecode.FrameRate> = []
         var frameRatesWithMismatchingComponentsCount = 0
         
-        for subFrame in 0..<subFramesDivisor {
+        for subFrame in 0..<subFramesBase.rawValue {
             
             let tcc = TCC(d: 99, h: 23, sf: subFrame)
             
@@ -146,7 +146,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                 var tc = Timecode(tcc,
                                   at: $0,
                                   limit: ._100days,
-                                  subFramesDivisor: subFramesDivisor)!
+                                  base: subFramesBase)!
                 
                 let sRate = 48000
                 

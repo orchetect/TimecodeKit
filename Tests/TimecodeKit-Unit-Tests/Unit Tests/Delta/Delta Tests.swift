@@ -9,7 +9,7 @@ import XCTest
 @testable import TimecodeKit
 import OTCore
 
-class Timecode_UT_Delta_DeltaTests: XCTestCase {
+class Timecode_UT_Delta_Tests: XCTestCase {
     
     override func setUp() { }
     override func tearDown() { }

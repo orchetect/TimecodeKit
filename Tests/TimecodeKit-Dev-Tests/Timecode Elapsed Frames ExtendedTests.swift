@@ -54,10 +54,10 @@ import XCTest
 //            for i in 0...ubound {
 //                let vals = Timecode.components(from: i,
 //                                               at: tc.frameRate,
-//                                               subFramesDivisor: tc.subFramesDivisor)
+//                                               subFramesBase: tc.subFramesBase)
 //
 //                if i != Int(floor(Timecode.frameCount(of: vals, at: tc.frameRate,
-//                                                      subFramesDivisor: tc.subFramesDivisor)))
+//                                                      subFramesBase: tc.subFramesBase)))
 //
 //                { failures.append((i, vals)) }
 //
@@ -80,7 +80,7 @@ import XCTest
 //                      "converted back to",
 //                      Timecode.frameCount(of: failures.first!.1,
 //                                          at: tc.frameRate,
-//                                          subFramesDivisor: tc.subFramesDivisor),
+//                                          subFramesBase: tc.subFramesBase),
 //                      "elapsed frames.")
 //
 //            }
@@ -94,7 +94,7 @@ import XCTest
 //                      "converted back to",
 //                      Timecode.frameCount(of: failures.last!.1,
 //                                          at: tc.frameRate,
-//                                          subFramesDivisor: tc.subFramesDivisor),
+//                                          subFramesBase: tc.subFramesBase),
 //                      "elapsed frames.")
 //
 //            }

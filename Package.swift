@@ -17,7 +17,8 @@ let package = Package(
         // library:
         .library(
             name: "TimecodeKit",
-            targets: ["TimecodeKit"])
+            type: .static,
+            targets: ["TimecodeKit"]),
     ],
     
     dependencies: [

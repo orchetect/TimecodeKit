@@ -16,7 +16,7 @@ extension Timecode {
         Self.invalidComponents(in: self.components,
                                at: frameRate,
                                limit: upperLimit,
-                               subFramesDivisor: subFramesDivisor)
+                               base: subFramesBase)
         
     }
     
@@ -28,13 +28,13 @@ extension Timecode.Components {
     /// A fully valid timecode will return an empty set.
     public func invalidComponents(at frameRate: Timecode.FrameRate,
                                   limit: Timecode.UpperLimit,
-                                  subFramesDivisor: Int) -> Set<Timecode.Component>
+                                  base: Timecode.SubFramesBase) -> Set<Timecode.Component>
     {
         
         Timecode.invalidComponents(in: self,
                                    at: frameRate,
                                    limit: limit,
-                                   subFramesDivisor: subFramesDivisor)
+                                   base: base)
         
     }
     
@@ -47,7 +47,7 @@ extension Timecode {
     public static func invalidComponents(in components: TCC,
                                          at frameRate: FrameRate,
                                          limit: UpperLimit,
-                                         subFramesDivisor: Int) -> Set<Component>
+                                         base: SubFramesBase) -> Set<Component>
     {
         
         var invalids: Set<Component> = []
@@ -57,7 +57,7 @@ extension Timecode {
         if !components.validRange(of: .days,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.d)
         { invalids.insert(.days) }
         
@@ -66,7 +66,7 @@ extension Timecode {
         if !components.validRange(of: .hours,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.h)
         { invalids.insert(.hours) }
         
@@ -75,7 +75,7 @@ extension Timecode {
         if !components.validRange(of: .minutes,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.m)
         { invalids.insert(.minutes) }
         
@@ -84,7 +84,7 @@ extension Timecode {
         if !components.validRange(of: .seconds,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.s)
         { invalids.insert(.seconds) }
         
@@ -93,7 +93,7 @@ extension Timecode {
         if !components.validRange(of: .frames,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.f)
         { invalids.insert(.frames) }
         
@@ -102,7 +102,7 @@ extension Timecode {
         if !components.validRange(of: .subFrames,
                                   at: frameRate,
                                   limit: limit,
-                                  subFramesDivisor: subFramesDivisor)
+                                  base: base)
             .contains(components.sf)
         { invalids.insert(.subFrames) }
         
@@ -114,14 +114,14 @@ extension Timecode {
 
 extension Timecode {
     
-    /// Returns valid range of values for a timecdoe component, given the current `frameRate` and `upperLimit`.
+    /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
     @inlinable public func validRange(of component: Component) -> (ClosedRange<Int>)
     {
         
         components.validRange(of: component,
                               at: frameRate,
                               limit: upperLimit,
-                              subFramesDivisor: subFramesDivisor)
+                              base: subFramesBase)
         
     }
     
@@ -129,11 +129,11 @@ extension Timecode {
 
 extension Timecode.Components {
     
-    /// Returns valid range of values for a timecdoe component.
+    /// Returns valid range of values for a timecode component.
     public func validRange(of component: Timecode.Component,
-                           at frameRate: Timecode.FrameRate,
+                           at rate: Timecode.FrameRate,
                            limit: Timecode.UpperLimit,
-                           subFramesDivisor: Int) -> (ClosedRange<Int>)
+                           base: Timecode.SubFramesBase) -> (ClosedRange<Int>)
     {
         
         switch component {
@@ -151,15 +151,15 @@ extension Timecode.Components {
             return 0...59
             
         case .frames:
-            let startFramePossible = frameRate.isDrop
+            let startFramePossible = rate.isDrop
                 ? ((m % 10 != 0 && s == 0) ? 2 : 0)
                 : 0
             
-            return startFramePossible...frameRate.maxFrameNumberDisplayable
+            return startFramePossible...rate.maxFrameNumberDisplayable
             
         case .subFrames:
-            // clamp divisor to prevent a possible crash if subFramesDivisor < 0
-            return 0...(subFramesDivisor.clamped(to: 1...) - 1)
+            // clamp divisor to prevent a possible crash if subFramesBase < 0
+            return 0...(base.rawValue.clamped(to: 1...) - 1)
             
         }
         
@@ -223,26 +223,27 @@ extension Timecode {
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-    @inlinable public var maxFramesAndSubframesExpressibleDouble: Double {
+    @inlinable public var maxFrameCountExpressibleDouble: Double {
         
         Double(frameRate.maxTotalFramesExpressible(in: upperLimit))
-            + (Double(maxSubFramesExpressible) / Double(subFramesDivisor))
+            + (Double(maxSubFramesExpressible) / Double(subFramesBase.rawValue))
         
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
     @inlinable public var maxFrameCountExpressible: FrameCount {
         
-        FrameCount.split(frames: frameRate.maxTotalFramesExpressible(in: upperLimit),
-                         subFrames: maxSubFramesExpressible)
+        FrameCount(.split(frames: frameRate.maxTotalFramesExpressible(in: upperLimit),
+                          subFrames: maxSubFramesExpressible),
+                   base: subFramesBase)
         
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as total subframes.
-    @inlinable public var maxTotalSubframesExpressible: Int {
+    @inlinable public var maxSubFrameCountExpressible: Int {
         
-        frameRate.maxTotalSubFramesExpressible(in: upperLimit,
-                                               usingSubFramesDivisor: subFramesDivisor)
+        frameRate.maxSubFrameCountExpressible(in: upperLimit,
+                                              base: subFramesBase)
         
         
     }

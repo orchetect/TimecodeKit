@@ -3,7 +3,7 @@
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
-// MARK: stringValue ...
+// MARK: stringValue
 
 extension Timecode.FrameRate {
     
@@ -202,18 +202,18 @@ extension Timecode.FrameRate {
     
     /// Returns max total subframes from 0 to and including rolling over to `extent`.
     @inlinable public func maxTotalSubFrames(in extent: Timecode.UpperLimit,
-                                             usingSubFramesDivisor: Int) -> Int {
+                                             base: Timecode.SubFramesBase) -> Int {
         
-        maxTotalFrames(in: extent) * usingSubFramesDivisor
+        maxTotalFrames(in: extent) * base.rawValue
         
     }
     
     /// Returns max elapsed subframes possible before rolling over to 0.
     /// (Number of subframes from 0 to `extent` minus one subframe).
-    @inlinable public func maxTotalSubFramesExpressible(in extent: Timecode.UpperLimit,
-                                                        usingSubFramesDivisor: Int) -> Int {
+    @inlinable public func maxSubFrameCountExpressible(in extent: Timecode.UpperLimit,
+                                                       base: Timecode.SubFramesBase) -> Int {
         
-        maxTotalSubFrames(in: extent, usingSubFramesDivisor: usingSubFramesDivisor) - 1
+        maxTotalSubFrames(in: extent, base: base) - 1
         
     }
     

@@ -15,7 +15,7 @@ extension Timecode {
         
         Self.frameCount(of: components,
                         at: frameRate,
-                        subFramesDivisor: subFramesDivisor)
+                        base: subFramesBase)
         
     }
     
@@ -25,15 +25,16 @@ extension Timecode {
     /// Timecode is updated as long as the value passed is in valid range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
     @discardableResult
-    @inlinable public mutating func setTimecode(exactly frameCount: FrameCount) -> Bool {
+    @inlinable public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) -> Bool {
         
-        guard frameCount >= .frames(0)
-                && frameCount <= maxFrameCountExpressible
+        let fc = FrameCount(frameCountValue, base: subFramesBase)
+        
+        guard fc.subFrameCount >= 0
+                && fc <= maxFrameCountExpressible
         else { return false }
         
-        let converted = Self.components(from: frameCount,
-                                        at: frameRate,
-                                        subFramesDivisor: subFramesDivisor)
+        let converted = Self.components(from: fc,
+                                        at: frameRate)
         
         days = converted.d
         hours = converted.h
@@ -56,13 +57,12 @@ extension Timecode {
     /// Calculates total frames from given values at the current frame rate.
     public static func frameCount(of values: Components,
                                   at frameRate: FrameRate,
-                                  subFramesDivisor: Int? = nil) -> FrameCount
+                                  base: SubFramesBase = .default()) -> FrameCount
     {
         
-        let subFramesUnitInterval =
-            subFramesDivisor == nil
-            ? 0.0
-            : Double(values.sf) / Double(subFramesDivisor!)
+        let subFramesUnitInterval = Double(values.sf) / Double(base.rawValue)
+        
+        let fcValue: FrameCount.Value
         
         switch frameRate.isDrop {
         case true:
@@ -79,8 +79,8 @@ extension Timecode {
                 
                 - (Int(frameRate.framesDroppedPerMinute) * (totalMinutes - (totalMinutes / 10)))
             
-            return .splitUnitInterval(frames: totalWholeFrames,
-                                      subFramesUnitInterval: subFramesUnitInterval)
+            fcValue = .splitUnitInterval(frames: totalWholeFrames,
+                                         subFramesUnitInterval: subFramesUnitInterval)
             
         case false:
             let dd = Double(values.d) * 24 * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
@@ -89,10 +89,12 @@ extension Timecode {
             let ss = Double(values.s) * frameRate.frameRateForElapsedFramesCalculation
             let totalWholeFrames = Int(round(dd + hh + mm + ss)) + values.f
             
-            return .splitUnitInterval(frames: totalWholeFrames,
-                                      subFramesUnitInterval: subFramesUnitInterval)
+            fcValue = .splitUnitInterval(frames: totalWholeFrames,
+                                         subFramesUnitInterval: subFramesUnitInterval)
             
         }
+        
+        return .init(fcValue, base: base)
         
     }
     
@@ -100,8 +102,7 @@ extension Timecode {
     /// (You can add subframes afterward to the `sf` property if needed.)
     @inline(__always)
     public static func components(from frameCount: FrameCount,
-                                  at frameRate: FrameRate,
-                                  subFramesDivisor: Int) -> Components
+                                  at frameRate: FrameRate) -> Components
     {
         
         // prep vars
@@ -113,7 +114,7 @@ extension Timecode {
         var ff = 00
         var sf = 00
         
-        var inElapsedFrames = frameCount.decimalValue(usingSubFramesDivisor: subFramesDivisor)
+        var inElapsedFrames = frameCount.decimalValue
         
         // drop frame
         
@@ -178,7 +179,7 @@ extension Timecode {
         )
         
         sf = Int(truncating:
-                    inElapsedFrames.fraction * Decimal(subFramesDivisor)
+                    inElapsedFrames.fraction * Decimal(frameCount.subFramesBase.rawValue)
                     as NSDecimalNumber
         )
         

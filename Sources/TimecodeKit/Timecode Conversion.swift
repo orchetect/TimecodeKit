@@ -18,8 +18,8 @@ extension Timecode {
         return Timecode(realTimeValue: realTimeValue,
                         at: newFrameRate,
                         limit: upperLimit,
-                        subFramesDivisor: subFramesDivisor,
-                        displaySubFrames: displaySubFrames)
+                        base: subFramesBase,
+                        format: stringFormat)
         
     }
     

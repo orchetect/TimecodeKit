@@ -24,7 +24,7 @@ class Timecode_UT_init_Tests: XCTestCase {
         var tc = Timecode(at: ._24)
         XCTAssertEqual(tc.frameRate, ._24)
         XCTAssertEqual(tc.upperLimit, ._24hours)
-        XCTAssertEqual(tc.frameCount, .splitUnitInterval(frames: 0, subFramesUnitInterval: 0))
+        XCTAssertEqual(tc.frameCount.subFrameCount, 0)
         XCTAssertEqual(tc.components, TCC(d: 0, h: 0, m: 0, s: 0, f: 0))
         XCTAssertEqual(tc.stringValue, "00:00:00:00")
         
@@ -32,17 +32,37 @@ class Timecode_UT_init_Tests: XCTestCase {
         
         tc = Timecode(at: ._24)
         tc = Timecode(at: ._24, limit: ._24hours)
-        tc = Timecode(at: ._24, limit: ._24hours, subFramesDivisor: 80)
-        tc = Timecode(at: ._24, limit: ._24hours, subFramesDivisor: 80, displaySubFrames: true)
+        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames)
+        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames, format: [.showSubFrames])
+        
+        tc = Timecode(at: ._24, base: ._100SubFrames)
+        tc = Timecode(at: ._24, base: ._100SubFrames, format: [.showSubFrames])
+        
+        tc = Timecode(at: ._24, format: [.showSubFrames])
         
     }
     
     
     // MARK: - Total Elapsed Frames (FrameCount)
     
-    func testTimecode_init_FrameCount_Exactly() {
+    func testTimecode_init_FrameCountValue_Exactly() {
         
         let tc = Timecode(.frames(670907),
+                          at: ._30,
+                          limit: ._24hours)
+        
+        XCTAssertEqual(tc?.days      , 0)
+        XCTAssertEqual(tc?.hours     , 6)
+        XCTAssertEqual(tc?.minutes   , 12)
+        XCTAssertEqual(tc?.seconds   , 43)
+        XCTAssertEqual(tc?.frames    , 17)
+        XCTAssertEqual(tc?.subFrames , 0)
+        
+    }
+    
+    func testTimecode_init_FrameCount_Exactly() {
+        
+        let tc = Timecode(.init(.frames(670907), base: ._80SubFrames),
                           at: ._30,
                           limit: ._24hours)
         
@@ -95,7 +115,7 @@ class Timecode_UT_init_Tests: XCTestCase {
                           limit: ._24hours)
         
         XCTAssertEqual(tc.components,
-                       TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesDivisor - 1))
+                       TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1))
         
     }
     
@@ -184,7 +204,7 @@ class Timecode_UT_init_Tests: XCTestCase {
                           limit: ._24hours)!
         
         XCTAssertEqual(tc.components,
-                       TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesDivisor - 1))
+                       TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1))
         
     }
     
@@ -277,8 +297,8 @@ class Timecode_UT_init_Tests: XCTestCase {
             let tc = Timecode("00:00:00:00",
                               at: $0,
                               limit: ._24hours,
-                              subFramesDivisor: 100,
-                              displaySubFrames: true)
+                              base: ._100SubFrames,
+                              format: [.showSubFrames])
             
             var frm: String
             switch $0.numberOfDigits {

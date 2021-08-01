@@ -9,7 +9,7 @@ import XCTest
 @testable import TimecodeKit
 import OTCore
 
-class Timecode_UT_Transformer_TransformerTests: XCTestCase {
+class Timecode_UT_Transformer_Tests: XCTestCase {
     
     override func setUp() { }
     override func tearDown() { }

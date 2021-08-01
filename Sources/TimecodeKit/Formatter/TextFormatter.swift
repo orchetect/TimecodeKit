@@ -24,8 +24,8 @@ extension Timecode {
         
         public var frameRate: Timecode.FrameRate?
         public var upperLimit: Timecode.UpperLimit?
-        public var displaySubFrames: Bool?
-        public var subFramesDivisor: Int?
+        public var stringFormat: Timecode.StringFormat?
+        public var subFramesBase: SubFramesBase?
         
         /// The formatter's `attributedString(...) -> NSAttributedString` output will override a control's alignment (ie: `NSTextField`).
         /// Setting alignment here will add the appropriate paragraph alignment attribute to the output `NSAttributedString`.
@@ -60,8 +60,8 @@ extension Timecode {
         
         public init(frameRate: Timecode.FrameRate? = nil,
                     limit: Timecode.UpperLimit? = nil,
-                    displaySubFrames: Bool? = nil,
-                    subFramesDivisor: Int? = nil,
+                    stringFormat: StringFormat? = nil,
+                    subFramesBase: SubFramesBase? = nil,
                     showsValidation: Bool = false,
                     validationAttributes: [NSAttributedString.Key: Any]? = nil) {
             
@@ -69,8 +69,8 @@ extension Timecode {
             
             self.frameRate = frameRate
             self.upperLimit = limit
-            self.subFramesDivisor = subFramesDivisor
-            self.displaySubFrames = displaySubFrames
+            self.subFramesBase = subFramesBase
+            self.stringFormat = stringFormat
             
             self.showsValidation = showsValidation
             
@@ -87,8 +87,8 @@ extension Timecode {
             
             self.init(frameRate: timecode.frameRate,
                       limit: timecode.upperLimit,
-                      displaySubFrames: timecode.displaySubFrames,
-                      subFramesDivisor: timecode.subFramesDivisor,
+                      stringFormat: timecode.stringFormat,
+                      subFramesBase: timecode.subFramesBase,
                       showsValidation: showsValidation,
                       validationAttributes: validationAttributes)
             
@@ -97,8 +97,8 @@ extension Timecode {
         public func inheritProperties(from other: Timecode.TextFormatter) {
             self.frameRate = other.frameRate
             self.upperLimit = other.upperLimit
-            self.subFramesDivisor = other.subFramesDivisor
-            self.displaySubFrames = other.displaySubFrames
+            self.subFramesBase = other.subFramesBase
+            self.stringFormat = other.stringFormat
             
             self.alignment = other.alignment
             self.showsValidation = other.showsValidation
@@ -188,8 +188,8 @@ extension Timecode {
             
             guard let frameRate = frameRate,
                   let limit = upperLimit,
-                  //let subFramesDivisor = subFramesDivisor,
-                  let displaySubFrames = displaySubFrames else { return true }
+                  //let subFramesBase = subFramesBase,
+                  let stringFormat = stringFormat else { return true }
             
             let partialString = partialStringPtr.pointee as String
             
@@ -287,7 +287,7 @@ extension Timecode {
                 if char == "." && periodCount > 1
                 { return false }
                 
-                if char == "." && !displaySubFrames
+                if char == "." && !stringFormat.showSubFrames
                 { return false }
                 
                 // number validation (?)
@@ -329,17 +329,12 @@ extension Timecode {
 
 extension Timecode.TextFormatter {
     
-    @available(swift, obsoleted: 0.1, renamed: "timecodeTemplate")
-    public var timecodeWithProperties: Timecode? {
-        timecodeTemplate
-    }
-    
     public var timecodeTemplate: Timecode? {
         
         guard let frameRate = frameRate,
               let upperLimit = upperLimit,
-              let subFramesDivisor = subFramesDivisor,
-              let displaySubFrames = displaySubFrames else {
+              let subFramesBase = subFramesBase,
+              let stringFormat = stringFormat else {
             
             return nil
             
@@ -347,8 +342,8 @@ extension Timecode.TextFormatter {
         
         return Timecode(at: frameRate,
                         limit: upperLimit,
-                        subFramesDivisor: subFramesDivisor,
-                        displaySubFrames: displaySubFrames)
+                        base: subFramesBase,
+                        format: stringFormat)
         
     }
     

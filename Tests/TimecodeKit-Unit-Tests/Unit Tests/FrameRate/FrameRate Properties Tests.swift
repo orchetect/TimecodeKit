@@ -42,22 +42,22 @@ class Timecode_UT_FrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(in: ._24hours,
-                                        usingSubFramesDivisor: 80),
+                                        base: ._80SubFrames),
             2592000 * 80)
         
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(in: ._100days,
-                                        usingSubFramesDivisor: 80),
+                                        base: ._80SubFrames),
             2592000 * 100 * 80)
         
         XCTAssertEqual(
-            frameRate.maxTotalSubFramesExpressible(in: ._24hours,
-                                                   usingSubFramesDivisor: 80),
+            frameRate.maxSubFrameCountExpressible(in: ._24hours,
+                                                  base: ._80SubFrames),
             (2592000 * 80) - 1)
         
         XCTAssertEqual(
-            frameRate.maxTotalSubFramesExpressible(in: ._100days,
-                                                   usingSubFramesDivisor: 80),
+            frameRate.maxSubFrameCountExpressible(in: ._100days,
+                                                  base: ._80SubFrames),
             (2592000 * 100 * 80) - 1)
         
         XCTAssertEqual(frameRate.maxFrames, 30)

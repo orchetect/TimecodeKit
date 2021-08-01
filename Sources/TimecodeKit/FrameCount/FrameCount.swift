@@ -9,26 +9,27 @@ import Foundation
 extension Timecode {
     
     /// Box describing a total elapsed frame count.
-    public enum FrameCount {
+    public struct FrameCount {
         
-        /// Total elapsed whole frames. Subframes = 0.
-        case frames(Int)
+        // MARK: - Public properties
         
-        /// Total elapsed whole frames, and subframes.
-        case split(frames: Int, subFrames: Int)
+        public var value: Value
         
-        /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-        case combined(frames: Double)
+        public let subFramesBase: SubFramesBase
         
-        /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).
-        case splitUnitInterval(frames: Int, subFramesUnitInterval: Double)
+        // MARK: - Inits
         
-        // MARK: - Properties
+        public init(_ value: Value, base: SubFramesBase) {
+            self.value = value
+            self.subFramesBase = base
+        }
+        
+        // MARK: - Public computed properties
         
         /// Total elapsed frame count, excluding subframes.
         public var wholeFrames: Int {
             
-            switch self {
+            switch value {
             case .frames(let frames):
                 return frames
                 
@@ -45,38 +46,38 @@ extension Timecode {
         }
         
         /// Returns the subframes number.
-        public func subFrames(usingSubFramesDivisor: Int) -> Int {
+        public var subFrames: Int {
             
-            switch self {
+            switch value {
             case .frames(_):
-                // usingSubFramesDivisor is unused
+                // subFramesBase is unused
                 return 0
                 
             case .split(_, let subFrames):
-                // usingSubFramesDivisor is unused
+                // subFramesBase is unused
                 return subFrames
                 
             case .combined(_):
-                let dec = decimalValue(usingSubFramesDivisor: usingSubFramesDivisor)
-                let calc = dec.fraction * Decimal(usingSubFramesDivisor)
+                let dec = decimalValue
+                let calc = dec.fraction * Decimal(subFramesBase.rawValue)
                 
                 return Int(truncating: calc as NSDecimalNumber)
                 
             case .splitUnitInterval(_, let subFramesUnitInterval):
-                return Int(subFramesUnitInterval * Double(usingSubFramesDivisor))
+                return Int(subFramesUnitInterval * Double(subFramesBase.rawValue))
             }
             
         }
         
         /// Total elapsed frame count expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-        public func doubleValue(usingSubFramesDivisor: Int) -> Double {
+        public var doubleValue: Double {
             
-            switch self {
+            switch value {
             case .frames(let frames):
                 return Double(frames)
                 
             case .split(let frames, let subFrames):
-                return Double(frames) + (Double(subFrames) / Double(usingSubFramesDivisor))
+                return Double(frames) + (Double(subFrames) / Double(subFramesBase.rawValue))
                 
             case .combined(let double):
                 return double
@@ -88,14 +89,14 @@ extension Timecode {
         }
         
         /// Total elapsed frame count expressed as a `Decimal` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-        public func decimalValue(usingSubFramesDivisor: Int) -> Decimal {
+        public var decimalValue: Decimal {
             
-            switch self {
+            switch value {
             case .frames(let frames):
                 return Decimal(frames)
                 
             case .split(let frames, let subFrames):
-                return Decimal(frames) + (Decimal(subFrames) / Decimal(usingSubFramesDivisor))
+                return Decimal(frames) + (Decimal(subFrames) / Decimal(subFramesBase.rawValue))
                 
             case .combined(let double):
                 return Decimal(double).truncated(decimalPlaces: 8)
@@ -110,41 +111,40 @@ extension Timecode {
     
 }
 
+// MARK: - Internal inits
+
 extension Timecode.FrameCount {
     
     @usableFromInline
-    internal init(totalElapsedSubFrames: Int,
-                  usingSubFramesDivisor: Int) {
+    internal init(subFrameCount: Int,
+                  base: Timecode.SubFramesBase) {
         
         let converted = Timecode.subFramesToFrames(
-            totalSubFrames: totalElapsedSubFrames,
-            subFramesDivisor: usingSubFramesDivisor
+            subFrameCount,
+            base: base
         )
         
-        self = .split(frames: converted.frames,
-                      subFrames: converted.subFrames)
+        value = .split(frames: converted.frames,
+                       subFrames: converted.subFrames)
+        subFramesBase = base
         
     }
     
 }
 
+// MARK: - Equatable / Hashable / Comparable
+
 extension Timecode.FrameCount: Equatable, Hashable {
     
     public static func == (lhs: Self, rhs: Self) -> Bool {
         
-        // the particular subFramesDivisor used is not important as long as it's large enough
-        let sfd = 1000
-        
-        return lhs.totalSubFrames(usingSubFramesDivisor: sfd) == rhs.totalSubFrames(usingSubFramesDivisor: sfd)
+        lhs.subFrameCount == rhs.subFrameCount
         
     }
     
     public func hash(into hasher: inout Hasher) {
         
-        // the particular subFramesDivisor used is not important as long as it's large enough
-        let sfd = 1000
-        
-        hasher.combine(doubleValue(usingSubFramesDivisor: sfd))
+        hasher.combine(subFrameCount)
         
     }
     
@@ -154,124 +154,170 @@ extension Timecode.FrameCount: Comparable {
     
     public static func < (lhs: Self, rhs: Self) -> Bool {
         
-        // the particular subFramesDivisor used is not important as long as it's large enough
-        let sfd = 1000
-        
-        return lhs.totalSubFrames(usingSubFramesDivisor: sfd) < rhs.totalSubFrames(usingSubFramesDivisor: sfd)
+        lhs.subFrameCount < rhs.subFrameCount
         
     }
     
     public static func > (lhs: Self, rhs: Self) -> Bool {
         
-        // the particular subFramesDivisor used is not important as long as it's large enough
-        let sfd = 1000
-        
-        return lhs.totalSubFrames(usingSubFramesDivisor: sfd) > rhs.totalSubFrames(usingSubFramesDivisor: sfd)
+        lhs.subFrameCount > rhs.subFrameCount
         
     }
     
 }
 
-extension Timecode.FrameCount {
+extension Timecode.FrameCount: CustomStringConvertible {
     
-    public func adding(_ other: Self, usingSubFramesDivisor: Int) -> Self {
+    public var description: String {
         
-        let lhsTotalSubFrames = totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let rhsTotalSubFrames = other.totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let resultTotalSubframes = lhsTotalSubFrames + rhsTotalSubFrames
-        
-        let newFrames = Timecode.subFramesToFrames(totalSubFrames: resultTotalSubframes,
-                                                   subFramesDivisor: usingSubFramesDivisor)
-        
-        return .split(frames: newFrames.frames, subFrames: newFrames.subFrames)
-        
-    }
-    
-    public func subtracting(_ other: Self, usingSubFramesDivisor: Int) -> Self {
-        
-        let lhsTotalSubFrames = totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let rhsTotalSubFrames = other.totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let resultTotalSubframes = lhsTotalSubFrames - rhsTotalSubFrames
-        
-        let newFrames = Timecode.subFramesToFrames(totalSubFrames: resultTotalSubframes,
-                                                   subFramesDivisor: usingSubFramesDivisor)
-        
-        return .split(frames: newFrames.frames, subFrames: newFrames.subFrames)
-        
-    }
-    
-    public func multiplying(by other: Self, usingSubFramesDivisor: Int) -> Self {
-        
-        let lhsTotalSubFrames = totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let rhsTotalSubFrames = other.totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let resultTotalSubframes = lhsTotalSubFrames * rhsTotalSubFrames
-        
-        let newFrames = Timecode.subFramesToFrames(totalSubFrames: resultTotalSubframes,
-                                                   subFramesDivisor: usingSubFramesDivisor)
-        
-        return .split(frames: newFrames.frames, subFrames: newFrames.subFrames)
-        
-    }
-    
-    public func dividing(by other: Self, usingSubFramesDivisor: Int) -> Self {
-        
-        let lhsTotalSubFrames = totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let rhsTotalSubFrames = other.totalSubFrames(usingSubFramesDivisor: usingSubFramesDivisor)
-        
-        let resultTotalSubframes = lhsTotalSubFrames / rhsTotalSubFrames
-        
-        let newFrames = Timecode.subFramesToFrames(totalSubFrames: resultTotalSubframes,
-                                                   subFramesDivisor: usingSubFramesDivisor)
-        
-        return .split(frames: newFrames.frames, subFrames: newFrames.subFrames)
+        switch value {
+        case .frames(let frames):
+            return "\(frames)"
+            
+        case .split, .combined, .splitUnitInterval:
+            return "\(doubleValue)"
+            
+        }
         
     }
     
 }
 
 
+// MARK: - Operators
+
 extension Timecode.FrameCount {
     
-    /// Internal utility
-    internal func totalSubFrames(usingSubFramesDivisor: Int) -> Int {
+    public static func + (lhs: Self, rhs: Self) -> Self {
+        
+        lhs.adding(rhs)
+        
+    }
+    
+    public static func - (lhs: Self, rhs: Self) -> Self {
+        
+        lhs.subtracting(rhs)
+        
+    }
+    
+    public static func * (lhs: Self, rhs: Double) -> Self {
+        
+        lhs.multiplying(by: rhs)
+        
+    }
+    
+    public static func / (lhs: Self, rhs: Double) -> Self {
+        
+        lhs.dividing(by: rhs)
+        
+    }
+    
+}
+
+// MARK: - Math
+
+extension Timecode.FrameCount {
+    
+    public func adding(_ other: Self) -> Self {
+        
+        let lhsTotalSubFrames = subFrameCount
+        
+        let rhsTotalSubFrames = other.subFrameCount
+        
+        let resultSubFrameCount = lhsTotalSubFrames + rhsTotalSubFrames
+        
+        let newFrames = Timecode.subFramesToFrames(resultSubFrameCount,
+                                                   base: subFramesBase)
+        
+        return .init(.split(frames: newFrames.frames, subFrames: newFrames.subFrames),
+                     base: subFramesBase)
+        
+    }
+    
+    public func subtracting(_ other: Self) -> Self {
+        
+        let lhsTotalSubFrames = subFrameCount
+        
+        let rhsTotalSubFrames = other.subFrameCount
+        
+        let resultSubFrameCount = lhsTotalSubFrames - rhsTotalSubFrames
+        
+        let newFrames = Timecode.subFramesToFrames(resultSubFrameCount,
+                                                   base: subFramesBase)
+        
+        return .init(.split(frames: newFrames.frames, subFrames: newFrames.subFrames),
+                     base: subFramesBase)
+        
+    }
+    
+    public func multiplying(by factor: Double) -> Self {
+        
+        let lhsTotalSubFrames = subFrameCount
+        
+        let resultSubFrameCount = Int(Double(lhsTotalSubFrames) * factor)
+        
+        let newFrames = Timecode.subFramesToFrames(resultSubFrameCount,
+                                                   base: subFramesBase)
+        
+        return .init(.split(frames: newFrames.frames, subFrames: newFrames.subFrames),
+                     base: subFramesBase)
+        
+    }
+    
+    public func dividing(by divisor: Double) -> Self {
+        
+        let lhsTotalSubFrames = subFrameCount
+        
+        let resultSubFrameCount = Int(Double(lhsTotalSubFrames) / divisor)
+        
+        let newFrames = Timecode.subFramesToFrames(resultSubFrameCount,
+                                                   base: subFramesBase)
+        
+        return .init(.split(frames: newFrames.frames, subFrames: newFrames.subFrames),
+                     base: subFramesBase)
+        
+    }
+    
+}
+
+
+extension Timecode.FrameCount {
+    
+    @usableFromInline
+    internal var subFrameCount: Int {
         
         Timecode.framesToSubFrames(
-            totalFrames: wholeFrames,
-            subFrames: subFrames(usingSubFramesDivisor: usingSubFramesDivisor),
-            subFramesDivisor: usingSubFramesDivisor
+            frames: wholeFrames,
+            subFrames: subFrames,
+            base: subFramesBase
         )
         
     }
     
 }
 
+// MARK: - Utilities
+
 extension Timecode {
     
     /// Internal utility
-    internal static func framesToSubFrames(totalFrames: Int,
+    internal static func framesToSubFrames(frames: Int,
                                            subFrames: Int,
-                                           subFramesDivisor: Int) -> Int {
+                                           base: SubFramesBase) -> Int {
         
-        (totalFrames * subFramesDivisor) + subFrames
+        (frames * base.rawValue) + subFrames
         
     }
     
     /// Internal utility
-    internal static func subFramesToFrames(totalSubFrames: Int,
-                                           subFramesDivisor: Int)
+    internal static func subFramesToFrames(_ subFrames: Int,
+                                           base: SubFramesBase)
     -> (frames: Int, subFrames: Int) {
         
-        let subFrames = totalSubFrames % subFramesDivisor
-        let frames = (totalSubFrames - subFrames) / subFramesDivisor
+        let outSubFrames = subFrames % base.rawValue
+        let outFrames = (subFrames - outSubFrames) / base.rawValue
         
-        return (frames: frames, subFrames: subFrames)
+        return (frames: outFrames, subFrames: outSubFrames)
         
     }
     

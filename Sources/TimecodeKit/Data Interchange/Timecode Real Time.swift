@@ -13,8 +13,7 @@ extension Timecode {
     public var realTimeValue: TimeInterval {
         
         get {
-            frameCount.doubleValue(usingSubFramesDivisor: subFramesDivisor)
-                * (1.0 / frameRate.frameRateForRealTimeCalculation)
+            frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
         }
         
     }
@@ -37,9 +36,11 @@ extension Timecode {
         // final calculation
         
         let elapsedFrames = calc
-        let convertedComponents = Self.components(from: .combined(frames: elapsedFrames),
-                                                  at: frameRate,
-                                                  subFramesDivisor: subFramesDivisor)
+        
+        let convertedComponents = Self.components(
+            from: .init(.combined(frames: elapsedFrames), base: subFramesBase),
+            at: frameRate
+        )
         
         return setTimecode(exactly: convertedComponents)
         
@@ -52,26 +53,26 @@ extension TimeInterval {
     
     /// Convenience method to create an `Timecode` struct using the default `(_ exactly:)` initializer.
     @inlinable public func toTimecode(
-        at frameRate: Timecode.FrameRate,
+        at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        subFramesDivisor: Int? = nil,
-        displaySubFrames: Bool = false
+        base: Timecode.SubFramesBase? = nil,
+        format: Timecode.StringFormat = .default()
     ) -> Timecode? {
         
-        if let sfd = subFramesDivisor {
+        if let base = base {
             
             return Timecode(realTimeValue: self,
-                            at: frameRate,
+                            at: rate,
                             limit: limit,
-                            subFramesDivisor: sfd,
-                            displaySubFrames: displaySubFrames)
+                            base: base,
+                            format: format)
             
         } else {
             
             return Timecode(realTimeValue: self,
-                            at: frameRate,
+                            at: rate,
                             limit: limit,
-                            displaySubFrames: displaySubFrames)
+                            format: format)
             
         }
         

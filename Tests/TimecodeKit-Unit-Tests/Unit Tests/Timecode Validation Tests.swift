@@ -23,7 +23,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         let tc = Timecode(at: fr, limit: limit)
         
         XCTAssertEqual(tc.invalidComponents, [])
-        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, subFramesDivisor: 80), [])
+        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, base: ._80SubFrames), [])
         
         XCTAssertEqual(tc.validRange(of: .days), 0...0)
         XCTAssertEqual(tc.validRange(of: .hours), 0...23)
@@ -51,7 +51,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         
         XCTAssertEqual(tc.invalidComponents,
                        [.days, .hours, .minutes, .seconds, .frames, .subFrames])
-        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, subFramesDivisor: 80),
+        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, base: ._80SubFrames),
                        [.days, .hours, .minutes, .seconds, .frames, .subFrames])
         
     }
@@ -73,7 +73,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         
         XCTAssertEqual(tc.invalidComponents,
                        [.days, .hours, .minutes, .seconds, .frames, .subFrames])
-        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, subFramesDivisor: 80),
+        XCTAssertEqual(tc.components.invalidComponents(at: fr, limit: limit, base: ._80SubFrames),
                        [.days, .hours, .minutes, .seconds, .frames, .subFrames])
         
     }
@@ -97,7 +97,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
                                [], "for \($0)")
                 XCTAssertEqual(tc.components.invalidComponents(at: $0,
                                                                limit: limit,
-                                                               subFramesDivisor: 80),
+                                                               base: ._80SubFrames),
                                [], "for \($0)")
             }
             
@@ -112,7 +112,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
                                [.frames], "for \($0) at \(minute) minutes")
                 XCTAssertEqual(tc.components.invalidComponents(at: $0,
                                                                limit: limit,
-                                                               subFramesDivisor: 80),
+                                                               base: ._80SubFrames),
                                [.frames], "for \($0) at \(minute) minutes")
                 
                 tc = Timecode(at: $0, limit: limit)
@@ -123,7 +123,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
                                [.frames], "for \($0) at \(minute) minutes")
                 XCTAssertEqual(tc.components.invalidComponents(at: $0,
                                                                limit: limit,
-                                                               subFramesDivisor: 80),
+                                                               base: ._80SubFrames),
                                [.frames], "for \($0) at \(minute) minutes")
             }
             
@@ -138,7 +138,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         let tc = Timecode(comps,
                           at: ._29_97_drop,
                           limit: ._24hours,
-                          subFramesDivisor: 80)
+                          base: ._80SubFrames)
         
         XCTAssertEqual(tc?.components, comps)
         XCTAssertEqual(tc?.invalidComponents, [])
@@ -147,29 +147,28 @@ class Timecode_UT_Validation_Tests: XCTestCase {
     
     func testMaxFrames() {
         
-        let subFramesDivisor = 80
+        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         
         let tc = Timecode(at: ._24,
                           limit: ._24hours,
-                          subFramesDivisor: subFramesDivisor)
+                          base: subFramesBase)
         
-        XCTAssertEqual(tc.validRange(of: .subFrames), 0...(subFramesDivisor-1))
+        XCTAssertEqual(tc.validRange(of: .subFrames), 0...(subFramesBase.rawValue-1))
         XCTAssertEqual(tc.subFrames, 0)
-        XCTAssertEqual(tc.subFramesDivisor, subFramesDivisor)
+        XCTAssertEqual(tc.subFramesBase, subFramesBase)
         
         let mf = tc.maxFrameCountExpressible
-        XCTAssertEqual(mf.doubleValue(usingSubFramesDivisor: subFramesDivisor), 2073599.9875)
+        XCTAssertEqual(mf.doubleValue, 2073599.9875)
         
         let tcc = Timecode.components(from: mf,
-                                      at: tc.frameRate,
-                                      subFramesDivisor: tc.subFramesDivisor)
+                                      at: tc.frameRate)
         
         XCTAssertEqual(tcc, TCC(d: 0,
                                 h: 23,
                                 m: 59,
                                 s: 59,
                                 f: 23,
-                                sf: subFramesDivisor-1))
+                                sf: subFramesBase.rawValue-1))
         
     }
     

@@ -7,7 +7,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_Conversion: XCTestCase {
+class Timecode_UT_Conversion_Tests: XCTestCase {
     
     override func setUp() { }
     override func tearDown() { }
@@ -33,8 +33,8 @@ class Timecode_UT_Conversion: XCTestCase {
         
         let convertedTC = TCC(h: 1)
             .toTimecode(at: ._23_976,
-                        subFramesDivisor: 100,
-                        displaySubFrames: true)?
+                        base: ._100SubFrames,
+                        format: [.showSubFrames])?
             .converted(to: ._30)
         
         XCTAssertNotNil(convertedTC)

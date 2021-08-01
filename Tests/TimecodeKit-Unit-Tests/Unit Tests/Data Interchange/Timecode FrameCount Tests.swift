@@ -8,7 +8,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_Elapsed_Frames: XCTestCase {
+class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
     
     override func setUp() { }
     override func tearDown() { }
@@ -117,10 +117,11 @@ class Timecode_UT_Elapsed_Frames: XCTestCase {
         let totalFramesin24Hr = 2589408
         //let totalSubFramesin24Hr = 207152640
         
-        let tcc = Timecode.components(from: .split(frames: totalFramesin24Hr - 1,
-                                                   subFrames: 79),
-                                      at: ._29_97_drop,
-                                      subFramesDivisor: 80)
+        let tcc = Timecode.components(
+            from: .init(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
+                        base: ._80SubFrames),
+            at: ._29_97_drop
+        )
         
         XCTAssertEqual(tcc, TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79))
         

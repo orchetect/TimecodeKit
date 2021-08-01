@@ -13,21 +13,23 @@ extension Timecode {
     internal func __add(exactly duration: Components,
                         to base: Components) -> Components? {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
-        let tcAdd = Self.frameCount(of: duration,
+                                       base: subFramesBase)
+        let fcAdd = Self.frameCount(of: duration,
                                     at: frameRate,
-                                    subFramesDivisor: subFramesDivisor)
+                                    base: subFramesBase)
         
-        let tcNew = tcOrigin.adding(tcAdd, usingSubFramesDivisor: subFramesDivisor)
+        let sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
         
-        if tcNew < .frames(0) { return nil }
-        if tcNew > maxFrameCountExpressible { return nil }
+        if sfcNew < 0 { return nil }
+        if sfcNew > maxFrameCountExpressible.subFrameCount { return nil }
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
+        
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -37,24 +39,22 @@ extension Timecode {
     internal func __add(clamping duration: Components,
                         to base: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
-        let tcAdd = Self.frameCount(of: duration,
+                                       base: subFramesBase)
+        let fcAdd = Self.frameCount(of: duration,
                                     at: frameRate,
-                                    subFramesDivisor: subFramesDivisor)
+                                    base: subFramesBase)
         
-        var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
-            + tcAdd.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
+        var sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
         
-        tcNewSF = tcNewSF.clamped(to: 0...maxTotalSubframesExpressible)
+        sfcNew = sfcNew.clamped(to: 0...maxSubFrameCountExpressible)
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -64,36 +64,34 @@ extension Timecode {
     internal func __add(wrapping duration: Components,
                         to base: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
-        let tcAdd = Self.frameCount(of: duration,
+                                       base: subFramesBase)
+        let fcAdd = Self.frameCount(of: duration,
                                     at: frameRate,
-                                    subFramesDivisor: subFramesDivisor)
+                                    base: subFramesBase)
         
-        var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
-            + tcAdd.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
+        var sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
         
         let maxTotalSubFrames = frameRate.maxTotalSubFrames(in: upperLimit,
-                                                            usingSubFramesDivisor: subFramesDivisor)
+                                                            base: subFramesBase)
         
-        let wrapRemainder = tcNewSF % maxTotalSubFrames
+        let wrapRemainder = sfcNew % maxTotalSubFrames
         
         // check for a negative result and wrap accordingly
-        if tcNewSF < 0 {
-            tcNewSF = maxTotalSubFrames + wrapRemainder // wrap around
+        if sfcNew < 0 {
+            sfcNew = maxTotalSubFrames + wrapRemainder // wrap around
         } else {
-            tcNewSF = wrapRemainder
+            sfcNew = wrapRemainder
         }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
         // TODO: - ***** can implement later: also return number of times the value wrapped
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -106,21 +104,23 @@ extension Timecode {
     internal func __subtract(exactly duration: Components,
                              from base: Components) -> Components? {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         let tcSubtract = Self.frameCount(of: duration,
                                          at: frameRate,
-                                         subFramesDivisor: subFramesDivisor)
+                                         base: subFramesBase)
         
-        let tcNew = tcOrigin.subtracting(tcSubtract, usingSubFramesDivisor: subFramesDivisor)
+        let sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
         
-        if tcNew < .frames(0) { return nil }
-        if tcNew > maxFrameCountExpressible { return nil }
+        if sfcNew < 0 { return nil }
+        if sfcNew > maxFrameCountExpressible.subFrameCount { return nil }
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
+        
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -130,24 +130,22 @@ extension Timecode {
     internal func __subtract(clamping duration: Components,
                              from base: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         let tcSubtract = Self.frameCount(of: duration,
                                          at: frameRate,
-                                         subFramesDivisor: subFramesDivisor)
+                                         base: subFramesBase)
         
-        var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
-            - tcSubtract.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
+        var sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
         
-        tcNewSF = tcNewSF.clamped(to: 0...maxTotalSubframesExpressible)
+        sfcNew = sfcNew.clamped(to: 0...maxSubFrameCountExpressible)
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -157,36 +155,34 @@ extension Timecode {
     internal func __subtract(wrapping duration: Components,
                              from base: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: base,
+        let fcOrigin = Self.frameCount(of: base,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         let tcSubtract = Self.frameCount(of: duration,
                                          at: frameRate,
-                                         subFramesDivisor: subFramesDivisor)
+                                         base: subFramesBase)
         
-        var tcNewSF = tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
-            - tcSubtract.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)
+        var sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
         
         let maxTotalSubFrames = frameRate.maxTotalSubFrames(in: upperLimit,
-                                                            usingSubFramesDivisor: subFramesDivisor)
+                                                            base: subFramesBase)
         
-        let wrapRemainder = tcNewSF % maxTotalSubFrames
+        let wrapRemainder = sfcNew % maxTotalSubFrames
         
         // check for a negative result and wrap accordingly
-        if tcNewSF < 0 {
-            tcNewSF = maxTotalSubFrames + wrapRemainder // wrap around
+        if sfcNew < 0 {
+            sfcNew = maxTotalSubFrames + wrapRemainder // wrap around
         } else {
-            tcNewSF = wrapRemainder
+            sfcNew = wrapRemainder
         }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
         // TODO: - ***** can implement later: also return number of times the value wrapped
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -199,21 +195,20 @@ extension Timecode {
     internal func __multiply(exactly factor: Double,
                              with: Components) -> Components? {
         
-        let tcOrigin = Self.frameCount(of: with,
+        let fcOrigin = Self.frameCount(of: with,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         
-        let tcNewSF = Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor
+        let sfcNew = Double(fcOrigin.subFrameCount) * factor
         
-        if tcNewSF < 0.0 { return nil }
-        if tcNewSF > Double(maxTotalSubframesExpressible) { return nil }
+        if sfcNew < 0.0 { return nil }
+        if sfcNew > Double(maxSubFrameCountExpressible) { return nil }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: Int(tcNewSF),
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: Int(sfcNew),
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -223,20 +218,19 @@ extension Timecode {
     internal func __multiply(clamping factor: Double,
                              with: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: with,
+        let fcOrigin = Self.frameCount(of: with,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         
-        var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor)
+        var sfcNew = Int(Double(fcOrigin.subFrameCount) * factor)
         
-        tcNewSF = tcNewSF.clamped(to: 0...maxTotalSubframesExpressible)
+        sfcNew = sfcNew.clamped(to: 0...maxSubFrameCountExpressible)
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -246,32 +240,31 @@ extension Timecode {
     internal func __multiply(wrapping factor: Double,
                              with: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: with,
+        let fcOrigin = Self.frameCount(of: with,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         
-        var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) * factor)
+        var sfcNew = Int(Double(fcOrigin.subFrameCount) * factor)
         
         let maxTotalSubFrames = frameRate.maxTotalSubFrames(in: upperLimit,
-                                                            usingSubFramesDivisor: subFramesDivisor)
+                                                            base: subFramesBase)
         
-        let wrapRemainder = tcNewSF % maxTotalSubFrames
+        let wrapRemainder = sfcNew % maxTotalSubFrames
         
         // check for a negative result and wrap accordingly
-        if tcNewSF < 0 {
-            tcNewSF = maxTotalSubFrames + wrapRemainder // wrap around
+        if sfcNew < 0 {
+            sfcNew = maxTotalSubFrames + wrapRemainder // wrap around
         } else {
-            tcNewSF = wrapRemainder
+            sfcNew = wrapRemainder
         }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
         // TODO: - ***** can implement later: also return number of times the value wrapped
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -284,21 +277,20 @@ extension Timecode {
     internal func __divide(exactly divisor: Double,
                            into: Components) -> Components? {
         
-        let tcOrigin = Self.frameCount(of: into,
+        let fcOrigin = Self.frameCount(of: into,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         
-        let tcNewSF = Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor
+        let sfcNew = Double(fcOrigin.subFrameCount) / divisor
         
-        if tcNewSF < 0.0 { return nil }
-        if tcNewSF > Double(maxTotalSubframesExpressible) { return nil }
+        if sfcNew < 0.0 { return nil }
+        if sfcNew > Double(maxSubFrameCountExpressible) { return nil }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: Int(tcNewSF),
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: Int(sfcNew),
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -308,19 +300,18 @@ extension Timecode {
     internal func __divide(clamping divisor: Double,
                            into: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: into,
+        let fcOrigin = Self.frameCount(of: into,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
-        var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor)
+                                       base: subFramesBase)
+        var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
         
-        tcNewSF = tcNewSF.clamped(to: 0...maxTotalSubframesExpressible)
+        sfcNew = sfcNew.clamped(to: 0...maxSubFrameCountExpressible)
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -330,32 +321,31 @@ extension Timecode {
     internal func __divide(wrapping divisor: Double,
                            into: Components) -> Components {
         
-        let tcOrigin = Self.frameCount(of: into,
+        let fcOrigin = Self.frameCount(of: into,
                                        at: frameRate,
-                                       subFramesDivisor: subFramesDivisor)
+                                       base: subFramesBase)
         
-        var tcNewSF = Int(Double(tcOrigin.totalSubFrames(usingSubFramesDivisor: subFramesDivisor)) / divisor)
+        var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
         
         let maxTotalSubFrames = frameRate.maxTotalSubFrames(in: upperLimit,
-                                                            usingSubFramesDivisor: subFramesDivisor)
+                                                            base: subFramesBase)
         
-        let wrapRemainder = tcNewSF % maxTotalSubFrames
+        let wrapRemainder = sfcNew % maxTotalSubFrames
         
         // check for a negative result and wrap accordingly
-        if tcNewSF < 0 {
-            tcNewSF = maxTotalSubFrames + wrapRemainder // wrap around
+        if sfcNew < 0 {
+            sfcNew = maxTotalSubFrames + wrapRemainder // wrap around
         } else {
-            tcNewSF = wrapRemainder
+            sfcNew = wrapRemainder
         }
         
-        let tcNew = FrameCount(totalElapsedSubFrames: tcNewSF,
-                               usingSubFramesDivisor: subFramesDivisor)
+        let fcNew = FrameCount(subFrameCount: sfcNew,
+                               base: subFramesBase)
         
         // TODO: - ***** can implement later: also return number of times the value wrapped
         
-        return Self.components(from: tcNew,
-                               at: frameRate,
-                               subFramesDivisor: subFramesDivisor)
+        return Self.components(from: fcNew,
+                               at: frameRate)
         
     }
     
@@ -369,16 +359,16 @@ extension Timecode {
         if self.components == other {
             return Delta(TCC().toTimecode(rawValuesAt: frameRate,
                                           limit: upperLimit,
-                                          subFramesDivisor: subFramesDivisor,
-                                          displaySubFrames: displaySubFrames),
+                                          base: subFramesBase,
+                                          format: stringFormat),
                          .positive)
         }
         
         let otherTimecode = Timecode(rawValues: other,
                                      at: frameRate,
                                      limit: ._100days,
-                                     subFramesDivisor: subFramesDivisor,
-                                     displaySubFrames: displaySubFrames)
+                                     base: subFramesBase,
+                                     format: stringFormat)
         
         if otherTimecode > self {
             
@@ -388,8 +378,8 @@ extension Timecode {
             
             let deltaTC = diff.toTimecode(rawValuesAt: frameRate,
                                           limit: upperLimit,
-                                          subFramesDivisor: subFramesDivisor,
-                                          displaySubFrames: displaySubFrames)
+                                          base: subFramesBase,
+                                          format: stringFormat)
             
             let delta = Delta(deltaTC, .positive)
             
@@ -403,8 +393,8 @@ extension Timecode {
             
             let deltaTC = diff.toTimecode(rawValuesAt: frameRate,
                                           limit: upperLimit,
-                                          subFramesDivisor: subFramesDivisor,
-                                          displaySubFrames: displaySubFrames)
+                                          base: subFramesBase,
+                                          format: stringFormat)
             
             let delta = Delta(deltaTC, .negative)
             
