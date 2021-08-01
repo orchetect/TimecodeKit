@@ -27,19 +27,17 @@ public struct Timecode: Codable {
     /// Setting this value directly does not trigger any validation.
     public let upperLimit: UpperLimit
     
-    /// Subframes divisor.
+    /// Subframes base (divisor).
     ///
     /// The number of subframes that make up a single frame.
     ///
     /// (ie: a divisor of 80 subframes per frame implies a visible value range of 00...79)
     ///
     /// This will vary depending on application. Most common divisors are 80 or 100.
-    public let subFramesDivisor: Int
+    public let subFramesBase: SubFramesBase
     
-    /// Determines whether subframes are included when getting `.stringValue`.
-    ///
-    /// This does not disable subframes from being stored or calculated, only whether they are output in the string.
-    public var displaySubFrames: Bool = false
+    /// Timecode string output format configuration.
+    public var stringFormat: StringFormat
     
     // MARK: - Mutable properties
     

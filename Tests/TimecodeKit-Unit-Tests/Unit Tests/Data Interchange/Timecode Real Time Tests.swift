@@ -125,9 +125,9 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         
         // test for precision and rounding issues by iterating every subframe for each frame rate
         
-        let subFramesDivisor = 80
+        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         
-        for subFrame in 0..<subFramesDivisor {
+        for subFrame in 0..<subFramesBase.rawValue {
             
             let tcc = TCC(d: 99, h: 23, sf: subFrame)
             
@@ -136,7 +136,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                 var tc = Timecode(tcc,
                                   at: $0,
                                   limit: ._100days,
-                                  subFramesDivisor: subFramesDivisor)!
+                                  base: subFramesBase)!
                 
                 // timecode to samples
                 
@@ -198,12 +198,12 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                        TCC(h: 00, m: 49, s: 31, f: 09, sf: 00))
         
         let event3 = Timecode(realTimeValue: _00_49_27_15_00 + _00_49_33_21_79_delta,
-                              at: ._23_976)!
+                              at: ._23_976, base: ._80SubFrames)!
         XCTAssertEqual(event3.components,
                        TCC(h: 00, m: 49, s: 33, f: 21, sf: 79))
         
         let event4 = Timecode(realTimeValue: _00_49_27_15_00 + _00_49_38_01_79_delta,
-                              at: ._23_976)!
+                              at: ._23_976, base: ._80SubFrames)!
         XCTAssertEqual(event4.components,
                        TCC(h: 00, m: 49, s: 38, f: 01, sf: 79))
         
@@ -238,7 +238,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         // event3
         XCTAssertEqual(
             TCC(h: 00, m: 49, s: 33, f: 21, sf: 79)
-                .toTimecode(at: ._23_976)!
+                .toTimecode(at: ._23_976, base: ._80SubFrames)!
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_33_21_79_delta,
             accuracy: 0.0000005
@@ -247,7 +247,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         // event4
         XCTAssertEqual(
             TCC(h: 00, m: 49, s: 38, f: 01, sf: 79)
-                .toTimecode(at: ._23_976)!
+                .toTimecode(at: ._23_976, base: ._80SubFrames)!
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_38_01_79_delta,
             accuracy: 0.0000005
@@ -255,7 +255,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         
     }
     
-    // extension TimeInterval
+    // MARK: - .toTimecode()
     
     func testTCC_toTimecode() {
         
@@ -272,14 +272,14 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         
         let tcWithSubFrames = TCC(h: 1, m: 5, s: 20, f: 14, sf: 94)
             .toTimecode(at: ._23_976,
-                        subFramesDivisor: 100,
-                        displaySubFrames: true)
+                        base: ._100SubFrames,
+                        format: [.showSubFrames])
         XCTAssertEqual(
             tcWithSubFrames,
             Timecode(TCC(h: 1, m: 5, s: 20, f: 14, sf: 94),
                      at: ._23_976,
-                     subFramesDivisor: 100,
-                     displaySubFrames: true)
+                     base: ._100SubFrames,
+                     format: [.showSubFrames])
         )
         XCTAssertEqual(
             tcWithSubFrames?.stringValue,
@@ -301,14 +301,14 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         
         let tcWithSubFrames = TimeInterval(3600.0)
             .toTimecode(at: ._24,
-                        subFramesDivisor: 100,
-                        displaySubFrames: true)
+                        base: ._100SubFrames,
+                        format: [.showSubFrames])
         XCTAssertEqual(
             tcWithSubFrames,
             Timecode(TCC(h: 1),
                      at: ._24,
-                     subFramesDivisor: 100,
-                     displaySubFrames: true)
+                     base: ._100SubFrames,
+                     format: [.showSubFrames])
         )
         XCTAssertEqual(
             tcWithSubFrames?.stringValue,

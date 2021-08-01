@@ -27,8 +27,8 @@ class Timecode_UT_Tests: XCTestCase {
             let tc = "1 12:34:56:11.85"
                 .toTimecode(at: $0,
                             limit: ._100days,
-                            subFramesDivisor: 100,
-                            displaySubFrames: true)!
+                            base: ._100SubFrames,
+                            format: [.showSubFrames])!
             
             // encode
             
@@ -55,8 +55,8 @@ class Timecode_UT_Tests: XCTestCase {
             XCTAssertEqual(tc.frames, decoded.frames)
             XCTAssertEqual(tc.frameRate, decoded.frameRate)
             XCTAssertEqual(tc.upperLimit, decoded.upperLimit)
-            XCTAssertEqual(tc.subFramesDivisor, decoded.subFramesDivisor)
-            XCTAssertEqual(tc.displaySubFrames, decoded.displaySubFrames)
+            XCTAssertEqual(tc.subFramesBase, decoded.subFramesBase)
+            XCTAssertEqual(tc.stringFormat, decoded.stringFormat)
             
         }
         

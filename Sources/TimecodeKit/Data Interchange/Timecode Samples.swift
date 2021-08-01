@@ -60,8 +60,7 @@ extension Timecode {
         
         // perform calculation
         
-        let dbl = frameCount.doubleValue(usingSubFramesDivisor: subFramesDivisor)
-            * (Double(atSampleRate) / fRate * offset)
+        let dbl = frameCount.doubleValue * (Double(atSampleRate) / fRate * offset)
         
         return dbl
         
@@ -128,9 +127,10 @@ extension Timecode {
         dbl += 0.0001
         
         // then derive components
-        let convertedComponents = Self.components(from: .combined(frames: dbl),
-                                                  at: frameRate,
-                                                  subFramesDivisor: subFramesDivisor)
+        let convertedComponents = Self.components(
+            from: .init(.combined(frames: dbl), base: subFramesBase),
+            at: frameRate
+        )
         
         return setTimecode(exactly: convertedComponents)
         

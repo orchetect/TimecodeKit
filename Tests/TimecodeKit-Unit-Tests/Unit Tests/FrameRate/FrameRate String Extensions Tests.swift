@@ -9,7 +9,7 @@ import XCTest
 @testable import TimecodeKit
 import OTCore
 
-class Timecode_UT_FrameRate_StringExtensions: XCTestCase {
+class Timecode_UT_FrameRate_StringExtensions_Tests: XCTestCase {
     
     func testString_toFrameRate() {
         

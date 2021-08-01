@@ -8,19 +8,19 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_FrameCount_SubframesTests: XCTestCase {
+class Timecode_UT_FrameCount_Tests: XCTestCase {
     
     func testInit_frameCount() {
         
-        let subFramesDivisor = 80
+        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         
-        let fc = Timecode.FrameCount(totalElapsedSubFrames: 40002,
-                                     usingSubFramesDivisor: subFramesDivisor)
+        let fc = Timecode.FrameCount(subFrameCount: 40002,
+                                     base: subFramesBase)
         
         XCTAssertEqual(fc.wholeFrames, 500)
-        XCTAssertEqual(fc.subFrames(usingSubFramesDivisor: subFramesDivisor), 2)
-        XCTAssertEqual(fc.doubleValue(usingSubFramesDivisor: subFramesDivisor), 500.025)
-        XCTAssertEqual(fc.totalSubFrames(usingSubFramesDivisor: subFramesDivisor), 40002)
+        XCTAssertEqual(fc.subFrames, 2)
+        XCTAssertEqual(fc.doubleValue, 500.025)
+        XCTAssertEqual(fc.subFrameCount, 40002)
         
     }
     
@@ -29,69 +29,99 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
         // .frames
         
         XCTAssert(
-            Timecode.FrameCount.frames(500)
+            Timecode.FrameCount(.frames(500), base: ._100SubFrames)
                 ==
-                Timecode.FrameCount.frames(500)
+                Timecode.FrameCount(.frames(500), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.frames(500)
+            Timecode.FrameCount(.frames(500), base: ._100SubFrames)
                 !=
-                Timecode.FrameCount.frames(501)
+                Timecode.FrameCount(.frames(501), base: ._100SubFrames)
         )
         
         // .split
         
         XCTAssert(
-            Timecode.FrameCount.split(frames: 500, subFrames: 2)
+            Timecode.FrameCount(.split(frames: 500, subFrames: 2), base: ._100SubFrames)
                 ==
-                Timecode.FrameCount.split(frames: 500, subFrames: 2)
+                Timecode.FrameCount(.split(frames: 500, subFrames: 2), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.split(frames: 500, subFrames: 2)
+            Timecode.FrameCount(.split(frames: 500, subFrames: 2), base: ._100SubFrames)
                 !=
-                Timecode.FrameCount.split(frames: 500, subFrames: 3)
+                Timecode.FrameCount(.split(frames: 500, subFrames: 3), base: ._100SubFrames)
         )
         
         // .combined
         
         XCTAssert(
-            Timecode.FrameCount.combined(frames: 500.025)
+            Timecode.FrameCount(.combined(frames: 500.025), base: ._100SubFrames)
                 ==
-                Timecode.FrameCount.combined(frames: 500.025)
+                Timecode.FrameCount(.combined(frames: 500.025), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.combined(frames: 500.025)
+            Timecode.FrameCount(.combined(frames: 500.025), base: ._100SubFrames)
                 !=
-                Timecode.FrameCount.combined(frames: 500.5)
+                Timecode.FrameCount(.combined(frames: 500.5), base: ._100SubFrames)
         )
         
         // .splitUnitInterval
         
         XCTAssert(
-            Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025)
+            Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025), base: ._100SubFrames)
                 ==
-                Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025)
+                Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025)
+            Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025), base: ._100SubFrames)
                 ==
-                Timecode.FrameCount.combined(frames: 500.025)
+                Timecode.FrameCount(.combined(frames: 500.025), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025)
+            Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025), base: ._100SubFrames)
                 !=
-                Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.5)
+                Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.5), base: ._100SubFrames)
         )
         
         XCTAssert(
-            Timecode.FrameCount.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025)
+            Timecode.FrameCount(.splitUnitInterval(frames: 500, subFramesUnitInterval: 0.025), base: ._100SubFrames)
                 !=
-                Timecode.FrameCount.combined(frames: 500.5)
+                Timecode.FrameCount(.combined(frames: 500.5), base: ._100SubFrames)
+        )
+        
+    }
+    
+    func testOperators() {
+        
+        XCTAssertEqual(
+            Timecode.FrameCount(.frames(200), base: ._100SubFrames)
+                +
+                Timecode.FrameCount(.frames(200), base: ._100SubFrames),
+            Timecode.FrameCount(.frames(400), base: ._100SubFrames)
+        )
+        
+        XCTAssertEqual(
+            Timecode.FrameCount(.frames(400), base: ._100SubFrames)
+                -
+                Timecode.FrameCount(.frames(200), base: ._100SubFrames),
+            Timecode.FrameCount(.frames(200), base: ._100SubFrames)
+        )
+        
+        XCTAssertEqual(
+            Timecode.FrameCount(.frames(200), base: ._100SubFrames)
+                * 2,
+            Timecode.FrameCount(.frames(400), base: ._100SubFrames)
+        )
+        
+        XCTAssertEqual(
+            Timecode.FrameCount(.frames(400), base: ._100SubFrames)
+                / 2,
+            Timecode.FrameCount(.frames(200), base: ._100SubFrames)
         )
         
     }
@@ -99,7 +129,7 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
     func testTimecode_framesToSubFrames() {
         
         XCTAssertEqual(
-            Timecode.framesToSubFrames(totalFrames: 500, subFrames: 2, subFramesDivisor: 80),
+            Timecode.framesToSubFrames(frames: 500, subFrames: 2, base: ._80SubFrames),
             40002
         )
         
@@ -107,7 +137,7 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
     
     func testTimecode_subFramesToFrames() {
         
-        let converted = Timecode.subFramesToFrames(totalSubFrames: 40002, subFramesDivisor: 80)
+        let converted = Timecode.subFramesToFrames(40002, base: ._80SubFrames)
         
         XCTAssertEqual(converted.frames, 500)
         XCTAssertEqual(converted.subFrames, 2)
@@ -123,8 +153,8 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
             Timecode(.frames(totalFramesin24Hr - 1),
                      at: ._29_97_drop,
                      limit: ._24hours,
-                     subFramesDivisor: 80,
-                     displaySubFrames: true)?.components,
+                     base: ._80SubFrames,
+                     format: [.showSubFrames])?.components,
             TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
         )
         
@@ -132,8 +162,8 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
             Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
                      at: ._29_97_drop,
                      limit: ._24hours,
-                     subFramesDivisor: 80,
-                     displaySubFrames: true)?.components,
+                     base: ._80SubFrames,
+                     format: [.showSubFrames])?.components,
             TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
         )
         
@@ -141,10 +171,10 @@ class Timecode_FrameCount_SubframesTests: XCTestCase {
             Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
                      at: ._29_97_drop,
                      limit: ._24hours,
-                     subFramesDivisor: 80,
-                     displaySubFrames: true)?
+                     base: ._80SubFrames,
+                     format: [.showSubFrames])?
                 .frameCount
-                .totalSubFrames(usingSubFramesDivisor: 80),
+                .subFrameCount,
             totalSubFramesin24Hr - 1
         )
         

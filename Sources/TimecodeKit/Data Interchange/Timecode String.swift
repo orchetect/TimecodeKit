@@ -48,7 +48,7 @@ extension Timecode {
             output += "\(String(format: "%02d", seconds))\(sepFrames)"
             output += "\(String(format: "%0\(frameRate.numberOfDigits)d", frames))"
             
-            if displaySubFrames {
+            if stringFormat.showSubFrames {
                 let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
                 
                 output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))"
@@ -171,7 +171,7 @@ extension Timecode {
         
         // subframes
         
-        if displaySubFrames {
+        if stringFormat.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
             output.append(sepSubFrames)
@@ -201,7 +201,7 @@ extension Timecode {
     ///
     /// Returns true/false depending on whether the string is formatted correctly or not.
     ///
-    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     @discardableResult
     public mutating func setTimecode(clamping string: String) -> Bool {
         
@@ -219,7 +219,7 @@ extension Timecode {
     ///
     /// Returns true/false depending on whether the string is formatted correctly or not.
     ///
-    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     @discardableResult
     public mutating func setTimecode(clampingEach string: String) -> Bool {
         
@@ -237,7 +237,7 @@ extension Timecode {
     ///
     /// Values which are out-of-bounds will also cause the setter to fail, and return false.
     ///
-    /// Validation is based on the `upperLimit` and `subFramesDivisor` properties.
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
     @discardableResult
     public mutating func setTimecode(exactly string: String) -> Bool {
         
@@ -251,7 +251,7 @@ extension Timecode {
     ///
     /// Values which are out-of-bounds will be clamped to minimum or maximum possible values.
     ///
-    /// Clamping is based on the `upperLimit` and `subFramesDivisor` properties.
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     @discardableResult
     public mutating func setTimecode(wrapping string: String) -> Bool {
         
@@ -330,6 +330,68 @@ extension Timecode {
                           s:  ints[3] ?? 0,
                           f:  ints[4] ?? 0,
                           sf: ints[5] ?? 0)
+        
+    }
+    
+}
+
+// MARK: - .toTimecode
+
+extension String {
+    
+    /// Returns an instance of `Timecode(exactly:)`.
+    /// If the string is not a valid timecode string, it returns nil.
+    @inlinable public func toTimecode(
+        at rate: Timecode.FrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase? = nil,
+        format: Timecode.StringFormat = .default()
+    ) -> Timecode? {
+        
+        if let base = base {
+            
+            return Timecode(self,
+                            at: rate,
+                            limit: limit,
+                            base: base,
+                            format: format)
+            
+        } else {
+            
+            return Timecode(self,
+                            at: rate,
+                            limit: limit,
+                            format: format)
+            
+        }
+        
+    }
+    
+    /// Returns an instance of `Timecode(rawValues:)`.
+    /// If the string is not a valid timecode string, it returns nil.
+    @inlinable public func toTimecode(
+        rawValuesAt rate: Timecode.FrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase? = nil,
+        format: Timecode.StringFormat = .default()
+    ) -> Timecode? {
+        
+        if let base = base {
+            
+            return Timecode(rawValues: self,
+                            at: rate,
+                            limit: limit,
+                            base: base,
+                            format: format)
+            
+        } else {
+            
+            return Timecode(rawValues: self,
+                            at: rate,
+                            limit: limit,
+                            format: format)
+            
+        }
         
     }
     

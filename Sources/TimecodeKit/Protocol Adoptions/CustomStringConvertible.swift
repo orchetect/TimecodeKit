@@ -15,7 +15,7 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
         
         // include Days even if it's 0 if we have a mode set that enables Days
         let daysString =
-            upperLimit == UpperLimit._100days
+            upperLimit == ._100days
             ? "\(days):"
             : ""
         

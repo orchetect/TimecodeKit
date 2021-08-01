@@ -108,7 +108,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
         
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
-        var tc = Timecode(at: ._30)
+        var tc = Timecode(at: ._30, base: ._80SubFrames)
         
         tc.setTimecode(clampingEach: TCC(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500))
         
@@ -135,6 +135,70 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
         XCTAssertEqual(tc.seconds   , 59)
         XCTAssertEqual(tc.frames    , 29)
         XCTAssertEqual(tc.subFrames , 0)
+        
+    }
+    
+    // MARK: - .toTimecode()
+    
+    func testTCC_toTimecode() {
+        
+        // toTimecode(rawValuesAt:)
+        
+        XCTAssertEqual(
+            TCC(h: 1, m: 5, s: 20, f: 14)
+                .toTimecode(at: ._23_976),
+            Timecode(TCC(h: 1, m: 5, s: 20, f: 14),
+                     at: ._23_976)
+        )
+        
+        // toTimecode(rawValuesAt:) with subframes
+        
+        let tcWithSubFrames = TCC(h: 1, m: 5, s: 20, f: 14, sf: 94)
+            .toTimecode(at: ._23_976,
+                        base: ._100SubFrames,
+                        format: [.showSubFrames])
+        XCTAssertEqual(
+            tcWithSubFrames,
+            Timecode(TCC(h: 1, m: 5, s: 20, f: 14, sf: 94),
+                     at: ._23_976,
+                     base: ._100SubFrames,
+                     format: [.showSubFrames])
+        )
+        XCTAssertEqual(
+            tcWithSubFrames?.stringValue,
+            "01:05:20:14.94"
+        )
+        
+    }
+    
+    func testTCC_toTimeCode_rawValuesAt() {
+        
+        // toTimecode(rawValuesAt:)
+        
+        XCTAssertEqual(
+            TCC(h: 1, m: 5, s: 20, f: 14)
+                .toTimecode(rawValuesAt: ._23_976),
+            Timecode(TCC(h: 1, m: 5, s: 20, f: 14),
+                     at: ._23_976)
+        )
+        
+        // toTimecode(rawValuesAt:) with subframes
+        
+        let tcWithSubFrames = TCC(h: 1, m: 5, s: 20, f: 14, sf: 94)
+            .toTimecode(rawValuesAt: ._23_976,
+                        base: ._100SubFrames,
+                        format: [.showSubFrames])
+        XCTAssertEqual(
+            tcWithSubFrames,
+            Timecode(TCC(h: 1, m: 5, s: 20, f: 14, sf: 94),
+                     at: ._23_976,
+                     base: ._100SubFrames,
+                     format: [.showSubFrames])
+        )
+        XCTAssertEqual(
+            tcWithSubFrames.stringValue,
+            "01:05:20:14.94"
+        )
         
     }
     

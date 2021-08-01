@@ -11,7 +11,7 @@ extension Timecode {
     
     /// NSTextField subclass with timecode formatting
     ///
-    /// Formatter is in effect bypassed until all its properties are set (`frameRate`, `upperLimit`, `displaySubFrames`, `subFramesDivisor`). These can be set after the class has initialized.
+    /// Formatter is in effect bypassed until all its properties are set (`frameRate`, `upperLimit`, `displaySubFrames`, `subFramesBase`). These can be set after the class has initialized.
     ///
     /// See `.formatter` property to access these.
     @objc(TimecodeTextField)

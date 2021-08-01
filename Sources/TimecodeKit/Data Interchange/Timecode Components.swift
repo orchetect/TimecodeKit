@@ -39,7 +39,7 @@ extension Timecode {
         guard values
                 .invalidComponents(at: frameRate,
                                    limit: upperLimit,
-                                   subFramesDivisor: subFramesDivisor)
+                                   base: subFramesBase)
                 .count == 0
         else { return false }
         
@@ -107,6 +107,66 @@ extension Timecode {
         frames = values.f
         subFrames = values.sf
         
+    }
+    
+}
+
+// MARK: - .toTimecode
+
+extension Timecode.Components {
+    
+    /// Returns an instance of `Timecode(exactly:)`.
+    @inlinable public func toTimecode(
+        at rate: Timecode.FrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase? = nil,
+        format: Timecode.StringFormat = .default()
+    ) -> Timecode?
+    {
+        
+        if let base = base {
+            
+            return Timecode(self,
+                            at: rate,
+                            limit: limit,
+                            base: base,
+                            format: format)
+            
+        } else {
+            
+            return Timecode(self,
+                            at: rate,
+                            limit: limit,
+                            format: format)
+            
+        }
+    }
+    
+    /// Returns an instance of `Timecode(rawValues:)`.
+    @inlinable public func toTimecode(
+        rawValuesAt rate: Timecode.FrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase? = nil,
+        format: Timecode.StringFormat = .default()
+    ) -> Timecode
+    {
+        
+        if let base = base {
+            
+            return Timecode(rawValues: self,
+                            at: rate,
+                            limit: limit,
+                            base: base,
+                            format: format)
+            
+        } else {
+            
+            return Timecode(rawValues: self,
+                            at: rate,
+                            limit: limit,
+                            format: format)
+            
+        }
     }
     
 }
