@@ -10,8 +10,7 @@ extension Timecode {
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
     /// Validation relies on `frameRate` and `upperLimit`.
-    public var invalidComponents: Set<Component>
-    {
+    public var invalidComponents: Set<Component> {
         
         Self.invalidComponents(in: self.components,
                                at: frameRate,
@@ -28,8 +27,7 @@ extension Timecode.Components {
     /// A fully valid timecode will return an empty set.
     public func invalidComponents(at frameRate: Timecode.FrameRate,
                                   limit: Timecode.UpperLimit,
-                                  base: Timecode.SubFramesBase) -> Set<Timecode.Component>
-    {
+                                  base: Timecode.SubFramesBase) -> Set<Timecode.Component> {
         
         Timecode.invalidComponents(in: self,
                                    at: frameRate,
@@ -47,8 +45,7 @@ extension Timecode {
     public static func invalidComponents(in components: TCC,
                                          at frameRate: FrameRate,
                                          limit: UpperLimit,
-                                         base: SubFramesBase) -> Set<Component>
-    {
+                                         base: SubFramesBase) -> Set<Component> {
         
         var invalids: Set<Component> = []
         
@@ -115,8 +112,7 @@ extension Timecode {
 extension Timecode {
     
     /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
-    @inlinable public func validRange(of component: Component) -> (ClosedRange<Int>)
-    {
+    @inlinable public func validRange(of component: Component) -> (ClosedRange<Int>) {
         
         components.validRange(of: component,
                               at: frameRate,
@@ -133,8 +129,7 @@ extension Timecode.Components {
     public func validRange(of component: Timecode.Component,
                            at rate: Timecode.FrameRate,
                            limit: Timecode.UpperLimit,
-                           base: Timecode.SubFramesBase) -> (ClosedRange<Int>)
-    {
+                           base: Timecode.SubFramesBase) -> (ClosedRange<Int>) {
         
         switch component {
         

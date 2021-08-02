@@ -24,14 +24,15 @@ extension Timecode {
     /// Subframes are represented by the fractional portion of the number.
     /// Timecode is updated as long as the value passed is in valid range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @discardableResult
-    @inlinable public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) throws {
         
         let fc = FrameCount(frameCountValue, base: subFramesBase)
         
         guard fc.subFrameCount >= 0
                 && fc <= maxFrameCountExpressible
-        else { return false }
+        else { throw ValidationError.outOfBounds }
         
         let converted = Self.components(from: fc,
                                         at: frameRate)
@@ -42,8 +43,6 @@ extension Timecode {
         seconds = converted.s
         frames = converted.f
         subFrames = converted.sf
-        
-        return true
         
     }
     

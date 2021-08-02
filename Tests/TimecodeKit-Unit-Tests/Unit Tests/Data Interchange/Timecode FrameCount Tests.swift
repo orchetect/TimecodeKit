@@ -93,13 +93,13 @@ class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
         
     }
     
-    func testSetTimecodeExactly() {
+    func testSetTimecodeExactly() throws {
         
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
         var tc = Timecode(at: ._30)
         
-        tc.setTimecode(exactly: .frames(670907))
+        try tc.setTimecode(exactly: .frames(670907))
         
         XCTAssertEqual(tc.days      , 0)
         XCTAssertEqual(tc.hours     , 6)

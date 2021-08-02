@@ -131,17 +131,17 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         
     }
     
-    func testDropFrameEdgeCases() {
+    func testDropFrameEdgeCases() throws {
         
         let comps = TCC(h: 23, m: 59, s: 59, f: 29, sf: 79)
         
-        let tc = Timecode(comps,
-                          at: ._29_97_drop,
-                          limit: ._24hours,
-                          base: ._80SubFrames)
+        let tc = try Timecode(comps,
+                              at: ._29_97_drop,
+                              limit: ._24hours,
+                              base: ._80SubFrames)
         
-        XCTAssertEqual(tc?.components, comps)
-        XCTAssertEqual(tc?.invalidComponents, [])
+        XCTAssertEqual(tc.components, comps)
+        XCTAssertEqual(tc.invalidComponents, [])
         
     }
     

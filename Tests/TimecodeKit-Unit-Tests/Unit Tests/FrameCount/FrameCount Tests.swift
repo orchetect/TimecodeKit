@@ -144,35 +144,35 @@ class Timecode_UT_FrameCount_Tests: XCTestCase {
         
     }
     
-    func testEdgeCases() {
+    func testEdgeCases() throws {
         
         let totalFramesin24Hr = 2589408
         let totalSubFramesin24Hr = 207152640
         
         XCTAssertEqual(
-            Timecode(.frames(totalFramesin24Hr - 1),
-                     at: ._29_97_drop,
-                     limit: ._24hours,
-                     base: ._80SubFrames,
-                     format: [.showSubFrames])?.components,
+            try Timecode(.frames(totalFramesin24Hr - 1),
+                         at: ._29_97_drop,
+                         limit: ._24hours,
+                         base: ._80SubFrames,
+                         format: [.showSubFrames]).components,
             TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
         )
         
         XCTAssertEqual(
-            Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
-                     at: ._29_97_drop,
-                     limit: ._24hours,
-                     base: ._80SubFrames,
-                     format: [.showSubFrames])?.components,
+            try Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
+                         at: ._29_97_drop,
+                         limit: ._24hours,
+                         base: ._80SubFrames,
+                         format: [.showSubFrames]).components,
             TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
         )
         
         XCTAssertEqual(
-            Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
-                     at: ._29_97_drop,
-                     limit: ._24hours,
-                     base: ._80SubFrames,
-                     format: [.showSubFrames])?
+            try Timecode(.split(frames: totalFramesin24Hr - 1, subFrames: 79),
+                         at: ._29_97_drop,
+                         limit: ._24hours,
+                         base: ._80SubFrames,
+                         format: [.showSubFrames])
                 .frameCount
                 .subFrameCount,
             totalSubFramesin24Hr - 1

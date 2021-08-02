@@ -73,33 +73,33 @@ Using `(_ exactly:)` by default:
 
 ```swift
 // from Int timecode component values
-Timecode(TCC(h: 01, m: 00, s: 00, f: 00), at: ._23_976)
-TCC(h: 01, m: 00, s: 00, f: 00).toTimecode(at: ._23_976) // alternate method
+try Timecode(TCC(h: 01, m: 00, s: 00, f: 00), at: ._23_976)
+try TCC(h: 01, m: 00, s: 00, f: 00).toTimecode(at: ._23_976) // alternate method
 
 // from frame number (total elapsed frames)
-Timecode(.frames(40000), at: ._23_976)
+try Timecode(.frames(40000), at: ._23_976)
 
 // from timecode string
-Timecode("01:00:00:00", at: ._23_976)
-"01:00:00:00".toTimecode(at: ._23_976) // alternate method
+try Timecode("01:00:00:00", at: ._23_976)
+try "01:00:00:00".toTimecode(at: ._23_976) // alternate method
 
 // from real time (wall clock) elapsed in seconds
-Timecode(realTimeValue: 4723.241579, at: ._23_976)
-(4723.241579).toTimecode(at: ._23_976) // alternate method on TimeInterval
+try Timecode(realTimeValue: 4723.241579, at: ._23_976)
+try (4723.241579).toTimecode(at: ._23_976) // alternate method on TimeInterval
 
 // from elapsed number of audio samples at a given sample rate
-Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
+try Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
 ```
 
 Using  `(clamping:, ...)` and `(clampingEach:, ...)`:
 
 ```swift
 // clamp full timecode to valid range
-Timecode(clamping: "26:00:00:00", at: ._24)?
+try Timecode(clamping: "26:00:00:00", at: ._24)
     .stringValue // == "23:59:59:23"
 
 // clamp individual timecode component values to valid values if they are out-of-bounds
-Timecode(clampingEach: "01:00:85:50", at: ._24)?
+try Timecode(clampingEach: "01:00:85:50", at: ._24)
     .stringValue // == "01:00:59:23"
 ```
 
@@ -108,10 +108,10 @@ Using `(wrapping:, ...)`:
 ```swift
 // wrap around clock continuously if entire timecode overflows or underflows
 
-Timecode(wrapping: "26:00:00:00", at: ._24)?
+try Timecode(wrapping: "26:00:00:00", at: ._24)
     .stringValue // == "02:00:00:00"
 
-Timecode(wrapping: "23:59:59:24", at: ._24)?
+try Timecode(wrapping: "23:59:59:24", at: ._24)
     .stringValue // == "00:00:00:00"
 ```
 
@@ -120,20 +120,20 @@ Timecode(wrapping: "23:59:59:24", at: ._24)?
 Timecode components can be get or set directly as instance properties.
 
 ```swift
-let tc = "01:12:20:05"
+let tc = try "01:12:20:05"
     .toTimecode(at: ._23_976)
 
 // get
-tc?.days        // == 0
-tc?.hours       // == 1
-tc?.minutes     // == 12
-tc?.seconds     // == 20
-tc?.frames      // == 5
-tc?.subFrames   // == 0
+tc.days        // == 0
+tc.hours       // == 1
+tc.minutes     // == 12
+tc.seconds     // == 20
+tc.frames      // == 5
+tc.subFrames   // == 0
 
 // set
-tc?.hours = 5
-tc?.stringValue // == "05:12:20:05"
+tc.hours = 5
+tc.stringValue // == "05:12:20:05"
 ```
 
 ### Components
@@ -145,14 +145,14 @@ In order to help facilitate defining a set of timecode component values, a simpl
 public typealias TCC = Timecode.Components
 
 // ie:
-Timecode(TCC(h: 1))
+Timecode(TCC(h: 1), at: ._23_976)
 // is the same as:
-Timecode(Timecode.Components(h: 1))
+Timecode(Timecode.Components(h: 1), at: ._23_976)
 ```
 
 ```swift
-let cmp = "01:12:20:05"
-    .toTimecode(at: ._23_976)?
+let cmp = try "01:12:20:05"
+    .toTimecode(at: ._23_976)
     .components // Timecode.Components(), aka TCC()
 
 cmp.d  // == 0   (days)
@@ -166,8 +166,8 @@ cmp.sf // == 0   (subframes)
 ### Timecode Display String
 
 ```swift
-TCC(h: 01, m: 00, s: 00, f: 00)
-    .toTimecode(at: ._29_97_drop)?
+try TCC(h: 01, m: 00, s: 00, f: 00)
+    .toTimecode(at: ._29_97_drop)
     .stringValue // == "01:00:00;00"
 ```
 
@@ -176,8 +176,8 @@ TCC(h: 01, m: 00, s: 00, f: 00)
 Using operators (which use `wrapping:` internally if the result underflows or overflows timecode bounds):
 
 ```swift
-guard let tc1 = "01:00:00:00".toTimecode(at: ._23_976) else { return }
-guard let tc2 = "00:00:02:00".toTimecode(at: ._23_976) else { return }
+let tc1 = try "01:00:00:00".toTimecode(at: ._23_976)
+let tc2 = try "00:00:02:00".toTimecode(at: ._23_976)
 
 (tc1 + tc2).stringValue // == "01:00:02:00"
 (tc1 - tc2).stringValue // == "00:00:58:00"
@@ -209,26 +209,26 @@ Non-mutating methods that produce a new `Timecode` instance:
 
 ```swift
 // convert between frame rates
-"01:00:00;00"
-    .toTimecode(at: ._29_97_drop)?
-    .converted(to: ._29_97)?
-    .stringValue ?? "" // == "00:59:56:12"
+try "01:00:00;00"
+    .toTimecode(at: ._29_97_drop)
+    .converted(to: ._29_97)
+    .stringValue // == "00:59:56:12"
 ```
 
 #### Real Time
 
 ```swift
 // timecode to real-world time in seconds
-let tc = "01:00:00:00"
-    .toTimecode(at: ._23_976)?
+let tc = try "01:00:00:00"
+    .toTimecode(at: ._23_976)
     .realTimeValue // == TimeInterval (aka Double)
 
-tc?.seconds // == 3603.6
-tc?.ms      // == 3603600.0
+tc.seconds // == 3603.6
+tc.ms      // == 3603600.0
 
 // real-world time to timecode
-(3603.6) // TimeInterval, aka Double
-    .toTimecode(at: ._23_976)?
+try (3603.6) // TimeInterval, aka Double
+    .toTimecode(at: ._23_976)
     .stringValue // == "01:00:00:00"
 ```
 
@@ -236,12 +236,12 @@ tc?.ms      // == 3603600.0
 
 ```swift
 // timecode to elapsed audio samples
-let tc = "01:00:00:00"
-    .toTimecode(at: ._24)?
+let tc = try "01:00:00:00"
+    .toTimecode(at: ._24)
     .samplesValue(atSampleRate: 48000) // == 172800000
 
 // elapsed audio samples to timecode
-Timecode(samples: 172800000, sampleRate: 48000, at: ._24)?
+try Timecode(samples: 172800000, sampleRate: 48000, at: ._24)
     .stringValue // == "01:00:00:00"
 ```
 
@@ -262,12 +262,13 @@ Timecode can be tested as:
 // but 75 seconds and 60 frames are NOT valid
 
 // non-granular validation
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(at: ._23_976) // == nil, because it cannot form a valid timecode
+try TCC(h: 1, m: 20, s: 75, f: 60)
+    .toTimecode(at: ._23_976) // == throws error; cannot form a valid timecode
 
 // granular validation
+// rawValues allow invalid values; does not throw errors so 'try' is not needed
 TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976) // rawValues methods allow invalid values to be set
+    .toTimecode(rawValuesAt: ._23_976) 
     .invalidComponents // == [.seconds, .frames]
 ```
 
@@ -338,8 +339,8 @@ The invalid formatting attributes defaults to applying `[ .foregroundColor : NSC
 let tcFormatter = 
     Timecode.TextFormatter(frameRate: ._23_976,
                            limit: ._24hours,
-                           displaySubFrames: false,
-                           subFramesDivisor: 80,
+                           stringFormat: [.showSubFrames],
+                           subFramesBase: ._80SubFrames,
                            showsValidation: true,     // enable invalid component highlighting
                            validationAttributes: nil) // if nil, defaults to red foreground color
 
@@ -368,31 +369,39 @@ The limit setting naturally affects internal timecode validation routines, as we
 
 #### Subframes Component
 
-Subframes are supported by some software and hardware, and since there are no industry standards, each manufacturer can decide how they want to implement subframes. Subframes are frame rate agnostic, meaning the subframe divisor is set independently from frame rate and is not dependent on frame rate or vice-versa.
+Subframes represent a fraction (subdivision) of a single frame.
 
-For example: Cubase/Nuendo and Logic Pro use 80 subframes per frame, whereas Pro Tools uses 100 subframes.
+Subframes are only used by some software and hardware, and since there are no industry standards, each manufacturer can decide how they want to implement subframes. Subframes are frame rate agnostic, meaning the subframe base (divisor) is mutually exclusive of frame rate.
+
+For example:
+
+- *Cubase/Nuendo* and *Logic Pro* globally use 80 subframes per frame (0...79) regardless of frame rate
+- *Pro Tools* uses 100 subframes (0...99) globally regardless of frame rate
 
 Timecode supports subframes throughout. However, by default subframes are not displayed in `stringValue`. You can enable them:
 
 ```swift
-var tc = "01:12:20:05.62"
-    .toTimecode(at: ._24, subFramesDivisor: 80)
+var tc = try "01:12:20:05.62"
+    .toTimecode(at: ._24, base: ._80SubFrames)
 
-tc?.stringValue // == "01:12:20:05"
-tc?.subFrames   // == 62 (subframes are preserved even though not displayed in stringValue)
+tc.stringValue // == "01:12:20:05"
+tc.subFrames   // == 62 (subframes are preserved even though not displayed in stringValue)
 
-tc?.displaySubFrames = true // default: false
+tc.stringFormat.showSubFrames = true // default: false
 
-tc?.stringValue // == "01:12:20:05.62"
+tc.stringValue // == "01:12:20:05.62"
 ```
 
 Subframes are always calculated when performing operations on the `Timecode` instance, regardless whether `displaySubFrames` set or not.
 
 ```swift
-var tc = "00:00:00:00.40"
-    .toTimecode(at: ._24, subFramesDivisor: 80)
+var tc = try "00:00:00:00.40"
+    .toTimecode(at: ._24, base: ._80SubFrames)
 
-tc?.displaySubFrames = true
+tc.stringValue // == "00:00:00:00"
+
+tc.stringFormat.showSubFrames = true // default: false
+tc.stringValue // == "00:00:00:00.40"
 
 // multiply timecode by 2. 40 subframes is half of a frame at 80 subframes per frame
 (tc * 2).stringValue // == "00:00:00:01.00"
@@ -401,10 +410,10 @@ tc?.displaySubFrames = true
 It is also possible to set this flag during construction.
 
 ```swift
-var tc = "01:12:20:05.62"
-    .toTimecode(at: ._24, subFramesDivisor: 80, displaySubFrames: true)
+var tc = try "01:12:20:05.62"
+    .toTimecode(at: ._24, base: ._80SubFrames, format: [.showSubFrames])
 
-tc?.stringValue // == "01:12:20:05.62"
+tc.stringValue // == "01:12:20:05.62"
 ```
 
 #### Comparable
@@ -412,11 +421,11 @@ tc?.stringValue // == "01:12:20:05.62"
 Two `Timecode` instances can be compared linearly.
 
 ```swift
-"01:00:00:00".toTimecode(at: ._24) == "01:00:00:00".toTimecode(at: ._24) // == true
+try "01:00:00:00".toTimecode(at: ._24) == try "01:00:00:00".toTimecode(at: ._24) // == true
 
-"00:59:50:00".toTimecode(at: ._24) < "01:00:00:00".toTimecode(at: ._24) // == true
+try "00:59:50:00".toTimecode(at: ._24) < "01:00:00:00".toTimecode(at: ._24) // == true
 
-"00:59:50:00".toTimecode(at: ._24) > "01:00:00:00".toTimecode(at: ._24) // == false
+try "00:59:50:00".toTimecode(at: ._24) > "01:00:00:00".toTimecode(at: ._24) // == false
 ```
 
 #### Range, Strideable
@@ -424,8 +433,8 @@ Two `Timecode` instances can be compared linearly.
 A `Stride` or `Range` can be formed between two `Timecode` instances.
 
 ```swift
-let startTC = "01:00:00:00".toTimecode(at: ._24)!
-let endTC   = "01:00:01:00".toTimecode(at: ._24)!
+let startTC = try "01:00:00:00".toTimecode(at: ._24)
+let endTC   = try "01:00:01:00".toTimecode(at: ._24)
 ```
 
 Range:
@@ -433,8 +442,8 @@ Range:
 ```swift
 // check if a timecode is contained within the range
 
-(startTC...endTC).contains("01:00:00:05".toTimecode(at: ._24)!) // == true
-(startTC...endTC).contains("01:05:00:00".toTimecode(at: ._24)!) // == false
+(startTC...endTC).contains(try "01:00:00:05".toTimecode(at: ._24)) // == true
+(startTC...endTC).contains(try "01:05:00:00".toTimecode(at: ._24)) // == false
 ```
 
 ```swift

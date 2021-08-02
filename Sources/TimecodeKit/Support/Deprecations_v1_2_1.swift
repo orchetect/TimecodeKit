@@ -1,5 +1,5 @@
 //
-//  Deprecations.swift
+//  Deprecations_v1_2_1.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
@@ -8,17 +8,17 @@ import Foundation
 // MARK: - Data Interchange/Timecode Components.swift
 
 extension Timecode.Components {
-    
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
-    @inlinable public func toTimecode(
-        at frameRate: Timecode.FrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        subFramesDivisor: Int? = nil,
-        displaySubFrames: Bool = false
-    ) -> Timecode?
-    { fatalError() } // never runs but prevents compiler from complaining
-    
+
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
+//    @inlinable public func toTimecode(
+//        at frameRate: Timecode.FrameRate,
+//        limit: Timecode.UpperLimit = ._24hours,
+//        subFramesDivisor: Int? = nil,
+//        displaySubFrames: Bool = false
+//    ) -> Timecode?
+//    { fatalError() } // never runs but prevents compiler from complaining
+
     /// Changed in TimecodeKit 1.2.1
     @available(swift, obsoleted: 0.1, renamed: "toTimecode(rawValuesat:limit:base:format:)")
     @inlinable public func toTimecode(
@@ -28,7 +28,7 @@ extension Timecode.Components {
         displaySubFrames: Bool = false
     ) -> Timecode
     { fatalError() } // never runs but prevents compiler from complaining
-    
+
 }
 
 // MARK: - Data Interchange/Timecode FrameCount.swift
@@ -55,15 +55,15 @@ extension Timecode {
 
 extension TimeInterval {
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
-    @inlinable public func toTimecode(
-        at frameRate: Timecode.FrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        subFramesDivisor: Int? = nil,
-        displaySubFrames: Bool = false
-    ) -> Timecode?
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
+//    @inlinable public func toTimecode(
+//        at frameRate: Timecode.FrameRate,
+//        limit: Timecode.UpperLimit = ._24hours,
+//        subFramesDivisor: Int? = nil,
+//        displaySubFrames: Bool = false
+//    ) -> Timecode?
+//    { fatalError() } // never runs but prevents compiler from complaining
     
 }
 
@@ -71,25 +71,25 @@ extension TimeInterval {
 
 extension String {
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
-    @inlinable public func toTimecode(
-        at frameRate: Timecode.FrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        subFramesDivisor: Int? = nil,
-        displaySubFrames: Bool = false
-    ) -> Timecode?
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "toTimecode(at:limit:base:format:)")
+//    @inlinable public func toTimecode(
+//        at frameRate: Timecode.FrameRate,
+//        limit: Timecode.UpperLimit = ._24hours,
+//        subFramesDivisor: Int? = nil,
+//        displaySubFrames: Bool = false
+//    ) -> Timecode?
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "toTimecode(rawValuesat:limit:base:format:)")
-    @inlinable public func toTimecode(
-        rawValuesAt frameRate: Timecode.FrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        subFramesDivisor: Int? = nil,
-        displaySubFrames: Bool = false
-    ) -> Timecode?
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "toTimecode(rawValuesat:limit:base:format:)")
+//    @inlinable public func toTimecode(
+//        rawValuesAt frameRate: Timecode.FrameRate,
+//        limit: Timecode.UpperLimit = ._24hours,
+//        subFramesDivisor: Int? = nil,
+//        displaySubFrames: Bool = false
+//    ) -> Timecode?
+//    { fatalError() } // never runs but prevents compiler from complaining
     
 }
 
@@ -234,23 +234,23 @@ extension Timecode {
                            displaySubFrames: Bool = false)
     { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
-    @inlinable public init?(_ exactly: FrameCount,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
+//    @inlinable public init?(_ exactly: FrameCount,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
-    @inlinable public init?(_ exactly: Components,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
+//    @inlinable public init?(_ exactly: Components,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
     /// Changed in TimecodeKit 1.2.1
     @available(swift, obsoleted: 0.1, renamed: "init(clampingEach:at:limit:base:format:)")
@@ -279,60 +279,60 @@ extension Timecode {
                            displaySubFrames: Bool = false)
     { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
-    @inlinable public init?(_ exactly: String,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(_:at:limit:base:format:)")
+//    @inlinable public init?(_ exactly: String,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(clampingEach:at:limit:base:format:)")
-    @inlinable public init?(clamping source: String,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(clampingEach:at:limit:base:format:)")
+//    @inlinable public init?(clamping source: String,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(wrapping:at:limit:base:format:)")
-    @inlinable public init?(wrapping source: String,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(wrapping:at:limit:base:format:)")
+//    @inlinable public init?(wrapping source: String,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(rawValues:at:limit:base:format:)")
-    @inlinable public init?(rawValues source: String,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(rawValues:at:limit:base:format:)")
+//    @inlinable public init?(rawValues source: String,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(realTimeValue:at:limit:base:format:)")
-    @inlinable public init?(realTimeValue source: TimeInterval,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(realTimeValue:at:limit:base:format:)")
+//    @inlinable public init?(realTimeValue source: TimeInterval,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
-    /// Changed in TimecodeKit 1.2.1
-    @available(swift, obsoleted: 0.1, renamed: "init(samples:sampleRate:at:limit:base:format:)")
-    @inlinable public init?(samples source: Double,
-                            sampleRate: Int,
-                            at frameRate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            subFramesDivisor: Int = 80,
-                            displaySubFrames: Bool = false)
-    { fatalError() } // never runs but prevents compiler from complaining
+//    /// Changed in TimecodeKit 1.2.1
+//    @available(swift, obsoleted: 0.1, renamed: "init(samples:sampleRate:at:limit:base:format:)")
+//    @inlinable public init?(samples source: Double,
+//                            sampleRate: Int,
+//                            at frameRate: FrameRate,
+//                            limit: UpperLimit = ._24hours,
+//                            subFramesDivisor: Int = 80,
+//                            displaySubFrames: Bool = false)
+//    { fatalError() } // never runs but prevents compiler from complaining
     
 }
 

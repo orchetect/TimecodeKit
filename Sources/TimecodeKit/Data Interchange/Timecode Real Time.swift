@@ -12,9 +12,7 @@ extension Timecode {
     /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecodes.
     public var realTimeValue: TimeInterval {
         
-        get {
-            frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
-        }
+        frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
         
     }
     
@@ -22,8 +20,9 @@ extension Timecode {
     ///
     /// Returns false if it underflows or overflows valid timecode range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @discardableResult
-    public mutating func setTimecode(fromRealTimeValue: TimeInterval) -> Bool {
+    /// 
+    /// - Throws: `Timecode.ValidationError`
+    public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
         
         // the basic calculation
         var calc = fromRealTimeValue / (1.0 / frameRate.frameRateForRealTimeCalculation)
@@ -42,7 +41,7 @@ extension Timecode {
             at: frameRate
         )
         
-        return setTimecode(exactly: convertedComponents)
+        try setTimecode(exactly: convertedComponents)
         
     }
     
@@ -55,26 +54,15 @@ extension TimeInterval {
     @inlinable public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase? = nil,
+        base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
-    ) -> Timecode? {
+    ) throws -> Timecode {
         
-        if let base = base {
-            
-            return Timecode(realTimeValue: self,
-                            at: rate,
-                            limit: limit,
-                            base: base,
-                            format: format)
-            
-        } else {
-            
-            return Timecode(realTimeValue: self,
-                            at: rate,
-                            limit: limit,
-                            format: format)
-            
-        }
+        try Timecode(realTimeValue: self,
+                     at: rate,
+                     limit: limit,
+                     base: base,
+                     format: format)
         
     }
     
