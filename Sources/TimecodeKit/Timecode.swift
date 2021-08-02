@@ -18,14 +18,14 @@ public struct Timecode: Codable {
     /// Note: Several properties are available on the frame rate that is selected, including its `.stringValue` representation or whether the rate `.isDrop`.
     ///
     /// Setting this value directly does not trigger any validation.
-    public let frameRate: FrameRate
+    public var frameRate: FrameRate
     
     /// Timecode maximum upper bound.
     ///
     /// This also affects how timecode values wrap when adding or clamping.
     ///
     /// Setting this value directly does not trigger any validation.
-    public let upperLimit: UpperLimit
+    public var upperLimit: UpperLimit
     
     /// Subframes base (divisor).
     ///
@@ -34,7 +34,7 @@ public struct Timecode: Codable {
     /// (ie: a divisor of 80 subframes per frame implies a visible value range of 00...79)
     ///
     /// This will vary depending on application. Most common divisors are 80 or 100.
-    public let subFramesBase: SubFramesBase
+    public var subFramesBase: SubFramesBase
     
     /// Timecode string output format configuration.
     public var stringFormat: StringFormat
