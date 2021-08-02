@@ -6,7 +6,7 @@
 extension Timecode {
     
     /// Enum describing the maximum timecode ceiling.
-    public enum UpperLimit: String, Codable {
+    public enum UpperLimit: String, Codable, CaseIterable {
         
         /// Pro Tools' upper limit is "23:59:59:FF" which is 1 day (24 hours) in duration.
         case _24hours = "24 hours"

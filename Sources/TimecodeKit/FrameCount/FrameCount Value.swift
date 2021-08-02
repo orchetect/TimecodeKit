@@ -24,7 +24,7 @@ extension Timecode.FrameCount {
 }
 
 extension Timecode.FrameCount.Value: Equatable, Hashable {
-    
+    // synthesized implementation
 }
 
 extension Timecode.FrameCount.Value: CustomStringConvertible {

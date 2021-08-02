@@ -113,7 +113,7 @@ extension Timecode.Delta: CustomStringConvertible, CustomDebugStringConvertible 
 
 extension Timecode.Delta {
     
-    public enum Sign {
+    public enum Sign: Equatable, Hashable, CaseIterable {
         
         case positive
         case negative

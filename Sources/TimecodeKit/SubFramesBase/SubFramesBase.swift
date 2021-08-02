@@ -7,7 +7,7 @@ import Foundation
 
 extension Timecode {
     
-    public enum SubFramesBase: Int, Codable {
+    public enum SubFramesBase: Int, Codable, CaseIterable {
         
         case _80SubFrames = 80
         

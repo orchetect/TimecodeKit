@@ -8,7 +8,7 @@ extension Timecode.FrameRate {
     /// Enum describing compatible groupings of frame rates.
     ///
     /// - note: These are intended for internal logic and not for end-user user interface.
-    public enum CompatibleGroup {
+    public enum CompatibleGroup: Equatable, Hashable, CaseIterable {
         
         case NTSC
         case NTSC_drop
