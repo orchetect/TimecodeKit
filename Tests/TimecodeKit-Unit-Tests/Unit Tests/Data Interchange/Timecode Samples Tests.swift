@@ -13,7 +13,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testSamplesGetSet_48KHz() {
+    func testSamplesGetSet_48KHz() throws {
         
         // pre-computed constants
         
@@ -29,7 +29,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
         // 48KHz ___________________________________
         
-        Timecode.FrameRate.allCases.forEach {
+        try Timecode.FrameRate.allCases.forEach {
             
             let sRate = 48000
             var tc = Timecode(at: $0, limit: ._100days)
@@ -43,15 +43,15 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                  ._119_88:
                 
                 // get
-                tc.setTimecode(exactly: TCC(d: 1))
+                try tc.setTimecode(exactly: TCC(d: 1))
                 XCTAssertEqual(tc.samplesValue(atSampleRate: sRate),
                                samplesIn1DayTC_ShrunkFrameRates,
                                accuracy: accuracy,
                                "at \($0)")
                 
                 // set
-                tc.setTimecode(fromSamplesValue: samplesIn1DayTC_ShrunkFrameRates,
-                               atSampleRate: sRate)
+                try tc.setTimecode(fromSamplesValue: samplesIn1DayTC_ShrunkFrameRates,
+                                   atSampleRate: sRate)
                 XCTAssertEqual(tc.components,
                                TCC(d: 1),
                                "at \($0)")
@@ -66,15 +66,15 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                  ._120:
                 
                 // get
-                tc.setTimecode(exactly: TCC(d: 1))
+                try tc.setTimecode(exactly: TCC(d: 1))
                 XCTAssertEqual(tc.samplesValue(atSampleRate: sRate),
                                samplesIn1DayTC_BaseFrameRates,
                                accuracy: accuracy,
                                "at \($0)")
                 
                 // set
-                tc.setTimecode(fromSamplesValue: samplesIn1DayTC_BaseFrameRates,
-                               atSampleRate: sRate)
+                try tc.setTimecode(fromSamplesValue: samplesIn1DayTC_BaseFrameRates,
+                                   atSampleRate: sRate)
                 XCTAssertEqual(tc.components,
                                TCC(d: 1),
                                "at \($0)")
@@ -87,14 +87,14 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                 // Pro Tools reports 2073597926 @ 12 hours; double this would technically be 4147195854 but Cubase shows 1 frame less
                 
                 // get
-                tc.setTimecode(exactly: TCC(d: 1))
+                try tc.setTimecode(exactly: TCC(d: 1))
                 XCTAssertEqual(tc.samplesValue(atSampleRate: sRate).rounded(), // add rounding for dropframe; DAWs seem to round using standard rounding rules (?)
                                samplesIn1DayTC_DropFrameRates,
                                "at \($0)")
                 
                 // set
-                tc.setTimecode(fromSamplesValue: samplesIn1DayTC_DropFrameRates,
-                               atSampleRate: sRate)
+                try tc.setTimecode(fromSamplesValue: samplesIn1DayTC_DropFrameRates,
+                                   atSampleRate: sRate)
                 XCTAssertEqual(tc.components, TCC(d: 1),
                                "at \($0)")
                 
@@ -103,15 +103,15 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                  ._120_drop:
                 
                 // get
-                tc.setTimecode(exactly: TCC(d: 1))
+                try tc.setTimecode(exactly: TCC(d: 1))
                 XCTAssertEqual(tc.samplesValue(atSampleRate: sRate),
                                samplesIn1DayTC_30DF,
                                accuracy: accuracy,
                                "at \($0)")
                 
                 // set
-                tc.setTimecode(fromSamplesValue: samplesIn1DayTC_30DF,
-                               atSampleRate: sRate)
+                try tc.setTimecode(fromSamplesValue: samplesIn1DayTC_30DF,
+                                   atSampleRate: sRate)
                 XCTAssertEqual(tc.components,
                                TCC(d: 1),
                                "at \($0)")
@@ -122,7 +122,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
     }
     
-    func testTimecode_Samples_SubFrames() {
+    func testTimecode_Samples_SubFrames() throws {
         
         // ensure subframes are calculated correctly
         
@@ -141,12 +141,12 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
             
             let tcc = TCC(d: 99, h: 23, sf: subFrame)
             
-            Timecode.FrameRate.allCases.forEach {
+            try Timecode.FrameRate.allCases.forEach {
                 
-                var tc = Timecode(tcc,
-                                  at: $0,
-                                  limit: ._100days,
-                                  base: subFramesBase)!
+                var tc = try Timecode(tcc,
+                                      at: $0,
+                                      limit: ._100days,
+                                      base: subFramesBase)
                 
                 let sRate = 48000
                 
@@ -156,8 +156,8 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                 
                 // samples to timecode
                 
-                if false == tc.setTimecode(fromSamplesValue: samples,
-                                           atSampleRate: sRate) {
+                if nil == (try? tc.setTimecode(fromSamplesValue: samples,
+                                               atSampleRate: sRate)) {
                     frameRatesWithSetTimecodeErrors.insert($0)
                     frameRatesWithSetTimecodeErrorsCount += 1
                     if logErrors {

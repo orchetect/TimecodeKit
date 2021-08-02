@@ -7,7 +7,7 @@ extension Timecode {
     
     /// Timecode components.
     ///
-    /// When setting, invalid values will cause the setter to fail silently.
+    /// When setting, raw values are accepted and are not validated prior to setting.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     @inlinable public var components: Components {
@@ -21,7 +21,7 @@ extension Timecode {
                        sf: subFrames)
         }
         set {
-            _ = setTimecode(exactly: newValue)
+            setTimecode(rawValues: newValue)
         }
         
     }
@@ -33,15 +33,16 @@ extension Timecode {
     /// Values which are out-of-bounds will return false.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @discardableResult
-    @inlinable public mutating func setTimecode(exactly values: Components) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public mutating func setTimecode(exactly values: Components) throws {
         
         guard values
                 .invalidComponents(at: frameRate,
                                    limit: upperLimit,
                                    base: subFramesBase)
                 .count == 0
-        else { return false }
+        else { throw ValidationError.outOfBounds }
         
         days = values.d
         hours = values.h
@@ -49,8 +50,6 @@ extension Timecode {
         seconds = values.s
         frames = values.f
         subFrames = values.sf
-        
-        return true
         
     }
     
@@ -61,7 +60,8 @@ extension Timecode {
     @inlinable public mutating func setTimecode(clamping source: Components) {
         
         let result = __add(clamping: source, to: TCC())
-        setTimecode(exactly: result)
+        
+        setTimecode(rawValues: result)
         
     }
     
@@ -88,10 +88,8 @@ extension Timecode {
     /// (Wrapping is based on the frame rate and `upperLimit` property.)
     @inlinable public mutating func setTimecode(wrapping values: Components) {
         
-        // guaranteed to work so we can ignore the value returned
-        
-        _ = setTimecode(exactly: __add(wrapping: values,
-                                       to: Components(f: 0)))
+        setTimecode(rawValues: __add(wrapping: values,
+                                     to: Components(f: 0)))
         
     }
     
@@ -119,54 +117,32 @@ extension Timecode.Components {
     @inlinable public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase? = nil,
+        base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
-    ) -> Timecode?
-    {
+    ) throws -> Timecode {
         
-        if let base = base {
-            
-            return Timecode(self,
-                            at: rate,
-                            limit: limit,
-                            base: base,
-                            format: format)
-            
-        } else {
-            
-            return Timecode(self,
-                            at: rate,
-                            limit: limit,
-                            format: format)
-            
-        }
+        try Timecode(self,
+                     at: rate,
+                     limit: limit,
+                     base: base,
+                     format: format)
+        
     }
     
     /// Returns an instance of `Timecode(rawValues:)`.
     @inlinable public func toTimecode(
         rawValuesAt rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase? = nil,
+        base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
-    ) -> Timecode
-    {
+    ) -> Timecode {
         
-        if let base = base {
-            
-            return Timecode(rawValues: self,
-                            at: rate,
-                            limit: limit,
-                            base: base,
-                            format: format)
-            
-        } else {
-            
-            return Timecode(rawValues: self,
-                            at: rate,
-                            limit: limit,
-                            format: format)
-            
-        }
+        Timecode(rawValues: self,
+                 at: rate,
+                 limit: limit,
+                 base: base,
+                 format: format)
+        
     }
     
 }

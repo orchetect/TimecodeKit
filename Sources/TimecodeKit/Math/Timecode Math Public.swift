@@ -8,15 +8,15 @@ extension Timecode {
     // MARK: - Add
     
     /// Add a duration to the current timecode.
-    /// Returns false if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    @discardableResult
-    @inlinable public mutating func add(_ exactly: Components) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public mutating func add(_ exactly: Components) throws {
         
-        guard let newTC = __add(exactly: exactly,
-                                to: components) else { return false }
+        guard let newTC = __add(exactly: exactly, to: components)
+        else { throw ValidationError.outOfBounds }
         
-        return setTimecode(exactly: newTC)
+        try setTimecode(exactly: newTC)
         
     }
     
@@ -25,10 +25,9 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public mutating func add(clamping values: Components) {
         
-        let newTC = __add(clamping: values,
-                          to: components)
+        let newTC = __add(clamping: values, to: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
@@ -37,23 +36,23 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public mutating func add(wrapping values: Components) {
         
-        let newTC = __add(wrapping: values,
-                          to: components)
+        let newTC = __add(wrapping: values, to: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
     /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    @inlinable public func adding(_ exactly: Components) -> Timecode? {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public func adding(_ exactly: Components) throws -> Timecode {
         
-        guard let newTC = __add(exactly: exactly,
-                                to: components) else { return nil }
+        guard let newTC = __add(exactly: exactly, to: components)
+        else { throw ValidationError.outOfBounds }
         
-        var newTimecode = self // copy self
-        guard newTimecode.setTimecode(exactly: newTC) else { return nil }
+        var newTimecode = self
+        try newTimecode.setTimecode(exactly: newTC)
         
         return newTimecode
         
@@ -64,11 +63,10 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func adding(clamping values: Components) -> Timecode {
         
-        let newTC = __add(clamping: values,
-                          to: components)
+        let newTC = __add(clamping: values, to: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -79,11 +77,10 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func adding(wrapping values: Components) -> Timecode {
         
-        let newTC = __add(wrapping: values,
-                          to: components)
+        let newTC = __add(wrapping: values, to: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -93,15 +90,15 @@ extension Timecode {
     // MARK: - Subtract
     
     /// Subtract a duration from the current timecode.
-    /// Returns false if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    @discardableResult
-    @inlinable public mutating func subtract(_ exactly: Components) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public mutating func subtract(_ exactly: Components) throws {
         
-        guard let newTC = __subtract(exactly: exactly,
-                                     from: components) else { return false }
+        guard let newTC = __subtract(exactly: exactly, from: components)
+        else { throw ValidationError.outOfBounds }
         
-        return setTimecode(exactly: newTC)
+        try setTimecode(exactly: newTC)
         
     }
     
@@ -110,10 +107,9 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public mutating func subtract(clamping: Components) {
         
-        let newTC = __subtract(clamping: clamping,
-                               from: components)
+        let newTC = __subtract(clamping: clamping, from: components)
         
-        _ = setTimecode(exactly: newTC)
+        setTimecode(rawValues: newTC)
         
     }
     
@@ -122,23 +118,23 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public mutating func subtract(wrapping: Components) {
         
-        let newTC = __subtract(wrapping: wrapping,
-                               from: components)
+        let newTC = __subtract(wrapping: wrapping, from: components)
         
-        _ = setTimecode(exactly: newTC)
+        setTimecode(rawValues: newTC)
         
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    @inlinable public func subtracting(_ exactly: Components) -> Timecode? {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    @inlinable public func subtracting(_ exactly: Components) throws -> Timecode {
         
-        guard let newTC = __subtract(exactly: exactly,
-                                     from: components) else { return nil }
+        guard let newTC = __subtract(exactly: exactly, from: components)
+        else { throw ValidationError.outOfBounds }
         
-        var newTimecode = self // copy self
-        guard newTimecode.setTimecode(exactly: newTC) else { return nil }
+        var newTimecode = self
+        try newTimecode.setTimecode(exactly: newTC)
         
         return newTimecode
         
@@ -149,11 +145,10 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func subtracting(clamping values: Components) -> Timecode {
         
-        let newTC = __subtract(clamping: values,
-                               from: components)
+        let newTC = __subtract(clamping: values, from: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -164,11 +159,10 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     @inlinable public func subtracting(wrapping values: Components) -> Timecode {
         
-        let newTC = __subtract(wrapping: values,
-                               from: components)
+        let newTC = __subtract(wrapping: values, from: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -178,14 +172,14 @@ extension Timecode {
     // MARK: - Multiply
     
     /// Multiply the current timecode by an amount.
-    /// Returns `false` if resulting value is > the `upperLimit` property.
-    @discardableResult
-    public mutating func multiply(_ exactly: Double) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    public mutating func multiply(_ exactly: Double) throws {
         
-        guard let newTC = __multiply(exactly: exactly,
-                                     with: components) else { return false }
+        guard let newTC = __multiply(exactly: exactly, with: components)
+        else { throw ValidationError.outOfBounds }
         
-        return setTimecode(exactly: newTC)
+        try setTimecode(exactly: newTC)
         
     }
     
@@ -195,7 +189,7 @@ extension Timecode {
         
         let newTC = __multiply(clamping: value, with: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
@@ -205,19 +199,21 @@ extension Timecode {
         
         let newTC = __multiply(wrapping: value, with: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
     /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func multiplying(_ exactly: Double) -> Timecode? {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    public func multiplying(_ exactly: Double) throws -> Timecode {
         
-        guard let newTC = __multiply(exactly: exactly, with: components) else { return nil }
+        guard let newTC = __multiply(exactly: exactly, with: components)
+        else { throw ValidationError.outOfBounds }
         
-        var newTimecode = self // copy self
-        guard newTimecode.setTimecode(exactly: newTC) else { return nil }
+        var newTimecode = self
+        try newTimecode.setTimecode(exactly: newTC)
         
         return newTimecode
         
@@ -230,8 +226,8 @@ extension Timecode {
         
         let newTC = __multiply(clamping: value, with: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -244,8 +240,8 @@ extension Timecode {
         
         let newTC = __multiply(wrapping: value, with: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -255,13 +251,14 @@ extension Timecode {
     // MARK: - Divide
     
     /// Divide the current timecode by a duration.
-    /// Returns `false` if resulting value is > the `upperLimit` property.
-    @discardableResult
-    public mutating func divide(_ exactly: Double) -> Bool {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    public mutating func divide(_ exactly: Double) throws {
         
-        guard let newTC = __divide(exactly: exactly, into: components) else { return false }
+        guard let newTC = __divide(exactly: exactly, into: components)
+        else { throw ValidationError.outOfBounds }
         
-        return setTimecode(exactly: newTC)
+        try setTimecode(exactly: newTC)
         
     }
     
@@ -271,7 +268,7 @@ extension Timecode {
         
         let newTC = __divide(clamping: value, into: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
@@ -281,19 +278,21 @@ extension Timecode {
         
         let newTC = __divide(wrapping: value, into: components)
         
-        _ = setTimecode(exactly: newTC) // guaranteed to work
+        setTimecode(rawValues: newTC)
         
     }
     
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Returns `nil` if resulting value is not within valid timecode range.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func dividing(_ exactly: Double) -> Timecode? {
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    public func dividing(_ exactly: Double) throws -> Timecode {
         
-        guard let newTC = __divide(exactly: exactly, into: components) else { return nil }
+        guard let newTC = __divide(exactly: exactly, into: components)
+        else { throw ValidationError.outOfBounds }
         
-        var newTimecode = self // copy self
-        guard newTimecode.setTimecode(exactly: newTC) else { return nil }
+        var newTimecode = self
+        try newTimecode.setTimecode(exactly: newTC)
         
         return newTimecode
         
@@ -306,8 +305,8 @@ extension Timecode {
         
         let newTC = __divide(clamping: value, into: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -320,8 +319,8 @@ extension Timecode {
         
         let newTC = __divide(wrapping: value, into: components)
         
-        var newTimecode = self // copy self
-        _ = newTimecode.setTimecode(exactly: newTC) // guaranteed to work
+        var newTimecode = self
+        newTimecode.setTimecode(rawValues: newTC)
         
         return newTimecode
         
@@ -352,7 +351,7 @@ extension Timecode {
         if frameRate == other.frameRate {
             return __offset(to: other.components)
         } else {
-            guard let otherConverted = other.converted(to: frameRate) else {
+            guard let otherConverted = try? other.converted(to: frameRate) else {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
                 return .init(TCC().toTimecode(rawValuesAt: frameRate))
             }

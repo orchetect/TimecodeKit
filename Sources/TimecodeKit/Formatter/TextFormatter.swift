@@ -118,7 +118,7 @@ extension Timecode {
             else { return string }
             
             // form timecode components without validating
-            guard let tcc = Timecode.decode(timecode: string)
+            guard let tcc = try? Timecode.decode(timecode: string)
             else { return string }
             
             // set values without validating
@@ -130,8 +130,10 @@ extension Timecode {
         
         // MARK: attributedString
         
-        override public func attributedString(for obj: Any,
-                                              withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil) -> NSAttributedString? {
+        override public func attributedString(
+            for obj: Any,
+            withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
+        ) -> NSAttributedString? {
             
             guard let string = string(for: obj)
             else { return nil }
@@ -153,7 +155,7 @@ extension Timecode {
             guard var tc = timecodeTemplate else { return entirelyInvalid() }
             
             // form timecode components without validating
-            guard let tcc = Timecode.decode(timecode: string) else { return entirelyInvalid() }
+            guard let tcc = try? Timecode.decode(timecode: string) else { return entirelyInvalid() }
             
             // set values without validating
             tc.setTimecode(rawValues: tcc)
@@ -169,9 +171,11 @@ extension Timecode {
             
         }
         
-        override public func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?,
-                                            for string: String,
-                                            errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+        override public func getObjectValue(
+            _ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?,
+            for string: String,
+            errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?
+        ) -> Bool {
             
             obj?.pointee = string as NSString
             return true
@@ -180,11 +184,13 @@ extension Timecode {
         
         // MARK: isPartialStringValid
         
-        override public func isPartialStringValid(_ partialStringPtr: AutoreleasingUnsafeMutablePointer<NSString>,
-                                                  proposedSelectedRange proposedSelRangePtr: NSRangePointer?,
-                                                  originalString origString: String,
-                                                  originalSelectedRange origSelRange: NSRange,
-                                                  errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+        override public func isPartialStringValid(
+            _ partialStringPtr: AutoreleasingUnsafeMutablePointer<NSString>,
+            proposedSelectedRange proposedSelRangePtr: NSRangePointer?,
+            originalString origString: String,
+            originalSelectedRange origSelRange: NSRange,
+            errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?
+        ) -> Bool {
             
             guard let frameRate = frameRate,
                   let limit = upperLimit,

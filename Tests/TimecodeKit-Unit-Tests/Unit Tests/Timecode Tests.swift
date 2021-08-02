@@ -13,36 +13,30 @@ class Timecode_UT_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testCodable() {
+    func testCodable() throws {
         
         // set up JSON coders with default settings
         
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
         
-        Timecode.FrameRate.allCases.forEach {
+        try Timecode.FrameRate.allCases.forEach {
             
             // set up a timecode object that has all non-defaults
             
-            let tc = "1 12:34:56:11.85"
+            let tc = try "1 12:34:56:11.85"
                 .toTimecode(at: $0,
                             limit: ._100days,
                             base: ._100SubFrames,
-                            format: [.showSubFrames])!
+                            format: [.showSubFrames])
             
             // encode
             
-            guard let encoded = try? encoder.encode(tc)
-            else {
-                XCTFail("JSON encode failed.") ; return
-            }
+            let encoded = try encoder.encode(tc)
             
             // decode
             
-            guard let decoded = try? decoder.decode(Timecode.self, from: encoded)
-            else {
-                XCTFail("JSON decode failed.") ; return
-            }
+            let decoded = try decoder.decode(Timecode.self, from: encoded)
             
             // compare original to reconstructed
             

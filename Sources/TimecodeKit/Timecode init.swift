@@ -28,35 +28,35 @@ extension Timecode {
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(_ exactly: FrameCount.Value,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(_ exactly: FrameCount.Value,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(exactly: exactly) { return nil }
+        try setTimecode(exactly: exactly)
         
     }
     
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(_ exactly: FrameCount,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            format: StringFormat = .default()) {
+    @inlinable public init(_ exactly: FrameCount,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = exactly.subFramesBase
         self.stringFormat = format
         
-        if !setTimecode(exactly: exactly.value) { return nil }
+        try setTimecode(exactly: exactly.value)
         
     }
     
@@ -68,18 +68,18 @@ extension Timecode {
     /// If any values are out-of-bounds `nil` will be returned, indicating an invalid timecode.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(_ exactly: Components,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(_ exactly: Components,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(exactly: exactly) { return nil }
+        try setTimecode(exactly: exactly)
         
     }
     
@@ -169,36 +169,36 @@ extension Timecode {
     /// An improperly formatted timecode string or one with out-of-bounds values will return `nil`.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(_ exactly: String,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(_ exactly: String,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(exactly: exactly) { return nil }
+        try setTimecode(exactly: exactly)
         
     }
     
     /// Instance from timecode string and frame rate, clamping to valid timecodes if necessary.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(clamping source: String,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(clamping source: String,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(clamping: source) { return nil }
+        try setTimecode(clamping: source)
         
     }
     
@@ -207,18 +207,18 @@ extension Timecode {
     /// Individual values which are out-of-bounds will be clamped to minimum or maximum possible values.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(clampingEach source: String,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(clampingEach source: String,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(clampingEach: source) { return nil }
+        try setTimecode(clampingEach: source)
         
     }
     
@@ -227,18 +227,18 @@ extension Timecode {
     /// An improperly formatted timecode string or one with invalid values will return `nil`.
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable public init?(wrapping source: String,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(wrapping source: String,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(wrapping: source) { return nil }
+        try setTimecode(wrapping: source)
         
     }
     
@@ -247,18 +247,18 @@ extension Timecode {
     /// Timecode values will not be validated or rejected if they overflow.
     ///
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-    @inlinable public init?(rawValues source: String,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(rawValues source: String,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !setTimecode(rawValues: source) { return nil }
+        try setTimecode(rawValues: source)
         
     }
     
@@ -268,18 +268,18 @@ extension Timecode {
     /// Instance from real time and frame rate.
     ///
     /// - Note: This may be lossy.
-    @inlinable public init?(realTimeValue source: TimeInterval,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(realTimeValue source: TimeInterval,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !self.setTimecode(fromRealTimeValue: source) { return nil }
+        try setTimecode(fromRealTimeValue: source)
         
     }
     
@@ -289,20 +289,20 @@ extension Timecode {
     /// Instance from audio samples and sample rate.
     ///
     /// - Note: This may be lossy.
-    @inlinable public init?(samples source: Double,
-                            sampleRate: Int,
-                            at rate: FrameRate,
-                            limit: UpperLimit = ._24hours,
-                            base: SubFramesBase = .default(),
-                            format: StringFormat = .default()) {
+    @inlinable public init(samples source: Double,
+                           sampleRate: Int,
+                           at rate: FrameRate,
+                           limit: UpperLimit = ._24hours,
+                           base: SubFramesBase = .default(),
+                           format: StringFormat = .default()) throws {
         
         self.frameRate = rate
         self.upperLimit = limit
         self.subFramesBase = base
         self.stringFormat = format
         
-        if !self.setTimecode(fromSamplesValue: source,
-                             atSampleRate: sampleRate) { return nil }
+        try setTimecode(fromSamplesValue: source,
+                        atSampleRate: sampleRate)
         
     }
     

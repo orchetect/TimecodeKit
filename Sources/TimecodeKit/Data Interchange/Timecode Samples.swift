@@ -70,9 +70,10 @@ extension Timecode {
     /// Sets the timecode to the nearest frame at the current frame rate from elapsed audio samples.
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
-    @discardableResult
+    /// 
+    /// - Throws: `Timecode.ValidationError`
     @inlinable public mutating func setTimecode(fromSamplesValue: Double,
-                                                atSampleRate: Int) -> Bool {
+                                                atSampleRate: Int) throws {
         
         // prepare coefficients
         
@@ -132,7 +133,7 @@ extension Timecode {
             at: frameRate
         )
         
-        return setTimecode(exactly: convertedComponents)
+        try setTimecode(exactly: convertedComponents)
         
     }
     

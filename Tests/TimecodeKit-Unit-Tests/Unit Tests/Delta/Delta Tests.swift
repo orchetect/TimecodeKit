@@ -14,11 +14,11 @@ class Timecode_UT_Delta_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testInitA() {
+    func testInitA() throws {
         
         // positive
         
-        let deltaTC = Timecode(TCC(m: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(m: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC)
         
@@ -27,11 +27,11 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         
     }
     
-    func testInitB() {
+    func testInitB() throws {
         
         // negative
         
-        let deltaTC = Timecode(TCC(m: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(m: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC, .negative)
         
@@ -66,11 +66,11 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         
     }
     
-    func testTimecodeA() {
+    func testTimecodeA() throws {
         
         // positive
         
-        let deltaTC = Timecode(TCC(m: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(m: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC)
         
@@ -78,20 +78,20 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         
     }
     
-    func testTimecodeB() {
+    func testTimecodeB() throws {
         
         // negative, wrapping
         
-        let deltaTC = Timecode(TCC(m: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(m: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC, .negative)
         
         XCTAssertEqual(delta.timecode,
-                       Timecode(TCC(h: 23, m: 59, s: 00, f: 00), at: ._24)!)
+                       try Timecode(TCC(h: 23, m: 59, s: 00, f: 00), at: ._24))
         
     }
     
-    func testTimecodeC() {
+    func testTimecodeC() throws {
         
         // positive, wrapping
         
@@ -100,11 +100,11 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         let delta = Timecode.Delta(deltaTC)
         
         XCTAssertEqual(delta.timecode,
-                       Timecode(TCC(h: 02, m: 00, s: 00, f: 00), at: ._24)!)
+                       try Timecode(TCC(h: 02, m: 00, s: 00, f: 00), at: ._24))
         
     }
     
-    func testTimecodeOffsettingA() {
+    func testTimecodeOffsettingA() throws {
         
         // positive
         
@@ -113,13 +113,13 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         let delta = Timecode.Delta(deltaTC)
         
         XCTAssertEqual(
-            delta.timecode(offsetting: Timecode(TCC(h: 1), at: ._24)!),
-            Timecode(TCC(h: 01, m: 01, s: 00, f: 00), at: ._24)!
+            delta.timecode(offsetting: try Timecode(TCC(h: 1), at: ._24)),
+            try Timecode(TCC(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
         
     }
     
-    func testTimecodeOffsettingB() {
+    func testTimecodeOffsettingB() throws {
         
         // negative
         
@@ -128,17 +128,17 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         let delta = Timecode.Delta(deltaTC, .negative)
         
         XCTAssertEqual(
-            delta.timecode(offsetting: Timecode(TCC(h: 1), at: ._24)!),
-            Timecode(TCC(h: 00, m: 59, s: 00, f: 00), at: ._24)!
+            delta.timecode(offsetting: try Timecode(TCC(h: 1), at: ._24)),
+            try Timecode(TCC(h: 00, m: 59, s: 00, f: 00), at: ._24)
         )
         
     }
     
-    func testRealTimeValueA() {
+    func testRealTimeValueA() throws {
         
         // positive
         
-        let deltaTC = Timecode(TCC(h: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(h: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC)
         
@@ -146,11 +146,11 @@ class Timecode_UT_Delta_Tests: XCTestCase {
         
     }
     
-    func testRealTimeValueB() {
+    func testRealTimeValueB() throws {
         
         // negative
         
-        let deltaTC = Timecode(TCC(h: 1), at: ._24)!
+        let deltaTC = try Timecode(TCC(h: 1), at: ._24)
         
         let delta = Timecode.Delta(deltaTC, .negative)
         
