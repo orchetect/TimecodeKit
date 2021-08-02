@@ -35,7 +35,7 @@ extension Timecode.StringFormat {
 extension Timecode {
     
     /// `Timecode` string output format configuration parameter.
-    public enum StringFormatParameter: Equatable, Hashable {
+    public enum StringFormatParameter: Equatable, Hashable, CaseIterable {
         
         /// Determines whether subframes are included.
         ///
