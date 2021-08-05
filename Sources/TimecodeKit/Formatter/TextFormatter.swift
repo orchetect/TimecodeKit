@@ -74,8 +74,8 @@ extension Timecode {
             
             self.showsValidation = showsValidation
             
-            if let validationAttributes = validationAttributes {
-                self.validationAttributes = validationAttributes
+            if let unwrappedValidationAttributes = validationAttributes {
+                self.validationAttributes = unwrappedValidationAttributes
             }
             
         }
@@ -135,19 +135,19 @@ extension Timecode {
             withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
         ) -> NSAttributedString? {
             
-            guard let string = string(for: obj)
+            guard let stringForObj = string(for: obj)
             else { return nil }
             
             func entirelyInvalid() -> NSAttributedString {
                 self.showsValidation
-                    ? NSAttributedString(string: string,
+                    ? NSAttributedString(string: stringForObj,
                                          attributes: self
                                             .validationAttributes
                                             .merging(attrs ?? [:],
                                                      uniquingKeysWith: { current, _ in current })
                     )
                     .addingAttribute(alignment: self.alignment)
-                    : NSAttributedString(string: string, attributes: attrs)
+                    : NSAttributedString(string: stringForObj, attributes: attrs)
                     .addingAttribute(alignment: self.alignment)
             }
             
@@ -155,7 +155,7 @@ extension Timecode {
             guard var tc = timecodeTemplate else { return entirelyInvalid() }
             
             // form timecode components without validating
-            guard let tcc = try? Timecode.decode(timecode: string) else { return entirelyInvalid() }
+            guard let tcc = try? Timecode.decode(timecode: stringForObj) else { return entirelyInvalid() }
             
             // set values without validating
             tc.setTimecode(rawValues: tcc)
@@ -165,7 +165,7 @@ extension Timecode {
                     self.showsValidation
                         ? tc.stringValueValidated(invalidAttributes: self.validationAttributes,
                                                   withDefaultAttributes: attrs)
-                        : NSAttributedString(string: string, attributes: attrs)
+                        : NSAttributedString(string: stringForObj, attributes: attrs)
                 )
                 .addingAttribute(alignment: self.alignment)
             
@@ -192,10 +192,10 @@ extension Timecode {
             errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?
         ) -> Bool {
             
-            guard let frameRate = frameRate,
-                  let limit = upperLimit,
-                  //let subFramesBase = subFramesBase,
-                  let stringFormat = stringFormat else { return true }
+            guard let unwrappedFrameRate = frameRate,
+                  let unwrappedUpperLimit = upperLimit,
+                  //let unwrappedSubFramesBase = subFramesBase,
+                  let unwrappedStringFormat = stringFormat else { return true }
             
             let partialString = partialStringPtr.pointee as String
             
@@ -245,7 +245,7 @@ extension Timecode {
                 switch char {
                 case ".":
                     if colonCount < 3 {
-                        char = frameRate.isDrop && (colonCount == 2)
+                        char = unwrappedFrameRate.isDrop && (colonCount == 2)
                             ? ";" : ":"
                         
                         fixed = true
@@ -255,7 +255,7 @@ extension Timecode {
                     
                 case ";":
                     if colonCount < 3 {
-                        char = frameRate.isDrop && (colonCount == 2)
+                        char = unwrappedFrameRate.isDrop && (colonCount == 2)
                             ? ";" : ":"
                         
                         fixed = true
@@ -265,7 +265,7 @@ extension Timecode {
                 }
                 
                 if char == " " {
-                    if limit == ._24hours
+                    if unwrappedUpperLimit == ._24hours
                     { return false }
                     
                     if !(intGrouping == 1
@@ -293,7 +293,7 @@ extension Timecode {
                 if char == "." && periodCount > 1
                 { return false }
                 
-                if char == "." && !stringFormat.showSubFrames
+                if char == "." && !unwrappedStringFormat.showSubFrames
                 { return false }
                 
                 // number validation (?)
@@ -337,19 +337,19 @@ extension Timecode.TextFormatter {
     
     public var timecodeTemplate: Timecode? {
         
-        guard let frameRate = frameRate,
-              let upperLimit = upperLimit,
-              let subFramesBase = subFramesBase,
-              let stringFormat = stringFormat else {
+        guard let unwrappedFrameRate = frameRate,
+              let unwrappedUpperLimit = upperLimit,
+              let unwrappedSubFramesBase = subFramesBase,
+              let unwrappedStringFormat = stringFormat else {
             
             return nil
             
         }
         
-        return Timecode(at: frameRate,
-                        limit: upperLimit,
-                        base: subFramesBase,
-                        format: stringFormat)
+        return Timecode(at: unwrappedFrameRate,
+                        limit: unwrappedUpperLimit,
+                        base: unwrappedSubFramesBase,
+                        format: unwrappedStringFormat)
         
     }
     
