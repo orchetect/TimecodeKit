@@ -17,12 +17,12 @@ let package = Package(
         .library(
             name: "TimecodeKit",
             type: .static,
-            targets: ["TimecodeKit"])//,
-//
-//        .library(
-//            name: "TimecodeKitUI",
-//            type: .static,
-//            targets: ["TimecodeKitUI"])
+            targets: ["TimecodeKit"]),
+        
+        .library(
+            name: "TimecodeKitUI",
+            type: .static,
+            targets: ["TimecodeKitUI"])
     ],
     
     dependencies: [
@@ -41,13 +41,13 @@ let package = Package(
         ),
         
         // UI components
-//        .target(
-//            name: "TimecodeKitUI",
-//            dependencies: ["TimecodeKit", "OTCore"],
-//            linkerSettings: [
-//                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
-//            ]
-//        ),
+        .target(
+            name: "TimecodeKitUI",
+            dependencies: ["TimecodeKit", "OTCore"],
+            linkerSettings: [
+                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
+            ]
+        ),
         
         // unit tests
         .testTarget(
