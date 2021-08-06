@@ -14,11 +14,15 @@ let package = Package(
     platforms: [.macOS(.v10_10), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)],
     
     products: [
-        // library:
         .library(
             name: "TimecodeKit",
             type: .static,
             targets: ["TimecodeKit"]),
+        
+        .library(
+            name: "TimecodeKitUI",
+            type: .static,
+            targets: ["TimecodeKitUI"])
     ],
     
     dependencies: [
@@ -30,20 +34,29 @@ let package = Package(
     ],
     
     targets: [
-        // main target:
+        // main target
         .target(
             name: "TimecodeKit",
             dependencies: ["OTCore"]
         ),
         
-        // unit tests:
+        // UI components
+        .target(
+            name: "TimecodeKitUI",
+            dependencies: ["TimecodeKit", "OTCore"],
+            linkerSettings: [
+                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
+            ]
+        ),
+        
+        // unit tests
         .testTarget(
             name: "TimecodeKit-Unit-Tests",
             dependencies: ["TimecodeKit"]
         ),
         
-        // dev tests:
-        // not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the library, as these tests require modification to be meaningful
+        // dev tests
+        // (not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
             name: "TimecodeKit-Dev-Tests",
             dependencies: ["TimecodeKit"] // , "SegmentedProgress"
