@@ -83,6 +83,40 @@ extension Timecode.FrameRate {
 
 extension Timecode.FrameRate {
     
+    /// Returns the frame rate expressed as a fraction.
+    ///
+    ///     // == frame rate
+    ///     Double(numerator) / Double(denominator)
+    ///
+    ///     // == duration of 1 frame in seconds
+    ///     Double(denominator) / Double(numerator)
+    @inlinable public var fraction: (numerator: Int, denominator: Int) {
+        
+        switch self {
+        case ._23_976:      return (numerator: 24000,  denominator: 1001)
+        case ._24:          return (numerator: 24,     denominator: 1)
+        case ._24_98:       return (numerator: 25000,  denominator: 1001)
+        case ._25:          return (numerator: 25,     denominator: 1)
+        case ._29_97:       return (numerator: 30000,  denominator: 1001)
+        case ._29_97_drop:  return (numerator: 30000,  denominator: 1001)
+        case ._30:          return (numerator: 30,     denominator: 1)
+        case ._30_drop:     return (numerator: 30000,  denominator: 1001)
+        case ._47_952:      return (numerator: 48000,  denominator: 1001)
+        case ._48:          return (numerator: 48,     denominator: 1)
+        case ._50:          return (numerator: 50,     denominator: 1)
+        case ._59_94:       return (numerator: 60000,  denominator: 1001)
+        case ._59_94_drop:  return (numerator: 60000,  denominator: 1001)
+        case ._60:          return (numerator: 60,     denominator: 1)
+        case ._60_drop:     return (numerator: 60000,  denominator: 1001)
+        case ._100:         return (numerator: 100,    denominator: 1)
+        case ._119_88:      return (numerator: 120000, denominator: 1001)
+        case ._119_88_drop: return (numerator: 120000, denominator: 1001)
+        case ._120:         return (numerator: 120,    denominator: 1)
+        case ._120_drop:    return (numerator: 120000, denominator: 1001)
+        }
+        
+    }
+    
     /// Returns true if frame rate is drop-frame.
     @inlinable public var isDrop: Bool {
         
