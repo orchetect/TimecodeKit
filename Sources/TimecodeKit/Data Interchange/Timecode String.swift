@@ -262,8 +262,10 @@ extension Timecode {
     ///
     /// Valid formats for 24-hour:
     ///
-    ///     "00:00:00:00" "00:00:00;00"
+    ///     "00:00:00:00"    "00:00:00;00"
     ///     "00:00:00:00.00" "00:00:00;00.00"
+    ///     "00;00;00;00"    "00;00;00;00"
+    ///     "00;00;00;00.00" "00;00;00;00.00"
     ///
     /// Valid formats for 100-day: All of the above, as well as:
     ///
@@ -271,11 +273,15 @@ extension Timecode {
     ///     "0:00:00:00:00" "0:00:00:00;00"
     ///     "0 00:00:00:00.00" "0 00:00:00;00.00"
     ///     "0:00:00:00:00.00" "0:00:00:00;00.00"
+    ///     "0 00;00;00;00" "0 00;00;00;00"
+    ///     "0;00;00;00;00" "0;00;00;00;00"
+    ///     "0 00;00;00;00.00" "0 00;00;00;00.00"
+    ///     "0;00;00;00;00.00" "0;00;00;00;00.00"
     ///
     /// - Throws: `Timecode.StringParseError`
     public static func decode(timecode string: String) throws -> Components {
         
-        let pattern = #"^(\d+)??[\:\s]??(\d+)[\:](\d+)[\:](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
+        let pattern = #"^(\d+)??[\:;\s]??(\d+)[\:;](\d+)[\:;](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
         
         let matches = string
             .regexMatches(captureGroupsFromPattern: pattern)
