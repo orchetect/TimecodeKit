@@ -285,6 +285,57 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         XCTAssertEqual(try Timecode.decode(timecode: "12:01:56:45;23"),
                        TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 0))
         
+        // all semicolons (such as from Adobe Premiere in its XMP format)
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "0;0;0;0"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "0;00;00;00"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "00;00;00;00"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "1;56;45;23"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "01;56;45;23"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "3 01;56;45;23"),
+                       TCC(d:  3, h: 01, m: 56, s: 45, f: 23, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12 01;56;45;23"),
+                       TCC(d: 12, h: 1, m: 56, s: 45, f: 23, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12;01;56;45;23"),
+                       TCC(d: 12, h: 1, m: 56, s: 45, f: 23, sf: 00))
+        
+        // drop frame
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "0:0:0;0"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "0:00:00;00"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "00:00:00;00"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 00))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "1:56:45;23"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 0))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "01:56:45;23"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 0))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "3 01:56:45;23"),
+                       TCC(d:  3, h: 01, m: 56, s: 45, f: 23, sf: 0))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12 01:56:45;23"),
+                       TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 0))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12:01:56:45;23"),
+                       TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 0))
         
         // all periods - not supporting this.
         
@@ -318,6 +369,30 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
                        TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05))
         
         XCTAssertEqual(try Timecode.decode(timecode: "12:01:56:45:23.05"),
+                       TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05))
+        
+        // subframes
+        // all semicolons (such as from Adobe Premiere in its XMP format)
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "0;00;00;00.05"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "00;00;00;00.05"),
+                       TCC(d:  0, h: 00, m: 00, s: 00, f: 00, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "1;56;45;23.05"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "01;56;45;23.05"),
+                       TCC(d:  0, h: 01, m: 56, s: 45, f: 23, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "3 01;56;45;23.05"),
+                       TCC(d:  3, h: 01, m: 56, s: 45, f: 23, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12 01;56;45;23.05"),
+                       TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05))
+        
+        XCTAssertEqual(try Timecode.decode(timecode: "12;01;56;45;23.05"),
                        TCC(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05))
         
     }
