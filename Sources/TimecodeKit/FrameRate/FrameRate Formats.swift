@@ -3,7 +3,9 @@
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
+#if canImport(AVFoundation)
 import AVFoundation
+#endif
 
 extension Timecode.FrameRate {
     
@@ -35,12 +37,21 @@ extension Timecode.FrameRate {
         
     }
     
+}
+
+extension Timecode.FrameRate {
+    
+    #if canImport(AVFoundation)
+    
     /// Returns an AVFoundation `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
+    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
     public var frameDurationCMTime: CMTime {
         
         CMTime(value: CMTimeValue(fraction.denominator),
                timescale: CMTimeScale(fraction.numerator))
         
     }
+    
+    #endif
     
 }
