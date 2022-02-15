@@ -27,7 +27,7 @@ let package = Package(
     
     dependencies: [
         // boilerplate:
-        .package(url: "https://github.com/orchetect/OTCore", from: "1.1.26")
+        .package(url: "https://github.com/orchetect/OTCore", from: "1.3.0")
         
         // used only for Dev tests, not part of regular unit test
         //.package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
