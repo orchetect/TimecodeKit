@@ -3,7 +3,7 @@
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
-import AVFoundation
+import CoreMedia
 
 extension Timecode.FrameRate {
     
@@ -35,7 +35,7 @@ extension Timecode.FrameRate {
         
     }
     
-    /// Returns an AVFoundation `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
+    /// Returns a CoreMedia `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
     public var frameDurationCMTime: CMTime {
         
         CMTime(value: CMTimeValue(fraction.denominator),
