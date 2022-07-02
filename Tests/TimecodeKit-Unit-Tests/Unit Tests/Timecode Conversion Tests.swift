@@ -2,7 +2,7 @@
 //  Timecode Conversion Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 
-#if !os(watchOS)
+#if shouldTestCurrentPlatform
 
 import XCTest
 @testable import TimecodeKit
