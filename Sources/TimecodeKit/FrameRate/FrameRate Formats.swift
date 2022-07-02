@@ -3,8 +3,6 @@
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //
 
-import CoreMedia
-
 extension Timecode.FrameRate {
     
     /// AAF file metadata for the given frame rate.
@@ -35,7 +33,15 @@ extension Timecode.FrameRate {
         
     }
     
+}
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+extension Timecode.FrameRate {
+    
     /// Returns a CoreMedia `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
+    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
     public var frameDurationCMTime: CMTime {
         
         CMTime(value: CMTimeValue(fraction.denominator),
@@ -44,3 +50,5 @@ extension Timecode.FrameRate {
     }
     
 }
+
+#endif
