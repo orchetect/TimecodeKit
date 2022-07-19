@@ -6,6 +6,8 @@
 
 A robust and precise Swift library for working with SMPTE timecode supporting 20 industry frame rates, including conversions to/from timecode strings and timecode-based calculations.
 
+Timecode is suitable for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/editing applications.
+
 ## Supported Timecode Frame Rates
 
 The following BITC frame rates are supported. These are used widely in DAWs (digital audio workstation software) and video editing applications.
@@ -38,10 +40,24 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 
 ### Swift Package Manager (SPM)
 
-To add TimecodeKit to your Xcode project:
+1. Add TimecodeKit as a dependency using Swift Package Manager.
 
-1. Select File → Swift Packages → Add Package Dependency
-2. Add package using  `https://github.com/orchetect/TimecodeKit` as the URL.
+   - In an app project or framework, in Xcode:
+
+     - Select the menu: **File → Swift Packages → Add Package Dependency...**
+     - Enter this URL: `https://github.com/orchetect/TimecodeKit`
+
+   - In a Swift Package, add it to the Package.swift dependencies:
+
+     ```swift
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.2.10")
+     ```
+
+2. Import the library:
+
+   ```swift
+   import TimecodeKit
+   ```
 
 ## Documentation
 
@@ -502,9 +518,7 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 
 ## Known Issues
 
-- Unit Tests won't build/run for watchOS Simulator because XCTest does not work on watchOS
-  - Workaround: Don't run unit tests for a watchOS target. watchOS support for XCTest is coming from Apple soon, in which case this will be addressed.
-- The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations.
+- The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations. This does not affect library usage at all.
 
 ## References
 
