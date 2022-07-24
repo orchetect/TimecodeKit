@@ -9,7 +9,7 @@
 /// - Mathematical operators are available between two instances: `+`, `-`, `*`, `\`
 /// - Compared operators are available between two instances (`==`, `!=`, `<`, `>`)
 /// - `Range` and `Stride` can be formed between two instances
-public struct Timecode: Codable {
+public struct Timecode {
     
     // MARK: - Immutable properties
     
@@ -86,3 +86,8 @@ public struct Timecode: Codable {
     public var subFrames: Int = 0
     
 }
+
+// Can't put this in another file since it prevents automatic synthesis
+// But for sake of consistency, we'll put it on an extension here since all other
+// protocol conformances exist in separate files. Sad panda.
+extension Timecode: Codable { }

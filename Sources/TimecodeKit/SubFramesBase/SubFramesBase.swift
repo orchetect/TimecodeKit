@@ -7,7 +7,7 @@ import Foundation
 
 extension Timecode {
     
-    public enum SubFramesBase: Int, Codable, CaseIterable {
+    public enum SubFramesBase: Int, CaseIterable {
         
         case _80SubFrames = 80
         
@@ -45,3 +45,5 @@ extension Timecode.SubFramesBase: CustomStringConvertible {
     }
     
 }
+
+extension Timecode.SubFramesBase: Codable { }

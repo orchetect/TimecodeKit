@@ -7,7 +7,7 @@ extension Timecode {
     
     // MARK: - FrameRate
     
-    public enum FrameRate: String, Codable {
+    public enum FrameRate: String {
         
         /// 23.976 fps (aka 23.98)
         ///
@@ -138,6 +138,8 @@ extension Timecode.FrameRate: CustomStringConvertible {
     }
     
 }
+
+extension Timecode.FrameRate: Codable { }
 
 @available(macOS 10.15, macCatalyst 13, iOS 11, *)
 extension Timecode.FrameRate: Identifiable {
