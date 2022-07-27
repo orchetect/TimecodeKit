@@ -45,20 +45,22 @@ class Timecode_UT_FrameRate_Properties_Tests: XCTestCase {
                                         base: ._80SubFrames),
             2592000 * 80)
         
+        #if !arch(arm) // these integers result in overflow on armv7
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(in: ._100days,
                                         base: ._80SubFrames),
             2592000 * 100 * 80)
         
         XCTAssertEqual(
-            frameRate.maxSubFrameCountExpressible(in: ._24hours,
-                                                  base: ._80SubFrames),
-            (2592000 * 80) - 1)
-        
-        XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(in: ._100days,
                                                   base: ._80SubFrames),
             (2592000 * 100 * 80) - 1)
+        #endif
+        
+        XCTAssertEqual(
+            frameRate.maxSubFrameCountExpressible(in: ._24hours,
+                                                  base: ._80SubFrames),
+            (2592000 * 80) - 1)
         
         XCTAssertEqual(frameRate.maxFrames, 30)
         
