@@ -45,7 +45,8 @@ class Timecode_UT_FrameRate_Properties_Tests: XCTestCase {
                                         base: ._80SubFrames),
             2592000 * 80)
         
-        #if !arch(arm) // these integers result in overflow on armv7
+        // these integers result in overflow on armv7/i386 (32-bit arch)
+        #if !(arch(arm) || arch(i386))
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(in: ._100days,
                                         base: ._80SubFrames),
