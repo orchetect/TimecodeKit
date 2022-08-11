@@ -8,9 +8,9 @@
 import XCTest
 @testable import TimecodeKit
 
-//import SegmentedProgress
+// import SegmentedProgress
 //
-//class Timecode_ET_ExtendedTests: XCTestCase {
+// class Timecode_ET_ExtendedTests: XCTestCase {
 //
 //    func testTimecode_Iterative() {
 //
@@ -104,7 +104,7 @@ import XCTest
 //        print("Done")
 //
 //    }
-//    
-//}
+//
+// }
 
 #endif

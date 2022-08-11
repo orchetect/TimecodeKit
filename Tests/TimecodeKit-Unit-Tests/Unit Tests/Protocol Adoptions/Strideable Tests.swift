@@ -9,14 +9,11 @@ import XCTest
 @testable import TimecodeKit
 
 class Timecode_UT_Strideable_Tests: XCTestCase {
-    
     override func setUp() { }
     override func tearDown() { }
     
     func testAdvancedBy() throws {
-        
         try Timecode.FrameRate.allCases.forEach {
-            
             let frames = Timecode.frameCount(of: TCC(h: 1), at: $0).wholeFrames
             
             let advanced = try TCC(f: 00)
@@ -25,16 +22,13 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
                 .components
             
             XCTAssertEqual(advanced, TCC(h: 1), "for \($0)")
-            
         }
     }
     
     func testDistanceTo_24Hours() throws {
-        
         // 24 hours stride frame count test
         
         try Timecode.FrameRate.allCases.forEach {
-            
             let zero = try TCC(h: 00, m: 00, s: 00, f: 00)
                 .toTimecode(at: $0)
             
@@ -44,17 +38,13 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
             let delta = zero.distance(to: target)
             
             XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._24hours), "for \($0)")
-            
         }
-        
     }
     
     func testDistanceTo_100Days() throws {
-        
         // 100 days stride frame count test
         
         try Timecode.FrameRate.allCases.forEach {
-            
             let zero = try TCC(h: 00, m: 00, s: 00, f: 00)
                 .toTimecode(at: $0, limit: ._100days)
             
@@ -64,69 +54,81 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
             let delta = zero.distance(to: target)
             
             XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._100days), "for \($0)")
-            
         }
-        
     }
-    
     
     // MARK: Integration Tests
     
     func testTimecode_Strideable_Ranges() throws {
-        
         // Stride through & array
         
-        let strideThrough = stride(from: try "01:00:00:00".toTimecode(at: ._23_976),
-                                   through: try "01:00:00:06".toTimecode(at: ._23_976),
-                                   by: 2)
+        let strideThrough = stride(
+            from: try "01:00:00:00".toTimecode(at: ._23_976),
+            through: try "01:00:00:06".toTimecode(at: ._23_976),
+            by: 2
+        )
         var array = Array(strideThrough)
         
         XCTAssertEqual(array.count, 4)
-        XCTAssertEqual(array,
-                       [try "01:00:00:00".toTimecode(at: ._23_976),
-                        try "01:00:00:02".toTimecode(at: ._23_976),
-                        try "01:00:00:04".toTimecode(at: ._23_976),
-                        try "01:00:00:06".toTimecode(at: ._23_976)
-                       ])
-        
+        XCTAssertEqual(
+            array,
+            [
+                try "01:00:00:00".toTimecode(at: ._23_976),
+                try "01:00:00:02".toTimecode(at: ._23_976),
+                try "01:00:00:04".toTimecode(at: ._23_976),
+                try "01:00:00:06".toTimecode(at: ._23_976)
+            ]
+        )
         
         // Stride to
-        let strideTo = stride(from: try "01:00:00:00".toTimecode(at: ._23_976),
-                              to: try "01:00:00:06".toTimecode(at: ._23_976),
-                              by: 2)
+        let strideTo = stride(
+            from: try "01:00:00:00".toTimecode(at: ._23_976),
+            to: try "01:00:00:06".toTimecode(at: ._23_976),
+            by: 2
+        )
         array = Array(strideTo)
         
         XCTAssertEqual(array.count, 3)
-        XCTAssertEqual(array,
-                       [try "01:00:00:00".toTimecode(at: ._23_976),
-                        try "01:00:00:02".toTimecode(at: ._23_976),
-                        try "01:00:00:04".toTimecode(at: ._23_976)
-                       ])
-        
+        XCTAssertEqual(
+            array,
+            [
+                try "01:00:00:00".toTimecode(at: ._23_976),
+                try "01:00:00:02".toTimecode(at: ._23_976),
+                try "01:00:00:04".toTimecode(at: ._23_976)
+            ]
+        )
         
         // Strideable
         
-        XCTAssertEqual(try "01:00:00:00".toTimecode(at: ._23_976)
-                        .advanced(by: 6),
-                       try "01:00:00:06".toTimecode(at: ._23_976))
+        XCTAssertEqual(
+            try "01:00:00:00".toTimecode(at: ._23_976)
+                .advanced(by: 6),
+            try "01:00:00:06".toTimecode(at: ._23_976)
+        )
         
-        XCTAssertEqual(try "01:00:00:00".toTimecode(at: ._23_976)
-                        .distance(to: "02:00:00:00".toTimecode(at: ._23_976)),
-                       try "01:00:00:00".toTimecode(at: ._23_976).frameCount.wholeFrames)
+        XCTAssertEqual(
+            try "01:00:00:00".toTimecode(at: ._23_976)
+                .distance(to: "02:00:00:00".toTimecode(at: ._23_976)),
+            try "01:00:00:00".toTimecode(at: ._23_976).frameCount.wholeFrames
+        )
         
         let strs = Array(
-            stride(from: try "01:00:00:05".toTimecode(at: ._23_976),
-                   through: try "01:00:10:05".toTimecode(at: ._23_976),
-                   by: try Timecode(TCC(s: 1), at: ._23_976).frameCount.wholeFrames)
+            stride(
+                from: try "01:00:00:05".toTimecode(at: ._23_976),
+                through: try "01:00:10:05".toTimecode(at: ._23_976),
+                by: try Timecode(TCC(s: 1), at: ._23_976).frameCount.wholeFrames
+            )
         )
         .map { $0.stringValue }
         
         XCTAssertEqual(strs.count, 11)
         
         let strs2 = Array(
-            stride(from: try "01:00:00:05".toTimecode(at: ._23_976),
-                   to: try "01:00:10:07".toTimecode(at: ._23_976),
-                   by: try Timecode(TCC(s: 1), at: ._23_976).frameCount.wholeFrames)
+            stride(
+                from: try "01:00:00:05".toTimecode(at: ._23_976),
+                to: try "01:00:10:07".toTimecode(at: ._23_976),
+                by: try Timecode(TCC(s: 1), at: ._23_976).frameCount.wholeFrames
+            )
         )
         .map { $0.stringValue }
         
@@ -139,11 +141,11 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         // Range .contains
         
         XCTAssertTrue(
-            try ("01:00:00:00".toTimecode(at: ._23_976)..."01:00:00:06".toTimecode(at: ._23_976))
+            try ("01:00:00:00".toTimecode(at: ._23_976) ... "01:00:00:06".toTimecode(at: ._23_976))
                 .contains(Timecode("01:00:00:02", at: ._23_976))
         )
         XCTAssertFalse(
-            try ("01:00:00:00".toTimecode(at: ._23_976)..."01:00:00:06".toTimecode(at: ._23_976))
+            try ("01:00:00:00".toTimecode(at: ._23_976) ... "01:00:00:06".toTimecode(at: ._23_976))
                 .contains(Timecode("01:00:00:10", at: ._23_976))
         )
         XCTAssertTrue(
@@ -158,11 +160,11 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         // (same tests, but with ~= operator instead of .contains(...) which should produce the same result)
         
         XCTAssertTrue(
-            try "01:00:00:00".toTimecode(at: ._23_976)..."01:00:00:06".toTimecode(at: ._23_976)
+            try "01:00:00:00".toTimecode(at: ._23_976) ... "01:00:00:06".toTimecode(at: ._23_976)
                 ~= Timecode("01:00:00:02", at: ._23_976)
         )
         XCTAssertFalse(
-            try "01:00:00:00".toTimecode(at: ._23_976)..."01:00:00:06".toTimecode(at: ._23_976)
+            try "01:00:00:00".toTimecode(at: ._23_976) ... "01:00:00:06".toTimecode(at: ._23_976)
                 ~= Timecode("01:00:00:10", at: ._23_976)
         )
         XCTAssertTrue(
@@ -176,14 +178,14 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         
         // sort
         
-        let sort = [try "01:00:00:06".toTimecode(at: ._23_976),
-                    try "01:00:00:00".toTimecode(at: ._23_976)]
+        let sort = [
+            try "01:00:00:06".toTimecode(at: ._23_976),
+            try "01:00:00:00".toTimecode(at: ._23_976)
+        ]
             .sorted()
         
         XCTAssertEqual(sort[0], try "01:00:00:00".toTimecode(at: ._23_976))
-        
     }
-    
 }
 
 #endif

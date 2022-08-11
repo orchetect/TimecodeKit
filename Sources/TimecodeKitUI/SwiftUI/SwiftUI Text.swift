@@ -11,7 +11,6 @@ import OTCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    
     // MARK: textViewValidated
     
     /// Returns `stringValue` as SwiftUI `Text`, highlighting invalid values.
@@ -22,7 +21,6 @@ extension Timecode {
         invalidModifiers: ((Text) -> Text)? = nil,
         withDefaultModifiers: ((Text) -> Text)? = nil
     ) -> Text {
-        
         let withDefaultModifiers = withDefaultModifiers ?? {
             $0
         }
@@ -115,9 +113,7 @@ extension Timecode {
         }
         
         return output
-        
     }
-    
 }
 
 #endif

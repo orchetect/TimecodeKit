@@ -4,12 +4,10 @@
 //
 
 extension Timecode.FrameRate {
-    
     /// Enum describing compatible groupings of frame rates.
     ///
     /// - note: These are intended for internal logic and not for end-user user interface.
     public enum CompatibleGroup: Equatable, Hashable, CaseIterable {
-        
         case NTSC
         case NTSC_drop
         case ATSC
@@ -24,7 +22,7 @@ extension Timecode.FrameRate {
         /// - 01:00:00:00 @ 30 fps
         /// - 01:00:00:00 @ 60 fps
         /// - 00:59:56:12 @ 29.97 fps
-        public static var table: [CompatibleGroup : [Timecode.FrameRate]] =
+        public static var table: [CompatibleGroup: [Timecode.FrameRate]] =
             [
                 .NTSC: [
                     ._23_976,
@@ -58,17 +56,12 @@ extension Timecode.FrameRate {
                     ._120_drop
                 ]
             ]
-        
     }
-    
 }
 
 extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
-    
     public var description: String {
-        
         stringValue
-        
     }
     
     /// Returns human-readable group string.
@@ -85,34 +78,27 @@ extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
             
         case .ATSC_drop:
             return "ATSC Drop-Frame"
-            
         }
     }
-    
 }
 
 extension Timecode.FrameRate {
-    
     /// Returns the frame rate's `CompatibleGroup` categorization.
     @inlinable public var compatibleGroup: CompatibleGroup {
-        
         // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
         
         Self.CompatibleGroup.table
             .first(where: { $0.value.contains(self) })!
             .key
-        
     }
     
     /// Returns the members of the frame rate's `CompatibleGroup` categorization.
     @inlinable public var compatibleGroupRates: [Self] {
-        
         // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
         
         Self.CompatibleGroup.table
             .first(where: { $0.value.contains(self) })!
             .value
-        
     }
     
     /// Returns true if the source `FrameRate` shares a compatible grouping with the passed `other` frame rate.
@@ -122,14 +108,12 @@ extension Timecode.FrameRate {
     /// - 01:00:00:00 @ 30 fps
     /// - 01:00:00:00 @ 60 fps
     /// - 00:59:56:12 @ 29.97 fps
-    @inlinable public func isCompatible(with other: Self) -> Bool {
-        
+    @inlinable
+    public func isCompatible(with other: Self) -> Bool {
         Self.CompatibleGroup.table
             .values
             .first(where: { $0.contains(self) })?
             .contains(other)
             ?? false
-        
     }
-    
 }

@@ -6,10 +6,8 @@
 // MARK: stringValue
 
 extension Timecode.FrameRate {
-    
     /// Returns human-readable frame rate string.
     public var stringValue: String {
-        
         switch self {
         case ._23_976:      return "23.976"
         case ._24:          return "24"
@@ -32,12 +30,10 @@ extension Timecode.FrameRate {
         case ._120:         return "120"
         case ._120_drop:    return "120d"
         }
-        
     }
     
     /// Returns human-readable frame rate string in long form.
     public var stringValueVerbose: String {
-        
         switch self {
         case ._23_976:      return "23.976 fps"
         case ._24:          return "24 fps"
@@ -60,12 +56,10 @@ extension Timecode.FrameRate {
         case ._120:         return "120 fps"
         case ._120_drop:    return "120 fps drop"
         }
-        
     }
     
     /// Initializes from a `stringValue` string. Case-sensitive.
     public init?(stringValue: String) {
-        
         if let findMatch = Self.allCases
             .first(where: { $0.stringValue == stringValue })
         {
@@ -73,16 +67,12 @@ extension Timecode.FrameRate {
         } else {
             return nil
         }
-        
     }
-    
 }
-
 
 // MARK: Public meta properties
 
 extension Timecode.FrameRate {
-    
     /// Returns the frame rate expressed as a fraction.
     ///
     ///     // == frame rate
@@ -91,7 +81,6 @@ extension Timecode.FrameRate {
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
     @inlinable public var fraction: (numerator: Int, denominator: Int) {
-        
         switch self {
         case ._23_976:      return (numerator: 24000,  denominator: 1001)
         case ._24:          return (numerator: 24,     denominator: 1)
@@ -109,17 +98,15 @@ extension Timecode.FrameRate {
         case ._60:          return (numerator: 60,     denominator: 1)
         case ._60_drop:     return (numerator: 60000,  denominator: 1001)
         case ._100:         return (numerator: 100,    denominator: 1)
-        case ._119_88:      return (numerator: 120000, denominator: 1001)
-        case ._119_88_drop: return (numerator: 120000, denominator: 1001)
+        case ._119_88:      return (numerator: 120_000, denominator: 1001)
+        case ._119_88_drop: return (numerator: 120_000, denominator: 1001)
         case ._120:         return (numerator: 120,    denominator: 1)
-        case ._120_drop:    return (numerator: 120000, denominator: 1001)
+        case ._120_drop:    return (numerator: 120_000, denominator: 1001)
         }
-        
     }
     
     /// Returns true if frame rate is drop-frame.
     @inlinable public var isDrop: Bool {
-        
         switch self {
         case ._23_976:      return false
         case ._24:          return false
@@ -142,14 +129,12 @@ extension Timecode.FrameRate {
         case ._120:         return false
         case ._120_drop:    return true
         }
-        
     }
     
     /// Returns the number of digits required for frames within the timecode string.
     ///
     /// ie: 24 or 30 fps would return 2, but 120 fps would return 3.
     @inlinable public var numberOfDigits: Int {
-        
         switch self {
         case ._23_976,
              ._24,
@@ -176,91 +161,82 @@ extension Timecode.FrameRate {
              ._120_drop:
             
             return 3
-            
         }
-        
     }
     
     /// Max frame number displayable before seconds roll over.
     @inlinable public var maxFrameNumberDisplayable: Int {
-        
         maxFrames - 1
-        
     }
     
     /// Returns max total frames from 0 to and including rolling over to `extent`.
-    @inlinable public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
-        
+    @inlinable
+    public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
         // template to calculate:
         // Int(Double(extent.maxDays) * 24 * 60 * 60 * self.frameRateForCalculation)
         
         switch extent {
         case ._24hours:
             switch self {
-            case ._23_976:      return 2073600  // @ 24hours
-            case ._24:          return 2073600  // @ 24hours
-            case ._24_98:       return 2160000  // @ 24hours
-            case ._25:          return 2160000  // @ 24hours
-            case ._29_97:       return 2592000  // @ 24hours
-            case ._29_97_drop:  return 2589408  // @ 24hours
-            case ._30:          return 2592000  // @ 24hours
-            case ._30_drop:     return 2589408  // @ 24hours
-            case ._47_952:      return 4147200  // @ 24hours
-            case ._48:          return 4147200  // @ 24hours
-            case ._50:          return 4320000  // @ 24hours
-            case ._59_94:       return 5184000  // @ 24hours (._29_97 * 2 in theory)
-            case ._59_94_drop:  return 5178816  // @ 24hours (._29_97_drop * 2, in theory)
-            case ._60:          return 5184000  // @ 24hours
-            case ._60_drop:     return 5178816  // @ 24hours
-            case ._100:         return 8640000  // @ 24hours
-            case ._119_88:      return 10368000 // @ 24hours (._29_97 * 4 in theory)
-            case ._119_88_drop: return 10357632 // @ 24hours (._29_97_drop * 4, in theory)
-            case ._120:         return 10368000 // @ 24hours
-            case ._120_drop:    return 10357632 // @ 24hours
+            case ._23_976:      return 2_073_600  // @ 24hours
+            case ._24:          return 2_073_600  // @ 24hours
+            case ._24_98:       return 2_160_000  // @ 24hours
+            case ._25:          return 2_160_000  // @ 24hours
+            case ._29_97:       return 2_592_000  // @ 24hours
+            case ._29_97_drop:  return 2_589_408  // @ 24hours
+            case ._30:          return 2_592_000  // @ 24hours
+            case ._30_drop:     return 2_589_408  // @ 24hours
+            case ._47_952:      return 4_147_200  // @ 24hours
+            case ._48:          return 4_147_200  // @ 24hours
+            case ._50:          return 4_320_000  // @ 24hours
+            case ._59_94:       return 5_184_000  // @ 24hours (._29_97 * 2 in theory)
+            case ._59_94_drop:  return 5_178_816  // @ 24hours (._29_97_drop * 2, in theory)
+            case ._60:          return 5_184_000  // @ 24hours
+            case ._60_drop:     return 5_178_816  // @ 24hours
+            case ._100:         return 8_640_000  // @ 24hours
+            case ._119_88:      return 10_368_000 // @ 24hours (._29_97 * 4 in theory)
+            case ._119_88_drop: return 10_357_632 // @ 24hours (._29_97_drop * 4, in theory)
+            case ._120:         return 10_368_000 // @ 24hours
+            case ._120_drop:    return 10_357_632 // @ 24hours
             }
             
         case ._100days:
-            return self.maxTotalFrames(in: ._24hours) * extent.maxDays
-            
+            return maxTotalFrames(in: ._24hours) * extent.maxDays
         }
-        
     }
     
     /// Returns max elapsed frames possible before rolling over to 0.
     /// (Number of frames from 0 to `extent` minus one frame).
-    @inlinable public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
-        
+    @inlinable
+    public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
         maxTotalFrames(in: extent) - 1
-        
     }
     
     /// Returns max total subframes from 0 to and including rolling over to `extent`.
-    @inlinable public func maxTotalSubFrames(in extent: Timecode.UpperLimit,
-                                             base: Timecode.SubFramesBase) -> Int {
-        
+    @inlinable
+    public func maxTotalSubFrames(
+        in extent: Timecode.UpperLimit,
+        base: Timecode.SubFramesBase
+    ) -> Int {
         maxTotalFrames(in: extent) * base.rawValue
-        
     }
     
     /// Returns max elapsed subframes possible before rolling over to 0.
     /// (Number of subframes from 0 to `extent` minus one subframe).
-    @inlinable public func maxSubFrameCountExpressible(in extent: Timecode.UpperLimit,
-                                                       base: Timecode.SubFramesBase) -> Int {
-        
+    @inlinable
+    public func maxSubFrameCountExpressible(
+        in extent: Timecode.UpperLimit,
+        base: Timecode.SubFramesBase
+    ) -> Int {
         maxTotalSubFrames(in: extent, base: base) - 1
-        
     }
-    
 }
-
 
 // MARK: Internal properties
 
 extension Timecode.FrameRate {
-    
     /// Internal use. Total number of elapsed frames that comprise 1 second of timecode.
     @inlinable internal var maxFrames: Int {
-        
         switch self {
         case ._23_976:      return 24
         case ._24:          return 24
@@ -283,12 +259,10 @@ extension Timecode.FrameRate {
         case ._120:         return 120
         case ._120_drop:    return 120
         }
-        
     }
     
     /// Internal use.
     @inlinable internal var frameRateForElapsedFramesCalculation: Double {
-        
         switch self {
         case ._23_976:      return 24.0
         case ._24:          return 24.0
@@ -311,12 +285,10 @@ extension Timecode.FrameRate {
         case ._120:         return 120.0
         case ._120_drop:    return 119.88   // used in special drop-frame calculation
         }
-        
     }
     
     /// Internal use. Used in SMF export.
     @inlinable internal var frameRateForRealTimeCalculation: Double {
-        
         switch self {
         case ._23_976:      return 24.0 / 1.001 // confirmed correct
         case ._24:          return 24.0         // confirmed correct
@@ -339,12 +311,10 @@ extension Timecode.FrameRate {
         case ._120:         return 120.0
         case ._120_drop:    return 120.0 / 1.001
         }
-        
     }
     
     /// Internal use.
     @inlinable internal var framesDroppedPerMinute: Double {
-        
         switch self {
         case ._29_97_drop:  return 2.0
         case ._30_drop:     return 2.0
@@ -371,9 +341,6 @@ extension Timecode.FrameRate {
             // this value is not actually used
             // this is only here so that when adding frame rates to the framework, the compiler will throw an error to remind you to add the enum case here
             return 0.0
-            
         }
-        
     }
-    
 }

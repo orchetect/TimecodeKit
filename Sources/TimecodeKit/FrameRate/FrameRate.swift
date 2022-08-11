@@ -4,11 +4,9 @@
 //
 
 extension Timecode {
-    
     // MARK: - FrameRate
     
     public enum FrameRate: String {
-        
         /// 23.976 fps (aka 23.98)
         ///
         /// Also known as 24p for HD video, sometimes rounded up to 23.98 fps. started out as the format for dealing with 24fps film in a NTSC post environment.
@@ -69,7 +67,7 @@ extension Timecode {
         /// 59.94 fps
         ///
         /// Double 29.97 fps
-        /// 
+        ///
         /// This video frame rate is supported by high definition cameras and is compatible with NTSC (29.97 fps).
         case _59_94 = "59.94"
         
@@ -114,38 +112,28 @@ extension Timecode {
         ///
         /// Double 60 fps drop / quadruple 30 fps drop
         case _120_drop = "120d"
-        
     }
-    
 }
 
 extension Timecode.FrameRate: CaseIterable {
-    
     /// All dropframe frame rates.
     public static let allDrop: [Self] = allCases.filter { $0.isDrop }
     
     /// All non-dropframe frame rates.
     public static let allNonDrop: [Self] = allCases.filter { !$0.isDrop }
-    
 }
 
 extension Timecode.FrameRate: CustomStringConvertible {
-    
     public var description: String {
-        
         stringValue
-        
     }
-    
 }
 
 extension Timecode.FrameRate: Codable { }
 
 @available(macOS 10.15, macCatalyst 13, iOS 11, *)
 extension Timecode.FrameRate: Identifiable {
-    
     public var id: String {
         rawValue
     }
-    
 }

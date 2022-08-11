@@ -10,9 +10,7 @@ import XCTest
 import OTCore
 
 class Timecode_UT_FrameRate_StringExtensions_Tests: XCTestCase {
-    
     func testString_toFrameRate() {
-        
         // do a spot-check to ensure this functions as expected
                 
         XCTAssertEqual("23.976".toFrameRate, ._23_976)
@@ -21,8 +19,6 @@ class Timecode_UT_FrameRate_StringExtensions_Tests: XCTestCase {
         XCTAssertNil("".toFrameRate)
         XCTAssertNil(" ".toFrameRate)
         XCTAssertNil("BogusString".toFrameRate)
-        
     }
-    
 }
 #endif

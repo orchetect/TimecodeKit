@@ -4,12 +4,11 @@
 //
 
 extension Timecode {
-    
     /// (Lossy)
     /// Returns the current timecode converted to a duration in real-time audio samples at the given sample rate, rounded to the nearest sample.
     /// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be passed as 48000)
-    @inlinable public func samplesValue(atSampleRate: Int) -> Double {
-        
+    @inlinable
+    public func samplesValue(atSampleRate: Int) -> Double {
         // prepare coefficients
         
         var fRate = frameRate.frameRateForElapsedFramesCalculation
@@ -17,11 +16,10 @@ extension Timecode {
         if frameRate.isDrop,
            frameRate != ._30_drop,
            frameRate != ._60_drop,
-           frameRate != ._120_drop {
-            
+           frameRate != ._120_drop
+        {
             // all dropframe rates require this except 30 DF and its multiples
             fRate = Double(frameRate.maxFrames) / 1.001
-            
         }
         
         var offset = 1.0
@@ -55,7 +53,6 @@ extension Timecode {
              ._120_drop:
             
             offset = 0.999
-            
         }
         
         // perform calculation
@@ -63,26 +60,28 @@ extension Timecode {
         let dbl = frameCount.doubleValue * (Double(atSampleRate) / fRate * offset)
         
         return dbl
-        
     }
     
     /// (Lossy)
     /// Sets the timecode to the nearest frame at the current frame rate from elapsed audio samples.
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
-    /// 
+    ///
     /// - Throws: `Timecode.ValidationError`
-    @inlinable public mutating func setTimecode(fromSamplesValue: Double,
-                                                atSampleRate: Int) throws {
-        
+    @inlinable
+    public mutating func setTimecode(
+        fromSamplesValue: Double,
+        atSampleRate: Int
+    ) throws {
         // prepare coefficients
         
         var fRate = frameRate.frameRateForElapsedFramesCalculation
         
-        if frameRate.isDrop
-            && frameRate != ._30_drop
-            && frameRate != ._60_drop
-            && frameRate != ._120_drop {
+        if frameRate.isDrop,
+           frameRate != ._30_drop,
+           frameRate != ._60_drop,
+           frameRate != ._120_drop
+        {
             // all dropframe rates require this except 30 DF and its multiples
             fRate = Double(frameRate.maxFrames) / 1.001
         }
@@ -114,7 +113,6 @@ extension Timecode {
              ._60_drop,
              ._120_drop:
             offset = 0.999
-            
         }
         
         // perform calculation
@@ -134,7 +132,5 @@ extension Timecode {
         )
         
         try setTimecode(exactly: convertedComponents)
-        
     }
-    
 }

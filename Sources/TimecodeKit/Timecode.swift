@@ -10,7 +10,6 @@
 /// - Compared operators are available between two instances (`==`, `!=`, `<`, `>`)
 /// - `Range` and `Stride` can be formed between two instances
 public struct Timecode {
-    
     // MARK: - Immutable properties
     
     /// Frame rate.
@@ -84,7 +83,6 @@ public struct Timecode {
     ///
     /// Setting this value directly does not trigger any validation.
     public var subFrames: Int = 0
-    
 }
 
 // Can't put this in another file since it prevents automatic synthesis

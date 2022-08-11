@@ -12,7 +12,6 @@ import Foundation
 #endif
 
 extension Timecode {
-    
     // MARK: stringValue
     
     /// Timecode string representation.
@@ -30,7 +29,6 @@ extension Timecode {
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     @inlinable public var stringValue: String {
-        
         let sepDays = " "
         let sepMain = ":"
         let sepFrames = frameRate.isDrop ? ";" : ":"
@@ -39,7 +37,7 @@ extension Timecode {
         var output = ""
         
         output += "\(days != 0 ? "\(days)\(sepDays)" : "")"
-        output += "\(String(format: "%02d", hours  ))\(sepMain)"
+        output += "\(String(format: "%02d", hours))\(sepMain)"
         output += "\(String(format: "%02d", minutes))\(sepMain)"
         output += "\(String(format: "%02d", seconds))\(sepFrames)"
         output += "\(String(format: "%0\(frameRate.numberOfDigits)d", frames))"
@@ -51,17 +49,14 @@ extension Timecode {
         }
         
         return output
-        
     }
     
     /// Forms `.stringValue` using filename-compatible characters.
     public var stringValueFileNameCompatible: String {
-        
         stringValue
             .replacingOccurrences(of: ":", with: "-")
             .replacingOccurrences(of: ";", with: "-")
             .replacingOccurrences(of: " ", with: "-")
-        
     }
     
     // MARK: stringValueValidated
@@ -71,10 +66,9 @@ extension Timecode {
     /// `invalidAttributes` are the `NSAttributedString` attributes applied to invalid values.
     /// If `invalidAttributes` are not passed, the default of red foreground color is used.
     public func stringValueValidated(
-        invalidAttributes: [NSAttributedString.Key : Any]? = nil,
-        withDefaultAttributes attrs: [NSAttributedString.Key : Any]? = nil
+        invalidAttributes: [NSAttributedString.Key: Any]? = nil,
+        withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
     ) -> NSAttributedString {
-        
         let sepDays = NSAttributedString(string: " ", attributes: attrs)
         let sepMain = NSAttributedString(string: ":", attributes: attrs)
         let sepFrames = NSAttributedString(string: frameRate.isDrop ? ";" : ":", attributes: attrs)
@@ -82,10 +76,10 @@ extension Timecode {
         
         #if os(macOS)
         let invalidColor = invalidAttributes
-            ?? [.foregroundColor : NSColor.red]
+            ?? [.foregroundColor: NSColor.red]
         #elseif os(iOS) || os(tvOS) || os(watchOS)
         let invalidColor = invalidAttributes
-            ?? [.foregroundColor : UIColor.red]
+            ?? [.foregroundColor: UIColor.red]
         #else
         let invalidColor = invalidAttributes
             ?? []
@@ -101,21 +95,28 @@ extension Timecode {
         if days != 0 {
             piece = NSMutableAttributedString(string: "\(days)", attributes: attrs)
             if invalids.contains(.days) {
-                piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+                piece.addAttributes(
+                    invalidColor,
+                    range: NSRange(location: 0, length: piece.string.count)
+                )
             }
             
             output.append(piece)
             
             output.append(sepDays)
-            
         }
         
         // hours
         
-        piece = NSMutableAttributedString(string: String(format: "%02d", hours),
-                                          attributes: attrs)
+        piece = NSMutableAttributedString(
+            string: String(format: "%02d", hours),
+            attributes: attrs
+        )
         if invalids.contains(.hours) {
-            piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+            piece.addAttributes(
+                invalidColor,
+                range: NSRange(location: 0, length: piece.string.count)
+            )
         }
         
         output.append(piece)
@@ -124,10 +125,15 @@ extension Timecode {
         
         // minutes
         
-        piece = NSMutableAttributedString(string: String(format: "%02d", minutes),
-                                          attributes: attrs)
+        piece = NSMutableAttributedString(
+            string: String(format: "%02d", minutes),
+            attributes: attrs
+        )
         if invalids.contains(.minutes) {
-            piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+            piece.addAttributes(
+                invalidColor,
+                range: NSRange(location: 0, length: piece.string.count)
+            )
         }
         
         output.append(piece)
@@ -136,10 +142,15 @@ extension Timecode {
         
         // seconds
         
-        piece = NSMutableAttributedString(string: String(format: "%02d", seconds),
-                                          attributes: attrs)
+        piece = NSMutableAttributedString(
+            string: String(format: "%02d", seconds),
+            attributes: attrs
+        )
         if invalids.contains(.seconds) {
-            piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+            piece.addAttributes(
+                invalidColor,
+                range: NSRange(location: 0, length: piece.string.count)
+            )
         }
         
         output.append(piece)
@@ -148,11 +159,19 @@ extension Timecode {
         
         // frames
         
-        piece = NSMutableAttributedString(string:
-                                            String(format: "%0\(frameRate.numberOfDigits)d", frames),
-                                          attributes: attrs)
+        piece = NSMutableAttributedString(
+            string:
+            String(
+                format: "%0\(frameRate.numberOfDigits)d",
+                frames
+            ),
+            attributes: attrs
+        )
         if invalids.contains(.frames) {
-            piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+            piece.addAttributes(
+                invalidColor,
+                range: NSRange(location: 0, length: piece.string.count)
+            )
         }
         
         output.append(piece)
@@ -164,38 +183,40 @@ extension Timecode {
             
             output.append(sepSubFrames)
             
-            piece = NSMutableAttributedString(string:
-                                                String(format: "%0\(numberOfSubFramesDigits)d", subFrames),
-                                              attributes: attrs)
+            piece = NSMutableAttributedString(
+                string:
+                String(
+                    format: "%0\(numberOfSubFramesDigits)d",
+                    subFrames
+                ),
+                attributes: attrs
+            )
             if invalids.contains(.subFrames) {
-                piece.addAttributes(invalidColor, range: NSRange(location: 0, length: piece.string.count))
+                piece.addAttributes(
+                    invalidColor,
+                    range: NSRange(location: 0, length: piece.string.count)
+                )
             }
             
             output.append(piece)
         }
         
         return output
-        
     }
-    
 }
-
 
 // MARK: Setters
 
 extension Timecode {
-    
     /// Set timecode from a timecode string, clamping to valid timecodes if necessary. An error is thrown if the string is malformed and cannot be reasonably parsed.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: `Timecode.StringParseError`
     public mutating func setTimecode(clamping string: String) throws {
-        
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(clamping: tcVals)
-        
     }
     
     /// Set timecode from a timecode string, clamping individual values if necessary. Individual values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
@@ -206,11 +227,9 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.StringParseError`
     public mutating func setTimecode(clampingEach string: String) throws {
-        
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(clampingEach: tcVals)
-        
     }
     
     /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error is thrown if the string is malformed and cannot be reasonably parsed.
@@ -219,11 +238,9 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.StringParseError` or `Timecode.ValidationError`
     public mutating func setTimecode(exactly string: String) throws {
-        
         let decoded = try Timecode.decode(timecode: string)
         
         try setTimecode(exactly: decoded)
-        
     }
     
     /// Set timecode from a string. Values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
@@ -232,11 +249,9 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.StringParseError`
     public mutating func setTimecode(wrapping string: String) throws {
-        
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(wrapping: tcVals)
-        
     }
     
     /// Set timecode from a string, treating components as raw values. Timecode values will not be validated or rejected if they overflow. An error is thrown if the string is malformed and cannot be reasonably parsed.
@@ -245,17 +260,13 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.StringParseError`
     public mutating func setTimecode(rawValues string: String) throws {
-        
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(rawValues: tcVals)
-        
     }
-    
 }
 
 extension Timecode {
-    
     /// Decodes a Timecode string into its component values, without validating.
     ///
     /// An error is thrown if the string is malformed and cannot be reasonably parsed. Raw values themselves will be passed as-is and not validated based on a frame rate or upper limit.
@@ -280,7 +291,6 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.StringParseError`
     public static func decode(timecode string: String) throws -> Components {
-        
         let pattern = #"^(\d+)??[\:;\s]??(\d+)[\:;](\d+)[\:;](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
         
         let matches = string
@@ -295,60 +305,60 @@ extension Timecode {
         
         // basic check - ensure there's at least 4 values but no more than 6
         
-        let nonNilCount = ints.reduce(0, { $1 != nil ? $0 + 1 : $0 })
+        let nonNilCount = ints.reduce(0) { $1 != nil ? $0 + 1 : $0 }
         
-        guard (4...6).contains(nonNilCount)
+        guard (4 ... 6).contains(nonNilCount)
         else { throw StringParseError.malformed }
         
         // return components
         
-        return Components(d:  ints[0] ?? 0,
-                          h:  ints[1] ?? 0,
-                          m:  ints[2] ?? 0,
-                          s:  ints[3] ?? 0,
-                          f:  ints[4] ?? 0,
-                          sf: ints[5] ?? 0)
-        
+        return Components(
+            d:  ints[0] ?? 0,
+            h:  ints[1] ?? 0,
+            m:  ints[2] ?? 0,
+            s:  ints[3] ?? 0,
+            f:  ints[4] ?? 0,
+            sf: ints[5] ?? 0
+        )
     }
-    
 }
 
 // MARK: - .toTimecode
 
 extension String {
-    
     /// Returns an instance of `Timecode(exactly:)`.
     /// If the string is not a valid timecode string, it returns nil.
-    @inlinable public func toTimecode(
+    @inlinable
+    public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
-        
-        try Timecode(self,
-                     at: rate,
-                     limit: limit,
-                     base: base,
-                     format: format)
-        
+        try Timecode(
+            self,
+            at: rate,
+            limit: limit,
+            base: base,
+            format: format
+        )
     }
     
     /// Returns an instance of `Timecode(rawValues:)`.
     /// If the string is not a valid timecode string, it returns nil.
-    @inlinable public func toTimecode(
+    @inlinable
+    public func toTimecode(
         rawValuesAt rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
-        
-        try Timecode(rawValues: self,
-                     at: rate,
-                     limit: limit,
-                     base: base,
-                     format: format)
-        
+        try Timecode(
+            rawValues: self,
+            at: rate,
+            limit: limit,
+            base: base,
+            format: format
+        )
     }
-    
 }

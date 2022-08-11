@@ -6,17 +6,11 @@
 import Foundation
 
 extension Timecode {
-    
     public enum ValidationError: Error {
-        
         case outOfBounds
-        
     }
     
     public enum StringParseError: Error {
-        
         case malformed
-        
     }
-    
 }

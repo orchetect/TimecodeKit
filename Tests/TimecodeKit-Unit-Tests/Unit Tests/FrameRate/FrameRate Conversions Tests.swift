@@ -10,12 +10,10 @@ import XCTest
 import OTCore
 
 class Timecode_UT_FrameRate_Conversions_Tests: XCTestCase {
-    
     override func setUp() { }
     override func tearDown() { }
     
     func testInit_raw() {
-        
         XCTAssertEqual(Timecode.FrameRate(raw: 23.976), ._23_976)
         XCTAssertEqual(Timecode.FrameRate(raw: 23.976023976), ._23_976)
         
@@ -61,11 +59,9 @@ class Timecode_UT_FrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(Timecode.FrameRate(raw: 120), ._120)
         // raw 120 fps is not correct for 120d; matches 120 instead
         XCTAssertEqual(Timecode.FrameRate(raw: 120, favorDropFrame: true), ._120)
-        
     }
     
     func testInit_raw_invalid() {
-        
         XCTAssertNil(Timecode.FrameRate(raw: 0.0))
         XCTAssertNil(Timecode.FrameRate(raw: 1.0))
         XCTAssertNil(Timecode.FrameRate(raw: 26.0))
@@ -84,9 +80,7 @@ class Timecode_UT_FrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(Timecode.FrameRate(raw: 120.1))
         XCTAssertNil(Timecode.FrameRate(raw: 120.5))
         XCTAssertNil(Timecode.FrameRate(raw: 121.0))
-        
     }
-    
 }
 
 #endif

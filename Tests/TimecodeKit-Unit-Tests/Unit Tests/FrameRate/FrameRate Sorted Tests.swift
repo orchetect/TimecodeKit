@@ -9,9 +9,7 @@ import XCTest
 @testable import TimecodeKit
 
 class Timecode_UT_FrameRate_Sorted_Tests: XCTestCase {
-    
     func testSortOrder() {
-        
         let unsorted: [Timecode.FrameRate] = [
             ._29_97,
             ._30,
@@ -30,9 +28,7 @@ class Timecode_UT_FrameRate_Sorted_Tests: XCTestCase {
         
         XCTAssertNotEqual(unsorted, sorted)
         
-        XCTAssertEqual(sorted,correctOrder)
-        
+        XCTAssertEqual(sorted, correctOrder)
     }
-    
 }
 #endif

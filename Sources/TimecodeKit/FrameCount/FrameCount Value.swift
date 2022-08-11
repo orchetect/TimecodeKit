@@ -4,9 +4,7 @@
 //
 
 extension Timecode.FrameCount {
-    
     public enum Value {
-        
         /// Total elapsed whole frames. Subframes = 0.
         case frames(Int)
         
@@ -18,9 +16,7 @@ extension Timecode.FrameCount {
         
         /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).
         case splitUnitInterval(frames: Int, subFramesUnitInterval: Double)
-        
     }
-    
 }
 
 extension Timecode.FrameCount.Value: Equatable, Hashable {
@@ -28,47 +24,37 @@ extension Timecode.FrameCount.Value: Equatable, Hashable {
 }
 
 extension Timecode.FrameCount.Value: CustomStringConvertible {
-    
     public var description: String {
-        
         switch self {
-        case .frames(let frames):
+        case let .frames(frames):
             return "\(frames) frames"
             
-        case .split(frames: let frames, subFrames: let subFrames):
+        case let .split(frames: frames, subFrames: subFrames):
             return "\(frames).\(subFrames) frames"
             
-        case .combined(frames: let frames):
+        case let .combined(frames: frames):
             return "\(frames) frames"
             
-        case .splitUnitInterval(frames: let frames, subFramesUnitInterval: let subFramesUnitInterval):
+        case let .splitUnitInterval(frames: frames, subFramesUnitInterval: subFramesUnitInterval):
             return "\(Double(frames) + subFramesUnitInterval) frames"
-            
         }
-        
     }
-    
 }
 
 extension Timecode.FrameCount.Value: CustomDebugStringConvertible {
-    
     public var debugDescription: String {
-        
         switch self {
-        case .frames(let frames):
+        case let .frames(frames):
             return ".frames(\(frames))"
             
-        case .split(frames: let frames, subFrames: let subFrames):
+        case let .split(frames: frames, subFrames: subFrames):
             return ".split(frames: \(frames), subFrames: \(subFrames))"
             
-        case .combined(frames: let frames):
+        case let .combined(frames: frames):
             return ".combined(\(frames))"
             
-        case .splitUnitInterval(frames: let frames, subFramesUnitInterval: let subFramesUnitInterval):
+        case let .splitUnitInterval(frames: frames, subFramesUnitInterval: subFramesUnitInterval):
             return ".splitUnitInterval(frames: \(frames), subFramesUnitInterval: \(subFramesUnitInterval))"
-            
         }
-        
     }
-    
 }

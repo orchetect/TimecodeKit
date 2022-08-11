@@ -4,7 +4,6 @@
 //
 
 extension Timecode.FrameRate {
-    
     /// AAF file metadata for the given frame rate.
     ///
     /// Example, for 24 fps:
@@ -26,29 +25,26 @@ extension Timecode.FrameRate {
         dropFrame: String,
         framesPerSecond: String
     ) {
-        
-        (editRate: "\(fraction.numerator)/\(fraction.denominator)",
-         dropFrame: isDrop ? "true" : "false",
-         framesPerSecond: "\(maxFrames)")
-        
+        (
+            editRate: "\(fraction.numerator)/\(fraction.denominator)",
+            dropFrame: isDrop ? "true" : "false",
+            framesPerSecond: "\(maxFrames)"
+        )
     }
-    
 }
 
 #if canImport(CoreMedia)
 import CoreMedia
 
 extension Timecode.FrameRate {
-    
     /// Returns a CoreMedia `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
     @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
     public var frameDurationCMTime: CMTime {
-        
-        CMTime(value: CMTimeValue(fraction.denominator),
-               timescale: CMTimeScale(fraction.numerator))
-        
+        CMTime(
+            value: CMTimeValue(fraction.denominator),
+            timescale: CMTimeScale(fraction.numerator)
+        )
     }
-    
 }
 
 #endif

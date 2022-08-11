@@ -3,7 +3,6 @@
 import PackageDescription
 
 let package = Package(
-    
     name: "TimecodeKit",
     
     defaultLocalization: "en",
@@ -17,12 +16,14 @@ let package = Package(
         .library(
             name: "TimecodeKit",
             type: .static,
-            targets: ["TimecodeKit"]),
+            targets: ["TimecodeKit"]
+        ),
         
         .library(
             name: "TimecodeKitUI",
             type: .static,
-            targets: ["TimecodeKitUI"])
+            targets: ["TimecodeKitUI"]
+        )
     ],
     
     dependencies: [
@@ -30,7 +31,7 @@ let package = Package(
         .package(url: "https://github.com/orchetect/OTCore", from: "1.4.1")
         
         // used only for Dev tests, not part of regular unit test
-        //.package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
+        // .package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
     ],
     
     targets: [
@@ -62,7 +63,6 @@ let package = Package(
             dependencies: ["TimecodeKit"] // , "SegmentedProgress"
         )
     ]
-    
 )
 
 func addShouldTestFlag(toTarget targetName: String) {
@@ -86,9 +86,9 @@ func addShouldTestFlags() {
 
 // Swift version in Xcode 12.5.1 which introduced watchOS testing
 #if os(watchOS) && swift(>=5.4.2)
-    addShouldTestFlags()
+addShouldTestFlags()
 #elseif os(watchOS)
-    // don't add flag
+// don't add flag
 #else
-    addShouldTestFlags()
+addShouldTestFlags()
 #endif
