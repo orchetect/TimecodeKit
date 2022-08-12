@@ -58,7 +58,7 @@ extension Timecode {
         
         /// Returns real-time (wall-clock time) equivalent of the delta time.
         /// Expressed as either a positive or negative number.
-        @inlinable
+        @inline(__always)
         public var realTimeValue: TimeInterval {
             switch sign {
             case .positive:
