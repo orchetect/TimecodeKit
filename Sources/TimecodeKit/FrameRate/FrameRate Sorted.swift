@@ -5,6 +5,7 @@
 
 extension Timecode.FrameRate {
     /// Internal: uses `allCases` to determine sort order.
+    @inline(__always)
     fileprivate var sortOrderIndex: Int {
         Self.allCases.firstIndex(of: self) ?? 0
     }
