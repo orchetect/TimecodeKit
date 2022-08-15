@@ -1,6 +1,7 @@
 //
 //  Codable.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 // Swift requires Codable conformance to be declared in the same file as the
