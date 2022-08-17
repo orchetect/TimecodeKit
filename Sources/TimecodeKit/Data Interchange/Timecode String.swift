@@ -29,7 +29,7 @@ extension Timecode {
     ///     "0:00:00:00:00" "0:00:00:00;00"
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @inlinable public var stringValue: String {
+    public var stringValue: String {
         let sepDays = " "
         let sepMain = ":"
         let sepFrames = frameRate.isDrop ? ";" : ":"
@@ -329,7 +329,6 @@ extension Timecode {
 extension String {
     /// Returns an instance of `Timecode(exactly:)`.
     /// If the string is not a valid timecode string, it returns nil.
-    @inlinable
     public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -347,7 +346,6 @@ extension String {
     
     /// Returns an instance of `Timecode(rawValues:)`.
     /// If the string is not a valid timecode string, it returns nil.
-    @inlinable
     public func toTimecode(
         rawValuesAt rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,

@@ -10,7 +10,6 @@ extension Timecode {
     // MARK: - Basic
     
     /// Instance with default timecode (00:00:00:00) at a given frame rate.
-    @inlinable
     public init(
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
@@ -28,7 +27,6 @@ extension Timecode {
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         _ exactly: FrameCount.Value,
         at rate: FrameRate,
@@ -47,7 +45,6 @@ extension Timecode {
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         _ exactly: FrameCount,
         at rate: FrameRate,
@@ -69,7 +66,6 @@ extension Timecode {
     /// If any values are out-of-bounds `nil` will be returned, indicating an invalid timecode.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         _ exactly: Components,
         at rate: FrameRate,
@@ -88,7 +84,6 @@ extension Timecode {
     /// Instance from timecode values and frame rate, clamping to valid timecodes if necessary.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         clamping source: Components,
         at rate: FrameRate,
@@ -109,7 +104,6 @@ extension Timecode {
     /// Values which are out-of-bounds will be clamped to minimum or maximum possible values.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         clampingEach values: Components,
         at rate: FrameRate,
@@ -130,7 +124,6 @@ extension Timecode {
     /// Timecodes will be wrapped around the timecode clock if out-of-bounds.
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         wrapping source: Components,
         at rate: FrameRate,
@@ -151,7 +144,6 @@ extension Timecode {
     /// Timecode values will not be validated or rejected if they overflow.
     ///
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-    @inlinable
     public init(
         rawValues source: Components,
         at rate: FrameRate,
@@ -174,7 +166,6 @@ extension Timecode {
     /// An improperly formatted timecode string or one with out-of-bounds values will return `nil`.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         _ exactly: String,
         at rate: FrameRate,
@@ -193,7 +184,6 @@ extension Timecode {
     /// Instance from timecode string and frame rate, clamping to valid timecodes if necessary.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         clamping source: String,
         at rate: FrameRate,
@@ -214,7 +204,6 @@ extension Timecode {
     /// Individual values which are out-of-bounds will be clamped to minimum or maximum possible values.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         clampingEach source: String,
         at rate: FrameRate,
@@ -235,7 +224,6 @@ extension Timecode {
     /// An improperly formatted timecode string or one with invalid values will return `nil`.
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
-    @inlinable
     public init(
         wrapping source: String,
         at rate: FrameRate,
@@ -256,7 +244,6 @@ extension Timecode {
     /// Timecode values will not be validated or rejected if they overflow.
     ///
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-    @inlinable
     public init(
         rawValues source: String,
         at rate: FrameRate,
@@ -277,7 +264,6 @@ extension Timecode {
     /// Instance from real time and frame rate.
     ///
     /// - Note: This may be lossy.
-    @inlinable
     public init(
         realTimeValue source: TimeInterval,
         at rate: FrameRate,
@@ -298,7 +284,6 @@ extension Timecode {
     /// Instance from audio samples and sample rate.
     ///
     /// - Note: This may be lossy.
-    @inlinable
     public init(
         samples source: Double,
         sampleRate: Int,

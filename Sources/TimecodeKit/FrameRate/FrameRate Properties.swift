@@ -81,7 +81,7 @@ extension Timecode.FrameRate {
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    @inlinable public var fraction: (numerator: Int, denominator: Int) {
+    public var fraction: (numerator: Int, denominator: Int) {
         switch self {
         case ._23_976:      return (numerator: 24000,  denominator: 1001)
         case ._24:          return (numerator: 24,     denominator: 1)
@@ -107,7 +107,7 @@ extension Timecode.FrameRate {
     }
     
     /// Returns true if frame rate is drop-frame.
-    @inlinable public var isDrop: Bool {
+    public var isDrop: Bool {
         switch self {
         case ._23_976:      return false
         case ._24:          return false
@@ -135,7 +135,7 @@ extension Timecode.FrameRate {
     /// Returns the number of digits required for frames within the timecode string.
     ///
     /// ie: 24 or 30 fps would return 2, but 120 fps would return 3.
-    @inlinable public var numberOfDigits: Int {
+    public var numberOfDigits: Int {
         switch self {
         case ._23_976,
              ._24,
@@ -166,12 +166,11 @@ extension Timecode.FrameRate {
     }
     
     /// Max frame number displayable before seconds roll over.
-    @inlinable public var maxFrameNumberDisplayable: Int {
+    public var maxFrameNumberDisplayable: Int {
         maxFrames - 1
     }
     
     /// Returns max total frames from 0 to and including rolling over to `extent`.
-    @inlinable
     public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
         // template to calculate:
         // Int(Double(extent.maxDays) * 24 * 60 * 60 * self.frameRateForCalculation)
@@ -208,13 +207,11 @@ extension Timecode.FrameRate {
     
     /// Returns max elapsed frames possible before rolling over to 0.
     /// (Number of frames from 0 to `extent` minus one frame).
-    @inlinable
     public func maxTotalFramesExpressible(in extent: Timecode.UpperLimit) -> Int {
         maxTotalFrames(in: extent) - 1
     }
     
     /// Returns max total subframes from 0 to and including rolling over to `extent`.
-    @inlinable
     public func maxTotalSubFrames(
         in extent: Timecode.UpperLimit,
         base: Timecode.SubFramesBase
@@ -224,7 +221,6 @@ extension Timecode.FrameRate {
     
     /// Returns max elapsed subframes possible before rolling over to 0.
     /// (Number of subframes from 0 to `extent` minus one subframe).
-    @inlinable
     public func maxSubFrameCountExpressible(
         in extent: Timecode.UpperLimit,
         base: Timecode.SubFramesBase
@@ -237,7 +233,7 @@ extension Timecode.FrameRate {
 
 extension Timecode.FrameRate {
     /// Internal use. Total number of elapsed frames that comprise 1 second of timecode.
-    @inlinable internal var maxFrames: Int {
+    internal var maxFrames: Int {
         switch self {
         case ._23_976:      return 24
         case ._24:          return 24
@@ -263,7 +259,7 @@ extension Timecode.FrameRate {
     }
     
     /// Internal use.
-    @inlinable internal var frameRateForElapsedFramesCalculation: Double {
+    internal var frameRateForElapsedFramesCalculation: Double {
         switch self {
         case ._23_976:      return 24.0
         case ._24:          return 24.0
@@ -289,7 +285,7 @@ extension Timecode.FrameRate {
     }
     
     /// Internal use. Used in SMF export.
-    @inlinable internal var frameRateForRealTimeCalculation: Double {
+    internal var frameRateForRealTimeCalculation: Double {
         switch self {
         case ._23_976:      return 24.0 / 1.001 // confirmed correct
         case ._24:          return 24.0         // confirmed correct
@@ -315,7 +311,7 @@ extension Timecode.FrameRate {
     }
     
     /// Internal use.
-    @inlinable internal var framesDroppedPerMinute: Double {
+    internal var framesDroppedPerMinute: Double {
         switch self {
         case ._29_97_drop:  return 2.0
         case ._30_drop:     return 2.0

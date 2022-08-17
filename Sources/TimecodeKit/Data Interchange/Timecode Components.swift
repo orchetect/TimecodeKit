@@ -10,7 +10,7 @@ extension Timecode {
     /// When setting, raw values are accepted and are not validated prior to setting.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @inlinable public var components: Components {
+    public var components: Components {
         get {
             Components(
                 d: days,
@@ -35,7 +35,6 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: `Timecode.ValidationError`
-    @inlinable
     public mutating func setTimecode(exactly values: Components) throws {
         guard values
             .invalidComponents(
@@ -58,7 +57,6 @@ extension Timecode {
     /// Clamps to valid timecodes as set by the `upperLimit` property.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @inlinable
     public mutating func setTimecode(clamping source: Components) {
         let result = __add(clamping: source, to: TCC())
         
@@ -68,7 +66,6 @@ extension Timecode {
     /// Set timecode from components, clamping individual values if necessary.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @inlinable
     public mutating func setTimecode(clampingEach values: Components) {
         days = values.d
         hours = values.h
@@ -85,7 +82,6 @@ extension Timecode {
     /// Timecode will wrap if out-of-bounds. Will handle negative values and wrap accordingly.
     ///
     /// (Wrapping is based on the frame rate and `upperLimit` property.)
-    @inlinable
     public mutating func setTimecode(wrapping values: Components) {
         setTimecode(rawValues: __add(
             wrapping: values,
@@ -95,7 +91,6 @@ extension Timecode {
     
     /// Set timecode from tuple values.
     /// Timecode values will not be validated or rejected if they overflow.
-    @inlinable
     public mutating func setTimecode(rawValues values: Components) {
         days = values.d
         hours = values.h
@@ -110,7 +105,6 @@ extension Timecode {
 
 extension Timecode.Components {
     /// Returns an instance of `Timecode(exactly:)`.
-    @inlinable
     public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -127,7 +121,6 @@ extension Timecode.Components {
     }
     
     /// Returns an instance of `Timecode(rawValues:)`.
-    @inlinable
     public func toTimecode(
         rawValuesAt rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,

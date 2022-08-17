@@ -5,7 +5,7 @@
 //
 
 extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
-    @inlinable public var description: String {
+    public var description: String {
         stringValue
     }
     

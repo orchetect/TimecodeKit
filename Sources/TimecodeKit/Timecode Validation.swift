@@ -120,7 +120,6 @@ extension Timecode {
 
 extension Timecode {
     /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
-    @inlinable
     public func validRange(of component: Component) -> (ClosedRange<Int>) {
         components.validRange(
             of: component,
@@ -204,19 +203,19 @@ extension Timecode {
 
 extension Timecode {
     /// Returns the largest subframe value displayable before rolling over to the next frame.
-    @inlinable public var maxSubFramesExpressible: Int {
+    public var maxSubFramesExpressible: Int {
         validRange(of: .subFrames)
             .upperBound
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-    @inlinable public var maxFrameCountExpressibleDouble: Double {
+    public var maxFrameCountExpressibleDouble: Double {
         Double(frameRate.maxTotalFramesExpressible(in: upperLimit))
             + (Double(maxSubFramesExpressible) / Double(subFramesBase.rawValue))
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-    @inlinable public var maxFrameCountExpressible: FrameCount {
+    public var maxFrameCountExpressible: FrameCount {
         FrameCount(
             .split(
                 frames: frameRate.maxTotalFramesExpressible(in: upperLimit),
@@ -227,7 +226,7 @@ extension Timecode {
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as total subframes.
-    @inlinable public var maxSubFrameCountExpressible: Int {
+    public var maxSubFrameCountExpressible: Int {
         frameRate.maxSubFrameCountExpressible(
             in: upperLimit,
             base: subFramesBase

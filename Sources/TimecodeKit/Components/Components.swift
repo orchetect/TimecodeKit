@@ -35,7 +35,6 @@ extension Timecode {
         
         // MARK: init
         
-        @inlinable
         public init(
             d: Int = 0,
             h: Int = 0,
@@ -55,7 +54,6 @@ extension Timecode {
 }
 
 extension Timecode.Components: Equatable {
-    @inlinable
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.d == rhs.d &&
             lhs.h == rhs.h &&

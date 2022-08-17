@@ -14,7 +14,7 @@ extension Timecode {
         case _100days = "100 days"
         
         /// Internal use.
-        @inlinable internal var maxDays: Int {
+        internal var maxDays: Int {
             switch self {
             case ._24hours: return 1
             case ._100days: return 100
@@ -22,7 +22,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        @inlinable internal var maxDaysExpressible: Int {
+        internal var maxDaysExpressible: Int {
             switch self {
             case ._24hours: return maxDays - 1
             case ._100days: return maxDays - 1
@@ -30,7 +30,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        @inlinable internal var maxHours: Int {
+        internal var maxHours: Int {
             switch self {
             case ._24hours: return 24
             case ._100days: return 24
@@ -38,7 +38,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        @inlinable internal var maxHoursExpressible: Int {
+        internal var maxHoursExpressible: Int {
             switch self {
             case ._24hours: return maxHours - 1
             case ._100days: return maxHours - 1
@@ -46,7 +46,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        @inlinable internal var maxHoursTotal: Int {
+        internal var maxHoursTotal: Int {
             switch self {
             case ._24hours: return maxHours - 1
             case ._100days: return (maxHours * maxDays) - 1

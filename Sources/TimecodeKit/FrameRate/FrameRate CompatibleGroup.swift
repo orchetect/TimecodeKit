@@ -85,7 +85,7 @@ extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
 
 extension Timecode.FrameRate {
     /// Returns the frame rate's `CompatibleGroup` categorization.
-    @inlinable public var compatibleGroup: CompatibleGroup {
+    public var compatibleGroup: CompatibleGroup {
         // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
         
         Self.CompatibleGroup.table
@@ -94,7 +94,7 @@ extension Timecode.FrameRate {
     }
     
     /// Returns the members of the frame rate's `CompatibleGroup` categorization.
-    @inlinable public var compatibleGroupRates: [Self] {
+    public var compatibleGroupRates: [Self] {
         // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
         
         Self.CompatibleGroup.table
@@ -109,7 +109,6 @@ extension Timecode.FrameRate {
     /// - 01:00:00:00 @ 30 fps
     /// - 01:00:00:00 @ 60 fps
     /// - 00:59:56:12 @ 29.97 fps
-    @inlinable
     public func isCompatible(with other: Self) -> Bool {
         Self.CompatibleGroup.table
             .values

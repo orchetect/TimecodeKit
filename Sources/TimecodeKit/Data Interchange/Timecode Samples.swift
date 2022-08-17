@@ -8,7 +8,6 @@ extension Timecode {
     /// (Lossy)
     /// Returns the current timecode converted to a duration in real-time audio samples at the given sample rate, rounded to the nearest sample.
     /// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be passed as 48000)
-    @inlinable
     public func samplesValue(atSampleRate: Int) -> Double {
         // prepare coefficients
         
@@ -69,7 +68,6 @@ extension Timecode {
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: `Timecode.ValidationError`
-    @inlinable
     public mutating func setTimecode(
         fromSamplesValue: Double,
         atSampleRate: Int

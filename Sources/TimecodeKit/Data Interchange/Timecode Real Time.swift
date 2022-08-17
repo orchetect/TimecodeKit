@@ -45,7 +45,6 @@ extension Timecode {
 // a.k.a: extension Double
 extension TimeInterval {
     /// Convenience method to create an `Timecode` struct using the default `(_ exactly:)` initializer.
-    @inlinable
     public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,

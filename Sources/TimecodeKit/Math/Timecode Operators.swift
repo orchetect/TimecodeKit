@@ -8,7 +8,6 @@
 
 extension Timecode {
     /// a.k.a. `lhs.adding(wrapping: rhs)`
-    @inlinable
     public static func + (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
             return lhs.adding(wrapping: rhs.components)
@@ -25,7 +24,6 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.add(wrapping: rhs)`
-    @inlinable
     public static func += (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
             lhs.add(wrapping: rhs.components)
@@ -42,7 +40,6 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.subtracting(wrapping: rhs)`
-    @inlinable
     public static func - (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
             return lhs.subtracting(wrapping: rhs.components)
@@ -59,7 +56,6 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.subtract(wrapping: rhs)`
-    @inlinable
     public static func -= (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
             lhs.subtract(wrapping: rhs.components)

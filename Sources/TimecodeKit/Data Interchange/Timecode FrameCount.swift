@@ -11,7 +11,7 @@ extension Timecode {
     /// Returns the total number of whole frames elapsed from zero up to the timecode values.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    @inlinable public var frameCount: FrameCount {
+    public var frameCount: FrameCount {
         Self.frameCount(
             of: components,
             at: frameRate,
@@ -26,7 +26,6 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: `Timecode.ValidationError`
-    @inlinable
     public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) throws {
         let fc = FrameCount(frameCountValue, base: subFramesBase)
         
@@ -100,7 +99,6 @@ extension Timecode {
     
     /// Calculates resulting values from total frames at the current frame rate.
     /// (You can add subframes afterward to the `sf` property if needed.)
-    @inline(__always)
     public static func components(
         from frameCount: FrameCount,
         at frameRate: FrameRate

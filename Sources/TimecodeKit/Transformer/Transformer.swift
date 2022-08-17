@@ -15,7 +15,6 @@ extension Timecode {
             self.transform = transform
         }
         
-        @inlinable
         public func transform(_ input: Timecode) -> Timecode {
             // return input if transformer is bypassed
             guard enabled else { return input }

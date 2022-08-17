@@ -16,7 +16,6 @@ extension Timecode {
         @usableFromInline
         let sign: Sign
         
-        @inlinable
         public init(
             _ delta: Timecode,
             _ sign: Sign = .positive
@@ -26,13 +25,11 @@ extension Timecode {
         }
         
         /// Returns `true` if sign is negative.
-        @inlinable
         public var isNegative: Bool {
             sign == .negative
         }
         
         /// Returns the delta value expressed as a concrete `Timecode` value by wrapping around lower/upper timecode limit bounds if necessary.
-        @inlinable
         public var timecode: Timecode {
             switch sign {
             case .positive:
@@ -52,14 +49,12 @@ extension Timecode {
         }
         
         /// Returns a `Timecode` value offsetting it by the delta value, wrapping around lower/upper timecode limit bounds if necessary.
-        @inlinable
         public func timecode(offsetting base: Timecode) -> Timecode {
             base + timecode
         }
         
         /// Returns real-time (wall-clock time) equivalent of the delta time.
         /// Expressed as either a positive or negative number.
-        @inline(__always)
         public var realTimeValue: TimeInterval {
             switch sign {
             case .positive:
