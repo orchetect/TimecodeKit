@@ -87,6 +87,24 @@ class Timecode_UT_Conversion_Tests: XCTestCase {
         XCTAssertEqual(convertedTC.frameRate, ._50)
         XCTAssertEqual(convertedTC.components, TCC(h: 1, m: 00, s: 00, f: 48, sf: 00))
     }
+    
+    func testTransform() throws {
+        var tc = try TCC(m: 1).toTimecode(at: ._24)
+        
+        let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
+        tc.transform(using: transformer)
+        
+        XCTAssertEqual(tc, try TCC(m: 2).toTimecode(at: ._24))
+    }
+    
+    func testTransformed() throws {
+        let tc = try TCC(m: 1).toTimecode(at: ._24)
+        
+        let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
+        let newTC = tc.transformed(using: transformer)
+        
+        XCTAssertEqual(newTC, try TCC(m: 2).toTimecode(at: ._24))
+    }
 }
 
 #endif

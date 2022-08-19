@@ -5,6 +5,8 @@
 //
 
 extension Timecode {
+    // MARK: - FrameRate
+    
     /// Return a new `Timecode` object converted to a new frame rate.
     ///
     /// - If `preservingValues` is `false` (default): entire timecode is converted based on the equivalent real time value.
@@ -43,5 +45,17 @@ extension Timecode {
             base: subFramesBase,
             format: stringFormat
         )
+    }
+    
+    // MARK: - TimecodeTransformer
+    
+    /// Returns the timecode transformed by the given transformer.
+    public func transformed(using transformer: TimecodeTransformer) -> Timecode {
+        transformer.transform(self)
+    }
+    
+    /// Transforms the timecode in-place using the given transformer.
+    public mutating func transform(using transformer: TimecodeTransformer) {
+        self = transformer.transform(self)
     }
 }
