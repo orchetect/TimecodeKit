@@ -5,7 +5,6 @@
 //
 
 import Foundation
-@_implementationOnly import OTCore
 
 extension Timecode.FrameRate {
     /// Initialize from raw floating-point frame rate (fps).

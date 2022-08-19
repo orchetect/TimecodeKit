@@ -27,9 +27,6 @@ let package = Package(
     ],
     
     dependencies: [
-        // boilerplate:
-        .package(url: "https://github.com/orchetect/OTCore", from: "1.4.1")
-        
         // used only for Dev tests, not part of regular unit test
         // .package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
     ],
@@ -38,13 +35,13 @@ let package = Package(
         // main target
         .target(
             name: "TimecodeKit",
-            dependencies: ["OTCore"]
+            dependencies: []
         ),
         
         // UI components
         .target(
             name: "TimecodeKitUI",
-            dependencies: ["TimecodeKit", "OTCore"],
+            dependencies: ["TimecodeKit"],
             linkerSettings: [
                 .linkedFramework("SwiftUI", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
             ]

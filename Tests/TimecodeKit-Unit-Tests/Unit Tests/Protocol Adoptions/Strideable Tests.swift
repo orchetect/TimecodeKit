@@ -137,7 +137,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         
         // Strideable with drop-frames
         
-        // TODO: ***** add strideable drop-frame tests
+        // TODO: add strideable drop-frame tests
         
         // Range .contains
         

@@ -5,7 +5,6 @@
 //
 
 import Foundation
-@_implementationOnly import OTCore
 
 extension Timecode {
     /// Box describing a total elapsed frame count.

@@ -4,7 +4,7 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-@_implementationOnly import OTCore
+import Foundation
 
 extension Timecode {
     /// Returns a set of invalid components, if any.

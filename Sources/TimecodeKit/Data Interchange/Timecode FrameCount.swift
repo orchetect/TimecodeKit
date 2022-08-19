@@ -5,7 +5,6 @@
 //
 
 import Foundation
-@_implementationOnly import OTCore
 
 extension Timecode {
     /// Returns the total number of whole frames elapsed from zero up to the timecode values.
@@ -122,23 +121,23 @@ extension Timecode {
             let framesPer10Minutes = Decimal(frameRate.frameRateForElapsedFramesCalculation) *
                 Decimal(600.0)
             
-            let D = (inElapsedFrames / framesPer10Minutes).truncated(decimalPlaces: 0)
+            let d = (inElapsedFrames / framesPer10Minutes).truncated(decimalPlaces: 0)
             
-            let M = inElapsedFrames.truncatingRemainder(dividingBy: framesPer10Minutes)
+            let m = inElapsedFrames.truncatingRemainder(dividingBy: framesPer10Minutes)
             
-            let F = max(
+            let f = max(
                 Decimal(0),
-                M - Decimal(frameRate.framesDroppedPerMinute)
+                m - Decimal(frameRate.framesDroppedPerMinute)
             ) // don't allow negative numbers
             
             inElapsedFrames =
                 inElapsedFrames
-                    + (9 * Decimal(frameRate.framesDroppedPerMinute) * D)
+                    + (9 * Decimal(frameRate.framesDroppedPerMinute) * d)
                     + (
                         Decimal(frameRate.framesDroppedPerMinute)
                             *
                             (
-                                F /
+                                f /
                                     ((
                                         framesPer10Minutes -
                                             Decimal(frameRate.framesDroppedPerMinute)

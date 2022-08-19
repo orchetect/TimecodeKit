@@ -32,7 +32,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         XCTAssertEqual(tc.validRange(of: .minutes), 0 ... 59)
         XCTAssertEqual(tc.validRange(of: .seconds), 0 ... 59)
         XCTAssertEqual(tc.validRange(of: .frames), 0 ... 23)
-        // XCTAssertThrowsError(tc.validRange(of: .subFrames)) // *****
+        // XCTAssertThrowsError(tc.validRange(of: .subFrames)) // TODO: test
     }
     
     func testInvalidOverRanges() {
