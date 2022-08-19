@@ -5,35 +5,46 @@
 //
 
 extension Timecode {
+    /// A timecode transformer containing one or more transform rules in series.
     public struct Transformer {
-        public var transform: Transform
+        public var transforms: [Transform]
         
-        /// Sets whether the transform is enabled.
+        /// Sets whether the transformer is enabled.
+        /// When `false`, the ``transform(_:)`` method will simply pass its input to the output unmodified.
         public var enabled = true
         
+        /// Initialize the transformer with a single transform.
         public init(_ transform: Transform) {
-            self.transform = transform
+            self.transforms = [transform]
+        }
+        
+        /// Initialize the transformer with multiple transforms in series.
+        public init(_ transforms: [Transform]) {
+            self.transforms = transforms
         }
         
         public func transform(_ input: Timecode) -> Timecode {
             // return input if transformer is bypassed
             guard enabled else { return input }
             
-            switch transform {
-            case .none:
-                return input
-                
-            case let .offset(by: delta):
-                return input.offsetting(by: delta)
-                
-            case let .custom(closure):
-                return closure(input)
+            return transforms.reduce(into: input) { tc, transform in
+                switch transform {
+                case .none:
+                    return
+                    
+                case let .offset(by: delta):
+                    tc = tc.offsetting(by: delta)
+                    
+                case let .custom(closure):
+                    tc = closure(tc)
+                }
             }
         }
     }
 }
 
 extension Timecode.Transformer {
+    /// A timecode transform rule or logic.
     public enum Transform {
         /// No transform is defined.
         case none
