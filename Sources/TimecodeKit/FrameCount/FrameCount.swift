@@ -102,7 +102,6 @@ extension Timecode {
 // MARK: - Internal inits
 
 extension Timecode.FrameCount {
-    @usableFromInline
     internal init(
         subFrameCount: Int,
         base: Timecode.SubFramesBase
@@ -247,7 +246,6 @@ extension Timecode.FrameCount {
 }
 
 extension Timecode.FrameCount {
-    @usableFromInline
     internal var subFrameCount: Int {
         Timecode.framesToSubFrames(
             frames: wholeFrames,

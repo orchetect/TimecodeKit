@@ -9,7 +9,6 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Returns nil if it overflows possible timecode values.
-    @usableFromInline
     internal func __add(
         exactly duration: Components,
         to base: Components
@@ -43,7 +42,6 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Clamps to maximum timecode expressible.
-    @usableFromInline
     internal func __add(
         clamping duration: Components,
         to base: Components
@@ -76,7 +74,6 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Wraps around the clock as set by the `upperLimit` property.
-    @usableFromInline
     internal func __add(
         wrapping duration: Components,
         to base: Components
@@ -125,7 +122,6 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Returns nil if overflows possible timecode values.
-    @usableFromInline
     internal func __subtract(
         exactly duration: Components,
         from base: Components
@@ -158,8 +154,7 @@ extension Timecode {
     }
     
     /// Utility function to add a duration to a base timecode.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
-    @usableFromInline
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     internal func __subtract(
         clamping duration: Components,
         from base: Components
@@ -192,7 +187,6 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Wraps around the clock as set by the `upperLimit` property.
-    @usableFromInline
     internal func __subtract(
         wrapping duration: Components,
         from base: Components
@@ -241,7 +235,6 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a duration.
     /// Returns nil if it overflows possible timecode values.
-    @usableFromInline
     internal func __multiply(
         exactly factor: Double,
         with: Components
@@ -270,7 +263,6 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a duration.
     /// Clamps to maximum timecode expressible.
-    @usableFromInline
     internal func __multiply(
         clamping factor: Double,
         with: Components
@@ -298,7 +290,6 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a duration.
     /// Wraps around the clock as set by the `upperLimit` property.
-    @usableFromInline
     internal func __multiply(
         wrapping factor: Double,
         with: Components
@@ -342,7 +333,6 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a duration.
     /// Returns `nil` if it overflows possible timecode values.
-    @usableFromInline
     internal func __divide(
         exactly divisor: Double,
         into: Components
@@ -370,8 +360,7 @@ extension Timecode {
     }
     
     /// Utility function to divide a base timecode by a duration.
-    /// Clamps to valid timecodes between 0 and `upperLimit`.
-    @usableFromInline
+    /// Clamps to valid timecode between 0 and `upperLimit`.
     internal func __divide(
         clamping divisor: Double,
         into: Components
@@ -398,7 +387,6 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a duration.
     /// Wraps around the clock as set by the `upperLimit` property.
-    @usableFromInline
     internal func __divide(
         wrapping divisor: Double,
         into: Components
@@ -441,7 +429,6 @@ extension Timecode {
     // MARK: - Offset / Delta
     
     /// Utility function to return a Delta duration.
-    @usableFromInline
     internal func __offset(to other: Components) -> Delta {
         if components == other {
             return Delta(
