@@ -9,7 +9,7 @@ import Foundation
 extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in real-time (wall-clock time), based on the frame rate.
     ///
-    /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecodes.
+    /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecode.
     public var realTimeValue: TimeInterval {
         frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
     }

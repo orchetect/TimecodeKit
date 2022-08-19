@@ -5,7 +5,7 @@
 //
 
 extension Timecode {
-    /// Timecode components.
+    /// Timecode component values (day, hour, minute, second, frame, subframe).
     ///
     /// When setting, raw values are accepted and are not validated prior to setting.
     ///
@@ -54,7 +54,7 @@ extension Timecode {
     }
     
     /// Set timecode from components.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     public mutating func setTimecode(clamping source: Components) {

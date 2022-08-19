@@ -15,8 +15,8 @@ import Foundation
 // MARK: - TextFormatter
 
 extension Timecode {
-    /// Formatter subclass
-    /// (Used in Timecode.TextField)
+    /// `Formatter` subclass. (`@objC` name `TimecodeTextFormatter`)
+    /// `Timecode` string formatter capable of displaying invalid timecode components with special formatting.
     @objc(TimecodeTextFormatter)
     public class TextFormatter: Formatter {
         // MARK: properties
@@ -37,16 +37,15 @@ extension Timecode {
         ///
         /// Defaults to red foreground color.
         
-        public var validationAttributes: [NSAttributedString.Key: Any]
-            = {
-                #if os(macOS)
-                return [.foregroundColor: NSColor.red]
-                #elseif os(iOS) || os(tvOS) || os(watchOS)
-                return [.foregroundColor: UIColor.red]
-                #else
-                return []
-                #endif
-            }()
+        public var validationAttributes: [NSAttributedString.Key: Any] = {
+            #if os(macOS)
+            return [.foregroundColor: NSColor.red]
+            #elseif os(iOS) || os(tvOS) || os(watchOS)
+            return [.foregroundColor: UIColor.red]
+            #else
+            return []
+            #endif
+        }()
         
         // MARK: init
         
@@ -158,16 +157,15 @@ extension Timecode {
             // set values without validating
             tc.setTimecode(rawValues: tcc)
             
-            return
-                (
-                    showsValidation
-                        ? tc.stringValueValidated(
-                            invalidAttributes: validationAttributes,
-                            withDefaultAttributes: attrs
-                        )
-                        : NSAttributedString(string: stringForObj, attributes: attrs)
-                )
-                .addingAttribute(alignment: alignment)
+            return (
+                showsValidation
+                    ? tc.stringValueValidated(
+                        invalidAttributes: validationAttributes,
+                        withDefaultAttributes: attrs
+                    )
+                    : NSAttributedString(string: stringForObj, attributes: attrs)
+            )
+            .addingAttribute(alignment: alignment)
         }
         
         override public func getObjectValue(

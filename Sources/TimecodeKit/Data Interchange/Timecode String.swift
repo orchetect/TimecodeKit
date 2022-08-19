@@ -209,7 +209,7 @@ extension Timecode {
 // MARK: Setters
 
 extension Timecode {
-    /// Set timecode from a timecode string, clamping to valid timecodes if necessary. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a timecode string, clamping to valid timecode if necessary. An error is thrown if the string is malformed and cannot be reasonably parsed.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///

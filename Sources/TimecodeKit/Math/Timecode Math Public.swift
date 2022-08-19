@@ -19,7 +19,7 @@ extension Timecode {
     }
     
     /// Add a duration to the current timecode.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public mutating func add(clamping values: Components) {
         let newTC = __add(clamping: values, to: components)
@@ -51,7 +51,7 @@ extension Timecode {
     }
     
     /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func adding(clamping values: Components) -> Timecode {
         let newTC = __add(clamping: values, to: components)
@@ -88,7 +88,7 @@ extension Timecode {
     }
     
     /// Subtract a duration from the current timecode.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public mutating func subtract(clamping: Components) {
         let newTC = __subtract(clamping: clamping, from: components)
@@ -120,7 +120,7 @@ extension Timecode {
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func subtracting(clamping values: Components) -> Timecode {
         let newTC = __subtract(clamping: values, from: components)
@@ -186,7 +186,7 @@ extension Timecode {
     }
     
     /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecodes.
+    /// Clamps to valid timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func multiplying(clamping value: Double) -> Timecode {
         let newTC = __multiply(clamping: value, with: components)
@@ -222,7 +222,7 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     public mutating func divide(clamping value: Double) {
         let newTC = __divide(clamping: value, into: components)
         
@@ -252,7 +252,7 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
+    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func dividing(clamping value: Double) -> Timecode {
         let newTC = __divide(clamping: value, into: components)

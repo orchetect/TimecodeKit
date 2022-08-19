@@ -15,7 +15,7 @@ public struct Timecode {
     
     /// Frame rate.
     ///
-    /// Note: Several properties are available on the frame rate that is selected, including its `.stringValue` representation or whether the rate `.isDrop`.
+    /// Note: Several properties are available on the frame rate that is selected, including its ``stringValue`` representation or whether the rate ``FrameRate-swift.enum/isDrop``.
     ///
     /// Setting this value directly does not trigger any validation.
     public var frameRate: FrameRate
@@ -41,35 +41,35 @@ public struct Timecode {
     
     // MARK: - Mutable properties
     
-    /// Timecode days.
+    /// Timecode days component.
     ///
-    /// Valid only if `.upperLimit` is set to `._100days`.
+    /// Valid only if ``upperLimit-swift.property`` is set to `._100days`.
     ///
     /// Setting this value directly does not trigger any validation.
     public var days: Int = 0
     
-    /// Timecode hours.
+    /// Timecode hours component.
     ///
     /// Valid range: 0-23.
     ///
     /// Setting this value directly does not trigger any validation.
     public var hours: Int = 0
     
-    /// Timecode minutes.
+    /// Timecode minutes component.
     ///
     /// Valid range: 0-59.
     ///
     /// Setting this value directly does not trigger any validation.
     public var minutes: Int = 0
     
-    /// Timecode seconds.
+    /// Timecode seconds component.
     ///
     /// Valid range: 0-59.
     ///
     /// Setting this value directly does not trigger any validation.
     public var seconds: Int = 0
     
-    /// Timecode frames.
+    /// Timecode frames component.
     ///
     /// Valid range is dependent on the `frameRate` property.
     ///

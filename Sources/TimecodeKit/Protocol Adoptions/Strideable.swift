@@ -16,7 +16,7 @@ extension Timecode: Strideable {
         adding(clamping: Components(f: n))
     }
     
-    /// Distance between two timecodes expressed as number of frames.
+    /// Distance between two timecode expressed as number of frames.
     /// Implemented in order to allow Timecode to conform to `Strideable`.
     public func distance(to other: Self) -> Stride {
         other.frameCount.wholeFrames - frameCount.wholeFrames

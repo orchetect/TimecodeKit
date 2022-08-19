@@ -13,7 +13,7 @@ extension Timecode {
         /// Refer to `.isNegative` property to determine whether this is a positive or negative delta.
         public let delta: Timecode
         
-        @usableFromInline
+        /// The sign: positive or negative.
         let sign: Sign
         
         public init(
@@ -36,15 +36,14 @@ extension Timecode {
                 return delta.adding(wrapping: TCC())
                 
             case .negative:
-                return
-                    Timecode(
-                        rawValues: TCC(f: 0),
-                        at: delta.frameRate,
-                        limit: delta.upperLimit,
-                        base: delta.subFramesBase,
-                        format: delta.stringFormat
-                    )
-                    .subtracting(wrapping: delta.components)
+                return Timecode(
+                    rawValues: TCC(f: 0),
+                    at: delta.frameRate,
+                    limit: delta.upperLimit,
+                    base: delta.subFramesBase,
+                    format: delta.stringFormat
+                )
+                .subtracting(wrapping: delta.components)
             }
         }
         

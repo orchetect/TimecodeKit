@@ -81,7 +81,7 @@ extension Timecode {
         try setTimecode(exactly: exactly)
     }
     
-    /// Instance from timecode values and frame rate, clamping to valid timecodes if necessary.
+    /// Instance from timecode values and frame rate, clamping to valid timecode if necessary.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
@@ -121,7 +121,7 @@ extension Timecode {
     
     /// Instance from timecode values and frame rate, wrapping timecode if necessary.
     ///
-    /// Timecodes will be wrapped around the timecode clock if out-of-bounds.
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
@@ -181,7 +181,7 @@ extension Timecode {
         try setTimecode(exactly: exactly)
     }
     
-    /// Instance from timecode string and frame rate, clamping to valid timecodes if necessary.
+    /// Instance from timecode string and frame rate, clamping to valid timecode if necessary.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
