@@ -426,12 +426,12 @@ extension Timecode {
         )
     }
     
-    // MARK: - Offset / Delta
+    // MARK: - Offset / TimecodeInterval
     
-    /// Utility function to return a Delta duration.
-    internal func __offset(to other: Components) -> Delta {
+    /// Utility function to return a `TimecodeInterval` interval.
+    internal func __offset(to other: Components) -> TimecodeInterval {
         if components == other {
-            return Delta(
+            return TimecodeInterval(
                 TCC().toTimecode(
                     rawValuesAt: frameRate,
                     limit: upperLimit,
@@ -451,11 +451,10 @@ extension Timecode {
         )
         
         if otherTimecode > self {
-            let diff = otherTimecode
-                .__subtract(
-                    wrapping: components,
-                    from: otherTimecode.components
-                )
+            let diff = otherTimecode.__subtract(
+                wrapping: components,
+                from: otherTimecode.components
+            )
             
             let deltaTC = diff.toTimecode(
                 rawValuesAt: frameRate,
@@ -464,16 +463,15 @@ extension Timecode {
                 format: stringFormat
             )
             
-            let delta = Delta(deltaTC, .positive)
+            let delta = TimecodeInterval(deltaTC, .positive)
             
             return delta
             
         } else /* other < self */ {
-            let diff = otherTimecode
-                .__subtract(
-                    wrapping: other,
-                    from: components
-                )
+            let diff = otherTimecode.__subtract(
+                wrapping: other,
+                from: components
+            )
             
             let deltaTC = diff.toTimecode(
                 rawValuesAt: frameRate,
@@ -482,7 +480,7 @@ extension Timecode {
                 format: stringFormat
             )
             
-            let delta = Delta(deltaTC, .negative)
+            let delta = TimecodeInterval(deltaTC, .negative)
             
             return delta
         }

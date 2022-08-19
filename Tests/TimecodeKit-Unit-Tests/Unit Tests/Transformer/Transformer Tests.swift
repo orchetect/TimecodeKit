@@ -28,7 +28,7 @@ class Timecode_UT_Transformer_Tests: XCTestCase {
         // .offset()
         
         let deltaTC = try Timecode(TCC(m: 1), at: ._24)
-        let delta = Timecode.Delta(deltaTC, .positive)
+        let delta = TimecodeInterval(deltaTC, .positive)
         
         var transformer = Timecode.Transformer(.offset(by: delta))
         
@@ -75,13 +75,13 @@ class Timecode_UT_Transformer_Tests: XCTestCase {
     }
     
     func testTransformer_Multiple_Offsets() throws {
-        // .offset()
+        // .offset(by:)
         
         let deltaTC1 = try Timecode(TCC(m: 1), at: ._24)
-        let delta1 = Timecode.Delta(deltaTC1, .positive)
+        let delta1 = TimecodeInterval(deltaTC1, .positive)
         
         let deltaTC2 = try Timecode(TCC(s: 1), at: ._24)
-        let delta2 = Timecode.Delta(deltaTC2, .negative)
+        let delta2 = TimecodeInterval(deltaTC2, .negative)
         
         let transformer = Timecode.Transformer([.offset(by: delta1), .offset(by: delta2)])
         
@@ -89,6 +89,11 @@ class Timecode_UT_Transformer_Tests: XCTestCase {
             transformer.transform(try Timecode(TCC(h: 1), at: ._24)),
             try Timecode(TCC(h: 01, m: 00, s: 59, f: 00), at: ._24)
         )
+    }
+    
+    func testTransformer_Shorthand() throws {
+        let delta = try TCC().toTimecode(at: ._24)
+        _ = Timecode.Transformer(.offset(by: .positive(delta)))
     }
 }
 

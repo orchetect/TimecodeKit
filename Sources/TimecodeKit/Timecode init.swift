@@ -159,6 +159,15 @@ extension Timecode {
         setTimecode(rawValues: source)
     }
     
+    // MARK: - TimecodeInterval
+    
+    /// Instance by flattening a `TimecodeInterval`, wrapping as necessary based on the ``upperLimit-swift.property`` and ``frameRate-swift.property`` of the interval.
+    public init(
+        flattening interval: TimecodeInterval
+    ) {
+        self = interval.flattened()
+    }
+    
     // MARK: - String
     
     /// Instance exactly from timecode string and frame rate.

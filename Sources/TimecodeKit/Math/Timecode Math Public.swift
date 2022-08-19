@@ -275,22 +275,22 @@ extension Timecode {
         return newTimecode
     }
     
-    // MARK: - Offset / Delta
+    // MARK: - Offset / TimecodeInterval
     
-    /// Offsets the current timecode by a `Delta` amount.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public mutating func offset(by delta: Delta) {
-        self = delta.timecode(offsetting: self)
+    /// Offsets the current timecode by a delta amount.
+    /// Wraps around the clock if needed, as set by the `upperLimit` property.
+    public mutating func offset(by interval: TimecodeInterval) {
+        self = interval.timecode(offsetting: self)
     }
     
-    /// Returns the timecode offset by a `Delta` amount.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public func offsetting(by delta: Delta) -> Timecode {
-        delta.timecode(offsetting: self)
+    /// Returns the timecode offset by a delta amount.
+    /// Wraps around the clock if needed, as set by the `upperLimit` property.
+    public func offsetting(by interval: TimecodeInterval) -> Timecode {
+        interval.timecode(offsetting: self)
     }
     
-    /// Returns an abstract delta distance between the current timecode and another timecode.
-    public func delta(to other: Timecode) -> Delta {
+    /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
+    public func interval(to other: Timecode) -> TimecodeInterval {
         if frameRate == other.frameRate {
             return __offset(to: other.components)
         } else {
@@ -301,5 +301,16 @@ extension Timecode {
             
             return __offset(to: otherConverted.components)
         }
+    }
+    
+    /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
+    @available(*, deprecated, renamed: "interval(to:)")
+    public func delta(to other: Timecode) -> TimecodeInterval {
+        interval(to: other)
+    }
+    
+    /// Constructs a new `TimecodeInterval` instance from `self`, either ``TimecodeInterval/Sign/positive`` or ``TimecodeInterval/Sign/negative``.
+    public func asInterval(_ sign: TimecodeInterval.Sign = .positive) -> TimecodeInterval {
+        TimecodeInterval(self, sign)
     }
 }

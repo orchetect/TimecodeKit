@@ -493,23 +493,23 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        let deltaTC = try Timecode(
+        let intervalTC = try Timecode(
             TCC(h: 00, m: 01, s: 00, f: 00),
             at: ._23_976,
             limit: ._24hours
         )
         
-        tc.offset(by: .init(deltaTC, .positive))
+        tc.offset(by: .init(intervalTC, .positive))
         
-        XCTAssertEqual(tc.components,   TCC(h: 01, m: 01, s: 00, f: 00))
+        XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
         
-        tc.offset(by: .init(deltaTC, .positive))
+        tc.offset(by: .init(intervalTC, .positive))
         
-        XCTAssertEqual(tc.components,   TCC(h: 01, m: 02, s: 00, f: 00))
+        XCTAssertEqual(tc.components, TCC(h: 01, m: 02, s: 00, f: 00))
         
-        tc.offset(by: .init(deltaTC, .negative))
+        tc.offset(by: .init(intervalTC, .negative))
         
-        XCTAssertEqual(tc.components,   TCC(h: 01, m: 01, s: 00, f: 00))
+        XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
         
         // non-mutating
         
@@ -521,13 +521,13 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc
-                .offsetting(by: .init(deltaTC, .positive))
+                .offsetting(by: .init(intervalTC, .positive))
                 .components,
             TCC(h: 01, m: 01, s: 00, f: 00)
         )
     }
     
-    func testDelta() throws {
+    func testIntervalTo() throws {
         let tc1 = try Timecode(
             TCC(h: 01, m: 00, s: 00, f: 00),
             at: ._23_976,
@@ -542,11 +542,11 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         // positive
         
-        var delta = tc1.delta(to: tc2)
+        var interval = tc1.interval(to: tc2)
         
-        XCTAssertEqual(delta.isNegative, false)
+        XCTAssertEqual(interval.isNegative, false)
         XCTAssertEqual(
-            delta.timecode,
+            interval.flattened(),
             try Timecode(
                 TCC(h: 00, m: 04, s: 37, f: 15),
                 at: ._23_976,
@@ -556,11 +556,11 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         // negative
         
-        delta = tc2.delta(to: tc1)
+        interval = tc2.interval(to: tc1)
         
-        XCTAssertEqual(delta.isNegative, true) // 23:55:22:09
+        XCTAssertEqual(interval.isNegative, true) // 23:55:22:09
         XCTAssertEqual(
-            delta.delta,
+            interval.absoluteInterval,
             try Timecode(
                 TCC(h: 00, m: 04, s: 37, f: 15),
                 at: ._23_976,
@@ -568,7 +568,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
             )
         )
         XCTAssertEqual(
-            delta.timecode,
+            interval.flattened(),
             try Timecode(
                 TCC(h: 23, m: 55, s: 22, f: 09),
                 at: ._23_976,
@@ -586,11 +586,11 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         // positive, > 24 hours delta
         
-        delta = tc1.delta(to: tc3)
+        interval = tc1.interval(to: tc3)
         
-        XCTAssertEqual(delta.isNegative, false)
+        XCTAssertEqual(interval.isNegative, false)
         XCTAssertEqual(
-            delta.delta,
+            interval.absoluteInterval,
             try Timecode(
                 TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
                 at: ._23_976,
@@ -598,7 +598,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
             )
         )
         XCTAssertEqual(
-            delta.timecode,
+            interval.flattened(),
             try Timecode(
                 TCC(h: 02, m: 04, s: 37, f: 15),
                 at: ._23_976,
@@ -608,11 +608,11 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         // negative, > 24 hours delta, 100 days limit
         
-        delta = tc3.delta(to: tc1)
+        interval = tc3.interval(to: tc1)
         
-        XCTAssertEqual(delta.isNegative, true)
+        XCTAssertEqual(interval.isNegative, true)
         XCTAssertEqual(
-            delta.delta,
+            interval.absoluteInterval,
             try Timecode(
                 TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
                 at: ._23_976,
@@ -620,13 +620,27 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
             )
         )
         XCTAssertEqual(
-            delta.timecode,
+            interval.flattened(),
             Timecode(
                 rawValues: TCC(d: 98, h: 21, m: 55, s: 22, f: 09),
                 at: ._23_976,
                 limit: ._100days
             )
         )
+    }
+    
+    func testTimecodeInterval() throws {
+        let interval = try Timecode(
+            TCC(h: 02, m: 04, s: 37, f: 15),
+            at: ._24
+        ).asInterval(.negative)
+        
+        XCTAssertEqual(
+            interval.flattened().components,
+            TCC(h: 21, m: 55, s: 22, f: 9)
+        )
+        XCTAssertEqual(interval.flattened().frameRate, ._24)
+        XCTAssertTrue(interval.isNegative)
     }
 }
 

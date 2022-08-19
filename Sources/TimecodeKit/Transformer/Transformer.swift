@@ -32,8 +32,8 @@ extension Timecode {
                 case .none:
                     return
                     
-                case let .offset(by: delta):
-                    tc = tc.offsetting(by: delta)
+                case let .offset(by: interval):
+                    tc = tc.offsetting(by: interval)
                     
                 case let .custom(closure):
                     tc = closure(tc)
@@ -49,8 +49,8 @@ extension Timecode.Transformer {
         /// No transform is defined.
         case none
         
-        /// Offsets timecode by a `Delta` amount.
-        case offset(by: Timecode.Delta)
+        /// Offsets timecode by a delta interval.
+        case offset(by: TimecodeInterval)
         
         /// A custom transformer that processes input `Timecode` with the supplied closure.
         case custom((Timecode) -> Timecode)
