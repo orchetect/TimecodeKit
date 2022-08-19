@@ -516,9 +516,38 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 01:00:00:20
 ```
 
-## Known Issues
+## Timecode intervals and 'negative' timecode
 
-- The Dev Tests are not meant to be run as routine unit tests, but are designed as a test harness to be used only when altering critical parts of the library to ensure stability of internal calculations. This does not affect library usage at all.
+The `TimecodeInterval` struct wraps a `Timecode` instance and adds a sign (positive of negative).
+
+It serves to represent an absolute interval of timecode accompanied by a sign (+ / -) to establish the intent of the interval being *additive* or *subtractive* when passed into methods that accept a `TimecodeInterval` instance.
+
+`TimecodeInterval` also accepts intervals larger than 24 hours and works well with raw timecode values.
+
+On the whole, timecode itself is the expression of an absolute video timestamp, or used as a duration of video frames. The concept of a 'negative' timecode is antithetical; timecode is not meant to be expressed or displayed on-screen to the user using a negative sign. In practise, timecode wraps around the clock forwards and backwards: typically around a 24 hour clock but `Timecode` can be set to 100 day wrapping for unique cases. This means that, at 24 fps:
+
+- `00:00:00:00` minus 1 frame is `23:59:59:23` (and not `-00:00:00:01`)
+- `23:59:59:23` plus 1 frame is `00:00:00:00`
+
+However, to meet the demand of some timecode calculations (such as offset transforms, theoretical calculations involving raw timecode values, or aggregate operations that may have otherwise resulted in wrapping the clock one or more times) `TimecodeInterval` is provided.
+
+```swift
+// construct directly:
+let tc = try Timecode(TCC(h: 01), at: ._24)
+let interval = TimecodeInterval(tc, .negative)
+
+// construct with Timecode method:
+let interval = try Timecode(TCC(h: 01), at: ._24)
+let interval = tc.interval(.negative)
+
+// construct with - or + unary operator:
+let interval = try -Timecode(TCC(h: 01), at: ._24) // negative
+let interval = try +Timecode(TCC(h: 01), at: ._24) // positive
+```
+
+## Timecode transformer
+
+`TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a ` Timecode` instance.
 
 ## References
 
