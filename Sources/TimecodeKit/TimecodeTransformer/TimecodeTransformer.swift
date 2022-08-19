@@ -14,7 +14,7 @@ public struct TimecodeTransformer {
         
     /// Initialize the transformer with a single transform.
     public init(_ transform: Transform) {
-        self.transforms = [transform]
+        transforms = [transform]
     }
         
     /// Initialize the transformer with multiple transforms in series.

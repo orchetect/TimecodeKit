@@ -21,8 +21,8 @@ public struct TimecodeInterval {
         _ interval: Timecode,
         _ sign: Sign = .positive
     ) {
-        self.absoluteInterval = interval
-        self.intervalSign = sign
+        absoluteInterval = interval
+        intervalSign = sign
     }
     
     // MARK: - Public Properties
