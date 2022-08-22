@@ -69,13 +69,13 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
         try Timecode.FrameRate.allCases.forEach { frameRate in
             XCTAssertTrue(
                 try "01:00:00:00".toTimecode(at: frameRate) <
-                "01:00:00:01".toTimecode(at: frameRate),
+                    "01:00:00:01".toTimecode(at: frameRate),
                 "\(frameRate)fps"
             )
             
             XCTAssertTrue(
                 try "01:00:00:01".toTimecode(at: frameRate) >
-                "01:00:00:00".toTimecode(at: frameRate),
+                    "01:00:00:00".toTimecode(at: frameRate),
                 "\(frameRate)fps"
             )
         }
