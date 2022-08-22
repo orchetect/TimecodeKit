@@ -13,7 +13,7 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testTimecode_Equatable_Comparable() throws {
+    func testTimecode_Equatable() throws {
         // ==
         
         XCTAssertEqual(
@@ -32,6 +32,20 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
             try "01:00:00:00".toTimecode(at: ._24)
         )
         
+        try Timecode.FrameRate.allCases.forEach { frameRate in
+            XCTAssertEqual(
+                try "01:00:00:00".toTimecode(at: frameRate),
+                try "01:00:00:00".toTimecode(at: frameRate)
+            )
+            
+            XCTAssertEqual(
+                try "01:00:00:01".toTimecode(at: frameRate),
+                try "01:00:00:01".toTimecode(at: frameRate)
+            )
+        }
+    }
+    
+    func testTimecode_Comparable() throws {
         // < >
         
         XCTAssertFalse(
@@ -51,6 +65,20 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
             try "01:00:00:00".toTimecode(at: ._23_976) // false because they're ==
                 > "01:00:00:00".toTimecode(at: ._23_976)
         )
+        
+        try Timecode.FrameRate.allCases.forEach { frameRate in
+            XCTAssertTrue(
+                try "01:00:00:00".toTimecode(at: frameRate) <
+                "01:00:00:01".toTimecode(at: frameRate),
+                "\(frameRate)fps"
+            )
+            
+            XCTAssertTrue(
+                try "01:00:00:01".toTimecode(at: frameRate) >
+                "01:00:00:00".toTimecode(at: frameRate),
+                "\(frameRate)fps"
+            )
+        }
     }
 }
 
