@@ -5,7 +5,7 @@
 //
 
 extension Timecode {
-    /// Individual timecode component tokens.
+    /// Individual timecode component.
     public enum Component: Equatable, Hashable, CaseIterable {
         case days
         case hours

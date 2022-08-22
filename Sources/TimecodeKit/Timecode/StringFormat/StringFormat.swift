@@ -10,6 +10,7 @@ extension Timecode {
 }
 
 extension Timecode.StringFormat {
+    /// Default timecode string formatting.
     public static func `default`() -> Self {
         []
     }
