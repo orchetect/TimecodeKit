@@ -80,6 +80,44 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
             )
         }
     }
+    
+    func testTimecode_Comparable_Sorted() throws {
+        try Timecode.FrameRate.allCases.forEach { frameRate in
+            let presortedTimecodes: [Timecode] = [
+                try "00:00:00:00".toTimecode(at: frameRate),
+                try "00:00:00:01".toTimecode(at: frameRate),
+                try "00:00:00:14".toTimecode(at: frameRate),
+                try "00:00:00:15".toTimecode(at: frameRate),
+                try "00:00:00:15".toTimecode(at: frameRate),
+                try "00:00:01:00".toTimecode(at: frameRate),
+                try "00:00:01:01".toTimecode(at: frameRate),
+                try "00:00:01:23".toTimecode(at: frameRate),
+                try "00:00:02:00".toTimecode(at: frameRate),
+                try "00:01:00:05".toTimecode(at: frameRate),
+                try "00:02:00:08".toTimecode(at: frameRate),
+                try "00:23:00:10".toTimecode(at: frameRate),
+                try "01:00:00:00".toTimecode(at: frameRate),
+                try "02:00:00:00".toTimecode(at: frameRate),
+                try "03:00:00:00".toTimecode(at: frameRate)
+            ]
+            
+            var shuffledTimecodes: [Timecode] = presortedTimecodes
+            
+            // randomize so timecodes are out of order;
+            // loop in case shuffle produces identical ordering
+            var shuffleCount = 0
+            while shuffleCount == 0 || shuffledTimecodes == presortedTimecodes {
+                print("\(frameRate)fps - shuffling")
+                shuffledTimecodes.shuffle()
+                shuffleCount += 1
+            }
+            
+            // sort the shuffled array
+            let resortedTimecodes = shuffledTimecodes.sorted()
+            
+            XCTAssertEqual(resortedTimecodes, presortedTimecodes, "\(frameRate)fps")
+        }
+    }
 }
 
 #endif

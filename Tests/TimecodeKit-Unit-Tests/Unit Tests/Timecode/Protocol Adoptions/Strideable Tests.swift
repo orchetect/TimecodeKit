@@ -176,16 +176,6 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
             try ..."01:00:00:06".toTimecode(at: ._23_976)
                 ~= Timecode("01:00:00:02", at: ._23_976)
         )
-        
-        // sort
-        
-        let sort = [
-            try "01:00:00:06".toTimecode(at: ._23_976),
-            try "01:00:00:00".toTimecode(at: ._23_976)
-        ]
-            .sorted()
-        
-        XCTAssertEqual(sort[0], try "01:00:00:00".toTimecode(at: ._23_976))
     }
 }
 
