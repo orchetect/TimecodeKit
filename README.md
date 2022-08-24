@@ -2,7 +2,7 @@
 
 # TimecodeKit
 
-[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS | iOS | tvOS | watchOS](https://img.shields.io/badge/platforms-macOS%20|%20iOS%20|%20tvOS%20|%20watchOS%20-lightgrey.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5|5.6|5.7](https://img.shields.io/badge/Swift-5.5|5.6|5.7-orange.svg?style=flat) [![Xcode 13|14](https://img.shields.io/badge/Xcode-13|14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
 A robust and precise Swift library for working with SMPTE timecode supporting 20 industry frame rates, including conversions to/from timecode strings and timecode-based calculations.
 
