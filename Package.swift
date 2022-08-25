@@ -29,7 +29,7 @@ let package = Package(
     
     dependencies: [
         // used only for Dev tests, not part of regular unit test
-        // .package(url: "https://github.com/orchetect/SegmentedProgress", from: "1.0.1")
+        // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ],
     
     targets: [
@@ -63,30 +63,16 @@ let package = Package(
     ]
 )
 
-func addShouldTestFlag(toTarget targetName: String) {
-    // swiftSettings may be nil so we can't directly append to it
-    
-    var swiftSettings = package.targets
-        .first(where: { $0.name == targetName })?
-        .swiftSettings ?? []
-    
-    swiftSettings.append(.define("shouldTestCurrentPlatform"))
-    
-    package.targets
-        .first(where: { $0.name == targetName })?
-        .swiftSettings = swiftSettings
+func addShouldTestFlag() {
+    package.targets.filter { $0.isTest }.forEach { target in
+        if target.swiftSettings == nil { target.swiftSettings = [] }
+        target.swiftSettings?.append(.define("shouldTestCurrentPlatform"))
+    }
 }
 
-func addShouldTestFlags() {
-    addShouldTestFlag(toTarget: "TimecodeKit-Unit-Tests")
-    addShouldTestFlag(toTarget: "TimecodeKit-Dev-Tests")
-}
-
-// Swift version in Xcode 12.5.1 which introduced watchOS testing
-#if os(watchOS) && swift(>=5.4.2)
-addShouldTestFlags()
-#elseif os(watchOS)
-// don't add flag
-#else
-addShouldTestFlags()
+// Xcode 12.5.1 (Swift 5.4.2) introduced watchOS testing
+#if swift(>=5.4.2)
+addShouldTestFlag()
+#elseif !os(watchOS)
+addShouldTestFlag()
 #endif
