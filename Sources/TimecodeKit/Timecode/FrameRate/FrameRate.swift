@@ -50,6 +50,8 @@ extension Timecode {
         /// 30 drop fps:
         ///
         /// The 30 fps drop-frame count is an adaptation that allows a timecode display running at 29.97 fps to actually show the clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
+        ///
+        /// - Warning: This is not a video frame rate - it is a display rate only.
         case _30_drop = "30d"
         
         /// 47.952 (48p?)
@@ -89,6 +91,10 @@ extension Timecode {
         /// 60 drop fps
         ///
         /// Double 30 fps
+        ///
+        /// See the description for 30 drop for more info.
+        ///
+        /// - Warning: This is not a video frame rate - it is a display rate only.
         case _60_drop = "60d"
         
         /// 100 fps
@@ -114,6 +120,10 @@ extension Timecode {
         /// 120 drop fps
         ///
         /// Double 60 fps drop / quadruple 30 fps drop
+        ///
+        /// See the description for 30 drop for more info.
+        ///
+        /// - Warning: This is not a video frame rate - it is a display rate only.
         case _120_drop = "120d"
     }
 }
