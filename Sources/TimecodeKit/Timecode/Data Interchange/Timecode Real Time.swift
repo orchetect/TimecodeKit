@@ -24,17 +24,7 @@ extension Timecode {
     ///
     /// - Throws: `Timecode.ValidationError`
     public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
-        // the basic calculation
-        var calc = fromRealTimeValue / (1.0 / frameRate.frameRateForRealTimeCalculation)
-        
-        // over-estimate so real time is just past the equivalent timecode
-        // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)
-        
-        calc += 0.000_010 // 10 microseconds
-        
-        // final calculation
-        
-        let elapsedFrames = calc
+        let elapsedFrames = elapsedFrames(fromRealTimeValue: fromRealTimeValue)
         
         let convertedComponents = Self.components(
             from: .init(.combined(frames: elapsedFrames), base: subFramesBase),
@@ -42,6 +32,20 @@ extension Timecode {
         )
         
         try setTimecode(exactly: convertedComponents)
+    }
+    
+    /// Internal:
+    /// Calculates elapsed frames at current frame rate from
+    /// real-time (wall-clock time).
+    internal func elapsedFrames(fromRealTimeValue: TimeInterval) -> Double {
+        var calc = fromRealTimeValue / (1.0 / frameRate.frameRateForRealTimeCalculation)
+        
+        // over-estimate so real time is just past the equivalent timecode
+        // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)
+        
+        calc += 0.000_010 // 10 microseconds
+        
+        return calc
     }
 }
 

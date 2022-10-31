@@ -10,57 +10,12 @@ extension Timecode {
     /// real-time audio samples at the given sample rate, rounded to the nearest sample.
     /// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be 48000)
     public func samplesValue(atSampleRate: Int) -> Double {
-        // prepare coefficients
-        
-        var fRate = frameRate.frameRateForElapsedFramesCalculation
-        
-        if frameRate.isDrop,
-           frameRate != ._30_drop,
-           frameRate != ._60_drop,
-           frameRate != ._120_drop
-        {
-            // all dropframe rates require this except 30 DF and its multiples
-            fRate = Double(frameRate.maxFrames) / 1.001
-        }
-        
-        var offset = 1.0
         switch frameRate {
-        case ._23_976,
-             ._24_98,
-             ._29_97,
-             ._47_952,
-             ._59_94,
-             ._119_88:
-            
-            // not sure why this works, but it makes for an accurate calculation
-            offset = 1.001
-            
-        case ._24,
-             ._25,
-             ._29_97_drop,
-             ._30,
-             ._48,
-             ._50,
-             ._59_94_drop,
-             ._60,
-             ._100,
-             ._119_88_drop,
-             ._120:
-            
-            break
-            
-        case ._30_drop,
-             ._60_drop,
-             ._120_drop:
-            
-            offset = 0.999
+        case ._30_drop, ._60_drop, ._120_drop:
+            return (realTimeValue / 1.001) * Double(atSampleRate)
+        default:
+            return realTimeValue * Double(atSampleRate)
         }
-        
-        // perform calculation
-        
-        let dbl = frameCount.doubleValue * (Double(atSampleRate) / fRate * offset)
-        
-        return dbl
     }
     
     /// (Lossy)
@@ -73,61 +28,26 @@ extension Timecode {
         fromSamplesValue: Double,
         atSampleRate: Int
     ) throws {
-        // prepare coefficients
-        
-        var fRate = frameRate.frameRateForElapsedFramesCalculation
-        
-        if frameRate.isDrop,
-           frameRate != ._30_drop,
-           frameRate != ._60_drop,
-           frameRate != ._120_drop
-        {
-            // all dropframe rates require this except 30 DF and its multiples
-            fRate = Double(frameRate.maxFrames) / 1.001
-        }
-        
-        var offset = 1.0
+        var base: Double
         switch frameRate {
-        case ._23_976,
-             ._24_98,
-             ._29_97,
-             ._47_952,
-             ._59_94,
-             ._119_88:
-            offset = 1.001
-            
-        case ._24,
-             ._25,
-             ._29_97_drop,
-             ._30,
-             ._48,
-             ._50,
-             ._59_94_drop,
-             ._60,
-             ._100,
-             ._119_88_drop,
-             ._120:
-            break
-            
-        case ._30_drop,
-             ._60_drop,
-             ._120_drop:
-            offset = 0.999
+        case ._30_drop, ._60_drop, ._120_drop:
+            let rtv = (fromSamplesValue / Double(atSampleRate)) * 1.001
+            base = elapsedFrames(fromRealTimeValue: rtv)
+        default:
+            let rtv = fromSamplesValue / Double(atSampleRate)
+            base = elapsedFrames(fromRealTimeValue: rtv)
         }
-        
-        // perform calculation
-        
-        var dbl = fromSamplesValue / (Double(atSampleRate) / fRate * offset)
         
         // over-estimate so samples are just past the equivalent timecode
         // so calculations of samples back into timecode work reliably
-        // otherwise, this math produces a samples value that can be a hair under the actual elapsed samples that would trigger the equivalent timecode
+        // otherwise, this math produces a samples value that can be a hair under
+        // the actual elapsed samples that would convert back to equivalent timecode
         
-        dbl += 0.0001
+        base += 0.0001
         
         // then derive components
         let convertedComponents = Self.components(
-            from: .init(.combined(frames: dbl), base: subFramesBase),
+            from: .init(.combined(frames: base), base: subFramesBase),
             at: frameRate
         )
         
