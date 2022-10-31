@@ -26,10 +26,10 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 - Convert timecode values to timecode display string, and vice-versa
 - Convert timecode values to real wall-clock time, and vice-versa
 - Convert timecode to # of samples at any audio sample-rate, and vice-versa
-- Granular timecode validation
-- Support for Days as a timecode component (which Cubase supports as part of its timecode format)
 - Support for Subframes
+- Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
 - Common math operations between timecodes: add, subtract, multiply, divide
+- Granular timecode validation
 - Form a `Range` or `Stride` between two timecodes
 - Conforms to `Codable`
 - A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
@@ -50,7 +50,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
    - In a Swift Package, add it to the Package.swift dependencies:
 
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.2.10")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.4.0")
      ```
 
 2. Import the library:
@@ -138,8 +138,7 @@ try Timecode(wrapping: "23:59:59:24", at: ._24)
 Timecode components can be get or set directly as instance properties.
 
 ```swift
-let tc = try "01:12:20:05"
-    .toTimecode(at: ._23_976)
+let tc = try "01:12:20:05".toTimecode(at: ._23_976)
 
 // get
 tc.days        // == 0
@@ -239,10 +238,7 @@ try "01:00:00;00"
 // timecode to real-world time in seconds
 let tc = try "01:00:00:00"
     .toTimecode(at: ._23_976)
-    .realTimeValue // == TimeInterval (aka Double)
-
-tc.seconds // == 3603.6
-tc.ms      // == 3603600.0
+    .realTimeValue // == 3603.6 as TimeInterval (Double)
 
 // real-world time to timecode
 try (3603.6) // TimeInterval, aka Double
@@ -300,18 +296,18 @@ TCC(h: 1, m: 20, s: 75, f: 60)
     .stringValueValidated
 ```
 
-The invalid formatting attributes defaults to applying `[ .foregroundColor : NSColor.red ]` to invalid components. You can alternatively supply your own invalid attributes by setting the `invalidAttributes` argument.
+The invalid formatting attributes defaults to applying `[.foregroundColor: NSColor.red]` to invalid components. You can alternatively supply your own invalid attributes by setting the `invalidAttributes` argument.
 
 You can also supply a set of default attributes to set as the baseline attributes for the entire string.
 
 ```swift
 // set text's background color to red instead of its foreground color
-let invalidAttr: [NSAttributedString.Key : Any] =
-    [ .backgroundColor : NSColor.red ]
+let invalidAttr: [NSAttributedString.Key: Any] =
+    [.backgroundColor: NSColor.red]
 
 // set custom font and font size for the entire string
-let defaultAttr: [NSAttributedString.Key : Any] =
-    [ .font : NSFont.systemFont(ofSize: 16) ]
+let defaultAttr: [NSAttributedString.Key: Any] =
+    [.font: NSFont.systemFont(ofSize: 16)]
 
 TCC(h: 1, m: 20, s: 75, f: 60)
     .toTimecode(rawValuesAt: ._23_976)
@@ -350,7 +346,7 @@ A special string `Formatter` (`NSFormatter`) subclass can
 - process user-entered timecode strings and format them in realtime in a TextField
 - optionally highlight individual invalid timecode components with a specified set of attributes (defaults to red foreground color)
 
-The invalid formatting attributes defaults to applying `[ .foregroundColor : NSColor.red ]` to invalid components. You can alternatively supply your own invalid attributes by setting the `validationAttributes` property on the formatter.
+The invalid formatting attributes defaults to applying `[.foregroundColor: NSColor.red]` to invalid components. You can alternatively supply your own invalid attributes by setting the `validationAttributes` property on the formatter.
 
 ```swift
 // set up formatter
@@ -439,11 +435,14 @@ tc.stringValue // == "01:12:20:05.62"
 Two `Timecode` instances can be compared linearly.
 
 ```swift
-try "01:00:00:00".toTimecode(at: ._24) == try "01:00:00:00".toTimecode(at: ._24) // == true
+try "01:00:00:00".toTimecode(at: ._24) 
+    == try "01:00:00:00".toTimecode(at: ._24) // == true
 
-try "00:59:50:00".toTimecode(at: ._24) < "01:00:00:00".toTimecode(at: ._24) // == true
+try "00:59:50:00".toTimecode(at: ._24) 
+    < "01:00:00:00".toTimecode(at: ._24) // == true
 
-try "00:59:50:00".toTimecode(at: ._24) > "01:00:00:00".toTimecode(at: ._24) // == false
+try "00:59:50:00".toTimecode(at: ._24) 
+    > "01:00:00:00".toTimecode(at: ._24) // == false
 ```
 
 #### Range, Strideable
