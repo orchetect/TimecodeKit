@@ -108,19 +108,19 @@ import XCTest
 //
 // }
 
-final class DevTests: XCTestCase {
-    func testDummy() throws {
-        let tc = try TCC(d: 1)
-            .toTimecode(at: ._30_drop, limit: ._100days)
-        print(tc.realTimeValue)
-    }
-    
-    func testDummy2() throws {
-        let tc = try Timecode(.frames(2_589_408),
-                              at: ._30_drop,
-                              limit: ._100days)
-        print(tc)
-        print(tc.realTimeValue)
-    }
-}
+// final class DevTests: XCTestCase {
+//     func testDummy() throws {
+//         let tc = try TCC(d: 1)
+//             .toTimecode(at: ._30_drop, limit: ._100days)
+//         print(tc.realTimeValue)
+//     }
+// 
+//     func testDummy2() throws {
+//         let tc = try Timecode(.frames(2_589_408),
+//                               at: ._30_drop,
+//                               limit: ._100days)
+//         print(tc)
+//         print(tc.realTimeValue)
+//     }
+// }
 #endif
