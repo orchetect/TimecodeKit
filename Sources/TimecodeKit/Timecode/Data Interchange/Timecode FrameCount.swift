@@ -57,43 +57,40 @@ extension Timecode {
     ) -> FrameCount {
         let subFramesUnitInterval = Double(values.sf) / Double(base.rawValue)
         
-        let fcValue: FrameCount.Value
+        let frameCountValue: FrameCount.Value
         
         switch frameRate.isDrop {
         case true:
             let totalMinutes = (24 * 60 * values.d) + (60 * values.h) + values.m
             
-            let totalWholeFrames =
-                (
-                    (frameRate.maxFrames * 60 * 60 * 24 * values.d)
-                        + (frameRate.maxFrames * 60 * 60 * values.h)
-                        + (frameRate.maxFrames * 60 * values.m)
-                        + (frameRate.maxFrames * values.s)
-                        + (values.f)
-                )
-                
-                - (Int(frameRate.framesDroppedPerMinute) * (totalMinutes - (totalMinutes / 10)))
+            let base = (frameRate.maxFrames * 60 * 60 * 24 * values.d)
+                + (frameRate.maxFrames * 60 * 60 * values.h)
+                + (frameRate.maxFrames * 60 * values.m)
+                + (frameRate.maxFrames * values.s)
+                + (values.f)
+            let dropOffset = Int(frameRate.framesDroppedPerMinute) *
+                (totalMinutes - (totalMinutes / 10))
+            let totalWholeFrames = base - dropOffset
             
-            fcValue = .splitUnitInterval(
+            frameCountValue = .splitUnitInterval(
                 frames: totalWholeFrames,
                 subFramesUnitInterval: subFramesUnitInterval
             )
             
         case false:
-            let dd = Double(values.d) * 24 * 60 * 60 * frameRate
-                .frameRateForElapsedFramesCalculation
+            let dd = Double(values.d) * 24 * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
             let hh = Double(values.h) * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
             let mm = Double(values.m) * 60 * frameRate.frameRateForElapsedFramesCalculation
             let ss = Double(values.s) * frameRate.frameRateForElapsedFramesCalculation
             let totalWholeFrames = Int(round(dd + hh + mm + ss)) + values.f
             
-            fcValue = .splitUnitInterval(
+            frameCountValue = .splitUnitInterval(
                 frames: totalWholeFrames,
                 subFramesUnitInterval: subFramesUnitInterval
             )
         }
         
-        return .init(fcValue, base: base)
+        return .init(frameCountValue, base: base)
     }
     
     /// Calculates resulting values from total frames at the current frame rate.
@@ -116,7 +113,10 @@ extension Timecode {
         // drop frame
         
         if frameRate.isDrop {
-            // modify input elapsed frame count in the case of a drop-frame frame rate so it can be converted
+            // modify input elapsed frame count in the case of a drop-frame frame rate
+            // so it can be converted
+            
+            let framesDroppedPerMinute = Decimal(frameRate.framesDroppedPerMinute)
             
             let framesPer10Minutes = Decimal(frameRate.frameRateForElapsedFramesCalculation) *
                 Decimal(600.0)
@@ -125,26 +125,15 @@ extension Timecode {
             
             let m = inElapsedFrames.truncatingRemainder(dividingBy: framesPer10Minutes)
             
-            let f = max(
-                Decimal(0),
-                m - Decimal(frameRate.framesDroppedPerMinute)
-            ) // don't allow negative numbers
+            // don't allow negative numbers
+            let f = max(Decimal(0), m - framesDroppedPerMinute)
             
-            inElapsedFrames =
-                inElapsedFrames
-                    + (9 * Decimal(frameRate.framesDroppedPerMinute) * d)
-                    + (
-                        Decimal(frameRate.framesDroppedPerMinute)
-                            *
-                            (
-                                f /
-                                    ((
-                                        framesPer10Minutes -
-                                            Decimal(frameRate.framesDroppedPerMinute)
-                                    ) / 10)
-                            )
-                            .truncated(decimalPlaces: 0)
-                    )
+            let part1 = (9 * framesDroppedPerMinute * d)
+            let part2 = framesDroppedPerMinute *
+                (f / ((framesPer10Minutes - framesDroppedPerMinute) / 10))
+                .truncated(decimalPlaces: 0)
+            
+            inElapsedFrames = inElapsedFrames + part1 + part2
         }
         
         // final calculation
@@ -152,46 +141,40 @@ extension Timecode {
         let frMaxFrames = Decimal(frameRate.maxFrames)
         
         dd = Int(
-            truncating:
-            (inElapsedFrames / (frMaxFrames * 60 * 60 * 24))
+            truncating: (inElapsedFrames / (frMaxFrames * 60 * 60 * 24))
                 .truncated(decimalPlaces: 0)
                 as NSDecimalNumber
         )
         
         hh = Int(
-            truncating:
-            (inElapsedFrames / (frMaxFrames * 60 * 60))
+            truncating: (inElapsedFrames / (frMaxFrames * 60 * 60))
                 .truncated(decimalPlaces: 0)
                 .truncatingRemainder(dividingBy: 24)
                 as NSDecimalNumber
         )
         
         mm = Int(
-            truncating:
-            (inElapsedFrames / (frMaxFrames * 60))
+            truncating: (inElapsedFrames / (frMaxFrames * 60))
                 .truncated(decimalPlaces: 0)
                 .truncatingRemainder(dividingBy: 60)
                 as NSDecimalNumber
         )
         
         ss = Int(
-            truncating:
-            (inElapsedFrames / frMaxFrames)
+            truncating: (inElapsedFrames / frMaxFrames)
                 .truncated(decimalPlaces: 0)
                 .truncatingRemainder(dividingBy: 60)
                 as NSDecimalNumber
         )
         
         ff = Int(
-            truncating:
-            inElapsedFrames
+            truncating: inElapsedFrames
                 .truncatingRemainder(dividingBy: frMaxFrames)
                 as NSDecimalNumber
         )
         
         sf = Int(
-            truncating:
-            inElapsedFrames.fraction * Decimal(frameCount.subFramesBase.rawValue)
+            truncating: inElapsedFrames.fraction * Decimal(frameCount.subFramesBase.rawValue)
                 as NSDecimalNumber
         )
         

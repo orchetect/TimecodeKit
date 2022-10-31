@@ -9,32 +9,44 @@ import Foundation
 extension Timecode.FrameRate {
     /// Initialize from raw floating-point frame rate (fps).
     ///
-    /// A floating-point fps value can't always explicitly determine a BITC frame rate. Drop frame information cannot be conveyed. For example, 29.97002997 is ambiguous as it is valid for both 29.97 non-drop, 29.97 drop, and 30 drop. For this purpose, the `favorDropFrame` parameter will return the drop-frame variant if the raw rate matches more than one rate.
+    /// A floating-point fps value can't always explicitly determine a BITC frame rate.
+    /// Drop frame information cannot be conveyed.
+    /// For example, 29.97002997 is ambiguous as it is valid for both
+    /// 29.97 non-drop, 29.97 drop, and 30 drop.
+    /// For this purpose, the `favorDropFrame` parameter will return
+    /// the drop-frame variant if the raw rate matches more than one rate.
     ///
-    /// `nil` is returned if rate does not match any of the supported rates. (Rate is non-standard or variable (VFR))
+    /// `nil` is returned if rate does not match any of the supported rates.
+    /// (Rate is non-standard or variable (VFR))
     @_disfavoredOverload
     public init?(
-        raw: Float,
+        raw literalFramesPerSecond: Float,
         favorDropFrame: Bool = false
     ) {
         self.init(
-            raw: Double(raw),
+            raw: Double(literalFramesPerSecond),
             favorDropFrame: favorDropFrame
         )
     }
     
     /// Initialize from raw floating-point frame rate (fps).
     ///
-    /// A floating-point fps value can't always explicitly determine a BITC frame rate. Drop frame information cannot be conveyed. For example, 29.97002997 is ambiguous as it is valid for both 29.97 non-drop, 29.97 drop, and 30 drop. For this purpose, the `favorDropFrame` parameter will return the drop-frame variant if the raw rate matches more than one rate.
+    /// A floating-point fps value can't always explicitly determine a BITC frame rate.
+    /// Drop frame information cannot be conveyed.
+    /// For example, 29.97002997 is ambiguous as it is valid for both
+    /// 29.97 non-drop, 29.97 drop, and 30 drop.
+    /// For this purpose, the `favorDropFrame` parameter will return
+    /// the drop-frame variant if the raw rate matches more than one rate.
     ///
-    /// `nil` is returned if rate does not match any of the supported rates. (Rate is non-standard or variable (VFR))
+    /// `nil` is returned if rate does not match any of the supported rates.
+    /// (Rate is non-standard or variable (VFR))
     public init?(
-        raw: Double,
+        raw literalFramesPerSecond: Double,
         favorDropFrame: Bool = false
     ) {
         let findMatches = Self.allCases.filter {
             $0.frameRateForRealTimeCalculation.truncated(decimalPlaces: 3)
-                == raw.truncated(decimalPlaces: 3)
+                == literalFramesPerSecond.truncated(decimalPlaces: 3)
         }
         
         // in cases where it's not clear which frame rate it is,

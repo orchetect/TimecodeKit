@@ -7,14 +7,17 @@
 import Foundation
 
 extension Timecode {
-    /// (Lossy) Returns the current timecode converted to a duration in real-time (wall-clock time), based on the frame rate.
+    /// (Lossy) Returns the current timecode converted to a duration in
+    /// real-time (wall-clock time), based on the frame rate.
     ///
-    /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)` will produce equivalent timecode.
+    /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)`
+    /// will produce equivalent timecode.
     public var realTimeValue: TimeInterval {
         frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
     }
     
-    /// Sets the timecode to the nearest frame at the current frame rate from real-time (wall-clock time).
+    /// Sets the timecode to the nearest frame at the current frame rate
+    /// from real-time (wall-clock time).
     ///
     /// Returns false if it underflows or overflows valid timecode range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
@@ -44,7 +47,8 @@ extension Timecode {
 
 // a.k.a: extension Double
 extension TimeInterval {
-    /// Convenience method to create an `Timecode` struct using the default `(_ exactly:)` initializer.
+    /// Convenience method to create an `Timecode` struct using the default
+    /// `(_ exactly:)` initializer.
     public func toTimecode(
         at rate: Timecode.FrameRate,
         limit: Timecode.UpperLimit = ._24hours,

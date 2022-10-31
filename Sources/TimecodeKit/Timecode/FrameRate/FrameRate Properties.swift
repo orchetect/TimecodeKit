@@ -232,7 +232,8 @@ extension Timecode.FrameRate {
 // MARK: Internal properties
 
 extension Timecode.FrameRate {
-    /// Internal use. Total number of elapsed frames that comprise 1 second of timecode.
+    /// Internal use.
+    /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
     internal var maxFrames: Int {
         switch self {
         case ._23_976:      return 24
@@ -259,6 +260,7 @@ extension Timecode.FrameRate {
     }
     
     /// Internal use.
+    /// Constant used when calculating total frame count, audio samples, etc.
     internal var frameRateForElapsedFramesCalculation: Double {
         switch self {
         case ._23_976:      return 24.0
@@ -266,41 +268,42 @@ extension Timecode.FrameRate {
         case ._24_98:       return 25.0
         case ._25:          return 25.0
         case ._29_97:       return 30.0
-        case ._29_97_drop:  return 29.97    // used in special drop-frame calculation
+        case ._29_97_drop:  return 29.97
         case ._30:          return 30.0
-        case ._30_drop:     return 29.97    // used in special drop-frame calculation
+        case ._30_drop:     return 29.97
         case ._47_952:      return 48.0
         case ._48:          return 48.0
         case ._50:          return 50.0
         case ._59_94:       return 60.0
-        case ._59_94_drop:  return 59.94    // used in special drop-frame calculation
+        case ._59_94_drop:  return 59.94
         case ._60:          return 60.0
-        case ._60_drop:     return 59.94    // used in special drop-frame calculation
+        case ._60_drop:     return 59.94
         case ._100:         return 100.0
         case ._119_88:      return 120.0
-        case ._119_88_drop: return 119.88   // used in special drop-frame calculation
+        case ._119_88_drop: return 119.88
         case ._120:         return 120.0
-        case ._120_drop:    return 119.88   // used in special drop-frame calculation
+        case ._120_drop:    return 119.88
         }
     }
     
-    /// Internal use. Used in SMF export.
+    /// Internal use.
+    /// Constant used in real time conversion, SMF export, etc.
     internal var frameRateForRealTimeCalculation: Double {
         switch self {
-        case ._23_976:      return 24.0 / 1.001 // confirmed correct
-        case ._24:          return 24.0         // confirmed correct
+        case ._23_976:      return 24.0 / 1.001
+        case ._24:          return 24.0
         case ._24_98:       return 25.0 / 1.001
-        case ._25:          return 25.0         // confirmed correct
-        case ._29_97:       return 30.0 / 1.001 // confirmed correct
-        case ._29_97_drop:  return 30.0 / 1.001 // confirmed correct
-        case ._30:          return 30.0         // confirmed correct
+        case ._25:          return 25.0
+        case ._29_97:       return 30.0 / 1.001
+        case ._29_97_drop:  return 30.0 / 1.001
+        case ._30:          return 30.0
         case ._30_drop:     return 30.0 / 1.001
         case ._47_952:      return 48.0 / 1.001
         case ._48:          return 48.0
-        case ._50:          return 50.0         // confirmed correct
-        case ._59_94:       return 60.0 / 1.001 // confirmed correct
-        case ._59_94_drop:  return 60.0 / 1.001 // confirmed correct
-        case ._60:          return 60.0         // confirmed correct
+        case ._50:          return 50.0
+        case ._59_94:       return 60.0 / 1.001
+        case ._59_94_drop:  return 60.0 / 1.001
+        case ._60:          return 60.0
         case ._60_drop:     return 60.0 / 1.001
         case ._100:         return 100.0
         case ._119_88:      return 120.0 / 1.001
