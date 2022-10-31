@@ -10,12 +10,7 @@ extension Timecode {
     /// real-time audio samples at the given sample rate, rounded to the nearest sample.
     /// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be 48000)
     public func samplesValue(atSampleRate: Int) -> Double {
-        switch frameRate {
-        case ._30_drop, ._60_drop, ._120_drop:
-            return (realTimeValue / 1.001) * Double(atSampleRate)
-        default:
-            return realTimeValue * Double(atSampleRate)
-        }
+        realTimeValue * Double(atSampleRate)
     }
     
     /// (Lossy)
@@ -28,15 +23,8 @@ extension Timecode {
         fromSamplesValue: Double,
         atSampleRate: Int
     ) throws {
-        var base: Double
-        switch frameRate {
-        case ._30_drop, ._60_drop, ._120_drop:
-            let rtv = (fromSamplesValue / Double(atSampleRate)) * 1.001
-            base = elapsedFrames(fromRealTimeValue: rtv)
-        default:
-            let rtv = fromSamplesValue / Double(atSampleRate)
-            base = elapsedFrames(fromRealTimeValue: rtv)
-        }
+        let rtv = fromSamplesValue / Double(atSampleRate)
+        var base = elapsedFrames(fromRealTimeValue: rtv)
         
         // over-estimate so samples are just past the equivalent timecode
         // so calculations of samples back into timecode work reliably
