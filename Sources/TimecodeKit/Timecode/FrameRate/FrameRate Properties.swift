@@ -83,26 +83,26 @@ extension Timecode.FrameRate {
     ///     Double(denominator) / Double(numerator)
     public var fraction: (numerator: Int, denominator: Int) {
         switch self {
-        case ._23_976:      return (numerator: 24000,  denominator: 1001)
-        case ._24:          return (numerator: 24,     denominator: 1)
-        case ._24_98:       return (numerator: 25000,  denominator: 1001)
-        case ._25:          return (numerator: 25,     denominator: 1)
-        case ._29_97:       return (numerator: 30000,  denominator: 1001)
-        case ._29_97_drop:  return (numerator: 30000,  denominator: 1001)
-        case ._30:          return (numerator: 30,     denominator: 1)
-        case ._30_drop:     return (numerator: 30000,  denominator: 1001)
-        case ._47_952:      return (numerator: 48000,  denominator: 1001)
-        case ._48:          return (numerator: 48,     denominator: 1)
-        case ._50:          return (numerator: 50,     denominator: 1)
-        case ._59_94:       return (numerator: 60000,  denominator: 1001)
-        case ._59_94_drop:  return (numerator: 60000,  denominator: 1001)
-        case ._60:          return (numerator: 60,     denominator: 1)
-        case ._60_drop:     return (numerator: 60000,  denominator: 1001)
-        case ._100:         return (numerator: 100,    denominator: 1)
+        case ._23_976:      return (numerator: 24000,   denominator: 1001)
+        case ._24:          return (numerator: 24,      denominator: 1)
+        case ._24_98:       return (numerator: 25000,   denominator: 1001)
+        case ._25:          return (numerator: 25,      denominator: 1)
+        case ._29_97:       return (numerator: 30000,   denominator: 1001)
+        case ._29_97_drop:  return (numerator: 30000,   denominator: 1001)
+        case ._30:          return (numerator: 30,      denominator: 1)
+        case ._30_drop:     return (numerator: 30,      denominator: 1)
+        case ._47_952:      return (numerator: 48000,   denominator: 1001)
+        case ._48:          return (numerator: 48,      denominator: 1)
+        case ._50:          return (numerator: 50,      denominator: 1)
+        case ._59_94:       return (numerator: 60000,   denominator: 1001)
+        case ._59_94_drop:  return (numerator: 60000,   denominator: 1001)
+        case ._60:          return (numerator: 60,      denominator: 1)
+        case ._60_drop:     return (numerator: 60,      denominator: 1)
+        case ._100:         return (numerator: 100,     denominator: 1)
         case ._119_88:      return (numerator: 120_000, denominator: 1001)
         case ._119_88_drop: return (numerator: 120_000, denominator: 1001)
-        case ._120:         return (numerator: 120,    denominator: 1)
-        case ._120_drop:    return (numerator: 120_000, denominator: 1001)
+        case ._120:         return (numerator: 120,     denominator: 1)
+        case ._120_drop:    return (numerator: 120,     denominator: 1)
         }
     }
     
@@ -172,9 +172,6 @@ extension Timecode.FrameRate {
     
     /// Returns max total frames from 0 to and including rolling over to `extent`.
     public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
-        // template to calculate:
-        // Int(Double(extent.maxDays) * 24 * 60 * 60 * self.frameRateForCalculation)
-        
         switch extent {
         case ._24hours:
             switch self {
@@ -297,19 +294,19 @@ extension Timecode.FrameRate {
         case ._29_97:       return 30.0 / 1.001
         case ._29_97_drop:  return 30.0 / 1.001
         case ._30:          return 30.0
-        case ._30_drop:     return 30.0 / 1.001
+        case ._30_drop:     return 30.0
         case ._47_952:      return 48.0 / 1.001
         case ._48:          return 48.0
         case ._50:          return 50.0
         case ._59_94:       return 60.0 / 1.001
         case ._59_94_drop:  return 60.0 / 1.001
         case ._60:          return 60.0
-        case ._60_drop:     return 60.0 / 1.001
+        case ._60_drop:     return 60.0
         case ._100:         return 100.0
         case ._119_88:      return 120.0 / 1.001
         case ._119_88_drop: return 120.0 / 1.001
         case ._120:         return 120.0
-        case ._120_drop:    return 120.0 / 1.001
+        case ._120_drop:    return 120.0
         }
     }
     

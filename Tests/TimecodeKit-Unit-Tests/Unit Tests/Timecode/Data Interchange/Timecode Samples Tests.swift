@@ -16,11 +16,10 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     func testSamplesGetSet_48KHz() throws {
         // pre-computed constants
         
+        // confirmed correct in PT and Cubase
         let samplesIn1DayTC_ShrunkFrameRates = 4_151_347_200.0
         let samplesIn1DayTC_BaseFrameRates = 4_147_200_000.0
         let samplesIn1DayTC_DropFrameRates = 4_147_195_853.0
-        
-        // confirmed correct in PT and Cubase
         let samplesIn1DayTC_30DF = 4_143_052_800.0
         
         // allow for the over-estimate padding value that gets added in the TC->samples method

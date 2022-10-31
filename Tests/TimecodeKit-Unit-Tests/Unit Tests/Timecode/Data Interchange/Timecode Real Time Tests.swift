@@ -12,9 +12,11 @@ import XCTest
 class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     // pre-computed constants
     
+    // confirmed correct in PT and Cubase
     let secInTC10Days_ShrunkFrameRates = 864_864.000
     let secInTC10Days_BaseFrameRates = 864_000.000
     let secInTC10Days_DropFrameRates = 863_999.136
+    let secInTC10Days_30DF = 86_313.6 * 10
     
     override func setUp() { }
     override func tearDown() { }
@@ -60,15 +62,23 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                 )
                 
             case ._29_97_drop,
-                 ._30_drop,
                  ._59_94_drop,
-                 ._60_drop,
-                 ._119_88_drop,
-                 ._120_drop:
+                 ._119_88_drop:
                 
                 XCTAssertEqual(
                     tc.realTimeValue,
                     secInTC10Days_DropFrameRates,
+                    accuracy: accuracy,
+                    "at: \($0)"
+                )
+                
+            case ._30_drop,
+                 ._60_drop,
+                 ._120_drop:
+                
+                XCTAssertEqual(
+                    tc.realTimeValue,
+                    secInTC10Days_30DF,
                     accuracy: accuracy,
                     "at: \($0)"
                 )
@@ -112,14 +122,21 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
                 
             case ._29_97_drop,
-                 ._30_drop,
                  ._59_94_drop,
-                 ._60_drop,
-                 ._119_88_drop,
-                 ._120_drop:
+                 ._119_88_drop:
                 
                 XCTAssertNoThrow(
                     try tc.setTimecode(fromRealTimeValue: secInTC10Days_DropFrameRates),
+                    "at: \($0)"
+                )
+                XCTAssertEqual(tc.components, tcc, "at: \($0)")
+                
+            case ._30_drop,
+                 ._60_drop,
+                 ._120_drop:
+                
+                XCTAssertNoThrow(
+                    try tc.setTimecode(fromRealTimeValue: secInTC10Days_30DF),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")

@@ -154,7 +154,7 @@ class Timecode_UT_FrameCount_Tests: XCTestCase {
         XCTAssertEqual(converted.subFrames, 2)
     }
     
-    func testEdgeCases() throws {
+    func testEdgeCases_2997d() throws {
         let totalFramesin24Hr = 2_589_408
         let totalSubFramesin24Hr = 207_152_640
         
@@ -191,6 +191,19 @@ class Timecode_UT_FrameCount_Tests: XCTestCase {
             .frameCount
             .subFrameCount,
             totalSubFramesin24Hr - 1
+        )
+    }
+    
+    func testEdgeCases_30d() throws {
+        let totalFramesin24Hr = 2_589_408
+        
+        XCTAssertEqual(
+            try Timecode(
+                .frames(totalFramesin24Hr),
+                at: ._30_drop,
+                limit: ._100days
+            ).components,
+            TCC(d: 1)
         )
     }
 }
