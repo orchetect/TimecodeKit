@@ -5,6 +5,7 @@
 //
 
 extension Timecode.FrameCount {
+    /// Timecode total elapsed frame count value.
     public enum Value {
         /// Total elapsed whole frames. Subframes = 0.
         case frames(Int)

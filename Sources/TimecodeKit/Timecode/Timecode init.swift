@@ -125,7 +125,7 @@ extension Timecode {
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
-        wrapping source: Components,
+        wrapping rawValues: Components,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -136,7 +136,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        setTimecode(wrapping: source)
+        setTimecode(wrapping: rawValues)
     }
     
     /// Instance from raw timecode values and frame rate.
@@ -145,7 +145,7 @@ extension Timecode {
     ///
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
     public init(
-        rawValues source: Components,
+        rawValues values: Components,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -156,7 +156,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        setTimecode(rawValues: source)
+        setTimecode(rawValues: values)
     }
     
     // MARK: - TimecodeInterval
@@ -194,7 +194,7 @@ extension Timecode {
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
-        clamping source: String,
+        clamping timecodeString: String,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -205,7 +205,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(clamping: source)
+        try setTimecode(clamping: timecodeString)
     }
     
     /// Instance from timecode string and frame rate, clamping if values necessary.
@@ -214,7 +214,7 @@ extension Timecode {
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
-        clampingEach source: String,
+        clampingEach timecodeString: String,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -225,7 +225,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(clampingEach: source)
+        try setTimecode(clampingEach: timecodeString)
     }
     
     /// Instance from timecode string and frame rate, wrapping timecode if necessary.
@@ -234,7 +234,7 @@ extension Timecode {
     ///
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
-        wrapping source: String,
+        wrapping timecodeString: String,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -245,7 +245,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(wrapping: source)
+        try setTimecode(wrapping: timecodeString)
     }
     
     /// Instance from raw timecode values formatted as a timecode string and frame rate.
@@ -254,7 +254,7 @@ extension Timecode {
     ///
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
     public init(
-        rawValues source: String,
+        rawValues timecodeString: String,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -265,7 +265,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(rawValues: source)
+        try setTimecode(rawValues: timecodeString)
     }
     
     // MARK: - Real time
