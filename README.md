@@ -252,7 +252,7 @@ try (3603.6) // TimeInterval, aka Double
 // timecode to elapsed audio samples
 let tc = try "01:00:00:00"
     .toTimecode(at: ._24)
-    .samplesValue(atSampleRate: 48000) // == 172800000
+    .samplesValue(sampleRate: 48000) // == 172800000
 
 // elapsed audio samples to timecode
 try Timecode(samples: 172800000, sampleRate: 48000, at: ._24)

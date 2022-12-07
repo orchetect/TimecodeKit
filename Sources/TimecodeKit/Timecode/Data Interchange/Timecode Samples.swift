@@ -5,25 +5,53 @@
 //
 
 extension Timecode {
+    // MARK: - Int
+    
     /// (Lossy)
-    /// Returns the current timecode converted to a duration in
-    /// real-time audio samples at the given sample rate, rounded to the nearest sample.
-    /// Sample rate must be expressed as an Integer in Hz (ie: 48KHz would be 48000)
-    public func samplesValue(atSampleRate: Int) -> Double {
-        realTimeValue * Double(atSampleRate)
+    /// Returns the current timecode converted to a duration in audio samples
+    /// at the given sample rate, rounded to the nearest sample.
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    public func samplesValue(sampleRate: Int) -> Int {
+        Int(samplesDoubleValue(sampleRate: sampleRate).rounded())
     }
     
     /// (Lossy)
-    /// Sets the timecode to the nearest frame at the current frame rate from elapsed audio samples.
+    /// Sets the timecode to the nearest elapsed frame at the current frame rate
+    /// from elapsed audio samples.
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: `Timecode.ValidationError`
     public mutating func setTimecode(
-        fromSamplesValue: Double,
-        atSampleRate: Int
+        exactlySamplesValue: Int,
+        sampleRate: Int
     ) throws {
-        let rtv = fromSamplesValue / Double(atSampleRate)
+        try setTimecode(exactlySamplesValue: Double(exactlySamplesValue),
+                        sampleRate: sampleRate)
+    }
+    
+    // MARK: - Double
+    
+    /// (Lossy)
+    /// Returns the current timecode converted to a duration in audio samples
+    /// at the given sample rate, with sub-sample duration as floating-point.
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    public func samplesDoubleValue(sampleRate: Int) -> Double {
+        realTimeValue * Double(sampleRate)
+    }
+    
+    /// (Lossy)
+    /// Sets the timecode to the nearest elapsed frame at the current frame rate
+    /// from elapsed audio samples.
+    /// Returns false if it underflows or overflows valid timecode range.
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    ///
+    /// - Throws: `Timecode.ValidationError`
+    public mutating func setTimecode(
+        exactlySamplesValue: Double,
+        sampleRate: Int
+    ) throws {
+        let rtv = exactlySamplesValue / Double(sampleRate)
         var base = elapsedFrames(fromRealTimeValue: rtv)
         
         // over-estimate so samples are just past the equivalent timecode

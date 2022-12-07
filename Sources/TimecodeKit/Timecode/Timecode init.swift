@@ -270,7 +270,7 @@ extension Timecode {
     
     // MARK: - Real time
     
-    /// Instance from real time and frame rate.
+    /// Instance from total elapsed real time and frame rate.
     ///
     /// - Note: This may be lossy.
     public init(
@@ -290,7 +290,7 @@ extension Timecode {
     
     // MARK: - Audio samples
     
-    /// Instance from audio samples and sample rate.
+    /// Instance from total elapsed audio samples and sample rate.
     ///
     /// - Note: This may be lossy.
     public init(
@@ -307,8 +307,8 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            fromSamplesValue: source,
-            atSampleRate: sampleRate
+            exactlySamplesValue: source,
+            sampleRate: sampleRate
         )
     }
 }
