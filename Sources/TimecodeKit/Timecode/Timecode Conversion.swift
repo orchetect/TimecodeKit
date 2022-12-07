@@ -39,7 +39,7 @@ extension Timecode {
         // convert to new frame rate, retaining all ancillary property values
         
         return try Timecode(
-            realTimeValue: realTimeValue,
+            exactlyRealTimeValue: realTimeValue,
             at: newFrameRate,
             limit: upperLimit,
             base: subFramesBase,

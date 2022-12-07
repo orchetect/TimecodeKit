@@ -26,7 +26,71 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(fromRealTimeValue: source)
+        try setTimecode(exactlyRealTimeValue: source)
+    }
+    
+    /// Instance from total elapsed real time and frame rate, clamping to valid timecode if
+    /// necessary.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        clampingRealTimeValue source: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(clampingRealTimeValue: source)
+    }
+    
+    /// Instance from total elapsed real time and frame rate, clamping values if necessary.
+    ///
+    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
+    /// values.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        clampingEachRealTimeValue source: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(clampingEachRealTimeValue: source)
+    }
+    
+    /// Instance from total elapsed real time and frame rate, wrapping timecode if necessary.
+    ///
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        wrappingRealTimeValue source: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(wrappingRealTimeValue: source)
     }
 }
 
@@ -48,8 +112,45 @@ extension Timecode {
     /// Throws an error if it underflows or overflows valid timecode range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
-    /// - Throws: `Timecode.ValidationError`
-    public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
+    /// - Throws: ``ValidationError``
+    public mutating func setTimecode(exactlyRealTimeValue: TimeInterval) throws {
+        let convertedComponents = components(fromRealTimeValue: exactlyRealTimeValue)
+        try setTimecode(exactly: convertedComponents)
+    }
+    
+    /// Sets the timecode to the nearest frame at the current frame rate
+    /// from real-time (wall-clock time).
+    ///
+    /// Clamps to valid timecode.
+    public mutating func setTimecode(clampingRealTimeValue: TimeInterval) {
+        let convertedComponents = components(fromRealTimeValue: clampingRealTimeValue)
+        setTimecode(clamping: convertedComponents)
+    }
+    
+    /// Sets the timecode to the nearest frame at the current frame rate
+    /// from real-time (wall-clock time).
+    ///
+    /// Clamps individual values if necessary.
+    public mutating func setTimecode(clampingEachRealTimeValue: TimeInterval) {
+        let convertedComponents = components(fromRealTimeValue: clampingEachRealTimeValue)
+        setTimecode(clampingEach: convertedComponents)
+    }
+    
+    /// Sets the timecode to the nearest frame at the current frame rate
+    /// from real-time (wall-clock time).
+    ///
+    /// Wraps timecode if necessary.
+    public mutating func setTimecode(wrappingRealTimeValue: TimeInterval) {
+        let convertedComponents = components(fromRealTimeValue: wrappingRealTimeValue)
+        setTimecode(wrapping: convertedComponents)
+    }
+    
+    // MARK: Internal Methods
+    
+    /// Internal:
+    /// Converts a real-time value (wall-clock time) to components using the instance's
+    /// frame rate and subframes base.
+    internal func components(fromRealTimeValue: TimeInterval) -> Components {
         let elapsedFrames = elapsedFrames(fromRealTimeValue: fromRealTimeValue)
         
         return Self.components(
