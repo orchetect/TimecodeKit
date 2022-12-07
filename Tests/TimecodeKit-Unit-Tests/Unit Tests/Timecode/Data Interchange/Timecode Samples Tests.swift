@@ -13,7 +13,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testTimecode_init_Samples() throws {
+    func testTimecode_init_Samples_Exactly() throws {
         try Timecode.FrameRate.allCases.forEach {
             let tc = try Timecode(
                 samples: 48000 * 2,
@@ -26,6 +26,52 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
             // samples setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
             XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
         }
+    }
+    
+    func testTimecode_init_Samples_Clamping() {
+        let tc = Timecode(
+            clampingSamples: 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
+            sampleRate: 48000,
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+        )
+    }
+    
+    func testTimecode_init_Samples_Wrapping() {
+        let tc = Timecode(
+            wrappingSamples: 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
+            sampleRate: 48000,
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 0)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
+    }
+    
+    func testTimecode_init_Samples_RawValues() {
+        let tc = Timecode(
+            rawValuesSamples: (4_147_200_000 * 2) + 172_800_000, // 2 days + 1 hour @ 24fps
+            sampleRate: 48000,
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 2)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
     }
     
     func testSamplesGetSet_48KHz() throws {
@@ -141,8 +187,12 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                  ._59_94_drop,
                  ._119_88_drop:
                 
-                // Cubase reports 4147195853 @ 1 day - there may be rounding happening in Cubase
-                // Pro Tools reports 2073597926 @ 12 hours; double this would technically be 4147195854 but Cubase shows 1 frame less
+                // Cubase:
+                // - reports 4147195853 @ 1 day
+                // - there may be rounding happening in Cubase
+                // Pro Tools:
+                // - reports 2073597926 @ 12 hours
+                // - double this would technically be 4147195854 but Cubase shows 1 frame less
                 
                 samplesIn1DayTCDouble = samplesIn1DayTC_DropFrameRates
                 samplesIn1DayTCInt = Int(samplesIn1DayTCDouble)
@@ -177,7 +227,8 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     func testTimecode_Samples_SubFrames() throws {
         // ensure subframes are calculated correctly
         
-        // test for precision and rounding issues by iterating every subframe for each frame rate just below the timecode upper limit
+        // test for precision and rounding issues by iterating every subframe
+        // for each frame rate just below the timecode upper limit
         
         let logErrors = true
         

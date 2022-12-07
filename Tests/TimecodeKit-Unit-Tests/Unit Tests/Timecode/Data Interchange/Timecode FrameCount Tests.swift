@@ -13,21 +13,6 @@ class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testTimecode_init_FrameCountValue_Exactly() throws {
-        let tc = try Timecode(
-            .frames(670_907),
-            at: ._30,
-            limit: ._24hours
-        )
-        
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 6)
-        XCTAssertEqual(tc.minutes, 12)
-        XCTAssertEqual(tc.seconds, 43)
-        XCTAssertEqual(tc.frames, 17)
-        XCTAssertEqual(tc.subFrames, 0)
-    }
-    
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
             .init(.frames(670_907), base: ._80SubFrames),
@@ -139,12 +124,12 @@ class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
     func testStatic_componentsFromFrameCount_2997d() {
         // edge cases
         
-        let totalFramesin24Hr = 2_589_408
-        // let totalSubFramesin24Hr = 207152640
+        let totalFramesIn24Hr = 2_589_408
+        // let totalSubFramesIn24Hr = 207152640
         
         let tcc = Timecode.components(
-            from: .init(
-                .split(frames: totalFramesin24Hr - 1, subFrames: 79),
+            of: .init(
+                .split(frames: totalFramesIn24Hr - 1, subFrames: 79),
                 base: ._80SubFrames
             ),
             at: ._29_97_drop
