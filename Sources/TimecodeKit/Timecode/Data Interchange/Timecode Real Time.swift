@@ -15,7 +15,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        exactlyRealTimeValue source: TimeInterval,
+        realTimeValue source: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -26,7 +26,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(exactlyRealTimeValue: source)
+        try setTimecode(realTimeValue: source)
     }
     
     /// Instance from total elapsed real time and frame rate, clamping to valid timecode if
@@ -110,8 +110,8 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func setTimecode(exactlyRealTimeValue: TimeInterval) throws {
-        let convertedComponents = components(fromRealTimeValue: exactlyRealTimeValue)
+    public mutating func setTimecode(realTimeValue: TimeInterval) throws {
+        let convertedComponents = components(fromRealTimeValue: realTimeValue)
         try setTimecode(exactly: convertedComponents)
     }
     
@@ -181,7 +181,7 @@ extension TimeInterval {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         try Timecode(
-            exactlyRealTimeValue: self,
+            realTimeValue: self,
             at: rate,
             limit: limit,
             base: base,

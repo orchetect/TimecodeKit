@@ -12,26 +12,9 @@ import Foundation
 // MARK: Real Time Value
 
 extension Timecode {
-    @available(*, deprecated, renamed: "init(exactlyRealTimeValue:at:limit:base:format:)")
-    public init(
-        realTimeValue source: TimeInterval,
-        at rate: FrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
-    ) throws {
-        try self.init(
-            exactlyRealTimeValue: source,
-            at: rate,
-            limit: limit,
-            base: base,
-            format: format
-        )
-    }
-    
-    @available(*, deprecated, renamed: "setTimecode(exactlyRealTimeValue:)")
+    @available(*, deprecated, renamed: "setTimecode(realTimeValue:)")
     public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
-        try setTimecode(exactlyRealTimeValue: fromRealTimeValue)
+        try setTimecode(realTimeValue: fromRealTimeValue)
     }
 }
 

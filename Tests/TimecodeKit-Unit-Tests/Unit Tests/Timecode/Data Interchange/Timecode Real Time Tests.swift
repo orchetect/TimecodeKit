@@ -24,7 +24,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_Exactly() throws {
         try Timecode.FrameRate.allCases.forEach {
             let tc = try Timecode(
-                exactlyRealTimeValue: 2,
+                realTimeValue: 2,
                 at: $0,
                 limit: ._24hours
             )
@@ -158,7 +158,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._119_88:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(exactlyRealTimeValue: secInTC10Days_ShrunkFrameRates),
+                    try tc.setTimecode(realTimeValue: secInTC10Days_ShrunkFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -173,7 +173,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._120:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(exactlyRealTimeValue: secInTC10Days_BaseFrameRates),
+                    try tc.setTimecode(realTimeValue: secInTC10Days_BaseFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -183,7 +183,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._119_88_drop:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(exactlyRealTimeValue: secInTC10Days_DropFrameRates),
+                    try tc.setTimecode(realTimeValue: secInTC10Days_DropFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -193,7 +193,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._120_drop:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(exactlyRealTimeValue: secInTC10Days_30DF),
+                    try tc.setTimecode(realTimeValue: secInTC10Days_30DF),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -226,7 +226,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                 // samples to timecode
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(exactlyRealTimeValue: realTime),
+                    try tc.setTimecode(realTimeValue: realTime),
                     "at: \($0) subframe: \(subFrame)"
                 )
                 
@@ -263,7 +263,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         // test timecode formation from real time
         
         let start = try Timecode(
-            exactlyRealTimeValue: _00_49_27_15_00,
+            realTimeValue: _00_49_27_15_00,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -272,7 +272,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event1 = try Timecode(
-            exactlyRealTimeValue: _00_49_27_15_00 + _00_49_29_17_00_delta,
+            realTimeValue: _00_49_27_15_00 + _00_49_29_17_00_delta,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -281,7 +281,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event2 = try Timecode(
-            exactlyRealTimeValue: _00_49_27_15_00 + _00_49_31_09_00_delta,
+            realTimeValue: _00_49_27_15_00 + _00_49_31_09_00_delta,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -290,7 +290,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event3 = try Timecode(
-            exactlyRealTimeValue: _00_49_27_15_00 + _00_49_33_21_79_delta,
+            realTimeValue: _00_49_27_15_00 + _00_49_33_21_79_delta,
             at: ._23_976,
             base: ._80SubFrames
         )
@@ -300,7 +300,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event4 = try Timecode(
-            exactlyRealTimeValue: _00_49_27_15_00 + _00_49_38_01_79_delta,
+            realTimeValue: _00_49_27_15_00 + _00_49_38_01_79_delta,
             at: ._23_976,
             base: ._80SubFrames
         )
