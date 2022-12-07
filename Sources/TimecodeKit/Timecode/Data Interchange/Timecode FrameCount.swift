@@ -27,6 +27,59 @@ extension Timecode {
         
         try setTimecode(exactly: exactly.value)
     }
+    
+    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate, clamping
+    /// to valid timecode if necessary.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        clamping source: FrameCount,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = source.subFramesBase
+        stringFormat = format
+        
+        setTimecode(clamping: source.value)
+    }
+    
+    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate, wrapping
+    /// timecode if necessary.
+    ///
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
+    public init(
+        wrapping source: FrameCount,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = source.subFramesBase
+        stringFormat = format
+        
+        setTimecode(wrapping: source.value)
+    }
+    
+    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate
+    ///
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    public init(
+        rawValues source: FrameCount,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = source.subFramesBase
+        stringFormat = format
+        
+        setTimecode(rawValues: source.value)
+    }
 }
 
 // MARK: - Get and Set
@@ -41,6 +94,95 @@ extension Timecode {
             at: frameRate,
             base: subFramesBase
         )
+    }
+    
+    /// Set timecode from total elapsed frames ("frame number").
+    ///
+    /// Subframes are represented by the fractional portion of the number.
+    /// Timecode is updated as long as the value passed is in valid range.
+    /// (Validation is based on the frame rate and `upperLimit` property.)
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func setTimecode(exactly source: FrameCount) throws {
+        let convertedComponents = try components(exactly: source)
+        
+        days = convertedComponents.d
+        hours = convertedComponents.h
+        minutes = convertedComponents.m
+        seconds = convertedComponents.s
+        frames = convertedComponents.f
+        subFrames = convertedComponents.sf
+    }
+    
+    /// Set timecode from total elapsed frames ("frame number").
+    ///
+    /// Clamps to valid timecode.
+    ///
+    /// Subframes are represented by the fractional portion of the number.
+    public mutating func setTimecode(clamping source: FrameCount) {
+        let convertedComponents = components(rawValues: source)
+        setTimecode(clamping: convertedComponents)
+    }
+    
+    /// Set timecode from total elapsed frames ("frame number").
+    ///
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
+    ///
+    /// Subframes are represented by the fractional portion of the number.
+    public mutating func setTimecode(wrapping source: FrameCount) {
+        let convertedComponents = components(rawValues: source)
+        setTimecode(wrapping: convertedComponents)
+    }
+    
+    /// Set timecode from total elapsed frames ("frame number").
+    ///
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    ///
+    /// Subframes are represented by the fractional portion of the number.
+    public mutating func setTimecode(rawValues source: FrameCount) {
+        let convertedComponents = components(rawValues: source)
+        setTimecode(rawValues: convertedComponents)
+    }
+    
+    // MARK: Internal Methods
+    
+    /// Internal:
+    /// Returns frame count value converted to components using the instance's
+    /// frame rate and subframes base.
+    ///
+    /// - Throws: ``ValidationError``
+    internal func components(exactly source: FrameCount) throws -> Components {
+        // early return if we don't need to scale subframes
+        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
+            return try components(exactly: source.value)
+        }
+        
+        // scale subframes between subframes bases
+        var convertedComponents = components(rawValues: source)
+        convertedComponents.sf = source.subFramesBase.convert(
+            subFrames: convertedComponents.sf,
+            to: subFramesBase
+        )
+        return convertedComponents
+    }
+    
+    /// Internal:
+    /// Returns frame count value converted to components using the instance's
+    /// frame rate and subframes base.
+    internal func components(rawValues source: FrameCount) -> Components {
+        var convertedComponents = components(rawValues: source.value)
+        
+        // early return if we don't need to scale subframes
+        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
+            return convertedComponents
+        }
+        
+        // scale subframes between subframes bases
+        convertedComponents.sf = source.subFramesBase.convert(
+            subFrames: convertedComponents.sf,
+            to: subFramesBase
+        )
+        return convertedComponents
     }
 }
 

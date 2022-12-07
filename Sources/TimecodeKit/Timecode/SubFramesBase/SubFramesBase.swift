@@ -9,9 +9,7 @@ import Foundation
 extension Timecode {
     public enum SubFramesBase: Int, CaseIterable {
         case _80SubFrames = 80
-        
         case _100SubFrames = 100
-        
         case quarterFrames = 4
     }
 }
@@ -24,15 +22,21 @@ extension Timecode.SubFramesBase {
 
 extension Timecode.SubFramesBase: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case ._80SubFrames:
-            return "80"
-        case ._100SubFrames:
-            return "100"
-        case .quarterFrames:
-            return "4"
-        }
+        return "\(rawValue)"
     }
 }
 
 extension Timecode.SubFramesBase: Codable { }
+
+// MARK: Methods
+
+extension Timecode.SubFramesBase {
+    /// Converts a given number of subframes at this subframes base to a different subframes base.
+    public func convert(subFrames: Int, to other: Self) -> Int {
+        // early return if we don't need to scale subframes
+        guard self != other && subFrames != 0 else { return subFrames }
+        
+        let calc = (Double(subFrames) / Double(rawValue)) * Double(other.rawValue)
+        return Int(calc)
+    }
+}

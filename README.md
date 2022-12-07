@@ -50,7 +50,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
    - In a Swift Package, add it to the Package.swift dependencies:
 
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.4.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.5.0")
      ```
 
 2. Import the library:
