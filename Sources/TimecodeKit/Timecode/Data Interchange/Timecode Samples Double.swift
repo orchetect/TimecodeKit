@@ -26,7 +26,82 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            exactlySamplesValue: exactly,
+            samplesValue: exactly,
+            sampleRate: sampleRate
+        )
+    }
+    
+    /// Instance from total elapsed audio samples at a given sample rate, clamping to valid timecode
+    /// if necessary.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        clampingSamples source: Double,
+        sampleRate: Int,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(
+            clampingSamplesValue: source,
+            sampleRate: sampleRate
+        )
+    }
+    
+    /// Instance from total elapsed audio samples at a given sample rate, clamping to valid timecode
+    /// if necessary.
+    ///
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        wrappingSamples source: Double,
+        sampleRate: Int,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(
+            wrappingSamplesValue: source,
+            sampleRate: sampleRate
+        )
+    }
+    
+    /// Instance from total elapsed audio samples at a given sample rate, clamping to valid timecode
+    /// if necessary.
+    ///
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        rawValuesSamples source: Double,
+        sampleRate: Int,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(
+            wrappingSamplesValue: source,
             sampleRate: sampleRate
         )
     }
@@ -46,15 +121,82 @@ extension Timecode {
     /// (Lossy)
     /// Sets the timecode to the nearest elapsed frame at the current frame rate
     /// from elapsed audio samples, with floating-point sub-sample duration.
-    /// Returns false if it underflows or overflows valid timecode range.
+    /// Throws an error if it underflows or overflows valid timecode range.
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        exactlySamplesValue: Double,
+        samplesValue: Double,
         sampleRate: Int
     ) throws {
-        let rtv = exactlySamplesValue / Double(sampleRate)
+        let convertedComponents = components(
+            fromSamplesValue: samplesValue,
+            sampleRate: sampleRate
+        )
+        try setTimecode(exactly: convertedComponents)
+    }
+    
+    /// (Lossy)
+    /// Sets the timecode to the nearest elapsed frame at the current frame rate
+    /// from elapsed audio samples, with floating-point sub-sample duration.
+    /// Clamps to valid timecode.
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func setTimecode(
+        clampingSamplesValue: Double,
+        sampleRate: Int
+    ) {
+        let convertedComponents = components(
+            fromSamplesValue: clampingSamplesValue,
+            sampleRate: sampleRate
+        )
+        setTimecode(clamping: convertedComponents)
+    }
+    
+    /// (Lossy)
+    /// Sets the timecode to the nearest elapsed frame at the current frame rate
+    /// from elapsed audio samples, with floating-point sub-sample duration.
+    /// Wraps timecode if necessary.
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func setTimecode(
+        wrappingSamplesValue: Double,
+        sampleRate: Int
+    ) {
+        let convertedComponents = components(
+            fromSamplesValue: wrappingSamplesValue,
+            sampleRate: sampleRate
+        )
+        setTimecode(wrapping: convertedComponents)
+    }
+    
+    /// (Lossy)
+    /// Sets the timecode to the nearest elapsed frame at the current frame rate
+    /// from elapsed audio samples, with floating-point sub-sample duration.
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func setTimecode(
+        rawValuesSamplesValue: Double,
+        sampleRate: Int
+    ) {
+        let convertedComponents = components(
+            fromSamplesValue: rawValuesSamplesValue,
+            sampleRate: sampleRate
+        )
+        setTimecode(rawValues: convertedComponents)
+    }
+    
+    // MARK: Internal Methods
+    
+    internal func components(
+        fromSamplesValue: Double,
+        sampleRate: Int
+    ) -> Components {
+        let rtv = fromSamplesValue / Double(sampleRate)
         var base = elapsedFrames(fromRealTimeValue: rtv)
         
         // over-estimate so samples are just past the equivalent timecode
@@ -65,11 +207,9 @@ extension Timecode {
         base += 0.0001
         
         // then derive components
-        let convertedComponents = Self.components(
+        return Self.components(
             from: .init(.combined(frames: base), base: subFramesBase),
             at: frameRate
         )
-        
-        try setTimecode(exactly: convertedComponents)
     }
 }

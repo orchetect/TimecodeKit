@@ -26,12 +26,12 @@ extension Timecode {
         samplesDoubleValue(sampleRate: atSampleRate)
     }
     
-    @available(*, deprecated, renamed: "setTimecode(exactlySamplesValue:sampleRate:)")
+    @available(*, deprecated, renamed: "setTimecode(samplesValue:sampleRate:)")
     public mutating func setTimecode(
         fromSamplesValue: Double,
         atSampleRate: Int
     ) throws {
-        try setTimecode(exactlySamplesValue: fromSamplesValue,
+        try setTimecode(samplesValue: fromSamplesValue,
                         sampleRate: atSampleRate)
     }
 }

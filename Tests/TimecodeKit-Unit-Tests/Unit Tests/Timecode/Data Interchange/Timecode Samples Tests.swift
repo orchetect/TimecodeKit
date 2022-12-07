@@ -65,7 +65,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
             
             // set
             try tc.setTimecode(
-                exactlySamplesValue: samplesIn1DayTC,
+                samplesValue: samplesIn1DayTC,
                 sampleRate: sRate
             )
             XCTAssertEqual(
@@ -93,7 +93,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
             
             // set
             try tc.setTimecode(
-                exactlySamplesValue: samplesIn1DayTC,
+                samplesValue: samplesIn1DayTC,
                 sampleRate: sRate
             )
             XCTAssertEqual(
@@ -208,7 +208,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
                 // samples to timecode
                 
                 if (try? tc.setTimecode(
-                    exactlySamplesValue: samples,
+                    samplesValue: samples,
                     sampleRate: sRate
                 )) == nil {
                     frameRatesWithSetTimecodeErrors.insert($0)
