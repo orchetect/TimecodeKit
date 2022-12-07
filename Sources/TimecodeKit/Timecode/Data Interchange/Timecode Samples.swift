@@ -11,6 +11,28 @@ extension Timecode {
     ///
     /// - Note: This may be lossy.
     public init(
+        samples source: Int,
+        sampleRate: Int,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(
+            exactlySamplesValue: source,
+            sampleRate: sampleRate
+        )
+    }
+    
+    /// Instance from total elapsed audio samples and sample rate.
+    ///
+    /// - Note: This may be lossy.
+    public init(
         samples source: Double,
         sampleRate: Int,
         at rate: FrameRate,
