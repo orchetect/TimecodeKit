@@ -21,6 +21,20 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
+    func testTimecode_init_RealTimeValue() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                realTimeValue: 2,
+                at: $0,
+                limit: ._24hours
+            )
+            
+            // don't imperatively check each result, just make sure that a value was set;
+            // realTimeValue setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
+            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+        }
+    }
+    
     func testTimecode_RealTimeValue() throws {
         // get real time
         

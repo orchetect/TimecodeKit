@@ -6,6 +6,47 @@
 
 import Foundation
 
+// MARK: - Init
+
+extension Timecode {
+    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        _ exactly: FrameCount.Value,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(exactly: exactly)
+    }
+    
+    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        _ exactly: FrameCount,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = exactly.subFramesBase
+        stringFormat = format
+        
+        try setTimecode(exactly: exactly.value)
+    }
+}
+
+// MARK: - Get and Set
+
 extension Timecode {
     /// Returns the total number of whole frames elapsed from zero up to the timecode values.
     ///

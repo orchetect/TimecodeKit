@@ -13,6 +13,98 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
+    func testTimecode_init_Components_Exactly() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 0, "for \($0)")
+            XCTAssertEqual(tc.minutes, 0, "for \($0)")
+            XCTAssertEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertEqual(tc.frames, 0, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+        
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                TCC(d: 0, h: 1, m: 2, s: 3, f: 4),
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 1, "for \($0)")
+            XCTAssertEqual(tc.minutes, 2, "for \($0)")
+            XCTAssertEqual(tc.seconds, 3, "for \($0)")
+            XCTAssertEqual(tc.frames, 4, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+    }
+    
+    func testTimecode_init_Components_Clamping() {
+        let tc = Timecode(
+            clamping: TCC(h: 25),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+        )
+    }
+    
+    func testTimecode_init_Components_ClampingEach() {
+        let tc = Timecode(
+            clampingEach: TCC(h: 25),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 00, s: 00, f: 00)
+        )
+    }
+    
+    func testTimecode_init_Components_Wrapping() {
+        Timecode.FrameRate.allCases.forEach {
+            let tc = Timecode(
+                wrapping: TCC(h: 25),
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 1, "for \($0)")
+            XCTAssertEqual(tc.minutes, 0, "for \($0)")
+            XCTAssertEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertEqual(tc.frames, 0, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+    }
+    
+    func testTimecode_init_Components_RawValues() {
+        Timecode.FrameRate.allCases.forEach {
+            let tc = Timecode(
+                rawValues: TCC(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 99),
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 99, "for \($0)")
+            XCTAssertEqual(tc.hours, 99, "for \($0)")
+            XCTAssertEqual(tc.minutes, 99, "for \($0)")
+            XCTAssertEqual(tc.seconds, 99, "for \($0)")
+            XCTAssertEqual(tc.frames, 99, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 99, "for \($0)")
+        }
+    }
+    
     func testTimecode_components_24hours() {
         // default
         

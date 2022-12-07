@@ -4,6 +4,111 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
+// MARK: - Init
+
+extension Timecode {
+    /// Instance exactly from timecode values and frame rate.
+    ///
+    /// If any values are out-of-bounds `nil` will be returned, indicating an invalid timecode.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        _ exactly: Components,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(exactly: exactly)
+    }
+    
+    /// Instance from timecode values and frame rate, clamping to valid timecode if necessary.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        clamping rawValues: Components,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(clamping: rawValues)
+    }
+    
+    /// Instance from timecode values and frame rate, clamping individual values if necessary.
+    ///
+    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
+    /// values.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        clampingEach rawValues: Components,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(clampingEach: rawValues)
+    }
+    
+    /// Instance from timecode values and frame rate, wrapping timecode if necessary.
+    ///
+    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
+    ///
+    /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        wrapping rawValues: Components,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(wrapping: rawValues)
+    }
+    
+    /// Instance from raw timecode values and frame rate.
+    ///
+    /// Timecode values will not be validated or rejected if they overflow.
+    ///
+    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
+    public init(
+        rawValues: Components,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(rawValues: rawValues)
+    }
+}
+
+// MARK: - Get and Set
+
 extension Timecode {
     /// Timecode component values (day, hour, minute, second, frame, subframe).
     ///

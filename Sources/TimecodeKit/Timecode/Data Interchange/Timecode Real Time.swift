@@ -6,6 +6,30 @@
 
 import Foundation
 
+// MARK: - Init
+
+extension Timecode {
+    /// Instance from total elapsed real time and frame rate.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        realTimeValue source: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(fromRealTimeValue: source)
+    }
+}
+
+// MARK: - Get and Set
+
 extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in
     /// real-time (wall-clock time), based on the frame rate.

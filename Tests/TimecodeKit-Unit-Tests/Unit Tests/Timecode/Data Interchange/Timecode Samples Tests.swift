@@ -13,6 +13,21 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
+    func testTimecode_init_Samples() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                samples: 48000 * 2,
+                sampleRate: 48000,
+                at: $0,
+                limit: ._24hours
+            )
+            
+            // don't imperatively check each result, just make sure that a value was set;
+            // samples setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
+            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+        }
+    }
+    
     func testSamplesGetSet_48KHz() throws {
         // pre-computed constants
         

@@ -4,13 +4,118 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
+import Foundation
+
 #if os(macOS)
 import AppKit
 #elseif os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
-#else
-import Foundation
 #endif
+
+// MARK: - Init
+
+extension Timecode {
+    /// Instance exactly from timecode string and frame rate.
+    ///
+    /// An improperly formatted timecode string or one with out-of-bounds values will return `nil`.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        _ exactly: String,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(exactly: exactly)
+    }
+    
+    /// Instance from timecode string and frame rate, clamping to valid timecode if necessary.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        clamping timecodeString: String,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(clamping: timecodeString)
+    }
+    
+    /// Instance from timecode string and frame rate, clamping if values necessary.
+    ///
+    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
+    /// values.
+    ///
+    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        clampingEach timecodeString: String,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(clampingEach: timecodeString)
+    }
+    
+    /// Instance from timecode string and frame rate, wrapping timecode if necessary.
+    ///
+    /// An improperly formatted timecode string or one with invalid values will return `nil`.
+    ///
+    /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
+    public init(
+        wrapping timecodeString: String,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(wrapping: timecodeString)
+    }
+    
+    /// Instance from raw timecode values formatted as a timecode string and frame rate.
+    ///
+    /// Timecode values will not be validated or rejected if they overflow.
+    ///
+    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
+    public init(
+        rawValues timecodeString: String,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(rawValues: timecodeString)
+    }
+}
+
+// MARK: - Get and Set
 
 extension Timecode {
     // MARK: stringValue

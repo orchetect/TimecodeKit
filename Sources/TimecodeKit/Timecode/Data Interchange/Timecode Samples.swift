@@ -4,6 +4,34 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
+// MARK: - Init
+
+extension Timecode {
+    /// Instance from total elapsed audio samples and sample rate.
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        samples source: Double,
+        sampleRate: Int,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        try setTimecode(
+            exactlySamplesValue: source,
+            sampleRate: sampleRate
+        )
+    }
+}
+
+// MARK: - Get and Set
+
 extension Timecode {
     // MARK: - Int
     

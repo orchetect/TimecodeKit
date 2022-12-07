@@ -12,6 +12,98 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
+    func testTimecode_init_String_Exactly() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                "00:00:00:00",
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 0, "for \($0)")
+            XCTAssertEqual(tc.minutes, 0, "for \($0)")
+            XCTAssertEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertEqual(tc.frames, 0, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+        
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                "01:02:03:04",
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 1, "for \($0)")
+            XCTAssertEqual(tc.minutes, 2, "for \($0)")
+            XCTAssertEqual(tc.seconds, 3, "for \($0)")
+            XCTAssertEqual(tc.frames, 4, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+    }
+    
+    func testTimecode_init_String_Clamping() throws {
+        let tc = try Timecode(
+            clamping: "25:00:00:00",
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+        )
+    }
+    
+    func testTimecode_init_String_ClampingEach() throws {
+        let tc = try Timecode(
+            clampingEach: "25:00:00:00",
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 00, s: 00, f: 00)
+        )
+    }
+    
+    func testTimecode_init_String_Wrapping() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                wrapping: "25:00:00:00",
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 0, "for \($0)")
+            XCTAssertEqual(tc.hours, 1, "for \($0)")
+            XCTAssertEqual(tc.minutes, 0, "for \($0)")
+            XCTAssertEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertEqual(tc.frames, 0, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 0, "for \($0)")
+        }
+    }
+    
+    func testTimecode_init_String_RawValues() throws {
+        try Timecode.FrameRate.allCases.forEach {
+            let tc = try Timecode(
+                rawValues: "99 99:99:99:99.99",
+                at: $0,
+                limit: ._24hours
+            )
+            
+            XCTAssertEqual(tc.days, 99, "for \($0)")
+            XCTAssertEqual(tc.hours, 99, "for \($0)")
+            XCTAssertEqual(tc.minutes, 99, "for \($0)")
+            XCTAssertEqual(tc.seconds, 99, "for \($0)")
+            XCTAssertEqual(tc.frames, 99, "for \($0)")
+            XCTAssertEqual(tc.subFrames, 99, "for \($0)")
+        }
+    }
+    
     func testStringValue_GetSet_Basic() throws {
         // basic getter tests
         
