@@ -7,7 +7,7 @@
 // MARK: - Init
 
 extension Timecode {
-    /// Instance from total elapsed audio samples and sample rate.
+    /// Instance from total elapsed audio samples at a given sample rate.
     ///
     /// - Note: This may be lossy.
     public init(
@@ -29,7 +29,7 @@ extension Timecode {
         )
     }
     
-    /// Instance from total elapsed audio samples and sample rate.
+    /// Instance from total elapsed audio samples at a given sample rate.
     ///
     /// - Note: This may be lossy.
     public init(
@@ -84,7 +84,7 @@ extension Timecode {
     
     /// (Lossy)
     /// Returns the current timecode converted to a duration in audio samples
-    /// at the given sample rate, with sub-sample duration as floating-point.
+    /// at the given sample rate, with floating-point sub-sample duration.
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     public func samplesDoubleValue(sampleRate: Int) -> Double {
         realTimeValue * Double(sampleRate)
@@ -92,7 +92,7 @@ extension Timecode {
     
     /// (Lossy)
     /// Sets the timecode to the nearest elapsed frame at the current frame rate
-    /// from elapsed audio samples.
+    /// from elapsed audio samples, with floating-point sub-sample duration.
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
