@@ -12,6 +12,8 @@ extension Timecode {
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         _ exactly: FrameCount.Value,
         at rate: FrameRate,
@@ -30,6 +32,8 @@ extension Timecode {
     /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         _ exactly: FrameCount,
         at rate: FrameRate,
@@ -65,7 +69,7 @@ extension Timecode {
     /// Timecode is updated as long as the value passed is in valid range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) throws {
         let fc = FrameCount(frameCountValue, base: subFramesBase)
         

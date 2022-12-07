@@ -10,6 +10,8 @@ extension Timecode {
     /// Instance from total elapsed audio samples at a given sample rate.
     ///
     /// - Note: This may be lossy.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         samples source: Int,
         sampleRate: Int,
@@ -32,6 +34,8 @@ extension Timecode {
     /// Instance from total elapsed audio samples at a given sample rate.
     ///
     /// - Note: This may be lossy.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         samples source: Double,
         sampleRate: Int,
@@ -71,7 +75,7 @@ extension Timecode {
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func setTimecode(
         exactlySamplesValue: Int,
         sampleRate: Int
@@ -96,7 +100,7 @@ extension Timecode {
     /// Returns false if it underflows or overflows valid timecode range.
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func setTimecode(
         exactlySamplesValue: Double,
         sampleRate: Int

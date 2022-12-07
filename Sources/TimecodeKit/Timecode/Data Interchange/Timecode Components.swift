@@ -9,9 +9,11 @@
 extension Timecode {
     /// Instance exactly from timecode values and frame rate.
     ///
-    /// If any values are out-of-bounds `nil` will be returned, indicating an invalid timecode.
+    /// If any values are out-of-bounds an error will be thrown, indicating an invalid timecode.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         _ exactly: Components,
         at rate: FrameRate,
@@ -139,7 +141,7 @@ extension Timecode {
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func setTimecode(exactly values: Components) throws {
         guard values
             .invalidComponents(

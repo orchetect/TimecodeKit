@@ -10,7 +10,7 @@ extension Timecode {
     /// Add a duration to the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func add(_ exactly: Components) throws {
         guard let newTC = __add(exactly: exactly, to: components)
         else { throw ValidationError.outOfBounds }
@@ -39,7 +39,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public func adding(_ exactly: Components) throws -> Timecode {
         guard let newTC = __add(exactly: exactly, to: components)
         else { throw ValidationError.outOfBounds }
@@ -79,7 +79,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func subtract(_ exactly: Components) throws {
         guard let newTC = __subtract(exactly: exactly, from: components)
         else { throw ValidationError.outOfBounds }
@@ -108,7 +108,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public func subtracting(_ exactly: Components) throws -> Timecode {
         guard let newTC = __subtract(exactly: exactly, from: components)
         else { throw ValidationError.outOfBounds }
@@ -147,7 +147,7 @@ extension Timecode {
     
     /// Multiply the current timecode by an amount.
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func multiply(_ exactly: Double) throws {
         guard let newTC = __multiply(exactly: exactly, with: components)
         else { throw ValidationError.outOfBounds }
@@ -174,7 +174,7 @@ extension Timecode {
     /// Multiply a duration from the current timecode and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public func multiplying(_ exactly: Double) throws -> Timecode {
         guard let newTC = __multiply(exactly: exactly, with: components)
         else { throw ValidationError.outOfBounds }
@@ -213,7 +213,7 @@ extension Timecode {
     
     /// Divide the current timecode by a duration.
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public mutating func divide(_ exactly: Double) throws {
         guard let newTC = __divide(exactly: exactly, into: components)
         else { throw ValidationError.outOfBounds }
@@ -240,7 +240,7 @@ extension Timecode {
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
-    /// - Throws: `Timecode.ValidationError`
+    /// - Throws: ``ValidationError``
     public func dividing(_ exactly: Double) throws -> Timecode {
         guard let newTC = __divide(exactly: exactly, into: components)
         else { throw ValidationError.outOfBounds }

@@ -12,8 +12,10 @@ extension Timecode {
     /// Instance from total elapsed real time and frame rate.
     ///
     /// - Note: This may be lossy.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
-        realTimeValue source: TimeInterval,
+        exactlyRealTimeValue source: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -34,7 +36,7 @@ extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in
     /// real-time (wall-clock time), based on the frame rate.
     ///
-    /// Generally, `.realTimeValue` -> `.setTimecode(fromRealTimeValue:)`
+    /// Generally, ``realTimeValue`` -> ``setTimecode(exactlyRealTimeValue:)``
     /// will produce equivalent timecode.
     public var realTimeValue: TimeInterval {
         frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
@@ -43,24 +45,21 @@ extension Timecode {
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
-    /// Returns false if it underflows or overflows valid timecode range.
+    /// Throws an error if it underflows or overflows valid timecode range.
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: `Timecode.ValidationError`
     public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
         let elapsedFrames = elapsedFrames(fromRealTimeValue: fromRealTimeValue)
         
-        let convertedComponents = Self.components(
+        return Self.components(
             from: .init(.combined(frames: elapsedFrames), base: subFramesBase),
             at: frameRate
         )
-        
-        try setTimecode(exactly: convertedComponents)
     }
     
     /// Internal:
-    /// Calculates elapsed frames at current frame rate from
-    /// real-time (wall-clock time).
+    /// Calculates elapsed frames at current frame rate from real-time (wall-clock time).
     internal func elapsedFrames(fromRealTimeValue: TimeInterval) -> Double {
         var calc = fromRealTimeValue / (1.0 / frameRate.frameRateForRealTimeCalculation)
         
@@ -84,7 +83,7 @@ extension TimeInterval {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         try Timecode(
-            realTimeValue: self,
+            exactlyRealTimeValue: self,
             at: rate,
             limit: limit,
             base: base,
