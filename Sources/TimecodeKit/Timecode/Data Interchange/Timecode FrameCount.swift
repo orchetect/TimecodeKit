@@ -15,26 +15,6 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        _ exactly: FrameCount.Value,
-        at rate: FrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
-    ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
-        
-        try setTimecode(exactly: exactly)
-    }
-    
-    /// Instance exactly from total elapsed frames ("frame number") at a given frame rate.
-    ///
-    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``ValidationError``
-    public init(
         _ exactly: FrameCount,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
@@ -61,33 +41,6 @@ extension Timecode {
             at: frameRate,
             base: subFramesBase
         )
-    }
-    
-    /// Set timecode from total elapsed frames ("frame number").
-    ///
-    /// Subframes are represented by the fractional portion of the number.
-    /// Timecode is updated as long as the value passed is in valid range.
-    /// (Validation is based on the frame rate and `upperLimit` property.)
-    ///
-    /// - Throws: ``ValidationError``
-    public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) throws {
-        let fc = FrameCount(frameCountValue, base: subFramesBase)
-        
-        guard fc.subFrameCount >= 0,
-              fc <= maxFrameCountExpressible
-        else { throw ValidationError.outOfBounds }
-        
-        let converted = Self.components(
-            from: fc,
-            at: frameRate
-        )
-        
-        days = converted.d
-        hours = converted.h
-        minutes = converted.m
-        seconds = converted.s
-        frames = converted.f
-        subFrames = converted.sf
     }
 }
 
