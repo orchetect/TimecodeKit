@@ -49,7 +49,7 @@ extension Timecode {
         else { throw ValidationError.outOfBounds }
         
         let converted = Self.components(
-            from: fc,
+            of: fc,
             at: frameRate
         )
         

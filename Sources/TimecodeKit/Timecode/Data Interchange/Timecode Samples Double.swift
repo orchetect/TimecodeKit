@@ -26,7 +26,7 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            samplesValue: exactly,
+            samples: exactly,
             sampleRate: sampleRate
         )
     }
@@ -51,7 +51,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            clampingSamplesValue: source,
+            clampingSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -76,7 +76,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            wrappingSamplesValue: source,
+            wrappingSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -101,7 +101,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            wrappingSamplesValue: source,
+            wrappingSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -126,11 +126,11 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        samplesValue: Double,
+        samples: Double,
         sampleRate: Int
     ) throws {
         let convertedComponents = components(
-            fromSamplesValue: samplesValue,
+            fromSamples: samples,
             sampleRate: sampleRate
         )
         try setTimecode(exactly: convertedComponents)
@@ -144,11 +144,11 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        clampingSamplesValue: Double,
+        clampingSamples: Double,
         sampleRate: Int
     ) {
         let convertedComponents = components(
-            fromSamplesValue: clampingSamplesValue,
+            fromSamples: clampingSamples,
             sampleRate: sampleRate
         )
         setTimecode(clamping: convertedComponents)
@@ -162,11 +162,11 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        wrappingSamplesValue: Double,
+        wrappingSamples: Double,
         sampleRate: Int
     ) {
         let convertedComponents = components(
-            fromSamplesValue: wrappingSamplesValue,
+            fromSamples: wrappingSamples,
             sampleRate: sampleRate
         )
         setTimecode(wrapping: convertedComponents)
@@ -180,11 +180,11 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        rawValuesSamplesValue: Double,
+        rawValuesSamples: Double,
         sampleRate: Int
     ) {
         let convertedComponents = components(
-            fromSamplesValue: rawValuesSamplesValue,
+            fromSamples: rawValuesSamples,
             sampleRate: sampleRate
         )
         setTimecode(rawValues: convertedComponents)
@@ -193,11 +193,11 @@ extension Timecode {
     // MARK: Internal Methods
     
     internal func components(
-        fromSamplesValue: Double,
+        fromSamples: Double,
         sampleRate: Int
     ) -> Components {
-        let rtv = fromSamplesValue / Double(sampleRate)
-        var base = elapsedFrames(fromRealTimeValue: rtv)
+        let rtv = fromSamples / Double(sampleRate)
+        var base = elapsedFrames(realTime: rtv)
         
         // over-estimate so samples are just past the equivalent timecode
         // so calculations of samples back into timecode work reliably
@@ -208,7 +208,7 @@ extension Timecode {
         
         // then derive components
         return Self.components(
-            from: .init(.combined(frames: base), base: subFramesBase),
+            of: .init(.combined(frames: base), base: subFramesBase),
             at: frameRate
         )
     }

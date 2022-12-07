@@ -26,7 +26,7 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            samplesValue: exactly,
+            samples: exactly,
             sampleRate: sampleRate
         )
     }
@@ -51,7 +51,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            clampingSamplesValue: source,
+            clampingSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -76,7 +76,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            wrappingSamplesValue: source,
+            wrappingSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -101,7 +101,7 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(
-            rawValuesSamplesValue: source,
+            rawValuesSamples: source,
             sampleRate: sampleRate
         )
     }
@@ -126,10 +126,10 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        samplesValue: Int,
+        samples: Int,
         sampleRate: Int
     ) throws {
-        try setTimecode(samplesValue: Double(samplesValue),
+        try setTimecode(samples: Double(samples),
                         sampleRate: sampleRate)
     }
     
@@ -141,10 +141,10 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        clampingSamplesValue: Int,
+        clampingSamples: Int,
         sampleRate: Int
     ) {
-        setTimecode(clampingSamplesValue: Double(clampingSamplesValue),
+        setTimecode(clampingSamples: Double(clampingSamples),
                     sampleRate: sampleRate)
     }
     
@@ -156,10 +156,10 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        wrappingSamplesValue: Int,
+        wrappingSamples: Int,
         sampleRate: Int
     ) {
-        setTimecode(wrappingSamplesValue: Double(wrappingSamplesValue),
+        setTimecode(wrappingSamples: Double(wrappingSamples),
                     sampleRate: sampleRate)
     }
     
@@ -171,10 +171,10 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(
-        rawValuesSamplesValue: Int,
+        rawValuesSamples: Int,
         sampleRate: Int
     ) {
-        setTimecode(rawValuesSamplesValue: Double(rawValuesSamplesValue),
+        setTimecode(rawValuesSamples: Double(rawValuesSamples),
                     sampleRate: sampleRate)
     }
 }

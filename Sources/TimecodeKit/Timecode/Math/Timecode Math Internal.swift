@@ -35,7 +35,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -67,7 +67,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -113,7 +113,7 @@ extension Timecode {
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -148,7 +148,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -180,7 +180,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -226,7 +226,7 @@ extension Timecode {
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -256,7 +256,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -283,7 +283,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -324,7 +324,7 @@ extension Timecode {
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -354,7 +354,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -380,7 +380,7 @@ extension Timecode {
         )
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }
@@ -421,7 +421,7 @@ extension Timecode {
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
-            from: fcNew,
+            of: fcNew,
             at: frameRate
         )
     }

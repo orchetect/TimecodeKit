@@ -15,7 +15,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        realTimeValue exactly: TimeInterval,
+        realTime exactly: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -26,7 +26,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(realTimeValue: exactly)
+        try setTimecode(realTime: exactly)
     }
     
     /// Instance from total elapsed real time and frame rate, clamping to valid timecode if
@@ -36,7 +36,7 @@ extension Timecode {
     ///
     /// - Note: This may be lossy.
     public init(
-        clampingRealTimeValue source: TimeInterval,
+        clampingRealTime source: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -47,7 +47,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        setTimecode(clampingRealTimeValue: source)
+        setTimecode(clampingRealTime: source)
     }
     
     /// Instance from total elapsed real time and frame rate, wrapping timecode if necessary.
@@ -56,7 +56,7 @@ extension Timecode {
     ///
     /// - Note: This may be lossy.
     public init(
-        wrappingRealTimeValue source: TimeInterval,
+        wrappingRealTime source: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -67,7 +67,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        setTimecode(wrappingRealTimeValue: source)
+        setTimecode(wrappingRealTime: source)
     }
     
     /// Instance from total elapsed real time and frame rate.
@@ -76,7 +76,7 @@ extension Timecode {
     ///
     /// - Note: This may be lossy.
     public init(
-        rawValuesRealTimeValue source: TimeInterval,
+        rawValuesRealTime source: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -87,7 +87,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        setTimecode(rawValuesRealTimeValue: source)
+        setTimecode(rawValuesRealTime: source)
     }
 }
 
@@ -97,7 +97,7 @@ extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in
     /// real-time (wall-clock time), based on the frame rate.
     ///
-    /// Generally, ``realTimeValue`` -> ``setTimecode(exactlyRealTimeValue:)``
+    /// Generally, ``realTimeValue`` -> ``setTimecode(realTime:)``
     /// will produce equivalent timecode.
     public var realTimeValue: TimeInterval {
         frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
@@ -110,8 +110,8 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func setTimecode(realTimeValue: TimeInterval) throws {
-        let convertedComponents = components(fromRealTimeValue: realTimeValue)
+    public mutating func setTimecode(realTime: TimeInterval) throws {
+        let convertedComponents = components(realTime: realTime)
         try setTimecode(exactly: convertedComponents)
     }
     
@@ -119,8 +119,8 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Clamps to valid timecode.
-    public mutating func setTimecode(clampingRealTimeValue: TimeInterval) {
-        let convertedComponents = components(fromRealTimeValue: clampingRealTimeValue)
+    public mutating func setTimecode(clampingRealTime: TimeInterval) {
+        let convertedComponents = components(realTime: clampingRealTime)
         setTimecode(clamping: convertedComponents)
     }
     
@@ -128,8 +128,8 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Wraps timecode if necessary.
-    public mutating func setTimecode(wrappingRealTimeValue: TimeInterval) {
-        let convertedComponents = components(fromRealTimeValue: wrappingRealTimeValue)
+    public mutating func setTimecode(wrappingRealTime: TimeInterval) {
+        let convertedComponents = components(realTime: wrappingRealTime)
         setTimecode(wrapping: convertedComponents)
     }
     
@@ -137,8 +137,8 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
-    public mutating func setTimecode(rawValuesRealTimeValue: TimeInterval) {
-        let convertedComponents = components(fromRealTimeValue: rawValuesRealTimeValue)
+    public mutating func setTimecode(rawValuesRealTime: TimeInterval) {
+        let convertedComponents = components(realTime: rawValuesRealTime)
         setTimecode(rawValues: convertedComponents)
     }
     
@@ -147,19 +147,19 @@ extension Timecode {
     /// Internal:
     /// Converts a real-time value (wall-clock time) to components using the instance's
     /// frame rate and subframes base.
-    internal func components(fromRealTimeValue: TimeInterval) -> Components {
-        let elapsedFrames = elapsedFrames(fromRealTimeValue: fromRealTimeValue)
+    internal func components(realTime: TimeInterval) -> Components {
+        let elapsedFrames = elapsedFrames(realTime: realTime)
         
         return Self.components(
-            from: .init(.combined(frames: elapsedFrames), base: subFramesBase),
+            of: .init(.combined(frames: elapsedFrames), base: subFramesBase),
             at: frameRate
         )
     }
     
     /// Internal:
     /// Calculates elapsed frames at current frame rate from real-time (wall-clock time).
-    internal func elapsedFrames(fromRealTimeValue: TimeInterval) -> Double {
-        var calc = fromRealTimeValue / (1.0 / frameRate.frameRateForRealTimeCalculation)
+    internal func elapsedFrames(realTime: TimeInterval) -> Double {
+        var calc = realTime / (1.0 / frameRate.frameRateForRealTimeCalculation)
         
         // over-estimate so real time is just past the equivalent timecode
         // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)
@@ -181,7 +181,7 @@ extension TimeInterval {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         try Timecode(
-            realTimeValue: self,
+            realTime: self,
             at: rate,
             limit: limit,
             base: base,
