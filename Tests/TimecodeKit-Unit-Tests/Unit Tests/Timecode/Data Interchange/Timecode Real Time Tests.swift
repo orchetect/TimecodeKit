@@ -24,7 +24,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_Exactly() throws {
         try Timecode.FrameRate.allCases.forEach {
             let tc = try Timecode(
-                realTimeValue: 2,
+                realTime: 2,
                 at: $0,
                 limit: ._24hours
             )
@@ -37,7 +37,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     
     func testTimecode_init_RealTimeValue_Clamping() {
         let tc = Timecode(
-            clampingRealTimeValue: 86400 + 3600, // 25 hours @ 24fps
+            clampingRealTime: 86400 + 3600, // 25 hours @ 24fps
             at: ._24,
             limit: ._24hours
         )
@@ -50,7 +50,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     
     func testTimecode_init_RealTimeValue_Wrapping() {
         let tc = Timecode(
-            wrappingRealTimeValue: 86400 + 3600, // 25 hours @ 24fps
+            wrappingRealTime: 86400 + 3600, // 25 hours @ 24fps
             at: ._24,
             limit: ._24hours
         )
@@ -65,7 +65,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     
     func testTimecode_init_RealTimeValue_RawValues() {
         let tc = Timecode(
-            rawValuesRealTimeValue: (86400 * 2) + 3600, // 2 days + 1 hour @ 24fps
+            rawValuesRealTime: (86400 * 2) + 3600, // 2 days + 1 hour @ 24fps
             at: ._24,
             limit: ._24hours
         )
@@ -158,7 +158,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._119_88:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(realTimeValue: secInTC10Days_ShrunkFrameRates),
+                    try tc.setTimecode(realTime: secInTC10Days_ShrunkFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -173,7 +173,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._120:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(realTimeValue: secInTC10Days_BaseFrameRates),
+                    try tc.setTimecode(realTime: secInTC10Days_BaseFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -183,7 +183,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._119_88_drop:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(realTimeValue: secInTC10Days_DropFrameRates),
+                    try tc.setTimecode(realTime: secInTC10Days_DropFrameRates),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -193,7 +193,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                  ._120_drop:
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(realTimeValue: secInTC10Days_30DF),
+                    try tc.setTimecode(realTime: secInTC10Days_30DF),
                     "at: \($0)"
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
@@ -226,7 +226,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
                 // samples to timecode
                 
                 XCTAssertNoThrow(
-                    try tc.setTimecode(realTimeValue: realTime),
+                    try tc.setTimecode(realTime: realTime),
                     "at: \($0) subframe: \(subFrame)"
                 )
                 
@@ -263,7 +263,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         // test timecode formation from real time
         
         let start = try Timecode(
-            realTimeValue: _00_49_27_15_00,
+            realTime: _00_49_27_15_00,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -272,7 +272,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event1 = try Timecode(
-            realTimeValue: _00_49_27_15_00 + _00_49_29_17_00_delta,
+            realTime: _00_49_27_15_00 + _00_49_29_17_00_delta,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -281,7 +281,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event2 = try Timecode(
-            realTimeValue: _00_49_27_15_00 + _00_49_31_09_00_delta,
+            realTime: _00_49_27_15_00 + _00_49_31_09_00_delta,
             at: ._23_976
         )
         XCTAssertEqual(
@@ -290,7 +290,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event3 = try Timecode(
-            realTimeValue: _00_49_27_15_00 + _00_49_33_21_79_delta,
+            realTime: _00_49_27_15_00 + _00_49_33_21_79_delta,
             at: ._23_976,
             base: ._80SubFrames
         )
@@ -300,7 +300,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         )
         
         let event4 = try Timecode(
-            realTimeValue: _00_49_27_15_00 + _00_49_38_01_79_delta,
+            realTime: _00_49_27_15_00 + _00_49_38_01_79_delta,
             at: ._23_976,
             base: ._80SubFrames
         )

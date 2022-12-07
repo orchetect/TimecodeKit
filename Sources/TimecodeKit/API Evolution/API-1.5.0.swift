@@ -8,13 +8,42 @@ import Foundation
 
 // MARK: API Changes in TimecodeKit 1.5.0
 
-
-// MARK: Real Time Value
+// MARK: Timecode FrameCount
 
 extension Timecode {
-    @available(*, deprecated, renamed: "setTimecode(realTimeValue:)")
+    @available(*, deprecated, renamed: "components(of:at:)")
+    public static func components(
+        from frameCount: FrameCount,
+        at frameRate: FrameRate
+    ) -> Components {
+        components(of: frameCount, at: frameRate)
+    }
+}
+
+
+// MARK: Real Time
+
+extension Timecode {
+    @available(*, deprecated, renamed: "init(realTime:at:limit:base:format:)")
+    public init(
+        realTimeValue exactly: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) throws {
+        try self.init(
+            realTime: exactly,
+            at: rate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+    }
+    
+    @available(*, deprecated, renamed: "setTimecode(realTime:)")
     public mutating func setTimecode(fromRealTimeValue: TimeInterval) throws {
-        try setTimecode(realTimeValue: fromRealTimeValue)
+        try setTimecode(realTime: fromRealTimeValue)
     }
 }
 
@@ -26,12 +55,14 @@ extension Timecode {
         samplesDoubleValue(sampleRate: atSampleRate)
     }
     
-    @available(*, deprecated, renamed: "setTimecode(samplesValue:sampleRate:)")
+    @available(*, deprecated, renamed: "setTimecode(samples:sampleRate:)")
     public mutating func setTimecode(
         fromSamplesValue: Double,
         atSampleRate: Int
     ) throws {
-        try setTimecode(samplesValue: fromSamplesValue,
-                        sampleRate: atSampleRate)
+        try setTimecode(
+            samples: fromSamplesValue,
+            sampleRate: atSampleRate
+        )
     }
 }

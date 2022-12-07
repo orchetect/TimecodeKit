@@ -102,14 +102,14 @@ try Timecode("01:00:00:00", at: ._23_976)
 try "01:00:00:00".toTimecode(at: ._23_976) // alternate method
 
 // from real time (wall clock) elapsed in seconds
-try Timecode(realTimeValue: 4723.241579, at: ._23_976)
+try Timecode(realTime: 4723.241579, at: ._23_976)
 try (4723.241579).toTimecode(at: ._23_976) // alternate method on TimeInterval
 
 // from elapsed number of audio samples at a given sample rate
 try Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
 ```
 
-Using  `(clamping:, ...)` and `(clampingEach:, ...)`:
+Using `(clamping:, ...)` and `(clampingEach:, ...)`:
 
 ```swift
 // clamp full timecode to valid range
