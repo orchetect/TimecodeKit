@@ -13,7 +13,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        samples source: Int,
+        samples exactly: Int,
         sampleRate: Int,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
@@ -26,7 +26,7 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            exactlySamplesValue: source,
+            exactlySamplesValue: exactly,
             sampleRate: sampleRate
         )
     }
@@ -37,7 +37,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        samples source: Double,
+        samples exactly: Double,
         sampleRate: Int,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
@@ -50,7 +50,7 @@ extension Timecode {
         stringFormat = format
         
         try setTimecode(
-            exactlySamplesValue: source,
+            exactlySamplesValue: exactly,
             sampleRate: sampleRate
         )
     }

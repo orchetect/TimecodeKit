@@ -15,7 +15,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        realTimeValue source: TimeInterval,
+        realTimeValue exactly: TimeInterval,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -26,7 +26,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(realTimeValue: source)
+        try setTimecode(realTimeValue: exactly)
     }
     
     /// Instance from total elapsed real time and frame rate, clamping to valid timecode if

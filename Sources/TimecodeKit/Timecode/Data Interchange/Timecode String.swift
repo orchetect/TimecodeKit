@@ -24,7 +24,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError`` or ``StringParseError``
     public init(
-        _ exactly: String,
+        _ exactlyTimecodeString: String,
         at rate: FrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -35,7 +35,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        try setTimecode(exactly: exactly)
+        try setTimecode(exactly: exactlyTimecodeString)
     }
     
     /// Instance from timecode string and frame rate, clamping to valid timecode if necessary.
@@ -325,6 +325,17 @@ extension Timecode {
 // MARK: Setters
 
 extension Timecode {
+    /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    ///
+    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
+    ///
+    /// - Throws: ``StringParseError`` or ``ValidationError``
+    public mutating func setTimecode(exactly string: String) throws {
+        let decoded = try Timecode.decode(timecode: string)
+        
+        try setTimecode(exactly: decoded)
+    }
+    
     /// Set timecode from a timecode string, clamping to valid timecode if necessary. An error is thrown if the string is malformed and cannot be reasonably parsed.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
@@ -347,17 +358,6 @@ extension Timecode {
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(clampingEach: tcVals)
-    }
-    
-    /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error is thrown if the string is malformed and cannot be reasonably parsed.
-    ///
-    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``StringParseError`` or ``ValidationError``
-    public mutating func setTimecode(exactly string: String) throws {
-        let decoded = try Timecode.decode(timecode: string)
-        
-        try setTimecode(exactly: decoded)
     }
     
     /// Set timecode from a string. Values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
