@@ -50,29 +50,6 @@ extension Timecode {
         setTimecode(clampingRealTimeValue: source)
     }
     
-    /// Instance from total elapsed real time and frame rate, clamping values if necessary.
-    ///
-    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
-    /// values.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Note: This may be lossy.
-    public init(
-        clampingEachRealTimeValue source: TimeInterval,
-        at rate: FrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
-    ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
-        
-        setTimecode(clampingEachRealTimeValue: source)
-    }
-    
     /// Instance from total elapsed real time and frame rate, wrapping timecode if necessary.
     ///
     /// Timecode will be wrapped around the timecode clock if out-of-bounds.
@@ -91,6 +68,26 @@ extension Timecode {
         stringFormat = format
         
         setTimecode(wrappingRealTimeValue: source)
+    }
+    
+    /// Instance from total elapsed real time and frame rate.
+    ///
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    ///
+    /// - Note: This may be lossy.
+    public init(
+        rawValuesRealTimeValue source: TimeInterval,
+        at rate: FrameRate,
+        limit: UpperLimit = ._24hours,
+        base: SubFramesBase = .default(),
+        format: StringFormat = .default()
+    ) {
+        frameRate = rate
+        upperLimit = limit
+        subFramesBase = base
+        stringFormat = format
+        
+        setTimecode(rawValuesRealTimeValue: source)
     }
 }
 
@@ -130,19 +127,19 @@ extension Timecode {
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
-    /// Clamps individual values if necessary.
-    public mutating func setTimecode(clampingEachRealTimeValue: TimeInterval) {
-        let convertedComponents = components(fromRealTimeValue: clampingEachRealTimeValue)
-        setTimecode(clampingEach: convertedComponents)
+    /// Wraps timecode if necessary.
+    public mutating func setTimecode(wrappingRealTimeValue: TimeInterval) {
+        let convertedComponents = components(fromRealTimeValue: wrappingRealTimeValue)
+        setTimecode(wrapping: convertedComponents)
     }
     
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
-    /// Wraps timecode if necessary.
-    public mutating func setTimecode(wrappingRealTimeValue: TimeInterval) {
-        let convertedComponents = components(fromRealTimeValue: wrappingRealTimeValue)
-        setTimecode(wrapping: convertedComponents)
+    /// Allows for invalid raw values (in this case, unbounded Days component).
+    public mutating func setTimecode(rawValuesRealTimeValue: TimeInterval) {
+        let convertedComponents = components(fromRealTimeValue: rawValuesRealTimeValue)
+        setTimecode(rawValues: convertedComponents)
     }
     
     // MARK: Internal Methods

@@ -21,7 +21,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testTimecode_init_RealTimeValue() throws {
+    func testTimecode_init_RealTimeValue_Exactly() throws {
         try Timecode.FrameRate.allCases.forEach {
             let tc = try Timecode(
                 exactlyRealTimeValue: 2,
@@ -33,6 +33,49 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
             // realTimeValue setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
             XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
         }
+    }
+    
+    func testTimecode_init_RealTimeValue_Clamping() {
+        let tc = Timecode(
+            clampingRealTimeValue: 86400 + 3600, // 25 hours @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+        )
+    }
+    
+    func testTimecode_init_RealTimeValue_Wrapping() {
+        let tc = Timecode(
+            wrappingRealTimeValue: 86400 + 3600, // 25 hours @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 0)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
+    }
+    
+    func testTimecode_init_RealTimeValue_RawValues() {
+        let tc = Timecode(
+            rawValuesRealTimeValue: (86400 * 2) + 3600, // 2 days + 1 hour @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 2)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
     }
     
     func testTimecode_RealTimeValue() throws {
