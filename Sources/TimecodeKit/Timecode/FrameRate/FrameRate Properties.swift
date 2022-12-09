@@ -74,7 +74,7 @@ extension Timecode.FrameRate {
 // MARK: Public meta properties
 
 extension Timecode.FrameRate {
-    /// Returns the frame rate expressed as a fraction.
+    /// Returns the frame rate expressed as a rational number (fraction).
     ///
     ///     // == frame rate
     ///     Double(numerator) / Double(denominator)

@@ -81,6 +81,50 @@ class Timecode_UT_FrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(Timecode.FrameRate(raw: 120.5))
         XCTAssertNil(Timecode.FrameRate(raw: 121.0))
     }
+    
+    func testInit_fraction_allCases() {
+        Timecode.FrameRate.allCases.forEach { fRate in
+            let num = fRate.fraction.numerator
+            let den = fRate.fraction.denominator
+            let drop = fRate.isDrop
+            
+            XCTAssertEqual(
+                Timecode.FrameRate(numerator: num, denominator: den, drop: drop),
+                fRate
+            )
+        }
+    }
+    
+    func testInit_fraction_Typical() {
+        // 24
+        XCTAssertEqual(
+            Timecode.FrameRate(numerator: 24, denominator: 1, drop: false),
+            ._24
+        )
+        
+        // 24d is not a valid frame rate
+        XCTAssertNil(Timecode.FrameRate(numerator: 24, denominator: 1, drop: true))
+        
+        // 30
+        XCTAssertEqual(
+            Timecode.FrameRate(numerator: 30, denominator: 1, drop: false),
+            ._30
+        )
+        
+        // 30d
+        XCTAssertEqual(
+            Timecode.FrameRate(numerator: 30, denominator: 1, drop: true),
+            ._30_drop
+        )
+        
+        // edge cases
+        
+        // zero
+        XCTAssertNil(Timecode.FrameRate(numerator: 0, denominator: 0, drop: false))
+        
+        // nonsense
+        XCTAssertNil(Timecode.FrameRate(numerator: 12345, denominator: 1000, drop: false))
+    }
 }
 
 #endif

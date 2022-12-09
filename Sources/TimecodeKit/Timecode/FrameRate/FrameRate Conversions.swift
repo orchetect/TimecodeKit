@@ -74,4 +74,25 @@ extension Timecode.FrameRate {
         
         return nil
     }
+    
+    /// Initialize from a frame rate expressed as a rational number (fraction).
+    ///
+    /// Since a fraction alone cannot encode whether a rate is drop or not, you must
+    /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
+    /// use the same numerator and denominators of 30000/1001, drop must be
+    /// imperatively specified.)
+    ///
+    /// This initializer uses the values found in ``fraction`` to match a frame rate case.
+    public init?(numerator: Int, denominator: Int, drop: Bool = false) {
+        let foundMatches = Self.allCases.filter {
+            let frac = $0.fraction
+            return frac.numerator == numerator && frac.denominator == denominator
+        }
+        guard !foundMatches.isEmpty else { return nil }
+        
+        guard let foundMatch = foundMatches.first(where: { $0.isDrop == drop })
+        else { return nil }
+        
+        self = foundMatch
+    }
 }
