@@ -76,12 +76,15 @@ extension Timecode.FrameRate {
 extension Timecode.FrameRate {
     /// Returns the frame rate expressed as a rational number (fraction).
     ///
+    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
+    /// preserved whenever this information is encoded elsewhere.
+    ///
     ///     // == frame rate
     ///     Double(numerator) / Double(denominator)
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var fraction: (numerator: Int, denominator: Int) {
+    public var rationalFrameRate: (numerator: Int, denominator: Int) {
         switch self {
         case ._23_976:      return (numerator: 24000,   denominator: 1001)
         case ._24:          return (numerator: 24,      denominator: 1)
@@ -103,6 +106,38 @@ extension Timecode.FrameRate {
         case ._119_88_drop: return (numerator: 120_000, denominator: 1001)
         case ._120:         return (numerator: 120,     denominator: 1)
         case ._120_drop:    return (numerator: 120,     denominator: 1)
+        }
+    }
+    
+    /// Returns the duration of 1 frame as a rational number (fraction).
+    ///
+    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
+    /// preserved whenever this information is encoded elsewhere.
+    ///
+    /// - Note: Compatible with FCP XML v1.6 - 1.9.
+    ///         Potentially compatible outside of that range but untested.
+    public var rationalFrameDuration: (numerator: Int, denominator: Int) {
+        switch self {
+        case ._23_976:      return (numerator: 1001, denominator: 24000)
+        case ._24:          return (numerator: 100,  denominator: 2400)
+        case ._24_98:       return (numerator: 1001, denominator: 25000) // TODO: inferred
+        case ._25:          return (numerator: 100,  denominator: 2500)
+        case ._29_97:       return (numerator: 1001, denominator: 30000)
+        case ._29_97_drop:  return (numerator: 1001, denominator: 30000)
+        case ._30:          return (numerator: 100,  denominator: 3000)
+        case ._30_drop:     return (numerator: 100,  denominator: 3000) // TODO: needs checking
+        case ._47_952:      return (numerator: 1001, denominator: 48000) // TODO: inferred
+        case ._48:          return (numerator: 100,  denominator: 4800)
+        case ._50:          return (numerator: 100,  denominator: 5000)
+        case ._59_94:       return (numerator: 1001, denominator: 60000) // TODO: inferred
+        case ._59_94_drop:  return (numerator: 1001, denominator: 60000) // TODO: inferred
+        case ._60:          return (numerator: 100,  denominator: 6000)
+        case ._60_drop:     return (numerator: 100,  denominator: 6000) // TODO: needs checking
+        case ._100:         return (numerator: 100,  denominator: 10000)
+        case ._119_88:      return (numerator: 1001, denominator: 120000) // TODO: inferred
+        case ._119_88_drop: return (numerator: 1001, denominator: 120000) // TODO: inferred
+        case ._120:         return (numerator: 100,  denominator: 12000)
+        case ._120_drop:    return (numerator: 100,  denominator: 12000) // TODO: needs checking
         }
     }
     

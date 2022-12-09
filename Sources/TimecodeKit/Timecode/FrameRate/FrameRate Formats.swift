@@ -9,6 +9,8 @@ extension Timecode.FrameRate {
     ///
     /// Example, for 24 fps:
     ///
+    /// Note `<EditRate>`, `<DropFrame>` and `<FramesPerSecond>`.
+    ///
     ///     <TimelineTrack>
     ///       ...
     ///       <EditRate>24000/1001</EditRate>
@@ -27,9 +29,38 @@ extension Timecode.FrameRate {
         framesPerSecond: String
     ) {
         (
-            editRate: "\(fraction.numerator)/\(fraction.denominator)",
+            editRate: "\(rationalFrameRate.numerator)/\(rationalFrameRate.denominator)",
             dropFrame: isDrop ? "true" : "false",
             framesPerSecond: "\(maxFrames)"
+        )
+    }
+    
+    /// Final Cut Pro XML file metadata for the given frame rate.
+    ///
+    /// Example, for 24 fps:
+    ///
+    /// Note `frameDuration` and `tcFormat`.
+    ///
+    /// ```xml
+    /// <fcpxml version="1.9">
+    ///   <resources>
+    ///     <format id="r1" name="FFVideoFormat1080p24" frameDuration="100/2400s" width="1920" height="1080" colorSpace="1-1-1 (Rec. 709)"/>
+    ///   </resources>
+    ///   <library location="file:///Users/user/Movies/Untitled.fcpbundle/">
+    ///     <event name="2022-06-24" uid="BB995477-20D4-45DF-9204-1B1AA44BE054">
+    ///       <project name="My Project">
+    ///         <sequence format="r1" duration="167500/12000s" tcStart="0s" tcFormat="NDF">
+    ///           // etc...
+    ///         </sequence>
+    ///       </project>
+    ///     </event>
+    ///   </library>
+    /// </fcpxml>
+    /// ```
+    public var fcpXMLMetadata: (frameDuration: String, tcFormat: String) {
+        (
+            frameDuration: "\(rationalFrameDuration.numerator)/\(rationalFrameDuration.denominator)",
+            tcFormat: isDrop ? "DF" : "NDF"
         )
     }
 }
@@ -38,14 +69,14 @@ extension Timecode.FrameRate {
 import CoreMedia
 
 extension Timecode.FrameRate {
-    /// Returns a CoreMedia `CMTime` instance representing the duration of 1 frame by way of a value/timescale fraction.
+    /// Returns the duration of 1 frame as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
     @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-    public var frameDurationCMTime: CMTime {
+    public var rationalFrameDurationCMTime: CMTime {
         CMTime(
-            value: CMTimeValue(fraction.denominator),
-            timescale: CMTimeScale(fraction.numerator)
+            value: CMTimeValue(rationalFrameRate.denominator),
+            timescale: CMTimeScale(rationalFrameRate.numerator)
         )
     }
 }
-
 #endif

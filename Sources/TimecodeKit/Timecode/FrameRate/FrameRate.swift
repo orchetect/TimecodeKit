@@ -8,7 +8,7 @@ extension Timecode {
     // MARK: - FrameRate
     
     /// Timecode frame rate.
-    /// Industry standardized BITC rates.
+    /// Industry-standard BITC (burn-in timecode) display rates.
     public enum FrameRate: String {
         /// 23.976 fps (aka 23.98)
         ///
