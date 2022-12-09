@@ -49,7 +49,7 @@ extension Timecode {
         
         /// 30 drop fps:
         ///
-        /// The 30 fps drop-frame count is an adaptation that allows a timecode display running at 29.97 fps to actually show the clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
+        /// The 30 fps drop count is an adaptation that allows a timecode display running at 29.97 fps to actually show the clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
         ///
         /// - Warning: This is not a video frame rate - it is a display rate only.
         case _30_drop = "30d"
@@ -129,10 +129,10 @@ extension Timecode {
 }
 
 extension Timecode.FrameRate: CaseIterable {
-    /// All dropframe frame rates.
+    /// All drop frame rates.
     public static let allDrop: [Self] = allCases.filter { $0.isDrop }
     
-    /// All non-dropframe frame rates.
+    /// All non-drop frame rates.
     public static let allNonDrop: [Self] = allCases.filter { !$0.isDrop }
 }
 

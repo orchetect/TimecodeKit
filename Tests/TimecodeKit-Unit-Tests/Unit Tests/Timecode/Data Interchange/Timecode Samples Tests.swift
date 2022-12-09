@@ -99,7 +99,8 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
             try tc.setTimecode(exactly: TCC(d: 1))
             var sv = tc.samplesDoubleValue(sampleRate: sRate)
             if roundedForDropFrame {
-                // add rounding for dropframe; DAWs seem to round using standard rounding rules (?)
+                // add rounding for real drop rates (ie: 29.97d, not 30d);
+                // DAWs seem to round using standard rounding rules (?)
                 sv.round()
             }
             XCTAssertEqual(

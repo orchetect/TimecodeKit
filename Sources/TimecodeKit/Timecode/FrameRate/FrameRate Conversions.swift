@@ -14,7 +14,7 @@ extension Timecode.FrameRate {
     /// For example, 29.97002997 is ambiguous as it is valid for both
     /// 29.97 non-drop and 29.97 drop.
     /// For this purpose, the `favorDropFrame` parameter will return
-    /// the drop-frame variant if the raw rate matches more than one rate.
+    /// the drop rate variant if the raw rate matches more than one rate.
     ///
     /// `nil` is returned if rate does not match any of the supported rates.
     /// (Rate is non-standard or variable (VFR))
@@ -38,7 +38,7 @@ extension Timecode.FrameRate {
     /// For example, 29.97002997 is ambiguous as it is valid for both
     /// 29.97 non-drop and 29.97 drop.
     /// For this purpose, the `favorDropFrame` parameter will return
-    /// the drop-frame variant if the raw rate matches more than one rate.
+    /// the drop rate variant if the raw rate matches more than one rate.
     ///
     /// `nil` is returned if rate does not match any of the supported rates.
     /// (Rate is non-standard or variable (VFR))

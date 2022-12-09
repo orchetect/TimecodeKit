@@ -135,9 +135,9 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
         
         XCTAssertEqual(strs2.count, 11)
         
-        // Strideable with drop-frames
+        // Strideable with drop rates
         
-        // TODO: add strideable drop-frame tests
+        // TODO: add strideable drop rates tests
         
         // Range .contains
         

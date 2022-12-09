@@ -84,7 +84,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
     }
     
     func testDropFrame() {
-        // perform a spot-check to ensure drop-frame timecode validation works as expected
+        // perform a spot-check to ensure drop rate timecode validation works as expected
         
         Timecode.FrameRate.allDrop.forEach {
             let limit = Timecode.UpperLimit._24hours

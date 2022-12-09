@@ -253,7 +253,7 @@ extension Timecode {
         // drop frame
         
         if frameRate.isDrop {
-            // modify input elapsed frame count in the case of a drop-frame frame rate
+            // modify input elapsed frame count in the case of a drop rate
             // so it can be converted
             
             let framesDroppedPerMinute = Decimal(frameRate.framesDroppedPerMinute)

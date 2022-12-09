@@ -209,7 +209,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         
         XCTAssertEqual(tc.components, TCC(h: 04, m: 00, s: 00, f: 00))
         
-        // drop-frame frame rates
+        // drop rates
         
         tc = try Timecode(
             TCC(h: 00, m: 00, s: 00, f: 00),
@@ -311,7 +311,7 @@ class Timecode_UT_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(
             try tc.subtracting(TCC(m: 5)).components,
             TCC(h: 0, m: 05, s: 00, f: 02)
-        ) // dropframe!
+        ) // remember, we're using drop rate!
     }
     
     func testMultiply_and_Divide() throws {
