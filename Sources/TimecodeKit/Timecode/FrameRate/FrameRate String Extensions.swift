@@ -6,6 +6,7 @@
 
 extension String {
     /// Convenience method to call `Timecode.FrameRate(stringValue: self)`
+    @_disfavoredOverload
     public var toFrameRate: Timecode.FrameRate? {
         Timecode.FrameRate(stringValue: self)
     }
