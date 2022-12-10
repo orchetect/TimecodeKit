@@ -32,11 +32,12 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(TimecodeFrameRate(raw: 29.97002997, favorDropFrame: true), ._29_97_drop)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 30), ._30)
-        // raw 30 fps is not correct for 30d; matches 30 instead
-        XCTAssertEqual(TimecodeFrameRate(raw: 30, favorDropFrame: true), ._30)
+        XCTAssertEqual(TimecodeFrameRate(raw: 30, favorDropFrame: true), ._30_drop)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 47.952), ._47_952)
         XCTAssertEqual(TimecodeFrameRate(raw: 47.952047952), ._47_952)
+        
+        XCTAssertEqual(TimecodeFrameRate(raw: 48), ._48)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 50), ._50)
         
@@ -46,8 +47,7 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(TimecodeFrameRate(raw: 59.9400599401, favorDropFrame: true), ._59_94_drop)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 60), ._60)
-        // raw 60 fps is not correct for 60d; matches 60 instead
-        XCTAssertEqual(TimecodeFrameRate(raw: 60, favorDropFrame: true), ._60)
+        XCTAssertEqual(TimecodeFrameRate(raw: 60, favorDropFrame: true), ._60_drop)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 100), ._100)
         
@@ -57,8 +57,7 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(TimecodeFrameRate(raw: 119.8801198801, favorDropFrame: true), ._119_88_drop)
         
         XCTAssertEqual(TimecodeFrameRate(raw: 120), ._120)
-        // raw 120 fps is not correct for 120d; matches 120 instead
-        XCTAssertEqual(TimecodeFrameRate(raw: 120, favorDropFrame: true), ._120)
+        XCTAssertEqual(TimecodeFrameRate(raw: 120, favorDropFrame: true), ._120_drop)
     }
     
     func testInit_raw_invalid() {

@@ -50,31 +50,35 @@ extension TimecodeFrameRate {
         raw fps: Double,
         favorDropFrame: Bool = false
     ) {
-        // omit 30-drop and its multiples since they are not video rates
-        // and should never be matched
-        let findMatches = Self.allCases
-            .filter { ![._30_drop, ._60_drop, ._120_drop].contains($0) }
-            .filter {
-            $0.frameRateForRealTimeCalculation.truncated(decimalPlaces: 3)
-                == fps.truncated(decimalPlaces: 3)
+        if let videoRate = VideoFrameRate(raw: fps) {
+            let r = videoRate.timecodeFrameRate(drop: favorDropFrame)
+                ?? videoRate.timecodeFrameRate(drop: !favorDropFrame)
+            if let r = r { self = r } else { return nil }
+        } else {
+            let findMatches = Self.allCases
+                //.filter { ![._30_drop, ._60_drop, ._120_drop].contains($0) }
+                .filter {
+                    $0.frameRateForRealTimeCalculation.truncated(decimalPlaces: 3)
+                    == fps.truncated(decimalPlaces: 3)
+                }
+            
+            // in cases where it's not clear which frame rate it is,
+            // there may be more than one match
+            if favorDropFrame,
+               findMatches.count > 1,
+               let firstDrop = findMatches.first(where: { $0.isDrop })
+            {
+                self = firstDrop
+                return
+            }
+            
+            if let firstMatch = findMatches.first {
+                self = firstMatch
+                return
+            }
+            
+            return nil
         }
-        
-        // in cases where it's not clear which frame rate it is,
-        // there may be more than one match
-        if favorDropFrame,
-           findMatches.count > 1,
-           let firstDrop = findMatches.first(where: { $0.isDrop })
-        {
-            self = firstDrop
-            return
-        }
-        
-        if let firstMatch = findMatches.first {
-            self = firstMatch
-            return
-        }
-        
-        return nil
     }
     
     // MARK: Rational
