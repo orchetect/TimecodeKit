@@ -8,7 +8,7 @@
 
 /// Timecode frame rate.
 /// Industry-standard BITC (burn-in timecode) display rates.
-public enum TimecodeFrameRate: String {
+public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (aka 23.98)
     ///
     /// Also known as 24p for HD video, sometimes rounded up to 23.98 fps. started out as the format for dealing with 24fps film in a NTSC post environment.

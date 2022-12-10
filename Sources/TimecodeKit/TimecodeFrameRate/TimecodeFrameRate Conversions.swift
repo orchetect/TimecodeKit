@@ -22,11 +22,11 @@ extension TimecodeFrameRate {
     /// - Warning: This method is provided as a convenience only and its use is discouraged in production; heuristically interpreting a video file's average frame rate is unreliable. TimecodeKit is designed to work with explicit SMPTE frame rates.
     @_disfavoredOverload
     public init?(
-        raw literalFramesPerSecond: Float,
+        raw fps: Float,
         favorDropFrame: Bool = false
     ) {
         self.init(
-            raw: Double(literalFramesPerSecond),
+            raw: Double(fps),
             favorDropFrame: favorDropFrame
         )
     }
@@ -45,7 +45,7 @@ extension TimecodeFrameRate {
     ///
     /// - Warning: This method is provided as a convenience only and its use is discouraged in production; heuristically interpreting a video file's average frame rate is unreliable. TimecodeKit is designed to work with explicit SMPTE frame rates.
     public init?(
-        raw literalFramesPerSecond: Double,
+        raw fps: Double,
         favorDropFrame: Bool = false
     ) {
         // omit 30-drop and its multiples since they are not video rates
@@ -54,7 +54,7 @@ extension TimecodeFrameRate {
             .filter { ![._30_drop, ._60_drop, ._120_drop].contains($0) }
             .filter {
             $0.frameRateForRealTimeCalculation.truncated(decimalPlaces: 3)
-                == literalFramesPerSecond.truncated(decimalPlaces: 3)
+                == fps.truncated(decimalPlaces: 3)
         }
         
         // in cases where it's not clear which frame rate it is,
@@ -85,7 +85,7 @@ extension TimecodeFrameRate {
     /// This initializer uses the values found in ``fraction`` to match a frame rate case.
     public init?(numerator: Int, denominator: Int, drop: Bool = false) {
         let foundMatches = Self.allCases.filter {
-            let frac = $0.fraction
+            let frac = $0.rationalFrameRate
             return frac.numerator == numerator && frac.denominator == denominator
         }
         guard !foundMatches.isEmpty else { return nil }

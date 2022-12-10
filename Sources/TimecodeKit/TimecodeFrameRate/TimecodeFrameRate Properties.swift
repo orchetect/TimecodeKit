@@ -59,7 +59,7 @@ extension TimecodeFrameRate {
         }
     }
     
-    /// Initializes from a `stringValue` string. Case-sensitive.
+    /// Initializes from a ``stringValue`` string. Case-sensitive.
     public init?(stringValue: String) {
         if let findMatch = Self.allCases
             .first(where: { $0.stringValue == stringValue })
@@ -376,3 +376,19 @@ extension TimecodeFrameRate {
         }
     }
 }
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+extension TimecodeFrameRate {
+    /// Returns the duration of 1 frame as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
+    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+    public var rationalFrameDurationCMTime: CMTime {
+        CMTime(
+            value: CMTimeValue(rationalFrameRate.denominator),
+            timescale: CMTimeScale(rationalFrameRate.numerator)
+        )
+    }
+}
+#endif
