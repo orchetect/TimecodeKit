@@ -32,12 +32,12 @@ extension VideoFrameRate {
     
     /// Initialize from floating-point frame rate (fps).
     @_disfavoredOverload
-    public init?(raw fps: Float, interlaced: Bool = false) {
-        self.init(raw: Double(fps), interlaced: interlaced)
+    public init?(fps: Float, interlaced: Bool = false) {
+        self.init(fps: Double(fps), interlaced: interlaced)
     }
     
     /// Initialize from floating-point frame rate (fps).
-    public init?(raw fps: Double, interlaced: Bool = false) {
+    public init?(fps: Double, interlaced: Bool = false) {
         let findMatches = Self.allCases.filter {
             $0.fps.truncated(decimalPlaces: 3)
             == fps.truncated(decimalPlaces: 3)
