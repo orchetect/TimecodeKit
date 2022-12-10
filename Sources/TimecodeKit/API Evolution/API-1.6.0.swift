@@ -53,6 +53,12 @@ extension TimecodeFrameRate {
     }
 }
 
+extension String {
+    @_disfavoredOverload
+    @available(*, deprecated, renamed: "toTimecodeFrameRate")
+    public var toFrameRate: TimecodeFrameRate? { toTimecodeFrameRate }
+}
+
 #if canImport(CoreMedia)
 import CoreMedia
 
