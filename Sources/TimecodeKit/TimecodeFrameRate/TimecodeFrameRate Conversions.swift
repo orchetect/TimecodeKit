@@ -82,11 +82,13 @@ extension TimecodeFrameRate {
     /// use the same numerator and denominators of 30000/1001, drop must be
     /// imperatively specified.)
     ///
-    /// This initializer uses the values found in ``fraction`` to match a frame rate case.
-    public init?(numerator: Int, denominator: Int, drop: Bool = false) {
+    /// To get the rational numerator and denominator of a rate, query the
+    /// ``rationalFrameRate`` property.
+    public init?(rational: (numerator: Int, denominator: Int), drop: Bool = false) {
         let foundMatches = Self.allCases.filter {
             let frac = $0.rationalFrameRate
-            return frac.numerator == numerator && frac.denominator == denominator
+            return frac.numerator == rational.numerator
+                && frac.denominator == rational.denominator
         }
         guard !foundMatches.isEmpty else { return nil }
         

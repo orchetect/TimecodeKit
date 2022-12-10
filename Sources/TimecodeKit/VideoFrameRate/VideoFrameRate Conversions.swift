@@ -27,4 +27,6 @@ extension VideoFrameRate {
         case ._60i:    return drop ? nil          : ._60
         }
     }
+    
+    // TODO: add init from rational frame rate fraction
 }
