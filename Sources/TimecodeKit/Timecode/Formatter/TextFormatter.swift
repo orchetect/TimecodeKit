@@ -21,7 +21,7 @@ extension Timecode {
     public class TextFormatter: Formatter {
         // MARK: properties
         
-        public var frameRate: Timecode.FrameRate?
+        public var frameRate: TimecodeFrameRate?
         public var upperLimit: Timecode.UpperLimit?
         public var stringFormat: Timecode.StringFormat?
         public var subFramesBase: SubFramesBase?
@@ -54,7 +54,7 @@ extension Timecode {
         }
         
         public init(
-            frameRate: Timecode.FrameRate? = nil,
+            frameRate: TimecodeFrameRate? = nil,
             limit: Timecode.UpperLimit? = nil,
             stringFormat: StringFormat? = nil,
             subFramesBase: SubFramesBase? = nil,

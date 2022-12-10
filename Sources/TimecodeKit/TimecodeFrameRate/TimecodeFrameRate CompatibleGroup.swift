@@ -1,10 +1,10 @@
 //
-//  FrameRate CompatibleGroup.swift
+//  TimecodeFrameRate CompatibleGroup.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Enum describing compatible groupings of frame rates.
     ///
     /// - note: These are intended for internal logic and not for end-user user interface.
@@ -23,7 +23,7 @@ extension Timecode.FrameRate {
         /// - 01:00:00:00 @ 30 fps
         /// - 01:00:00:00 @ 60 fps
         /// - 00:59:56:12 @ 29.97 fps
-        public static var table: [CompatibleGroup: [Timecode.FrameRate]] =
+        public static var table: [CompatibleGroup: [TimecodeFrameRate]] =
             [
                 .NTSC: [
                     ._23_976,
@@ -60,7 +60,7 @@ extension Timecode.FrameRate {
     }
 }
 
-extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
+extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
     public var description: String {
         stringValue
     }
@@ -83,10 +83,10 @@ extension Timecode.FrameRate.CompatibleGroup: CustomStringConvertible {
     }
 }
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns the frame rate's `CompatibleGroup` categorization.
     public var compatibleGroup: CompatibleGroup {
-        // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
+        // Force-unwrap here will never crash because the unit tests ensure the table contains all TimecodeFrameRate cases.
         
         Self.CompatibleGroup.table
             .first(where: { $0.value.contains(self) })!
@@ -95,7 +95,7 @@ extension Timecode.FrameRate {
     
     /// Returns the members of the frame rate's `CompatibleGroup` categorization.
     public var compatibleGroupRates: [Self] {
-        // Force-unwrap here will never crash because the unit tests ensure the table contains all Timecode.FrameRate cases.
+        // Force-unwrap here will never crash because the unit tests ensure the table contains all TimecodeFrameRate cases.
         
         Self.CompatibleGroup.table
             .first(where: { $0.value.contains(self) })!

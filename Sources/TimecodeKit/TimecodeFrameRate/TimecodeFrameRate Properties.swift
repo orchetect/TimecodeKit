@@ -1,12 +1,12 @@
 //
-//  FrameRate Properties.swift
+//  TimecodeFrameRate Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: stringValue
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns human-readable frame rate string.
     public var stringValue: String {
         switch self {
@@ -73,7 +73,7 @@ extension Timecode.FrameRate {
 
 // MARK: Public meta properties
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns the frame rate expressed as a rational number (fraction).
     ///
     /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
@@ -263,7 +263,7 @@ extension Timecode.FrameRate {
 
 // MARK: Internal properties
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Internal use.
     /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
     internal var maxFrames: Int {

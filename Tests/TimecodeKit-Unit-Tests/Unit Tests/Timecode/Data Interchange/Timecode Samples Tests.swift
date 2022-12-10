@@ -14,7 +14,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_Samples_Exactly() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 samples: 48000 * 2,
                 sampleRate: 48000,
@@ -90,7 +90,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         func validate(
             using samplesIn1DayTC: Double,
             sRate: Int,
-            fRate: Timecode.FrameRate,
+            fRate: TimecodeFrameRate,
             roundedForDropFrame: Bool
         ) throws {
             var tc = Timecode(at: fRate, limit: ._100days)
@@ -126,7 +126,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         func validate(
             using samplesIn1DayTC: Int,
             sRate: Int,
-            fRate: Timecode.FrameRate
+            fRate: TimecodeFrameRate
         ) throws {
             var tc = Timecode(at: fRate, limit: ._100days)
             
@@ -152,7 +152,7 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
         // 48KHz ___________________________________
         
-        try Timecode.FrameRate.allCases.forEach { fRate in
+        try TimecodeFrameRate.allCases.forEach { fRate in
             let sRate = 48000
             
             var samplesIn1DayTCDouble = 0.0
@@ -235,15 +235,15 @@ class Timecode_UT_DI_Samples_Tests: XCTestCase {
         
         let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         
-        var frameRatesWithSetTimecodeErrors: Set<Timecode.FrameRate> = []
+        var frameRatesWithSetTimecodeErrors: Set<TimecodeFrameRate> = []
         var frameRatesWithSetTimecodeErrorsCount = 0
-        var frameRatesWithMismatchingComponents: Set<Timecode.FrameRate> = []
+        var frameRatesWithMismatchingComponents: Set<TimecodeFrameRate> = []
         var frameRatesWithMismatchingComponentsCount = 0
         
         for subFrame in 0 ..< subFramesBase.rawValue {
             let tcc = TCC(d: 99, h: 23, sf: subFrame)
             
-            try Timecode.FrameRate.allCases.forEach {
+            try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
                     tcc,
                     at: $0,

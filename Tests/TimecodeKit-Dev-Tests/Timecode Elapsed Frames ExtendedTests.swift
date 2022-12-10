@@ -31,10 +31,10 @@ import XCTest
 //            ._24hours
 //        //._100days
 //
-//        let frameRatesToTest: [Timecode.FrameRate] =
-//            Timecode.FrameRate.allCases
-//        // Timecode.FrameRate.allDrop
-//        // Timecode.FrameRate.allNonDrop
+//        let frameRatesToTest: [TimecodeFrameRate] =
+//            TimecodeFrameRate.allCases
+//        // TimecodeFrameRate.allDrop
+//        // TimecodeFrameRate.allNonDrop
 //        // [._60_drop, ._120_drop]
 //
 //        // ======= run ==============

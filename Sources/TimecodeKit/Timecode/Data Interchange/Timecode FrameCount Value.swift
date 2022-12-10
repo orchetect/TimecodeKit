@@ -16,7 +16,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public init(
         _ exactly: FrameCount.Value,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -35,7 +35,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
         clamping source: FrameCount.Value,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -53,7 +53,7 @@ extension Timecode {
     /// Timecode will be wrapped around the timecode clock if out-of-bounds.
     public init(
         wrapping source: FrameCount.Value,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -71,7 +71,7 @@ extension Timecode {
     /// Allows for invalid raw values (in this case, unbounded Days component).
     public init(
         rawValues source: FrameCount.Value,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()

@@ -1,5 +1,5 @@
 //
-//  FrameRate String Extensions Tests.swift
+//  TimecodeFrameRate String Extensions Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_FrameRate_StringExtensions_Tests: XCTestCase {
+class TimecodeFrameRate_StringExtensions_Tests: XCTestCase {
     func testString_toFrameRate() {
         // do a spot-check to ensure this functions as expected
                 

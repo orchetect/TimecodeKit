@@ -17,7 +17,7 @@ class Timecode_UT_Conversion_Tests: XCTestCase {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try TCC(h: 1)
                 .toTimecode(at: $0)
             
@@ -45,7 +45,7 @@ class Timecode_UT_Conversion_Tests: XCTestCase {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try TCC(h: 1)
                 .toTimecode(at: $0)
             
@@ -56,8 +56,8 @@ class Timecode_UT_Conversion_Tests: XCTestCase {
         
         // spot-check: arbitrary non-zero timecode values that should be able to be preserved across all frame rates
         
-        try Timecode.FrameRate.allCases.forEach { sourceFrameRate in
-            try Timecode.FrameRate.allCases.forEach { destinationFrameRate in
+        try TimecodeFrameRate.allCases.forEach { sourceFrameRate in
+            try TimecodeFrameRate.allCases.forEach { destinationFrameRate in
                 
                 let convertedTC = try
                     TCC(h: 2, m: 07, s: 24, f: 11)

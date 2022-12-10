@@ -16,7 +16,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public init(
         _ exactly: Components,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -34,7 +34,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
         clamping rawValues: Components,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -55,7 +55,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
         clampingEach rawValues: Components,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -75,7 +75,7 @@ extension Timecode {
     /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
         wrapping rawValues: Components,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -95,7 +95,7 @@ extension Timecode {
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
     public init(
         rawValues: Components,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -213,7 +213,7 @@ extension Timecode {
 extension Timecode.Components {
     /// Returns an instance of `Timecode(exactly:)`.
     public func toTimecode(
-        at rate: Timecode.FrameRate,
+        at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
@@ -229,7 +229,7 @@ extension Timecode.Components {
     
     /// Returns an instance of `Timecode(rawValues:)`.
     public func toTimecode(
-        rawValuesAt rate: Timecode.FrameRate,
+        rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()

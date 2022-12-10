@@ -14,7 +14,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
     override func tearDown() { }
     
     func testAdvancedBy() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let frames = Timecode.frameCount(of: TCC(h: 1), at: $0).wholeFrames
             
             let advanced = try TCC(f: 00)
@@ -29,7 +29,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
     func testDistanceTo_24Hours() throws {
         // 24 hours stride frame count test
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let zero = try TCC(h: 00, m: 00, s: 00, f: 00)
                 .toTimecode(at: $0)
             
@@ -45,7 +45,7 @@ class Timecode_UT_Strideable_Tests: XCTestCase {
     func testDistanceTo_100Days() throws {
         // 100 days stride frame count test
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let zero = try TCC(h: 00, m: 00, s: 00, f: 00)
                 .toTimecode(at: $0, limit: ._100days)
             

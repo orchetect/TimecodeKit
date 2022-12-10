@@ -19,7 +19,7 @@ class Timecode_UT_Codable_Tests: XCTestCase {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             // set up a timecode object that has all non-defaults
             
             let tc = try "1 12:34:56:11.85"

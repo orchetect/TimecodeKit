@@ -13,7 +13,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_String_Exactly() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 "00:00:00:00",
                 at: $0,
@@ -28,7 +28,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
             XCTAssertEqual(tc.subFrames, 0, "for \($0)")
         }
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 "01:02:03:04",
                 at: $0,
@@ -71,7 +71,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
     }
     
     func testTimecode_init_String_Wrapping() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 wrapping: "25:00:00:00",
                 at: $0,
@@ -88,7 +88,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
     }
     
     func testTimecode_init_String_RawValues() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 rawValues: "99 99:99:99:99.99",
                 at: $0,
@@ -127,7 +127,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
                 .stringValue
@@ -139,7 +139,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             let sv = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
                 .stringValue
@@ -153,7 +153,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0, limit: ._100days)
                 .stringValue
@@ -165,7 +165,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             let sv = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0, limit: ._100days)
                 .stringValue
@@ -182,7 +182,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             var tc = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
             tc.days = 2 // set days after init since init fails if we pass days
@@ -201,7 +201,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             var tc = try TCC(h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0)
             tc
@@ -224,7 +224,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try TCC(d: 2, h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0, limit: ._100days)
                 .stringValue
@@ -236,7 +236,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             let sv = try TCC(d: 2, h: 1, m: 02, s: 03, f: 04)
                 .toTimecode(at: $0, limit: ._100days)
                 .stringValue
@@ -253,7 +253,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             var tc = try TCC(h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .toTimecode(at: $0, format: [.showSubFrames])
             tc.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
@@ -272,7 +272,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             var tc = try TCC(h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .toTimecode(at: $0, format: [.showSubFrames])
             tc.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
@@ -293,7 +293,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // non-drop
         
-        try Timecode.FrameRate.allNonDrop.forEach {
+        try TimecodeFrameRate.allNonDrop.forEach {
             let tc = try TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .toTimecode(at: $0, limit: ._100days, format: [.showSubFrames])
             
@@ -305,7 +305,7 @@ class Timecode_UT_DI_String_Tests: XCTestCase {
         
         // drop
         
-        try Timecode.FrameRate.allDrop.forEach {
+        try TimecodeFrameRate.allDrop.forEach {
             let tc = try TCC(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .toTimecode(at: $0, limit: ._100days, format: [.showSubFrames])
             

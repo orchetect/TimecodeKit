@@ -18,7 +18,7 @@ public struct Timecode {
     /// Note: Several properties are available on the frame rate that is selected, including its ``stringValue`` representation or whether the rate ``FrameRate-swift.enum/isDrop``.
     ///
     /// Setting this value directly does not trigger any validation.
-    public var frameRate: FrameRate
+    public var frameRate: TimecodeFrameRate
     
     /// Timecode maximum upper bound.
     ///

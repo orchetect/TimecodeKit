@@ -1,5 +1,5 @@
 //
-//  FrameRate Properties Tests.swift
+//  TimecodeFrameRate Properties Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -9,17 +9,17 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_FrameRate_Properties_Tests: XCTestCase {
+class TimecodeFrameRate_Properties_Tests: XCTestCase {
     func testProperties() {
         // spot-check that properties behave as expected
         
-        let frameRate: Timecode.FrameRate = ._30
+        let frameRate: TimecodeFrameRate = ._30
         
         XCTAssertEqual(frameRate.stringValue, "30")
         
         XCTAssertEqual(frameRate.stringValueVerbose, "30 fps")
         
-        XCTAssertEqual(Timecode.FrameRate(stringValue: "30"), frameRate)
+        XCTAssertEqual(TimecodeFrameRate(stringValue: "30"), frameRate)
         
         XCTAssertEqual(frameRate.numberOfDigits, 2)
         

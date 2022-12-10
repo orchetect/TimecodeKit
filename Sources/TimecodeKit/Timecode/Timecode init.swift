@@ -11,7 +11,7 @@ extension Timecode {
     
     /// Instance with default timecode (00:00:00:00) at a given frame rate.
     public init(
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()

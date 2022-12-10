@@ -1,5 +1,5 @@
 //
-//  FrameRate Formats Tests.swift
+//  TimecodeFrameRate Formats Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_FrameRate_Formats_Tests: XCTestCase {
+class TimecodeFrameRate_Formats_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -18,7 +18,7 @@ class Timecode_UT_FrameRate_Formats_Tests: XCTestCase {
         // due to floating-point dithering, it tends to be accurate up to
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let editRateComponents = $0.aafMetadata.editRate
                 .split(separator: "/")
                 .compactMap { Int($0) }
@@ -48,7 +48,7 @@ class Timecode_UT_FrameRate_Formats_Tests: XCTestCase {
         // due to floating-point dithering, it tends to be accurate up to
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
             let oneFrameDuration = try TCC(f: 1)

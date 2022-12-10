@@ -16,7 +16,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public init(
         realTime exactly: TimeInterval,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -37,7 +37,7 @@ extension Timecode {
     /// - Note: This may be lossy.
     public init(
         clampingRealTime source: TimeInterval,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -57,7 +57,7 @@ extension Timecode {
     /// - Note: This may be lossy.
     public init(
         wrappingRealTime source: TimeInterval,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -77,7 +77,7 @@ extension Timecode {
     /// - Note: This may be lossy.
     public init(
         rawValuesRealTime source: TimeInterval,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -175,7 +175,7 @@ extension TimeInterval {
     /// Convenience method to create an `Timecode` struct using the default
     /// `(_ exactly:)` initializer.
     public func toTimecode(
-        at rate: Timecode.FrameRate,
+        at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()

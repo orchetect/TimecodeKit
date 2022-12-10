@@ -22,7 +22,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_RealTimeValue_Exactly() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 realTime: 2,
                 at: $0,
@@ -84,7 +84,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         // set up a reasonable accuracy to account for floating-point precision/rounding
         let accuracy = 0.000000001
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(TCC(d: 10), at: $0, limit: ._100days)
             
             switch $0 {
@@ -146,7 +146,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         
         let tcc = TCC(d: 10)
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             var tc = try Timecode(tcc, at: $0, limit: ._100days)
             
             switch $0 {
@@ -211,7 +211,7 @@ class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
         for subFrame in 0 ..< subFramesBase.rawValue {
             let tcc = TCC(d: 99, h: 23, sf: subFrame)
             
-            try Timecode.FrameRate.allCases.forEach {
+            try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
                     tcc,
                     at: $0,

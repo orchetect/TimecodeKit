@@ -1,10 +1,10 @@
 //
-//  FrameRate Formats.swift
+//  TimecodeFrameRate Formats.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// AAF file metadata for the given frame rate.
     ///
     /// Example, for 24 fps:
@@ -68,7 +68,7 @@ extension Timecode.FrameRate {
 #if canImport(CoreMedia)
 import CoreMedia
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns the duration of 1 frame as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
     @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)

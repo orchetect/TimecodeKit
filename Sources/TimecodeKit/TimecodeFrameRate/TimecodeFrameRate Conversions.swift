@@ -1,12 +1,12 @@
 //
-//  FrameRate Conversions.swift
+//  TimecodeFrameRate Conversions.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Initialize from raw floating-point frame rate (fps) by attempting to heuristically match it against known SMPTE frame rates.
     ///
     /// A floating-point fps value can't always explicitly determine a BITC frame rate.
