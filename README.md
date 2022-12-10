@@ -75,7 +75,7 @@ Note: This documentation does not cover every property and initializer available
   - [Real Time](#Real-Time)
   - [Audio Samples](#Audio-Samples)
 - [Validation](#Validation)
-  - [Timecode Component Validtion](#Timecode-Component-Validation)
+  - [Timecode Component Validation](#Timecode-Component-Validation)
   - [NSAttributedString](#Timecode-Validation-NSAttributedString)
   - [SwiftUI Text](#Timecode-Validation-SwiftUI-Text)
   - [NSFormatter](#Timecode-Validation-NSFormatter)
