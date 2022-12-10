@@ -29,4 +29,28 @@ extension VideoFrameRate {
     }
     
     // TODO: add init from rational frame rate fraction
+    
+    /// Initialize from a frame rate expressed as a rational number (fraction).
+    ///
+    /// Since a fraction alone cannot encode whether a rate is drop or not, you must
+    /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
+    /// use the same numerator and denominators of 30000/1001, drop must be
+    /// imperatively specified.)
+    ///
+    /// To get the rational numerator and denominator of a rate, query the
+    /// ``rationalFrameRate`` property.
+    public init?(rational: (numerator: Int, denominator: Int),
+                 interlaced: Bool = false) {
+        let foundMatches = Self.allCases.filter {
+            let frac = $0.rationalFrameRate
+            return frac.numerator == rational.numerator
+            && frac.denominator == rational.denominator
+        }
+        guard !foundMatches.isEmpty else { return nil }
+        
+        guard let foundMatch = foundMatches.first(where: { $0.isInterlaced == interlaced })
+        else { return nil }
+        
+        self = foundMatch
+    }
 }

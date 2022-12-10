@@ -90,6 +90,24 @@ extension VideoFrameRate {
         case ._60i:    return (numerator: 200,  denominator: 12000) // inferred
         }
     }
+    
+    /// Returns `true` if frame rate is interlaced, otherwise `false` if progressive.
+    public var isInterlaced: Bool {
+        switch self {
+        case ._23_98p: return false
+        case ._24p:    return false
+        case ._25p:    return false
+        case ._25i:    return true
+        case ._29_97p: return false
+        case ._29_97i: return true
+        case ._30p:    return false
+        case ._50p:    return false
+        case ._50i:    return true
+        case ._59_94p: return false
+        case ._60p:    return false
+        case ._60i:    return true
+        }
+    }
 }
 
 #if canImport(CoreMedia)

@@ -95,7 +95,7 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         }
     }
     
-    func testInit_fraction_Typical() {
+    func testInit_rational_Typical() {
         // 24
         XCTAssertEqual(
             TimecodeFrameRate(rational: (24, 1), drop: false),

@@ -141,7 +141,7 @@ extension TimecodeFrameRate {
         }
     }
     
-    /// Returns true if frame rate is drop.
+    /// Returns `true` if frame rate is drop.
     public var isDrop: Bool {
         switch self {
         case ._23_976:      return false
