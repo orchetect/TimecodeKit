@@ -32,6 +32,10 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
             TimecodeFrameRate(rational: (24, 1), drop: false),
             ._24
         )
+        XCTAssertEqual(
+            TimecodeFrameRate(rational: (240, 10), drop: false),
+            ._24
+        )
         
         // 24d is not a valid frame rate
         XCTAssertNil(TimecodeFrameRate(rational: (24, 1), drop: true))
@@ -39,6 +43,10 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // 30
         XCTAssertEqual(
             TimecodeFrameRate(rational: (30, 1), drop: false),
+            ._30
+        )
+        XCTAssertEqual(
+            TimecodeFrameRate(rational: (300, 10), drop: false),
             ._30
         )
         
@@ -50,8 +58,18 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         
         // edge cases
         
-        // zero
+        // check for division by zero etc.
         XCTAssertNil(TimecodeFrameRate(rational: (0, 0), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rational: (1, 0), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rational: (0, 1), drop: false))
+        
+        // negative numbers
+        XCTAssertNil(TimecodeFrameRate(rational: (0, -1), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rational: (-1, 0), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rational: (-1, -1), drop: false))
+        XCTAssertEqual(TimecodeFrameRate(rational: (-30, -1), drop: false), ._30)
+        XCTAssertNil(TimecodeFrameRate(rational: (-30, 1), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rational: (30, -1), drop: false))
         
         // nonsense
         XCTAssertNil(TimecodeFrameRate(rational: (12345, 1000), drop: false))

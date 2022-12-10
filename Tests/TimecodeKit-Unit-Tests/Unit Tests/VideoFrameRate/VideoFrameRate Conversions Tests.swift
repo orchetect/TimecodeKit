@@ -77,10 +77,18 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
             VideoFrameRate(rational: (24, 1)),
             ._24p
         )
+        XCTAssertEqual(
+            VideoFrameRate(rational: (240, 10)),
+            ._24p
+        )
         
         // 25p
         XCTAssertEqual(
             VideoFrameRate(rational: (25, 1), interlaced: false),
+            ._25p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(rational: (250, 10), interlaced: false),
             ._25p
         )
         
@@ -89,17 +97,35 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
             VideoFrameRate(rational: (25, 1), interlaced: true),
             ._25i
         )
+        XCTAssertEqual(
+            VideoFrameRate(rational: (250, 10), interlaced: true),
+            ._25i
+        )
         
         // 30p
         XCTAssertEqual(
             VideoFrameRate(rational: (30, 1)),
             ._30p
         )
+        XCTAssertEqual(
+            VideoFrameRate(rational: (300, 10)),
+            ._30p
+        )
         
         // edge cases
         
-        // zero
+        // check for division by zero etc.
         XCTAssertNil(VideoFrameRate(rational: (0, 0)))
+        XCTAssertNil(VideoFrameRate(rational: (1, 0)))
+        XCTAssertNil(VideoFrameRate(rational: (0, 1)))
+        
+        // negative numbers
+        XCTAssertNil(VideoFrameRate(rational: (0, -1)))
+        XCTAssertNil(VideoFrameRate(rational: (-1, 0)))
+        XCTAssertNil(VideoFrameRate(rational: (-1, -1)))
+        XCTAssertEqual(VideoFrameRate(rational: (-30, -1)), ._30p)
+        XCTAssertNil(VideoFrameRate(rational: (-30, 1)))
+        XCTAssertNil(VideoFrameRate(rational: (30, -1)))
         
         // nonsense
         XCTAssertNil(VideoFrameRate(rational: (12345, 1000)))
