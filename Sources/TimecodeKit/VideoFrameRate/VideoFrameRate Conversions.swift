@@ -53,8 +53,6 @@ extension VideoFrameRate {
     
     // MARK: Rational
     
-    // TODO: add init from rational frame duration fraction
-    
     /// Initialize from a frame rate expressed as a rational number (fraction).
     ///
     /// To get the rational numerator and denominator of a rate, query the
@@ -72,11 +70,20 @@ extension VideoFrameRate {
         self = foundMatch
     }
     
+    /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
+    ///
+    /// To get the rational numerator and denominator of a rate's frame duration, query the
+    /// ``rationalFrameDuration`` property.
     public init?(
         rationalFrameDuration: (numerator: Int, denominator: Int),
-        drop: Bool = false
+        interlaced: Bool = false
     ) {
-        // TODO: finish
-        fatalError()
+        let foundMatches = Self.allCases.filter(rationalFrameDuration: rationalFrameDuration)
+        guard !foundMatches.isEmpty else { return nil }
+        
+        guard let foundMatch = foundMatches.first(where: { $0.isInterlaced == interlaced })
+        else { return nil }
+        
+        self = foundMatch
     }
 }

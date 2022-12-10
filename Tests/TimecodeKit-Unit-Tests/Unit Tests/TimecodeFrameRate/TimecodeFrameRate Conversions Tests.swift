@@ -74,6 +74,68 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // nonsense
         XCTAssertNil(TimecodeFrameRate(rationalRate: (12345, 1000), drop: false))
     }
+    
+    func testInit_rationalFrameDuration_allCases() {
+        TimecodeFrameRate.allCases.forEach { fRate in
+            let num = fRate.rationalFrameDuration.numerator
+            let den = fRate.rationalFrameDuration.denominator
+            let drop = fRate.isDrop
+            
+            XCTAssertEqual(
+                TimecodeFrameRate(rationalFrameDuration: (num, den), drop: drop),
+                fRate
+            )
+        }
+    }
+    
+    func testInit_rationalFrameDuration_Typical() {
+        // 24
+        XCTAssertEqual(
+            TimecodeFrameRate(rationalFrameDuration: (1, 24), drop: false),
+            ._24
+        )
+        XCTAssertEqual(
+            TimecodeFrameRate(rationalFrameDuration: (10, 240), drop: false),
+            ._24
+        )
+        
+        // 24d is not a valid frame rate
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1, 24), drop: true))
+        
+        // 30
+        XCTAssertEqual(
+            TimecodeFrameRate(rationalFrameDuration: (1, 30), drop: false),
+            ._30
+        )
+        XCTAssertEqual(
+            TimecodeFrameRate(rationalFrameDuration: (10, 300), drop: false),
+            ._30
+        )
+        
+        // 30d
+        XCTAssertEqual(
+            TimecodeFrameRate(rationalFrameDuration: (1, 30), drop: true),
+            ._30_drop
+        )
+        
+        // edge cases
+        
+        // check for division by zero etc.
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (0, 0), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (0, 1), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1, 0), drop: false))
+        
+        // negative numbers
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (-1, 0), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (0, -1), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (-1, -1), drop: false))
+        XCTAssertEqual(TimecodeFrameRate(rationalFrameDuration: (-1, -30), drop: false), ._30)
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1, -30), drop: false))
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (-1, 30), drop: false))
+        
+        // nonsense
+        XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1000, 12345), drop: false))
+    }
 }
 
 #endif

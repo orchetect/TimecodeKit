@@ -41,4 +41,23 @@ extension Collection where Element: FrameRateProtocol {
             return isLiteralMatch || isFPSMatch
         }
     }
+    
+    /// Internal:
+    /// Filters collection to rates that match the given rational frame duration fraction.
+    internal func filter(
+        rationalFrameDuration: (numerator: Int, denominator: Int)
+    ) -> [Element] {
+        filter {
+            let lhsFrac = $0.rationalFrameDuration
+            
+            let isLiteralMatch = lhsFrac.numerator == rationalFrameDuration.numerator
+            && lhsFrac.denominator == rationalFrameDuration.denominator
+            
+            let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
+            let rhsFPS = Double(rationalFrameDuration.numerator) / Double(rationalFrameDuration.denominator)
+            let isFPSMatch = lhsFPS == rhsFPS
+            
+            return isLiteralMatch || isFPSMatch
+        }
+    }
 }

@@ -63,9 +63,10 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         VideoFrameRate.allCases.forEach { fRate in
             let num = fRate.rationalRate.numerator
             let den = fRate.rationalRate.denominator
+            let interlaced = fRate.isInterlaced
             
             XCTAssertEqual(
-                VideoFrameRate(rationalRate: (num, den), interlaced: fRate.isInterlaced),
+                VideoFrameRate(rationalRate: (num, den), interlaced: interlaced),
                 fRate
             )
         }
@@ -129,6 +130,79 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         
         // nonsense
         XCTAssertNil(VideoFrameRate(rationalRate: (12345, 1000)))
+    }
+    
+    func testInit_rationalFrameDuration_allCases() {
+        VideoFrameRate.allCases.forEach { fRate in
+            let num = fRate.rationalFrameDuration.numerator
+            let den = fRate.rationalFrameDuration.denominator
+            let interlaced = fRate.isInterlaced
+            
+            XCTAssertEqual(
+                VideoFrameRate(rationalFrameDuration: (num, den), interlaced: interlaced),
+                fRate
+            )
+        }
+    }
+    
+    func testInit_rationalFrameDuration_Typical() {
+        // 24p
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (1, 24)),
+            ._24p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (10, 240)),
+            ._24p
+        )
+        
+        // 25p
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (1, 25), interlaced: false),
+            ._25p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (10, 250), interlaced: false),
+            ._25p
+        )
+        
+        // 25i
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (1, 25), interlaced: true),
+            ._25i
+        )
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (10, 250), interlaced: true),
+            ._25i
+        )
+        
+        // 30p
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (1, 30)),
+            ._30p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(rationalFrameDuration: (10, 300)),
+            ._30p
+        )
+        
+        // edge cases
+        
+        // check for division by zero etc.
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, 0)))
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, 1)))
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1, 0)))
+        
+        // negative numbers
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, 0)))
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, -1)))
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, -1)))
+        XCTAssertEqual(VideoFrameRate(rationalFrameDuration: (-1, -30)), ._30p)
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1, -30)))
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, 30)))
+        
+        // nonsense
+        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1000, 12345)))
     }
 }
 
