@@ -44,6 +44,20 @@ extension Timecode {
 // MARK: Timecode.FrameRate
 
 extension TimecodeFrameRate {
+    
+    @available(*, unavailable, renamed: "VideoFrameRate(fps:)")
+    @_disfavoredOverload
+    public init?(
+        raw fps: Float,
+        favorDropFrame: Bool = false
+    ) { fatalError() }
+    
+    @available(*, unavailable, renamed: "VideoFrameRate(fps:)")
+    public init?(
+        raw fps: Double,
+        favorDropFrame: Bool = false
+    ) { fatalError() }
+    
     @available(*, deprecated, renamed: "rationalFrameRate")
     public var fraction: (numerator: Int, denominator: Int) {
         (
