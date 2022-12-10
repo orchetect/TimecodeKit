@@ -7,6 +7,8 @@
 import Foundation
 
 extension TimecodeFrameRate {
+    // MARK: Raw fps
+    
     /// Initialize from raw floating-point frame rate (fps) by attempting to heuristically match it against known SMPTE frame rates.
     ///
     /// A floating-point fps value can't always explicitly determine a BITC frame rate.
@@ -74,6 +76,10 @@ extension TimecodeFrameRate {
         
         return nil
     }
+    
+    // MARK: Rational
+    
+    // TODO: add init from rational frame duration fraction
     
     /// Initialize from a frame rate expressed as a rational number (fraction).
     ///

@@ -91,6 +91,12 @@ extension VideoFrameRate {
         }
     }
     
+    /// Returns the frame rate expressed as floating-point frames per second (fps).
+    public var fps: Double {
+        let frac = rationalFrameRate
+        return Double(frac.numerator) / Double(frac.denominator)
+    }
+    
     /// Returns `true` if frame rate is interlaced, otherwise `false` if progressive.
     public var isInterlaced: Bool {
         switch self {

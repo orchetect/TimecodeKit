@@ -28,7 +28,32 @@ extension VideoFrameRate {
         }
     }
     
-    // TODO: add init from rational frame rate fraction
+    // MARK: Raw fps
+    
+    /// Initialize from floating-point frame rate (fps).
+    @_disfavoredOverload
+    public init?(raw fps: Float, interlaced: Bool = false) {
+        self.init(raw: Double(fps), interlaced: interlaced)
+    }
+    
+    /// Initialize from floating-point frame rate (fps).
+    public init?(raw fps: Double, interlaced: Bool = false) {
+        let findMatches = Self.allCases.filter {
+            $0.fps.truncated(decimalPlaces: 3)
+            == fps.truncated(decimalPlaces: 3)
+        }
+        
+        if let firstMatch = findMatches.first(where: { $0.isInterlaced == interlaced }) {
+            self = firstMatch
+            return
+        }
+        
+        return nil
+    }
+    
+    // MARK: Rational
+    
+    // TODO: add init from rational frame duration fraction
     
     /// Initialize from a frame rate expressed as a rational number (fraction).
     ///
