@@ -7,7 +7,7 @@
 import Foundation
 
 extension VideoFrameRate {
-    /// Returns the corresponding ``Timecode``.``Timecode/FrameRate-swift.enum`` case.
+    /// Returns the corresponding ``TimecodeFrameRate`` case.
     ///
     /// - Parameters:
     ///   - drop: Whether timecode frame rate is drop or non-drop.
@@ -58,15 +58,25 @@ extension VideoFrameRate {
     /// Initialize from a frame rate expressed as a rational number (fraction).
     ///
     /// To get the rational numerator and denominator of a rate, query the
-    /// ``rationalFrameRate`` property.
-    public init?(rational: (numerator: Int, denominator: Int),
-                 interlaced: Bool = false) {
-        let foundMatches = Self.allCases.filter(rational: rational)
+    /// ``rationalRate`` property.
+    public init?(
+        rationalRate: (numerator: Int, denominator: Int),
+        interlaced: Bool = false
+    ) {
+        let foundMatches = Self.allCases.filter(rationalRate: rationalRate)
         guard !foundMatches.isEmpty else { return nil }
         
         guard let foundMatch = foundMatches.first(where: { $0.isInterlaced == interlaced })
         else { return nil }
         
         self = foundMatch
+    }
+    
+    public init?(
+        rationalFrameDuration: (numerator: Int, denominator: Int),
+        drop: Bool = false
+    ) {
+        // TODO: finish
+        fatalError()
     }
 }

@@ -50,7 +50,7 @@ extension VideoFrameRate {
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var rationalFrameRate: (numerator: Int, denominator: Int) {
+    public var rationalRate: (numerator: Int, denominator: Int) {
         switch self {
         case ._23_98p: return (numerator: 24000,   denominator: 1001)
         case ._24p:    return (numerator: 24,      denominator: 1)
@@ -93,7 +93,7 @@ extension VideoFrameRate {
     
     /// Returns the frame rate expressed as floating-point frames per second (fps).
     public var fps: Double {
-        let frac = rationalFrameRate
+        let frac = rationalRate
         return Double(frac.numerator) / Double(frac.denominator)
     }
     

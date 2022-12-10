@@ -33,7 +33,7 @@ public protocol FrameRateProtocol where
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    var rationalFrameRate: (numerator: Int, denominator: Int) { get }
+    var rationalRate: (numerator: Int, denominator: Int) { get }
     
     /// Returns the duration of 1 frame as a rational number (fraction).
     ///

@@ -19,12 +19,12 @@ extension TimecodeFrameRate {
     /// imperatively specified.)
     ///
     /// To get the rational numerator and denominator of a rate, query the
-    /// ``rationalFrameRate`` property.
+    /// ``rationalRate`` property.
     public init?(
-        rational: (numerator: Int, denominator: Int),
+        rationalRate: (numerator: Int, denominator: Int),
         drop: Bool = false
     ) {
-        let foundMatches = Self.allCases.filter(rational: rational)
+        let foundMatches = Self.allCases.filter(rationalRate: rationalRate)
         guard !foundMatches.isEmpty else { return nil }
         
         guard let foundMatch = foundMatches.first(where: { $0.isDrop == drop })

@@ -58,11 +58,11 @@ extension TimecodeFrameRate {
         favorDropFrame: Bool = false
     ) { fatalError() }
     
-    @available(*, deprecated, renamed: "rationalFrameRate")
+    @available(*, deprecated, renamed: "rationalRate")
     public var fraction: (numerator: Int, denominator: Int) {
         (
-            numerator: rationalFrameRate.numerator,
-            denominator: rationalFrameRate.denominator
+            numerator: rationalRate.numerator,
+            denominator: rationalRate.denominator
         )
     }
 }

@@ -26,16 +26,16 @@ extension Collection where Element: FrameRateProtocol {
     /// Internal:
     /// Filters collection to rates that match the given rational rate fraction.
     internal func filter(
-        rational: (numerator: Int, denominator: Int)
+        rationalRate: (numerator: Int, denominator: Int)
     ) -> [Element] {
         filter {
-            let lhsFrac = $0.rationalFrameRate
+            let lhsFrac = $0.rationalRate
             
-            let isLiteralMatch = lhsFrac.numerator == rational.numerator
-            && lhsFrac.denominator == rational.denominator
+            let isLiteralMatch = lhsFrac.numerator == rationalRate.numerator
+            && lhsFrac.denominator == rationalRate.denominator
             
             let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
-            let rhsFPS = Double(rational.numerator) / Double(rational.denominator)
+            let rhsFPS = Double(rationalRate.numerator) / Double(rationalRate.denominator)
             let isFPSMatch = lhsFPS == rhsFPS
             
             return isLiteralMatch || isFPSMatch

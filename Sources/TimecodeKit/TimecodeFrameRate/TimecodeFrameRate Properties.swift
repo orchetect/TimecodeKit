@@ -84,7 +84,7 @@ extension TimecodeFrameRate {
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var rationalFrameRate: (numerator: Int, denominator: Int) {
+    public var rationalRate: (numerator: Int, denominator: Int) {
         switch self {
         case ._23_976:      return (numerator: 24000,   denominator: 1001)
         case ._24:          return (numerator: 24,      denominator: 1)
@@ -386,8 +386,8 @@ extension TimecodeFrameRate {
     @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
     public var rationalFrameDurationCMTime: CMTime {
         CMTime(
-            value: CMTimeValue(rationalFrameRate.denominator),
-            timescale: CMTimeScale(rationalFrameRate.numerator)
+            value: CMTimeValue(rationalRate.denominator),
+            timescale: CMTimeScale(rationalRate.numerator)
         )
     }
 }

@@ -29,7 +29,7 @@ extension TimecodeFrameRate {
         framesPerSecond: String
     ) {
         (
-            editRate: "\(rationalFrameRate.numerator)/\(rationalFrameRate.denominator)",
+            editRate: "\(rationalRate.numerator)/\(rationalRate.denominator)",
             dropFrame: isDrop ? "true" : "false",
             framesPerSecond: "\(maxFrames)"
         )
