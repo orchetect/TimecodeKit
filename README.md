@@ -84,6 +84,7 @@ Note: This documentation does not cover every property and initializer available
   - [Subframes Component](#Subframes-Component)
   - [Comparable](#Comparable)
   - [Range, Strideable](#Range-Strideable)
+  - [Rational Number Expression](Rational-Number-Expression)
 
 ### Initialization
 
@@ -513,6 +514,36 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 01:00:00:10
 01:00:00:15
 01:00:00:20
+```
+
+#### Rational Number Expression
+
+Some video metadata and timeline interchange files (AAF, Final Cut Pro XML) encode frame rate and timecode as rational numbers (a fraction consisting of two integers - a numerator and a denominator).
+
+`TimecodeFrameRate` and `VideoFrameRate` are both capable of initializing from a rational fraction, and also provide a `rationalRate` and `rationalFrameDuration` property that provides this fraction.
+
+Since drop-frame is not encodable in a rational fraction, it must be imperatively supplied.
+
+```swift
+// fraction representing the duration of 1 frame
+TimecodeFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97
+// fraction representing the fps
+TimecodeFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97
+
+// fraction representing the duration of 1 frame
+VideoFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97p
+// fraction representing the fps
+VideoFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97p
+```
+
+`Timecode` is capable of initializing from an elapsed time expressed as a rational fraction using the `init?(rational:)` initializer. The `rationalValue` property returns the `Timecode`'s elapsed time expressed as a rational fraction.
+
+```swift
+try Timecode(rational: (1920919, 30000), at: ._29_97)
+    .stringValue // == "00:01:03;29"
+
+try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
+    .rationalValue // == (920919, 30000)
 ```
 
 ## Timecode intervals and 'negative' timecode
