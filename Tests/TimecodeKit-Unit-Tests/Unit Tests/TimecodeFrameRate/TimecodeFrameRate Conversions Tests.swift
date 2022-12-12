@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import TimecodeKit
+import CoreMedia
 
 class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
@@ -135,6 +136,72 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         
         // nonsense
         XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1000, 12345), drop: false))
+    }
+    
+    func test_init_rationalRate_CMTime() {
+        XCTAssertEqual(
+            TimecodeFrameRate(
+                rationalRate: CMTime(value: 30000, timescale: 1001),
+                drop: false
+            ),
+            ._29_97
+        )
+        XCTAssertEqual(
+            TimecodeFrameRate(
+                rationalRate: CMTime(value: 30000, timescale: 1001),
+                drop: true
+            ),
+            ._29_97_drop
+        )
+    }
+    
+    func test_init_rationalFrameDuration_CMTime() {
+        XCTAssertEqual(
+            TimecodeFrameRate(
+                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                drop: false
+            ),
+            ._29_97
+        )
+        XCTAssertEqual(
+            TimecodeFrameRate(
+                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                drop: true
+            ),
+            ._29_97_drop
+        )
+    }
+    
+    func testRationalRateCMTime() throws {
+        XCTAssertEqual(
+            TimecodeFrameRate._29_97.rationalRateCMTime,
+            CMTime(value: 30000, timescale: 1001)
+        )
+    }
+    
+    func testRationalFrameDurationCMTime() throws {
+        // spot-check
+        XCTAssertEqual(TimecodeFrameRate._29_97.rationalFrameDurationCMTime,
+                       CMTime(value: 1001, timescale: 30000))
+        
+        // ensure the CMTime instance returns correct 1 frame duration in seconds.
+        // due to floating-point dithering, it tends to be accurate up to
+        // 16 decimal places when stored in a Double (1 picosecond or less)
+        
+        try TimecodeFrameRate.allCases.forEach {
+            let cmTimeSeconds = $0.rationalFrameDurationCMTime.seconds
+            
+            let oneFrameDuration = try TCC(f: 1)
+                .toTimecode(at: $0)
+                .realTimeValue
+            
+            XCTAssertEqual(
+                cmTimeSeconds,
+                oneFrameDuration,
+                accuracy: 0.0000_0000_0000_0001,
+                "\($0) failed."
+            )
+        }
     }
 }
 

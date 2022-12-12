@@ -9,7 +9,7 @@ import Foundation
 extension TimecodeFrameRate {
     // MARK: Rational
     
-    /// Initialize from a frame rate expressed as a rational number (fraction).
+    /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
     ///
     /// Since a fraction alone cannot encode whether a rate is drop or not, you must
     /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
@@ -53,3 +53,51 @@ extension TimecodeFrameRate {
         self = foundMatch
     }
 }
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension TimecodeFrameRate {
+    /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
+    public init?(
+        rationalRate cmTime: CMTime,
+        drop: Bool = false
+    ) {
+        self.init(
+            rationalRate: (Int(cmTime.value), Int(cmTime.timescale)),
+            drop: drop
+        )
+    }
+    
+    /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
+    public init?(
+        rationalFrameDuration cmTime: CMTime,
+        drop: Bool = false
+    ) {
+        self.init(
+            rationalFrameDuration: (Int(cmTime.value), Int(cmTime.timescale)),
+            drop: drop
+        )
+    }
+    
+    /// Returns the frame rate (fps) as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
+    public var rationalRateCMTime: CMTime {
+        CMTime(
+            value: CMTimeValue(rationalRate.numerator),
+            timescale: CMTimeScale(rationalRate.denominator)
+        )
+    }
+    
+    /// Returns the duration of 1 frame as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
+    public var rationalFrameDurationCMTime: CMTime {
+        CMTime(
+            value: CMTimeValue(rationalFrameDuration.numerator),
+            timescale: CMTimeScale(rationalFrameDuration.denominator)
+        )
+    }
+}
+#endif
+
