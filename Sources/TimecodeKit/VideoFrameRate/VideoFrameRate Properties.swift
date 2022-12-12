@@ -115,19 +115,3 @@ extension VideoFrameRate {
         }
     }
 }
-
-#if canImport(CoreMedia)
-import CoreMedia
-
-extension VideoFrameRate {
-    /// Returns the duration of 1 frame as a rational number (fraction)
-    /// as a CoreMedia `CMTime` instance.
-    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-    public var rationalFrameDurationCMTime: CMTime {
-        CMTime(
-            value: CMTimeValue(rationalFrameDuration.numerator),
-            timescale: CMTimeScale(rationalFrameDuration.denominator)
-        )
-    }
-}
-#endif

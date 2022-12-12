@@ -137,7 +137,12 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // nonsense
         XCTAssertNil(TimecodeFrameRate(rationalFrameDuration: (1000, 12345), drop: false))
     }
-    
+}
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
     func test_init_rationalRate_CMTime() {
         XCTAssertEqual(
             TimecodeFrameRate(
@@ -204,5 +209,6 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         }
     }
 }
+#endif
 
 #endif

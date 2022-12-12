@@ -26,15 +26,15 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(VideoFrameRate(fps: 29.97, interlaced: true), ._29_97i)
         XCTAssertEqual(VideoFrameRate(fps: 29.97002997), ._29_97p)
         XCTAssertEqual(VideoFrameRate(fps: 29.97002997, interlaced: true), ._29_97i)
-
+        
         XCTAssertEqual(VideoFrameRate(fps: 30), ._30p)
         
         XCTAssertEqual(VideoFrameRate(fps: 50), ._50p)
         XCTAssertEqual(VideoFrameRate(fps: 50, interlaced: true), ._50i)
-
+        
         XCTAssertEqual(VideoFrameRate(fps: 59.94), ._59_94p)
         XCTAssertEqual(VideoFrameRate(fps: 59.9400599401), ._59_94p)
-
+        
         XCTAssertEqual(VideoFrameRate(fps: 60), ._60p)
     }
     
@@ -205,5 +205,77 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1000, 12345)))
     }
 }
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
+    func test_init_rationalRate_CMTime() {
+        XCTAssertEqual(
+            VideoFrameRate(
+                rationalRate: CMTime(value: 30000, timescale: 1001),
+                interlaced: false
+            ),
+            ._29_97p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(
+                rationalRate: CMTime(value: 30000, timescale: 1001),
+                interlaced: true
+            ),
+            ._29_97i
+        )
+    }
+    
+    func test_init_rationalFrameDuration_CMTime() {
+        XCTAssertEqual(
+            VideoFrameRate(
+                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                interlaced: false
+            ),
+            ._29_97p
+        )
+        XCTAssertEqual(
+            VideoFrameRate(
+                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                interlaced: true
+            ),
+            ._29_97i
+        )
+    }
+    
+    func testRationalRateCMTime() throws {
+        XCTAssertEqual(
+            VideoFrameRate._29_97p.rationalRateCMTime,
+            CMTime(value: 30000, timescale: 1001)
+        )
+    }
+    
+    func testRationalFrameDurationCMTime() throws {
+        // spot-check
+        XCTAssertEqual(VideoFrameRate._29_97p.rationalFrameDurationCMTime,
+                       CMTime(value: 1001, timescale: 30000))
+        
+        // ensure the CMTime instance returns correct 1 frame duration in seconds.
+        // due to floating-point dithering, it tends to be accurate up to
+        // 16 decimal places when stored in a Double (1 picosecond or less)
+        
+        try VideoFrameRate.allCases.forEach {
+            let cmTimeSeconds = $0.rationalFrameDurationCMTime.seconds
+            
+            let oneFrameDuration = try TCC(f: 1)
+                .toTimecode(at: $0.timecodeFrameRate(drop: false)!)
+                .realTimeValue
+            
+            XCTAssertEqual(
+                cmTimeSeconds,
+                oneFrameDuration,
+                accuracy: 0.0000_0000_0000_0001,
+                "\($0) failed."
+            )
+        }
+    }
+}
+#endif
 
 #endif

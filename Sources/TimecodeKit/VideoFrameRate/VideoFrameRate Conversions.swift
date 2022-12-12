@@ -87,3 +87,50 @@ extension VideoFrameRate {
         self = foundMatch
     }
 }
+
+#if canImport(CoreMedia)
+import CoreMedia
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension VideoFrameRate {
+    /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
+    public init?(
+        rationalRate cmTime: CMTime,
+        interlaced: Bool = false
+    ) {
+        self.init(
+            rationalRate: (Int(cmTime.value), Int(cmTime.timescale)),
+            interlaced: interlaced
+        )
+    }
+    
+    /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
+    public init?(
+        rationalFrameDuration cmTime: CMTime,
+        interlaced: Bool = false
+    ) {
+        self.init(
+            rationalFrameDuration: (Int(cmTime.value), Int(cmTime.timescale)),
+            interlaced: interlaced
+        )
+    }
+    
+    /// Returns the frame rate (fps) as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
+    public var rationalRateCMTime: CMTime {
+        CMTime(
+            value: CMTimeValue(rationalRate.numerator),
+            timescale: CMTimeScale(rationalRate.denominator)
+        )
+    }
+    
+    /// Returns the duration of 1 frame as a rational number (fraction)
+    /// as a CoreMedia `CMTime` instance.
+    public var rationalFrameDurationCMTime: CMTime {
+        CMTime(
+            value: CMTimeValue(rationalFrameDuration.numerator),
+            timescale: CMTimeScale(rationalFrameDuration.denominator)
+        )
+    }
+}
+#endif
