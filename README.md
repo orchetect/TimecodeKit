@@ -26,6 +26,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 - Convert timecode values to timecode display string, and vice-versa
 - Convert timecode values to real wall-clock time, and vice-versa
 - Convert timecode to # of samples at any audio sample-rate, and vice-versa
+- Convert timecode and/or frame rate to a rational fraction, and vice-versa (including `CMTime`)
 - Support for Subframes
 - Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
 - Common math operations between timecodes: add, subtract, multiply, divide
@@ -84,7 +85,10 @@ Note: This documentation does not cover every property and initializer available
   - [Subframes Component](#Subframes-Component)
   - [Comparable](#Comparable)
   - [Range, Strideable](#Range-Strideable)
-  - [Rational Number Expression](Rational-Number-Expression)
+  - [Rational Number Expression](#Rational-Number-Expression)
+  - [CMTime Conversion](#CMTime-Conversion)
+  - [Timecode Intervals](#Timecode-Intervals)
+  - [Timecode Transformer](#Timecode-Transformer)
 
 ### Initialization
 
@@ -546,7 +550,13 @@ try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
     .rationalValue // == (920919, 30000)
 ```
 
-## Timecode intervals and 'negative' timecode
+#### CMTime Conversion
+
+`CMTime` is a type exported by the Core Media framework (and used pervasively in AVFoundation). It represents time as a rational fraction of a `value` in a `timescale`.
+
+`Timecode`, as well as `TimecodeFrameRate` and `VideoFrameRate` can convert to/from `CMTime` using the respective inits and properties.
+
+#### Timecode Intervals
 
 The `TimecodeInterval` struct wraps a `Timecode` instance and adds a sign (positive of negative).
 
@@ -575,7 +585,7 @@ let interval = try -Timecode(TCC(h: 01), at: ._24) // negative
 let interval = try +Timecode(TCC(h: 01), at: ._24) // positive
 ```
 
-## Timecode transformer
+#### Timecode Transformer
 
 `TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a ` Timecode` instance.
 
