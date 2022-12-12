@@ -7,22 +7,26 @@
 extension TimecodeFrameRate {
     /// AAF file metadata for the given frame rate.
     ///
-    /// Example, for 24 fps:
+    /// AAF encodes _video frame rate_ as a rational fraction of frames-per-second.
+    ///
+    /// Example, for 23.976 fps:
     ///
     /// Note `<EditRate>`, `<DropFrame>` and `<FramesPerSecond>`.
     ///
-    ///     <TimelineTrack>
+    /// ```xml
+    /// <TimelineTrack>
+    ///   ...
+    ///   <EditRate>24000/1001</EditRate>
+    ///   <TrackSegment>
+    ///     <Timecode>
+    ///       <DropFrame>false</DropFrame>
+    ///       <FramesPerSecond>24</FramesPerSecond>
     ///       ...
-    ///       <EditRate>24000/1001</EditRate>
-    ///       <TrackSegment>
-    ///         <Timecode>
-    ///           <DropFrame>false</DropFrame>
-    ///           <FramesPerSecond>24</FramesPerSecond>
-    ///           ...
-    ///         </Timecode>
-    ///       </TrackSegment>
-    ///       ...
-    ///     </TimelineTrack>
+    ///     </Timecode>
+    ///   </TrackSegment>
+    ///   ...
+    /// </TimelineTrack>
+    /// ```
     public var aafMetadata: (
         editRate: String,
         dropFrame: String,
@@ -36,6 +40,10 @@ extension TimecodeFrameRate {
     }
     
     /// Final Cut Pro XML file metadata for the given frame rate.
+    ///
+    /// FCP XML encodes _video frame rate_ as a rational fraction of the duration of one frame.
+    /// It encodes timecode as a rational fraction of seconds along with a boolean flag for drop or
+    /// non-drop.
     ///
     /// Example, for 24 fps:
     ///
