@@ -35,7 +35,7 @@ extension TimecodeFrameRate {
     ///
     /// Since a fraction alone cannot encode whether a rate is drop or not, you must
     /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
-    /// use the same numerator and denominators of 30000/1001, drop must be
+    /// use the same numerator and denominators of 1001/30000, drop must be
     /// imperatively specified.)
     ///
     /// To get the rational numerator and denominator of a rate's frame duration, query the
