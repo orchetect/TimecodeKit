@@ -127,6 +127,12 @@ class Timecode_UT_DI_Rational_Tests: XCTestCase {
             }
         }
     }
+    
+    func testDouble_Rational_SpotCheck() throws {
+        let tc = try TCC(h: 00, m: 00, s: 13, f: 29).toTimecode(at: ._29_97_drop)
+        XCTAssertEqual(tc.rationalValue.numerator, 419419)
+        XCTAssertEqual(tc.rationalValue.denominator, 30000)
+    }
 }
 
 #endif
