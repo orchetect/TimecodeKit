@@ -187,7 +187,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         XCTAssertEqual(mf.doubleValue, 2_073_599.9875)
         
         let tcc = Timecode.components(
-            from: mf,
+            of: mf,
             at: tc.frameRate
         )
         

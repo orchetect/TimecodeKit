@@ -49,7 +49,7 @@ class TimecodeFrameRate_Formats_Tests: XCTestCase {
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
         try TimecodeFrameRate.allCases.forEach {
-            let cmTimeSeconds = $0.frameDurationCMTime.seconds
+            let cmTimeSeconds = $0.rationalFrameDurationCMTime.seconds
             
             let oneFrameDuration = try TCC(f: 1)
                 .toTimecode(at: $0)

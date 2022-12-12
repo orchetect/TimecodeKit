@@ -10,15 +10,15 @@ import XCTest
 @testable import TimecodeKit
 
 class TimecodeFrameRate_StringExtensions_Tests: XCTestCase {
-    func testString_toFrameRate() {
+    func testString_toTimecodeFrameRate() {
         // do a spot-check to ensure this functions as expected
                 
-        XCTAssertEqual("23.976".toFrameRate, ._23_976)
-        XCTAssertEqual("29.97d".toFrameRate, ._29_97_drop)
+        XCTAssertEqual("23.976".toTimecodeFrameRate, ._23_976)
+        XCTAssertEqual("29.97d".toTimecodeFrameRate, ._29_97_drop)
         
-        XCTAssertNil("".toFrameRate)
-        XCTAssertNil(" ".toFrameRate)
-        XCTAssertNil("BogusString".toFrameRate)
+        XCTAssertNil("".toTimecodeFrameRate)
+        XCTAssertNil(" ".toTimecodeFrameRate)
+        XCTAssertNil("BogusString".toTimecodeFrameRate)
     }
 }
 #endif
