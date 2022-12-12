@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_DI_Real_Time_Tests: XCTestCase {
+class Timecode_RealTime_Tests: XCTestCase {
     // pre-computed constants
     
     // confirmed correct in PT and Cubase

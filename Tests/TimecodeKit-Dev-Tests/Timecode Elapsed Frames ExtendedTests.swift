@@ -11,7 +11,7 @@ import XCTest
 
 // import SegmentedProgress
 //
-// final class Timecode_ET_ExtendedTests: XCTestCase {
+// final class Timecode_ExtendedTests: XCTestCase {
 //
 //    func testTimecode_Iterative() {
 //

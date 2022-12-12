@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_IT_IntegrationTests: XCTestCase {
+class TimecodeIntegrationTests: XCTestCase {
     func testTimecode_Clamping() {
         // 24 hour
         

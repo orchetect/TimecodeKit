@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_DI_Rational_Tests: XCTestCase {
+class Timecode_Rational_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     

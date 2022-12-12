@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_DI_FrameCount_Value_Tests: XCTestCase {
+class Timecode_FrameCount_Value_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
