@@ -84,6 +84,29 @@ extension Fraction {
         if _isSimplestForm == true { return self }
         return Fraction(reducing: numerator, denominator)
     }
+    
+    /// Internal:
+    /// Normalize a fraction.
+    /// Fractions with two negative signs are normalized to two positive signs.
+    /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
+    internal static func normalize(n: Int, d: Int) -> (n: Int, d: Int) {
+        var n = n
+        var d = d
+        if n >= 0 && d >= 0 { return (n: n, d: d) }
+        if (n < 0 && d < 0) || (d < 0) {
+            n *= -1
+            d *= -1
+        }
+        return (n: n, d: d)
+    }
+    
+    /// Returns a new instance normalized.
+    /// Fractions with two negative signs are normalized to two positive signs.
+    /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
+    func normalized() -> Fraction {
+        let result = Self.normalize(n: numerator, d: denominator)
+        return Fraction(result.n, result.d)
+    }
 }
 
 // MARK: Double

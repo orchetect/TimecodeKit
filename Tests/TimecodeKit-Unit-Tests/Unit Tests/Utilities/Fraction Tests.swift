@@ -73,6 +73,18 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(1, 2).doubleValue, 0.5)
     }
     
+    func testNegativeValues() {
+        XCTAssertEqual(Fraction(-1,5).doubleValue, -0.2)
+        XCTAssertEqual(Fraction(1,-5).doubleValue, -0.2)
+        XCTAssertEqual(Fraction(-1,-5).doubleValue, 0.2)
+    }
+    
+    func testNormalized() {
+        XCTAssertEqual(Fraction(-1,5).normalized(), Fraction(-1,5))
+        XCTAssertEqual(Fraction(1,-5).normalized(), Fraction(-1,5))
+        XCTAssertEqual(Fraction(-1,-5).normalized(), Fraction(1,5))
+    }
+    
     func testEdgeCases() {
         // test that division by zero crashes don't occur etc.
         
