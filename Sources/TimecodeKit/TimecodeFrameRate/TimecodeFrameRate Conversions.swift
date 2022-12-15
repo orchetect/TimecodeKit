@@ -11,6 +11,11 @@ extension TimecodeFrameRate {
     
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
     ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
+    ///
     /// Since a fraction alone cannot encode whether a rate is drop or not, you must
     /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
     /// use the same numerator and denominators of 30000/1001, drop must be
@@ -32,6 +37,11 @@ extension TimecodeFrameRate {
     }
     
     /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     ///
     /// Since a fraction alone cannot encode whether a rate is drop or not, you must
     /// specify whether the rate is drop. (For example: both 29.97 drop and non-drop
@@ -60,6 +70,14 @@ import CoreMedia
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension TimecodeFrameRate {
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
+    ///
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// times and durations.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public init?(
         rate cmTime: CMTime,
         drop: Bool = false
@@ -71,6 +89,14 @@ extension TimecodeFrameRate {
     }
     
     /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
+    ///
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// times and durations.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public init?(
         frameDuration cmTime: CMTime,
         drop: Bool = false
@@ -83,6 +109,14 @@ extension TimecodeFrameRate {
     
     /// Returns the frame rate (fps) as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
+    ///
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// times and durations.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public var rateCMTime: CMTime {
         CMTime(
             value: CMTimeValue(rate.numerator),
@@ -92,6 +126,14 @@ extension TimecodeFrameRate {
     
     /// Returns the duration of 1 frame as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
+    ///
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// times and durations.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public var frameDurationCMTime: CMTime {
         CMTime(
             value: CMTimeValue(frameDuration.numerator),

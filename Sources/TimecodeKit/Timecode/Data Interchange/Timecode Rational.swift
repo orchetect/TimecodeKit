@@ -9,6 +9,11 @@ import Foundation
 extension Timecode {
     /// Instance from elapsed time expressed as a rational fraction.
     ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
+    ///
     /// - Throws: ``ValidationError``
     public init(
         _ rational: Fraction,
@@ -27,6 +32,11 @@ extension Timecode {
     
     /// Instance from elapsed time expressed as a rational fraction, clamping to valid timecode if
     /// necessary.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public init(
         clamping rational: Fraction,
         at rate: TimecodeFrameRate,
@@ -43,6 +53,11 @@ extension Timecode {
     }
     
     /// Instance from elapsed time expressed as a rational fraction, wrapping timecode if necessary.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public init(
         wrapping rational: Fraction,
         at rate: TimecodeFrameRate,
@@ -61,6 +76,11 @@ extension Timecode {
     /// Instance from elapsed time expressed as a rational fraction.
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public init(
         rawValues rational: Fraction,
         at rate: TimecodeFrameRate,
@@ -82,6 +102,11 @@ extension Timecode {
 extension Timecode {
     /// Returns the time location as a rational fraction.
     ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
+    ///
     /// Coincidentally, evaluating the fraction produces elapsed seconds.
     /// However if the goal is to produce elapsed seconds, access the
     /// ``realTimeValue`` property instead.
@@ -95,6 +120,11 @@ extension Timecode {
     
     /// Sets the timecode from elapsed time expressed as a rational fraction.
     ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
+    ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(_ rational: Fraction) throws {
         let frameCount = frameCount(of: rational)
@@ -104,6 +134,11 @@ extension Timecode {
     /// Sets the timecode from elapsed time expressed as a rational fraction.
     ///
     /// Clamps to valid timecode.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public mutating func setTimecode(clamping rational: Fraction) {
         let frameCount = frameCount(of: rational)
         setTimecode(clamping: .frames(frameCount))
@@ -112,6 +147,11 @@ extension Timecode {
     /// Sets the timecode from elapsed time expressed as a rational fraction.
     ///
     /// Wraps timecode if necessary.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public mutating func setTimecode(wrapping rational: Fraction) {
         let frameCount = frameCount(of: rational)
         setTimecode(wrapping: .frames(frameCount))
@@ -120,6 +160,11 @@ extension Timecode {
     /// Sets the timecode from elapsed time expressed as a rational fraction.
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public mutating func setTimecode(rawValues rational: Fraction) {
         let frameCount = frameCount(of: rational)
         setTimecode(rawValues: .frames(frameCount))
@@ -138,6 +183,11 @@ extension Timecode {
 extension Fraction {
     /// Convenience method to create an `Timecode` struct using the default
     /// `(_ exactly:)` initializer.
+    ///
+    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
+    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
+    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
+    /// fractions.)
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
