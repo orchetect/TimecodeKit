@@ -61,7 +61,12 @@ extension Fraction: CustomStringConvertible {
 }
 
 extension Fraction {
+    /// Internal:
+    /// Reduce a fraction to its simplest form.
+    /// This also normalizes signs.
     internal static func reduce(n: Int, d: Int) -> (n: Int, d: Int) {
+        let (absN, signN) = n < 0 ? (-n, -1) : (n, 1)
+        let (absD, signD) = d < 0 ? (-d, -1) : (d, 1)
         var v = n
         var u = d
         
@@ -70,9 +75,11 @@ extension Fraction {
             (v, u) = (u % v, v)
         }
         
-        return (n / u, d / u)
+        return (absN / u * signN, absD / u * signD)
     }
     
+    /// Returns a new instance reduced to its simplest form.
+    /// This also normalizes signs.
     public func reduced() -> Fraction {
         if _isSimplestForm == true { return self }
         return Fraction(reducing: numerator, denominator)
