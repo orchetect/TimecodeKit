@@ -44,7 +44,6 @@ extension Timecode {
 // MARK: Timecode.FrameRate
 
 extension TimecodeFrameRate {
-    
     @available(*, unavailable, renamed: "VideoFrameRate(fps:)")
     @_disfavoredOverload
     public init?(
@@ -58,11 +57,11 @@ extension TimecodeFrameRate {
         favorDropFrame: Bool = false
     ) { fatalError() }
     
-    @available(*, deprecated, renamed: "rationalRate")
+    @available(*, deprecated, renamed: "rate")
     public var fraction: (numerator: Int, denominator: Int) {
         (
-            numerator: rationalRate.numerator,
-            denominator: rationalRate.denominator
+            numerator: rate.numerator,
+            denominator: rate.denominator
         )
     }
 }
@@ -72,15 +71,3 @@ extension String {
     @available(*, deprecated, renamed: "toTimecodeFrameRate")
     public var toFrameRate: TimecodeFrameRate? { toTimecodeFrameRate }
 }
-
-#if canImport(CoreMedia)
-import CoreMedia
-
-extension TimecodeFrameRate {
-    @available(*, deprecated, renamed: "rationalFrameDurationCMTime")
-    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-    public var frameDurationCMTime: CMTime {
-        rationalFrameDurationCMTime
-    }
-}
-#endif

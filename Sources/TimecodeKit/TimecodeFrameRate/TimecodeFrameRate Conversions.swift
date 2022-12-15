@@ -17,12 +17,12 @@ extension TimecodeFrameRate {
     /// imperatively specified.)
     ///
     /// To get the rational numerator and denominator of a rate, query the
-    /// ``rationalRate`` property.
+    /// ``rate`` property.
     public init?(
-        rationalRate: (numerator: Int, denominator: Int),
+        rate: Fraction,
         drop: Bool = false
     ) {
-        let foundMatches = Self.allCases.filter(rationalRate: rationalRate)
+        let foundMatches = Self.allCases.filter(rate: rate)
         guard !foundMatches.isEmpty else { return nil }
         
         guard let foundMatch = foundMatches.first(where: { $0.isDrop == drop })
@@ -39,12 +39,12 @@ extension TimecodeFrameRate {
     /// imperatively specified.)
     ///
     /// To get the rational numerator and denominator of a rate's frame duration, query the
-    /// ``rationalFrameDuration`` property.
+    /// ``frameDuration`` property.
     public init?(
-        rationalFrameDuration: (numerator: Int, denominator: Int),
+        frameDuration: Fraction,
         drop: Bool = false
     ) {
-        let foundMatches = Self.allCases.filter(rationalFrameDuration: rationalFrameDuration)
+        let foundMatches = Self.allCases.filter(frameDuration: frameDuration)
         guard !foundMatches.isEmpty else { return nil }
         
         guard let foundMatch = foundMatches.first(where: { $0.isDrop == drop })
@@ -61,41 +61,41 @@ import CoreMedia
 extension TimecodeFrameRate {
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
     public init?(
-        rationalRate cmTime: CMTime,
+        rate cmTime: CMTime,
         drop: Bool = false
     ) {
         self.init(
-            rationalRate: (Int(cmTime.value), Int(cmTime.timescale)),
+            rate: Fraction(Int(cmTime.value), Int(cmTime.timescale)),
             drop: drop
         )
     }
     
     /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
     public init?(
-        rationalFrameDuration cmTime: CMTime,
+        frameDuration cmTime: CMTime,
         drop: Bool = false
     ) {
         self.init(
-            rationalFrameDuration: (Int(cmTime.value), Int(cmTime.timescale)),
+            frameDuration: Fraction(Int(cmTime.value), Int(cmTime.timescale)),
             drop: drop
         )
     }
     
     /// Returns the frame rate (fps) as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
-    public var rationalRateCMTime: CMTime {
+    public var rateCMTime: CMTime {
         CMTime(
-            value: CMTimeValue(rationalRate.numerator),
-            timescale: CMTimeScale(rationalRate.denominator)
+            value: CMTimeValue(rate.numerator),
+            timescale: CMTimeScale(rate.denominator)
         )
     }
     
     /// Returns the duration of 1 frame as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
-    public var rationalFrameDurationCMTime: CMTime {
+    public var frameDurationCMTime: CMTime {
         CMTime(
-            value: CMTimeValue(rationalFrameDuration.numerator),
-            timescale: CMTimeScale(rationalFrameDuration.denominator)
+            value: CMTimeValue(frameDuration.numerator),
+            timescale: CMTimeScale(frameDuration.denominator)
         )
     }
 }

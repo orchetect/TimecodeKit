@@ -26,16 +26,16 @@ extension Collection where Element: FrameRateProtocol {
     /// Internal:
     /// Filters collection to rates that match the given rational rate fraction.
     internal func filter(
-        rationalRate: (numerator: Int, denominator: Int)
+        rate: Fraction
     ) -> [Element] {
         filter {
-            let lhsFrac = $0.rationalRate
+            let lhsFrac = $0.rate
             
-            let isLiteralMatch = lhsFrac.numerator == rationalRate.numerator
-            && lhsFrac.denominator == rationalRate.denominator
+            let isLiteralMatch = lhsFrac.numerator == rate.numerator
+            && lhsFrac.denominator == rate.denominator
             
             let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
-            let rhsFPS = Double(rationalRate.numerator) / Double(rationalRate.denominator)
+            let rhsFPS = Double(rate.numerator) / Double(rate.denominator)
             let isFPSMatch = lhsFPS == rhsFPS
             
             return isLiteralMatch || isFPSMatch
@@ -45,16 +45,16 @@ extension Collection where Element: FrameRateProtocol {
     /// Internal:
     /// Filters collection to rates that match the given rational frame duration fraction.
     internal func filter(
-        rationalFrameDuration: (numerator: Int, denominator: Int)
+        frameDuration: Fraction
     ) -> [Element] {
         filter {
-            let lhsFrac = $0.rationalFrameDuration
+            let lhsFrac = $0.frameDuration
             
-            let isLiteralMatch = lhsFrac.numerator == rationalFrameDuration.numerator
-            && lhsFrac.denominator == rationalFrameDuration.denominator
+            let isLiteralMatch = lhsFrac.numerator == frameDuration.numerator
+            && lhsFrac.denominator == frameDuration.denominator
             
             let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
-            let rhsFPS = Double(rationalFrameDuration.numerator) / Double(rationalFrameDuration.denominator)
+            let rhsFPS = Double(frameDuration.numerator) / Double(frameDuration.denominator)
             let isFPSMatch = lhsFPS == rhsFPS
             
             return isLiteralMatch || isFPSMatch

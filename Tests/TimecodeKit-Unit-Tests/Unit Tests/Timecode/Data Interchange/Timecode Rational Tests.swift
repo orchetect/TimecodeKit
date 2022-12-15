@@ -16,7 +16,7 @@ class Timecode_Rational_Tests: XCTestCase {
     func testTimecode_init_Rational_Exactly() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                rational: (10, 1),
+                Fraction(10, 1),
                 at: $0,
                 limit: ._24hours
             )
@@ -36,42 +36,42 @@ class Timecode_Rational_Tests: XCTestCase {
             switch fRate {
             case ._23_976:
                 XCTAssertEqual(
-                    try Timecode(rational: (335335, 24000), at: fRate).components,
+                    try Timecode(Fraction(335335, 24000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 23)
                 )
             case ._24:
                 XCTAssertEqual(
-                    try Timecode(rational: (167500, 12000), at: fRate).components,
+                    try Timecode(Fraction(167500, 12000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 23)
                 )
             case ._24_98:
                 break // TODO: finish this
             case ._25: // same fraction is found in FCP XML for 25p and 25i video rates
                 XCTAssertEqual(
-                    try Timecode(rational: (34900, 2500), at: fRate).components,
+                    try Timecode(Fraction(34900, 2500), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 24)
                 )
             case ._29_97: // same fraction is found in FCP XML for 29.97p and 29.97i video rates
                 XCTAssertEqual(
-                    try Timecode(rational: (838838, 60000), at: fRate).components,
+                    try Timecode(Fraction(838838, 60000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 29)
                 )
                 XCTAssertEqual(
-                    try Timecode(rational: (1920919, 30000), at: fRate).components,
+                    try Timecode(Fraction(1920919, 30000), at: fRate).components,
                     TCC(h: 00, m: 01, s: 03, f: 29)
                 )
             case ._29_97_drop:
                 XCTAssertEqual(
-                    try Timecode(rational: (419419, 30000), at: fRate).components,
+                    try Timecode(Fraction(419419, 30000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 29)
                 )
                 XCTAssertEqual(
-                    try Timecode(rational: (1918917, 30000), at: fRate).components,
+                    try Timecode(Fraction(1918917, 30000), at: fRate).components,
                     TCC(h: 00, m: 01, s: 03, f: 29)
                 )
             case ._30:
                 XCTAssertEqual(
-                    try Timecode(rational: (83800, 6000), at: fRate).components,
+                    try Timecode(Fraction(83800, 6000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 29)
                 )
             case ._30_drop:
@@ -82,19 +82,19 @@ class Timecode_Rational_Tests: XCTestCase {
                 break // TODO: finish this
             case ._50:
                 XCTAssertEqual(
-                    try Timecode(rational: (69900, 5000), at: fRate).components,
+                    try Timecode(Fraction(69900, 5000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 49)
                 )
             case ._59_94:
                 XCTAssertEqual(
-                    try Timecode(rational: (839839, 60000), at: fRate).components,
+                    try Timecode(Fraction(839839, 60000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 59)
                 )
             case ._59_94_drop:
                 break // TODO: finish this
             case ._60:
                 XCTAssertEqual(
-                    try Timecode(rational: (83900, 6000), at: fRate).components,
+                    try Timecode(Fraction(83900, 6000), at: fRate).components,
                     TCC(h: 00, m: 00, s: 13, f: 59)
                 )
             case ._60_drop:
@@ -113,7 +113,7 @@ class Timecode_Rational_Tests: XCTestCase {
         }
     }
     
-    func testDouble_Rational() throws {
+    func testDouble_RationalValue() throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
         try TimecodeFrameRate.allCases.forEach { fRate in
@@ -122,13 +122,13 @@ class Timecode_Rational_Tests: XCTestCase {
             
             try (s ... e).forEach { tc in
                 let f = tc.rationalValue
-                let reformedTC = try Timecode(rational: f, at: fRate)
+                let reformedTC = try Timecode(f, at: fRate)
                 XCTAssertEqual(tc, reformedTC)
             }
         }
     }
     
-    func testDouble_Rational_SpotCheck() throws {
+    func testDouble_RationalValue_SpotCheck() throws {
         let tc = try TCC(h: 00, m: 00, s: 13, f: 29).toTimecode(at: ._29_97_drop)
         XCTAssertEqual(tc.rationalValue.numerator, 419419)
         XCTAssertEqual(tc.rationalValue.denominator, 30000)

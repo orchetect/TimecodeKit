@@ -27,22 +27,16 @@ public protocol FrameRateProtocol where
     ///
     /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
     /// preserved whenever this information is encoded elsewhere.
-    ///
-    ///     // == frame rate
-    ///     Double(numerator) / Double(denominator)
-    ///
-    ///     // == duration of 1 frame in seconds
-    ///     Double(denominator) / Double(numerator)
-    var rationalRate: (numerator: Int, denominator: Int) { get }
+    var rate: Fraction { get }
     
     /// Returns the duration of 1 frame as a rational number (fraction).
     ///
     /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
     /// preserved whenever this information is encoded elsewhere.
-    var rationalFrameDuration: (numerator: Int, denominator: Int) { get }
+    var frameDuration: Fraction { get }
     
     #if canImport(CoreMedia)
     @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-    var rationalFrameDurationCMTime: CMTime { get }
+    var frameDurationCMTime: CMTime { get }
     #endif
 }

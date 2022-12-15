@@ -84,28 +84,28 @@ extension TimecodeFrameRate {
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var rationalRate: (numerator: Int, denominator: Int) {
+    public var rate: Fraction {
         switch self {
-        case ._23_976:      return (numerator: 24000,   denominator: 1001)
-        case ._24:          return (numerator: 24,      denominator: 1)
-        case ._24_98:       return (numerator: 25000,   denominator: 1001)
-        case ._25:          return (numerator: 25,      denominator: 1)
-        case ._29_97:       return (numerator: 30000,   denominator: 1001)
-        case ._29_97_drop:  return (numerator: 30000,   denominator: 1001)
-        case ._30:          return (numerator: 30,      denominator: 1)
-        case ._30_drop:     return (numerator: 30,      denominator: 1)
-        case ._47_952:      return (numerator: 48000,   denominator: 1001)
-        case ._48:          return (numerator: 48,      denominator: 1)
-        case ._50:          return (numerator: 50,      denominator: 1)
-        case ._59_94:       return (numerator: 60000,   denominator: 1001)
-        case ._59_94_drop:  return (numerator: 60000,   denominator: 1001)
-        case ._60:          return (numerator: 60,      denominator: 1)
-        case ._60_drop:     return (numerator: 60,      denominator: 1)
-        case ._100:         return (numerator: 100,     denominator: 1)
-        case ._119_88:      return (numerator: 120_000, denominator: 1001)
-        case ._119_88_drop: return (numerator: 120_000, denominator: 1001)
-        case ._120:         return (numerator: 120,     denominator: 1)
-        case ._120_drop:    return (numerator: 120,     denominator: 1)
+        case ._23_976:      return Fraction(24000,   1001)
+        case ._24:          return Fraction(24,      1)
+        case ._24_98:       return Fraction(25000,   1001)
+        case ._25:          return Fraction(25,      1)
+        case ._29_97:       return Fraction(30000,   1001)
+        case ._29_97_drop:  return Fraction(30000,   1001)
+        case ._30:          return Fraction(30,      1)
+        case ._30_drop:     return Fraction(30,      1)
+        case ._47_952:      return Fraction(48000,   1001)
+        case ._48:          return Fraction(48,      1)
+        case ._50:          return Fraction(50,      1)
+        case ._59_94:       return Fraction(60000,   1001)
+        case ._59_94_drop:  return Fraction(60000,   1001)
+        case ._60:          return Fraction(60,      1)
+        case ._60_drop:     return Fraction(60,      1)
+        case ._100:         return Fraction(100,     1)
+        case ._119_88:      return Fraction(120_000, 1001)
+        case ._119_88_drop: return Fraction(120_000, 1001)
+        case ._120:         return Fraction(120,     1)
+        case ._120_drop:    return Fraction(120,     1)
         }
     }
     
@@ -116,28 +116,28 @@ extension TimecodeFrameRate {
     ///
     /// - Note: Compatible with FCP XML v1.6 - 1.9.
     ///         Potentially compatible outside of that range but untested.
-    public var rationalFrameDuration: (numerator: Int, denominator: Int) {
+    public var frameDuration: Fraction {
         switch self {
-        case ._23_976:      return (numerator: 1001, denominator: 24000)
-        case ._24:          return (numerator: 100,  denominator: 2400)
-        case ._24_98:       return (numerator: 1001, denominator: 25000) // TODO: inferred
-        case ._25:          return (numerator: 100,  denominator: 2500)
-        case ._29_97:       return (numerator: 1001, denominator: 30000)
-        case ._29_97_drop:  return (numerator: 1001, denominator: 30000)
-        case ._30:          return (numerator: 100,  denominator: 3000)
-        case ._30_drop:     return (numerator: 100,  denominator: 3000) // TODO: needs checking
-        case ._47_952:      return (numerator: 1001, denominator: 48000) // TODO: inferred
-        case ._48:          return (numerator: 100,  denominator: 4800)
-        case ._50:          return (numerator: 100,  denominator: 5000)
-        case ._59_94:       return (numerator: 1001, denominator: 60000) // TODO: inferred
-        case ._59_94_drop:  return (numerator: 1001, denominator: 60000) // TODO: inferred
-        case ._60:          return (numerator: 100,  denominator: 6000)
-        case ._60_drop:     return (numerator: 100,  denominator: 6000) // TODO: needs checking
-        case ._100:         return (numerator: 100,  denominator: 10000)
-        case ._119_88:      return (numerator: 1001, denominator: 120000) // TODO: inferred
-        case ._119_88_drop: return (numerator: 1001, denominator: 120000) // TODO: inferred
-        case ._120:         return (numerator: 100,  denominator: 12000)
-        case ._120_drop:    return (numerator: 100,  denominator: 12000) // TODO: needs checking
+        case ._23_976:      return Fraction(1001, 24000)
+        case ._24:          return Fraction(100,  2400)
+        case ._24_98:       return Fraction(1001, 25000) // TODO: inferred
+        case ._25:          return Fraction(100,  2500)
+        case ._29_97:       return Fraction(1001, 30000)
+        case ._29_97_drop:  return Fraction(1001, 30000)
+        case ._30:          return Fraction(100,  3000)
+        case ._30_drop:     return Fraction(100,  3000) // TODO: needs checking
+        case ._47_952:      return Fraction(1001, 48000) // TODO: inferred
+        case ._48:          return Fraction(100,  4800)
+        case ._50:          return Fraction(100,  5000)
+        case ._59_94:       return Fraction(1001, 60000) // TODO: inferred
+        case ._59_94_drop:  return Fraction(1001, 60000) // TODO: inferred
+        case ._60:          return Fraction(100,  6000)
+        case ._60_drop:     return Fraction(100,  6000) // TODO: needs checking
+        case ._100:         return Fraction(100,  10000)
+        case ._119_88:      return Fraction(1001, 120000) // TODO: inferred
+        case ._119_88_drop: return Fraction(1001, 120000) // TODO: inferred
+        case ._120:         return Fraction(100,  12000)
+        case ._120_drop:    return Fraction(100,  12000) // TODO: needs checking
         }
     }
     

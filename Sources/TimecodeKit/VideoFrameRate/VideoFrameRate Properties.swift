@@ -50,20 +50,20 @@ extension VideoFrameRate {
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var rationalRate: (numerator: Int, denominator: Int) {
+    public var rate: Fraction {
         switch self {
-        case ._23_98p: return (numerator: 24000,   denominator: 1001)
-        case ._24p:    return (numerator: 24,      denominator: 1)
-        case ._25p:    return (numerator: 25,      denominator: 1)
-        case ._25i:    return (numerator: 25,      denominator: 1)
-        case ._29_97p: return (numerator: 30000,   denominator: 1001)
-        case ._29_97i: return (numerator: 30000,   denominator: 1001)
-        case ._30p:    return (numerator: 30,      denominator: 1)
-        case ._50p:    return (numerator: 50,      denominator: 1)
-        case ._50i:    return (numerator: 50,      denominator: 1)
-        case ._59_94p: return (numerator: 60000,   denominator: 1001)
-        case ._60p:    return (numerator: 60,      denominator: 1)
-        case ._60i:    return (numerator: 60,      denominator: 1)
+        case ._23_98p: return Fraction(24000, 1001)
+        case ._24p:    return Fraction(24,    1)
+        case ._25p:    return Fraction(25,    1)
+        case ._25i:    return Fraction(25,    1)
+        case ._29_97p: return Fraction(30000, 1001)
+        case ._29_97i: return Fraction(30000, 1001)
+        case ._30p:    return Fraction(30,    1)
+        case ._50p:    return Fraction(50,    1)
+        case ._50i:    return Fraction(50,    1)
+        case ._59_94p: return Fraction(60000, 1001)
+        case ._60p:    return Fraction(60,    1)
+        case ._60i:    return Fraction(60,    1)
         }
     }
     
@@ -74,26 +74,26 @@ extension VideoFrameRate {
     ///
     /// - Note: Compatible with FCP XML v1.6 - 1.9.
     ///         Potentially compatible outside of that range but untested.
-    public var rationalFrameDuration: (numerator: Int, denominator: Int) {
+    public var frameDuration: Fraction {
         switch self {
-        case ._23_98p: return (numerator: 1001, denominator: 24000) // confirmed in FCP XML
-        case ._24p:    return (numerator: 100,  denominator: 2400)  // confirmed in FCP XML
-        case ._25p:    return (numerator: 100,  denominator: 2500)  // confirmed in FCP XML
-        case ._25i:    return (numerator: 200,  denominator: 5000)  // confirmed in FCP XML
-        case ._29_97p: return (numerator: 1001, denominator: 30000) // confirmed in FCP XML
-        case ._29_97i: return (numerator: 2002, denominator: 60000) // confirmed in FCP XML
-        case ._30p:    return (numerator: 100,  denominator: 3000)  // confirmed in FCP XML
-        case ._50p:    return (numerator: 100,  denominator: 5000)  // confirmed in FCP XML
-        case ._50i:    return (numerator: 200,  denominator: 10000) // inferred
-        case ._59_94p: return (numerator: 1001, denominator: 60000) // confirmed in FCP XML
-        case ._60p:    return (numerator: 100,  denominator: 6000)  // confirmed in FCP XML
-        case ._60i:    return (numerator: 200,  denominator: 12000) // inferred
+        case ._23_98p: return Fraction(1001, 24000) // confirmed in FCP XML
+        case ._24p:    return Fraction(100,  2400)  // confirmed in FCP XML
+        case ._25p:    return Fraction(100,  2500)  // confirmed in FCP XML
+        case ._25i:    return Fraction(200,  5000)  // confirmed in FCP XML
+        case ._29_97p: return Fraction(1001, 30000) // confirmed in FCP XML
+        case ._29_97i: return Fraction(2002, 60000) // confirmed in FCP XML
+        case ._30p:    return Fraction(100,  3000)  // confirmed in FCP XML
+        case ._50p:    return Fraction(100,  5000)  // confirmed in FCP XML
+        case ._50i:    return Fraction(200,  10000) // inferred
+        case ._59_94p: return Fraction(1001, 60000) // confirmed in FCP XML
+        case ._60p:    return Fraction(100,  6000)  // confirmed in FCP XML
+        case ._60i:    return Fraction(200,  12000) // inferred
         }
     }
     
     /// Returns the frame rate expressed as floating-point frames per second (fps).
     public var fps: Double {
-        let frac = rationalRate
+        let frac = rate
         return Double(frac.numerator) / Double(frac.denominator)
     }
     

@@ -33,7 +33,7 @@ extension TimecodeFrameRate {
         framesPerSecond: String
     ) {
         (
-            editRate: "\(rationalRate.numerator)/\(rationalRate.denominator)",
+            editRate: "\(rate.numerator)/\(rate.denominator)",
             dropFrame: isDrop ? "true" : "false",
             framesPerSecond: "\(maxFrames)"
         )
@@ -67,7 +67,7 @@ extension TimecodeFrameRate {
     /// ```
     public var fcpXMLMetadata: (frameDuration: String, tcFormat: String) {
         (
-            frameDuration: "\(rationalFrameDuration.numerator)/\(rationalFrameDuration.denominator)",
+            frameDuration: "\(frameDuration.numerator)/\(frameDuration.denominator)",
             tcFormat: isDrop ? "DF" : "NDF"
         )
     }

@@ -11,7 +11,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public init(
-        rational: (numerator: Int, denominator: Int),
+        _ rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
@@ -22,7 +22,7 @@ extension Timecode {
         subFramesBase = base
         stringFormat = format
         
-        let frFrac = rate.rationalFrameDuration
+        let frFrac = rate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) / (rational.denominator * frFrac.numerator)
         try setTimecode(exactly: .frames(frameCount))
     }
@@ -34,11 +34,11 @@ extension Timecode {
     /// Coincidentally, evaluating the fraction produces elapsed seconds.
     /// However if the goal is to produce elapsed seconds, access the
     /// ``realTimeValue`` property instead.
-    public var rationalValue: (numerator: Int, denominator: Int) {
-        let frFrac = frameRate.rationalFrameDuration
+    public var rationalValue: Fraction {
+        let frFrac = frameRate.frameDuration
         let n = frFrac.numerator * frameCount.wholeFrames
         let d = frFrac.denominator
         
-        return simplify(fraction: (n, d))
+        return Fraction(n, d).reduced()
     }
 }

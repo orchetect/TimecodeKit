@@ -59,150 +59,150 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(VideoFrameRate(fps: 121.0))
     }
     
-    func testInit_rationalRate_allCases() {
+    func testInit_rate_allCases() {
         VideoFrameRate.allCases.forEach { fRate in
-            let num = fRate.rationalRate.numerator
-            let den = fRate.rationalRate.denominator
+            let num = fRate.rate.numerator
+            let den = fRate.rate.denominator
             let interlaced = fRate.isInterlaced
             
             XCTAssertEqual(
-                VideoFrameRate(rationalRate: (num, den), interlaced: interlaced),
+                VideoFrameRate(rate: Fraction(num, den), interlaced: interlaced),
                 fRate
             )
         }
     }
     
-    func testInit_rationalRate_Typical() {
+    func testInit_rate_Typical() {
         // 24p
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (24, 1)),
+            VideoFrameRate(rate: Fraction(24, 1)),
             ._24p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (240, 10)),
+            VideoFrameRate(rate: Fraction(240, 10)),
             ._24p
         )
         
         // 25p
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (25, 1), interlaced: false),
+            VideoFrameRate(rate: Fraction(25, 1), interlaced: false),
             ._25p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (250, 10), interlaced: false),
+            VideoFrameRate(rate: Fraction(250, 10), interlaced: false),
             ._25p
         )
         
         // 25i
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (25, 1), interlaced: true),
+            VideoFrameRate(rate: Fraction(25, 1), interlaced: true),
             ._25i
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (250, 10), interlaced: true),
+            VideoFrameRate(rate: Fraction(250, 10), interlaced: true),
             ._25i
         )
         
         // 30p
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (30, 1)),
+            VideoFrameRate(rate: Fraction(30, 1)),
             ._30p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalRate: (300, 10)),
+            VideoFrameRate(rate: Fraction(300, 10)),
             ._30p
         )
         
         // edge cases
         
         // check for division by zero etc.
-        XCTAssertNil(VideoFrameRate(rationalRate: (0, 0)))
-        XCTAssertNil(VideoFrameRate(rationalRate: (1, 0)))
-        XCTAssertNil(VideoFrameRate(rationalRate: (0, 1)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(0, 0)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(1, 0)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(0, 1)))
         
         // negative numbers
-        XCTAssertNil(VideoFrameRate(rationalRate: (0, -1)))
-        XCTAssertNil(VideoFrameRate(rationalRate: (-1, 0)))
-        XCTAssertNil(VideoFrameRate(rationalRate: (-1, -1)))
-        XCTAssertEqual(VideoFrameRate(rationalRate: (-30, -1)), ._30p)
-        XCTAssertNil(VideoFrameRate(rationalRate: (-30, 1)))
-        XCTAssertNil(VideoFrameRate(rationalRate: (30, -1)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(0, -1)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(-1, 0)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(-1, -1)))
+        XCTAssertEqual(VideoFrameRate(rate: Fraction(-30, -1)), ._30p)
+        XCTAssertNil(VideoFrameRate(rate: Fraction(-30, 1)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(30, -1)))
         
         // nonsense
-        XCTAssertNil(VideoFrameRate(rationalRate: (12345, 1000)))
+        XCTAssertNil(VideoFrameRate(rate: Fraction(12345, 1000)))
     }
     
-    func testInit_rationalFrameDuration_allCases() {
+    func testInit_frameDuration_allCases() {
         VideoFrameRate.allCases.forEach { fRate in
-            let num = fRate.rationalFrameDuration.numerator
-            let den = fRate.rationalFrameDuration.denominator
+            let num = fRate.frameDuration.numerator
+            let den = fRate.frameDuration.denominator
             let interlaced = fRate.isInterlaced
             
             XCTAssertEqual(
-                VideoFrameRate(rationalFrameDuration: (num, den), interlaced: interlaced),
+                VideoFrameRate(frameDuration: Fraction(num, den), interlaced: interlaced),
                 fRate
             )
         }
     }
     
-    func testInit_rationalFrameDuration_Typical() {
+    func testInit_frameDuration_Typical() {
         // 24p
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (1, 24)),
+            VideoFrameRate(frameDuration: Fraction(1, 24)),
             ._24p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (10, 240)),
+            VideoFrameRate(frameDuration: Fraction(10, 240)),
             ._24p
         )
         
         // 25p
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (1, 25), interlaced: false),
+            VideoFrameRate(frameDuration: Fraction(1, 25), interlaced: false),
             ._25p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (10, 250), interlaced: false),
+            VideoFrameRate(frameDuration: Fraction(10, 250), interlaced: false),
             ._25p
         )
         
         // 25i
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (1, 25), interlaced: true),
+            VideoFrameRate(frameDuration: Fraction(1, 25), interlaced: true),
             ._25i
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (10, 250), interlaced: true),
+            VideoFrameRate(frameDuration: Fraction(10, 250), interlaced: true),
             ._25i
         )
         
         // 30p
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (1, 30)),
+            VideoFrameRate(frameDuration: Fraction(1, 30)),
             ._30p
         )
         XCTAssertEqual(
-            VideoFrameRate(rationalFrameDuration: (10, 300)),
+            VideoFrameRate(frameDuration: Fraction(10, 300)),
             ._30p
         )
         
         // edge cases
         
         // check for division by zero etc.
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, 0)))
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, 1)))
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1, 0)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(0, 0)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(0, 1)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(1, 0)))
         
         // negative numbers
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, 0)))
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (0, -1)))
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, -1)))
-        XCTAssertEqual(VideoFrameRate(rationalFrameDuration: (-1, -30)), ._30p)
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1, -30)))
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (-1, 30)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(-1, 0)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(0, -1)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(-1, -1)))
+        XCTAssertEqual(VideoFrameRate(frameDuration: Fraction(-1, -30)), ._30p)
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(1, -30)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(-1, 30)))
         
         // nonsense
-        XCTAssertNil(VideoFrameRate(rationalFrameDuration: (1000, 12345)))
+        XCTAssertNil(VideoFrameRate(frameDuration: Fraction(1000, 12345)))
     }
 }
 
@@ -210,50 +210,50 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
 import CoreMedia
 
 class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
-    func test_init_rationalRate_CMTime() {
+    func test_init_rate_CMTime() {
         XCTAssertEqual(
             VideoFrameRate(
-                rationalRate: CMTime(value: 30000, timescale: 1001),
+                rate: CMTime(value: 30000, timescale: 1001),
                 interlaced: false
             ),
             ._29_97p
         )
         XCTAssertEqual(
             VideoFrameRate(
-                rationalRate: CMTime(value: 30000, timescale: 1001),
+                rate: CMTime(value: 30000, timescale: 1001),
                 interlaced: true
             ),
             ._29_97i
         )
     }
     
-    func test_init_rationalFrameDuration_CMTime() {
+    func test_init_frameDuration_CMTime() {
         XCTAssertEqual(
             VideoFrameRate(
-                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                frameDuration: CMTime(value: 1001, timescale: 30000),
                 interlaced: false
             ),
             ._29_97p
         )
         XCTAssertEqual(
             VideoFrameRate(
-                rationalFrameDuration: CMTime(value: 1001, timescale: 30000),
+                frameDuration: CMTime(value: 1001, timescale: 30000),
                 interlaced: true
             ),
             ._29_97i
         )
     }
     
-    func testRationalRateCMTime() throws {
+    func testrateCMTime() throws {
         XCTAssertEqual(
-            VideoFrameRate._29_97p.rationalRateCMTime,
+            VideoFrameRate._29_97p.rateCMTime,
             CMTime(value: 30000, timescale: 1001)
         )
     }
     
-    func testRationalFrameDurationCMTime() throws {
+    func testframeDurationCMTime() throws {
         // spot-check
-        XCTAssertEqual(VideoFrameRate._29_97p.rationalFrameDurationCMTime,
+        XCTAssertEqual(VideoFrameRate._29_97p.frameDurationCMTime,
                        CMTime(value: 1001, timescale: 30000))
         
         // ensure the CMTime instance returns correct 1 frame duration in seconds.
@@ -261,7 +261,7 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
         try VideoFrameRate.allCases.forEach {
-            let cmTimeSeconds = $0.rationalFrameDurationCMTime.seconds
+            let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
             let oneFrameDuration = try TCC(f: 1)
                 .toTimecode(at: $0.timecodeFrameRate(drop: false)!)
