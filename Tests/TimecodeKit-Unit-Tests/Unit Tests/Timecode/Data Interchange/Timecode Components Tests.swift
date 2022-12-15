@@ -257,7 +257,7 @@ class Timecode_Components_Tests: XCTestCase {
         )
     }
     
-    func testTCC_toTimeCode_rawValuesAt() throws {
+    func testTCC_toTimecode_rawValuesAt() throws {
         // toTimecode(rawValuesAt:)
         
         XCTAssertEqual(
