@@ -25,7 +25,7 @@ extension Timecode {
     /// - Throws: ``ValidationError`` or ``StringParseError``
     public init(
         _ exactlyTimecodeString: String,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -45,7 +45,7 @@ extension Timecode {
     /// - Throws: ``StringParseError``
     public init(
         clamping timecodeString: String,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -68,7 +68,7 @@ extension Timecode {
     /// - Throws: ``StringParseError``
     public init(
         clampingEach timecodeString: String,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -90,7 +90,7 @@ extension Timecode {
     /// - Throws: ``StringParseError``
     public init(
         wrapping timecodeString: String,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -112,7 +112,7 @@ extension Timecode {
     /// - Throws: ``StringParseError``
     public init(
         rawValues timecodeString: String,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -446,7 +446,7 @@ extension String {
     /// Returns an instance of `Timecode(exactly:)`.
     /// If the string is not a valid timecode string, it returns nil.
     public func toTimecode(
-        at rate: Timecode.FrameRate,
+        at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
@@ -463,7 +463,7 @@ extension String {
     /// Returns an instance of `Timecode(rawValues:)`.
     /// If the string is not a valid timecode string, it returns nil.
     public func toTimecode(
-        rawValuesAt rate: Timecode.FrameRate,
+        rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()

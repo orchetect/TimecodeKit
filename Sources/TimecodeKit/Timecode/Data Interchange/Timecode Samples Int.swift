@@ -15,7 +15,7 @@ extension Timecode {
     public init(
         samples exactly: Int,
         sampleRate: Int,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -40,7 +40,7 @@ extension Timecode {
     public init(
         clampingSamples source: Int,
         sampleRate: Int,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -65,7 +65,7 @@ extension Timecode {
     public init(
         wrappingSamples source: Int,
         sampleRate: Int,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
@@ -90,7 +90,7 @@ extension Timecode {
     public init(
         rawValuesSamples source: Int,
         sampleRate: Int,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()

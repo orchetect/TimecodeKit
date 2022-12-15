@@ -9,12 +9,12 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_DI_Components_Tests: XCTestCase {
+class Timecode_Components_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
     func testTimecode_init_Components_Exactly() throws {
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 TCC(d: 0, h: 0, m: 0, s: 0, f: 0),
                 at: $0,
@@ -29,7 +29,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
             XCTAssertEqual(tc.subFrames, 0, "for \($0)")
         }
         
-        try Timecode.FrameRate.allCases.forEach {
+        try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 TCC(d: 0, h: 1, m: 2, s: 3, f: 4),
                 at: $0,
@@ -72,7 +72,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
     }
     
     func testTimecode_init_Components_Wrapping() {
-        Timecode.FrameRate.allCases.forEach {
+        TimecodeFrameRate.allCases.forEach {
             let tc = Timecode(
                 wrapping: TCC(h: 25),
                 at: $0,
@@ -89,7 +89,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
     }
     
     func testTimecode_init_Components_RawValues() {
-        Timecode.FrameRate.allCases.forEach {
+        TimecodeFrameRate.allCases.forEach {
             let tc = Timecode(
                 rawValues: TCC(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 99),
                 at: $0,
@@ -257,7 +257,7 @@ class Timecode_UT_DI_Components_Tests: XCTestCase {
         )
     }
     
-    func testTCC_toTimeCode_rawValuesAt() throws {
+    func testTCC_toTimecode_rawValuesAt() throws {
         // toTimecode(rawValuesAt:)
         
         XCTAssertEqual(

@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_UpperLimit: XCTestCase {
+class Timecode_UpperLimit: XCTestCase {
     func test24Hours() {
         let upperLimit: Timecode.UpperLimit = ._24hours
         

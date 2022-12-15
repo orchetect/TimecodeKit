@@ -26,6 +26,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 - Convert timecode values to timecode display string, and vice-versa
 - Convert timecode values to real wall-clock time, and vice-versa
 - Convert timecode to # of samples at any audio sample-rate, and vice-versa
+- Convert timecode and/or frame rate to a rational fraction, and vice-versa (including `CMTime`)
 - Support for Subframes
 - Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
 - Common math operations between timecodes: add, subtract, multiply, divide
@@ -75,7 +76,7 @@ Note: This documentation does not cover every property and initializer available
   - [Real Time](#Real-Time)
   - [Audio Samples](#Audio-Samples)
 - [Validation](#Validation)
-  - [Timecode Component Validtion](#Timecode-Component-Validation)
+  - [Timecode Component Validation](#Timecode-Component-Validation)
   - [NSAttributedString](#Timecode-Validation-NSAttributedString)
   - [SwiftUI Text](#Timecode-Validation-SwiftUI-Text)
   - [NSFormatter](#Timecode-Validation-NSFormatter)
@@ -84,6 +85,10 @@ Note: This documentation does not cover every property and initializer available
   - [Subframes Component](#Subframes-Component)
   - [Comparable](#Comparable)
   - [Range, Strideable](#Range-Strideable)
+  - [Rational Number Expression](#Rational-Number-Expression)
+  - [CMTime Conversion](#CMTime-Conversion)
+  - [Timecode Intervals](#Timecode-Intervals)
+  - [Timecode Transformer](#Timecode-Transformer)
 
 ### Initialization
 
@@ -515,7 +520,43 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 01:00:00:20
 ```
 
-## Timecode intervals and 'negative' timecode
+#### Rational Number Expression
+
+Some video metadata and timeline interchange files (AAF, Final Cut Pro XML) encode frame rate and timecode as rational numbers (a fraction consisting of two integers - a numerator and a denominator).
+
+`TimecodeFrameRate` and `VideoFrameRate` are both capable of initializing from a rational fraction, and also provide a `rationalRate` and `rationalFrameDuration` property that provides this fraction.
+
+Since drop-frame is not encodable in a rational fraction, it must be imperatively supplied.
+
+```swift
+// fraction representing the duration of 1 frame
+TimecodeFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97
+// fraction representing the fps
+TimecodeFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97
+
+// fraction representing the duration of 1 frame
+VideoFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97p
+// fraction representing the fps
+VideoFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97p
+```
+
+`Timecode` is capable of initializing from an elapsed time expressed as a rational fraction using the `init?(rational:)` initializer. The `rationalValue` property returns the `Timecode`'s elapsed time expressed as a rational fraction.
+
+```swift
+try Timecode(rational: (1920919, 30000), at: ._29_97)
+    .stringValue // == "00:01:03;29"
+
+try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
+    .rationalValue // == (920919, 30000)
+```
+
+#### CMTime Conversion
+
+`CMTime` is a type exported by the Core Media framework (and used pervasively in AVFoundation). It represents time as a rational fraction of a `value` in a `timescale`.
+
+`Timecode`, as well as `TimecodeFrameRate` and `VideoFrameRate` can convert to/from `CMTime` using the respective inits and properties.
+
+#### Timecode Intervals
 
 The `TimecodeInterval` struct wraps a `Timecode` instance and adds a sign (positive of negative).
 
@@ -544,7 +585,7 @@ let interval = try -Timecode(TCC(h: 01), at: ._24) // negative
 let interval = try +Timecode(TCC(h: 01), at: ._24) // positive
 ```
 
-## Timecode transformer
+#### Timecode Transformer
 
 `TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a ` Timecode` instance.
 

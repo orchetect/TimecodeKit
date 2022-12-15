@@ -9,14 +9,14 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_Validation_Tests: XCTestCase {
+class Timecode_Validation_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
     func testValidWithinRanges() {
         // typical valid values
         
-        let fr = Timecode.FrameRate._24
+        let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
         let tc = Timecode(at: fr, limit: limit)
@@ -38,7 +38,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
     func testInvalidOverRanges() {
         // invalid - over ranges
         
-        let fr = Timecode.FrameRate._24
+        let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
         var tc = Timecode(at: fr, limit: limit)
@@ -62,7 +62,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
     func testInvalidUnderRanges() {
         // invalid - under ranges
         
-        let fr = Timecode.FrameRate._24
+        let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
         var tc = Timecode(at: fr, limit: limit)
@@ -86,7 +86,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
     func testDropFrame() {
         // perform a spot-check to ensure drop rate timecode validation works as expected
         
-        Timecode.FrameRate.allDrop.forEach {
+        TimecodeFrameRate.allDrop.forEach {
             let limit = Timecode.UpperLimit._24hours
             
             // every 10 minutes, no frames are skipped
@@ -187,7 +187,7 @@ class Timecode_UT_Validation_Tests: XCTestCase {
         XCTAssertEqual(mf.doubleValue, 2_073_599.9875)
         
         let tcc = Timecode.components(
-            from: mf,
+            of: mf,
             at: tc.frameRate
         )
         

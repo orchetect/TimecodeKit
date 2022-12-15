@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_FrameCount_Tests: XCTestCase {
+class FrameCount_Tests: XCTestCase {
     func testInit_frameCount() {
         let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
         

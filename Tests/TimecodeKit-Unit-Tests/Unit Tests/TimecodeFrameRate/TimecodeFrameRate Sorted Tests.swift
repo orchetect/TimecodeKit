@@ -1,5 +1,5 @@
 //
-//  FrameRate Sorted Tests.swift
+//  TimecodeFrameRate Sorted Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -9,16 +9,16 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_FrameRate_Sorted_Tests: XCTestCase {
+class TimecodeFrameRate_Sorted_Tests: XCTestCase {
     func testSortOrder() {
-        let unsorted: [Timecode.FrameRate] = [
+        let unsorted: [TimecodeFrameRate] = [
             ._29_97,
             ._30,
             ._24,
             ._120
         ]
         
-        let correctOrder: [Timecode.FrameRate] = [
+        let correctOrder: [TimecodeFrameRate] = [
             ._24,
             ._29_97,
             ._30,

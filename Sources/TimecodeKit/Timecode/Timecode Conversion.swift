@@ -16,7 +16,7 @@ extension Timecode {
     ///
     /// - Note: this process may be lossy.
     public func converted(
-        to newFrameRate: FrameRate,
+        to newFrameRate: TimecodeFrameRate,
         preservingValues: Bool = false
     ) throws -> Timecode {
         // just return self if frameRate is equal

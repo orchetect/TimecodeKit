@@ -16,7 +16,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public init(
         _ exactly: FrameCount,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         format: StringFormat = .default()
     ) throws {
@@ -34,7 +34,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     public init(
         clamping source: FrameCount,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         format: StringFormat = .default()
     ) {
@@ -52,7 +52,7 @@ extension Timecode {
     /// Timecode will be wrapped around the timecode clock if out-of-bounds.
     public init(
         wrapping source: FrameCount,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         format: StringFormat = .default()
     ) {
@@ -69,7 +69,7 @@ extension Timecode {
     /// Allows for invalid raw values (in this case, unbounded Days component).
     public init(
         rawValues source: FrameCount,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         format: StringFormat = .default()
     ) {
@@ -192,7 +192,7 @@ extension Timecode {
     /// Calculates total frames from given values at the current frame rate.
     public static func frameCount(
         of values: Components,
-        at frameRate: FrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default()
     ) -> FrameCount {
         let subFramesUnitInterval = Double(values.sf) / Double(base.rawValue)
@@ -237,7 +237,7 @@ extension Timecode {
     /// (You can add subframes afterward to the `sf` property if needed.)
     public static func components(
         of frameCount: FrameCount,
-        at frameRate: FrameRate
+        at frameRate: TimecodeFrameRate
     ) -> Components {
         // prep vars
         

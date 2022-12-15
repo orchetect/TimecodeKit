@@ -24,7 +24,7 @@ extension Timecode.Components {
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
     public func invalidComponents(
-        at frameRate: Timecode.FrameRate,
+        at frameRate: TimecodeFrameRate,
         limit: Timecode.UpperLimit,
         base: Timecode.SubFramesBase
     ) -> Set<Timecode.Component> {
@@ -42,7 +42,7 @@ extension Timecode {
     /// A fully valid timecode will return an empty set.
     public static func invalidComponents(
         in components: TCC,
-        at frameRate: FrameRate,
+        at frameRate: TimecodeFrameRate,
         limit: UpperLimit,
         base: SubFramesBase
     ) -> Set<Component> {
@@ -134,7 +134,7 @@ extension Timecode.Components {
     /// Returns valid range of values for a timecode component.
     public func validRange(
         of component: Timecode.Component,
-        at rate: Timecode.FrameRate,
+        at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit,
         base: Timecode.SubFramesBase
     ) -> (ClosedRange<Int>) {

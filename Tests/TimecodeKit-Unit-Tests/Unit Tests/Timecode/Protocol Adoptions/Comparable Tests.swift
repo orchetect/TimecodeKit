@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_Comparable_Tests: XCTestCase {
+class Timecode_Comparable_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -32,7 +32,7 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
             try "01:00:00:00".toTimecode(at: ._24)
         )
         
-        try Timecode.FrameRate.allCases.forEach { frameRate in
+        try TimecodeFrameRate.allCases.forEach { frameRate in
             XCTAssertEqual(
                 try "01:00:00:00".toTimecode(at: frameRate),
                 try "01:00:00:00".toTimecode(at: frameRate)
@@ -66,7 +66,7 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
                 > "01:00:00:00".toTimecode(at: ._23_976)
         )
         
-        try Timecode.FrameRate.allCases.forEach { frameRate in
+        try TimecodeFrameRate.allCases.forEach { frameRate in
             XCTAssertTrue(
                 try "01:00:00:00".toTimecode(at: frameRate) <
                     "01:00:00:01".toTimecode(at: frameRate),
@@ -82,7 +82,7 @@ class Timecode_UT_Comparable_Tests: XCTestCase {
     }
     
     func testTimecode_Comparable_Sorted() throws {
-        try Timecode.FrameRate.allCases.forEach { frameRate in
+        try TimecodeFrameRate.allCases.forEach { frameRate in
             let presortedTimecodes: [Timecode] = [
                 try "00:00:00:00".toTimecode(at: frameRate),
                 try "00:00:00:01".toTimecode(at: frameRate),

@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_TimecodeInterval_Tests: XCTestCase {
+class TimecodeInterval_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     

@@ -9,7 +9,7 @@
 import XCTest
 @testable import TimecodeKit
 
-class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
+class Timecode_FrameCount_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -85,7 +85,7 @@ class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
         
         // also helps ensure Strideable .distance(to:) returns the correct values
         
-        Timecode.FrameRate.allCases.forEach {
+        TimecodeFrameRate.allCases.forEach {
             // max frames in 24 hours
             
             var maxFramesIn24hours: Int
@@ -122,7 +122,7 @@ class Timecode_UT_DI_FrameCount_Tests: XCTestCase {
         
         // number of total elapsed frames in (24 hours - 1 frame), or essentially the maximum timecode expressible for each frame rate
         
-        Timecode.FrameRate.allCases.forEach {
+        TimecodeFrameRate.allCases.forEach {
             // max frames in 24 hours - 1
             
             var maxFramesExpressibleIn24hours: Int

@@ -14,7 +14,7 @@ extension Timecode {
     @available(*, deprecated, renamed: "components(of:at:)")
     public static func components(
         from frameCount: FrameCount,
-        at frameRate: FrameRate
+        at frameRate: TimecodeFrameRate
     ) -> Components {
         components(of: frameCount, at: frameRate)
     }
@@ -27,7 +27,7 @@ extension Timecode {
     @available(*, deprecated, renamed: "init(realTime:at:limit:base:format:)")
     public init(
         realTimeValue exactly: TimeInterval,
-        at rate: FrameRate,
+        at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()

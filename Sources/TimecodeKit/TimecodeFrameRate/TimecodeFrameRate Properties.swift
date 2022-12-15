@@ -1,12 +1,12 @@
 //
-//  FrameRate Properties.swift
+//  TimecodeFrameRate Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: stringValue
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns human-readable frame rate string.
     public var stringValue: String {
         switch self {
@@ -59,7 +59,7 @@ extension Timecode.FrameRate {
         }
     }
     
-    /// Initializes from a `stringValue` string. Case-sensitive.
+    /// Initializes from a ``stringValue`` string. Case-sensitive.
     public init?(stringValue: String) {
         if let findMatch = Self.allCases
             .first(where: { $0.stringValue == stringValue })
@@ -73,40 +73,75 @@ extension Timecode.FrameRate {
 
 // MARK: Public meta properties
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Returns the frame rate expressed as a rational number (fraction).
+    ///
+    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
+    /// preserved whenever this information is encoded elsewhere.
     ///
     ///     // == frame rate
     ///     Double(numerator) / Double(denominator)
     ///
     ///     // == duration of 1 frame in seconds
     ///     Double(denominator) / Double(numerator)
-    public var fraction: (numerator: Int, denominator: Int) {
+    public var rate: Fraction {
         switch self {
-        case ._23_976:      return (numerator: 24000,   denominator: 1001)
-        case ._24:          return (numerator: 24,      denominator: 1)
-        case ._24_98:       return (numerator: 25000,   denominator: 1001)
-        case ._25:          return (numerator: 25,      denominator: 1)
-        case ._29_97:       return (numerator: 30000,   denominator: 1001)
-        case ._29_97_drop:  return (numerator: 30000,   denominator: 1001)
-        case ._30:          return (numerator: 30,      denominator: 1)
-        case ._30_drop:     return (numerator: 30,      denominator: 1)
-        case ._47_952:      return (numerator: 48000,   denominator: 1001)
-        case ._48:          return (numerator: 48,      denominator: 1)
-        case ._50:          return (numerator: 50,      denominator: 1)
-        case ._59_94:       return (numerator: 60000,   denominator: 1001)
-        case ._59_94_drop:  return (numerator: 60000,   denominator: 1001)
-        case ._60:          return (numerator: 60,      denominator: 1)
-        case ._60_drop:     return (numerator: 60,      denominator: 1)
-        case ._100:         return (numerator: 100,     denominator: 1)
-        case ._119_88:      return (numerator: 120_000, denominator: 1001)
-        case ._119_88_drop: return (numerator: 120_000, denominator: 1001)
-        case ._120:         return (numerator: 120,     denominator: 1)
-        case ._120_drop:    return (numerator: 120,     denominator: 1)
+        case ._23_976:      return Fraction(24000,   1001)
+        case ._24:          return Fraction(24,      1)
+        case ._24_98:       return Fraction(25000,   1001)
+        case ._25:          return Fraction(25,      1)
+        case ._29_97:       return Fraction(30000,   1001)
+        case ._29_97_drop:  return Fraction(30000,   1001)
+        case ._30:          return Fraction(30,      1)
+        case ._30_drop:     return Fraction(30,      1)
+        case ._47_952:      return Fraction(48000,   1001)
+        case ._48:          return Fraction(48,      1)
+        case ._50:          return Fraction(50,      1)
+        case ._59_94:       return Fraction(60000,   1001)
+        case ._59_94_drop:  return Fraction(60000,   1001)
+        case ._60:          return Fraction(60,      1)
+        case ._60_drop:     return Fraction(60,      1)
+        case ._100:         return Fraction(100,     1)
+        case ._119_88:      return Fraction(120_000, 1001)
+        case ._119_88_drop: return Fraction(120_000, 1001)
+        case ._120:         return Fraction(120,     1)
+        case ._120_drop:    return Fraction(120,     1)
         }
     }
     
-    /// Returns true if frame rate is drop.
+    /// Returns the duration of 1 frame as a rational number (fraction).
+    ///
+    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
+    /// preserved whenever this information is encoded elsewhere.
+    ///
+    /// - Note: Compatible with FCP XML v1.6 - 1.9.
+    ///         Potentially compatible outside of that range but untested.
+    public var frameDuration: Fraction {
+        switch self {
+        case ._23_976:      return Fraction(1001, 24000)
+        case ._24:          return Fraction(100,  2400)
+        case ._24_98:       return Fraction(1001, 25000) // TODO: inferred
+        case ._25:          return Fraction(100,  2500)
+        case ._29_97:       return Fraction(1001, 30000)
+        case ._29_97_drop:  return Fraction(1001, 30000)
+        case ._30:          return Fraction(100,  3000)
+        case ._30_drop:     return Fraction(100,  3000) // TODO: needs checking
+        case ._47_952:      return Fraction(1001, 48000) // TODO: inferred
+        case ._48:          return Fraction(100,  4800)
+        case ._50:          return Fraction(100,  5000)
+        case ._59_94:       return Fraction(1001, 60000) // TODO: inferred
+        case ._59_94_drop:  return Fraction(1001, 60000) // TODO: inferred
+        case ._60:          return Fraction(100,  6000)
+        case ._60_drop:     return Fraction(100,  6000) // TODO: needs checking
+        case ._100:         return Fraction(100,  10000)
+        case ._119_88:      return Fraction(1001, 120000) // TODO: inferred
+        case ._119_88_drop: return Fraction(1001, 120000) // TODO: inferred
+        case ._120:         return Fraction(100,  12000)
+        case ._120_drop:    return Fraction(100,  12000) // TODO: needs checking
+        }
+    }
+    
+    /// Returns `true` if frame rate is drop.
     public var isDrop: Bool {
         switch self {
         case ._23_976:      return false
@@ -228,7 +263,7 @@ extension Timecode.FrameRate {
 
 // MARK: Internal properties
 
-extension Timecode.FrameRate {
+extension TimecodeFrameRate {
     /// Internal use.
     /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
     internal var maxFrames: Int {
