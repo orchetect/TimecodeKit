@@ -27,8 +27,6 @@ class Timecode_Rational_Tests: XCTestCase {
         }
     }
     
-    // TODO: add additional tests for clamping/wrapping/rawValues when inits are added
-    
     func testTimecode_init_Rational() throws {
         // these rational fractions and timecodes are taken from actual FCP XML files as known truth
         
@@ -113,6 +111,49 @@ class Timecode_Rational_Tests: XCTestCase {
         }
     }
     
+    func testTimecode_init_Rational_Clamping() {
+        let tc = Timecode(
+            clamping: Fraction(86400 + 3600, 1), // 25 hours @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+        )
+    }
+    
+    func testTimecode_init_Rational_Wrapping() {
+        let tc = Timecode(
+            wrapping: Fraction(86400 + 3600, 1), // 25 hours @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 0)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
+    }
+    
+    func testTimecode_init_Rational_RawValues() {
+        let tc = Timecode(
+            rawValues: Fraction((86400 * 2) + 3600, 1), // 2 days + 1 hour @ 24fps
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(tc.days, 2)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
+    }
+    
     func testDouble_RationalValue() throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
@@ -132,6 +173,13 @@ class Timecode_Rational_Tests: XCTestCase {
         let tc = try TCC(h: 00, m: 00, s: 13, f: 29).toTimecode(at: ._29_97_drop)
         XCTAssertEqual(tc.rationalValue.numerator, 419419)
         XCTAssertEqual(tc.rationalValue.denominator, 30000)
+    }
+    
+    func testFraction_toTimecode() throws {
+        XCTAssertEqual(
+            try Fraction(3600, 1).toTimecode(at: ._24).components,
+            TCC(h: 1)
+        )
     }
 }
 
