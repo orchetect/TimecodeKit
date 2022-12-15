@@ -13,18 +13,23 @@ extension VideoFrameRate {
     ///   - drop: Whether timecode frame rate is drop or non-drop.
     public func timecodeFrameRate(drop: Bool) -> TimecodeFrameRate? {
         switch self {
-        case ._23_98p: return drop ? nil          : ._23_976
-        case ._24p:    return drop ? nil          : ._24
-        case ._25p:    return drop ? nil          : ._25
-        case ._25i:    return drop ? nil          : ._25
-        case ._29_97p: return drop ? ._29_97_drop : ._29_97
-        case ._29_97i: return drop ? ._29_97_drop : ._29_97
-        case ._30p:    return drop ? ._30_drop    : ._30
-        case ._50p:    return drop ? nil          : ._50
-        case ._50i:    return drop ? nil          : ._50
-        case ._59_94p: return drop ? ._59_94_drop : ._59_94
-        case ._60p:    return drop ? ._60_drop    : ._60
-        case ._60i:    return drop ? nil          : ._60
+        case ._23_98p:  return drop ? nil           : ._23_976
+        case ._24p:     return drop ? nil           : ._24
+        case ._25p:     return drop ? nil           : ._25
+        case ._25i:     return drop ? nil           : ._25
+        case ._29_97p:  return drop ? ._29_97_drop  : ._29_97
+        case ._29_97i:  return drop ? ._29_97_drop  : ._29_97
+        case ._30p:     return drop ? ._30_drop     : ._30
+        case ._47_592p: return drop ? nil           : ._47_952
+        case ._48:      return drop ? nil           : ._48
+        case ._50p:     return drop ? nil           : ._50
+        case ._50i:     return drop ? nil           : ._50
+        case ._59_94p:  return drop ? ._59_94_drop  : ._59_94
+        case ._60p:     return drop ? ._60_drop     : ._60
+        case ._60i:     return drop ? nil           : ._60
+        case ._100p:    return drop ? nil           : ._100
+        case ._119_88p: return drop ? ._119_88_drop : ._119_88
+        case ._120p:    return drop ? nil           : ._120
         }
     }
     

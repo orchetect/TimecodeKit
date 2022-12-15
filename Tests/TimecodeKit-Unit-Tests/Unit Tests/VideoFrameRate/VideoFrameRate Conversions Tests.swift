@@ -244,14 +244,14 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
         )
     }
     
-    func testrateCMTime() throws {
+    func testRateCMTime() throws {
         XCTAssertEqual(
             VideoFrameRate._29_97p.rateCMTime,
             CMTime(value: 30000, timescale: 1001)
         )
     }
     
-    func testframeDurationCMTime() throws {
+    func testFrameDurationCMTime() throws {
         // spot-check
         XCTAssertEqual(VideoFrameRate._29_97p.frameDurationCMTime,
                        CMTime(value: 1001, timescale: 30000))

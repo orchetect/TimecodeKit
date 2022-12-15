@@ -33,6 +33,16 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     /// 30 fps progressive.
     case _30p = "30p"
     
+    /// 47.952 fps progressive.
+    ///
+    /// Supported by Avid.
+    case _47_592p = "47.592p"
+    
+    /// 48 fps progressive.
+    ///
+    /// Supported by Avid.
+    case _48 = "48p"
+    
     /// 50 fps progressive.
     case _50p = "50p"
     
@@ -49,6 +59,21 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     /// 60 fps interlaced.
     /// (120 fields producing 60 frames.)
     case _60i = "60i"
+    
+    /// 100 fps progressive.
+    /// 
+    /// Supported by Avid. (Not qualified for smooth playback)
+    case _100p = "100p"
+    
+    /// 119.88 fps progressive.
+    ///
+    /// Supported by Avid. (Not qualified for smooth playback)
+    case _119_88p = "119.88p"
+    
+    /// 120 fps progressive.
+    ///
+    /// Supported by Avid. (Not qualified for smooth playback)
+    case _120p = "120p"
 }
 
 extension VideoFrameRate: CaseIterable { }
