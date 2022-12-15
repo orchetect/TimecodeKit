@@ -41,9 +41,18 @@ public struct Fraction {
 }
 
 extension Fraction: Equatable {
+    /// Performs a comparison against literal values.
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.numerator == rhs.numerator
         && lhs.denominator == rhs.denominator
+    }
+    
+    /// Returns `true` if both fractions are mathematically equal (can reduce to the same values).
+    public func isEqual(to other: Self) -> Bool {
+        let lhsReduced = self.reduced().normalized()
+        let rhsReduced = other.reduced().normalized()
+        
+        return lhsReduced == rhsReduced
     }
 }
 

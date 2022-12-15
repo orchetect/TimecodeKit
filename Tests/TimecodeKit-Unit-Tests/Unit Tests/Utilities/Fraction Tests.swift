@@ -13,7 +13,13 @@ class Fraction_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testFractionInitReduced() {
+    func testIsEqual() {
+        XCTAssertTrue(Fraction(2, 4).isEqual(to: Fraction(2, 4)))
+        XCTAssertTrue(Fraction(2, 4).isEqual(to: Fraction(1, 2)))
+        XCTAssertTrue(Fraction(-1, -2).isEqual(to: Fraction(1, 2)))
+    }
+    
+    func testFractionInitReducing() {
         let frac = Fraction(reducing: 4, 2)
         XCTAssertEqual(frac, Fraction(2, 1))
         XCTAssertEqual(frac.isSimplestForm, true)
