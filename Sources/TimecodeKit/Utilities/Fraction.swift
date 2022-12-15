@@ -13,7 +13,7 @@ public struct Fraction {
     
     private let _isSimplestForm: Bool?
     public var isSimplestForm: Bool {
-        if let _isSimplestForm, _isSimplestForm { return _isSimplestForm }
+        if let _isSimplestForm = _isSimplestForm, _isSimplestForm { return _isSimplestForm }
         let reduced = reduced()
         return self == reduced
     }
