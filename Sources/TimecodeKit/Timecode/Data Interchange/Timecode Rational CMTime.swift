@@ -9,6 +9,7 @@
 import Foundation
 import CoreMedia
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension Timecode {
     /// Instance from elapsed time `CMTime`.
     ///
@@ -99,6 +100,7 @@ extension Timecode {
 
 // MARK: - Get and Set
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension Timecode {
     /// Returns the time location as a `CMTime` instance.
     ///
@@ -157,6 +159,7 @@ extension Timecode {
     }
 }
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension CMTime {
     /// Convenience method to create an `Timecode` struct using the default
     /// `(_ exactly:)` initializer.
