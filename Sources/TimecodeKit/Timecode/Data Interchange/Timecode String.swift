@@ -445,6 +445,8 @@ extension Timecode {
 extension String {
     /// Returns an instance of `Timecode(exactly:)`.
     /// If the string is not a valid timecode string, it returns nil.
+    ///
+    /// - Throws: ``ValidationError`` or ``StringParseError``
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -462,6 +464,8 @@ extension String {
     
     /// Returns an instance of `Timecode(rawValues:)`.
     /// If the string is not a valid timecode string, it returns nil.
+    ///
+    /// - Throws: ``StringParseError``
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,

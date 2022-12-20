@@ -30,7 +30,7 @@ class Timecode_RealTime_Tests: XCTestCase {
             )
             
             // don't imperatively check each result, just make sure that a value was set;
-            // realTimeValue setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
+            // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
             XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
         }
     }

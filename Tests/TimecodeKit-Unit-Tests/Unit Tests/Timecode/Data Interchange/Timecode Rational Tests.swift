@@ -22,7 +22,7 @@ class Timecode_Rational_Tests: XCTestCase {
             )
             
             // don't imperatively check each result, just make sure that a value was set;
-            // samples setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
+            // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
             XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
         }
     }
@@ -154,7 +154,7 @@ class Timecode_Rational_Tests: XCTestCase {
         XCTAssertEqual(tc.subFrames, 0)
     }
     
-    func testDouble_RationalValue() throws {
+    func testTimecode_rationalValue() throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
         try TimecodeFrameRate.allCases.forEach { fRate in
@@ -169,7 +169,7 @@ class Timecode_Rational_Tests: XCTestCase {
         }
     }
     
-    func testDouble_RationalValue_SpotCheck() throws {
+    func testTimecode_RationalValue_SpotCheck() throws {
         let tc = try TCC(h: 00, m: 00, s: 13, f: 29).toTimecode(at: ._29_97_drop)
         XCTAssertEqual(tc.rationalValue.numerator, 419419)
         XCTAssertEqual(tc.rationalValue.denominator, 30000)

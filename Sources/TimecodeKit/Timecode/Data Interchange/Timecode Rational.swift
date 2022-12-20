@@ -106,10 +106,6 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    ///
-    /// Coincidentally, evaluating the fraction produces elapsed seconds.
-    /// However if the goal is to produce elapsed seconds, access the
-    /// ``realTimeValue`` property instead.
     public var rationalValue: Fraction {
         let frFrac = frameRate.frameDuration
         let n = frFrac.numerator * frameCount.wholeFrames
@@ -188,6 +184,8 @@ extension Fraction {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
+    ///
+    /// - Throws: ``ValidationError``
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,

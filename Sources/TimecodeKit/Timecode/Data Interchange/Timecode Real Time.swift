@@ -171,6 +171,8 @@ extension Timecode {
 extension TimeInterval {
     /// Convenience method to create an `Timecode` struct using the default
     /// `(_ exactly:)` initializer.
+    ///
+    /// - Throws: ``ValidationError``
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,

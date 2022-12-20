@@ -212,6 +212,8 @@ extension Timecode {
 
 extension Timecode.Components {
     /// Returns an instance of `Timecode(exactly:)`.
+    ///
+    /// - Throws: ``ValidationError``
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
