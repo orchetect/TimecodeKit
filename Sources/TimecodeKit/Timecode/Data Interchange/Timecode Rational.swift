@@ -185,7 +185,7 @@ extension Fraction {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,

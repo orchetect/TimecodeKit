@@ -76,8 +76,9 @@ extension TimecodeFrameRate {
 extension TimecodeFrameRate {
     /// Returns the frame rate expressed as a rational number (fraction).
     ///
-    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
-    /// preserved whenever this information is encoded elsewhere.
+    /// - Note: Drop frame is not embeddable in a fraction. If the frame rate is a timecode
+    /// rate (and not a video rate), its status as a drop or non-drop rate must be stored
+    /// independently and recalled. (``isDrop``)
     ///
     ///     // == frame rate
     ///     Double(numerator) / Double(denominator)
@@ -111,8 +112,9 @@ extension TimecodeFrameRate {
     
     /// Returns the duration of 1 frame as a rational number (fraction).
     ///
-    /// - Note: Since drop rate is not embeddable in a fraction, the ``isDrop`` flag must be
-    /// preserved whenever this information is encoded elsewhere.
+    /// - Note: Drop frame is not embeddable in a fraction. If the frame rate is a timecode
+    /// rate (and not a video rate), its status as a drop or non-drop rate must be stored
+    /// independently and recalled. (``isDrop``)
     ///
     /// - Note: Compatible with FCP XML v1.6 - 1.9.
     ///         Potentially compatible outside of that range but untested.
