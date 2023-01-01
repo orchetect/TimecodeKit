@@ -108,8 +108,8 @@ extension Timecode {
     /// fractions.)
     public var rationalValue: Fraction {
         let frFrac = frameRate.frameDuration
-        let n = frFrac.numerator * frameCount.wholeFrames
-        let d = frFrac.denominator
+        let n = frFrac.numerator * frameCount.subFrameCount
+        let d = frFrac.denominator * subFramesBase.rawValue
         
         return Fraction(n, d).reduced()
     }
@@ -123,8 +123,8 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(_ rational: Fraction) throws {
-        let frameCount = frameCount(of: rational)
-        try setTimecode(exactly: .frames(frameCount))
+        let frameCount = floatingFrameCount(of: rational)
+        try setTimecode(exactly: .combined(frames: frameCount))
     }
     
     /// Sets the timecode from elapsed time expressed as a rational fraction.
@@ -173,6 +173,16 @@ extension Timecode {
         let frFrac = frameRate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) /
         (rational.denominator * frFrac.numerator)
+        return frameCount
+    }
+    
+    /// Internal:
+    /// Returns frame count of the rational fraction at current frame rate.
+    /// Preserves subframes as floating-point potion of a frame.
+    internal func floatingFrameCount(of rational: Fraction) -> Double {
+        let frFrac = frameRate.frameDuration
+        let frameCount = (Double(rational.numerator) * Double(frFrac.denominator)) /
+        (Double(rational.denominator) * Double(frFrac.numerator))
         return frameCount
     }
 }

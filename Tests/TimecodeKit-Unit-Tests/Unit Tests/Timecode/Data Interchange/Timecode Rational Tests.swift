@@ -181,6 +181,48 @@ class Timecode_Rational_Tests: XCTestCase {
             TCC(h: 1)
         )
     }
+    
+    func testTimecode_RationalValue_Subframes() throws {
+        let tc = try TCC(h: 00, m: 00, s: 01, f: 11, sf: 56)
+            .toTimecode(at: ._25, base: ._80SubFrames)
+        XCTAssertEqual(tc.rationalValue, Fraction(367, 250))
+    }
+    
+    func testTimecode_RationalSubframes() throws {
+        // 00:00:01:11.56 @ 25i fps, 80sf base
+        // this fraction is actually a little past 56 subframes
+        // because it was from FCPXML where it was not on an exact subframe
+        // FYI: when we convert it back to a fraction from timecode,
+        // the fraction ends up 367/250
+        let frac = Fraction(11011, 7500)
+        let tc = try frac.toTimecode(at: ._25, base: ._80SubFrames)
+        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 01, f: 11, sf: 56))
+        XCTAssertEqual(tc.rationalValue, Fraction(367, 250))
+    }
+    
+    func testTimecode_FrameCountOfRational() throws {
+        // 00:00:01:11.56 @ 25i fps, 80sf base
+        // this fraction is actually a little past 56 subframes
+        // because it was from FCPXML where it was not on an exact subframe
+        // FYI: when we convert it back to a fraction from timecode,
+        // the fraction ends up 367/250
+        let frac = Fraction(11011, 7500)
+        let tc = try frac.toTimecode(at: ._25, base: ._80SubFrames)
+        let int = tc.frameCount(of: frac)
+        XCTAssertEqual(int, 36)
+    }
+    
+    func testTimecode_FloatingFrameCountOfRational() throws {
+        // 00:00:01:11.56 @ 25i fps, 80sf base
+        // this fraction is actually a little past 56 subframes
+        // because it was from FCPXML where it was not on an exact subframe
+        // FYI: when we convert it back to a fraction from timecode,
+        // the fraction ends up 367/250
+        let frac = Fraction(11011, 7500)
+        let tc = try frac.toTimecode(at: ._25, base: ._80SubFrames)
+        let float = tc.floatingFrameCount(of: frac)
+        XCTAssertEqual(float, 36.70333333333333)
+    }
 }
 
 #endif
