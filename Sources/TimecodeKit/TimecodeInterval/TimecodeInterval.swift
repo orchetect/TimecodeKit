@@ -7,7 +7,7 @@
 import Foundation
 
 /// Represents an interval duration of timecode, either positive or negative.
-public struct TimecodeInterval {
+public struct TimecodeInterval: Equatable, Hashable {
     /// The interval's absolute distance, stripping sign negation if present.
     /// The ``isNegative`` property determines the delta direction of the interval.
     public let absoluteInterval: Timecode
