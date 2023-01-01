@@ -168,6 +168,7 @@ extension Timecode {
     
     /// Internal:
     /// Returns frame count of the rational fraction at current frame rate.
+    /// Truncates subframes if present.
     internal func frameCount(of rational: Fraction) -> Int {
         let frFrac = frameRate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) /

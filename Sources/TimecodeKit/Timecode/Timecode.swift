@@ -50,21 +50,21 @@ public struct Timecode {
     
     /// Timecode hours component.
     ///
-    /// Valid range: 0-23.
+    /// Valid range: 0 ... 23.
     ///
     /// Setting this value directly does not trigger any validation.
     public var hours: Int = 0
     
     /// Timecode minutes component.
     ///
-    /// Valid range: 0-59.
+    /// Valid range: 0 ... 59.
     ///
     /// Setting this value directly does not trigger any validation.
     public var minutes: Int = 0
     
     /// Timecode seconds component.
     ///
-    /// Valid range: 0-59.
+    /// Valid range: 0 ... 59.
     ///
     /// Setting this value directly does not trigger any validation.
     public var seconds: Int = 0
@@ -76,13 +76,13 @@ public struct Timecode {
     /// Setting this value directly does not trigger any validation.
     public var frames: Int = 0
     
-    /// Timecode subframes component. Represents a fractional division of a frame.
+    /// Timecode subframes component. Represents a partial division of a frame.
     ///
     /// Some implementations refer to these as SMPTE frame "bits".
     ///
-    /// There are no set industry standards regarding subframe divisors. Traditionally Cubase/Nuendo and Logic Pro use 80 subframes per frame (0-79); Pro Tools uses 100 subframes (0-99).
-    ///
-    /// Setting this value directly does not trigger any validation.
+    /// There are no set industry standards regarding subframe divisors.
+    /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79);
+    /// - Pro Tools uses 100 subframes (0 ... 99).
     public var subFrames: Int = 0
 }
 
