@@ -88,6 +88,14 @@ extension Fraction: CustomStringConvertible {
 // MARK: - Operations
 
 extension Fraction {
+    /// Returns the absolute fraction.
+    /// (Returns unmodified if positive, negates if negative.)
+    /// The fraction is also normalized.
+    public func abs() -> Self {
+        let norm = self.normalized()
+        return isNegative ? norm.negated() : norm
+    }
+    
     /// Internal:
     /// Reduce a fraction to its simplest form.
     /// This also normalizes signs.
