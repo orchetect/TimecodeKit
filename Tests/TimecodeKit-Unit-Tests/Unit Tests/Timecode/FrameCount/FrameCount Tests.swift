@@ -140,6 +140,14 @@ class FrameCount_Tests: XCTestCase {
         )
     }
     
+    func testIsNegative() {
+        XCTAssertFalse(Timecode.FrameCount(.frames(0), base: ._100SubFrames).isNegative)
+        XCTAssertFalse(Timecode.FrameCount(.frames(-0), base: ._100SubFrames).isNegative)
+        
+        XCTAssertFalse(Timecode.FrameCount(.frames(1), base: ._100SubFrames).isNegative)
+        XCTAssertTrue(Timecode.FrameCount(.frames(-1), base: ._100SubFrames).isNegative)
+    }
+    
     func testTimecode_framesToSubFrames() {
         XCTAssertEqual(
             Timecode.framesToSubFrames(frames: 500, subFrames: 2, base: ._80SubFrames),
