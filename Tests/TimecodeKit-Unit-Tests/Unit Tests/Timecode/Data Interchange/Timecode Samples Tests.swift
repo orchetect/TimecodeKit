@@ -74,6 +74,23 @@ class Timecode_Samples_Tests: XCTestCase {
         XCTAssertEqual(tc.subFrames, 0)
     }
     
+    func testTimecode_init_Samples_RawValues_Negative() {
+        let tc = Timecode(
+            rawValuesSamples: -((4_147_200_000 * 2) + 172_800_000), // 2 days + 1 hour @ 24fps
+            sampleRate: 48000,
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        // Negates only the largest non-zero component if input is negative
+        XCTAssertEqual(tc.days, -2)
+        XCTAssertEqual(tc.hours, 1)
+        XCTAssertEqual(tc.minutes, 0)
+        XCTAssertEqual(tc.seconds, 0)
+        XCTAssertEqual(tc.frames, 0)
+        XCTAssertEqual(tc.subFrames, 0)
+    }
+    
     func testSamplesGetSet_48KHz() throws {
         // pre-computed constants
         

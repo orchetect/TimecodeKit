@@ -204,7 +204,13 @@ extension Timecode {
         // otherwise, this math produces a samples value that can be a hair under
         // the actual elapsed samples that would convert back to equivalent timecode
         
-        base += 0.0001
+        let magicNumber = 0.0001
+        
+        if rtv < 0 {
+            base -= magicNumber
+        } else {
+            base += magicNumber
+        }
         
         // then derive components
         return Self.components(
