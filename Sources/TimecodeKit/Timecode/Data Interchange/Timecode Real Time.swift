@@ -161,7 +161,14 @@ extension Timecode {
         // over-estimate so real time is just past the equivalent timecode
         // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)
         
-        calc += 0.000_010 // 10 microseconds
+        let magicNumber = 0.000_010 // 10 microseconds
+        
+        switch calc.sign {
+        case .plus:
+            calc += magicNumber
+        case .minus:
+            calc -= magicNumber
+        }
         
         return calc
     }

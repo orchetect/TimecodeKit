@@ -78,6 +78,20 @@ class Timecode_RealTime_Tests: XCTestCase {
         XCTAssertEqual(tc.subFrames, 0)
     }
     
+    func testTimecode_init_RealTimeValue_RawValues_Negative() {
+        let tc = Timecode(
+            rawValuesRealTime: -(3600 + 60 + 5),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        // TODO: it's weird that all values end up negative?
+        XCTAssertEqual(
+            tc.components,
+            TCC(d: 00, h: -01, m: -01, s: -05, f: 00, sf: 00)
+        )
+    }
+    
     func testTimecode_RealTimeValue() throws {
         // get real time
         
