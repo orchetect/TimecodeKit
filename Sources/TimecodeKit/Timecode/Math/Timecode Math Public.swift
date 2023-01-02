@@ -303,12 +303,6 @@ extension Timecode {
         }
     }
     
-    /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
-    @available(*, deprecated, renamed: "interval(to:)")
-    public func delta(to other: Timecode) -> TimecodeInterval {
-        interval(to: other)
-    }
-    
     /// Constructs a new `TimecodeInterval` instance from `self`.
     public func asInterval(_ sign: FloatingPointSign = .plus) -> TimecodeInterval {
         TimecodeInterval(self, sign)

@@ -13,6 +13,15 @@ import Foundation
 extension Timecode {
     @available(*, deprecated, renamed: "TimecodeInterval")
     public typealias Delta = TimecodeInterval
+    
+    @available(*, deprecated, renamed: "TimecodeTransformer")
+    public typealias Transformer = TimecodeTransformer
+    
+    /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
+    @available(*, deprecated, renamed: "interval(to:)")
+    public func delta(to other: Timecode) -> TimecodeInterval {
+        interval(to: other)
+    }
 }
 
 extension TimecodeInterval {
@@ -28,11 +37,4 @@ extension TimecodeInterval {
     public var timecode: Timecode {
         flattened()
     }
-}
-
-// MARK: TimecodeTransformer
-
-extension Timecode {
-    @available(*, deprecated, renamed: "TimecodeTransformer")
-    public typealias Transformer = TimecodeTransformer
 }
