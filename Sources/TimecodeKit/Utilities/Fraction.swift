@@ -11,9 +11,12 @@ public struct Fraction {
     public let numerator: Int
     public let denominator: Int
     
-    private let _isSimplestForm: Bool?
-    public var isSimplestForm: Bool {
-        if let _isSimplestForm = _isSimplestForm, _isSimplestForm { return _isSimplestForm }
+    private let _isReduced: Bool?
+    
+    /// Returns `true` if the fraction is reduced to its simplest form and can not be reduced any
+    /// further.
+    public var isReduced: Bool {
+        if let _isReduced = _isReduced, _isReduced { return _isReduced }
         let reduced = reduced()
         return self == reduced
     }
@@ -31,7 +34,7 @@ public struct Fraction {
     public init(_ numerator: Int, _ denominator: Int) {
         self.numerator = numerator
         self.denominator = denominator
-        _isSimplestForm = nil
+        _isReduced = nil
     }
     
     /// Initialize by reducing and normalizing the fraction.
@@ -39,7 +42,7 @@ public struct Fraction {
         let reduced = Self.reduce(n: numerator, d: denominator)
         self.numerator = reduced.n
         self.denominator = reduced.d
-        _isSimplestForm = true
+        _isReduced = true
     }
     
     // MARK: - Conversions
@@ -105,7 +108,7 @@ extension Fraction {
     /// Returns a new instance reduced to its simplest form.
     /// This also normalizes signs.
     public func reduced() -> Self {
-        if _isSimplestForm == true { return self }
+        if _isReduced == true { return self }
         return Fraction(reducing: numerator, denominator)
     }
     

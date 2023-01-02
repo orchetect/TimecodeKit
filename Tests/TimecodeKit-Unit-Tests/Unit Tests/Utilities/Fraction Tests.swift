@@ -36,53 +36,53 @@ class Fraction_Tests: XCTestCase {
     func testFractionInitReducing() {
         let frac = Fraction(reducing: 4, 2)
         XCTAssertEqual(frac, Fraction(2, 1))
-        XCTAssertEqual(frac.isSimplestForm, true)
+        XCTAssertEqual(frac.isReduced, true)
     }
     
     func testFractionReduced() {
         let frac = Fraction(4, 2)
         XCTAssertEqual(frac.numerator, 4)
         XCTAssertEqual(frac.denominator, 2)
-        XCTAssertEqual(frac.isSimplestForm, false)
+        XCTAssertEqual(frac.isReduced, false)
         
         let reduced = frac.reduced()
         XCTAssertEqual(reduced, Fraction(2, 1))
-        XCTAssertEqual(reduced.isSimplestForm, true)
+        XCTAssertEqual(reduced.isReduced, true)
         
-        XCTAssertEqual(Fraction(2, 1).isSimplestForm, true)
+        XCTAssertEqual(Fraction(2, 1).isReduced, true)
     }
     
     func testFractionReduced_NegativeValues_A() {
         let frac = Fraction(-4, 2)
         XCTAssertEqual(frac.numerator, -4)
         XCTAssertEqual(frac.denominator, 2)
-        XCTAssertEqual(frac.isSimplestForm, false)
+        XCTAssertEqual(frac.isReduced, false)
         
         let reduced = frac.reduced() // also normalizes signs
         XCTAssertEqual(reduced, Fraction(-2, 1))
-        XCTAssertEqual(reduced.isSimplestForm, true)
+        XCTAssertEqual(reduced.isReduced, true)
     }
     
     func testFractionReduced_NegativeValues_B() {
         let frac = Fraction(4, -2)
         XCTAssertEqual(frac.numerator, 4)
         XCTAssertEqual(frac.denominator, -2)
-        XCTAssertEqual(frac.isSimplestForm, false)
+        XCTAssertEqual(frac.isReduced, false)
         
         let reduced = frac.reduced() // also normalizes signs
         XCTAssertEqual(reduced, Fraction(-2, 1))
-        XCTAssertEqual(reduced.isSimplestForm, true)
+        XCTAssertEqual(reduced.isReduced, true)
     }
     
     func testFractionReduced_NegativeValues_C() {
         let frac = Fraction(-4, -2)
         XCTAssertEqual(frac.numerator, -4)
         XCTAssertEqual(frac.denominator, -2)
-        XCTAssertEqual(frac.isSimplestForm, false)
+        XCTAssertEqual(frac.isReduced, false)
         
         let reduced = frac.reduced() // also normalizes signs
         XCTAssertEqual(reduced, Fraction(2, 1))
-        XCTAssertEqual(reduced.isSimplestForm, true)
+        XCTAssertEqual(reduced.isReduced, true)
     }
     
     func testDoubleValue() {
