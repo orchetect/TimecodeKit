@@ -124,6 +124,19 @@ class Timecode_Rational_Tests: XCTestCase {
         )
     }
     
+    func testTimecode_init_Rational_Clamping_Negative() {
+        let tc = Timecode(
+            clamping: Fraction(-2, 1),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(h: 00, m: 00, s: 00, f: 00)
+        )
+    }
+    
     func testTimecode_init_Rational_Wrapping() {
         let tc = Timecode(
             wrapping: Fraction(86400 + 3600, 1), // 25 hours @ 24fps
@@ -131,12 +144,23 @@ class Timecode_Rational_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(
+            tc.components,
+            TCC(d: 00, h: 01, m: 00, s: 00, f: 00, sf: 00)
+        )
+    }
+    
+    func testTimecode_init_Rational_Wrapping_Negative() {
+        let tc = Timecode(
+            wrapping: Fraction(-2, 1),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        XCTAssertEqual(
+            tc.components,
+            TCC(d: 00, h: 23, m: 59, s: 58, f: 00, sf: 00)
+        )
     }
     
     func testTimecode_init_Rational_RawValues() {
@@ -146,12 +170,24 @@ class Timecode_Rational_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        XCTAssertEqual(tc.days, 2)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(
+            tc.components,
+            TCC(d: 02, h: 01, m: 00, s: 00, f: 00, sf: 00)
+        )
+    }
+    
+    func testTimecode_init_Rational_RawValues_Negative() {
+        let tc = Timecode(
+            rawValues: Fraction(-(3600 + 60 + 5), 1),
+            at: ._24,
+            limit: ._24hours
+        )
+        
+        // TODO: it's weird that all values end up negative?
+        XCTAssertEqual(
+            tc.components,
+            TCC(d: 00, h: -01, m: -01, s: -05, f: 00, sf: 00)
+        )
     }
     
     func testTimecode_rationalValue() throws {
