@@ -13,6 +13,20 @@ class Fraction_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
+    func testIsNegative() {
+        XCTAssertFalse(Fraction(2, 4).isNegative)
+        XCTAssertTrue(Fraction(-2, 4).isNegative)
+        XCTAssertTrue(Fraction(2, -4).isNegative)
+        XCTAssertFalse(Fraction(-2, -4).isNegative)
+    }
+    
+    func testNegated() {
+        XCTAssertEqual(Fraction(2, 4).negated(), Fraction(-2, 4))
+        XCTAssertEqual(Fraction(-2, 4).negated(), Fraction(2, 4))
+        XCTAssertEqual(Fraction(2, -4).negated(), Fraction(-2, -4))
+        XCTAssertEqual(Fraction(-2, -4).negated(), Fraction(2, -4))
+    }
+    
     func testIsEqual() {
         XCTAssertTrue(Fraction(2, 4).isEqual(to: Fraction(2, 4)))
         XCTAssertTrue(Fraction(2, 4).isEqual(to: Fraction(1, 2)))

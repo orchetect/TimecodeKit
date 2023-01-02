@@ -18,6 +18,15 @@ public struct Fraction {
         return self == reduced
     }
     
+    /// Returns `true` if one operand of the fraction is negative.
+    public var isNegative: Bool {
+        let n = numerator.signum() == -1
+        let d = denominator.signum() == -1
+        return (n && !d) || (!n && d)
+    }
+    
+    // MARK: - Init
+    
     public init(_ numerator: Int, _ denominator: Int) {
         self.numerator = numerator
         self.denominator = denominator
@@ -30,6 +39,8 @@ public struct Fraction {
         self.denominator = reduced.d
         _isSimplestForm = true
     }
+    
+    // MARK: - Conversions
     
     public var doubleValue: Double {
         Double(numerator) / Double(denominator)
@@ -69,6 +80,8 @@ extension Fraction: CustomStringConvertible {
     }
 }
 
+// MARK: - Operations
+
 extension Fraction {
     /// Internal:
     /// Reduce a fraction to its simplest form.
@@ -89,7 +102,7 @@ extension Fraction {
     
     /// Returns a new instance reduced to its simplest form.
     /// This also normalizes signs.
-    public func reduced() -> Fraction {
+    public func reduced() -> Self {
         if _isSimplestForm == true { return self }
         return Fraction(reducing: numerator, denominator)
     }
@@ -112,9 +125,23 @@ extension Fraction {
     /// Returns a new instance normalized.
     /// Fractions with two negative signs are normalized to two positive signs.
     /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
-    func normalized() -> Fraction {
+    func normalized() -> Self {
         let result = Self.normalize(n: numerator, d: denominator)
         return Fraction(result.n, result.d)
+    }
+    
+    /// Negates the fraction.
+    public mutating func negate() {
+        var n = numerator
+        n.negate()
+        self = Self(n, denominator)
+    }
+    
+    /// Returns a new instance negated.
+    public func negated() -> Self {
+        var n = self
+        n.negate()
+        return n
     }
 }
 
