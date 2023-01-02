@@ -14,6 +14,8 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
+    ///
     /// - Throws: ``ValidationError``
     public init(
         _ rational: Fraction,
@@ -121,6 +123,8 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
+    ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(_ rational: Fraction) throws {
         let frameCount = floatingFrameCount(of: rational)
@@ -195,6 +199,8 @@ extension Fraction {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
+    ///
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func toTimecode(
