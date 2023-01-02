@@ -41,3 +41,27 @@ extension TimecodeInterval {
             : absoluteInterval.rationalValue
     }
 }
+
+extension Fraction {
+    /// Convenience function to initialize a `TimecodeInterval` instance from a time duration
+    /// represented as a rational fraction.
+    /// A negative fraction will produce a negative time interval.
+    ///
+    /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
+    /// positive. The sign simply determines whether the interval is ``Sign-swift.enum/positive`` or
+    /// ``Sign-swift.enum/negative``.
+    public func toTimecodeInterval(
+        at rate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> TimecodeInterval {
+        try TimecodeInterval(
+            self,
+            at: rate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+    }
+}

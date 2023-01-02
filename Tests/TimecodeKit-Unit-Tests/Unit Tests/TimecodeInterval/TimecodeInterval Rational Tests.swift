@@ -19,6 +19,8 @@ class TimecodeInterval_Rational_Tests: XCTestCase {
             at: ._24
         )
         
+        XCTAssertEqual(ti.sign, .positive)
+        
         XCTAssertEqual(
             ti.absoluteInterval,
             try TCC(s: 2).toTimecode(at: ._24)
@@ -38,6 +40,8 @@ class TimecodeInterval_Rational_Tests: XCTestCase {
             at: ._24
         )
         
+        XCTAssertEqual(ti.sign, .negative)
+        
         XCTAssertEqual(
             ti.absoluteInterval,
             try TCC(s: 2).toTimecode(at: ._24)
@@ -49,6 +53,17 @@ class TimecodeInterval_Rational_Tests: XCTestCase {
         )
         
         XCTAssertEqual(ti.rationalValue, Fraction(-2, 1))
+    }
+    
+    func testFraction_toTimecodeInterval() throws {
+        let ti = try Fraction(60, 30).toTimecodeInterval(at: ._24)
+        
+        XCTAssertEqual(ti.sign, .positive)
+        
+        XCTAssertEqual(
+            ti.absoluteInterval,
+            try TCC(s: 2).toTimecode(at: ._24)
+        )
     }
 }
 
