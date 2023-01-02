@@ -27,13 +27,15 @@ public struct Fraction {
     
     // MARK: - Init
     
+    /// Initialize with literal values.
     public init(_ numerator: Int, _ denominator: Int) {
         self.numerator = numerator
         self.denominator = denominator
         _isSimplestForm = nil
     }
     
-    internal init(reducing numerator: Int, _ denominator: Int) {
+    /// Initialize by reducing and normalizing the fraction.
+    public init(reducing numerator: Int, _ denominator: Int) {
         let reduced = Self.reduce(n: numerator, d: denominator)
         self.numerator = reduced.n
         self.denominator = reduced.d
