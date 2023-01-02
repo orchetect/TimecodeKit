@@ -85,10 +85,10 @@ class Timecode_RealTime_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        // TODO: it's weird that all values end up negative?
+        // Negates only the largest non-zero component if input is negative
         XCTAssertEqual(
             tc.components,
-            TCC(d: 00, h: -01, m: -01, s: -05, f: 00, sf: 00)
+            TCC(d: 00, h: -01, m: 01, s: 05, f: 00, sf: 00)
         )
     }
     

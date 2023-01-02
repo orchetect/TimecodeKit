@@ -249,6 +249,8 @@ extension Timecode {
         var sf = 00
         
         var inElapsedFrames = frameCount.decimalValue
+        let isNegative = inElapsedFrames.sign == .minus
+        if isNegative { inElapsedFrames.negate() }
         
         // drop frame
         
@@ -318,6 +320,25 @@ extension Timecode {
                 as NSDecimalNumber
         )
         
-        return Components(d: dd, h: hh, m: mm, s: ss, f: ff, sf: sf)
+        var newComponents = Components(d: dd, h: hh, m: mm, s: ss, f: ff, sf: sf)
+        
+        // only apply negative sign to largest non-zero value
+        if isNegative {
+            newComponents.negate()
+        }
+        
+        return newComponents
+    }
+}
+
+extension Timecode.Components {
+    /// Negates the largest non-zero component.
+    fileprivate mutating func negate() {
+        if d != 0 { d.negate() ; return }
+        if h != 0 { h.negate() ; return }
+        if m != 0 { m.negate() ; return }
+        if s != 0 { s.negate() ; return }
+        if f != 0 { f.negate() ; return }
+        if sf != 0 { sf.negate() ; return }
     }
 }
