@@ -54,10 +54,3 @@ extension TimecodeTransformer {
         case custom((Timecode) -> Timecode)
     }
 }
-
-// MARK: - API Changes for 1.3.0
-
-extension Timecode {
-    @available(*, deprecated, renamed: "TimecodeTransformer")
-    public typealias Transformer = TimecodeTransformer
-}
