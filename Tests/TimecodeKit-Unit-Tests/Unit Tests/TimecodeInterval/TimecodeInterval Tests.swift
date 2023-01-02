@@ -21,7 +21,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.intervalSign, .positive)
+        XCTAssertEqual(interval.sign, .positive)
     }
     
     func testInitB() throws {
@@ -32,7 +32,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC, .negative)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.intervalSign, .negative)
+        XCTAssertEqual(interval.sign, .negative)
     }
     
     func testInitC() {
@@ -44,7 +44,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.intervalSign, .positive)
+        XCTAssertEqual(interval.sign, .positive)
     }
     
     func testIsNegative() {

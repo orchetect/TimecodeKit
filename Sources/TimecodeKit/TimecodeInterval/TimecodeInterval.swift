@@ -13,7 +13,7 @@ public struct TimecodeInterval: Equatable, Hashable {
     public let absoluteInterval: Timecode
         
     /// The `interval` sign.
-    let intervalSign: Sign
+    public let sign: Sign
     
     // MARK: - Init
     
@@ -22,20 +22,20 @@ public struct TimecodeInterval: Equatable, Hashable {
         _ sign: Sign = .positive
     ) {
         absoluteInterval = interval
-        intervalSign = sign
+        self.sign = sign
     }
     
     // MARK: - Public Properties
         
     /// Returns `true` if the sign is negative.
     public var isNegative: Bool {
-        intervalSign == .negative
+        sign == .negative
     }
         
     /// Returns real-time (wall-clock time) equivalent of the interval time.
     /// Expressed as either a positive or negative number.
     public var realTimeValue: TimeInterval {
-        switch intervalSign {
+        switch sign {
         case .positive:
             return absoluteInterval.realTimeValue
                 
@@ -51,7 +51,7 @@ public struct TimecodeInterval: Equatable, Hashable {
         // since `absoluteInterval` may contain raw values that overflow valid timecode,
         // we invoke methods that can wrap it in-place by using zero timecode as an operand
         
-        switch intervalSign {
+        switch sign {
         case .positive:
             return absoluteInterval.adding(wrapping: TCC())
             
@@ -72,7 +72,7 @@ public struct TimecodeInterval: Equatable, Hashable {
     /// Internal:
     /// Returns a `Timecode` value offsetting it by the interval, wrapping around lower/upper timecode limit bounds if necessary.
     internal func timecode(offsetting base: Timecode) -> Timecode {
-        switch intervalSign {
+        switch sign {
         case .positive:
             return base + absoluteInterval
         case .negative:
@@ -85,7 +85,7 @@ public struct TimecodeInterval: Equatable, Hashable {
 
 extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
-        switch intervalSign {
+        switch sign {
         case .positive: return absoluteInterval.description
         case .negative: return "-\(absoluteInterval.description)"
         }
@@ -100,14 +100,6 @@ extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertibl
     }
 }
 
-extension TimecodeInterval {
-    /// Timecode interval sign (polarity).
-    public enum Sign: Equatable, Hashable, CaseIterable {
-        case positive
-        case negative
-    }
-}
-
 // MARK: - Static Constructors
 
 extension TimecodeInterval {
@@ -119,5 +111,15 @@ extension TimecodeInterval {
     /// Constructs a new `TimecodeInterval` instance with negative sign.
     public static func negative(_ interval: Timecode) -> Self {
         .init(interval, .negative)
+    }
+}
+
+// MARK: - Sign
+
+extension TimecodeInterval {
+    /// Timecode interval sign (polarity).
+    public enum Sign: Equatable, Hashable, CaseIterable {
+        case positive
+        case negative
     }
 }
