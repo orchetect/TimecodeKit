@@ -438,7 +438,7 @@ extension Timecode {
                     base: subFramesBase,
                     format: stringFormat
                 ),
-                .positive
+                .plus
             )
         }
         
@@ -463,7 +463,7 @@ extension Timecode {
                 format: stringFormat
             )
             
-            let delta = TimecodeInterval(deltaTC, .positive)
+            let delta = TimecodeInterval(deltaTC, .plus)
             
             return delta
             
@@ -480,7 +480,7 @@ extension Timecode {
                 format: stringFormat
             )
             
-            let delta = TimecodeInterval(deltaTC, .negative)
+            let delta = TimecodeInterval(deltaTC, .minus)
             
             return delta
         }

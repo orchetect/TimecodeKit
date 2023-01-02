@@ -31,7 +31,7 @@ extension TimecodeInterval {
             format: format
         )
         
-        self.init(absTimecode, neg ? .negative : .positive)
+        self.init(absTimecode, neg ? .minus : .plus)
     }
     
     /// Returns the rational fraction for the timecode interval.

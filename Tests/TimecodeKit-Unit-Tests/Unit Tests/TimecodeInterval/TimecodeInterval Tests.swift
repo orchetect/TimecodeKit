@@ -21,7 +21,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.sign, .positive)
+        XCTAssertEqual(interval.sign, .plus)
     }
     
     func testInitB() throws {
@@ -29,10 +29,10 @@ class TimecodeInterval_Tests: XCTestCase {
         
         let intervalTC = try Timecode(TCC(m: 1), at: ._24)
         
-        let interval = TimecodeInterval(intervalTC, .negative)
+        let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.sign, .negative)
+        XCTAssertEqual(interval.sign, .minus)
     }
     
     func testInitC() {
@@ -44,7 +44,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(interval.absoluteInterval, intervalTC)
-        XCTAssertEqual(interval.sign, .positive)
+        XCTAssertEqual(interval.sign, .plus)
     }
     
     func testIsNegative() {
@@ -55,7 +55,7 @@ class TimecodeInterval_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            TimecodeInterval(.init(at: ._24), .negative)
+            TimecodeInterval(.init(at: ._24), .minus)
                 .isNegative,
             true
         )
@@ -76,7 +76,7 @@ class TimecodeInterval_Tests: XCTestCase {
         
         let intervalTC = try Timecode(TCC(m: 1), at: ._24)
         
-        let interval = TimecodeInterval(intervalTC, .negative)
+        let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(
             interval.flattened(),
@@ -115,7 +115,7 @@ class TimecodeInterval_Tests: XCTestCase {
         
         let intervalTC = Timecode(rawValues: TCC(m: 1), at: ._24)
         
-        let interval = TimecodeInterval(intervalTC, .negative)
+        let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(
             interval.timecode(offsetting: try Timecode(TCC(h: 1), at: ._24)),
@@ -138,7 +138,7 @@ class TimecodeInterval_Tests: XCTestCase {
         
         let intervalTC = try Timecode(TCC(h: 1), at: ._24)
         
-        let interval = TimecodeInterval(intervalTC, .negative)
+        let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(interval.realTimeValue, -intervalTC.realTimeValue)
     }

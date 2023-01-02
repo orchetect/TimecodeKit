@@ -499,15 +499,15 @@ class Timecode_MathPublic_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.offset(by: .init(intervalTC, .positive))
+        tc.offset(by: .init(intervalTC, .plus))
         
         XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
         
-        tc.offset(by: .init(intervalTC, .positive))
+        tc.offset(by: .init(intervalTC, .plus))
         
         XCTAssertEqual(tc.components, TCC(h: 01, m: 02, s: 00, f: 00))
         
-        tc.offset(by: .init(intervalTC, .negative))
+        tc.offset(by: .init(intervalTC, .minus))
         
         XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
         
@@ -521,7 +521,7 @@ class Timecode_MathPublic_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc
-                .offsetting(by: .init(intervalTC, .positive))
+                .offsetting(by: .init(intervalTC, .plus))
                 .components,
             TCC(h: 01, m: 01, s: 00, f: 00)
         )
@@ -633,7 +633,7 @@ class Timecode_MathPublic_Tests: XCTestCase {
         let interval = try Timecode(
             TCC(h: 02, m: 04, s: 37, f: 15),
             at: ._24
-        ).asInterval(.negative)
+        ).asInterval(.minus)
         
         XCTAssertEqual(
             interval.flattened().components,

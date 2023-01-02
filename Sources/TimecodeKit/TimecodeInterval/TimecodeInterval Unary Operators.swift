@@ -9,11 +9,11 @@ import Foundation
 extension Timecode {
     /// Returns self as a negative `TimecodeInterval`.
     public static prefix func - (operand: Self) -> TimecodeInterval {
-        TimecodeInterval(operand, .negative)
+        TimecodeInterval(operand, .minus)
     }
     
     /// Returns self as a positive `TimecodeInterval`.
     public static prefix func + (operand: Self) -> TimecodeInterval {
-        TimecodeInterval(operand, .positive)
+        TimecodeInterval(operand, .plus)
     }
 }

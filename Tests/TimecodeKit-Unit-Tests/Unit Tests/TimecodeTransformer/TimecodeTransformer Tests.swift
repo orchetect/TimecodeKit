@@ -28,7 +28,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         // .offset()
         
         let deltaTC = try Timecode(TCC(m: 1), at: ._24)
-        let delta = TimecodeInterval(deltaTC, .positive)
+        let delta = TimecodeInterval(deltaTC, .plus)
         
         var transformer = TimecodeTransformer(.offset(by: delta))
         
@@ -78,10 +78,10 @@ class TimecodeTransformer_Tests: XCTestCase {
         // .offset(by:)
         
         let deltaTC1 = try Timecode(TCC(m: 1), at: ._24)
-        let delta1 = TimecodeInterval(deltaTC1, .positive)
+        let delta1 = TimecodeInterval(deltaTC1, .plus)
         
         let deltaTC2 = try Timecode(TCC(s: 1), at: ._24)
-        let delta2 = TimecodeInterval(deltaTC2, .negative)
+        let delta2 = TimecodeInterval(deltaTC2, .minus)
         
         let transformer = TimecodeTransformer([.offset(by: delta1), .offset(by: delta2)])
         

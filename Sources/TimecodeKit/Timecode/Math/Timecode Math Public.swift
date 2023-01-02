@@ -309,8 +309,8 @@ extension Timecode {
         interval(to: other)
     }
     
-    /// Constructs a new `TimecodeInterval` instance from `self`, either ``TimecodeInterval/Sign/positive`` or ``TimecodeInterval/Sign/negative``.
-    public func asInterval(_ sign: TimecodeInterval.Sign = .positive) -> TimecodeInterval {
+    /// Constructs a new `TimecodeInterval` instance from `self`.
+    public func asInterval(_ sign: FloatingPointSign = .plus) -> TimecodeInterval {
         TimecodeInterval(self, sign)
     }
 }
