@@ -1,0 +1,37 @@
+//
+//  Fraction CMTime.swift
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
+//  © 2022 Steffan Andrews • Licensed under MIT License
+//
+
+#if canImport(CoreMedia)
+
+import Foundation
+import CoreMedia
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension Fraction {
+    public init(_ cmTime: CMTime) {
+        guard !cmTime.isIndefinite,
+              !cmTime.isNegativeInfinity,
+              !cmTime.isPositiveInfinity
+        else {
+            self.init(0, 1)
+            return
+        }
+        
+        self.init(Int(cmTime.value), Int(cmTime.timescale))
+    }
+}
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension CMTime {
+    public init(_ fraction: Fraction) {
+        self.init(
+            value: CMTimeValue(fraction.numerator),
+            timescale: CMTimeScale(fraction.denominator)
+        )
+    }
+}
+
+#endif
