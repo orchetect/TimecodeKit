@@ -26,6 +26,35 @@ class Fraction_CMTime_Tests: XCTestCase {
         )
     }
     
+    func testFraction_init_CMTime_EdgeCases() {
+        XCTAssertEqual(
+            Fraction(CMTime.indefinite),
+            Fraction(0, 1)
+        )
+        
+        XCTAssertEqual(
+            Fraction(CMTime.negativeInfinity),
+            Fraction(0, 1)
+        )
+        
+        XCTAssertEqual(
+            Fraction(CMTime.positiveInfinity),
+            Fraction(0, 1)
+        )
+    }
+    
+    func testFraction_toCMTime() {
+        XCTAssertEqual(
+            Fraction(3600, 1).toCMTime(),
+            CMTime(value: 3600, timescale: 1)
+        )
+        
+        XCTAssertEqual(
+            Fraction(-3600, 1).toCMTime(),
+            CMTime(value: -3600, timescale: 1)
+        )
+    }
+    
     func testCMTime_init_Fraction() {
         XCTAssertEqual(
             CMTime(Fraction(3600, 1)),
@@ -35,6 +64,18 @@ class Fraction_CMTime_Tests: XCTestCase {
         XCTAssertEqual(
             CMTime(Fraction(-3600, 1)),
             CMTime(value: -3600, timescale: 1)
+        )
+    }
+    
+    func testCMTime_toFraction() {
+        XCTAssertEqual(
+            CMTime(value: 3600, timescale: 1).toFraction(),
+            Fraction(3600, 1)
+        )
+        
+        XCTAssertEqual(
+            CMTime(value: -3600, timescale: 1).toFraction(),
+            Fraction(-3600, 1)
         )
     }
 }
