@@ -51,7 +51,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
    - In a Swift Package, add it to the Package.swift dependencies:
 
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.5.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.6.0")
      ```
 
 2. Import the library:
@@ -554,7 +554,9 @@ try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
 
 `CMTime` is a type exported by the Core Media framework (and used pervasively in AVFoundation). It represents time as a rational fraction of a `value` in a `timescale`.
 
-`Timecode`, as well as `TimecodeFrameRate` and `VideoFrameRate` can convert to/from `CMTime` using the respective inits and properties.
+`Timecode` and `TimecodeInterval`, as well as `TimecodeFrameRate` and `VideoFrameRate` can convert to/from `CMTime` using the respective inits and properties.
+
+`CMTime` and `Fraction` can convert between themselves as well with respective inits and properties.
 
 #### Timecode Intervals
 
