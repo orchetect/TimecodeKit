@@ -11,8 +11,9 @@ extension TimecodeInterval {
     /// A negative fraction will produce a negative time interval.
     ///
     /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
-    /// positive. The sign simply determines whether the interval is ``Sign-swift.enum/positive`` or
-    /// ``Sign-swift.enum/negative``.
+    /// positive. The sign simply determines whether the interval is negative or positive.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
         _ rational: Fraction,
         at rate: TimecodeFrameRate,
@@ -48,8 +49,9 @@ extension Fraction {
     /// A negative fraction will produce a negative time interval.
     ///
     /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
-    /// positive. The sign simply determines whether the interval is ``Sign-swift.enum/positive`` or
-    /// ``Sign-swift.enum/negative``.
+    /// positive. The sign simply determines whether the interval is positive or negative.
+    ///
+    /// - Throws: ``ValidationError``
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
