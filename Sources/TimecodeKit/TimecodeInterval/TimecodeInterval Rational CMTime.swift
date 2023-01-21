@@ -14,7 +14,7 @@ extension TimecodeInterval {
     /// Initialize from a time duration represented as a rational fraction.
     /// A negative fraction will produce a negative time interval.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
         at rate: TimecodeFrameRate,
@@ -38,7 +38,7 @@ extension CMTime {
     /// represented as a rational fraction.
     /// A negative fraction will produce a negative time interval.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,

@@ -14,7 +14,7 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
-    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` init instead.
     ///
     /// - Throws: ``ValidationError``
     public init(
@@ -123,7 +123,7 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
-    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` init instead.
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(_ rational: Fraction) throws {
@@ -200,7 +200,7 @@ extension Fraction {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     ///
-    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` ``TimecodeInterval/init(_:)`` instead.
+    /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` init instead.
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func toTimecode(

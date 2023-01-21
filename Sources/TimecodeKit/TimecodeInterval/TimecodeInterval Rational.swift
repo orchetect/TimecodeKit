@@ -13,7 +13,7 @@ extension TimecodeInterval {
     /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
     /// positive. The sign simply determines whether the interval is negative or positive.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public init(
         _ rational: Fraction,
         at rate: TimecodeFrameRate,
@@ -51,7 +51,7 @@ extension Fraction {
     /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
     /// positive. The sign simply determines whether the interval is positive or negative.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
