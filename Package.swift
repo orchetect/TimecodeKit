@@ -51,7 +51,8 @@ let package = Package(
         // unit tests
         .testTarget(
             name: "TimecodeKit-Unit-Tests",
-            dependencies: ["TimecodeKit"]
+            dependencies: ["TimecodeKit"],
+            resources: [.copy("TestResource/Resources")]
         ),
         
         // dev tests

@@ -143,6 +143,34 @@ extension TimecodeFrameRate {
         }
     }
     
+    /// Alternate frame durations used, such as QuickTime timecode track.
+    /// Some encoders errantly encode frame rate fractions,
+    /// so we can fall back to these values a secondary checks.
+    public var alternateFrameDuration: Fraction? {
+        switch self {
+        case ._23_976:      return Fraction(1000, 23976) // seen in the wild
+        case ._24:          return nil
+        case ._24_98:       return Fraction(1000, 24980) // TODO: inferred
+        case ._25:          return nil
+        case ._29_97:       return Fraction(1000, 29970) // seen in the wild
+        case ._29_97_drop:  return Fraction(1000, 29970) // seen in the wild
+        case ._30:          return nil
+        case ._30_drop:     return nil // TODO: needs checking
+        case ._47_952:      return Fraction(1000, 47952) // TODO: inferred
+        case ._48:          return nil
+        case ._50:          return nil
+        case ._59_94:       return Fraction(1000, 59940) // TODO: inferred
+        case ._59_94_drop:  return Fraction(1000, 59940) // TODO: inferred
+        case ._60:          return nil
+        case ._60_drop:     return nil // TODO: needs checking
+        case ._100:         return nil
+        case ._119_88:      return Fraction(1000, 119880) // TODO: inferred
+        case ._119_88_drop: return Fraction(1000, 119880) // TODO: inferred
+        case ._120:         return nil
+        case ._120_drop:    return nil // TODO: needs checking
+        }
+    }
+    
     /// Returns `true` if frame rate is drop.
     public var isDrop: Bool {
         switch self {

@@ -108,6 +108,28 @@ extension VideoFrameRate {
         }
     }
     
+    public var alternateFrameDuration: Fraction? {
+        switch self {
+        case ._23_98p:  return Fraction(1000, 23976)
+        case ._24p:     return nil
+        case ._25p:     return nil
+        case ._25i:     return nil
+        case ._29_97p:  return Fraction(1000, 29970)
+        case ._29_97i:  return Fraction(2000, 59940) // inferred
+        case ._30p:     return nil
+        case ._47_592p: return Fraction(1000, 47592)
+        case ._48:      return nil
+        case ._50p:     return nil
+        case ._50i:     return nil
+        case ._59_94p:  return Fraction(1000, 59940)
+        case ._60p:     return nil
+        case ._60i:     return nil
+        case ._100p:    return nil
+        case ._119_88p: return Fraction(1000, 119880)
+        case ._120p:    return nil
+        }
+    }
+    
     /// Returns the frame rate expressed as floating-point frames per second (fps).
     public var fps: Double {
         let frac = rate

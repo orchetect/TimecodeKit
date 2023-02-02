@@ -48,16 +48,28 @@ extension Collection where Element: FrameRateProtocol {
         frameDuration: Fraction
     ) -> [Element] {
         filter {
-            let lhsFrac = $0.frameDuration
+            func compare(lhsFrac: Fraction, result: inout Bool) {
+                let isLiteralMatch = lhsFrac.numerator == frameDuration.numerator
+                && lhsFrac.denominator == frameDuration.denominator
+                if isLiteralMatch { result = true ; return }
+                
+                let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
+                let rhsFPS = Double(frameDuration.numerator) / Double(frameDuration.denominator)
+                let isFPSMatch = lhsFPS == rhsFPS
+                if isFPSMatch { result = true ; return }
+            }
             
-            let isLiteralMatch = lhsFrac.numerator == frameDuration.numerator
-            && lhsFrac.denominator == frameDuration.denominator
+            var result: Bool = false
             
-            let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
-            let rhsFPS = Double(frameDuration.numerator) / Double(frameDuration.denominator)
-            let isFPSMatch = lhsFPS == rhsFPS
+            // first check primary frame duration
+            compare(lhsFrac: $0.frameDuration, result: &result)
             
-            return isLiteralMatch || isFPSMatch
+            // then check alternate frame duration
+            if let lhsFrac = $0.alternateFrameDuration {
+                compare(lhsFrac: lhsFrac, result: &result)
+            }
+            
+            return result
         }
     }
 }
