@@ -10,7 +10,7 @@
 import Foundation
 import AVFoundation
 
-// MARK: Start Timecode
+// MARK: - Start Timecode
 
 extension AVAsset {
     /// Returns the start timecode.
@@ -111,7 +111,7 @@ extension AVAsset {
         )
     }
     
-    // MARK: - Helper methods
+    // MARK: - Helpers
     
     @_disfavoredOverload
     internal func readStartElapsedFrames() -> [UInt32] {
@@ -198,15 +198,10 @@ extension AVAssetTrack {
     }
 }
 
-// MARK: Frame Rate
+// MARK: - Frame Rate
 
 extension AVAsset {
-    /// Returns the nominal frame rate as `Float` for each video track.
-    @_disfavoredOverload
-    internal func readNominalVideoFrameRates() -> [Float] {
-        let rates = videoTracks.map(\.nominalFrameRate)
-        return rates
-    }
+    // MARK: - Timecode Frame Rate
     
     /// Returns the frame rate detected.
     /// Accuracy depends on what type of tracks are contained in the asset.
@@ -238,7 +233,7 @@ extension AVAsset {
             return tcRate
         }
         
-        // second, frame rate can be determined from the format description
+        // second, frame rate can be determined from timecode track format description
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
             // it seems only timecode track contains this, but perhaps only when a video track
             // is also present in the asset.
@@ -255,15 +250,10 @@ extension AVAsset {
             }
         }
         
-        // lastly, frame rate can be derived from nominal frame rate
-        // but this is not always reliable in some cases, such as some codecs that
-        // can encode video in variable frame rate format, or non-standard frame rates
-        let nominalRates = videoTracks.map(\.nominalFrameRate)
-            .compactMap { VideoFrameRate(fps: $0) }
-        if let videoRate = nominalRates
-            .compactMap({ $0.timecodeFrameRate(drop: drop) })
-            .first {
-            return videoRate
+        // third, frame rate can be derived from nominal frame rate.
+        // determine video frame rate and attempt to convert it to timecode frame rate
+        if let rate = try videoFrameRate().timecodeFrameRate(drop: drop) {
+            return rate
         }
         
         throw Timecode.MediaParseError.missingOrNonStandardFrameRate
@@ -286,8 +276,114 @@ extension AVAsset {
         return flags.contains(true)
     }
     
+    // MARK: - Video Frame Rate
+    
+    /// Returns the video frame rate for each video track.
+    public func videoFrameRate(interlaced: Bool? = nil) throws -> VideoFrameRate {
+        // only video tracks contain interlaced (field) info
+        
+        // use supplied interlaced status, otherwise auto-detect and default to non-interlaced (progressive)
+        let interlaced = interlaced ?? isVideoInterlaced ?? false
+        
+        // first, frame rate can be determined from minimum frame duration
+        // only video tracks will contain this value. audio or timecode tracks will be zero.
+        let validVideoFrameDurations = videoTracks.map(\.minFrameDuration).filter(\.isValid)
+        if let frameDuration = validVideoFrameDurations.first,
+           let rate = VideoFrameRate(frameDuration: frameDuration, interlaced: interlaced)
+        {
+            return rate
+        }
+        
+        // second, frame rate can be determined from video format description
+        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
+            // it seems only timecode track contains this, but perhaps only when a video track
+            // is also present in the asset.
+            let frameDurations = videoTracks
+                .flatMap {
+                    // force-downcast is recommended by Apple docs
+                    $0.formatDescriptions as! [CMFormatDescription]
+                }
+                .map { $0.frameDuration }
+            if let frameDuration = frameDurations.first,
+               let tcRate = VideoFrameRate(frameDuration: frameDuration, interlaced: interlaced)
+            {
+                return tcRate
+            }
+        }
+        
+        // handle an edge case where an asset has timecode track(s) but no video tracks
+        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
+            // it seems only timecode track contains this, but perhaps only when a video track
+            // is also present in the asset.
+            let frameDurations = timecodeTracks
+                .flatMap {
+                    // force-downcast is recommended by Apple docs
+                    $0.formatDescriptions as! [CMFormatDescription]
+                }
+                .map { $0.frameDuration }
+            if let frameDuration = frameDurations.first,
+               let tcRate = VideoFrameRate(frameDuration: frameDuration, interlaced: interlaced)
+            {
+                return tcRate
+            }
+        }
+        
+        // lastly, frame rate can be derived from nominal frame rate
+        // but this is not always reliable in some cases, such as some codecs that
+        // can encode video in variable frame rate format, or non-standard frame rates
+        if let rate = readNominalVideoFrameRates()
+            .compactMap({ VideoFrameRate(fps: $0, interlaced: interlaced) })
+            .first
+        {
+            return rate
+        }
+        
+        throw Timecode.MediaParseError.missingOrNonStandardFrameRate
+    }
+    
+    internal var isVideoInterlaced: Bool? {
+        guard #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        else { return nil }
+        
+        let extDicts = tracks(withMediaType: .video)
+            .flatMap {
+                // force-downcast is recommended by Apple docs
+                $0.formatDescriptions as! [CMFormatDescription]
+            }
+            .map { $0.extensionsDictionary }
+        
+        let fieldCounts = extDicts.compactMap { $0["CVFieldCount" as CFString] as? NSNumber }
+        
+        // progressive is 1 field, interlaced is 2 fields
+        return fieldCounts.contains(where: { $0.intValue > 1 })
+    }
+    
+    // MARK: - Helpers
+    
+    /// Returns the nominal frame rate as `Float` for each video track.
+    internal func readNominalVideoFrameRates() -> [Float] {
+        let rates = videoTracks.map(\.nominalFrameRate)
+        return rates
+    }
+    
     private var videoTracks: [AVAssetTrack] {
         tracks(withMediaType: .video)
+    }
+}
+
+// MARK: - Utils
+
+extension CMFormatDescription {
+    /// Returns extensions as a dictionary.
+    ///
+    /// Extensions dictionaries are valid property list objects.
+    /// This means that dictionary keys are all CFStrings, and the values are all either CFNumber, CFString, CFBoolean, CFArray, CFDictionary, CFDate, or CFData
+    ///
+    /// You can subscript the dictionary using global AVFoundation key constants beginning with `kCMFormatDescriptionExtension_`
+    internal var extensionsDictionary: [CFString: Any] {
+        let nsDict = CMFormatDescriptionGetExtensions(self) as NSDictionary?
+        let dict = nsDict as? [CFString: Any]
+        return dict ?? [:]
     }
 }
 
