@@ -15,7 +15,7 @@ class AVAssetExtensions_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testReadStartElapsedFrames1() throws {
+    func testReadStartElapsedFrames_23_976_A() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let startFrames = asset.readStartElapsedFrames()
@@ -23,7 +23,7 @@ class AVAssetExtensions_Tests: XCTestCase {
         XCTAssertEqual(startFrames, [0])
     }
     
-    func testReadStartElapsedFrames2() throws {
+    func testReadStartElapsedFrames_23_976_B() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let startFrames = asset.readStartElapsedFrames()
@@ -31,7 +31,7 @@ class AVAssetExtensions_Tests: XCTestCase {
         XCTAssertEqual(startFrames, [84480])
     }
     
-    func testReadStartTimecode_23_976fps() throws {
+    func testReadTimecodes_23_976fps() throws {
         let frameRate: TimecodeFrameRate = ._23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
@@ -61,7 +61,7 @@ class AVAssetExtensions_Tests: XCTestCase {
                        [correctEnd])
     }
     
-    func testReadStartTimecode_24fps() throws {
+    func testReadTimecodes_24fps() throws {
         let frameRate: TimecodeFrameRate = ._24
         let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
@@ -91,7 +91,7 @@ class AVAssetExtensions_Tests: XCTestCase {
                        [correctEnd])
     }
     
-    func testReadStartAndEndTimecode_29_97fps() throws {
+    func testReadTimecodes_29_97fps() throws {
         let frameRate: TimecodeFrameRate = ._29_97
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
@@ -119,40 +119,40 @@ class AVAssetExtensions_Tests: XCTestCase {
                        [])
     }
     
-    func testFrameRate_23_976fps_A() throws {
+    func testTimecodeFrameRate_23_976fps_A() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let frameRate = try asset.frameRate()
+        let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(frameRate, ._23_976)
     }
     
-    func testFrameRate_23_976fps_B() throws {
+    func testTimecodeFrameRate_23_976fps_B() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let frameRate = try asset.frameRate()
+        let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(frameRate, ._23_976)
     }
     
-    func testFrameRate_24fps() throws {
+    func testTimecodeFrameRate_24fps() throws {
         let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let frameRate = try asset.frameRate()
+        let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(frameRate, ._24)
     }
     
-    func testFrameRate_29_97dropfps() throws {
+    func testTimecodeFrameRate_29_97dropfps() throws {
         let url = try TestResource.timecodeTrack_29_97d_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let frameRate = try asset.frameRate()
-        XCTAssertEqual(asset.isDropFrame, true)
+        let frameRate = try asset.timecodeFrameRate()
+        XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, true)
         XCTAssertEqual(frameRate, ._29_97_drop)
     }
     
-    func testFrameRate_29_97fps() throws {
+    func testTimecodeFrameRate_29_97fps() throws {
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let frameRate = try asset.frameRate()
-        XCTAssertEqual(asset.isDropFrame, false)
+        let frameRate = try asset.timecodeFrameRate()
+        XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, false)
         XCTAssertEqual(frameRate, ._29_97)
     }
 }

@@ -28,7 +28,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> [Timecode] {
-        let frameRate = try frameRate ?? self.frameRate()
+        let frameRate = try frameRate ?? self.timecodeFrameRate()
         let timecodes = readStartElapsedFrames()
             .compactMap {
                 // ignore errors here to prevent one error from failing to return all found
@@ -69,7 +69,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> [Timecode] {
-        let frameRate = try frameRate ?? self.frameRate()
+        let frameRate = try frameRate ?? self.timecodeFrameRate()
         return try startTimecode(
             at: frameRate,
             limit: limit,
@@ -101,7 +101,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
-        let frameRate = try frameRate ?? self.frameRate()
+        let frameRate = try frameRate ?? self.timecodeFrameRate()
         return try Timecode(
             duration,
             at: frameRate,
@@ -142,7 +142,7 @@ extension AVAssetTrack {
         // QuickTime timecode track is only four bytes long (UInt32 integer,
         // representing the frame number)
         while let sampleBuffer = readerOutput.copyNextSampleBuffer() {
-            if let frame = Self.timecodeFrame(sampleBuffer: sampleBuffer) {
+            if let frame = Self.readTimecodeFrame(sampleBuffer: sampleBuffer) {
                 return frame
             }
         }
@@ -150,7 +150,7 @@ extension AVAssetTrack {
         return nil
     }
     
-    private static func timecodeFrame(sampleBuffer: CMSampleBuffer) -> UInt32? {
+    private static func readTimecodeFrame(sampleBuffer: CMSampleBuffer) -> UInt32? {
         guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer),
               let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer)
         else { return nil }
@@ -220,14 +220,14 @@ extension AVAsset {
     ///
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
-    public func frameRate(drop: Bool? = nil) throws -> TimecodeFrameRate {
+    public func timecodeFrameRate(drop: Bool? = nil) throws -> TimecodeFrameRate {
         // a timecode track does not contain frame rate information
         // likewise, a video track does not contain start timecode/offset
         // additionally, drop-frame flag is not readable from video tracks. if present, it will only
         // be in the timecode track.
         
         // use supplied drop-frame status, otherwise auto-detect and default to non-drop
-        let drop = drop ?? isDropFrame ?? false
+        let drop = drop ?? isTimecodeFrameRateDropFrame ?? false
         
         // first, frame rate can be determined from minimum frame duration
         // only video tracks will contain this value. audio or timecode tracks will be zero.
@@ -272,7 +272,7 @@ extension AVAsset {
     /// If drop-frame status is embedded, returns `true` (drop) or `false` (non-drop).
     /// Returns `nil` if drop-frame status is unknown.
     /// Best practise is to default to `false` if `nil` is returned.
-    internal var isDropFrame: Bool? {
+    internal var isTimecodeFrameRateDropFrame: Bool? {
         guard #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         else { return nil }
         
