@@ -7,6 +7,37 @@
 import Foundation
 
 extension TimecodeFrameRate {
+    /// Returns the corresponding ``VideoFrameRate`` case.
+    ///
+    /// - Parameters:
+    ///   - interlaced: Whether video frame rate is interlaced (`true`) or progressive (`false`).
+    public func videoFrameRate(interlaced: Bool) -> VideoFrameRate? {
+        switch self {
+        case ._23_976:      return interlaced ? nil      : ._23_98p
+        case ._24:          return interlaced ? nil      : ._24p
+        case ._24_98:       return interlaced ? nil      : ._25p // TODO: needs testing
+        case ._25:          return interlaced ? ._25i    : ._25i
+        case ._29_97:       return interlaced ? ._29_97i : ._29_97p
+        case ._29_97_drop:  return interlaced ? ._29_97i : ._29_97p
+        case ._30:          return interlaced ? nil      : ._30p     // 30i could exist?
+        case ._30_drop:     return interlaced ? nil      : ._30p
+        case ._47_952:      return interlaced ? nil      : ._47_592p
+        case ._48:          return interlaced ? nil      : ._48p
+        case ._50:          return interlaced ? ._50i    : ._50p
+        case ._59_94:       return interlaced ? nil      : ._59_94p  // 59.94i could exist?
+        case ._59_94_drop:  return interlaced ? nil      : ._59_94p  // 59.94i could exist?
+        case ._60:          return interlaced ? ._60i    : ._60p
+        case ._60_drop:     return interlaced ? nil      : ._60p
+        case ._100:         return interlaced ? nil      : ._100p
+        case ._119_88:      return interlaced ? nil      : ._119_88p // 119.88i could exist?
+        case ._119_88_drop: return interlaced ? nil      : ._119_88p // 119.88i could exist?
+        case ._120:         return interlaced ? nil      : ._120p    // 120i could exist?
+        case ._120_drop:    return interlaced ? nil      : ._120p
+        }
+    }
+}
+
+extension TimecodeFrameRate {
     // MARK: Rational
     
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
