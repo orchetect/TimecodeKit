@@ -4,7 +4,8 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(AVFoundation)
+// AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
+#if canImport(AVFoundation) && !os(watchOS)
 
 import Foundation
 import AVFoundation
