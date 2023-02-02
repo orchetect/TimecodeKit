@@ -52,7 +52,7 @@ let package = Package(
         .testTarget(
             name: "TimecodeKit-Unit-Tests",
             dependencies: ["TimecodeKit"],
-            resources: [.copy("TestResource/Resources")]
+            resources: [.copy("TestResource/Media Files")]
         ),
         
         // dev tests

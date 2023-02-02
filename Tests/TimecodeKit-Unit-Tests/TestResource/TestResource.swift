@@ -1,22 +1,26 @@
 import Foundation
 import XCTest
 
+// NOTE: DO NOT name any folders "Resources". Xcode will fail to build iOS targets.
+
 // MARK: - Constants
 
 /// Resources files on disk used for unit testing.
 enum TestResource: CaseIterable {
     static let timecodeTrack_23_976_Start_00_00_00_00 = TestResource.File(
-        name: "TimecodeTrack_23_976_Start-00-00-00-00", ext: "mov", subFolder: "Resources"
+        name: "TimecodeTrack_23_976_Start-00-00-00-00", ext: "mov", subFolder: "Media Files"
     )
+    
     static let timecodeTrack_23_976_Start_00_58_40_00 = TestResource.File(
-        name: "TimecodeTrack_23_976_Start-00-58-40-00", ext: "mov", subFolder: "Resources"
+        name: "TimecodeTrack_23_976_Start-00-58-40-00", ext: "mov", subFolder: "Media Files"
     )
+    
     static let timecodeTrack_24_Start_00_58_40_00 = TestResource.File(
-        name: "TimecodeTrack_24_Start-00-58-40-00", ext: "mov", subFolder: "Resources"
+        name: "TimecodeTrack_24_Start-00-58-40-00", ext: "mov", subFolder: "Media Files"
     )
     
     static let timecodeTrack_29_97d_Start_00_00_00_00 = TestResource.File(
-        name: "TimecodeTrack_29_97d_Start_00_00_00_00", ext: "mov", subFolder: "Resources"
+        name: "TimecodeTrack_29_97d_Start_00_00_00_00", ext: "mov", subFolder: "Media Files"
     )
 }
 
