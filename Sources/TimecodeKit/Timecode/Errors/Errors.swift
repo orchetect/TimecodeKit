@@ -14,4 +14,9 @@ extension Timecode {
     public enum StringParseError: Error {
         case malformed
     }
+    
+    public enum MediaParseError: Error {
+        case missingOrNonStandardFrameRate
+        case unknownStartTimecode
+    }
 }

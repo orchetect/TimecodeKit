@@ -12,26 +12,102 @@ import AVFoundation
 // MARK: Start Timecode
 
 extension AVAsset {
+    /// Returns the start timecode.
+    /// Returns an array because more than one track in an asset may contain this information.
+    /// Generally using the first array element is sufficient.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
-    public func startTimecode(at frameRate: TimecodeFrameRate? = nil) -> [Timecode] {
-        guard let frameRate = frameRate ?? self.frameRate() else { return [] }
-        return readStartElapsedFrames().compactMap {
-            try? Timecode(.frames(Int($0)), at: frameRate)
+    public func startTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> [Timecode] {
+        let frameRate = try frameRate ?? self.frameRate()
+        let timecodes = readStartElapsedFrames()
+            .compactMap {
+                // ignore errors here to prevent one error from failing to return all found
+                try? Timecode(
+                    .frames(Int($0)),
+                    at: frameRate,
+                    limit: limit,
+                    base: base,
+                    format: format
+                )
+            }
+        
+        //if timecodes.isEmpty, allowDefault {
+        //    let zeroTimecode = Timecode(
+        //        at: frameRate,
+        //        limit: limit,
+        //        base: base,
+        //        format: format
+        //    )
+        //    timecodes.append(zeroTimecode)
+        //}
+        
+        return timecodes
+    }
+    
+    /// Returns the end timecode (start + duration).
+    /// Returns an array because more than one track in an asset may contain this information.
+    /// Generally using the first array element is sufficient.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
+    @_disfavoredOverload
+    public func endTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> [Timecode] {
+        let frameRate = try frameRate ?? self.frameRate()
+        return try startTimecode(
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+        .compactMap {
+            $0 + (try durationTimecode(
+                at: frameRate,
+                limit: limit,
+                base: base,
+                format: format
+            ))
         }
     }
     
+    /// Returns the duration expressed as timecode.
+    /// Returns an array because more than one track in an asset may contain this information.
+    /// Generally using the first array element is sufficient.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
-    public func endTimecode(at frameRate: TimecodeFrameRate? = nil) -> [Timecode] {
-        guard let frameRate = frameRate ?? self.frameRate() else { return [] }
-        return startTimecode(at: frameRate).compactMap {
-            $0 + (durationTimecode(at: frameRate) ?? .init(at: frameRate))
-        }
-    }
-    
-    @_disfavoredOverload
-    public func durationTimecode(at frameRate: TimecodeFrameRate? = nil) -> Timecode? {
-        guard let frameRate = frameRate ?? self.frameRate() else { return nil }
-        return try? Timecode(duration, at: frameRate)
+    public func durationTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> Timecode {
+        let frameRate = try frameRate ?? self.frameRate()
+        return try Timecode(
+            duration,
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        )
     }
     
     // MARK: - Helper methods
@@ -140,12 +216,14 @@ extension AVAsset {
     /// - drop: Forces drop-frame status for the frame rate, ignoring any drop-frame information
     ///   that may be contained in the asset. If `nil`, drop-frame information is contained in the
     ///   asset is used, defaulting to `false`.
+    ///
+    /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
-    public func frameRate(drop: Bool? = nil) -> TimecodeFrameRate? {
+    public func frameRate(drop: Bool? = nil) throws -> TimecodeFrameRate {
         // a timecode track does not contain frame rate information
         // likewise, a video track does not contain start timecode/offset
         // additionally, drop-frame flag is not readable from video tracks. if present, it will only
-        // be in the timecode track (?).
+        // be in the timecode track.
         
         // use supplied drop-frame status, otherwise auto-detect and default to non-drop
         let drop = drop ?? isDropFrame ?? false
@@ -181,11 +259,13 @@ extension AVAsset {
         // can encode video in variable frame rate format, or non-standard frame rates
         let nominalRates = videoTracks.map(\.nominalFrameRate)
             .compactMap { VideoFrameRate(fps: $0) }
-        if let videoRate = nominalRates.first {
-            return videoRate.timecodeFrameRate(drop: drop)
+        if let videoRate = nominalRates
+            .compactMap({ $0.timecodeFrameRate(drop: drop) })
+            .first {
+            return videoRate
         }
         
-        return nil
+        throw Timecode.MediaParseError.missingOrNonStandardFrameRate
     }
     
     /// If drop-frame status is embedded, returns `true` (drop) or `false` (non-drop).
