@@ -20,11 +20,15 @@ enum TestResource: CaseIterable {
     )
     
     static let timecodeTrack_29_97d_Start_00_00_00_00 = TestResource.File(
-        name: "TimecodeTrack_29_97d_Start_00_00_00_00", ext: "mov", subFolder: "Media Files"
+        name: "TimecodeTrack_29_97d_Start_00-00-00-00", ext: "mov", subFolder: "Media Files"
+    )
+    
+    static let videoAndTimecodeTrack_29_97i_Start_00_00_00_00 = TestResource.File(
+        name: "VideoAndTimecodeTrack_29_97i_Start-00-00-00-00", ext: "mov", subFolder: "Media Files"
     )
     
     static let videoTrack_29_97_Start_00_00_00_00 = TestResource.File(
-        name: "VideoTrack_29_97_Start_00_00_00_00", ext: "mp4", subFolder: "Media Files"
+        name: "VideoTrack_29_97_Start-00-00-00-00", ext: "mp4", subFolder: "Media Files"
     )
 }
 
