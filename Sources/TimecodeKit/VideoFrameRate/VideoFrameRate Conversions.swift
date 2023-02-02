@@ -181,3 +181,15 @@ extension VideoFrameRate {
     }
 }
 #endif
+
+// AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
+#if canImport(AVFoundation) && !os(watchOS)
+import AVFoundation
+
+extension VideoFrameRate {
+    /// Initialize from embedded frame rate information in an `AVAsset`.
+    public init(asset: AVAsset) throws {
+        self = try asset.videoFrameRate()
+    }
+}
+#endif
