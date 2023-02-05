@@ -139,8 +139,8 @@ extension AVAssetTrack {
         assetReader.add(readerOutput)
         guard assetReader.startReading() else { return nil }
         
-        // QuickTime timecode track is only four bytes long (UInt32 integer,
-        // representing the frame number)
+        // QuickTime timecode track is either 4 or 8 bytes long (UInt32 or UInt64)
+        // representing the frame number
         while let sampleBuffer = readerOutput.copyNextSampleBuffer() {
             if let frame = Self.readTimecodeFrame(sampleBuffer: sampleBuffer) {
                 return frame

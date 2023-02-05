@@ -93,7 +93,7 @@ extension VideoFrameRate {
         case ._25p:     return Fraction(100,  2500)   // confirmed in FCP XML
         case ._25i:     return Fraction(200,  5000)   // confirmed in FCP XML
         case ._29_97p:  return Fraction(1001, 30000)  // confirmed in FCP XML
-        case ._29_97i:  return Fraction(2002, 60000)  // confirmed in FCP XML
+        case ._29_97i:  return Fraction(2002, 60000)  // confirmed in FCP XML & QT tc track
         case ._30p:     return Fraction(100,  3000)   // confirmed in FCP XML
         case ._47_592p: return Fraction(1001, 48000)  // inferred
         case ._48p:     return Fraction(100,  4800)   // inferred
