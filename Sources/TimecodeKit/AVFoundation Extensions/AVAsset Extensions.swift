@@ -142,7 +142,7 @@ extension AVAssetTrack {
         // QuickTime timecode track is either 4 or 8 bytes long (UInt32 or UInt64)
         // representing the frame number
         while let sampleBuffer = readerOutput.copyNextSampleBuffer() {
-            if let frame = Self.readTimecodeFrame(sampleBuffer: sampleBuffer) {
+            if let frame = Self.readStartFrameNumber(sampleBuffer: sampleBuffer) {
                 return frame
             }
         }
@@ -150,12 +150,12 @@ extension AVAssetTrack {
         return nil
     }
     
-    private static func readTimecodeFrame(sampleBuffer: CMSampleBuffer) -> UInt32? {
+    private static func readStartFrameNumber(sampleBuffer: CMSampleBuffer) -> UInt32? {
         guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer),
               let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer)
         else { return nil }
         
-        var rawData: UnsafeMutablePointer<Int8>?
+        var rawData: UnsafeMutablePointer<CChar>? // CChar == Int8
         var length: Int = 0
         var totalLength: Int = 0
         
@@ -173,21 +173,28 @@ extension AVAssetTrack {
         
         switch type {
         case kCMTimeCodeFormatType_TimeCode32:
-            if let frames = rawData?.withMemoryRebound(
-                to: UInt32.self,
-                capacity: 1,
-                { CFSwapInt32BigToHost($0.pointee) }
-            ) {
+            if length >= MemoryLayout<UInt32>.size,
+               let frames = rawData?.withMemoryRebound(
+                   to: UInt32.self,
+                   capacity: 1,
+                   { CFSwapInt32BigToHost($0.pointee) }
+               )
+            {
                 return frames
             }
             
         case kCMTimeCodeFormatType_TimeCode64:
-            if let frames = rawData?.withMemoryRebound(
-                to: UInt64.self,
-                capacity: 1,
-                { CFSwapInt64BigToHost($0.pointee) }
-            ) {
-                return UInt32(frames)
+            // not sure when 64-bit frame number would be used?
+            // UInt32.max can fit approx 207 days @ 240fps which would never happen
+            // unless 64-bit timecode encodes different information in the additional 4 bytes?
+            if length >= MemoryLayout<UInt64>.size,
+               let frames = rawData?.withMemoryRebound(
+                   to: UInt64.self,
+                   capacity: 1,
+                   { CFSwapInt64BigToHost($0.pointee) }
+               )
+            {
+                return UInt32(exactly: frames)
             }
             
         default:
