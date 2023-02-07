@@ -32,4 +32,13 @@ extension AVAssetTrack {
     }
 }
 
+extension AVMediaDataStorage {
+    /// Initializes by writing data to a temporary file.
+    @_disfavoredOverload
+    convenience init(data: Data, options: [String : Any]? = nil) throws {
+        let url = try URL(temporaryFileWithData: data)
+        self.init(url: url, options: options)
+    }
+}
+
 #endif
