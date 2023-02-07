@@ -32,6 +32,10 @@ extension AVAssetTrack {
     }
 }
 
+#if !os(tvOS) // AVMediaDataStorage not available on tvOS
+
+@available(macOS 10.11, iOS 13.0, watchOS 6, *)
+@available(tvOS, unavailable)
 extension AVMediaDataStorage {
     /// Initializes by writing data to a temporary file.
     @_disfavoredOverload
@@ -40,5 +44,7 @@ extension AVMediaDataStorage {
         self.init(url: url, options: options)
     }
 }
+
+#endif
 
 #endif

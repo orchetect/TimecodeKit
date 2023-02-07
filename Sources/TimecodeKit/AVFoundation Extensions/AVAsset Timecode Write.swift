@@ -10,7 +10,10 @@
 import Foundation
 import AVFoundation
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+#if !os(tvOS) // AVMutableMovie not available on tvOS
+
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, *)
+@available(tvOS, unavailable)
 extension AVMutableMovie {
     /// Add a timecode track containing one sample (start timecode).
     /// Existing timecode track(s) are left unaltered.
@@ -142,6 +145,8 @@ extension AVMutableMovie {
         self.init(url: url)
     }
 }
+
+#endif
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
