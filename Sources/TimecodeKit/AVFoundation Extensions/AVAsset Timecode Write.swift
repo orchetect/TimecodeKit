@@ -1,5 +1,5 @@
 //
-//  AVFoundation Writing.swift
+//  AVAsset Timecode Write.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //

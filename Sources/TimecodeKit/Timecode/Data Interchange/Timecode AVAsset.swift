@@ -29,8 +29,8 @@ extension Timecode {
             limit: limit,
             base: base,
             format: format
-        ).first else {
-            throw MediaParseError.unknownStartTimecode
+        ) else {
+            throw MediaParseError.unknownTimecode
         }
         
         self = tc
@@ -54,8 +54,8 @@ extension Timecode {
             limit: limit,
             base: base,
             format: format
-        ).first else {
-            throw MediaParseError.unknownStartTimecode
+        ) else {
+            throw MediaParseError.unknownTimecode
         }
         
         self = tc

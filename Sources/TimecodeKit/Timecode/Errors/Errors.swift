@@ -17,7 +17,9 @@ extension Timecode {
     
     public enum MediaParseError: Error {
         case missingOrNonStandardFrameRate
-        case unknownStartTimecode
+        case unknownTimecode
+        case internalError
+        case noData
     }
     
     public enum MediaWriteError: Error {

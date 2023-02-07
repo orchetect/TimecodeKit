@@ -27,31 +27,15 @@ extension AVAsset {
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
-    ) throws -> [Timecode] {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
-        let timecodes = readStartFrameNumber()
-            .compactMap {
-                // ignore errors here to prevent one error from failing to return all found
-                try? Timecode(
-                    .frames(Int($0)),
-                    at: frameRate,
-                    limit: limit,
-                    base: base,
-                    format: format
-                )
-            }
-        
-        //if timecodes.isEmpty, allowDefault {
-        //    let zeroTimecode = Timecode(
-        //        at: frameRate,
-        //        limit: limit,
-        //        base: base,
-        //        format: format
-        //    )
-        //    timecodes.append(zeroTimecode)
-        //}
-        
-        return timecodes
+    ) throws -> Timecode? {
+        try timecodes(
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+        .compactMap(\.first) // first element of each track
+        .first // first track
     }
     
     /// Returns the end timecode (start + duration).
@@ -68,22 +52,21 @@ extension AVAsset {
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
-    ) throws -> [Timecode] {
+    ) throws -> Timecode? {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
-        return try startTimecode(
+        guard let start = try startTimecode(
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        ) else { return nil }
+        
+        return try start + durationTimecode(
             at: frameRate,
             limit: limit,
             base: base,
             format: format
         )
-        .compactMap {
-            $0 + (try durationTimecode(
-                at: frameRate,
-                limit: limit,
-                base: base,
-                format: format
-            ))
-        }
     }
     
     /// Returns the duration expressed as timecode.
@@ -111,13 +94,44 @@ extension AVAsset {
         )
     }
     
+    /// Returns timecodes contained in the asset.
+    /// Returns an array representing tracks, each an array representing timecode samples in the track.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError``
+    @_disfavoredOverload
+    public func timecodes(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> [[Timecode]] {
+        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        
+        let samples = try tracks(withMediaType: .timecode)
+            .map { try $0.readTimecodeSamples(context: self) }
+        
+        let timecodes = try samples.map {
+            try $0.mapToTimecode(
+                at: frameRate,
+                limit: limit,
+                base: base,
+                format: format
+            )
+        }
+        
+        return timecodes
+    }
+    
     // MARK: - Helpers
     
     @_disfavoredOverload
-    internal func readStartFrameNumber() -> [UInt32] {
-        tracks(withMediaType: .timecode)
-            .compactMap {
-                $0.readStartFrameNumber(context: self)
+    internal func readTimecodeSamples() throws -> [[CMTimeCode]] {
+        try tracks(withMediaType: .timecode)
+            .map {
+                try $0.readTimecodeSamples(context: self)
             }
     }
 }
