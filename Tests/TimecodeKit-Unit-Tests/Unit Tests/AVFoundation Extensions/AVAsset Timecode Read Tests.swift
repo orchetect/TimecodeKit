@@ -1,5 +1,5 @@
 //
-//  AVAsset Extensions Tests.swift
+//  AVAsset Timecode Read Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -11,7 +11,7 @@ import XCTest
 @testable import TimecodeKit
 import AVFoundation
 
-class AVAssetExtensions_Tests: XCTestCase {
+class AVAsset_TimecodeRead_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -121,101 +121,6 @@ class AVAssetExtensions_Tests: XCTestCase {
         // manually supply frame rate
         XCTAssertEqual(try asset.endTimecode(at: frameRate, format: [.showSubFrames]),
                        [])
-    }
-    
-    // MARK: - TimecodeFrameRate
-    
-    func testTimecodeFrameRate_23_976fps_A() throws {
-        let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._23_976)
-    }
-    
-    func testTimecodeFrameRate_23_976fps_B() throws {
-        let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._23_976)
-    }
-    
-    func testTimecodeFrameRate_24fps() throws {
-        let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._24)
-    }
-    
-    func testTimecodeFrameRate_29_97dropfps() throws {
-        let url = try TestResource.timecodeTrack_29_97d_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, true)
-        XCTAssertEqual(frameRate, ._29_97_drop)
-    }
-    
-    func testTimecodeFrameRate_29_97fps() throws {
-        let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, false)
-        XCTAssertEqual(frameRate, ._29_97)
-    }
-    
-    func testTimecodeFrameRate_29_97fps_from2997i() throws {
-        let url = try TestResource.videoAndTimecodeTrack_29_97i_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, false)
-        XCTAssertEqual(frameRate, ._29_97)
-    }
-    
-    // MARK: - VideoFrameRate
-    
-    /// Even though file has no video tracks, it infers video frame rate from the timecode track.
-    func testVideoFrameRate_23_98p_A() throws {
-        let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._23_98p)
-    }
-    
-    /// Even though file has no video tracks, it infers video frame rate from the timecode track.
-    func testVideoFrameRate_23_98p_B() throws {
-        let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._23_98p)
-    }
-    
-    /// Even though file has no video tracks, it infers video frame rate from the timecode track.
-    func testVideoFrameRate_24p() throws {
-        let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._24p)
-    }
-    
-    /// Even though file has no video tracks, it infers video frame rate from the timecode track.
-    func testVideoFrameRate_29_97p_fromDrop() throws {
-        let url = try TestResource.timecodeTrack_29_97d_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97p)
-    }
-    
-    func testVideoFrameRate_29_97i() throws {
-        let url = try TestResource.videoAndTimecodeTrack_29_97i_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97i)
-    }
-    
-    func testVideoFrameRate_29_97p() throws {
-        let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
-        let asset = AVAsset(url: url)
-        let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97p)
     }
 }
 
