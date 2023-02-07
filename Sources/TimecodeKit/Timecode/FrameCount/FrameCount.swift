@@ -248,7 +248,12 @@ extension Timecode.FrameCount {
 extension Timecode.FrameCount {
     /// Returns `true` if the frame count is `< 0`.
     public var isNegative: Bool {
-        doubleValue < 0
+        doubleValue < 0.0
+    }
+    
+    /// Returns `true` if frame count and subframes are `0`.
+    public var isZero: Bool {
+        value.isZero
     }
 }
 

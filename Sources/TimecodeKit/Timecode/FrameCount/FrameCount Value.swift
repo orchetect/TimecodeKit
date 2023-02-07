@@ -60,3 +60,22 @@ extension Timecode.FrameCount.Value: CustomDebugStringConvertible {
         }
     }
 }
+
+extension Timecode.FrameCount.Value {
+    /// Returns `true` if frame count and subframes are `0`.
+    public var isZero: Bool {
+        switch self {
+        case let .frames(frames):
+            return frames == 0
+            
+        case let .split(frames, subFrames):
+            return frames == 0 && subFrames == 0
+            
+        case let .combined(double):
+            return double.isZero
+            
+        case let .splitUnitInterval(frames, subFramesUnitInterval):
+            return frames == 0 && subFramesUnitInterval.isZero
+        }
+    }
+}
