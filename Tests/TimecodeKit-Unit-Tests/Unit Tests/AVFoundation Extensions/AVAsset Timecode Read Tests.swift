@@ -20,7 +20,7 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
     func testReadStartElapsedFrames_23_976_A() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let startFrames = asset.readStartElapsedFrames()
+        let startFrames = asset.readStartFrameNumber()
         
         XCTAssertEqual(startFrames, [0])
     }
@@ -28,7 +28,7 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
     func testReadStartElapsedFrames_23_976_B() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let startFrames = asset.readStartElapsedFrames()
+        let startFrames = asset.readStartFrameNumber()
         
         XCTAssertEqual(startFrames, [84480])
     }

@@ -24,4 +24,12 @@ extension CMFormatDescription {
     }
 }
 
+extension AVAssetTrack {
+    /// Returns `formatDescriptions` cast as `[CMFormatDescription]`
+    internal var formatDescriptionsTyped: [CMFormatDescription] {
+        formatDescriptions as? [CMFormatDescription]
+        ?? []
+    }
+}
+
 #endif

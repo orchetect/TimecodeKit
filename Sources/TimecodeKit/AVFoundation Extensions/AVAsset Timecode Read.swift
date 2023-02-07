@@ -29,7 +29,7 @@ extension AVAsset {
         format: Timecode.StringFormat = .default()
     ) throws -> [Timecode] {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
-        let timecodes = readStartElapsedFrames()
+        let timecodes = readStartFrameNumber()
             .compactMap {
                 // ignore errors here to prevent one error from failing to return all found
                 try? Timecode(
@@ -114,10 +114,10 @@ extension AVAsset {
     // MARK: - Helpers
     
     @_disfavoredOverload
-    internal func readStartElapsedFrames() -> [UInt32] {
+    internal func readStartFrameNumber() -> [UInt32] {
         tracks(withMediaType: .timecode)
             .compactMap {
-                $0.readStartTimecodeElapsedFrames(context: self)
+                $0.readStartFrameNumber(context: self)
             }
     }
 }

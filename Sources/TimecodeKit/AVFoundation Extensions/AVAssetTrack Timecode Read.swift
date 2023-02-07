@@ -13,9 +13,9 @@ import AVFoundation
 // MARK: - Helper methods
 
 extension AVAssetTrack {
-    /// Returns the start timecode expressed as total elapsed frames.
+    /// Returns the start frame number from a timecode track.
     /// Returns `nil` if the track is not a timecode track.
-    internal func readStartTimecodeElapsedFrames(
+    internal func readStartFrameNumber(
         context: AVAsset
     ) -> UInt32? {
         guard let assetReader = try? AVAssetReader(asset: context) else {
@@ -56,6 +56,8 @@ extension AVAssetTrack {
         
         guard status == kCMBlockBufferNoErr else { return nil }
         
+        // FYI: on macOS 10.15/iOS 13 and later, you can use
+        // formatDescription.mediaSubType instead of this
         let type = CMFormatDescriptionGetMediaSubType(formatDescription)
         
         switch type {

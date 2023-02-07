@@ -50,10 +50,7 @@ extension AVAsset {
             // it seems only timecode track contains this, but perhaps only when a video track
             // is also present in the asset.
             let frameDurations = tracks(withMediaType: .timecode)
-                .flatMap {
-                    // force-downcast is recommended by Apple docs
-                    $0.formatDescriptions as! [CMFormatDescription]
-                }
+                .flatMap(\.formatDescriptionsTyped)
                 .map { $0.frameDuration }
             if let frameDuration = frameDurations.first,
                let tcRate = TimecodeFrameRate(frameDuration: frameDuration, drop: drop)
@@ -98,7 +95,7 @@ extension AVAsset {
         // only video tracks contain interlaced (field) info
         
         // use supplied interlaced status, otherwise auto-detect and default to non-interlaced (progressive)
-        let interlaced = interlaced ?? isVideoInterlaced ?? false
+        let interlaced = interlaced ?? isVideoInterlaced
         
         // first, frame rate can be determined from minimum frame duration
         // only video tracks will contain this value. audio or timecode tracks will be zero.
@@ -116,10 +113,7 @@ extension AVAsset {
             // it seems only timecode track contains this, but perhaps only when a video track
             // is also present in the asset.
             let frameDurations = tracks(withMediaType: .video)
-                .flatMap {
-                    // force-downcast is recommended by Apple docs
-                    $0.formatDescriptions as! [CMFormatDescription]
-                }
+                .flatMap(\.formatDescriptionsTyped)
                 .map(\.frameDuration)
             if let frameDuration = frameDurations.first,
                let tcRate = VideoFrameRate(frameDuration: frameDuration, interlaced: interlaced)
@@ -158,21 +152,10 @@ extension AVAsset {
         throw Timecode.MediaParseError.missingOrNonStandardFrameRate
     }
     
-    internal var isVideoInterlaced: Bool? {
-        guard #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        else { return nil }
-        
-        let extDicts = tracks(withMediaType: .video)
-            .flatMap {
-                // force-downcast is recommended by Apple docs
-                $0.formatDescriptions as! [CMFormatDescription]
-            }
-            .map { $0.extensionsDictionary }
-        
-        let fieldCounts = extDicts.compactMap { $0["CVFieldCount" as CFString] as? NSNumber }
-        
-        // progressive is 1 field, interlaced is 2 fields
-        return fieldCounts.contains(where: { $0.intValue > 1 })
+    /// Returns `true` if the first video track is interlaced.
+    public var isVideoInterlaced: Bool {
+        tracks(withMediaType: .video)
+            .first?.isVideoInterlaced ?? false
     }
     
     // MARK: - Helpers
@@ -181,6 +164,18 @@ extension AVAsset {
     internal func readNominalVideoFrameRates() -> [Float] {
         tracks(withMediaType: .video)
             .map(\.nominalFrameRate)
+    }
+}
+
+extension AVAssetTrack {
+    /// Returns `true` if the video track is interlaced.
+    /// Not applicable for non-video tracks.
+    internal var isVideoInterlaced: Bool {
+        // progressive is 1 field, interlaced is 2 fields
+        formatDescriptionsTyped
+            .map(\.extensionsDictionary)
+            .compactMap { $0["CVFieldCount" as CFString] as? NSNumber }
+            .contains(where: { $0.intValue > 1 })
     }
 }
 
