@@ -307,4 +307,11 @@ extension Timecode {
     public func asInterval(_ sign: FloatingPointSign = .plus) -> TimecodeInterval {
         TimecodeInterval(self, sign)
     }
+    
+    // MARK: - Convenience Attributes
+    
+    /// Returns `true` if timecode including subframes is zero (00:00:00:00.00).
+    public var isZero: Bool {
+        frameCount.isZero
+    }
 }
