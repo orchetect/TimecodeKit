@@ -81,6 +81,7 @@ class Timecode_Comparable_Tests: XCTestCase {
         }
     }
     
+    /// Assumes timeline start of zero (00:00:00:00)
     func testTimecode_Comparable_Sorted() throws {
         try TimecodeFrameRate.allCases.forEach { frameRate in
             let presortedTimecodes: [Timecode] = [

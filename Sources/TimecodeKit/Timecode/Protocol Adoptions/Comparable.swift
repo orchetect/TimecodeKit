@@ -15,6 +15,17 @@ extension Timecode: Equatable {
 }
 
 extension Timecode: Comparable {
+    /// Baseline linear comparison.
+    ///
+    /// This performs a face-value comparison that does not take timelines into consideration.
+    ///
+    /// ie:
+    ///
+    /// - `00:00:00:00 < 23:00:00:00 // true`
+    /// - `23:00:00:00 < 00:00:00:00 // false`
+    /// - `23:00:00:00 < 23:00:00:00 // false`
+    ///
+    /// For comparison based on a timeline that does not start at 00:00:00:00, see ``isLessThan(_:timelineStart:)``.
     public static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.realTimeValue.rounded(decimalPlaces: 9)
             <
