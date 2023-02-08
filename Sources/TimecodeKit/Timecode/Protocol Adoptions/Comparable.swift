@@ -96,7 +96,7 @@ extension Timecode {
 extension Collection where Element == Timecode {
     /// Returns `true` if all ``Timecode`` instances are ordered chronologically, either ascending
     /// or descending according to the `ascending` parameter.
-    /// Consecutive contiguous subsequences of identical timecode is allowed.
+    /// Contiguous subsequences of identical timecode are allowed.
     ///
     /// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
     /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
@@ -125,5 +125,27 @@ extension Collection where Element == Timecode {
         }
         
         return true
+    }
+}
+
+extension Collection where Element == Timecode {
+    /// Returns a collection sorting all ``Timecode`` instances chronologically, either ascending
+    /// or descending.
+    /// Ordering of contiguous subsequences of identical timecode is preserved.
+    ///
+    /// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
+    /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
+    /// See ``compare(to:timelineStart:)`` for more information.
+    ///
+    /// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
+    /// and performs simple linear comparison between elements.
+    ///
+    /// See also: ``TimecodeTimelineComparator``.
+    public func sorted(ascending: Bool = true,
+                       timelineStart: Timecode) -> [Element] {
+        sorted {
+            $0.compare(to: $1, timelineStart: timelineStart)
+                != (ascending ? .orderedDescending : .orderedAscending )
+        }
     }
 }
