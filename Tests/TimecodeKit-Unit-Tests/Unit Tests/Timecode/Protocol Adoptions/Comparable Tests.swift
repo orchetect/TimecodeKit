@@ -89,7 +89,7 @@ class Timecode_Comparable_Tests: XCTestCase {
                 try "00:00:00:01".toTimecode(at: frameRate),
                 try "00:00:00:14".toTimecode(at: frameRate),
                 try "00:00:00:15".toTimecode(at: frameRate),
-                try "00:00:00:15".toTimecode(at: frameRate),
+                try "00:00:00:15".toTimecode(at: frameRate), // sequential dupe
                 try "00:00:01:00".toTimecode(at: frameRate),
                 try "00:00:01:01".toTimecode(at: frameRate),
                 try "00:00:01:23".toTimecode(at: frameRate),
@@ -118,6 +118,117 @@ class Timecode_Comparable_Tests: XCTestCase {
             
             XCTAssertEqual(resortedTimecodes, presortedTimecodes, "\(frameRate)fps")
         }
+    }
+    
+    /// For comparison with the context of a timeline that is != 00:00:00:00
+    func testCompareTo() throws {
+        let frameRate: TimecodeFrameRate = ._24
+        
+        func tc(_ string: String) throws -> Timecode {
+            try string.toTimecode(at: frameRate)
+        }
+        
+        // orderedSame (==)
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedSame
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("01:00:00:00")),
+            .orderedSame
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00.01").compare(to: tc("00:00:00:00.01"),
+                                             timelineStart: tc("00:00:00:00")),
+            .orderedSame
+        )
+        
+        XCTAssertEqual(
+            try tc("01:00:00:00").compare(to: tc("01:00:00:00"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedSame
+        )
+        
+        XCTAssertEqual(
+            try tc("01:00:00:00").compare(to: tc("01:00:00:00"),
+                                          timelineStart: tc("01:00:00:00")),
+            .orderedSame
+        )
+        
+        XCTAssertEqual(
+            try tc("01:00:00:00").compare(to: tc("01:00:00:00"),
+                                          timelineStart: tc("02:00:00:00")),
+            .orderedSame
+        )
+        
+        // orderedAscending (<)
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("00:00:00:00.01"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedAscending
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("00:00:00:01"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedAscending
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("00:00:00:01"),
+                                          timelineStart: tc("01:00:00:00")),
+            .orderedAscending
+        )
+        
+        XCTAssertEqual(
+            try tc("23:00:00:00").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("23:00:00:00")),
+            .orderedAscending
+        )
+        
+        XCTAssertEqual(
+            try tc("23:30:00:00").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("23:00:00:00")),
+            .orderedAscending
+        )
+        
+        XCTAssertEqual(
+            try tc("23:30:00:00").compare(to: tc("01:00:00:00"),
+                                          timelineStart: tc("23:00:00:00")),
+            .orderedAscending
+        )
+        
+        // orderedDescending (>)
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00.01").compare(to: tc("00:00:00:00"),
+                                             timelineStart: tc("00:00:00:00")),
+            .orderedDescending
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:01").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedDescending
+        )
+        
+        XCTAssertEqual(
+            try tc("23:30:00:00").compare(to: tc("00:00:00:00"),
+                                          timelineStart: tc("00:00:00:00")),
+            .orderedDescending
+        )
+        
+        XCTAssertEqual(
+            try tc("00:00:00:00").compare(to: tc("23:30:00:00"),
+                                          timelineStart: tc("23:00:00:00")),
+            .orderedDescending
+        )
     }
 }
 
