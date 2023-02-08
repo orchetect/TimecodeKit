@@ -50,6 +50,8 @@ extension Timecode {
     ///
     /// Passing `timelineStart` of zero (00:00:00:00) is the same as using the `<` or `>` operator
     /// between two ``Timecode`` instances.
+    ///
+    /// See also: ``TimecodeTimelineComparator``.
     public func compare(to other: Timecode, timelineStart: Timecode? = nil) -> ComparisonResult {
         // identical timecodes can early-return
         if self == other { return .orderedSame }
@@ -146,6 +148,50 @@ extension Collection where Element == Timecode {
         sorted {
             $0.compare(to: $1, timelineStart: timelineStart)
                 != (ascending ? .orderedDescending : .orderedAscending )
+        }
+    }
+}
+
+/// Sort comparator for ``Timecode``, optionally supplying a timeline start time.
+///
+/// Ordering of contiguous subsequences of identical timecode is preserved.
+///
+/// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
+/// The timeline is considered linear for 24 hours (or 100 days) from this start time.
+/// See ``compare(to:timelineStart:)`` for more information.
+///
+/// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
+/// and performs simple linear comparison between elements.
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+public struct TimecodeTimelineComparator: SortComparator {
+    public typealias Compared = Timecode
+    public var order: SortOrder
+    
+    public var timelineStart: Timecode?
+    
+    public func compare(_ lhs: Timecode, _ rhs: Timecode) -> ComparisonResult {
+        let result = lhs.compare(to: rhs, timelineStart: timelineStart)
+        switch order {
+        case .forward:
+            return result
+        case .reverse:
+            return result.inverted
+        }
+    }
+    public init(order: SortOrder, timelineStart: Timecode? = nil) {
+        self.order = order
+        self.timelineStart = timelineStart
+    }
+}
+
+extension ComparisonResult {
+    /// Internal helper:
+    /// Inverts the result if different from `orderedSame`.
+    var inverted: Self {
+        switch self {
+        case .orderedAscending: return .orderedDescending
+        case .orderedSame: return .orderedSame
+        case .orderedDescending: return .orderedAscending
         }
     }
 }
