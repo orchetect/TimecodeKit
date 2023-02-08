@@ -102,16 +102,9 @@ class Timecode_Comparable_Tests: XCTestCase {
                 try "03:00:00:00".toTimecode(at: frameRate)
             ]
             
-            var shuffledTimecodes: [Timecode] = presortedTimecodes
-            
-            // randomize so timecodes are out of order;
-            // loop in case shuffle produces identical ordering
-            var shuffleCount = 0
-            while shuffleCount == 0 || shuffledTimecodes == presortedTimecodes {
-                print("\(frameRate)fps - shuffling")
-                shuffledTimecodes.shuffle()
-                shuffleCount += 1
-            }
+            // shuffle
+            var shuffledTimecodes = presortedTimecodes
+            shuffledTimecodes.guaranteedShuffle()
             
             // sort the shuffled array
             let resortedTimecodes = shuffledTimecodes.sorted()
@@ -229,6 +222,142 @@ class Timecode_Comparable_Tests: XCTestCase {
                                           timelineStart: tc("23:00:00:00")),
             .orderedDescending
         )
+    }
+    
+    func testCollection_isSorted_A() throws {
+        let frameRate: TimecodeFrameRate = ._24
+        
+        func tc(_ string: String) throws -> Timecode {
+            try string.toTimecode(at: frameRate)
+        }
+        
+        XCTAssertTrue(
+            [
+                try tc("00:00:00:00"),
+                try tc("00:00:00:01"),
+                try tc("00:00:00:14"),
+                try tc("00:00:00:15"),
+                try tc("00:00:00:15"), // sequential dupe
+                try tc("00:00:01:00"),
+                try tc("00:00:01:01"),
+                try tc("00:00:01:23"),
+                try tc("00:00:02:00"),
+                try tc("00:01:00:05"),
+                try tc("00:02:00:08"),
+                try tc("00:23:00:10"),
+                try tc("01:00:00:00"),
+                try tc("02:00:00:00"),
+                try tc("03:00:00:00")
+            ]
+            .isSorted() // timelineStart of zero
+        )
+        
+        XCTAssertFalse(
+            [
+                try tc("00:00:00:00"),
+                try tc("00:00:00:01"),
+                try tc("00:00:00:14"),
+                try tc("00:00:00:15"),
+                try tc("00:00:00:15"), // sequential dupe
+                try tc("00:00:01:00"),
+                try tc("00:00:01:01"),
+                try tc("00:00:01:23"),
+                try tc("00:00:02:00"),
+                try tc("00:01:00:05"),
+                try tc("00:02:00:08"),
+                try tc("00:23:00:10"),
+                try tc("01:00:00:00"),
+                try tc("02:00:00:00"),
+                try tc("03:00:00:00")
+            ]
+            .isSorted(timelineStart: try tc("01:00:00:00"))
+        )
+        
+        XCTAssertTrue(
+            [
+                try tc("01:00:00:00"),
+                try tc("02:00:00:00"),
+                try tc("03:00:00:00"),
+                try tc("00:00:00:00"),
+                try tc("00:00:00:01"),
+                try tc("00:00:00:14"),
+                try tc("00:00:00:15"),
+                try tc("00:00:00:15"), // sequential dupe
+                try tc("00:00:01:00"),
+                try tc("00:00:01:01"),
+                try tc("00:00:01:23"),
+                try tc("00:00:02:00"),
+                try tc("00:01:00:05"),
+                try tc("00:02:00:08"),
+                try tc("00:23:00:10"),
+                try tc("00:59:59:23") // 1 frame before wrap around
+            ]
+            .isSorted(timelineStart: try tc("01:00:00:00"))
+        )
+        
+        XCTAssertFalse(
+            [
+                try tc("01:00:00:00"),
+                try tc("02:00:00:00"),
+                try tc("03:00:00:00"),
+                try tc("00:00:00:00"),
+                try tc("00:00:00:01"),
+                try tc("00:00:00:14"),
+                try tc("00:00:00:15"),
+                try tc("00:00:00:15"), // sequential dupe
+                try tc("00:00:01:00"),
+                try tc("00:00:01:01"),
+                try tc("00:00:01:23"),
+                try tc("00:00:02:00"),
+                try tc("00:01:00:05"),
+                try tc("00:02:00:08"),
+                try tc("00:23:00:10"),
+                try tc("00:59:59:23") // 1 frame before wrap around
+            ]
+            .isSorted(ascending: false, timelineStart: try tc("01:00:00:00"))
+        )
+        
+        XCTAssertTrue(
+            [
+                try tc("00:59:59:23"), // 1 frame before wrap around
+                try tc("00:23:00:10"),
+                try tc("00:02:00:08"),
+                try tc("00:01:00:05"),
+                try tc("00:00:02:00"),
+                try tc("00:00:01:23"),
+                try tc("00:00:01:01"),
+                try tc("00:00:01:00"),
+                try tc("00:00:00:15"),
+                try tc("00:00:00:15"), // sequential dupe
+                try tc("00:00:00:14"),
+                try tc("00:00:00:01"),
+                try tc("00:00:00:00"),
+                try tc("03:00:00:00"),
+                try tc("02:00:00:00"),
+                try tc("01:00:00:00")
+            ]
+            .isSorted(ascending: false, timelineStart: try tc("01:00:00:00"))
+        )
+    }
+}
+
+// MARK: - Helpers
+
+private extension MutableCollection where Self: RandomAccessCollection, Self: Equatable {
+    /// Guarantees shuffled array is different than the input.
+    mutating func guaranteedShuffle() {
+        // avoid endless loop with 0 or 1 array elements not being shuffleable
+        guard count > 1 else { return }
+        
+        // randomize so timecodes are out of order;
+        // loop in case shuffle produces identical ordering
+        var shuffled = self
+        var shuffleCount = 0
+        while shuffleCount == 0 || shuffled == self {
+            shuffled.shuffle()
+            shuffleCount += 1
+        }
+        self = shuffled
     }
 }
 

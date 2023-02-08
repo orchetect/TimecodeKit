@@ -90,3 +90,40 @@ extension Timecode {
         }
     }
 }
+
+// MARK: - Collection Ordering
+
+extension Collection where Element == Timecode {
+    /// Returns `true` if all ``Timecode`` instances are ordered chronologically, either ascending
+    /// or descending according to the `ascending` parameter.
+    /// Consecutive contiguous subsequences of identical timecode is allowed.
+    ///
+    /// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
+    /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
+    /// See ``compare(to:timelineStart:)`` for more information.
+    ///
+    /// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
+    /// and performs simple linear comparison between elements.
+    public func isSorted(ascending: Bool = true,
+                         timelineStart: Timecode? = nil) -> Bool {
+        guard count > 1 else { return true }
+        
+        var priorIdx = startIndex
+        for idx in indices.dropFirst() {
+            defer { priorIdx = idx }
+            if self[idx] == self[priorIdx] { continue }
+            let compared = self[priorIdx].compare(to: self[idx], timelineStart: timelineStart)
+            if ascending {
+                // orderedAscending is wanted
+                // orderedSame is ok, even though we should never get it. (we already tested for equality)
+                guard compared != .orderedDescending else { return false }
+            } else {
+                // orderedDescending is wanted
+                // orderedSame is ok, even though we should never get it. (we already tested for equality)
+                guard compared != .orderedAscending else { return false }
+            }
+        }
+        
+        return true
+    }
+}
