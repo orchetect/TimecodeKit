@@ -138,13 +138,58 @@ class Timecode_Comparable_Tests: XCTestCase {
             shuffled.guaranteedShuffle()
             
             // sort the shuffled array ascending
-            let sortedAscending = shuffled
-                .sorted(ascending: true, timelineStart: try "01:00:00:00".toTimecode(at: frameRate))
+            let sortedAscending = shuffled.sorted(
+                ascending: true,
+                timelineStart: try "01:00:00:00".toTimecode(at: frameRate)
+            )
             XCTAssertEqual(sortedAscending, presorted, "\(frameRate)fps")
             
             // sort the shuffled array descending
-            let sortedDecending = shuffled
-                .sorted(ascending: false, timelineStart: try "01:00:00:00".toTimecode(at: frameRate))
+            let sortedDecending = shuffled.sorted(
+                ascending: false,
+                timelineStart: try "01:00:00:00".toTimecode(at: frameRate)
+            )
+            let presortedReversed = Array(presorted.reversed())
+            XCTAssertEqual(sortedDecending, presortedReversed, "\(frameRate)fps")
+        }
+    }
+    
+    func testTimecode_Sort_1HourStart() throws {
+        try TimecodeFrameRate.allCases.forEach { frameRate in
+            let presorted: [Timecode] = [
+                try "01:00:00:00".toTimecode(at: frameRate),
+                try "02:00:00:00".toTimecode(at: frameRate),
+                try "03:00:00:00".toTimecode(at: frameRate),
+                try "00:00:00:00".toTimecode(at: frameRate),
+                try "00:00:00:01".toTimecode(at: frameRate),
+                try "00:00:00:14".toTimecode(at: frameRate),
+                try "00:00:00:15".toTimecode(at: frameRate),
+                try "00:00:00:15".toTimecode(at: frameRate), // sequential dupe
+                try "00:00:01:00".toTimecode(at: frameRate),
+                try "00:00:01:01".toTimecode(at: frameRate),
+                try "00:00:01:23".toTimecode(at: frameRate),
+                try "00:00:02:00".toTimecode(at: frameRate),
+                try "00:01:00:05".toTimecode(at: frameRate),
+                try "00:02:00:08".toTimecode(at: frameRate),
+                try "00:23:00:10".toTimecode(at: frameRate)
+            ]
+            
+            // shuffle
+            var shuffled = presorted
+            shuffled.guaranteedShuffle()
+            
+            // sort the shuffled array ascending
+            var sortedAscending = shuffled
+            sortedAscending.sort(
+                ascending: true,
+                timelineStart: try "01:00:00:00".toTimecode(at: frameRate)
+            )
+            XCTAssertEqual(sortedAscending, presorted, "\(frameRate)fps")
+            
+            // sort the shuffled array descending
+            var sortedDecending = shuffled
+            sortedDecending.sort(ascending: false,
+                                 timelineStart: try "01:00:00:00".toTimecode(at: frameRate))
             let presortedReversed = Array(presorted.reversed())
             XCTAssertEqual(sortedDecending, presortedReversed, "\(frameRate)fps")
         }
