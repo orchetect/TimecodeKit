@@ -437,7 +437,7 @@ tc.stringValue // == "01:12:20:05.62"
 
 #### Comparable
 
-Two `Timecode` instances can be compared linearly.
+Two `Timecode` instances can be compared linearly using common comparison operators.
 
 ```swift
 try "01:00:00:00".toTimecode(at: ._24) 
@@ -448,6 +448,95 @@ try "00:59:50:00".toTimecode(at: ._24)
 
 try "00:59:50:00".toTimecode(at: ._24) 
     > "01:00:00:00".toTimecode(at: ._24) // == false
+```
+
+#### Compare with Timeline Context
+
+Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW software applications such as Pro Tools allows a project start time to be set to any timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over 00:00:00:00 at some point along the timeline.
+
+Methods to sort and test sort order of `Timecode` collections are provided.
+
+For example, given a 24 hour limit:
+
+- A timeline start of 00:00:00:00:
+
+  24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+
+- A timeline start of 20:00:00:00:
+
+  24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+
+  This would mean for example, that 21:00:00:00 is < 00:00:00:00 since it is earlier in the wrapping timeline, and 18:00:00:00 is > 21:00:00:00 since it is later in the wrapping timeline.
+
+Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
+
+```swift
+let timecode1: Timecode
+let timecode2: Timecode
+let start: Timecode
+let result = timecode1.compare(to: timecode2, timelineStart: start)
+// result is a ComparisonResult of orderedAscending, orderedSame, or orderedDescending
+```
+
+#### Sorting
+
+Collections of `Timecode` can be sorted ascending or descending.
+
+```swift
+let timeline: [Timecode] = [ ... ]
+let sorted: [Timecode] = timeline.sorted() // ascending
+let sorted: [Timecode] = timeline.sorted(ascending: false) // descending
+```
+
+These collections can also be tested for sort order:
+
+```swift
+let timeline: [Timecode] = [ ... ]
+let isSorted: Bool = timeline.isSorted() // ascending
+let isSorted: Bool = timeline.isSorted(ascending: false) // descending
+```
+
+On newer systems, a `SortComparator` called `TimecodeSortComparator` is available as well.
+
+```swift
+let comparator = TimecodeSortComparator() // ascending
+let comparator = TimecodeSortComparator(order: .reverse) // descending
+
+let timeline: [Timecode] = [ ... ]
+let sorted: [Timecode] = timeline.sorted(using: comparator)
+```
+
+#### Sorting with Timeline Context
+
+For an explanation of timeline context, see the [Compare with Timeline Context](#Compare-with-Timeline-Context) section above.
+
+Collections of `Timecode` can be sorted ascending or descending.
+
+```swift
+let timeline: [Timecode] = [ ... ]
+let start = try "01:00:00:00".toTimecode(at: ._24)
+let sorted: [Timecode] = timeline.sorted(timelineStart: start) // ascending
+let sorted: [Timecode] = timeline.sorted(order: .reverse, timelineStart: start) // descending
+```
+
+These collections can also be tested for sort order:
+
+```swift
+let timeline: [Timecode] = [ ... ]
+let start = try "01:00:00:00".toTimecode(at: ._24)
+let isSorted: Bool = timeline.isSorted(timelineStart: start) // ascending
+let isSorted: Bool = timeline.isSorted(order: .reverse, timelineStart: start) // descending
+```
+
+On newer systems, a `SortComparator` called `TimecodeSortComparator` is available as well.
+
+```swift
+let start = try "01:00:00:00".toTimecode(at: ._24)
+let comparator = TimecodeSortComparator(timelineStart: start) // ascending
+let comparator = TimecodeSortComparator(order: .reverse, timelineStart: start) // descending
+
+let timeline: [Timecode] = [ ... ]
+let sorted: [Timecode] = timeline.sorted(using: comparator)
 ```
 
 #### Range, Strideable
