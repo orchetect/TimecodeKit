@@ -150,7 +150,7 @@ class Timecode_Comparable_Tests: XCTestCase {
         }
     }
     
-    func testTimecode_Sorted_TimecodeTimelineComparator_1HourStart() throws {
+    func testTimecode_Sorted_TimecodeSortComparator_1HourStart() throws {
         guard #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) else {
             throw XCTSkip("Not available on this OS version.")
         }
@@ -179,7 +179,7 @@ class Timecode_Comparable_Tests: XCTestCase {
             shuffled.guaranteedShuffle()
             
             // sort the shuffled array ascending
-            let ascendingComparator = TimecodeTimelineComparator(
+            let ascendingComparator = TimecodeSortComparator(
                 order: .forward,
                 timelineStart: try "01:00:00:00".toTimecode(at: frameRate)
             )
@@ -188,7 +188,7 @@ class Timecode_Comparable_Tests: XCTestCase {
             XCTAssertEqual(sortedAscending, presorted, "\(frameRate)fps")
             
             // sort the shuffled array descending
-            let descendingComparator = TimecodeTimelineComparator(
+            let descendingComparator = TimecodeSortComparator(
                 order: .reverse,
                 timelineStart: try "01:00:00:00".toTimecode(at: frameRate)
             )
@@ -310,7 +310,7 @@ class Timecode_Comparable_Tests: XCTestCase {
         )
     }
     
-    func testCollection_isSorted_A() throws {
+    func testCollection_isSorted() throws {
         let frameRate: TimecodeFrameRate = ._24
         
         func tc(_ string: String) throws -> Timecode {

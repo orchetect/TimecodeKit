@@ -163,7 +163,7 @@ extension Collection where Element == Timecode {
 /// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
 /// and performs simple linear comparison between elements.
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
-public struct TimecodeTimelineComparator: SortComparator {
+public struct TimecodeSortComparator: SortComparator {
     public typealias Compared = Timecode
     public var order: SortOrder
     
