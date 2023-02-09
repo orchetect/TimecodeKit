@@ -36,22 +36,35 @@ extension Timecode: Comparable {
 
 extension Timecode {
     /// Compare two ``Timecode`` instances, optionally using a timeline that does not start at
-    /// 00:00:00:00. Timeline length and wrap point is determined by the ``upperLimit`` property.
-    /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
+    /// 00:00:00:00. Timeline length and wrap point is determined by the
+    /// ``upperLimit-swift.property`` property. The timeline is considered linear for 24 hours (or
+    /// 100 days) from this start time, wrapping around the upper limit.
     ///
-    /// For example, given 24 hour limit:
+    /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
+    /// software applications such as Pro Tools allows a project start time to be set to any
+    /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
+    /// 00:00:00:00 at some point along the timeline.
     ///
-    /// - 00:00:00:00 and 23:00:00:00, timeline start 00:00:00:00:
-    ///   returns `orderedAscending`
-    /// - 00:00:00:00 and 23:00:00:00, timeline start 22:00:00:00:
-    ///   returns `orderedDescending` since the period from 22 hours to 24 hours is earlier than
-    ///   0 hours though 22 hours. (the timeline runs 24 consecutive hours from 22:00:00:00 through
-    ///   00:00:00:00 through 21:59:59:XX)
+    /// Methods to sort and test sort order of `Timecode` collections are provided.
     ///
-    /// Passing `timelineStart` of zero (00:00:00:00) is the same as using the `<` or `>` operator
-    /// between two ``Timecode`` instances.
+    /// For example, given a 24 hour limit:
     ///
-    /// See also: ``TimecodeTimelineComparator``.
+    /// - A timeline start of 00:00:00:00:
+    ///
+    ///   24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+    ///
+    /// - A timeline start of 20:00:00:00:
+    ///
+    ///   24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+    ///
+    /// This would mean for example, that 21:00:00:00 is `<` 00:00:00:00 since it is earlier in the
+    /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
+    /// timeline.
+    ///
+    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
+    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    ///
+    /// See also: ``TimecodeSortComparator``.
     public func compare(to other: Timecode, timelineStart: Timecode? = nil) -> ComparisonResult {
         // identical timecodes can early-return
         if self == other { return .orderedSame }
@@ -99,13 +112,35 @@ extension Collection where Element == Timecode {
     /// Returns `true` if all ``Timecode`` instances are ordered chronologically, either ascending
     /// or descending according to the `ascending` parameter.
     /// Contiguous subsequences of identical timecode are allowed.
+    /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
+    /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
+    /// wrapping around the upper limit.
     ///
-    /// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
-    /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
-    /// See ``compare(to:timelineStart:)`` for more information.
+    /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
+    /// software applications such as Pro Tools allows a project start time to be set to any
+    /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
+    /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
-    /// and performs simple linear comparison between elements.
+    /// Methods to sort and test sort order of `Timecode` collections are provided.
+    ///
+    /// For example, given a 24 hour limit:
+    ///
+    /// - A timeline start of 00:00:00:00:
+    ///
+    ///   24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+    ///
+    /// - A timeline start of 20:00:00:00:
+    ///
+    ///   24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+    ///
+    /// This would mean for example, that 21:00:00:00 is `<` 00:00:00:00 since it is earlier in the
+    /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
+    /// timeline.
+    ///
+    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
+    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    ///
+    /// See also: ``TimecodeSortComparator``.
     public func isSorted(ascending: Bool = true,
                          timelineStart: Timecode? = nil) -> Bool {
         guard count > 1 else { return true }
@@ -133,16 +168,36 @@ extension Collection where Element == Timecode {
 extension Collection where Element == Timecode {
     /// Returns a collection sorting all ``Timecode`` instances chronologically, either ascending
     /// or descending.
-    /// Ordering of contiguous subsequences of identical timecode is preserved.
+    /// Contiguous subsequences of identical timecode are allowed.
+    /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
+    /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
+    /// wrapping around the upper limit.
     ///
-    /// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
-    /// The timeline is considered linear for 24 hours (or 100 days) from this start time.
-    /// See ``compare(to:timelineStart:)`` for more information.
+    /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
+    /// software applications such as Pro Tools allows a project start time to be set to any
+    /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
+    /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
-    /// and performs simple linear comparison between elements.
+    /// Methods to sort and test sort order of `Timecode` collections are provided.
     ///
-    /// See also: ``TimecodeTimelineComparator``.
+    /// For example, given a 24 hour limit:
+    ///
+    /// - A timeline start of 00:00:00:00:
+    ///
+    ///   24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+    ///
+    /// - A timeline start of 20:00:00:00:
+    ///
+    ///   24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+    ///
+    /// This would mean for example, that 21:00:00:00 is `<` 00:00:00:00 since it is earlier in the
+    /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
+    /// timeline.
+    ///
+    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
+    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    ///
+    /// See also: ``TimecodeSortComparator``.
     public func sorted(ascending: Bool = true,
                        timelineStart: Timecode) -> [Element] {
         sorted {
@@ -154,14 +209,34 @@ extension Collection where Element == Timecode {
 
 /// Sort comparator for ``Timecode``, optionally supplying a timeline start time.
 ///
-/// Ordering of contiguous subsequences of identical timecode is preserved.
+/// Contiguous subsequences of identical timecode are allowed.
+/// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
+/// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
+/// wrapping around the upper limit.
 ///
-/// If `timelineStart` is passed, comparison factors in wrapping around the ``upperLimit``.
-/// The timeline is considered linear for 24 hours (or 100 days) from this start time.
-/// See ``compare(to:timelineStart:)`` for more information.
+/// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
+/// software applications such as Pro Tools allows a project start time to be set to any
+/// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
+/// 00:00:00:00 at some point along the timeline.
 ///
-/// Passing `nil` for `timelineStart` assumes a timeline start of zero (00:00:00:00)
-/// and performs simple linear comparison between elements.
+/// Methods to sort and test sort order of `Timecode` collections are provided.
+///
+/// For example, given a 24 hour limit:
+///
+/// - A timeline start of 00:00:00:00:
+///
+///   24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+///
+/// - A timeline start of 20:00:00:00:
+///
+///   24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+///
+/// This would mean for example, that 21:00:00:00 is `<` 00:00:00:00 since it is earlier in the
+/// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
+/// timeline.
+///
+/// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
+/// standard  `<`, `==`, or  `>` operators as a sort comparator.
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public struct TimecodeSortComparator: SortComparator {
     public typealias Compared = Timecode
