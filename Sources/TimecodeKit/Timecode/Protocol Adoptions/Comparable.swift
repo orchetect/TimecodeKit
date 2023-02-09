@@ -178,7 +178,7 @@ public struct TimecodeTimelineComparator: SortComparator {
             return result.inverted
         }
     }
-    public init(order: SortOrder, timelineStart: Timecode? = nil) {
+    public init(order: SortOrder = .forward, timelineStart: Timecode? = nil) {
         self.order = order
         self.timelineStart = timelineStart
     }
