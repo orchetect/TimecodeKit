@@ -4,13 +4,13 @@
 
 [![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.7](https://img.shields.io/badge/Swift-5.5–5.7-orange.svg?style=flat) [![Xcode 13-14](https://img.shields.io/badge/Xcode-13–14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 20 industry frame rates, including conversions to/from timecode strings and timecode-based calculations.
+The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 20 industry timecode frame rates, including conversions to/from timecode strings and offering timecode-based calculations.
 
-Timecode is suitable for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/editing applications.
+Timecode is a standard for representing video frames and used for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/NLE applications.
 
 ## Supported Timecode Frame Rates
 
-The following BITC frame rates are supported. These are used widely in DAWs (digital audio workstation software) and video editing applications.
+The following timecode frame rates are supported. These are display rates.
 
 | Film / ATSC / HD | PAL / SECAM / DVB / ATSC | NTSC / ATSC / PAL-M | NTSC Non-Standard | ATSC |
 | ---------------- | ------------------------ | ------------------- | ----------------- | ---- |
@@ -20,6 +20,19 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 | 47.952           |                          | 59.94 DF            |                   |      |
 | 48               |                          | 119.88              |                   |      |
 |                  |                          | 119.88 DF           |                   |      |
+
+## Supported Video Frame Rates
+
+The following video frame rates are supported. These are actual video rates.
+
+| Film    | PAL       | NTSC            |
+| ------- | --------- | --------------- |
+| 23.98p  | 25p / 25i | 29.97p / 29.97i |
+| 24p     | 50p / 50i | 30p             |
+| 47.592p | 100p      | 59.94p          |
+| 48p     |           | 60p / 60i       |
+|         |           | 119.88p         |
+|         |           | 120p            |
 
 ## Core Features
 
@@ -35,6 +48,7 @@ The following BITC frame rates are supported. These are used widely in DAWs (dig
 - Conforms to `Codable`
 - A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
 - A SwiftUI `Text` object showing invalid timecode components using alternate attributes (such as red text color)
+- `AVAsset` video file utilities to easily read/write timecode and locate `AVPlayer` to timecode locations
 - Exhaustive unit tests ensuring accuracy
 
 ## Installation
@@ -450,23 +464,23 @@ try "00:59:50:00".toTimecode(at: ._24)
     > "01:00:00:00".toTimecode(at: ._24) // == false
 ```
 
-#### Compare with Timeline Context
+#### Compare using Timeline Context
 
-Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW software applications such as Pro Tools allows a project start time to be set to any timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over 00:00:00:00 at some point along the timeline.
-
-Methods to sort and test sort order of `Timecode` collections are provided.
+Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW applications such as Pro Tools allow a project start time to be set to any timecode. Its timeline then extends for 24 hours from that timecode, wrapping over 00:00:00:00 at some point along the timeline.
 
 For example, given a 24 hour limit:
 
-- A timeline start of 00:00:00:00:
+- A timeline start of 00:00:00:00 @ 24fps:
 
-  24 hours elapses from 00:00:00:00 → 23:59:59:XX (where XX is max frame - 1)
+  24 hours elapses from 00:00:00:00 → 23:59:59:23
 
-- A timeline start of 20:00:00:00:
+- A timeline start of 20:00:00:00 @ 24fps:
 
-  24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:XX (where XX is max frame - 1)
+  24 hours elapses from 20:00:00:00 → 00:00:00:00 → 19:59:59:23
 
   This would mean for example, that 21:00:00:00 is < 00:00:00:00 since it is earlier in the wrapping timeline, and 18:00:00:00 is > 21:00:00:00 since it is later in the wrapping timeline.
+
+Methods to sort and test sort order of `Timecode` collections are provided.
 
 Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
 
@@ -506,9 +520,9 @@ let timeline: [Timecode] = [ ... ]
 let sorted: [Timecode] = timeline.sorted(using: comparator)
 ```
 
-#### Sorting with Timeline Context
+#### Sorting using Timeline Context
 
-For an explanation of timeline context, see the [Compare with Timeline Context](#Compare-with-Timeline-Context) section above.
+For an explanation of timeline context, see the [Compare using Timeline Context](#Compare-using-Timeline-Context) section above.
 
 Collections of `Timecode` can be sorted ascending or descending.
 
@@ -545,7 +559,7 @@ A `Stride` or `Range` can be formed between two `Timecode` instances.
 
 ```swift
 let startTC = try "01:00:00:00".toTimecode(at: ._24)
-let endTC   = try "01:00:01:00".toTimecode(at: ._24)
+let endTC   = try "01:00:00:10".toTimecode(at: ._24)
 ```
 
 Range:
@@ -576,20 +590,6 @@ for tc in startTC...endTC {
 01:00:00:08
 01:00:00:09
 01:00:00:10
-01:00:00:11
-01:00:00:12
-01:00:00:13
-01:00:00:14
-01:00:00:15
-01:00:00:16
-01:00:00:17
-01:00:00:18
-01:00:00:19
-01:00:00:20
-01:00:00:21
-01:00:00:22
-01:00:00:23
-01:00:01:00
 ```
 
 Stride:
@@ -605,38 +605,36 @@ for tc in stride(from: startTC, to: endTC, by: 5) {
 01:00:00:00
 01:00:00:05
 01:00:00:10
-01:00:00:15
-01:00:00:20
 ```
 
 #### Rational Number Expression
 
-Some video metadata and timeline interchange files (AAF, Final Cut Pro XML) encode frame rate and timecode as rational numbers (a fraction consisting of two integers - a numerator and a denominator).
-
-`TimecodeFrameRate` and `VideoFrameRate` are both capable of initializing from a rational fraction, and also provide a `rationalRate` and `rationalFrameDuration` property that provides this fraction.
-
-Since drop-frame is not encodable in a rational fraction, it must be imperatively supplied.
-
-```swift
-// fraction representing the duration of 1 frame
-TimecodeFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97
-// fraction representing the fps
-TimecodeFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97
-
-// fraction representing the duration of 1 frame
-VideoFrameRate(rationalFrameDuration: (1001, 30000), drop: false) // == ._29_97p
-// fraction representing the fps
-VideoFrameRate(rationalRate: (30000, 1001), drop: false) // == ._29_97p
-```
+Video file metadata and timeline interchange files (AAF, Final Cut Pro XML) encode frame rate and timecode as rational numbers (a fraction consisting of two integers - a numerator and a denominator).
 
 `Timecode` is capable of initializing from an elapsed time expressed as a rational fraction using the `init?(rational:)` initializer. The `rationalValue` property returns the `Timecode`'s elapsed time expressed as a rational fraction.
 
 ```swift
-try Timecode(rational: (1920919, 30000), at: ._29_97)
+try Timecode(Fraction(1920919, 30000), at: ._29_97)
     .stringValue // == "00:01:03;29"
 
 try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
-    .rationalValue // == (920919, 30000)
+    .rationalValue // == Fraction(1920919, 30000)
+```
+
+`TimecodeFrameRate` and `VideoFrameRate` are both capable of initializing from a rational fraction, and also provide a `rationalRate` and `rationalFrameDuration` property that provides this fraction.
+
+Since drop-frame (timecode) or interlaced (video) attributes are not encodable in a rational fraction, they must be imperatively supplied.
+
+```swift
+// fraction representing the duration of 1 frame
+TimecodeFrameRate(frameDuration: Fraction(1001, 30000), drop: false) // == ._29_97
+// fraction representing the fps
+TimecodeFrameRate(rate: Fraction(30000, 1001), drop: false) // == ._29_97
+
+// fraction representing the duration of 1 frame
+VideoFrameRate(frameDuration: Fraction(1001, 30000), interlaced: false) // == ._29_97p
+// fraction representing the fps
+VideoFrameRate(rate: Fraction(30000, 1001), interlaced: false) // == ._29_97p
 ```
 
 #### CMTime Conversion
@@ -674,6 +672,33 @@ let interval = tc.interval(.negative)
 // construct with - or + unary operator:
 let interval = try -Timecode(TCC(h: 01), at: ._24) // negative
 let interval = try +Timecode(TCC(h: 01), at: ._24) // positive
+
+// construct between two Timecode instances
+let interval = timecode1.interval(to: timecode2)
+```
+
+The absolute interval can be returned.
+
+```swift
+let tc = try Timecode(TCC(h: 01), at: ._24)
+
+let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
+interval.absoluteInterval // 01:00:00:00
+
+let interval = TimecodeInterval(tc, .negative) // -01:00:00:00
+interval.absoluteInterval // 01:00:00:00
+```
+
+The interval can be flattened by wrapping it around the upper limit if necessary, which is 24 hours in timecode by default.
+
+```swift
+let tc = try Timecode(TCC(h: 01), at: ._24)
+
+let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
+interval.flattened() // 01:00:00:00
+
+let interval = TimecodeInterval(tc, .negative) // -01:00:00:00
+interval.flattened() // 23:00:00:00
 ```
 
 #### Timecode Transformer
