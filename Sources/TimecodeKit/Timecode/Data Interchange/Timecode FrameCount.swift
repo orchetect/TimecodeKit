@@ -85,9 +85,7 @@ extension Timecode {
 // MARK: - Get and Set
 
 extension Timecode {
-    /// Returns the total number of whole frames elapsed from zero up to the timecode values.
-    ///
-    /// (Validation is based on the frame rate and `upperLimit` property.)
+    /// Returns the total number of frames elapsed.
     public var frameCount: FrameCount {
         Self.frameCount(
             of: components,
