@@ -33,6 +33,12 @@ extension Timecode.SubFramesBase: CustomStringConvertible {
     }
 }
 
+extension Timecode.SubFramesBase: Identifiable {
+    public var id: RawValue {
+        rawValue
+    }
+}
+
 extension Timecode.SubFramesBase: Codable { }
 
 // MARK: Methods
