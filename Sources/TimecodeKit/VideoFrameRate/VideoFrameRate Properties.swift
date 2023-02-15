@@ -21,7 +21,7 @@ extension VideoFrameRate {
         case ._48p:     return "48p"
         case ._50p:     return "50p"
         case ._50i:     return "50i"
-        case ._59_94p:  return "59.95p"
+        case ._59_94p:  return "59.94p"
         case ._60p:     return "60p"
         case ._60i:     return "60i"
         case ._95_9p:   return "95.9p"
