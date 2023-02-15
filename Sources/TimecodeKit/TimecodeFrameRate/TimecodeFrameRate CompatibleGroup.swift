@@ -31,6 +31,7 @@ extension TimecodeFrameRate {
                     ._29_97,
                     ._47_952,
                     ._59_94,
+                    ._95_904,
                     ._119_88
                 ],
                 
@@ -47,6 +48,7 @@ extension TimecodeFrameRate {
                     ._48,
                     ._50,
                     ._60,
+                    ._96,
                     ._100,
                     ._120
                 ],

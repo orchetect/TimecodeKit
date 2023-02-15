@@ -95,6 +95,16 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// - Warning: This is not a video frame rate - it is a display rate only.
     case _60_drop = "60d"
     
+    /// 95.904 fps (96/1.001)
+    ///
+    /// Double 47.952 fps / quadruple 23.976 fps
+    case _95_904 = "95.904"
+    
+    /// 96 fps
+    ///
+    /// Double 48 fps / quadruple 24 fps
+    case _96 = "96"
+    
     /// 100 fps
     ///
     /// Double 50 fps / quadruple 25 fps

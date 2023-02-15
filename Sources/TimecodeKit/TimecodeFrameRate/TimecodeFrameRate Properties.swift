@@ -25,6 +25,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return "59.94d"
         case ._60:          return "60"
         case ._60_drop:     return "60d"
+        case ._95_904:      return "95.904"
+        case ._96:          return "96"
         case ._100:         return "100"
         case ._119_88:      return "119.88"
         case ._119_88_drop: return "119.88d"
@@ -51,6 +53,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return "59.94 fps drop"
         case ._60:          return "60 fps"
         case ._60_drop:     return "60 fps drop"
+        case ._95_904:      return "95.904 fps"
+        case ._96:          return "96 fps"
         case ._100:         return "100 fps"
         case ._119_88:      return "119.88 fps"
         case ._119_88_drop: return "119.88 fps drop"
@@ -102,6 +106,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return Fraction(60000,   1001)
         case ._60:          return Fraction(60,      1)
         case ._60_drop:     return Fraction(60,      1)
+        case ._95_904:      return Fraction(96000,   1001)
+        case ._96:          return Fraction(96,      1)
         case ._100:         return Fraction(100,     1)
         case ._119_88:      return Fraction(120_000, 1001)
         case ._119_88_drop: return Fraction(120_000, 1001)
@@ -135,6 +141,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return Fraction(1001, 60000) // TODO: inferred
         case ._60:          return Fraction(100,  6000)
         case ._60_drop:     return Fraction(100,  6000) // TODO: needs checking
+        case ._95_904:      return Fraction(1001, 96000) // TODO: inferred
+        case ._96:          return Fraction(100,  9600) // TODO: inferred
         case ._100:         return Fraction(100,  10000)
         case ._119_88:      return Fraction(1001, 120000) // TODO: inferred
         case ._119_88_drop: return Fraction(1001, 120000) // TODO: inferred
@@ -163,6 +171,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return Fraction(1000, 59940) // TODO: inferred
         case ._60:          return nil
         case ._60_drop:     return nil // TODO: needs checking
+        case ._95_904:      return Fraction(1000, 95904) // TODO: inferred
+        case ._96:          return nil
         case ._100:         return nil
         case ._119_88:      return Fraction(1000, 119880) // TODO: inferred
         case ._119_88_drop: return Fraction(1000, 119880) // TODO: inferred
@@ -189,6 +199,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return true
         case ._60:          return false
         case ._60_drop:     return true
+        case ._95_904:      return false
+        case ._96:          return false
         case ._100:         return false
         case ._119_88:      return false
         case ._119_88_drop: return true
@@ -217,6 +229,8 @@ extension TimecodeFrameRate {
              ._59_94_drop,
              ._60,
              ._60_drop,
+             ._95_904,
+             ._96,
              ._100:
             
             return 2
@@ -255,6 +269,8 @@ extension TimecodeFrameRate {
             case ._59_94_drop:  return 5_178_816  // @ 24hours (._29_97_drop * 2, in theory)
             case ._60:          return 5_184_000  // @ 24hours
             case ._60_drop:     return 5_178_816  // @ 24hours
+            case ._95_904:      return 8_294_400  // @ 24hours
+            case ._96:          return 8_294_400  // @ 24hours
             case ._100:         return 8_640_000  // @ 24hours
             case ._119_88:      return 10_368_000 // @ 24hours (._29_97 * 4 in theory)
             case ._119_88_drop: return 10_357_632 // @ 24hours (._29_97_drop * 4, in theory)
@@ -313,6 +329,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return 60
         case ._60:          return 60
         case ._60_drop:     return 60
+        case ._95_904:      return 96
+        case ._96:          return 96
         case ._100:         return 100
         case ._119_88:      return 120
         case ._119_88_drop: return 120
@@ -340,6 +358,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return 59.94
         case ._60:          return 60.0
         case ._60_drop:     return 59.94
+        case ._95_904:      return 96.0
+        case ._96:          return 96.0
         case ._100:         return 100.0
         case ._119_88:      return 120.0
         case ._119_88_drop: return 119.88
@@ -367,6 +387,8 @@ extension TimecodeFrameRate {
         case ._59_94_drop:  return 60.0 / 1.001
         case ._60:          return 60.0
         case ._60_drop:     return 60.0
+        case ._95_904:      return 96.0 / 1.001
+        case ._96:          return 96.0
         case ._100:         return 100.0
         case ._119_88:      return 120.0 / 1.001
         case ._119_88_drop: return 120.0 / 1.001
@@ -396,6 +418,8 @@ extension TimecodeFrameRate {
              ._50,
              ._59_94,
              ._60,
+             ._95_904,
+             ._96,
              ._100,
              ._119_88,
              ._120:

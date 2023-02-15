@@ -97,6 +97,10 @@ class Timecode_Rational_Tests: XCTestCase {
                 )
             case ._60_drop:
                 break // TODO: finish this
+            case ._95_904:
+                break // TODO: finish this
+            case ._96:
+                break // TODO: finish this
             case ._100:
                 break // TODO: finish this
             case ._119_88:

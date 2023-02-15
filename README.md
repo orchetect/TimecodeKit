@@ -19,7 +19,8 @@ The following timecode frame rates are supported. These are display rates.
 | 24.98            | 100                      | 59.94               | 120 DF            | 120  |
 | 47.952           |                          | 59.94 DF            |                   |      |
 | 48               |                          | 119.88              |                   |      |
-|                  |                          | 119.88 DF           |                   |      |
+| 95.904           |                          | 119.88 DF           |                   |      |
+| 96               |                          |                     |                   |      |
 
 ## Supported Video Frame Rates
 

@@ -106,6 +106,8 @@ class Timecode_FrameCount_Tests: XCTestCase {
             case ._59_94_drop: maxFramesIn24hours = 5_178_816
             case ._60: maxFramesIn24hours = 5_184_000
             case ._60_drop: maxFramesIn24hours = 5_178_816
+            case ._95_904: maxFramesIn24hours = 8_294_400
+            case ._96: maxFramesIn24hours = 8_294_400
             case ._100: maxFramesIn24hours = 8_640_000
             case ._119_88: maxFramesIn24hours = 10_368_000
             case ._119_88_drop: maxFramesIn24hours = 10_357_632
@@ -143,6 +145,8 @@ class Timecode_FrameCount_Tests: XCTestCase {
             case ._59_94_drop: maxFramesExpressibleIn24hours = 5_178_816 - 1
             case ._60: maxFramesExpressibleIn24hours = 5_184_000 - 1
             case ._60_drop: maxFramesExpressibleIn24hours = 5_178_816 - 1
+            case ._95_904: maxFramesExpressibleIn24hours = 8_294_400 - 1
+            case ._96: maxFramesExpressibleIn24hours = 8_294_400 - 1
             case ._100: maxFramesExpressibleIn24hours = 8_640_000 - 1
             case ._119_88: maxFramesExpressibleIn24hours = 10_368_000 - 1
             case ._119_88_drop: maxFramesExpressibleIn24hours = 10_357_632 - 1

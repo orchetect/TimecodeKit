@@ -24,10 +24,12 @@ extension TimecodeFrameRate {
         case ._47_952:      return interlaced ? nil      : ._47_592p
         case ._48:          return interlaced ? nil      : ._48p
         case ._50:          return interlaced ? ._50i    : ._50p
-        case ._59_94:       return interlaced ? nil      : ._59_94p  // 59.94i could exist?
-        case ._59_94_drop:  return interlaced ? nil      : ._59_94p  // 59.94i could exist?
+        case ._59_94:       return interlaced ? nil      : ._59_94p  // TODO: 59.94i exists
+        case ._59_94_drop:  return interlaced ? nil      : ._59_94p  // TODO: 59.94i exists
         case ._60:          return interlaced ? ._60i    : ._60p
         case ._60_drop:     return interlaced ? nil      : ._60p
+        case ._95_904:      return interlaced ? nil      : nil //._95_904p
+        case ._96:          return interlaced ? nil      : nil //._96p
         case ._100:         return interlaced ? nil      : ._100p
         case ._119_88:      return interlaced ? nil      : ._119_88p // 119.88i could exist?
         case ._119_88_drop: return interlaced ? nil      : ._119_88p // 119.88i could exist?

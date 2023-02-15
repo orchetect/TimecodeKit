@@ -69,6 +69,9 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
             case ._59_94_drop, ._60_drop:
                 XCTAssertEqual(ff.feet, 13947, "\(frate)")
                 XCTAssertEqual(ff.frames, 08, "\(frate)")
+            case ._95_904, ._96:
+                XCTAssertEqual(ff.feet, 22338, "\(frate)")
+                XCTAssertEqual(ff.frames, 04, "\(frate)")
             case ._100:
                 XCTAssertEqual(ff.feet, 23269, "\(frate)")
                 XCTAssertEqual(ff.frames, 00, "\(frate)")
