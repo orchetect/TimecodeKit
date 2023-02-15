@@ -21,7 +21,7 @@ extension TimecodeFrameRate {
         case ._29_97_drop:  return interlaced ? ._29_97i : ._29_97p
         case ._30:          return interlaced ? nil      : ._30p     // 30i could exist?
         case ._30_drop:     return interlaced ? nil      : ._30p
-        case ._47_952:      return interlaced ? nil      : ._47_592p
+        case ._47_952:      return interlaced ? nil      : ._47_95p
         case ._48:          return interlaced ? nil      : ._48p
         case ._50:          return interlaced ? ._50i    : ._50p
         case ._59_94:       return interlaced ? nil      : ._59_94p  // TODO: 59.94i exists

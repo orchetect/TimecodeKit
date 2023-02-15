@@ -33,10 +33,10 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     /// 30 fps progressive.
     case _30p = "30p"
     
-    /// 47.952 fps progressive.
+    /// 47.95 fps (47.952) progressive.
     ///
     /// Supported by Avid.
-    case _47_592p = "47.592p"
+    case _47_95p = "47.95p"
     
     /// 48 fps progressive.
     ///

@@ -17,7 +17,7 @@ extension VideoFrameRate {
         case ._29_97p:  return "29.97p"
         case ._29_97i:  return "29.97i"
         case ._30p:     return "30p"
-        case ._47_592p: return "47.592p"
+        case ._47_95p:  return "47.95p"
         case ._48p:     return "48p"
         case ._50p:     return "50p"
         case ._50i:     return "50i"
@@ -65,7 +65,7 @@ extension VideoFrameRate {
         case ._29_97p:  return Fraction(30000,  1001)
         case ._29_97i:  return Fraction(30000,  1001)
         case ._30p:     return Fraction(30,     1)
-        case ._47_592p: return Fraction(48000,  1001)
+        case ._47_95p:  return Fraction(48000,  1001)
         case ._48p:     return Fraction(48,     1)
         case ._50p:     return Fraction(50,     1)
         case ._50i:     return Fraction(50,     1)
@@ -95,7 +95,7 @@ extension VideoFrameRate {
         case ._29_97p:  return Fraction(1001, 30000)  // confirmed in FCP XML
         case ._29_97i:  return Fraction(2002, 60000)  // confirmed in FCP XML & QT tc track
         case ._30p:     return Fraction(100,  3000)   // confirmed in FCP XML
-        case ._47_592p: return Fraction(1001, 48000)  // inferred
+        case ._47_95p:  return Fraction(1001, 48000)  // inferred
         case ._48p:     return Fraction(100,  4800)   // inferred
         case ._50p:     return Fraction(100,  5000)   // confirmed in FCP XML
         case ._50i:     return Fraction(200,  10000)  // inferred
@@ -117,7 +117,7 @@ extension VideoFrameRate {
         case ._29_97p:  return Fraction(1000, 29970)
         case ._29_97i:  return Fraction(2000, 59940) // inferred
         case ._30p:     return nil
-        case ._47_592p: return Fraction(1000, 47592)
+        case ._47_95p:  return Fraction(1000, 47952)
         case ._48p:     return nil
         case ._50p:     return nil
         case ._50i:     return nil
@@ -146,7 +146,7 @@ extension VideoFrameRate {
         case ._29_97p:  return false
         case ._29_97i:  return true
         case ._30p:     return false
-        case ._47_592p: return false
+        case ._47_95p:  return false
         case ._48p:     return false
         case ._50p:     return false
         case ._50i:     return true
