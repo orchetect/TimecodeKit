@@ -103,6 +103,7 @@ Note: This documentation does not cover every property and initializer available
   - [CMTime Conversion](#CMTime-Conversion)
   - [Timecode Intervals](#Timecode-Intervals)
   - [Timecode Transformer](#Timecode-Transformer)
+  - [Feet+Frames](#Feet-Frames)
 
 ### Initialization
 
@@ -704,6 +705,10 @@ interval.flattened() // 23:00:00:00
 #### Timecode Transformer
 
 `TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a ` Timecode` instance.
+
+#### Feet+Frames
+
+`FeedAndFrames` is a type used to convert feed+frames. Initializers and properties on `Timecode` are also available.
 
 ## References
 
