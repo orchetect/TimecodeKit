@@ -9,7 +9,7 @@
 /// Timecode frame rate.
 /// Industry-standard BITC (burn-in timecode) display rates.
 public enum TimecodeFrameRate: String, FrameRateProtocol {
-    /// 23.976 fps (aka 23.98)
+    /// 23.976 fps (24/1.001)
     ///
     /// Also known as 24p for HD video, sometimes rounded up to 23.98 fps. started out as the format for dealing with 24fps film in a NTSC post environment.
     case _23_976 = "23.976"
@@ -19,7 +19,7 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// (film, ATSC, 2k, 4k, 6k)
     case _24 = "24"
     
-    /// 24.98 fps
+    /// 24.98 fps (25/1.001)
     ///
     /// This frame rate is commonly used to facilitate transfers between PAL and NTSC video and film sources. It is mostly used to compensate for some error.
     case _24_98 = "24.98"
@@ -29,13 +29,12 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// (PAL, used in Europe, Uruguay, Argentina, Australia), SECAM, DVB, ATSC)
     case _25 = "25"
     
-    /// 29.97 fps (30p)
+    /// 29.97 fps (30/1.001)
     ///
     /// (NTSC American System (US, Canada, Mexico, Colombia, etc.), ATSC, PAL-M (Brazil))
-    /// (30 / 1.001) frame/sec
     case _29_97 = "29.97"
     
-    /// 29.97 drop fps
+    /// 29.97 fps drop
     case _29_97_drop = "29.97d"
     
     /// 30 fps
@@ -46,14 +45,14 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// ie: 1:00:00:00:00 (1 day/24 hours) at 30 fps is approx 1:00:00:00;02 in 29.97df
     case _30 = "30"
     
-    /// 30 drop fps:
+    /// 30 fps drop
     ///
     /// The 30 fps drop count is an adaptation that allows a timecode display running at 29.97 fps to actually show the clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
     ///
     /// - Warning: This is not a video frame rate - it is a display rate only.
     case _30_drop = "30d"
     
-    /// 47.952 (48p?)
+    /// 47.952 (48/1.001)
     ///
     /// Double 23.976 fps
     case _47_952 = "47.952"
@@ -68,16 +67,16 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// Double 25 fps
     case _50 = "50"
     
-    /// 59.94 fps
+    /// 59.94 fps (60/1.001)
     ///
     /// Double 29.97 fps
     ///
     /// This video frame rate is supported by high definition cameras and is compatible with NTSC (29.97 fps).
     case _59_94 = "59.94"
     
-    /// 59.94 drop fps
+    /// 59.94 fps drop
     ///
-    /// Double 29.97 drop fps
+    /// Double 29.97 fps drop
     case _59_94_drop = "59.94d"
     
     /// 60 fps
@@ -87,7 +86,7 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// This video frame rate is supported by many high definition cameras. However, the NTSC compatible 59.94 fps frame rate is much more common.
     case _60 = "60"
     
-    /// 60 drop fps
+    /// 60 fps drop
     ///
     /// Double 30 fps
     ///
@@ -101,14 +100,14 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// Double 50 fps / quadruple 25 fps
     case _100 = "100"
     
-    /// 119.88 fps
+    /// 119.88 fps (120/1.001)
     ///
     /// Double 59.94 fps / quadruple 29.97 fps
     case _119_88 = "119.88"
     
-    /// 119.88 drop fps
+    /// 119.88 fps drop
     ///
-    /// Double 59.94 drop fps / quadruple 29.97 drop fps
+    /// Double 59.94 fps drop / quadruple 29.97 fps drop
     case _119_88_drop = "119.88d"
     
     /// 120 fps
@@ -116,7 +115,7 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// Double 60 fps / quadruple 30 fps
     case _120 = "120"
     
-    /// 120 drop fps
+    /// 120 fps drop
     ///
     /// Double 60 fps drop / quadruple 30 fps drop
     ///
