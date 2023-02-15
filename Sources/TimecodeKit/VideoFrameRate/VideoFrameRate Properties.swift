@@ -22,6 +22,7 @@ extension VideoFrameRate {
         case ._50p:     return "50p"
         case ._50i:     return "50i"
         case ._59_94p:  return "59.94p"
+        case ._59_94i:  return "59.94i"
         case ._60p:     return "60p"
         case ._60i:     return "60i"
         case ._95_9p:   return "95.9p"
@@ -72,6 +73,7 @@ extension VideoFrameRate {
         case ._50p:     return Fraction(50,     1)
         case ._50i:     return Fraction(50,     1)
         case ._59_94p:  return Fraction(60000,  1001)
+        case ._59_94i:  return Fraction(60000,  1001)
         case ._60p:     return Fraction(60,     1)
         case ._60i:     return Fraction(60,     1)
         case ._95_9p:   return Fraction(96000,  1001)
@@ -104,6 +106,7 @@ extension VideoFrameRate {
         case ._50p:     return Fraction(100,  5000)   // confirmed in FCP XML
         case ._50i:     return Fraction(200,  10000)  // inferred
         case ._59_94p:  return Fraction(1001, 60000)  // confirmed in FCP XML
+        case ._59_94i:  return Fraction(2002, 120000) // inferred
         case ._60p:     return Fraction(100,  6000)   // confirmed in FCP XML
         case ._60i:     return Fraction(200,  12000)  // inferred
         case ._95_9p:   return Fraction(1001, 96000)  // inferred
@@ -128,6 +131,7 @@ extension VideoFrameRate {
         case ._50p:     return nil
         case ._50i:     return nil
         case ._59_94p:  return Fraction(1000, 59940)
+        case ._59_94i:  return Fraction(2000, 119880) // inferred
         case ._60p:     return nil
         case ._60i:     return nil
         case ._95_9p:   return Fraction(1000, 95904)
@@ -159,6 +163,7 @@ extension VideoFrameRate {
         case ._50p:     return false
         case ._50i:     return true
         case ._59_94p:  return false
+        case ._59_94i:  return true
         case ._60p:     return false
         case ._60i:     return true
         case ._95_9p:   return false

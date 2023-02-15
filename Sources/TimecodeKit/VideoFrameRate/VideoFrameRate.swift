@@ -8,7 +8,9 @@ import Foundation
 
 /// Industry-standard video frame rates.
 public enum VideoFrameRate: String, FrameRateProtocol {
-    // TODO: Adobe Premiere offers 10, 12, 12.5 and 15 as well.
+    // TODO: Seen in professional gear: 1, 2, 3, 4, 5, 6, 8, 10, 12, 12.5, 14.98, 15, 20
+    // TODO: Triple rates seen in professional gear: 71.9928, 72, 75, 89.91, 90
+    // TODO: Adobe Premiere offers 10, 12, 12.5 and 15.
     
     /// 23.98 fps (23.976) progressive.
     case _23_98p = "23.98p"
@@ -52,6 +54,10 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     
     /// 59.94 fps progressive.
     case _59_94p = "59.94p"
+    
+    /// 59.94 fps interlaced.
+    /// (119.88 fields producing 59.94 frames.)
+    case _59_94i = "59.94i"
     
     /// 60 fps progressive.
     case _60p = "60p"

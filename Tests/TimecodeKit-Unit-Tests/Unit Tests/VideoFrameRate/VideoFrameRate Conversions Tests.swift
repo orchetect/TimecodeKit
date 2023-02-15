@@ -53,6 +53,11 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(VideoFrameRate(fps: 59.94, strict: false), ._59_94p)
         XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, strict: false), ._59_94p)
         
+        XCTAssertEqual(VideoFrameRate(fps: 59, interlaced: true, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9, interlaced: true, strict: false), ._59_94i)
+        XCTAssertEqual(VideoFrameRate(fps: 59.94, interlaced: true, strict: false), ._59_94i)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, interlaced: true, strict: false), ._59_94i)
+        
         XCTAssertEqual(VideoFrameRate(fps: 60, strict: false), ._60p)
         
         XCTAssertEqual(VideoFrameRate(fps: 95, strict: false), nil)
@@ -111,6 +116,11 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertEqual(VideoFrameRate(fps: 59.9, strict: true), nil)
         XCTAssertEqual(VideoFrameRate(fps: 59.94, strict: true), ._59_94p)
         XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, strict: true), ._59_94p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 59, interlaced: true, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9, interlaced: true, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.94, interlaced: true, strict: true), ._59_94i)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, interlaced: true, strict: true), ._59_94i)
         
         XCTAssertEqual(VideoFrameRate(fps: 60, strict: true), ._60p)
         

@@ -4,7 +4,7 @@
 
 [![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.7](https://img.shields.io/badge/Swift-5.5–5.7-orange.svg?style=flat) [![Xcode 13-14](https://img.shields.io/badge/Xcode-13–14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 20 industry timecode frame rates, including conversions to/from timecode strings and offering timecode-based calculations.
+The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 22 industry timecode frame rates, including conversions to/from timecode strings and offering timecode-based calculations.
 
 Timecode is a standard for representing video frames and used for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/NLE applications.
 
@@ -30,7 +30,7 @@ The following video frame rates are supported. These are actual video rates.
 | --------- | --------- | --------------- |
 | 23.98p    | 25p / 25i | 29.97p / 29.97i |
 | 24p       | 50p / 50i | 30p             |
-| 47.95p    | 100p      | 59.94p          |
+| 47.95p    | 100p      | 59.94p / 59.94i |
 | 48p       |           | 60p / 60i       |
 | 95.9p     |           | 119.88p         |
 | 96p       |           | 120p            |

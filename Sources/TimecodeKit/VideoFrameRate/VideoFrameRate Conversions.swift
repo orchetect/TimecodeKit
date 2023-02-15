@@ -25,6 +25,7 @@ extension VideoFrameRate {
         case ._50p:     return drop ? nil           : ._50
         case ._50i:     return drop ? nil           : ._50
         case ._59_94p:  return drop ? ._59_94_drop  : ._59_94
+        case ._59_94i:  return drop ? ._59_94_drop  : ._59_94
         case ._60p:     return drop ? ._60_drop     : ._60
         case ._60i:     return drop ? nil           : ._60
         case ._95_9p:   return drop ? nil           : ._95_904
