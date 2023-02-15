@@ -13,50 +13,184 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testInit_raw() {
-        XCTAssertEqual(VideoFrameRate(fps: 23.976), ._23_98p)
-        XCTAssertEqual(VideoFrameRate(fps: 23.976023976), ._23_98p)
+    func testInit_raw_nonStrict() {
+        XCTAssertEqual(VideoFrameRate(fps: 23, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 23.9, strict: false), ._23_98p)
+        XCTAssertEqual(VideoFrameRate(fps: 23.98, strict: false), ._23_98p)
+        XCTAssertEqual(VideoFrameRate(fps: 23.976, strict: false), ._23_98p)
+        XCTAssertEqual(VideoFrameRate(fps: 23.976023976, strict: false), ._23_98p)
         
-        XCTAssertEqual(VideoFrameRate(fps: 24), ._24p)
+        XCTAssertEqual(VideoFrameRate(fps: 24, strict: false), ._24p)
         
-        XCTAssertEqual(VideoFrameRate(fps: 25), ._25p)
-        XCTAssertEqual(VideoFrameRate(fps: 25, interlaced: true), ._25i)
+        XCTAssertEqual(VideoFrameRate(fps: 25, strict: false), ._25p)
+        XCTAssertEqual(VideoFrameRate(fps: 25, interlaced: true, strict: false), ._25i)
         
-        XCTAssertEqual(VideoFrameRate(fps: 29.97), ._29_97p)
-        XCTAssertEqual(VideoFrameRate(fps: 29.97, interlaced: true), ._29_97i)
-        XCTAssertEqual(VideoFrameRate(fps: 29.97002997), ._29_97p)
-        XCTAssertEqual(VideoFrameRate(fps: 29.97002997, interlaced: true), ._29_97i)
+        XCTAssertEqual(VideoFrameRate(fps: 29, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.9, strict: false), ._29_97p)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97, strict: false), ._29_97p)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97002997, strict: false), ._29_97p)
         
-        XCTAssertEqual(VideoFrameRate(fps: 30), ._30p)
+        XCTAssertEqual(VideoFrameRate(fps: 29, interlaced: true, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.9, interlaced: true, strict: false), ._29_97i)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97, interlaced: true, strict: false), ._29_97i)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97002997, interlaced: true, strict: false), ._29_97i)
         
-        XCTAssertEqual(VideoFrameRate(fps: 50), ._50p)
-        XCTAssertEqual(VideoFrameRate(fps: 50, interlaced: true), ._50i)
+        XCTAssertEqual(VideoFrameRate(fps: 30, strict: false), ._30p)
         
-        XCTAssertEqual(VideoFrameRate(fps: 59.94), ._59_94p)
-        XCTAssertEqual(VideoFrameRate(fps: 59.9400599401), ._59_94p)
+        XCTAssertEqual(VideoFrameRate(fps: 47, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 47.9, strict: false), ._47_95p)
+        XCTAssertEqual(VideoFrameRate(fps: 47.95, strict: false), ._47_95p)
+        XCTAssertEqual(VideoFrameRate(fps: 47.952, strict: false), ._47_95p)
+        XCTAssertEqual(VideoFrameRate(fps: 47.952047952, strict: false), ._47_95p)
         
-        XCTAssertEqual(VideoFrameRate(fps: 60), ._60p)
+        XCTAssertEqual(VideoFrameRate(fps: 48, strict: false), ._48p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 50, strict: false), ._50p)
+        XCTAssertEqual(VideoFrameRate(fps: 50, interlaced: true, strict: false), ._50i)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 59, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9, strict: false), ._59_94p)
+        XCTAssertEqual(VideoFrameRate(fps: 59.94, strict: false), ._59_94p)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, strict: false), ._59_94p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 60, strict: false), ._60p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 95, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 95.9, strict: false), ._95_9p)
+        XCTAssertEqual(VideoFrameRate(fps: 95.904, strict: false), ._95_9p)
+        XCTAssertEqual(VideoFrameRate(fps: 95.9040959041, strict: false), ._95_9p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 96, strict: false), ._96p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 100, strict: false), ._100p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 119, strict: false), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 119.8, strict: false), ._119_88p)
+        XCTAssertEqual(VideoFrameRate(fps: 119.88, strict: false), ._119_88p)
+        XCTAssertEqual(VideoFrameRate(fps: 119.8801198801, strict: false), ._119_88p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 120, strict: false), ._120p)
     }
     
-    func testInit_raw_invalid() {
-        XCTAssertNil(VideoFrameRate(fps: 0.0))
-        XCTAssertNil(VideoFrameRate(fps: 1.0))
-        XCTAssertNil(VideoFrameRate(fps: 26.0))
-        XCTAssertNil(VideoFrameRate(fps: 29.0))
-        XCTAssertNil(VideoFrameRate(fps: 29.9))
-        XCTAssertNil(VideoFrameRate(fps: 30.1))
-        XCTAssertNil(VideoFrameRate(fps: 30.5))
-        XCTAssertNil(VideoFrameRate(fps: 31.0))
-        XCTAssertNil(VideoFrameRate(fps: 59.0))
-        XCTAssertNil(VideoFrameRate(fps: 59.9))
-        XCTAssertNil(VideoFrameRate(fps: 60.1))
-        XCTAssertNil(VideoFrameRate(fps: 60.5))
-        XCTAssertNil(VideoFrameRate(fps: 61.0))
-        XCTAssertNil(VideoFrameRate(fps: 119.0))
-        XCTAssertNil(VideoFrameRate(fps: 119.8))
-        XCTAssertNil(VideoFrameRate(fps: 120.1))
-        XCTAssertNil(VideoFrameRate(fps: 120.5))
-        XCTAssertNil(VideoFrameRate(fps: 121.0))
+    func testInit_raw_strict() {
+        XCTAssertEqual(VideoFrameRate(fps: 23, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 23.9, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 23.98, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 23.976, strict: true), ._23_98p)
+        XCTAssertEqual(VideoFrameRate(fps: 23.976023976, strict: true), ._23_98p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 24, strict: true), ._24p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 25, strict: true), ._25p)
+        XCTAssertEqual(VideoFrameRate(fps: 25, interlaced: true, strict: true), ._25i)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 29, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.9, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97, strict: true), ._29_97p)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97002997, strict: true), ._29_97p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 29, interlaced: true, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.9, interlaced: true, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97, interlaced: true, strict: true), ._29_97i)
+        XCTAssertEqual(VideoFrameRate(fps: 29.97002997, interlaced: true, strict: true), ._29_97i)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 30, strict: true), ._30p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 47, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 47.9, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 47.95, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 47.952, strict: true), ._47_95p)
+        XCTAssertEqual(VideoFrameRate(fps: 47.952047952, strict: true), ._47_95p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 48, strict: true), ._48p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 50, strict: true), ._50p)
+        XCTAssertEqual(VideoFrameRate(fps: 50, interlaced: true, strict: true), ._50i)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 59, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 59.94, strict: true), ._59_94p)
+        XCTAssertEqual(VideoFrameRate(fps: 59.9400599401, strict: true), ._59_94p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 60, strict: true), ._60p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 95, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 95.9, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 95.904, strict: true), ._95_9p)
+        XCTAssertEqual(VideoFrameRate(fps: 95.9040959041, strict: true), ._95_9p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 96, strict: true), ._96p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 100, strict: true), ._100p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 119, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 119.8, strict: true), nil)
+        XCTAssertEqual(VideoFrameRate(fps: 119.88, strict: true), ._119_88p)
+        XCTAssertEqual(VideoFrameRate(fps: 119.8801198801, strict: true), ._119_88p)
+        
+        XCTAssertEqual(VideoFrameRate(fps: 120, strict: true), ._120p)
+    }
+    
+    func testInit_raw_invalid_nonStrict() {
+        XCTAssertNil(VideoFrameRate(fps: 0.0, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 1.0, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 26.0, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 29.0, strict: false))
+        XCTAssertNotNil(VideoFrameRate(fps: 29.9, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 30.1, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 30.5, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 31.0, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 59.0, strict: false))
+        XCTAssertNotNil(VideoFrameRate(fps: 59.9, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 60.1, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 60.5, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 61.0, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 95.8, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 96.1, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 97.0, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 119.0, strict: false))
+        XCTAssertNotNil(VideoFrameRate(fps: 119.8, strict: false))
+        
+        XCTAssertNil(VideoFrameRate(fps: 120.1, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 120.5, strict: false))
+        XCTAssertNil(VideoFrameRate(fps: 121.0, strict: false))
+    }
+    
+    func testInit_raw_invalid_strict() {
+        XCTAssertNil(VideoFrameRate(fps: 0.0, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 1.0, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 26.0, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 29.0, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 29.9, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 30.1, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 30.5, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 31.0, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 59.0, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 59.9, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 60.1, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 60.5, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 61.0, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 95.8, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 96.1, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 97.0, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 119.0, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 119.8, strict: true))
+        
+        XCTAssertNil(VideoFrameRate(fps: 120.1, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 120.5, strict: true))
+        XCTAssertNil(VideoFrameRate(fps: 121.0, strict: true))
     }
     
     func testInit_rate_allCases() {

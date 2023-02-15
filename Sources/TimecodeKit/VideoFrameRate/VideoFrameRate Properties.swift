@@ -24,6 +24,8 @@ extension VideoFrameRate {
         case ._59_94p:  return "59.95p"
         case ._60p:     return "60p"
         case ._60i:     return "60i"
+        case ._95_9p:   return "95.9p"
+        case ._96p:     return "96"
         case ._100p:    return "100p"
         case ._119_88p: return "119.88pp"
         case ._120p:    return "120p"
@@ -72,6 +74,8 @@ extension VideoFrameRate {
         case ._59_94p:  return Fraction(60000,  1001)
         case ._60p:     return Fraction(60,     1)
         case ._60i:     return Fraction(60,     1)
+        case ._95_9p:   return Fraction(96000,  1001)
+        case ._96p:     return Fraction(96,     1)
         case ._100p:    return Fraction(100,    1)
         case ._119_88p: return Fraction(120000, 1001)
         case ._120p:    return Fraction(120,    1)
@@ -102,6 +106,8 @@ extension VideoFrameRate {
         case ._59_94p:  return Fraction(1001, 60000)  // confirmed in FCP XML
         case ._60p:     return Fraction(100,  6000)   // confirmed in FCP XML
         case ._60i:     return Fraction(200,  12000)  // inferred
+        case ._95_9p:   return Fraction(1001, 96000)  // inferred
+        case ._96p:     return Fraction(100,  9600)   // inferred
         case ._100p:    return Fraction(100,  10000)  // inferred
         case ._119_88p: return Fraction(1001, 120000) // inferred
         case ._120p:    return Fraction(100,  12000)  // inferred
@@ -124,6 +130,8 @@ extension VideoFrameRate {
         case ._59_94p:  return Fraction(1000, 59940)
         case ._60p:     return nil
         case ._60i:     return nil
+        case ._95_9p:   return Fraction(1000, 95904)
+        case ._96p:     return nil
         case ._100p:    return nil
         case ._119_88p: return Fraction(1000, 119880)
         case ._120p:    return nil
@@ -153,6 +161,8 @@ extension VideoFrameRate {
         case ._59_94p:  return false
         case ._60p:     return false
         case ._60i:     return true
+        case ._95_9p:   return false
+        case ._96p:     return false
         case ._100p:    return false
         case ._119_88p: return false
         case ._120p:    return false

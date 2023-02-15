@@ -27,6 +27,8 @@ extension VideoFrameRate {
         case ._59_94p:  return drop ? ._59_94_drop  : ._59_94
         case ._60p:     return drop ? ._60_drop     : ._60
         case ._60i:     return drop ? nil           : ._60
+        case ._95_9p:   return drop ? nil           : ._95_904
+        case ._96p:     return drop ? nil           : ._96
         case ._100p:    return drop ? nil           : ._100
         case ._119_88p: return drop ? ._119_88_drop : ._119_88
         case ._120p:    return drop ? nil           : ._120
@@ -36,16 +38,26 @@ extension VideoFrameRate {
     // MARK: Raw fps
     
     /// Initialize from floating-point frame rate (fps).
+    ///
+    /// - Parameters:
+    ///   - fps: Raw frames per second.
+    ///   - interlaced: `true` for interlaced, `false` for progressive.
+    ///   - strict: Enforces 3 decimal places of precision if `true` otherwise 1 decimal place.
     @_disfavoredOverload
-    public init?(fps: Float, interlaced: Bool = false) {
+    public init?(fps: Float, interlaced: Bool = false, strict: Bool = false) {
         self.init(fps: Double(fps), interlaced: interlaced)
     }
     
     /// Initialize from floating-point frame rate (fps).
-    public init?(fps: Double, interlaced: Bool = false) {
+    ///
+    /// - Parameters:
+    ///   - fps: Raw frames per second.
+    ///   - interlaced: `true` for interlaced, `false` for progressive.
+    ///   - strict: Enforces 3 decimal places of precision if `true` otherwise 1 decimal place.
+    public init?(fps: Double, interlaced: Bool = false, strict: Bool = false) {
         let findMatches = Self.allCases.filter {
-            $0.fps.truncated(decimalPlaces: 3)
-            == fps.truncated(decimalPlaces: 3)
+            $0.fps.truncated(decimalPlaces: strict ? 3 : 1)
+                == fps.truncated(decimalPlaces: strict ? 3 : 1)
         }
         
         if let firstMatch = findMatches.first(where: { $0.isInterlaced == interlaced }) {

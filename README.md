@@ -26,14 +26,14 @@ The following timecode frame rates are supported. These are display rates.
 
 The following video frame rates are supported. These are actual video rates.
 
-| Film    | PAL       | NTSC            |
-| ------- | --------- | --------------- |
-| 23.98p  | 25p / 25i | 29.97p / 29.97i |
-| 24p     | 50p / 50i | 30p             |
-| 47.592p | 100p      | 59.94p          |
-| 48p     |           | 60p / 60i       |
-|         |           | 119.88p         |
-|         |           | 120p            |
+| Film / HD | PAL       | NTSC            |
+| --------- | --------- | --------------- |
+| 23.98p    | 25p / 25i | 29.97p / 29.97i |
+| 24p       | 50p / 50i | 30p             |
+| 47.95p    | 100p      | 59.94p          |
+| 48p       |           | 60p / 60i       |
+| 95.9p     |           | 119.88p         |
+| 96p       |           | 120p            |
 
 ## Core Features
 

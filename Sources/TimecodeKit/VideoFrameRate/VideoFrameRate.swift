@@ -60,6 +60,12 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     /// (120 fields producing 60 frames.)
     case _60i = "60i"
     
+    /// 95.9 fps (95.904) progressive.
+    case _95_9p = "95.9p"
+    
+    /// 96 fps progressive.
+    case _96p = "96p"
+    
     /// 100 fps progressive.
     /// 
     /// Supported by Avid. (Not qualified for smooth playback)
