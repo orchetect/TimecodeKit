@@ -74,8 +74,7 @@ extension Timecode {
         rawValues cmTime: CMTime,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
         properties = Properties(rate: rate, base: base, limit: limit)
         

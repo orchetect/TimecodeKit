@@ -1,8 +1,7 @@
 //
 //  Timecode set.swift
-//  
-//
-//  Created by Steffan Andrews on 2023-03-22.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
