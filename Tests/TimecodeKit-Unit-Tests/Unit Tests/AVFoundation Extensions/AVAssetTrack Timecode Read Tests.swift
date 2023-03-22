@@ -29,9 +29,6 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         
         // even though it's a timecode track, its timeRange property relates to overall timeline of the asset,
         // so its start is 0.
-        // print(track.timeRange)
-        //   start: CMTime(value: 0, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
-        //   duration: CMTime(value: 1452244, timescale: 1000, flags: __C.CMTimeFlags(rawValue: 1), epoch: 0)
         
         // auto-detect frame rate
         do {
@@ -56,6 +53,22 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         
         // duration
         let correctDur = try TCC(m: 24, s: 10, f: 19, sf: 03)
+            .toTimecode(at: frameRate, format: [.showSubFrames])
+        
+        // auto-detect frame rate
+        XCTAssertEqual(try track.durationTimecode(), correctDur)
+        // manually supply frame rate
+        XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
+    }
+    
+    func testReadDurationTimecode_29_97fps() throws {
+        let frameRate: TimecodeFrameRate = ._29_97
+        let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
+        let asset = AVAsset(url: url)
+        let track = try XCTUnwrap(asset.tracks.first)
+        
+        // duration
+        let correctDur = try TCC(s: 10)
             .toTimecode(at: frameRate, format: [.showSubFrames])
         
         // auto-detect frame rate
