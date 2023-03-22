@@ -664,16 +664,16 @@ However, to meet the demand of some timecode calculations (such as offset transf
 
 ```swift
 // construct directly:
-let tc = try Timecode(TCC(h: 01), at: ._24)
+let tc = try Timecode(TCC(h: 1), at: ._24)
 let interval = TimecodeInterval(tc, .negative)
 
 // construct with Timecode method:
-let interval = try Timecode(TCC(h: 01), at: ._24)
+let tc = try Timecode(TCC(h: 1), at: ._24)
 let interval = tc.interval(.negative)
 
 // construct with - or + unary operator:
-let interval = try -Timecode(TCC(h: 01), at: ._24) // negative
-let interval = try +Timecode(TCC(h: 01), at: ._24) // positive
+let interval = try -Timecode(TCC(h: 1), at: ._24) // negative
+let interval = try +Timecode(TCC(h: 1), at: ._24) // positive
 
 // construct between two Timecode instances
 let interval = timecode1.interval(to: timecode2)
@@ -682,7 +682,7 @@ let interval = timecode1.interval(to: timecode2)
 The absolute interval can be returned.
 
 ```swift
-let tc = try Timecode(TCC(h: 01), at: ._24)
+let tc = try Timecode(TCC(h: 1), at: ._24)
 
 let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
 interval.absoluteInterval // 01:00:00:00
@@ -694,7 +694,7 @@ interval.absoluteInterval // 01:00:00:00
 The interval can be flattened by wrapping it around the upper limit if necessary, which is 24 hours in timecode by default.
 
 ```swift
-let tc = try Timecode(TCC(h: 01), at: ._24)
+let tc = try Timecode(TCC(h: 1), at: ._24)
 
 let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
 interval.flattened() // 01:00:00:00
