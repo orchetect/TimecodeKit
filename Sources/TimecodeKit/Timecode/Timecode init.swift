@@ -49,20 +49,6 @@ extension Timecode {
         set(source, by: validation)
     }
     
-    /// Initialize with zero timecode (00:00:00:00) at a given frame rate.
-    public init(
-        at rate: TimecodeFrameRate
-    ) {
-        properties = Properties(rate: rate)
-    }
-    
-    /// Initialize with zero timecode (00:00:00:00) at a given frame rate.
-    public init(
-        using properties: Properties
-    ) {
-        self.properties = properties
-    }
-    
     // MARK: - RichTimecodeSource
     
     /// Initialize by converting a rich time source to timecode.
@@ -72,6 +58,34 @@ extension Timecode {
     ) throws {
         self.properties = properties ?? .init(rate: ._24)
         try set(source, overriding: properties)
+    }
+    
+    // MARK: - GuaranteedTimecodeSource
+    
+    public init(
+        _ source: GuaranteedTimecodeSource,
+        at frameRate: TimecodeFrameRate
+    ) {
+        properties = Properties(rate: frameRate)
+        set(source)
+    }
+    
+    public init(
+        _ source: GuaranteedTimecodeSource,
+        using properties: Properties
+    ) {
+        self.properties = properties
+        set(source)
+    }
+    
+    // MARK: - GuaranteedRichTimecodeSource
+    
+    /// Initialize by converting a rich time source to timecode.
+    public init(
+        _ source: GuaranteedRichTimecodeSource
+    ) {
+        self.properties = .init(rate: ._24) // needs to be initialized with something first
+        self.properties = set(source)
     }
 }
 

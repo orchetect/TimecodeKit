@@ -6,14 +6,14 @@
 
 // MARK: - TimecodeSource
 
-extension TimecodeInterval: RichTimecodeSource {
-    public func set(timecode: inout Timecode, overriding properties: Timecode.Properties?) throws -> Timecode.Properties {
-        try timecode.set(self, overriding: properties)
+extension TimecodeInterval: GuaranteedRichTimecodeSource {
+    public func set(timecode: inout Timecode) -> Timecode.Properties {
+        timecode.set(self)
         return timecode.properties
     }
 }
 
-extension RichTimecodeSource where Self == TimecodeInterval {
+extension GuaranteedRichTimecodeSource where Self == TimecodeInterval {
     /// Instance by flattening a ``TimecodeInterval``, wrapping as necessary based on the
     /// ``upperLimit-swift.property`` and ``frameRate-swift.property`` of the interval.
     public static func interval(flattening interval: TimecodeInterval) -> Self {

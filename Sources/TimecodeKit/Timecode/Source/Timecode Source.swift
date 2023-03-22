@@ -21,49 +21,20 @@ public protocol RichTimecodeSource {
     ) throws -> Timecode.Properties
 }
 
-//extension Timecode {
-//    /// Source value that can be converted to ``Timecode``.
-//    public enum Source {
-//        case components(Timecode.Components)
-//        case component(Timecode.Component, Int)
-//        case frameCount(FrameCount)
-//        case frameCountValue(FrameCount.Value)
-//        case rational(Fraction)
-//        case realTime(TimeInterval)
-//        case samples(Int, sampleRate: Int)
-//        case samplesFloat(Double, sampleRate: Int)
-//        case string(String)
-//        case feetAndFrames(FeetAndFrames)
-//    }
-//}
+/// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
+public protocol GuaranteedTimecodeSource {
+    func set(timecode: inout Timecode)
+}
 
-//extension Timecode.Source {
-    /// An individual time attribute of a time range.
-    public enum RangeAttribute {
-        case start
-        case end
-        case duration
-    }
-//}
+/// A protocol for timecode time value sources that are able to supply frame rate information and
+/// are guaranteed to be valid regardless of properties.
+public protocol GuaranteedRichTimecodeSource {
+    func set(timecode: inout Timecode) -> Timecode.Properties
+}
 
-// TODO: refactor into individual files
-//extension Timecode.Source {
-//    public static func frames(_ frames: Int) -> Self {
-//        .frameCountValue(.frames(frames))
-//    }
-//
-//    public static var zero: Self {
-//        .components(.zero)
-//    }
-//}
-
-//#if canImport(AVFoundation) && !os(watchOS)
-//import AVFoundation
-//
-//// TODO: deal with these
-//extension Timecode.Source {
-//    public static func avAsset(AVAsset, RangeAttribute) -> Self
-//    public static func cmTime(CMTime, RangeAttribute) -> Self
-//}
-//
-//#endif
+/// An individual time attribute of a time range.
+public enum RangeAttribute {
+    case start
+    case end
+    case duration
+}

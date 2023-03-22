@@ -46,7 +46,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public mutating func set(
         _ source: RichTimecodeSource,
-        overriding properties: Timecode.Properties? = nil
+        overriding properties: Properties? = nil
     ) throws {
         self.properties = try source.set(timecode: &self, overriding: properties)
     }
@@ -56,10 +56,51 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public func setting(
         _ value: RichTimecodeSource,
-        overriding properties: Timecode.Properties? = nil
+        overriding properties: Properties? = nil
     ) throws -> Timecode {
         var copy = self
         try copy.set(value, overriding: properties)
+        return copy
+    }
+}
+
+// MARK: - GuaranteedTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    public mutating func set(
+        _ source: GuaranteedTimecodeSource
+    ) {
+        source.set(timecode: &self)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(
+        _ value: GuaranteedTimecodeSource
+    ) -> Timecode {
+        var copy = self
+        copy.set(value)
+        return copy
+    }
+}
+
+
+// MARK: - GuaranteedRichTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    public mutating func set(
+        _ source: GuaranteedRichTimecodeSource
+    ) -> Properties {
+        source.set(timecode: &self)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(
+        _ value: GuaranteedRichTimecodeSource
+    ) -> Timecode {
+        var copy = self
+        copy.properties = copy.set(value)
         return copy
     }
 }
