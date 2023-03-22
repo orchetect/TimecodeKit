@@ -13,6 +13,68 @@ import AVFoundation
 // MARK: - Helper methods
 
 extension AVAssetTrack {
+    /// Returns the track duration expressed as timecode.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
+    @_disfavoredOverload
+    public func durationTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> Timecode {
+        guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
+        else {
+            throw Timecode.MediaParseError.missingOrNonStandardFrameRate
+        }
+        
+        let range = try timecodeRange(
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+        
+        return range.upperBound - range.lowerBound
+    }
+    
+    // MARK: - Helpers
+    
+    // Note:
+    // This shouldn't be public because it's not terribly useful and might be misleading.
+    // For example, if used on a timecode track ("tmcd"), this will often return a range
+    // that starts from 0 and ends with the duration, instead of providing the actual timecode track's
+    // start and end timecode. This is because it references the `timeRange` property.
+    //
+    /// Returns the track `timeRange` as a range of timecode.
+    ///
+    /// Passing a value to `frameRate` will override frame rate detection.
+    /// Passing `nil` will detect frame rate from the asset's contents if possible.
+    ///
+    /// - Throws: ``Timecode/MediaParseError``
+    @_disfavoredOverload
+    internal func timecodeRange(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> ClosedRange<Timecode> {
+        guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
+        else {
+            throw Timecode.MediaParseError.missingOrNonStandardFrameRate
+        }
+        
+        return try timeRange.timecodeRange(
+            at: frameRate,
+            limit: limit,
+            base: base,
+            format: format
+        )
+    }
+    
     /// Returns the start frame number from a timecode track.
     /// Returns `nil` if the track is not a timecode track.
     internal func readTimecodeSamples(
