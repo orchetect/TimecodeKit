@@ -32,6 +32,32 @@ extension AVAssetTrack {
     }
 }
 
+extension CMTimeRange {
+    /// Returns the time range as a timecode range.
+    ///
+    /// Throws an error if the range is invalid or if one or both of the times cannot be converted
+    /// to valid timecode.
+    ///
+    /// - Throws: ``Timecode/MediaParseError``
+    public func timecodeRange(
+        at frameRate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> ClosedRange<Timecode> {
+        guard isValid, start <= end else {
+            throw Timecode.MediaParseError.unknownTimecode
+        }
+        
+        let timecodes = try [start, end]
+            .map {
+                try Timecode($0, at: frameRate, limit: limit, base: base, format: format)
+            }
+        
+        return timecodes[0] ... timecodes[1]
+    }
+}
+
 #if !os(tvOS) // AVMediaDataStorage not available on tvOS
 
 @available(macOS 10.11, iOS 13.0, watchOS 6, *)
