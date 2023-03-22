@@ -63,3 +63,10 @@ extension Timecode.Components: Equatable {
             lhs.sf == rhs.sf
     }
 }
+
+// MARK: - Static Constructors
+
+extension Timecode.Components {
+    /// Components value of zero (0 00:00:00:00.00)
+    public static let zero: Self = .init()
+}
