@@ -7,22 +7,22 @@
 import Foundation
 
 extension Timecode {
-    // MARK: - Basic
+    // MARK: - TimecodeSource
     
-    /// Initialize by converting a time source to timecode at the given frame rate.
+    /// Initialize by converting a time source to timecode at a given frame rate.
     /// Uses defaulted properties.
     public init(
-        _ source: Source,
+        _ source: TimecodeSource,
         at frameRate: TimecodeFrameRate
     ) throws {
         properties = Properties(rate: frameRate)
         try set(source)
     }
     
-    /// Initialize by converting a time source to timecode at the given frame rate.
+    /// Initialize by converting a time source to timecode at a given frame rate.
     /// Uses defaulted properties.
     public init(
-        _ source: Source,
+        _ source: TimecodeSource,
         at frameRate: TimecodeFrameRate,
         by validation: Validation
     ) {
@@ -30,18 +30,18 @@ extension Timecode {
         set(source, by: validation)
     }
     
-    /// Initialize by converting a time source to timecode.
+    /// Initialize by converting a time source to timecode using the given properties.
     public init(
-        _ source: Source,
+        _ source: TimecodeSource,
         using properties: Properties
     ) throws {
         self.properties = properties
         try set(source)
     }
     
-    /// Initialize by converting a time source to timecode.
+    /// Initialize by converting a time source to timecode using the given properties.
     public init(
-        _ source: Source,
+        _ source: TimecodeSource,
         using properties: Properties,
         by validation: Validation
     ) {
@@ -51,11 +51,9 @@ extension Timecode {
     
     /// Initialize with zero timecode (00:00:00:00) at a given frame rate.
     public init(
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
+        at rate: TimecodeFrameRate
     ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
+        properties = Properties(rate: rate)
     }
     
     /// Initialize with zero timecode (00:00:00:00) at a given frame rate.
@@ -65,19 +63,50 @@ extension Timecode {
         self.properties = properties
     }
     
+    // MARK: - RichTimecodeSource
     
-    
-    
-    
-    
-    // MARK: - TimecodeInterval
-    #warning("> refactor into Source case or static constructor")
-    
-    /// Instance by flattening a `TimecodeInterval`, wrapping as necessary based on the
-    /// ``upperLimit-swift.property`` and ``frameRate-swift.property`` of the interval.
+    /// Initialize by converting a rich time source to timecode.
     public init(
-        flattening interval: TimecodeInterval
-    ) {
-        self = interval.flattened()
+        _ source: RichTimecodeSource,
+        overriding properties: Timecode.Properties? = nil
+    ) throws {
+        self.properties = properties ?? .init(rate: ._24)
+        try set(source, overriding: properties)
+    }
+}
+
+// MARK: - TimecodeSource Category Methods
+
+extension TimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    /// Uses defaulted properties.
+    public func toTimecode(
+        at frameRate: TimecodeFrameRate
+    ) throws -> Timecode {
+        try Timecode(self, at: frameRate)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    /// Uses defaulted properties.
+    public func toTimecode(
+        at frameRate: TimecodeFrameRate,
+        by validation: Timecode.Validation
+    ) -> Timecode {
+        Timecode(self, at: frameRate, by: validation)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode(
+        using properties: Timecode.Properties
+    ) throws -> Timecode {
+        try Timecode(self, using: properties)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode(
+        using properties: Timecode.Properties,
+        by validation: Timecode.Validation
+    ) -> Timecode {
+        Timecode(self, using: properties, by: validation)
     }
 }

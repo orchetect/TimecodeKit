@@ -296,7 +296,10 @@ extension Timecode {
         } else {
             guard let otherConverted = try? other.converted(to: properties.frameRate) else {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
-                return .init(Timecode.Components().toTimecode(rawValuesAt: properties.frameRate))
+                return .init(
+                    Timecode.Components.zero
+                        .toTimecode(using: properties, by: .allowingInvalidComponents)
+                )
             }
             
             return __offset(to: otherConverted.components)

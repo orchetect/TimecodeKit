@@ -10,69 +10,69 @@
 import Foundation
 import AVFoundation
 
-extension Timecode {
-    /// Instance from embedded start timecode of an `AVAsset`.
-    ///
-    /// - Note: Passing a value to `frameRate` will override frame rate detection.
-    /// Passing `nil` will detect frame rate from the asset's contents if possible.
-    ///
-    /// - Throws: ``MediaParseError``
-    public init(
-        startOf asset: AVAsset,
-        at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        guard let tc = try asset.startTimecode(
-            at: rate,
-            limit: limit,
-            base: base
-        ) else {
-            throw MediaParseError.unknownTimecode
+// MARK: - Payload
+
+public struct AVAssetPayload {
+    public var asset: AVAsset
+    public var attribute: RangeAttribute
+}
+
+// MARK: - TimecodeSource
+
+extension AVAssetPayload: RichTimecodeSource {
+    public func set(
+        timecode: inout Timecode,
+        overriding properties: Timecode.Properties? = nil
+    ) throws -> Timecode.Properties {
+        let rate: TimecodeFrameRate? = properties?.frameRate // nil means auto-detect
+        
+        let base: Timecode.SubFramesBase = properties?.subFramesBase
+            ?? timecode.properties.subFramesBase
+        
+        let limit: Timecode.UpperLimit = properties?.upperLimit
+            ?? timecode.properties.upperLimit
+        
+        switch attribute {
+        case .start:
+            guard let tc = try asset.startTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            ) else {
+                throw Timecode.MediaParseError.unknownTimecode
+            }
+            timecode = tc
+            
+        case .end:
+            guard let tc = try asset.endTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            ) else {
+                throw Timecode.MediaParseError.unknownTimecode
+            }
+            timecode = tc
+            
+        case .duration:
+            timecode = try asset.durationTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            )
         }
         
-        self = tc
+        return timecode.properties
     }
-    
-    /// Instance from embedded end timecode (start + duration) of an `AVAsset`.
-    ///
-    /// - Note: Passing a value to `frameRate` will override frame rate detection.
-    /// Passing `nil` will detect frame rate from the asset's contents if possible.
-    ///
-    /// - Throws: ``MediaParseError`` or ``ValidationError``
-    public init(
-        endOf asset: AVAsset,
-        at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        guard let tc = try asset.endTimecode(
-            at: rate,
-            limit: limit,
-            base: base
-        ) else {
-            throw MediaParseError.unknownTimecode
-        }
-        
-        self = tc
-    }
-    
-    /// Instance from embedded duration of an `AVAsset`.
-    ///
-    /// - Note: Passing a value to `frameRate` will override frame rate detection.
-    /// Passing `nil` will detect frame rate from the asset's contents if possible.
-    ///
-    /// - Throws: ``MediaParseError`` or ``ValidationError``
-    public init(
-        durationOf asset: AVAsset,
-        at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        self = try asset.durationTimecode(
-            at: rate,
-            limit: limit,
-            base: base
+}
+
+extension RichTimecodeSource where Self == AVAssetPayload {
+    public static func avAsset(
+        asset: AVAsset,
+        _ attribute: RangeAttribute
+    ) -> Self {
+        AVAssetPayload(
+            asset: asset,
+            attribute: attribute
         )
     }
 }

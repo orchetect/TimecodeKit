@@ -6,34 +6,32 @@
 
 import Foundation
 
-// MARK: - Init
+// MARK: - TimecodeSource
 
-extension Timecode {
-    /// Instance exactly from Feet+Frames.
-    ///
-    /// If any values are out-of-bounds an error will be thrown, indicating an invalid timecode.
-    ///
-    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// When used as a counter in the audio-world the footage count refers to 35mm 4-perf. Detailed
-    /// discussion can be found [in this thread.](
-    /// https://gearspace.com/board/post-production-forum/898755-timecode-feet-frames.html
-    /// )
-    ///
-    /// - Throws: ``ValidationError``
-    public init(
-        _ exactly: FeetAndFrames,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(exactly: exactly)
+extension FeetAndFrames: TimecodeSource {
+    public func set(timecode: inout Timecode) throws {
+        try timecode.setTimecode(exactly: self)
+    }
+    
+    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+        switch validation {
+        case .clamping, .clampingEach:
+            timecode.setTimecode(clamping: self)
+        case .wrapping:
+            timecode.setTimecode(wrapping: self)
+        case .allowingInvalidComponents:
+            timecode.setTimecode(rawValues: self)
+        }
     }
 }
 
-// MARK: - Get and Set
+extension TimecodeSource where Self == FeetAndFrames {
+    public static func feetAndFrames(_ source: FeetAndFrames) -> Self {
+        source
+    }
+}
+
+// MARK: - Get
 
 extension Timecode {
     /// Returns the timecode expressed as Feet+Frames.
@@ -54,22 +52,24 @@ extension Timecode {
             subFramesBase: properties.subFramesBase
         )
     }
-    
-    /// Set timecode from Feet+Frames.
-    ///
-    /// Returns true/false depending on whether the string values are valid or not.
-    ///
-    /// Values which are out-of-bounds will return false.
-    ///
-    /// (Validation is based on the frame rate and `upperLimit` property.)
-    ///
-    /// When used as a counter in the audio-world the footage count refers to 35mm 4-perf. Detailed
-    /// discussion can be found [in this thread.](
-    /// https://gearspace.com/board/post-production-forum/898755-timecode-feet-frames.html
-    /// )
-    ///
-    /// - Throws: ``ValidationError``
-    public mutating func setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
+}
+
+// MARK: - Set
+
+extension Timecode {
+    internal mutating func setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
         try setTimecode(exactly: feetAndFrames.frameCount)
+    }
+    
+    internal mutating func setTimecode(clamping feetAndFrames: FeetAndFrames) {
+        setTimecode(clamping: feetAndFrames.frameCount)
+    }
+    
+    internal mutating func setTimecode(wrapping feetAndFrames: FeetAndFrames) {
+        setTimecode(wrapping: feetAndFrames.frameCount)
+    }
+    
+    internal mutating func setTimecode(rawValues feetAndFrames: FeetAndFrames) {
+        setTimecode(rawValues: feetAndFrames.frameCount)
     }
 }

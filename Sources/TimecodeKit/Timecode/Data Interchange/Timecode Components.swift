@@ -4,92 +4,49 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-// MARK: - Init
+// MARK: - TimecodeSource
 
-extension Timecode {
-    /// Instance exactly from timecode values and frame rate.
-    ///
-    /// If any values are out-of-bounds an error will be thrown, indicating an invalid timecode.
-    ///
-    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``ValidationError``
-    public init(
-        _ exactly: Components,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(exactly: exactly)
+extension Timecode.Components: TimecodeSource {
+    public func set(timecode: inout Timecode) throws {
+        try timecode.setTimecode(exactly: self)
     }
     
-    /// Instance from timecode values and frame rate, clamping to valid timecode if necessary.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    public init(
-        clamping rawValues: Components,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(clamping: rawValues)
-    }
-    
-    /// Instance from timecode values and frame rate, clamping individual values if necessary.
-    ///
-    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
-    /// values.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    public init(
-        clampingEach rawValues: Components,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(clampingEach: rawValues)
-    }
-    
-    /// Instance from timecode values and frame rate, wrapping timecode if necessary.
-    ///
-    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
-    ///
-    /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
-    public init(
-        wrapping rawValues: Components,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(wrapping: rawValues)
-    }
-    
-    /// Instance from raw timecode values and frame rate.
-    ///
-    /// Timecode values will not be validated or rejected if they overflow.
-    ///
-    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-    public init(
-        rawValues: Components,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(rawValues: rawValues)
+    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+        switch validation {
+        case .clamping:
+            timecode.setTimecode(clamping: self)
+        case .clampingEach:
+            timecode.setTimecode(clampingEach: self)
+        case .wrapping:
+            timecode.setTimecode(wrapping: self)
+        case .allowingInvalidComponents:
+            timecode.setTimecode(rawValues: self)
+        }
     }
 }
 
-// MARK: - Get and Set
+extension TimecodeSource where Self == Timecode.Components {
+    public static func components(_ source: Timecode.Components) -> Self {
+        source
+    }
+    
+    public static func components(
+        d: Int = 0,
+        h: Int = 0,
+        m: Int = 0,
+        s: Int = 0,
+        f: Int = 0,
+        sf: Int = 0
+    ) -> Self {
+        Timecode.Components(d: d, h: h, m: m, s: s, f: f, sf: sf)
+    }
+}
+
+// MARK: - Get
+
+// no getter - Timecode contains stored components property
+
+// MARK: - Set
 
 extension Timecode {
     /// Set timecode from tuple values.
@@ -145,39 +102,5 @@ extension Timecode {
     /// Timecode values will not be validated or rejected if they overflow.
     internal mutating func setTimecode(rawValues values: Components) {
         components = values
-    }
-}
-
-// MARK: - .toTimecode
-
-extension Timecode.Components {
-    /// Returns an instance of `Timecode(exactly:)`.
-    ///
-    /// - Throws: ``Timecode/ValidationError``
-    public func toTimecode(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
-    ) throws -> Timecode {
-        try Timecode(
-            self,
-            at: rate,
-            limit: limit,
-            base: base
-        )
-    }
-    
-    /// Returns an instance of `Timecode(rawValues:)`.
-    public func toTimecode(
-        rawValuesAt rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
-    ) -> Timecode {
-        Timecode(
-            rawValues: self,
-            at: rate,
-            limit: limit,
-            base: base
-        )
     }
 }

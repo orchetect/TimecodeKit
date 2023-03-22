@@ -6,7 +6,6 @@
 
 extension Timecode {
     /// Primitive struct describing timecode values, agnostic of frame rate.
-    /// (The global typealias `Timecode.Components()` is also available for convenience.)
     ///
     /// Raw values are stored and are not implicitly validated or clamped.
     public struct Components {

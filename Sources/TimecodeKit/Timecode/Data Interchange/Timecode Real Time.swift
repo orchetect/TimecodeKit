@@ -6,76 +6,32 @@
 
 import Foundation
 
-// MARK: - Init
+// MARK: - TimecodeSource
 
-extension Timecode {
-    /// Instance from total elapsed real time and frame rate.
-    ///
-    /// - Note: This may be lossy.
-    ///
-    /// - Throws: ``ValidationError``
-    public init(
-        realTime exactly: TimeInterval,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(realTime: exactly)
+extension TimeInterval: TimecodeSource {
+    public func set(timecode: inout Timecode) throws {
+        try timecode.setTimecode(exactlyRealTime: self)
     }
     
-    /// Instance from total elapsed real time and frame rate, clamping to valid timecode if
-    /// necessary.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Note: This may be lossy.
-    public init(
-        clampingRealTime source: TimeInterval,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(clampingRealTime: source)
-    }
-    
-    /// Instance from total elapsed real time and frame rate, wrapping timecode if necessary.
-    ///
-    /// Timecode will be wrapped around the timecode clock if out-of-bounds.
-    ///
-    /// - Note: This may be lossy.
-    public init(
-        wrappingRealTime source: TimeInterval,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(wrappingRealTime: source)
-    }
-    
-    /// Instance from total elapsed real time and frame rate.
-    ///
-    /// Allows for invalid raw values (in this case, unbounded Days component).
-    ///
-    /// - Note: This may be lossy.
-    public init(
-        rawValuesRealTime source: TimeInterval,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        setTimecode(rawValuesRealTime: source)
+    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+        switch validation {
+        case .clamping, .clampingEach:
+            timecode.setTimecode(clampingRealTime: self)
+        case .wrapping:
+            timecode.setTimecode(wrappingRealTime: self)
+        case .allowingInvalidComponents:
+            timecode.setTimecode(rawValuesRealTime: self)
+        }
     }
 }
 
-// MARK: - Get and Set
+extension TimecodeSource where Self == TimeInterval {
+    public static func realTime(_ seconds: TimeInterval) -> Self {
+        seconds
+    }
+}
+
+// MARK: - Get
 
 extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in
@@ -83,7 +39,11 @@ extension Timecode {
     public var realTimeValue: TimeInterval {
         frameCount.doubleValue * (1.0 / properties.frameRate.frameRateForRealTimeCalculation)
     }
-    
+}
+
+// MARK: - Set
+
+extension Timecode {
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
@@ -91,8 +51,8 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func setTimecode(realTime: TimeInterval) throws {
-        let convertedComponents = components(realTime: realTime)
+    internal mutating func setTimecode(exactlyRealTime: TimeInterval) throws {
+        let convertedComponents = components(realTime: exactlyRealTime)
         try setTimecode(exactly: convertedComponents)
     }
     
@@ -100,7 +60,7 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Clamps to valid timecode.
-    public mutating func setTimecode(clampingRealTime: TimeInterval) {
+    internal mutating func setTimecode(clampingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: clampingRealTime)
         setTimecode(clamping: convertedComponents)
     }
@@ -109,7 +69,7 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Wraps timecode if necessary.
-    public mutating func setTimecode(wrappingRealTime: TimeInterval) {
+    internal mutating func setTimecode(wrappingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: wrappingRealTime)
         setTimecode(wrapping: convertedComponents)
     }
@@ -118,12 +78,12 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
-    public mutating func setTimecode(rawValuesRealTime: TimeInterval) {
+    internal mutating func setTimecode(rawValuesRealTime: TimeInterval) {
         let convertedComponents = components(realTime: rawValuesRealTime)
         setTimecode(rawValues: convertedComponents)
     }
     
-    // MARK: Internal Methods
+    // MARK: Helper Methods
     
     /// Internal:
     /// Converts a real-time value (wall-clock time) to components using the instance's
@@ -155,25 +115,5 @@ extension Timecode {
         }
         
         return calc
-    }
-}
-
-// a.k.a: extension Double
-extension TimeInterval {
-    /// Convenience method to create an `Timecode` struct using the default
-    /// `(_ exactly:)` initializer.
-    ///
-    /// - Throws: ``ValidationError``
-    public func toTimecode(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
-    ) throws -> Timecode {
-        try Timecode(
-            realTime: self,
-            at: rate,
-            limit: limit,
-            base: base
-        )
     }
 }

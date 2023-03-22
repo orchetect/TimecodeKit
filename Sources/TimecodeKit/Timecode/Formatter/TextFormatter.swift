@@ -336,9 +336,11 @@ extension Timecode.TextFormatter {
         }
         
         return Timecode(
-            at: unwrappedFrameRate,
-            limit: unwrappedUpperLimit,
-            base: unwrappedSubFramesBase
+            using: .init(
+                rate: unwrappedFrameRate,
+                base: unwrappedSubFramesBase,
+                limit: unwrappedUpperLimit
+            )
         )
     }
 }

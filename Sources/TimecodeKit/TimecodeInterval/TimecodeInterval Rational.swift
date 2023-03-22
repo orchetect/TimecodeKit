@@ -16,18 +16,36 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ rational: Fraction,
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
+        using properties: Timecode.Properties
     ) throws {
         let neg = rational.isNegative
         let absRational = rational.abs()
         
         let absTimecode = try Timecode(
             absRational,
-            at: rate,
-            limit: limit,
-            base: base
+            using: properties
+        )
+        
+        self.init(absTimecode, neg ? .minus : .plus)
+    }
+    
+    /// Initialize from a time duration represented as a rational fraction.
+    /// A negative fraction will produce a negative time interval.
+    ///
+    /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
+    /// positive. The sign simply determines whether the interval is negative or positive.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public init(
+        _ rational: Fraction,
+        at rate: TimecodeFrameRate
+    ) throws {
+        let neg = rational.isNegative
+        let absRational = rational.abs()
+        
+        let absTimecode = try Timecode(
+            absRational,
+            using: .init(rate: rate)
         )
         
         self.init(absTimecode, neg ? .minus : .plus)
@@ -51,15 +69,28 @@ extension Fraction {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func toTimecodeInterval(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
+        using properties: Timecode.Properties
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,
-            at: rate,
-            limit: limit,
-            base: base
+            using: properties
+        )
+    }
+    
+    /// Convenience function to initialize a `TimecodeInterval` instance from a time duration
+    /// represented as a rational fraction.
+    /// A negative fraction will produce a negative time interval.
+    ///
+    /// - Note: The fraction is treated as an absolute value regardless of whether it is negative or
+    /// positive. The sign simply determines whether the interval is positive or negative.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func toTimecodeInterval(
+        at rate: TimecodeFrameRate
+    ) throws -> TimecodeInterval {
+        try TimecodeInterval(
+            self,
+            using: .init(rate: rate)
         )
     }
 }

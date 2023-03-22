@@ -432,20 +432,27 @@ extension Timecode {
     internal func __offset(to other: Components) -> TimecodeInterval {
         if components == other {
             return TimecodeInterval(
-                Timecode.Components().toTimecode(
-                    rawValuesAt: properties.frameRate,
-                    limit: properties.upperLimit,
-                    base: properties.subFramesBase
-                ),
+                Timecode.Components.zero
+                    .toTimecode(
+                        using: .init(
+                            rate: properties.frameRate,
+                            base: properties.subFramesBase,
+                            limit: properties.upperLimit
+                        ),
+                        by: .allowingInvalidComponents
+                    ),
                 .plus
             )
         }
         
         let otherTimecode = Timecode(
-            rawValues: other,
-            at: properties.frameRate,
-            limit: ._100days,
-            base: properties.subFramesBase
+            .components(other),
+            using: .init(
+                rate: properties.frameRate,
+                base: properties.subFramesBase,
+                limit: ._100days
+            ),
+            by: .allowingInvalidComponents
         )
         
         if otherTimecode > self {
@@ -455,9 +462,8 @@ extension Timecode {
             )
             
             let deltaTC = diff.toTimecode(
-                rawValuesAt: properties.frameRate,
-                limit: properties.upperLimit,
-                base: properties.subFramesBase
+                using: properties,
+                by: .allowingInvalidComponents
             )
             
             let delta = TimecodeInterval(deltaTC, .plus)
@@ -471,9 +477,8 @@ extension Timecode {
             )
             
             let deltaTC = diff.toTimecode(
-                rawValuesAt: properties.frameRate,
-                limit: properties.upperLimit,
-                base: properties.subFramesBase
+                using: properties,
+                by: .allowingInvalidComponents
             )
             
             let delta = TimecodeInterval(deltaTC, .minus)

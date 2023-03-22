@@ -26,10 +26,12 @@ extension Timecode {
         
         if preservingValues,
            let newTC = try? Timecode(
-               components,
-               at: newFrameRate,
-               limit: properties.upperLimit,
-               base: properties.subFramesBase
+               .components(components),
+               using: .init(
+                   rate: newFrameRate,
+                   base: properties.subFramesBase,
+                   limit: properties.upperLimit
+               )
            )
         {
             return newTC
@@ -38,10 +40,12 @@ extension Timecode {
         // convert to new frame rate, retaining all ancillary property values
         
         return try Timecode(
-            realTime: realTimeValue,
-            at: newFrameRate,
-            limit: properties.upperLimit,
-            base: properties.subFramesBase
+            .realTime(realTimeValue),
+            using: .init(
+                rate: newFrameRate,
+                base: properties.subFramesBase,
+                limit: properties.upperLimit
+            )
         )
     }
     

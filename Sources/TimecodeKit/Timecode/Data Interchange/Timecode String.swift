@@ -12,101 +12,28 @@ import AppKit
 import UIKit
 #endif
 
-// MARK: - Init
+// MARK: - TimecodeSource
 
-extension Timecode {
-    /// Instance exactly from timecode string and frame rate.
-    ///
-    /// An improperly formatted timecode string or one with out-of-bounds values will throw an
-    /// error.
-    ///
-    /// Validation is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``ValidationError`` or ``StringParseError``
-    public init(
-        _ exactlyTimecodeString: String,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(exactly: exactlyTimecodeString)
+extension String: TimecodeSource {
+    public func set(timecode: inout Timecode) throws {
+        try timecode.setTimecode(exactly: self)
     }
     
-    /// Instance from timecode string and frame rate, clamping to valid timecode if necessary.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``StringParseError``
-    public init(
-        clamping timecodeString: String,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(clamping: timecodeString)
-    }
-    
-    /// Instance from timecode string and frame rate, clamping values if necessary.
-    ///
-    /// Individual components which are out-of-bounds will be clamped to minimum or maximum possible
-    /// values.
-    ///
-    /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``StringParseError``
-    public init(
-        clampingEach timecodeString: String,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(clampingEach: timecodeString)
-    }
-    
-    /// Instance from timecode string and frame rate, wrapping timecode if necessary.
-    ///
-    /// An improperly formatted timecode string or one with invalid values will return `nil`.
-    ///
-    /// Wrapping is based on the `upperLimit` and `subFramesBase` properties.
-    ///
-    /// - Throws: ``StringParseError``
-    public init(
-        wrapping timecodeString: String,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(wrapping: timecodeString)
-    }
-    
-    /// Instance from raw timecode values formatted as a timecode string and frame rate.
-    ///
-    /// Timecode values will not be validated or rejected if they overflow.
-    ///
-    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
-    ///
-    /// - Throws: ``StringParseError``
-    public init(
-        rawValues timecodeString: String,
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default()
-    ) throws {
-        properties = Properties(rate: rate, base: base, limit: limit)
-        
-        try setTimecode(rawValues: timecodeString)
+    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+        switch validation {
+        case .clamping:
+            try? timecode.setTimecode(clamping: self)
+        case .clampingEach:
+            try? timecode.setTimecode(clampingEach: self)
+        case .wrapping:
+            try? timecode.setTimecode(wrapping: self)
+        case .allowingInvalidComponents:
+            try? timecode.setTimecode(rawValues: self)
+        }
     }
 }
 
-// MARK: - Get and Set
+// MARK: - Get
 
 extension Timecode {
     // MARK: stringValue
@@ -305,7 +232,7 @@ extension Timecode {
     }
 }
 
-// MARK: Setters
+// MARK: - Set
 
 extension Timecode {
     /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error is thrown if the string is malformed and cannot be reasonably parsed.
@@ -313,7 +240,7 @@ extension Timecode {
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError`` or ``ValidationError``
-    public mutating func setTimecode(exactly string: String) throws {
+    internal mutating func setTimecode(exactly string: String) throws {
         let decoded = try Timecode.decode(timecode: string)
         
         try setTimecode(exactly: decoded)
@@ -324,7 +251,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    public mutating func setTimecode(clamping string: String) throws {
+    internal mutating func setTimecode(clamping string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(clamping: tcVals)
@@ -337,7 +264,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    public mutating func setTimecode(clampingEach string: String) throws {
+    internal mutating func setTimecode(clampingEach string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(clampingEach: tcVals)
@@ -348,7 +275,7 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    public mutating func setTimecode(wrapping string: String) throws {
+    internal mutating func setTimecode(wrapping string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(wrapping: tcVals)
@@ -359,7 +286,7 @@ extension Timecode {
     /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
     ///
     /// - Throws: ``StringParseError``
-    public mutating func setTimecode(rawValues string: String) throws {
+    internal mutating func setTimecode(rawValues string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         
         setTimecode(rawValues: tcVals)
@@ -419,44 +346,6 @@ extension Timecode {
             s:  ints[3] ?? 0,
             f:  ints[4] ?? 0,
             sf: ints[5] ?? 0
-        )
-    }
-}
-
-// MARK: - .toTimecode
-
-extension String {
-    /// Returns an instance of `Timecode(exactly:)`.
-    /// If the string is not a valid timecode string, it returns nil.
-    ///
-    /// - Throws: ``ValidationError`` or ``StringParseError``
-    public func toTimecode(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
-    ) throws -> Timecode {
-        try Timecode(
-            self,
-            at: rate,
-            limit: limit,
-            base: base
-        )
-    }
-    
-    /// Returns an instance of `Timecode(rawValues:)`.
-    /// If the string is not a valid timecode string, it returns nil.
-    ///
-    /// - Throws: ``StringParseError``
-    public func toTimecode(
-        rawValuesAt rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
-    ) throws -> Timecode {
-        try Timecode(
-            rawValues: self,
-            at: rate,
-            limit: limit,
-            base: base
         )
     }
 }

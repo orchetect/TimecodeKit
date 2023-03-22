@@ -57,10 +57,13 @@ public struct TimecodeInterval: Equatable, Hashable {
             
         case .minus:
             return Timecode(
-                rawValues: Timecode.Components(f: 0),
-                at: absoluteInterval.properties.frameRate,
-                limit: absoluteInterval.properties.upperLimit,
-                base: absoluteInterval.properties.subFramesBase
+                .components(.zero),
+                using: .init(
+                    rate: absoluteInterval.properties.frameRate,
+                    base: absoluteInterval.properties.subFramesBase,
+                    limit: absoluteInterval.properties.upperLimit
+                ),
+                by: .allowingInvalidComponents
             )
             .subtracting(wrapping: absoluteInterval.components)
         }

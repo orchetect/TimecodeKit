@@ -6,24 +6,60 @@
 
 import Foundation
 
+// MARK: - TimecodeSource
+
 extension Timecode {
-    public mutating func set(_ value: Source) throws {
-        #warning("> finish this")
+    /// Set timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func set(_ source: TimecodeSource) throws {
+        try source.set(timecode: &self)
     }
     
-    public mutating func set(_ value: Source, by validation: Validation) {
-        #warning("> finish this")
+    /// Set timecode by converting from a time source.
+    public mutating func set(_ source: TimecodeSource, by validation: Validation) {
+        source.set(timecode: &self, by: validation)
     }
     
-    public func setting(_ value: Source) throws -> Timecode {
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(_ value: TimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(value)
         return copy
     }
     
-    public func setting(_ value: Source, by validation: Validation) -> Timecode {
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(_ value: TimecodeSource, by validation: Validation) -> Timecode {
         var copy = self
         copy.set(value, by: validation)
+        return copy
+    }
+}
+
+// MARK: - RichTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func set(
+        _ source: RichTimecodeSource,
+        overriding properties: Timecode.Properties? = nil
+    ) throws {
+        self.properties = try source.set(timecode: &self, overriding: properties)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(
+        _ value: RichTimecodeSource,
+        overriding properties: Timecode.Properties? = nil
+    ) throws -> Timecode {
+        var copy = self
+        try copy.set(value, overriding: properties)
         return copy
     }
 }

@@ -17,12 +17,22 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
+        using properties: Timecode.Properties
     ) throws {
         let fraction = Fraction(cmTime)
-        try self.init(fraction, at: rate, limit: limit, base: base)
+        try self.init(fraction, using: properties)
+    }
+    
+    /// Initialize from a time duration represented as a rational fraction.
+    /// A negative fraction will produce a negative time interval.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public init(
+        _ cmTime: CMTime,
+        at rate: TimecodeFrameRate
+    ) throws {
+        let fraction = Fraction(cmTime)
+        try self.init(fraction, using: .init(rate: rate))
     }
     
     /// Returns the rational fraction for the timecode interval as `CMTime`.
@@ -39,15 +49,25 @@ extension CMTime {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func toTimecodeInterval(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default()
+        using properties: Timecode.Properties
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,
-            at: rate,
-            limit: limit,
-            base: base
+            using: properties
+        )
+    }
+    
+    /// Convenience function to initialize a `TimecodeInterval` instance from a time duration
+    /// represented as a rational fraction.
+    /// A negative fraction will produce a negative time interval.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func toTimecodeInterval(
+        at rate: TimecodeFrameRate
+    ) throws -> TimecodeInterval {
+        try TimecodeInterval(
+            self,
+            using: .init(rate: rate)
         )
     }
 }

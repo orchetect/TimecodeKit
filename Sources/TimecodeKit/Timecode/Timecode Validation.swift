@@ -8,10 +8,13 @@ import Foundation
 
 extension Timecode {
     public enum Validation: Equatable, Hashable, CaseIterable {
-        /// Clamp to valid timecode range.
+        /// Clamp timecode to valid timecode range if necessary.
         case clamping
         
-        /// Wrap over or under the valid timecode range.
+        /// Clamp individual values if necessary.
+        case clampingEach
+        
+        /// Wrap over or under the valid timecode range if necessary.
         case wrapping
         
         /// Raw values are preserved without any validation.
@@ -174,12 +177,6 @@ extension Timecode {
     public var maxSubFramesExpressible: Int {
         validRange(of: .subFrames)
             .upperBound
-    }
-    
-    /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
-    public var maxFrameCountExpressibleDouble: Double {
-        Double(properties.frameRate.maxTotalFramesExpressible(in: properties.upperLimit))
-            + (Double(maxSubFramesExpressible) / Double(properties.subFramesBase.rawValue))
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
