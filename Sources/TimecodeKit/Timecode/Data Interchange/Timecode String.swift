@@ -27,13 +27,9 @@ extension Timecode {
         _ exactlyTimecodeString: String,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(exactly: exactlyTimecodeString)
     }
@@ -47,13 +43,9 @@ extension Timecode {
         clamping timecodeString: String,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(clamping: timecodeString)
     }
@@ -70,13 +62,9 @@ extension Timecode {
         clampingEach timecodeString: String,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(clampingEach: timecodeString)
     }
@@ -92,13 +80,9 @@ extension Timecode {
         wrapping timecodeString: String,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(wrapping: timecodeString)
     }
@@ -114,13 +98,9 @@ extension Timecode {
         rawValues timecodeString: String,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(rawValues: timecodeString)
     }
@@ -145,35 +125,37 @@ extension Timecode {
     ///     "0:00:00:00:00" "0:00:00:00;00"
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    public var stringValue: String {
+    public func stringValue(
+        format: StringFormat = .default(),
+        filenameCompatible: Bool = false
+    ) -> String {
         let sepDays = " "
         let sepMain = ":"
-        let sepFrames = frameRate.isDrop ? ";" : ":"
+        let sepFrames = properties.frameRate.isDrop ? ";" : ":"
         let sepSubFrames = "."
         
         var output = ""
         
-        output += "\(days != 0 ? "\(days)\(sepDays)" : "")"
-        output += "\(String(format: "%02d", hours))\(sepMain)"
-        output += "\(String(format: "%02d", minutes))\(sepMain)"
-        output += "\(String(format: "%02d", seconds))\(sepFrames)"
-        output += "\(String(format: "%0\(frameRate.numberOfDigits)d", frames))"
+        output += "\(components.days != 0 ? "\(components.days)\(sepDays)" : "")"
+        output += "\(String(format: "%02d", components.hours))\(sepMain)"
+        output += "\(String(format: "%02d", components.minutes))\(sepMain)"
+        output += "\(String(format: "%02d", components.seconds))\(sepFrames)"
+        output += "\(String(format: "%0\(properties.frameRate.numberOfDigits)d", components.frames))"
         
-        if stringFormat.showSubFrames {
+        if format.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
-            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))"
+            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", components.subFrames))"
         }
         
-        return output
-    }
-    
-    /// Forms `.stringValue` using filename-compatible characters.
-    public var stringValueFileNameCompatible: String {
-        stringValue
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: ";", with: "-")
-            .replacingOccurrences(of: " ", with: "-")
+        if filenameCompatible {
+            return output
+                .replacingOccurrences(of: ":", with: "-")
+                .replacingOccurrences(of: ";", with: "-")
+                .replacingOccurrences(of: " ", with: "-")
+        } else {
+            return output
+        }
     }
     
     // MARK: stringValueValidated
@@ -183,12 +165,13 @@ extension Timecode {
     /// `invalidAttributes` are the `NSAttributedString` attributes applied to invalid values.
     /// If `invalidAttributes` are not passed, the default of red foreground color is used.
     public func stringValueValidated(
+        format: StringFormat = .default(),
         invalidAttributes: [NSAttributedString.Key: Any]? = nil,
         withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
     ) -> NSAttributedString {
         let sepDays = NSAttributedString(string: " ", attributes: attrs)
         let sepMain = NSAttributedString(string: ":", attributes: attrs)
-        let sepFrames = NSAttributedString(string: frameRate.isDrop ? ";" : ":", attributes: attrs)
+        let sepFrames = NSAttributedString(string: properties.frameRate.isDrop ? ";" : ":", attributes: attrs)
         let sepSubFrames = NSAttributedString(string: ".", attributes: attrs)
         
         #if os(macOS)
@@ -209,8 +192,8 @@ extension Timecode {
         var piece: NSMutableAttributedString
         
         // days
-        if days != 0 {
-            piece = NSMutableAttributedString(string: "\(days)", attributes: attrs)
+        if components.days != 0 {
+            piece = NSMutableAttributedString(string: "\(components.days)", attributes: attrs)
             if invalids.contains(.days) {
                 piece.addAttributes(
                     invalidColor,
@@ -226,7 +209,7 @@ extension Timecode {
         // hours
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", hours),
+            string: String(format: "%02d", components.hours),
             attributes: attrs
         )
         if invalids.contains(.hours) {
@@ -243,7 +226,7 @@ extension Timecode {
         // minutes
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", minutes),
+            string: String(format: "%02d", components.minutes),
             attributes: attrs
         )
         if invalids.contains(.minutes) {
@@ -260,7 +243,7 @@ extension Timecode {
         // seconds
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", seconds),
+            string: String(format: "%02d", components.seconds),
             attributes: attrs
         )
         if invalids.contains(.seconds) {
@@ -279,8 +262,8 @@ extension Timecode {
         piece = NSMutableAttributedString(
             string:
             String(
-                format: "%0\(frameRate.numberOfDigits)d",
-                frames
+                format: "%0\(properties.frameRate.numberOfDigits)d",
+                components.frames
             ),
             attributes: attrs
         )
@@ -295,7 +278,7 @@ extension Timecode {
         
         // subframes
         
-        if stringFormat.showSubFrames {
+        if format.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
             output.append(sepSubFrames)
@@ -304,7 +287,7 @@ extension Timecode {
                 string:
                 String(
                     format: "%0\(numberOfSubFramesDigits)d",
-                    subFrames
+                    components.subFrames
                 ),
                 attributes: attrs
             )
@@ -450,15 +433,13 @@ extension String {
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         try Timecode(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
     
@@ -469,15 +450,13 @@ extension String {
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         try Timecode(
             rawValues: self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

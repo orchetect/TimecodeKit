@@ -25,13 +25,9 @@ extension Timecode {
         _ exactly: FeetAndFrames,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(exactly: exactly)
     }
@@ -54,8 +50,8 @@ extension Timecode {
         return FeetAndFrames(
             feet: feet,
             frames: frames,
-            subFrames: subFrames,
-            subFramesBase: subFramesBase
+            subFrames: components.subFrames,
+            subFramesBase: properties.subFramesBase
         )
     }
     

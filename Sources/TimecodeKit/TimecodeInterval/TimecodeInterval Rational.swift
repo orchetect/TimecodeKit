@@ -18,8 +18,7 @@ extension TimecodeInterval {
         _ rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws {
         let neg = rational.isNegative
         let absRational = rational.abs()
@@ -28,8 +27,7 @@ extension TimecodeInterval {
             absRational,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
         
         self.init(absTimecode, neg ? .minus : .plus)
@@ -55,15 +53,13 @@ extension Fraction {
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

@@ -23,8 +23,7 @@ extension AVAssetTrack {
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
         else {
@@ -34,8 +33,7 @@ extension AVAssetTrack {
         let range = try timecodeRange(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
         
         return range.upperBound - range.lowerBound
@@ -59,8 +57,7 @@ extension AVAssetTrack {
     internal func timecodeRange(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> ClosedRange<Timecode> {
         guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
         else {
@@ -70,8 +67,7 @@ extension AVAssetTrack {
         return try timeRange.timecodeRange(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
     

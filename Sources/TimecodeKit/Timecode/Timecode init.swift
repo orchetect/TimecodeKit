@@ -13,13 +13,9 @@ extension Timecode {
     public init(
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
     }
     
     // MARK: - TimecodeInterval

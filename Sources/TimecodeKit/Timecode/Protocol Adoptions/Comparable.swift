@@ -82,18 +82,18 @@ extension Timecode {
         var rhsFrameCount = other.frameCount.decimalValue
         
         if lhsFrameCount >= timelineStartFrameCount {
-            let lhsOneDay = Timecode(rawValues: TCC(d: 1),
-                                     at: frameRate,
+            let lhsOneDay = Timecode(rawValues: Components(d: 1),
+                                     at: properties.frameRate,
                                      limit: ._100days,
-                                     base: subFramesBase)
+                                     base: properties.subFramesBase)
                 .frameCount.decimalValue
             lhsFrameCount -= lhsOneDay
         }
         if rhsFrameCount >= timelineStartFrameCount {
-            let rhsOneDay = Timecode(rawValues: TCC(d: 1),
-                                     at: other.frameRate,
+            let rhsOneDay = Timecode(rawValues: Components(d: 1),
+                                     at: other.properties.frameRate,
                                      limit: ._100days,
-                                     base: other.subFramesBase)
+                                     base: other.properties.subFramesBase)
                 .frameCount.decimalValue
             rhsFrameCount -= rhsOneDay
         }

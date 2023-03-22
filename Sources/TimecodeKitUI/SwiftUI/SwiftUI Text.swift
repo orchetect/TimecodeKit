@@ -18,6 +18,7 @@ extension Timecode {
     /// `invalidModifiers` are the view modifiers applied to invalid values.
     /// If `invalidModifiers` are not passed, the default of red foreground color is used.
     public func stringValueValidatedText(
+        format: StringFormat = .default(),
         invalidModifiers: ((Text) -> Text)? = nil,
         withDefaultModifiers: ((Text) -> Text)? = nil
     ) -> Text {
@@ -31,21 +32,21 @@ extension Timecode {
         
         let sepDays = withDefaultModifiers(Text(" "))
         let sepMain = withDefaultModifiers(Text(":"))
-        let sepFrames = withDefaultModifiers(Text(frameRate.isDrop ? ";" : ":"))
+        let sepFrames = withDefaultModifiers(Text(properties.frameRate.isDrop ? ";" : ":"))
         let sepSubFrames = withDefaultModifiers(Text("."))
         
         let invalids = invalidComponents
         
         // early return logic
         if invalids.isEmpty {
-            return withDefaultModifiers(Text(stringValue))
+            return withDefaultModifiers(Text(stringValue()))
         }
         
         var output = withDefaultModifiers(Text(""))
         
         // days
-        if days != 0 {
-            let daysText = Text("\(days)")
+        if components.days != 0 {
+            let daysText = Text("\(components.days)")
             if invalids.contains(.days) {
                 output = output + invalidModifiers(daysText)
             } else {
@@ -57,7 +58,7 @@ extension Timecode {
         
         // hours
         
-        let hoursText = Text(String(format: "%02d", hours))
+        let hoursText = Text(String(format: "%02d", components.hours))
         if invalids.contains(.hours) {
             output = output + invalidModifiers(hoursText)
         } else {
@@ -68,7 +69,7 @@ extension Timecode {
         
         // minutes
         
-        let minutesText = Text(String(format: "%02d", minutes))
+        let minutesText = Text(String(format: "%02d", components.minutes))
         if invalids.contains(.minutes) {
             output = output + invalidModifiers(minutesText)
         } else {
@@ -79,7 +80,7 @@ extension Timecode {
         
         // seconds
         
-        let secondsText = Text(String(format: "%02d", seconds))
+        let secondsText = Text(String(format: "%02d", components.seconds))
         if invalids.contains(.seconds) {
             output = output + invalidModifiers(secondsText)
         } else {
@@ -90,7 +91,7 @@ extension Timecode {
         
         // frames
         
-        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)d", frames))
+        let framesText = Text(String(format: "%0\(properties.frameRate.numberOfDigits)d", components.frames))
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
@@ -99,12 +100,12 @@ extension Timecode {
         
         // subframes
         
-        if stringFormat.showSubFrames {
+        if format.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
             output = output + sepSubFrames
             
-            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))
+            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)d", components.subFrames))
             if invalids.contains(.subFrames) {
                 output = output + invalidModifiers(subframesText)
             } else {

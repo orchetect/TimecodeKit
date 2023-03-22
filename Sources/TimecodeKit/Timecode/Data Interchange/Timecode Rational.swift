@@ -21,13 +21,9 @@ extension Timecode {
         _ rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(rational)
     }
@@ -43,13 +39,9 @@ extension Timecode {
         clamping rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(clamping: rational)
     }
@@ -64,13 +56,9 @@ extension Timecode {
         wrapping rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(wrapping: rational)
     }
@@ -87,13 +75,9 @@ extension Timecode {
         rawValues rational: Fraction,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(rawValues: rational)
     }
@@ -109,9 +93,9 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     public var rationalValue: Fraction {
-        let frFrac = frameRate.frameDuration
+        let frFrac = properties.frameRate.frameDuration
         let n = frFrac.numerator * frameCount.subFrameCount
-        let d = frFrac.denominator * subFramesBase.rawValue
+        let d = frFrac.denominator * properties.subFramesBase.rawValue
         
         return Fraction(n, d).reduced()
     }
@@ -174,7 +158,7 @@ extension Timecode {
     /// Returns frame count of the rational fraction at current frame rate.
     /// Truncates subframes if present.
     internal func frameCount(of rational: Fraction) -> Int {
-        let frFrac = frameRate.frameDuration
+        let frFrac = properties.frameRate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) /
         (rational.denominator * frFrac.numerator)
         return frameCount
@@ -184,7 +168,7 @@ extension Timecode {
     /// Returns frame count of the rational fraction at current frame rate.
     /// Preserves subframes as floating-point potion of a frame.
     internal func floatingFrameCount(of rational: Fraction) -> Double {
-        let frFrac = frameRate.frameDuration
+        let frFrac = properties.frameRate.frameDuration
         let frameCount = (Double(rational.numerator) * Double(frFrac.denominator)) /
         (Double(rational.denominator) * Double(frFrac.numerator))
         return frameCount
@@ -206,15 +190,13 @@ extension Fraction {
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         try Timecode(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

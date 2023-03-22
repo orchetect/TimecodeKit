@@ -58,39 +58,39 @@ extension Timecode {
     public mutating func roundUp(toNearest component: Timecode.Component) throws {
         switch component {
         case .days:
-            if hours > 0 || minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(d: 1))
-                hours = 0
-                minutes = 0
-                seconds = 0
-                frames = 0
-                subFrames = 0
+            if components.hours > 0 || components.minutes > 0 || components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+                try add(Components(d: 1))
+                components.hours = 0
+                components.minutes = 0
+                components.seconds = 0
+                components.frames = 0
+                components.subFrames = 0
             }
         case .hours:
-            if minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(h: 1))
-                minutes = 0
-                seconds = 0
-                frames = 0
-                subFrames = 0
+            if components.minutes > 0 || components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+                try add(Components(h: 1))
+                components.minutes = 0
+                components.seconds = 0
+                components.frames = 0
+                components.subFrames = 0
             }
         case .minutes:
-            if seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(m: 1))
-                seconds = 0
-                frames = 0
-                subFrames = 0
+            if components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+                try add(Components(m: 1))
+                components.seconds = 0
+                components.frames = 0
+                components.subFrames = 0
             }
         case .seconds:
-            if frames > 0 || subFrames > 0 {
-                try add(TCC(s: 1))
-                frames = 0
-                subFrames = 0
+            if components.frames > 0 || components.subFrames > 0 {
+                try add(Components(s: 1))
+                components.frames = 0
+                components.subFrames = 0
             }
         case .frames:
-            if subFrames > 0 {
-                try add(TCC(f: 1))
-                subFrames = 0
+            if components.subFrames > 0 {
+                try add(Components(f: 1))
+                components.subFrames = 0
             }
         case .subFrames:
             // nothing to round, this is the smallest component
@@ -147,19 +147,19 @@ extension Timecode {
     public mutating func roundDown(toNearest component: Component) {
         switch component {
         case .days:
-            if hours > 0 { hours = 0 }
+            if components.hours > 0 { components.hours = 0 }
             fallthrough
         case .hours:
-            if minutes > 0 { minutes = 0 }
+            if components.minutes > 0 { components.minutes = 0 }
             fallthrough
         case .minutes:
-            if seconds > 0 { seconds = 0 }
+            if components.seconds > 0 { components.seconds = 0 }
             fallthrough
         case .seconds:
-            if frames > 0 { frames = 0 }
+            if components.frames > 0 { components.frames = 0 }
             fallthrough
         case .frames:
-            if subFrames > 0 { subFrames = 0 }
+            if components.subFrames > 0 { components.subFrames = 0 }
             fallthrough
         case .subFrames:
             // nothing to round, this is the smallest component

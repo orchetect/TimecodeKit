@@ -10,7 +10,7 @@ extension Timecode: Strideable {
     public typealias Stride = Int
     
     /// Returns a new instance advanced by specified time components.
-    /// Same as calling `.adding(clamping: TCC(f: n))` but implemented in order to allow Timecode to conform to `Strideable`.
+    /// Same as calling `.adding(clamping: Timecode.Components(f: n))` but implemented in order to allow Timecode to conform to `Strideable`.
     /// Will clamp to valid timecode range.
     public func advanced(by n: Stride) -> Self {
         adding(clamping: Components(f: n))

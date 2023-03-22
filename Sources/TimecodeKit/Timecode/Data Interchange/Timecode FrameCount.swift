@@ -17,13 +17,9 @@ extension Timecode {
     public init(
         _ exactly: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        format: StringFormat = .default()
+        limit: UpperLimit = ._24hours
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = exactly.subFramesBase
-        stringFormat = format
+        properties = Properties(rate: rate, base: exactly.subFramesBase, limit: limit)
         
         try setTimecode(exactly: exactly.value)
     }
@@ -35,13 +31,9 @@ extension Timecode {
     public init(
         clamping source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        format: StringFormat = .default()
+        limit: UpperLimit = ._24hours
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = source.subFramesBase
-        stringFormat = format
+        properties = Properties(rate: rate, base: source.subFramesBase, limit: limit)
         
         setTimecode(clamping: source.value)
     }
@@ -53,13 +45,9 @@ extension Timecode {
     public init(
         wrapping source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        format: StringFormat = .default()
+        limit: UpperLimit = ._24hours
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = source.subFramesBase
-        stringFormat = format
+        properties = Properties(rate: rate, base: source.subFramesBase, limit: limit)
         
         setTimecode(wrapping: source.value)
     }
@@ -70,13 +58,9 @@ extension Timecode {
     public init(
         rawValues source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
-        format: StringFormat = .default()
+        limit: UpperLimit = ._24hours
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = source.subFramesBase
-        stringFormat = format
+        properties = Properties(rate: rate, base: source.subFramesBase, limit: limit)
         
         setTimecode(rawValues: source.value)
     }
@@ -89,8 +73,8 @@ extension Timecode {
     public var frameCount: FrameCount {
         Self.frameCount(
             of: components,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
     }
     
@@ -102,14 +86,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(exactly source: FrameCount) throws {
-        let convertedComponents = try components(exactly: source)
-        
-        days = convertedComponents.d
-        hours = convertedComponents.h
-        minutes = convertedComponents.m
-        seconds = convertedComponents.s
-        frames = convertedComponents.f
-        subFrames = convertedComponents.sf
+        components = try components(exactly: source)
     }
     
     /// Set timecode from total elapsed frames ("frame number").
@@ -151,15 +128,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     internal func components(exactly source: FrameCount) throws -> Components {
         // early return if we don't need to scale subframes
-        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
+        if source.subFramesBase == properties.subFramesBase || source.subFrames == 0 {
             return try components(exactly: source.value)
         }
         
         // scale subframes between subframes bases
         var convertedComponents = components(rawValues: source)
-        convertedComponents.sf = source.subFramesBase.convert(
-            subFrames: convertedComponents.sf,
-            to: subFramesBase
+        convertedComponents.subFrames = source.subFramesBase.convert(
+            subFrames: convertedComponents.subFrames,
+            to: properties.subFramesBase
         )
         return convertedComponents
     }
@@ -171,14 +148,14 @@ extension Timecode {
         var convertedComponents = components(rawValues: source.value)
         
         // early return if we don't need to scale subframes
-        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
+        if source.subFramesBase == properties.subFramesBase || source.subFrames == 0 {
             return convertedComponents
         }
         
         // scale subframes between subframes bases
-        convertedComponents.sf = source.subFramesBase.convert(
-            subFrames: convertedComponents.sf,
-            to: subFramesBase
+        convertedComponents.subFrames = source.subFramesBase.convert(
+            subFrames: convertedComponents.subFrames,
+            to: properties.subFramesBase
         )
         return convertedComponents
     }
@@ -193,19 +170,19 @@ extension Timecode {
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default()
     ) -> FrameCount {
-        let subFramesUnitInterval = Double(values.sf) / Double(base.rawValue)
+        let subFramesUnitInterval = Double(values.subFrames) / Double(base.rawValue)
         
         let frameCountValue: FrameCount.Value
         
         switch frameRate.isDrop {
         case true:
-            let totalMinutes = (24 * 60 * values.d) + (60 * values.h) + values.m
+            let totalMinutes = (24 * 60 * values.days) + (60 * values.hours) + values.minutes
             
-            let base = (frameRate.maxFrames * 60 * 60 * 24 * values.d)
-                + (frameRate.maxFrames * 60 * 60 * values.h)
-                + (frameRate.maxFrames * 60 * values.m)
-                + (frameRate.maxFrames * values.s)
-                + (values.f)
+            let base = (frameRate.maxFrames * 60 * 60 * 24 * values.days)
+                + (frameRate.maxFrames * 60 * 60 * values.hours)
+                + (frameRate.maxFrames * 60 * values.minutes)
+                + (frameRate.maxFrames * values.seconds)
+                + (values.frames)
             let dropOffset = Int(frameRate.framesDroppedPerMinute) *
                 (totalMinutes - (totalMinutes / 10))
             let totalWholeFrames = base - dropOffset
@@ -216,11 +193,11 @@ extension Timecode {
             )
             
         case false:
-            let dd = Double(values.d) * 24 * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let hh = Double(values.h) * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let mm = Double(values.m) * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let ss = Double(values.s) * frameRate.frameRateForElapsedFramesCalculation
-            let totalWholeFrames = Int(round(dd + hh + mm + ss)) + values.f
+            let dd = Double(values.days) * 24 * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
+            let hh = Double(values.hours) * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
+            let mm = Double(values.minutes) * 60 * frameRate.frameRateForElapsedFramesCalculation
+            let ss = Double(values.seconds) * frameRate.frameRateForElapsedFramesCalculation
+            let totalWholeFrames = Int(round(dd + hh + mm + ss)) + values.frames
             
             frameCountValue = .splitUnitInterval(
                 frames: totalWholeFrames,
@@ -332,11 +309,11 @@ extension Timecode {
 extension Timecode.Components {
     /// Negates the largest non-zero component.
     fileprivate mutating func negate() {
-        if d != 0 { d.negate() ; return }
-        if h != 0 { h.negate() ; return }
-        if m != 0 { m.negate() ; return }
-        if s != 0 { s.negate() ; return }
-        if f != 0 { f.negate() ; return }
-        if sf != 0 { sf.negate() ; return }
+        if days != 0 { days.negate() ; return }
+        if hours != 0 { hours.negate() ; return }
+        if minutes != 0 { minutes.negate() ; return }
+        if seconds != 0 { seconds.negate() ; return }
+        if frames != 0 { frames.negate() ; return }
+        if subFrames != 0 { subFrames.negate() ; return }
     }
 }

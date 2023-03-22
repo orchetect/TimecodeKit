@@ -15,13 +15,13 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         let sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
@@ -31,12 +31,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -48,13 +48,13 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
@@ -63,12 +63,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -80,20 +80,20 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = fcOrigin.subFrameCount + fcAdd.subFrameCount
         
-        let maxTotalSubFrames = frameRate.maxTotalSubFrames(
-            in: upperLimit,
-            base: subFramesBase
+        let maxTotalSubFrames = properties.frameRate.maxTotalSubFrames(
+            in: properties.upperLimit,
+            base: properties.subFramesBase
         )
         
         let wrapRemainder = sfcNew % maxTotalSubFrames
@@ -107,14 +107,14 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -128,13 +128,13 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         let sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
@@ -144,12 +144,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -161,13 +161,13 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
@@ -176,12 +176,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -193,20 +193,20 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = fcOrigin.subFrameCount - tcSubtract.subFrameCount
         
-        let maxTotalSubFrames = frameRate.maxTotalSubFrames(
-            in: upperLimit,
-            base: subFramesBase
+        let maxTotalSubFrames = properties.frameRate.maxTotalSubFrames(
+            in: properties.upperLimit,
+            base: properties.subFramesBase
         )
         
         let wrapRemainder = sfcNew % maxTotalSubFrames
@@ -220,14 +220,14 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -241,8 +241,8 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         let sfcNew = Double(fcOrigin.subFrameCount) * factor
@@ -252,12 +252,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: Int(sfcNew),
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -269,8 +269,8 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = Int(Double(fcOrigin.subFrameCount) * factor)
@@ -279,12 +279,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -296,15 +296,15 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = Int(Double(fcOrigin.subFrameCount) * factor)
         
-        let maxTotalSubFrames = frameRate.maxTotalSubFrames(
-            in: upperLimit,
-            base: subFramesBase
+        let maxTotalSubFrames = properties.frameRate.maxTotalSubFrames(
+            in: properties.upperLimit,
+            base: properties.subFramesBase
         )
         
         let wrapRemainder = sfcNew % maxTotalSubFrames
@@ -318,14 +318,14 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -339,8 +339,8 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         let sfcNew = Double(fcOrigin.subFrameCount) / divisor
@@ -350,12 +350,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: Int(sfcNew),
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -367,8 +367,8 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
         
@@ -376,12 +376,12 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -393,15 +393,15 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: frameRate,
-            base: subFramesBase
+            at: properties.frameRate,
+            base: properties.subFramesBase
         )
         
         var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
         
-        let maxTotalSubFrames = frameRate.maxTotalSubFrames(
-            in: upperLimit,
-            base: subFramesBase
+        let maxTotalSubFrames = properties.frameRate.maxTotalSubFrames(
+            in: properties.upperLimit,
+            base: properties.subFramesBase
         )
         
         let wrapRemainder = sfcNew % maxTotalSubFrames
@@ -415,14 +415,14 @@ extension Timecode {
         
         let fcNew = FrameCount(
             subFrameCount: sfcNew,
-            base: subFramesBase
+            base: properties.subFramesBase
         )
         
         // TODO: can implement later: also return number of times the value wrapped
         
         return Self.components(
             of: fcNew,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -432,11 +432,10 @@ extension Timecode {
     internal func __offset(to other: Components) -> TimecodeInterval {
         if components == other {
             return TimecodeInterval(
-                TCC().toTimecode(
-                    rawValuesAt: frameRate,
-                    limit: upperLimit,
-                    base: subFramesBase,
-                    format: stringFormat
+                Timecode.Components().toTimecode(
+                    rawValuesAt: properties.frameRate,
+                    limit: properties.upperLimit,
+                    base: properties.subFramesBase
                 ),
                 .plus
             )
@@ -444,10 +443,9 @@ extension Timecode {
         
         let otherTimecode = Timecode(
             rawValues: other,
-            at: frameRate,
+            at: properties.frameRate,
             limit: ._100days,
-            base: subFramesBase,
-            format: stringFormat
+            base: properties.subFramesBase
         )
         
         if otherTimecode > self {
@@ -457,10 +455,9 @@ extension Timecode {
             )
             
             let deltaTC = diff.toTimecode(
-                rawValuesAt: frameRate,
-                limit: upperLimit,
-                base: subFramesBase,
-                format: stringFormat
+                rawValuesAt: properties.frameRate,
+                limit: properties.upperLimit,
+                base: properties.subFramesBase
             )
             
             let delta = TimecodeInterval(deltaTC, .plus)
@@ -474,10 +471,9 @@ extension Timecode {
             )
             
             let deltaTC = diff.toTimecode(
-                rawValuesAt: frameRate,
-                limit: upperLimit,
-                base: subFramesBase,
-                format: stringFormat
+                rawValuesAt: properties.frameRate,
+                limit: properties.upperLimit,
+                base: properties.subFramesBase
             )
             
             let delta = TimecodeInterval(deltaTC, .minus)

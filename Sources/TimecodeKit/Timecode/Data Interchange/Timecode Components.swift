@@ -18,13 +18,9 @@ extension Timecode {
         _ exactly: Components,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(exactly: exactly)
     }
@@ -36,13 +32,9 @@ extension Timecode {
         clamping rawValues: Components,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(clamping: rawValues)
     }
@@ -57,13 +49,9 @@ extension Timecode {
         clampingEach rawValues: Components,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(clampingEach: rawValues)
     }
@@ -77,13 +65,9 @@ extension Timecode {
         wrapping rawValues: Components,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(wrapping: rawValues)
     }
@@ -97,13 +81,9 @@ extension Timecode {
         rawValues: Components,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(rawValues: rawValues)
     }
@@ -112,27 +92,6 @@ extension Timecode {
 // MARK: - Get and Set
 
 extension Timecode {
-    /// Timecode component values (day, hour, minute, second, frame, subframe).
-    ///
-    /// When setting, raw values are accepted and are not validated prior to setting.
-    ///
-    /// (Validation is based on the frame rate and `upperLimit` property.)
-    public var components: Components {
-        get {
-            Components(
-                d: days,
-                h: hours,
-                m: minutes,
-                s: seconds,
-                f: frames,
-                sf: subFrames
-            )
-        }
-        set {
-            setTimecode(rawValues: newValue)
-        }
-    }
-    
     /// Set timecode from tuple values.
     ///
     /// Returns true/false depending on whether the string values are valid or not.
@@ -142,30 +101,21 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func setTimecode(exactly values: Components) throws {
+    internal mutating func setTimecode(exactly values: Components) throws {
         guard values
-            .invalidComponents(
-                at: frameRate,
-                limit: upperLimit,
-                base: subFramesBase
-            )
+            .invalidComponents(using: properties)
             .isEmpty
         else { throw ValidationError.outOfBounds }
         
-        days = values.d
-        hours = values.h
-        minutes = values.m
-        seconds = values.s
-        frames = values.f
-        subFrames = values.sf
+        components = values
     }
     
     /// Set timecode from components.
     /// Clamps to valid timecode as set by the `upperLimit` property.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    public mutating func setTimecode(clamping source: Components) {
-        let result = __add(clamping: source, to: TCC())
+    internal mutating func setTimecode(clamping source: Components) {
+        let result = __add(clamping: source, to: .zero)
         
         setTimecode(rawValues: result)
     }
@@ -173,13 +123,8 @@ extension Timecode {
     /// Set timecode from components, clamping individual values if necessary.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    public mutating func setTimecode(clampingEach values: Components) {
-        days = values.d
-        hours = values.h
-        minutes = values.m
-        seconds = values.s
-        frames = values.f
-        subFrames = values.sf
+    internal mutating func setTimecode(clampingEach values: Components) {
+        components = values
         
         clampComponents()
     }
@@ -189,22 +134,17 @@ extension Timecode {
     /// Timecode will wrap if out-of-bounds. Will handle negative values and wrap accordingly.
     ///
     /// (Wrapping is based on the frame rate and `upperLimit` property.)
-    public mutating func setTimecode(wrapping values: Components) {
+    internal mutating func setTimecode(wrapping values: Components) {
         setTimecode(rawValues: __add(
             wrapping: values,
-            to: Components(f: 0)
+            to: .zero
         ))
     }
     
     /// Set timecode from tuple values.
     /// Timecode values will not be validated or rejected if they overflow.
-    public mutating func setTimecode(rawValues values: Components) {
-        days = values.d
-        hours = values.h
-        minutes = values.m
-        seconds = values.s
-        frames = values.f
-        subFrames = values.sf
+    internal mutating func setTimecode(rawValues values: Components) {
+        components = values
     }
 }
 
@@ -217,15 +157,13 @@ extension Timecode.Components {
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         try Timecode(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
     
@@ -233,15 +171,13 @@ extension Timecode.Components {
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) -> Timecode {
         Timecode(
             rawValues: self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

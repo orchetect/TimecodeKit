@@ -23,8 +23,8 @@ extension Timecode {
         
         public var frameRate: TimecodeFrameRate?
         public var upperLimit: Timecode.UpperLimit?
-        public var stringFormat: Timecode.StringFormat?
         public var subFramesBase: SubFramesBase?
+        public var stringFormat: Timecode.StringFormat = .default()
         
         /// The formatter's `attributedString(...) -> NSAttributedString` output will override a control's alignment (ie: `NSTextField`).
         /// Setting alignment here will add the appropriate paragraph alignment attribute to the output `NSAttributedString`.
@@ -50,23 +50,22 @@ extension Timecode {
         // MARK: init
         
         public required init?(coder: NSCoder) {
+            
             super.init(coder: coder)
         }
         
         public init(
-            frameRate: TimecodeFrameRate? = nil,
-            limit: Timecode.UpperLimit? = nil,
+            properties: Timecode.Properties? = nil,
             stringFormat: StringFormat? = nil,
-            subFramesBase: SubFramesBase? = nil,
             showsValidation: Bool = false,
             validationAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             super.init()
             
-            self.frameRate = frameRate
-            upperLimit = limit
-            self.subFramesBase = subFramesBase
-            self.stringFormat = stringFormat
+            frameRate = properties?.frameRate
+            upperLimit = properties?.upperLimit
+            subFramesBase = properties?.subFramesBase
+            self.stringFormat = stringFormat ?? .default()
             
             self.showsValidation = showsValidation
             
@@ -78,14 +77,13 @@ extension Timecode {
         /// Initializes with properties from an `Timecode` object.
         public convenience init(
             using timecode: Timecode,
+            stringFormat: StringFormat? = nil,
             showsValidation: Bool = false,
             validationAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             self.init(
-                frameRate: timecode.frameRate,
-                limit: timecode.upperLimit,
-                stringFormat: timecode.stringFormat,
-                subFramesBase: timecode.subFramesBase,
+                properties: timecode.properties,
+                stringFormat: stringFormat,
                 showsValidation: showsValidation,
                 validationAttributes: validationAttributes
             )
@@ -120,7 +118,7 @@ extension Timecode {
             // set values without validating
             tc.setTimecode(rawValues: tcc)
             
-            return tc.stringValue
+            return tc.stringValue(format: stringFormat)
         }
         
         // MARK: attributedString
@@ -187,9 +185,9 @@ extension Timecode {
             errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?
         ) -> Bool {
             guard let unwrappedFrameRate = frameRate,
-                  let unwrappedUpperLimit = upperLimit,
+                  let unwrappedUpperLimit = upperLimit
                   // let unwrappedSubFramesBase = subFramesBase,
-                  let unwrappedStringFormat = stringFormat else { return true }
+            else { return true }
             
             let partialString = partialStringPtr.pointee as String
             
@@ -291,7 +289,7 @@ extension Timecode {
                 if char == ".", periodCount > 1
                 { return false }
                 
-                if char == ".", !unwrappedStringFormat.showSubFrames
+                if char == ".", !stringFormat.showSubFrames
                 { return false }
                 
                 // number validation (?)
@@ -332,8 +330,7 @@ extension Timecode.TextFormatter {
     public var timecodeTemplate: Timecode? {
         guard let unwrappedFrameRate = frameRate,
               let unwrappedUpperLimit = upperLimit,
-              let unwrappedSubFramesBase = subFramesBase,
-              let unwrappedStringFormat = stringFormat
+              let unwrappedSubFramesBase = subFramesBase
         else {
             return nil
         }
@@ -341,8 +338,7 @@ extension Timecode.TextFormatter {
         return Timecode(
             at: unwrappedFrameRate,
             limit: unwrappedUpperLimit,
-            base: unwrappedSubFramesBase,
-            format: unwrappedStringFormat
+            base: unwrappedSubFramesBase
         )
     }
 }

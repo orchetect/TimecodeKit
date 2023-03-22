@@ -18,13 +18,9 @@ extension Timecode {
         _ exactly: FrameCount.Value,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(exactly: exactly)
     }
@@ -37,13 +33,9 @@ extension Timecode {
         clamping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(clamping: source)
     }
@@ -55,13 +47,9 @@ extension Timecode {
         wrapping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(wrapping: source)
     }
@@ -73,13 +61,9 @@ extension Timecode {
         rawValues source: FrameCount.Value,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(rawValues: source)
     }
@@ -96,14 +80,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func setTimecode(exactly frameCountValue: FrameCount.Value) throws {
-        let convertedComponents = try components(exactly: frameCountValue)
-        
-        days = convertedComponents.d
-        hours = convertedComponents.h
-        minutes = convertedComponents.m
-        seconds = convertedComponents.s
-        frames = convertedComponents.f
-        subFrames = convertedComponents.sf
+        components = try components(exactly: frameCountValue)
     }
     
     /// Set timecode from total elapsed frames ("frame number").
@@ -144,7 +121,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     internal func components(exactly source: FrameCount.Value) throws -> Components {
-        let fc = FrameCount(source, base: subFramesBase)
+        let fc = FrameCount(source, base: properties.subFramesBase)
         
         guard fc.subFrameCount >= 0,
               fc <= maxFrameCountExpressible
@@ -152,7 +129,7 @@ extension Timecode {
         
         return Self.components(
             of: fc,
-            at: frameRate
+            at: properties.frameRate
         )
     }
     
@@ -160,11 +137,11 @@ extension Timecode {
     /// Returns frame count value converted to components using the instance's
     /// frame rate and subframes base.
     internal func components(rawValues source: FrameCount.Value) -> Components {
-        let fc = FrameCount(source, base: subFramesBase)
+        let fc = FrameCount(source, base: properties.subFramesBase)
         
         return Self.components(
             of: fc,
-            at: frameRate
+            at: properties.frameRate
         )
     }
 }

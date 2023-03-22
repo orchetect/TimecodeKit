@@ -53,15 +53,14 @@ public struct TimecodeInterval: Equatable, Hashable {
         
         switch sign {
         case .plus:
-            return absoluteInterval.adding(wrapping: TCC())
+            return absoluteInterval.adding(wrapping: Timecode.Components())
             
         case .minus:
             return Timecode(
-                rawValues: TCC(f: 0),
-                at: absoluteInterval.frameRate,
-                limit: absoluteInterval.upperLimit,
-                base: absoluteInterval.subFramesBase,
-                format: absoluteInterval.stringFormat
+                rawValues: Timecode.Components(f: 0),
+                at: absoluteInterval.properties.frameRate,
+                limit: absoluteInterval.properties.upperLimit,
+                base: absoluteInterval.properties.subFramesBase
             )
             .subtracting(wrapping: absoluteInterval.components)
         }
@@ -96,7 +95,7 @@ extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertibl
     }
     
     public var verboseDescription: String {
-        "TimecodeInterval \(description) @ \(absoluteInterval.frameRate.stringValue)"
+        "TimecodeInterval \(description) @ \(absoluteInterval.properties.frameRate.stringValueVerbose)"
     }
 }
 

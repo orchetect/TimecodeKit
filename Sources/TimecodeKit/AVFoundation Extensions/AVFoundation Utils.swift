@@ -42,8 +42,7 @@ extension CMTimeRange {
     public func timecodeRange(
         at frameRate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> ClosedRange<Timecode> {
         guard isValid, start <= end else {
             throw Timecode.MediaParseError.unknownTimecode
@@ -51,7 +50,7 @@ extension CMTimeRange {
         
         let timecodes = try [start, end]
             .map {
-                try Timecode($0, at: frameRate, limit: limit, base: base, format: format)
+                try Timecode($0, at: frameRate, limit: limit, base: base)
             }
         
         return timecodes[0] ... timecodes[1]

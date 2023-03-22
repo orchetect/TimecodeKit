@@ -21,13 +21,9 @@ extension Timecode {
         _ cmTime: CMTime,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         try setTimecode(cmTime)
     }
@@ -42,13 +38,9 @@ extension Timecode {
         clamping cmTime: CMTime,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(clamping: cmTime)
     }
@@ -63,13 +55,9 @@ extension Timecode {
         wrapping cmTime: CMTime,
         at rate: TimecodeFrameRate,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(wrapping: cmTime)
     }
@@ -89,10 +77,7 @@ extension Timecode {
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        properties = Properties(rate: rate, base: base, limit: limit)
         
         setTimecode(rawValues: cmTime)
     }
@@ -168,15 +153,13 @@ extension CMTime {
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         try Timecode(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

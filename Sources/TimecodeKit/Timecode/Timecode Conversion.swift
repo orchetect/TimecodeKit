@@ -20,7 +20,7 @@ extension Timecode {
         preservingValues: Bool = false
     ) throws -> Timecode {
         // just return self if frameRate is equal
-        guard frameRate != newFrameRate else {
+        guard properties.frameRate != newFrameRate else {
             return self
         }
         
@@ -28,9 +28,8 @@ extension Timecode {
            let newTC = try? Timecode(
                components,
                at: newFrameRate,
-               limit: upperLimit,
-               base: subFramesBase,
-               format: stringFormat
+               limit: properties.upperLimit,
+               base: properties.subFramesBase
            )
         {
             return newTC
@@ -41,9 +40,8 @@ extension Timecode {
         return try Timecode(
             realTime: realTimeValue,
             at: newFrameRate,
-            limit: upperLimit,
-            base: subFramesBase,
-            format: stringFormat
+            limit: properties.upperLimit,
+            base: properties.subFramesBase
         )
     }
     

@@ -25,14 +25,12 @@ extension AVAsset {
     public func startTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode? {
         try timecodes(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
         .compactMap(\.first) // first element of each track
         .first // first track
@@ -50,22 +48,19 @@ extension AVAsset {
     public func endTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode? {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         guard let start = try startTimecode(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         ) else { return nil }
         
         return try start + durationTimecode(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
     
@@ -81,16 +76,14 @@ extension AVAsset {
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         return try Timecode(
             duration,
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
     
@@ -105,8 +98,7 @@ extension AVAsset {
     public func timecodes(
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> [[Timecode]] {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         
@@ -117,8 +109,7 @@ extension AVAsset {
             try $0.mapToTimecode(
                 at: frameRate,
                 limit: limit,
-                base: base,
-                format: format
+                base: base
             )
         }
         

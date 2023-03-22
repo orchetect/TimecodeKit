@@ -19,11 +19,10 @@ extension TimecodeInterval {
         _ cmTime: CMTime,
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws {
         let fraction = Fraction(cmTime)
-        try self.init(fraction, at: rate, limit: limit, base: base, format: format)
+        try self.init(fraction, at: rate, limit: limit, base: base)
     }
     
     /// Returns the rational fraction for the timecode interval as `CMTime`.
@@ -42,15 +41,13 @@ extension CMTime {
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }

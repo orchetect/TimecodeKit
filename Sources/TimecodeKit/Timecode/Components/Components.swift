@@ -4,34 +4,57 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
-/// Convenience typealias for cleaner code.
-public typealias TCC = Timecode.Components
-
 extension Timecode {
     /// Primitive struct describing timecode values, agnostic of frame rate.
-    /// (The global typealias `TCC()` is also available for convenience.)
+    /// (The global typealias `Timecode.Components()` is also available for convenience.)
     ///
     /// Raw values are stored and are not implicitly validated or clamped.
     public struct Components {
         // MARK: Contents
         
-        /// Days
-        public var d: Int
+        /// Timecode days component.
+        ///
+        /// Valid only if ``upperLimit-swift.property`` is set to `._100days`.
+        ///
+        /// Setting this value directly does not trigger any validation.
+        public var days: Int
         
-        /// Hours
-        public var h: Int
+        /// Timecode hours component.
+        ///
+        /// Valid range: 0 ... 23.
+        ///
+        /// Setting this value directly does not trigger any validation.
+        public var hours: Int
         
-        /// Minutes
-        public var m: Int
+        /// Timecode minutes component.
+        ///
+        /// Valid range: 0 ... 59.
+        ///
+        /// Setting this value directly does not trigger any validation.
+        public var minutes: Int
         
-        /// Seconds
-        public var s: Int
+        /// Timecode seconds component.
+        ///
+        /// Valid range: 0 ... 59.
+        ///
+        /// Setting this value directly does not trigger any validation.
+        public var seconds: Int
         
-        /// Frames
-        public var f: Int
+        /// Timecode frames component.
+        ///
+        /// Valid range is dependent on the `frameRate` property.
+        ///
+        /// Setting this value directly does not trigger any validation.
+        public var frames: Int
         
-        /// Subframe component (expressed as unit interval 0.0...1.0)
-        public var sf: Int
+        /// Timecode sub-frames component. Represents a partial division of a frame.
+        ///
+        /// Some implementations refer to these as SMPTE frame "bits".
+        ///
+        /// There are no set industry standards regarding subframe divisors.
+        /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79);
+        /// - Pro Tools uses 100 subframes (0 ... 99).
+        public var subFrames: Int
         
         // MARK: init
         
@@ -43,30 +66,25 @@ extension Timecode {
             f: Int = 0,
             sf: Int = 0
         ) {
-            self.d = d
-            self.h = h
-            self.m = m
-            self.s = s
-            self.f = f
-            self.sf = sf
+            self.days = d
+            self.hours = h
+            self.minutes = m
+            self.seconds = s
+            self.frames = f
+            self.subFrames = sf
         }
     }
 }
 
-extension Timecode.Components: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.d == rhs.d &&
-            lhs.h == rhs.h &&
-            lhs.m == rhs.m &&
-            lhs.s == rhs.s &&
-            lhs.f == rhs.f &&
-            lhs.sf == rhs.sf
-    }
-}
+extension Timecode.Components: Equatable { }
+
+extension Timecode.Components: Hashable { }
+
+extension Timecode.Components: Codable { }
 
 // MARK: - Static Constructors
 
 extension Timecode.Components {
     /// Components value of zero (0 00:00:00:00.00)
-    public static let zero: Self = .init()
+    public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
 }

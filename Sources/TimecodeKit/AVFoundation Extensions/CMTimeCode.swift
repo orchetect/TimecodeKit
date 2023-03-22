@@ -18,21 +18,19 @@ extension Collection where Element == CMTimeCode {
     func mapToTimecode(
         at frameRate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        base: Timecode.SubFramesBase = .default()
     ) throws -> [Timecode] {
         try compactMap { sample in
             switch sample {
             case let timecode32 as CMTimeCode32:
                 return try Timecode(
-                    .frames(Int(timecode32.frameNumber)),
+                    Timecode.FrameCount.Value.frames(Int(timecode32.frameNumber)),
                     at: frameRate,
                     limit: limit,
-                    base: base,
-                    format: format
+                    base: base
                 )
             case let timecode64 as CMTimeCode64:
-                let tcc = TCC(
+                let tcc = Timecode.Components(
                     h: Int(timecode64.h),
                     m: Int(timecode64.m),
                     s: Int(timecode64.s),
@@ -42,8 +40,7 @@ extension Collection where Element == CMTimeCode {
                     tcc,
                     at: frameRate,
                     limit: limit,
-                    base: base,
-                    format: format
+                    base: base
                 )
             default:
                 return nil

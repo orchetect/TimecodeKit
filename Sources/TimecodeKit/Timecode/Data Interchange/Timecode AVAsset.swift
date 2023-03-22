@@ -21,14 +21,12 @@ extension Timecode {
         startOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
         guard let tc = try asset.startTimecode(
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         ) else {
             throw MediaParseError.unknownTimecode
         }
@@ -46,14 +44,12 @@ extension Timecode {
         endOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
         guard let tc = try asset.endTimecode(
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         ) else {
             throw MediaParseError.unknownTimecode
         }
@@ -71,14 +67,12 @@ extension Timecode {
         durationOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
         limit: UpperLimit = ._24hours,
-        base: SubFramesBase = .default(),
-        format: StringFormat = .default()
+        base: SubFramesBase = .default()
     ) throws {
         self = try asset.durationTimecode(
             at: rate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
     }
 }
