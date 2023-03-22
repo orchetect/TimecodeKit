@@ -161,7 +161,8 @@ extension Timecode {
 }
 
 extension Timecode {
-    /// Validates and clamps all timecode components to valid values at the current `frameRate` and `upperLimit` bound.
+    /// Validates and clamps all timecode components to valid values at the current `frameRate` and
+    /// `upperLimit` bound.
     public mutating func clampComponents() {
         __clamp(component: .days)
         __clamp(component: .hours)
@@ -179,7 +180,8 @@ extension Timecode {
             .upperBound
     }
     
-    /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+    /// Returns the `upperLimit` minus 1 subframe expressed as frames where the integer portion is
+    /// whole frames and the fractional portion is the subframes unit interval.
     public var maxFrameCountExpressible: FrameCount {
         FrameCount(
             .split(
