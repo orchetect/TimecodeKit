@@ -16,8 +16,7 @@ public protocol TimecodeSource {
 /// A protocol for timecode time value sources that are able to supply frame rate information.
 public protocol RichTimecodeSource {
     func set(
-        timecode: inout Timecode,
-        overriding properties: Timecode.Properties?
+        timecode: inout Timecode
     ) throws -> Timecode.Properties
 }
 

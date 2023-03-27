@@ -33,6 +33,21 @@ extension String: TimecodeSource {
     }
 }
 
+extension TimecodeSource where Self == String {
+    /// Timecode string.
+    public static func string(_ timecodeString: String) -> Self {
+        timecodeString
+    }
+}
+
+extension TimecodeSource where Self: StringProtocol {
+    /// Timecode string.
+    @_disfavoredOverload
+    public static func string<S: StringProtocol>(_ timecodeString: S) -> String {
+        String(timecodeString)
+    }
+}
+
 // MARK: - Get
 
 extension Timecode {

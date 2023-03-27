@@ -45,21 +45,19 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func set(
-        _ source: RichTimecodeSource,
-        overriding properties: Properties? = nil
+        _ source: RichTimecodeSource
     ) throws {
-        self.properties = try source.set(timecode: &self, overriding: properties)
+        self.properties = try source.set(timecode: &self)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
     public func setting(
-        _ value: RichTimecodeSource,
-        overriding properties: Properties? = nil
+        _ value: RichTimecodeSource
     ) throws -> Timecode {
         var copy = self
-        try copy.set(value, overriding: properties)
+        try copy.set(value)
         return copy
     }
 }

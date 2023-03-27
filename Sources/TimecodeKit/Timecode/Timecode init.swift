@@ -53,15 +53,16 @@ extension Timecode {
     
     /// Initialize by converting a rich time source to timecode.
     public init(
-        _ source: RichTimecodeSource,
-        using properties: Properties? = nil
+        _ source: RichTimecodeSource
     ) throws {
-        self.properties = properties ?? .init(rate: ._24)
-        try set(source, overriding: properties)
+        self.properties = .init(rate: ._24) // must init to a default first
+        try set(source)
     }
     
     // MARK: - GuaranteedTimecodeSource
     
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    /// Uses defaulted properties.
     public init(
         _ source: GuaranteedTimecodeSource,
         using frameRate: TimecodeFrameRate
@@ -70,6 +71,7 @@ extension Timecode {
         set(source)
     }
     
+    /// Initialize by converting a time source to timecode using the given properties.
     public init(
         _ source: GuaranteedTimecodeSource,
         using properties: Properties

@@ -10,27 +10,18 @@
 import Foundation
 import AVFoundation
 
-// MARK: - Payload
+// MARK: - TimecodeSource
 
-public struct AVAssetPayload {
+public struct AVAssetTimecodeSource {
     public var asset: AVAsset
     public var attribute: RangeAttribute
 }
 
-// MARK: - TimecodeSource
-
-extension AVAssetPayload: RichTimecodeSource {
-    public func set(
-        timecode: inout Timecode,
-        overriding properties: Timecode.Properties? = nil
-    ) throws -> Timecode.Properties {
-        let rate: TimecodeFrameRate? = properties?.frameRate // nil means auto-detect
-        
-        let base: Timecode.SubFramesBase = properties?.subFramesBase
-            ?? timecode.properties.subFramesBase
-        
-        let limit: Timecode.UpperLimit = properties?.upperLimit
-            ?? timecode.properties.upperLimit
+extension AVAssetTimecodeSource: TimecodeSource {
+    public func set(timecode: inout Timecode) throws {
+        let rate: TimecodeFrameRate = timecode.properties.frameRate
+        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
         
         switch attribute {
         case .start:
@@ -60,17 +51,114 @@ extension AVAssetPayload: RichTimecodeSource {
                 limit: limit
             )
         }
+    }
+    
+    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+        let rate: TimecodeFrameRate = timecode.properties.frameRate
+        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
+        
+        func zeroTimecode() -> Timecode {
+            Timecode(.zero, using: timecode.properties)
+        }
+        
+        switch attribute {
+        case .start:
+            timecode = (try? asset.startTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            )) ?? zeroTimecode()
+            
+        case .end:
+            timecode = (try? asset.endTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            )) ?? zeroTimecode()
+            
+        case .duration:
+            timecode = (try? asset.durationTimecode(
+                at: rate,
+                base: base,
+                limit: limit
+            )) ?? zeroTimecode()
+        }
+    }
+}
+
+extension TimecodeSource where Self == AVAssetTimecodeSource {
+    /// Read start, end or duration of an `AVAsset`.
+    /// Frame rate will be overridden by the passed properties, and will not be auto-detected from
+    /// the asset.
+    public static func avAsset(
+        asset: AVAsset,
+        _ attribute: RangeAttribute
+    ) -> Self {
+        AVAssetTimecodeSource(
+            asset: asset,
+            attribute: attribute
+        )
+    }
+}
+
+// MARK: - RichTimecodeSource
+
+public struct AVAssetRichTimecodeSource {
+    public var asset: AVAsset
+    public var attribute: RangeAttribute
+}
+
+extension AVAssetRichTimecodeSource: RichTimecodeSource {
+    public func set(
+        timecode: inout Timecode
+    ) throws -> Timecode.Properties {
+        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
+        
+        switch attribute {
+        case .start:
+            guard let tc = try asset.startTimecode(
+                at: nil, // auto-detect from asset
+                base: base,
+                limit: limit
+            ) else {
+                throw Timecode.MediaParseError.unknownTimecode
+            }
+            timecode = tc
+            
+        case .end:
+            guard let tc = try asset.endTimecode(
+                at: nil, // auto-detect from asset
+                base: base,
+                limit: limit
+            ) else {
+                throw Timecode.MediaParseError.unknownTimecode
+            }
+            timecode = tc
+            
+        case .duration:
+            timecode = try asset.durationTimecode(
+                at: nil, // auto-detect from asset
+                base: base,
+                limit: limit
+            )
+        }
         
         return timecode.properties
     }
 }
 
-extension RichTimecodeSource where Self == AVAssetPayload {
+
+
+extension RichTimecodeSource where Self == AVAssetRichTimecodeSource {
+    /// Read start, end or duration of an `AVAsset`.
+    /// Frame rate will be automatically detected from the asset if possible.
     public static func avAsset(
         asset: AVAsset,
         _ attribute: RangeAttribute
     ) -> Self {
-        AVAssetPayload(
+        AVAssetRichTimecodeSource(
             asset: asset,
             attribute: attribute
         )
