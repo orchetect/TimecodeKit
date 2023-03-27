@@ -26,6 +26,7 @@ extension TimeInterval: TimecodeSource {
 }
 
 extension TimecodeSource where Self == TimeInterval {
+    /// Real time (wall time) in seconds.
     public static func realTime(seconds: TimeInterval) -> Self {
         seconds
     }

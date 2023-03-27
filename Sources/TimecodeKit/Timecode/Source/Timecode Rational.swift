@@ -26,6 +26,7 @@ extension Fraction: TimecodeSource {
 }
 
 extension TimecodeSource where Self == Fraction {
+    /// Numerical fraction containing a numerator and a denominator.
     public static func rational(_ source: Fraction) -> Self {
         source
     }

@@ -1,5 +1,5 @@
 //
-//  Timecode Samples Int.swift
+//  Timecode Samples.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
@@ -31,10 +31,12 @@ extension SamplesPayload: TimecodeSource {
 }
 
 extension TimecodeSource where Self == SamplesPayload {
+    /// Audio samples at a given sample rate.
     public static func samples(_ samples: Int, sampleRate: Int) -> Self {
         SamplesPayload(samples: Double(samples), sampleRate: sampleRate)
     }
     
+    /// Audio samples at a given sample rate.
     public static func samples(_ samples: Double, sampleRate: Int) -> Self {
         SamplesPayload(samples: samples, sampleRate: sampleRate)
     }

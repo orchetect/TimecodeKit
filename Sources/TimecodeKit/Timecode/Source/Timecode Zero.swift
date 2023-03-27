@@ -6,6 +6,7 @@
 
 extension Timecode {
     /// Zero timecode.
+    /// Do not initialize directly; instead, pass `.zero` into a ``Timecode`` initializer.
     public struct Zero {
         public init() { }
     }
