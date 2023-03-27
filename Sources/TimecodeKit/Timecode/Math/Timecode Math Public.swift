@@ -298,7 +298,7 @@ extension Timecode {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
                 return .init(
                     Timecode.Components.zero
-                        .toTimecode(using: properties, by: .allowingInvalid)
+                        .timecode(using: properties, by: .allowingInvalid)
                 )
             }
             

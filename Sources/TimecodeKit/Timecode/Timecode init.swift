@@ -138,7 +138,7 @@ extension Timecode {
 extension TimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
-    public func toTimecode(
+    public func timecode(
         using frameRate: TimecodeFrameRate
     ) throws -> Timecode {
         try Timecode(self, using: frameRate)
@@ -146,7 +146,7 @@ extension TimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
-    public func toTimecode(
+    public func timecode(
         using frameRate: TimecodeFrameRate,
         by validation: Timecode.ValidationRule
     ) -> Timecode {
@@ -154,14 +154,14 @@ extension TimecodeSource {
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode(
+    public func timecode(
         using properties: Timecode.Properties
     ) throws -> Timecode {
         try Timecode(self, using: properties)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode(
+    public func timecode(
         using properties: Timecode.Properties,
         by validation: Timecode.ValidationRule
     ) -> Timecode {
@@ -174,7 +174,7 @@ extension TimecodeSource {
 extension FormattedTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
-    public func toTimecode(
+    public func timecode(
         using frameRate: TimecodeFrameRate
     ) throws -> Timecode {
         try Timecode(self, using: frameRate)
@@ -182,7 +182,7 @@ extension FormattedTimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
-    public func toTimecode(
+    public func timecode(
         using frameRate: TimecodeFrameRate,
         by validation: Timecode.ValidationRule
     ) throws -> Timecode {
@@ -190,14 +190,14 @@ extension FormattedTimecodeSource {
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode(
+    public func timecode(
         using properties: Timecode.Properties
     ) throws -> Timecode {
         try Timecode(self, using: properties)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode(
+    public func timecode(
         using properties: Timecode.Properties,
         by validation: Timecode.ValidationRule
     ) throws -> Timecode {
@@ -209,7 +209,7 @@ extension FormattedTimecodeSource {
 
 extension RichTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode() throws -> Timecode {
+    public func timecode() throws -> Timecode {
         try Timecode(self)
     }
 }
@@ -219,14 +219,14 @@ extension RichTimecodeSource {
 extension GuaranteedTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at a given frame rate.
     /// Uses defaulted properties.
-    public func toTimecode(
+    public func timecode(
         using frameRate: TimecodeFrameRate
     ) -> Timecode {
         Timecode(self, using: frameRate)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode(
+    public func timecode(
         using properties: Timecode.Properties
     ) -> Timecode {
         Timecode(self, using: properties)
@@ -237,7 +237,7 @@ extension GuaranteedTimecodeSource {
 
 extension GuaranteedRichTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source.
-    public func toTimecode() -> Timecode {
+    public func timecode() -> Timecode {
         Timecode(self)
     }
 }

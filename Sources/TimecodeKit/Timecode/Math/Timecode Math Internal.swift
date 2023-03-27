@@ -433,7 +433,7 @@ extension Timecode {
         if components == other {
             return TimecodeInterval(
                 Timecode.Components.zero
-                    .toTimecode(
+                    .timecode(
                         using: .init(
                             rate: properties.frameRate,
                             base: properties.subFramesBase,
@@ -461,7 +461,7 @@ extension Timecode {
                 from: otherTimecode.components
             )
             
-            let deltaTC = diff.toTimecode(
+            let deltaTC = diff.timecode(
                 using: properties,
                 by: .allowingInvalid
             )
@@ -476,7 +476,7 @@ extension Timecode {
                 from: components
             )
             
-            let deltaTC = diff.toTimecode(
+            let deltaTC = diff.timecode(
                 using: properties,
                 by: .allowingInvalid
             )

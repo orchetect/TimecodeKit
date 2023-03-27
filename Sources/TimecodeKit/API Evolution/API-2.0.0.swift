@@ -240,7 +240,7 @@ extension Timecode {
 }
 
 extension Timecode.Components {
-    @available(*, deprecated, renamed: "toTimecode(using:)")
+    @available(*, deprecated, renamed: "timecode(using:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -248,10 +248,10 @@ extension Timecode.Components {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties)
+        return try timecode(using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to toTimecode(using:, by: .allowingInvalid)")
+    @available(*, deprecated, message: "Renamed to timecode(using:, by: .allowingInvalid)")
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -259,7 +259,7 @@ extension Timecode.Components {
         format: Timecode.StringFormat = .default()
     ) -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return toTimecode(using: properties, by: .allowingInvalid)
+        return timecode(using: properties, by: .allowingInvalid)
     }
 }
 
@@ -513,7 +513,7 @@ extension Timecode {
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension CMTime {
-    @available(*, deprecated, renamed: "toTimecode(using:)")
+    @available(*, deprecated, renamed: "timecode(using:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -521,7 +521,7 @@ extension CMTime {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties)
+        return try timecode(using: properties)
     }
 }
 
@@ -603,7 +603,7 @@ extension Timecode {
 }
 
 extension Fraction {
-    @available(*, deprecated, renamed: "toTimecode(using:)")
+    @available(*, deprecated, renamed: "timecode(using:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -611,7 +611,7 @@ extension Fraction {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties)
+        return try timecode(using: properties)
     }
 }
 
@@ -690,7 +690,7 @@ extension Timecode {
 }
 
 extension TimeInterval {
-    @available(*, deprecated, renamed: "toTimecode(using:)")
+    @available(*, deprecated, renamed: "timecode(using:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -698,7 +698,7 @@ extension TimeInterval {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties)
+        return try timecode(using: properties)
     }
 }
 
@@ -962,7 +962,7 @@ extension Timecode {
 }
 
 extension String {
-    @available(*, deprecated, renamed: "toTimecode(using:)")
+    @available(*, deprecated, renamed: "timecode(using:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -970,10 +970,10 @@ extension String {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties)
+        return try timecode(using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to toTimecode(using:, by: .allowingInvalid)")
+    @available(*, deprecated, message: "Renamed to timecode(using:, by: .allowingInvalid)")
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -981,6 +981,6 @@ extension String {
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try toTimecode(using: properties, by: .allowingInvalid)
+        return try timecode(using: properties, by: .allowingInvalid)
     }
 }
