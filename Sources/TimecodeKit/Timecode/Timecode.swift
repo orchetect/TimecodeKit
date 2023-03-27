@@ -17,9 +17,3 @@ public struct Timecode {
     /// Timecode properties.
     public var properties: Properties
 }
-
-#warning("> custom implement Codable to match TimecodeKit V1's raw codable format")
-// Can't put this in another file since it prevents automatic synthesis
-// But for sake of consistency, we'll put it on an extension here since all other
-// protocol conformances exist in separate files. Sad panda.
-extension Timecode: Codable { }
