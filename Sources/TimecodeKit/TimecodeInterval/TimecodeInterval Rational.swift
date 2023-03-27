@@ -68,7 +68,7 @@ extension Fraction {
     /// positive. The sign simply determines whether the interval is positive or negative.
     ///
     /// - Throws: ``Timecode/ValidationError``
-    public func toTimecodeInterval(
+    public func timecodeInterval(
         using properties: Timecode.Properties
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
@@ -85,7 +85,7 @@ extension Fraction {
     /// positive. The sign simply determines whether the interval is positive or negative.
     ///
     /// - Throws: ``Timecode/ValidationError``
-    public func toTimecodeInterval(
+    public func timecodeInterval(
         at rate: TimecodeFrameRate
     ) throws -> TimecodeInterval {
         try TimecodeInterval(

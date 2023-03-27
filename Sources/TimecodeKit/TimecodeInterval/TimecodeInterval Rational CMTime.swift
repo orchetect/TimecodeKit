@@ -48,7 +48,7 @@ extension CMTime {
     /// A negative fraction will produce a negative time interval.
     ///
     /// - Throws: ``Timecode/ValidationError``
-    public func toTimecodeInterval(
+    public func timecodeInterval(
         using properties: Timecode.Properties
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
@@ -62,8 +62,8 @@ extension CMTime {
     /// A negative fraction will produce a negative time interval.
     ///
     /// - Throws: ``Timecode/ValidationError``
-    public func toTimecodeInterval(
-        at rate: TimecodeFrameRate
+    public func timecodeInterval(
+        using rate: TimecodeFrameRate
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,

@@ -984,3 +984,51 @@ extension String {
         return try timecode(using: properties, by: .allowingInvalid)
     }
 }
+
+// MARK: - TimecodeFrameRate
+
+extension String {
+    @available(*, deprecated, renamed: "timecodeFrameRate")
+    @_disfavoredOverload
+    public var toTimecodeFrameRate: TimecodeFrameRate? {
+        timecodeFrameRate
+    }
+}
+
+// MARK: - TimecodeInterval
+
+#if canImport(CoreMedia)
+
+import Foundation
+import CoreMedia
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension TimecodeInterval {
+    @available(*, deprecated, renamed: "init(_:using:)")
+    public init(
+        _ cmTime: CMTime,
+        at rate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws {
+        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
+        try self.init(cmTime, using: properties)
+    }
+}
+
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension CMTime {
+    @available(*, deprecated, renamed: "timecodeInterval(using:)")
+    public func toTimecodeInterval(
+        at rate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> TimecodeInterval {
+        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
+        return try timecodeInterval(using: properties)
+    }
+}
+
+#endif
