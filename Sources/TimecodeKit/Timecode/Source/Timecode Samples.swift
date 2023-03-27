@@ -18,7 +18,7 @@ extension SamplesPayload: TimecodeSource {
         try timecode.setTimecode(samples: samples, sampleRate: sampleRate)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
             timecode.setTimecode(clampingSamples: samples, sampleRate: sampleRate)

@@ -7,7 +7,7 @@
 import Foundation
 
 extension Timecode {
-    public enum Validation: Equatable, Hashable, CaseIterable {
+    public enum ValidationRule: Equatable, Hashable, CaseIterable {
         /// Clamp timecode to valid timecode range if necessary.
         case clamping
         
@@ -56,37 +56,25 @@ extension Timecode {
     ) -> Set<Component> {
         var invalids: Set<Component> = []
         
-        // days
-        
         if !components.validRange(of: .days, using: properties)
             .contains(components.days)
         { invalids.insert(.days) }
-        
-        // hours
         
         if !components.validRange(of: .hours, using: properties)
             .contains(components.hours)
         { invalids.insert(.hours) }
         
-        // minutes
-        
         if !components.validRange(of: .minutes, using: properties)
             .contains(components.minutes)
         { invalids.insert(.minutes) }
-        
-        // seconds
         
         if !components.validRange(of: .seconds, using: properties)
             .contains(components.seconds)
         { invalids.insert(.seconds) }
         
-        // frames
-        
         if !components.validRange(of: .frames, using: properties)
             .contains(components.frames)
         { invalids.insert(.frames) }
-        
-        // subframes
         
         if !components.validRange(of: .subFrames, using: properties)
             .contains(components.subFrames)

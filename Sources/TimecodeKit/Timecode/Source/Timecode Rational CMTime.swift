@@ -17,7 +17,7 @@ extension CMTime: TimecodeSource {
         try timecode.setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
             timecode.setTimecode(clamping: self)
@@ -32,6 +32,9 @@ extension CMTime: TimecodeSource {
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension TimecodeSource where Self == CMTime {
     /// `CMTime` value.
+    ///
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// times and durations.
     public static func cmTime(_ source: CMTime) -> Self {
         source
     }

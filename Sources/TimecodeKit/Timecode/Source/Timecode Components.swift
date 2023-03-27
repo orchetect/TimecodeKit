@@ -11,7 +11,7 @@ extension Timecode.Components: TimecodeSource {
         try timecode.setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping:
             timecode.setTimecode(clamping: self)

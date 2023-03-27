@@ -19,12 +19,12 @@ extension Timecode {
         try set(source)
     }
     
-    /// Initialize by converting a time source to timecode at a given frame rate.
+    /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
     /// Uses defaulted properties.
     public init(
         _ source: TimecodeSource,
         using frameRate: TimecodeFrameRate,
-        by validation: Validation
+        by validation: ValidationRule
     ) {
         properties = Properties(rate: frameRate)
         set(source, by: validation)
@@ -43,7 +43,7 @@ extension Timecode {
     public init(
         _ source: TimecodeSource,
         using properties: Properties,
-        by validation: Validation
+        by validation: ValidationRule
     ) {
         self.properties = properties
         set(source, by: validation)
@@ -106,7 +106,7 @@ extension TimecodeSource {
     /// Uses defaulted properties.
     public func toTimecode(
         using frameRate: TimecodeFrameRate,
-        by validation: Timecode.Validation
+        by validation: Timecode.ValidationRule
     ) -> Timecode {
         Timecode(self, using: frameRate, by: validation)
     }
@@ -121,7 +121,7 @@ extension TimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source.
     public func toTimecode(
         using properties: Timecode.Properties,
-        by validation: Timecode.Validation
+        by validation: Timecode.ValidationRule
     ) -> Timecode {
         Timecode(self, using: properties, by: validation)
     }

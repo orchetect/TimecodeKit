@@ -53,7 +53,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
         }
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         let rate: TimecodeFrameRate = timecode.properties.frameRate
         let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
         let limit: Timecode.UpperLimit = timecode.properties.upperLimit
@@ -92,7 +92,7 @@ extension TimecodeSource where Self == AVAssetTimecodeSource {
     /// Frame rate will be overridden by the passed properties, and will not be auto-detected from
     /// the asset.
     public static func avAsset(
-        asset: AVAsset,
+        _ asset: AVAsset,
         _ attribute: RangeAttribute
     ) -> Self {
         AVAssetTimecodeSource(
@@ -148,8 +148,6 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
         return timecode.properties
     }
 }
-
-
 
 extension RichTimecodeSource where Self == AVAssetRichTimecodeSource {
     /// Read start, end or duration of an `AVAsset`.

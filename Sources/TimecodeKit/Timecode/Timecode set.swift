@@ -17,7 +17,7 @@ extension Timecode {
     }
     
     /// Set timecode by converting from a time source.
-    public mutating func set(_ source: TimecodeSource, by validation: Validation) {
+    public mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
         source.set(timecode: &self, by: validation)
     }
     
@@ -31,7 +31,7 @@ extension Timecode {
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
-    public func setting(_ value: TimecodeSource, by validation: Validation) -> Timecode {
+    public func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
         var copy = self
         copy.set(value, by: validation)
         return copy

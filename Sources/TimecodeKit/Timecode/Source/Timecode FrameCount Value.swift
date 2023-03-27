@@ -13,7 +13,7 @@ extension Timecode.FrameCount.Value: TimecodeSource {
         try timecode.setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
             timecode.setTimecode(clamping: self)
@@ -26,11 +26,32 @@ extension Timecode.FrameCount.Value: TimecodeSource {
 }
 
 extension TimecodeSource where Self == Timecode.FrameCount.Value {
-    /// Total elapsed frames count.
-    /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/frames(_:)``.)
+    /// Total elapsed frames count, and optional subframes count.
+    /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/split(frames:subFrames:)``.)
     @_disfavoredOverload
-    public static func frames(_ source: Int) -> Self {
-        Timecode.FrameCount.Value.frames(source)
+    public static func frames(_ frames: Int, subFrames: Int = 0) -> Self {
+        if subFrames == 0 {
+            return Timecode.FrameCount.Value.frames(frames)
+        } else {
+            return Timecode.FrameCount.Value.split(frames: frames, subFrames: subFrames)
+        }
+    }
+    
+    /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+    /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/combined(frames:)``.)
+    @_disfavoredOverload
+    public static func frames(_ frames: Double) -> Self {
+        Timecode.FrameCount.Value.combined(frames: frames)
+    }
+    
+    /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).
+    /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/splitUnitInterval(frames:subFramesUnitInterval:)``.)
+    @_disfavoredOverload
+    public static func frames(_ frames: Int, subFramesUnitInterval: Double) -> Self {
+        Timecode.FrameCount.Value.splitUnitInterval(
+            frames: frames,
+            subFramesUnitInterval: subFramesUnitInterval
+        )
     }
 }
 

@@ -13,7 +13,7 @@ extension Fraction: TimecodeSource {
         try timecode.setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.Validation) {
+    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
             timecode.setTimecode(clamping: self)

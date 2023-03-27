@@ -15,7 +15,8 @@ extension TimecodeInterval: GuaranteedRichTimecodeSource {
 
 extension GuaranteedRichTimecodeSource where Self == TimecodeInterval {
     /// Instance by flattening a ``TimecodeInterval``, wrapping as necessary based on the
-    /// ``upperLimit-swift.property`` and ``frameRate-swift.property`` of the interval.
+    /// ``Timecode/Properties-swift.struct/upperLimit`` and
+    /// ``Timecode/Properties-swift.struct/frameRate`` of the interval.
     public static func interval(flattening interval: TimecodeInterval) -> Self {
         interval
     }
