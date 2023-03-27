@@ -8,8 +8,7 @@
 
 extension TimecodeInterval: GuaranteedRichTimecodeSource {
     public func set(timecode: inout Timecode) -> Timecode.Properties {
-        _ = timecode.set(self)
-        return timecode.properties
+        return timecode.set(self)
     }
 }
 

@@ -74,7 +74,7 @@ extension Timecode {
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     internal mutating func _setTimecode(clamping source: Components) {
-        let result = __add(clamping: source, to: .zero)
+        let result = _add(clamping: source, to: .zero)
         
         _setTimecode(rawValues: result)
     }
@@ -94,7 +94,7 @@ extension Timecode {
     ///
     /// (Wrapping is based on the frame rate and `upperLimit` property.)
     internal mutating func _setTimecode(wrapping values: Components) {
-        _setTimecode(rawValues: __add(
+        _setTimecode(rawValues: _add(
             wrapping: values,
             to: .zero
         ))

@@ -116,7 +116,7 @@ extension Timecode {
             else { return string }
             
             // set values without validating
-            tc.setTimecode(rawValues: tcc)
+            tc._setTimecode(rawValues: tcc)
             
             return tc.stringValue(format: stringFormat)
         }
@@ -153,7 +153,7 @@ extension Timecode {
             else { return entirelyInvalid() }
             
             // set values without validating
-            tc.setTimecode(rawValues: tcc)
+            tc._setTimecode(rawValues: tcc)
             
             return (
                 showsValidation
