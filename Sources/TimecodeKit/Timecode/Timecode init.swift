@@ -13,7 +13,7 @@ extension Timecode {
     /// Uses defaulted properties.
     public init(
         _ source: TimecodeSource,
-        at frameRate: TimecodeFrameRate
+        using frameRate: TimecodeFrameRate
     ) throws {
         properties = Properties(rate: frameRate)
         try set(source)
@@ -23,7 +23,7 @@ extension Timecode {
     /// Uses defaulted properties.
     public init(
         _ source: TimecodeSource,
-        at frameRate: TimecodeFrameRate,
+        using frameRate: TimecodeFrameRate,
         by validation: Validation
     ) {
         properties = Properties(rate: frameRate)
@@ -54,7 +54,7 @@ extension Timecode {
     /// Initialize by converting a rich time source to timecode.
     public init(
         _ source: RichTimecodeSource,
-        overriding properties: Timecode.Properties? = nil
+        using properties: Properties? = nil
     ) throws {
         self.properties = properties ?? .init(rate: ._24)
         try set(source, overriding: properties)
@@ -64,7 +64,7 @@ extension Timecode {
     
     public init(
         _ source: GuaranteedTimecodeSource,
-        at frameRate: TimecodeFrameRate
+        using frameRate: TimecodeFrameRate
     ) {
         properties = Properties(rate: frameRate)
         set(source)
@@ -95,18 +95,18 @@ extension TimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
     public func toTimecode(
-        at frameRate: TimecodeFrameRate
+        using frameRate: TimecodeFrameRate
     ) throws -> Timecode {
-        try Timecode(self, at: frameRate)
+        try Timecode(self, using: frameRate)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     /// Uses defaulted properties.
     public func toTimecode(
-        at frameRate: TimecodeFrameRate,
+        using frameRate: TimecodeFrameRate,
         by validation: Timecode.Validation
     ) -> Timecode {
-        Timecode(self, at: frameRate, by: validation)
+        Timecode(self, using: frameRate, by: validation)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.

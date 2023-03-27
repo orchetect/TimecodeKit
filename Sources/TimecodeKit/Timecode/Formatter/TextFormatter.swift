@@ -336,6 +336,7 @@ extension Timecode.TextFormatter {
         }
         
         return Timecode(
+            .zero,
             using: .init(
                 rate: unwrappedFrameRate,
                 base: unwrappedSubFramesBase,

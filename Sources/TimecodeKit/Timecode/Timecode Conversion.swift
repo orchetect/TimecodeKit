@@ -40,7 +40,7 @@ extension Timecode {
         // convert to new frame rate, retaining all ancillary property values
         
         return try Timecode(
-            .realTime(realTimeValue),
+            .realTime(seconds: realTimeValue),
             using: .init(
                 rate: newFrameRate,
                 base: properties.subFramesBase,
