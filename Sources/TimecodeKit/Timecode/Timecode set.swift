@@ -38,6 +38,38 @@ extension Timecode {
     }
 }
 
+// MARK: - FormattedTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func set(_ source: FormattedTimecodeSource) throws {
+        try source.set(timecode: &self)
+    }
+    
+    /// Set timecode by converting from a time source.
+    public mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
+        try source.set(timecode: &self, by: validation)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(_ value: FormattedTimecodeSource) throws -> Timecode {
+        var copy = self
+        try copy.set(value)
+        return copy
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(_ value: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
+        var copy = self
+        try copy.set(value, by: validation)
+        return copy
+    }
+}
+
 // MARK: - RichTimecodeSource
 
 extension Timecode {
@@ -81,7 +113,6 @@ extension Timecode {
         return copy
     }
 }
-
 
 // MARK: - GuaranteedRichTimecodeSource
 

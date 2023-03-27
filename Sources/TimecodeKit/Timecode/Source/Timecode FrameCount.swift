@@ -11,23 +11,26 @@ import Foundation
 extension Timecode.FrameCount: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
         timecode.properties.subFramesBase = self.subFramesBase
-        try timecode.setTimecode(exactly: self)
+        try timecode._setTimecode(exactly: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
-            timecode.setTimecode(clamping: self)
+            timecode._setTimecode(clamping: self)
         case .wrapping:
-            timecode.setTimecode(wrapping: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValues: self)
+            timecode._setTimecode(wrapping: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValues: self)
         }
     }
 }
 
 extension TimecodeSource where Self == Timecode.FrameCount {
-    // no static constructors
+    /// Timecode total elapsed frame count value (``Timecode/FrameCount``).
+    public static func frames(count: Timecode.FrameCount) -> Self {
+        count
+    }
 }
 
 // MARK: - Get
@@ -53,7 +56,7 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func setTimecode(exactly source: FrameCount) throws {
+    internal mutating func _setTimecode(exactly source: FrameCount) throws {
         components = try components(exactly: source)
     }
     
@@ -62,9 +65,9 @@ extension Timecode {
     /// Clamps to valid timecode.
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func setTimecode(clamping source: FrameCount) {
+    internal mutating func _setTimecode(clamping source: FrameCount) {
         let convertedComponents = components(rawValues: source)
-        setTimecode(clamping: convertedComponents)
+        _setTimecode(clamping: convertedComponents)
     }
     
     /// Set timecode from total elapsed frames ("frame number").
@@ -72,9 +75,9 @@ extension Timecode {
     /// Timecode will be wrapped around the timecode clock if out-of-bounds.
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func setTimecode(wrapping source: FrameCount) {
+    internal mutating func _setTimecode(wrapping source: FrameCount) {
         let convertedComponents = components(rawValues: source)
-        setTimecode(wrapping: convertedComponents)
+        _setTimecode(wrapping: convertedComponents)
     }
     
     /// Set timecode from total elapsed frames ("frame number").
@@ -82,9 +85,9 @@ extension Timecode {
     /// Allows for invalid raw values (in this case, unbounded Days component).
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func setTimecode(rawValues source: FrameCount) {
+    internal mutating func _setTimecode(rawValues source: FrameCount) {
         let convertedComponents = components(rawValues: source)
-        setTimecode(rawValues: convertedComponents)
+        _setTimecode(rawValues: convertedComponents)
     }
     
     // MARK: Helper Methods

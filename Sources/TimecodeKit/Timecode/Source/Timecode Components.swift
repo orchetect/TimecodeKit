@@ -8,19 +8,19 @@
 
 extension Timecode.Components: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        try timecode.setTimecode(exactly: self)
+        try timecode._setTimecode(exactly: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping:
-            timecode.setTimecode(clamping: self)
+            timecode._setTimecode(clamping: self)
         case .clampingEach:
-            timecode.setTimecode(clampingEach: self)
+            timecode._setTimecode(clampingEach: self)
         case .wrapping:
-            timecode.setTimecode(wrapping: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValues: self)
+            timecode._setTimecode(wrapping: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValues: self)
         }
     }
 }
@@ -60,7 +60,7 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func setTimecode(exactly values: Components) throws {
+    internal mutating func _setTimecode(exactly values: Components) throws {
         guard values
             .invalidComponents(using: properties)
             .isEmpty
@@ -73,16 +73,16 @@ extension Timecode {
     /// Clamps to valid timecode as set by the `upperLimit` property.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    internal mutating func setTimecode(clamping source: Components) {
+    internal mutating func _setTimecode(clamping source: Components) {
         let result = __add(clamping: source, to: .zero)
         
-        setTimecode(rawValues: result)
+        _setTimecode(rawValues: result)
     }
     
     /// Set timecode from components, clamping individual values if necessary.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    internal mutating func setTimecode(clampingEach values: Components) {
+    internal mutating func _setTimecode(clampingEach values: Components) {
         components = values
         
         clampComponents()
@@ -93,8 +93,8 @@ extension Timecode {
     /// Timecode will wrap if out-of-bounds. Will handle negative values and wrap accordingly.
     ///
     /// (Wrapping is based on the frame rate and `upperLimit` property.)
-    internal mutating func setTimecode(wrapping values: Components) {
-        setTimecode(rawValues: __add(
+    internal mutating func _setTimecode(wrapping values: Components) {
+        _setTimecode(rawValues: __add(
             wrapping: values,
             to: .zero
         ))
@@ -102,7 +102,7 @@ extension Timecode {
     
     /// Set timecode from tuple values.
     /// Timecode values will not be validated or rejected if they overflow.
-    internal mutating func setTimecode(rawValues values: Components) {
+    internal mutating func _setTimecode(rawValues values: Components) {
         components = values
     }
 }

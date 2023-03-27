@@ -439,7 +439,7 @@ extension Timecode {
                             base: properties.subFramesBase,
                             limit: properties.upperLimit
                         ),
-                        by: .allowingInvalidComponents
+                        by: .allowingInvalid
                     ),
                 .plus
             )
@@ -452,7 +452,7 @@ extension Timecode {
                 base: properties.subFramesBase,
                 limit: ._100days
             ),
-            by: .allowingInvalidComponents
+            by: .allowingInvalid
         )
         
         if otherTimecode > self {
@@ -463,7 +463,7 @@ extension Timecode {
             
             let deltaTC = diff.toTimecode(
                 using: properties,
-                by: .allowingInvalidComponents
+                by: .allowingInvalid
             )
             
             let delta = TimecodeInterval(deltaTC, .plus)
@@ -478,7 +478,7 @@ extension Timecode {
             
             let deltaTC = diff.toTimecode(
                 using: properties,
-                by: .allowingInvalidComponents
+                by: .allowingInvalid
             )
             
             let delta = TimecodeInterval(deltaTC, .minus)

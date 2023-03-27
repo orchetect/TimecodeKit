@@ -10,17 +10,17 @@ import Foundation
 
 extension Fraction: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        try timecode.setTimecode(exactly: self)
+        try timecode._setTimecode(exactly: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
-            timecode.setTimecode(clamping: self)
+            timecode._setTimecode(clamping: self)
         case .wrapping:
-            timecode.setTimecode(wrapping: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValues: self)
+            timecode._setTimecode(wrapping: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValues: self)
         }
     }
 }
@@ -63,9 +63,9 @@ extension Timecode {
     /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` init instead.
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func setTimecode(exactly rational: Fraction) throws {
+    internal mutating func _setTimecode(exactly rational: Fraction) throws {
         let frameCount = floatingFrameCount(of: rational)
-        try setTimecode(exactly: .combined(frames: frameCount))
+        try _setTimecode(exactly: .combined(frames: frameCount))
     }
     
     /// Sets the timecode from elapsed time expressed as a rational fraction.
@@ -76,9 +76,9 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func setTimecode(clamping rational: Fraction) {
+    internal mutating func _setTimecode(clamping rational: Fraction) {
         let frameCount = frameCount(of: rational)
-        setTimecode(clamping: .frames(frameCount))
+        _setTimecode(clamping: .frames(frameCount))
     }
     
     /// Sets the timecode from elapsed time expressed as a rational fraction.
@@ -89,9 +89,9 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func setTimecode(wrapping rational: Fraction) {
+    internal mutating func _setTimecode(wrapping rational: Fraction) {
         let frameCount = frameCount(of: rational)
-        setTimecode(wrapping: .frames(frameCount))
+        _setTimecode(wrapping: .frames(frameCount))
     }
     
     /// Sets the timecode from elapsed time expressed as a rational fraction.
@@ -102,9 +102,9 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func setTimecode(rawValues rational: Fraction) {
+    internal mutating func _setTimecode(rawValues rational: Fraction) {
         let frameCount = frameCount(of: rational)
-        setTimecode(rawValues: .frames(frameCount))
+        _setTimecode(rawValues: .frames(frameCount))
     }
     
     // MARK: Helper Methods

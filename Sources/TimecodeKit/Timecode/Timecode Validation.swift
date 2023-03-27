@@ -18,7 +18,7 @@ extension Timecode {
         case wrapping
         
         /// Raw values are preserved without any validation.
-        case allowingInvalidComponents
+        case allowingInvalid
     }
 }
 

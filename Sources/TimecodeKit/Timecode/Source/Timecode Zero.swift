@@ -16,7 +16,7 @@ extension Timecode {
 
 extension Timecode.Zero: GuaranteedTimecodeSource {
     public func set(timecode: inout Timecode) {
-        timecode.set(Timecode.Components.zero, by: .allowingInvalidComponents)
+        timecode.set(Timecode.Components.zero, by: .allowingInvalid)
     }
 }
 

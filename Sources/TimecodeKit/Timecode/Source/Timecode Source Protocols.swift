@@ -16,6 +16,18 @@ public protocol TimecodeSource {
     func set(timecode: inout Timecode, by validation: Timecode.ValidationRule)
 }
 
+/// A protocol for formatted timecode time value sources that do not supply their own frame
+/// rate information.
+public protocol FormattedTimecodeSource {
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode) throws
+    
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) throws
+}
+
 /// A protocol for timecode time value sources that are able to supply frame rate information.
 public protocol RichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
@@ -37,4 +49,3 @@ public protocol GuaranteedRichTimecodeSource {
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
 }
-

@@ -90,7 +90,7 @@ extension Timecode {
                     base: properties.subFramesBase,
                     limit: ._100days
                 ),
-                by: .allowingInvalidComponents
+                by: .allowingInvalid
             )
                 .frameCount.decimalValue
             lhsFrameCount -= lhsOneDay
@@ -104,7 +104,7 @@ extension Timecode {
                     base: other.properties.subFramesBase,
                     limit: ._100days
                 ),
-                by: .allowingInvalidComponents
+                by: .allowingInvalid
             )
                 .frameCount.decimalValue
             rhsFrameCount -= rhsOneDay

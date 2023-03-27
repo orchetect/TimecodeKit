@@ -153,7 +153,7 @@ extension RichTimecodeSource where Self == AVAssetRichTimecodeSource {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be automatically detected from the asset if possible.
     public static func avAsset(
-        asset: AVAsset,
+        _ asset: AVAsset,
         _ attribute: RangeAttribute
     ) -> Self {
         AVAssetRichTimecodeSource(

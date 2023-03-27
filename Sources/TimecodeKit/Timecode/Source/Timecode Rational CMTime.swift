@@ -14,17 +14,17 @@ import CoreMedia
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension CMTime: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        try timecode.setTimecode(exactly: self)
+        try timecode._setTimecode(exactly: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
-            timecode.setTimecode(clamping: self)
+            timecode._setTimecode(clamping: self)
         case .wrapping:
-            timecode.setTimecode(wrapping: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValues: self)
+            timecode._setTimecode(wrapping: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValues: self)
         }
     }
 }
@@ -67,9 +67,9 @@ extension Timecode {
     /// times and durations.
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func setTimecode(exactly: CMTime) throws {
+    internal mutating func _setTimecode(exactly: CMTime) throws {
         let fraction = Fraction(Int(exactly.value), Int(exactly.timescale))
-        try setTimecode(exactly: fraction)
+        try _setTimecode(exactly: fraction)
     }
     
     /// Instance from elapsed time `CMTime`.
@@ -78,9 +78,9 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func setTimecode(clamping cmTime: CMTime) {
+    internal mutating func _setTimecode(clamping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
-        setTimecode(clamping: fraction)
+        _setTimecode(clamping: fraction)
     }
     
     /// Instance from elapsed time `CMTime`.
@@ -89,9 +89,9 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func setTimecode(wrapping cmTime: CMTime) {
+    internal mutating func _setTimecode(wrapping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
-        setTimecode(wrapping: fraction)
+        _setTimecode(wrapping: fraction)
     }
     
     /// Instance from elapsed time `CMTime`.
@@ -100,9 +100,9 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func setTimecode(rawValues cmTime: CMTime) {
+    internal mutating func _setTimecode(rawValues cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
-        setTimecode(rawValues: fraction)
+        _setTimecode(rawValues: fraction)
     }
 }
 

@@ -10,17 +10,17 @@ import Foundation
 
 extension TimeInterval: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        try timecode.setTimecode(exactlyRealTime: self)
+        try timecode._setTimecode(exactlyRealTime: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
-            timecode.setTimecode(clampingRealTime: self)
+            timecode._setTimecode(clampingRealTime: self)
         case .wrapping:
-            timecode.setTimecode(wrappingRealTime: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValuesRealTime: self)
+            timecode._setTimecode(wrappingRealTime: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValuesRealTime: self)
         }
     }
 }
@@ -52,36 +52,36 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func setTimecode(exactlyRealTime: TimeInterval) throws {
+    internal mutating func _setTimecode(exactlyRealTime: TimeInterval) throws {
         let convertedComponents = components(realTime: exactlyRealTime)
-        try setTimecode(exactly: convertedComponents)
+        try _setTimecode(exactly: convertedComponents)
     }
     
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
     /// Clamps to valid timecode.
-    internal mutating func setTimecode(clampingRealTime: TimeInterval) {
+    internal mutating func _setTimecode(clampingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: clampingRealTime)
-        setTimecode(clamping: convertedComponents)
+        _setTimecode(clamping: convertedComponents)
     }
     
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
     /// Wraps timecode if necessary.
-    internal mutating func setTimecode(wrappingRealTime: TimeInterval) {
+    internal mutating func _setTimecode(wrappingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: wrappingRealTime)
-        setTimecode(wrapping: convertedComponents)
+        _setTimecode(wrapping: convertedComponents)
     }
     
     /// Sets the timecode to the nearest frame at the current frame rate
     /// from real-time (wall-clock time).
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
-    internal mutating func setTimecode(rawValuesRealTime: TimeInterval) {
+    internal mutating func _setTimecode(rawValuesRealTime: TimeInterval) {
         let convertedComponents = components(realTime: rawValuesRealTime)
-        setTimecode(rawValues: convertedComponents)
+        _setTimecode(rawValues: convertedComponents)
     }
     
     // MARK: Helper Methods

@@ -63,7 +63,7 @@ public struct TimecodeInterval: Equatable, Hashable {
                     base: absoluteInterval.properties.subFramesBase,
                     limit: absoluteInterval.properties.upperLimit
                 ),
-                by: .allowingInvalidComponents
+                by: .allowingInvalid
             )
             .subtracting(wrapping: absoluteInterval.components)
         }

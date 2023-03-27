@@ -10,17 +10,17 @@ import Foundation
 
 extension FeetAndFrames: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        try timecode.setTimecode(exactly: self)
+        try timecode._setTimecode(exactly: self)
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingEach:
-            timecode.setTimecode(clamping: self)
+            timecode._setTimecode(clamping: self)
         case .wrapping:
-            timecode.setTimecode(wrapping: self)
-        case .allowingInvalidComponents:
-            timecode.setTimecode(rawValues: self)
+            timecode._setTimecode(wrapping: self)
+        case .allowingInvalid:
+            timecode._setTimecode(rawValues: self)
         }
     }
 }
@@ -58,19 +58,19 @@ extension Timecode {
 // MARK: - Set
 
 extension Timecode {
-    internal mutating func setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
-        try setTimecode(exactly: feetAndFrames.frameCount)
+    internal mutating func _setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
+        try _setTimecode(exactly: feetAndFrames.frameCount)
     }
     
-    internal mutating func setTimecode(clamping feetAndFrames: FeetAndFrames) {
-        setTimecode(clamping: feetAndFrames.frameCount)
+    internal mutating func _setTimecode(clamping feetAndFrames: FeetAndFrames) {
+        _setTimecode(clamping: feetAndFrames.frameCount)
     }
     
-    internal mutating func setTimecode(wrapping feetAndFrames: FeetAndFrames) {
-        setTimecode(wrapping: feetAndFrames.frameCount)
+    internal mutating func _setTimecode(wrapping feetAndFrames: FeetAndFrames) {
+        _setTimecode(wrapping: feetAndFrames.frameCount)
     }
     
-    internal mutating func setTimecode(rawValues feetAndFrames: FeetAndFrames) {
-        setTimecode(rawValues: feetAndFrames.frameCount)
+    internal mutating func _setTimecode(rawValues feetAndFrames: FeetAndFrames) {
+        _setTimecode(rawValues: feetAndFrames.frameCount)
     }
 }

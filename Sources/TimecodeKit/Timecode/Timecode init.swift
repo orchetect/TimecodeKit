@@ -49,6 +49,48 @@ extension Timecode {
         set(source, by: validation)
     }
     
+    // MARK: - FormattedTimecodeSource
+    
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    /// Uses defaulted properties.
+    public init(
+        _ source: FormattedTimecodeSource,
+        using frameRate: TimecodeFrameRate
+    ) throws {
+        properties = Properties(rate: frameRate)
+        try set(source)
+    }
+    
+    /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
+    /// Uses defaulted properties.
+    public init(
+        _ source: FormattedTimecodeSource,
+        using frameRate: TimecodeFrameRate,
+        by validation: ValidationRule
+    ) throws {
+        properties = Properties(rate: frameRate)
+        try set(source, by: validation)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    public init(
+        _ source: FormattedTimecodeSource,
+        using properties: Properties
+    ) throws {
+        self.properties = properties
+        try set(source)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    public init(
+        _ source: FormattedTimecodeSource,
+        using properties: Properties,
+        by validation: ValidationRule
+    ) throws {
+        self.properties = properties
+        try set(source, by: validation)
+    }
+    
     // MARK: - RichTimecodeSource
     
     /// Initialize by converting a rich time source to timecode.
@@ -124,5 +166,78 @@ extension TimecodeSource {
         by validation: Timecode.ValidationRule
     ) -> Timecode {
         Timecode(self, using: properties, by: validation)
+    }
+}
+
+// MARK: - FormattedTimecodeSource Category Methods
+
+extension FormattedTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    /// Uses defaulted properties.
+    public func toTimecode(
+        using frameRate: TimecodeFrameRate
+    ) throws -> Timecode {
+        try Timecode(self, using: frameRate)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    /// Uses defaulted properties.
+    public func toTimecode(
+        using frameRate: TimecodeFrameRate,
+        by validation: Timecode.ValidationRule
+    ) throws -> Timecode {
+        try Timecode(self, using: frameRate, by: validation)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode(
+        using properties: Timecode.Properties
+    ) throws -> Timecode {
+        try Timecode(self, using: properties)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode(
+        using properties: Timecode.Properties,
+        by validation: Timecode.ValidationRule
+    ) throws -> Timecode {
+        try Timecode(self, using: properties, by: validation)
+    }
+}
+
+// MARK: - RichTimecodeSource Category Methods
+
+extension RichTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode() throws -> Timecode {
+        try Timecode(self)
+    }
+}
+
+// MARK: - GuaranteedTimecodeSource Category Methods
+
+extension GuaranteedTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at a given frame rate.
+    /// Uses defaulted properties.
+    public func toTimecode(
+        using frameRate: TimecodeFrameRate
+    ) -> Timecode {
+        Timecode(self, using: frameRate)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode(
+        using properties: Timecode.Properties
+    ) -> Timecode {
+        Timecode(self, using: properties)
+    }
+}
+
+// MARK: - GuaranteedRichTimecodeSource Category Methods
+
+extension GuaranteedRichTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func toTimecode() -> Timecode {
+        Timecode(self)
     }
 }
