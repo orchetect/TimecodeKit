@@ -26,10 +26,12 @@ extension Timecode.Components: TimecodeSource {
 }
 
 extension TimecodeSource where Self == Timecode.Components {
+    /// Timecode components.
     public static func components(_ source: Timecode.Components) -> Self {
         source
     }
     
+    /// Timecode components.
     public static func components(
         d: Int = 0,
         h: Int = 0,

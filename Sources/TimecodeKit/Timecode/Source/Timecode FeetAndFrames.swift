@@ -26,6 +26,7 @@ extension FeetAndFrames: TimecodeSource {
 }
 
 extension TimecodeSource where Self == FeetAndFrames {
+    /// Feet and Frames time value.
     public static func feetAndFrames(_ source: FeetAndFrames) -> Self {
         source
     }

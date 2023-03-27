@@ -26,6 +26,8 @@ extension Timecode.FrameCount.Value: TimecodeSource {
 }
 
 extension TimecodeSource where Self == Timecode.FrameCount.Value {
+    /// Total elapsed frames count.
+    /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/frames(_:)``.)
     @_disfavoredOverload
     public static func frames(_ source: Int) -> Self {
         Timecode.FrameCount.Value.frames(source)

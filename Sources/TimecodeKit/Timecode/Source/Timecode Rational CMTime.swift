@@ -29,6 +29,14 @@ extension CMTime: TimecodeSource {
     }
 }
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension TimecodeSource where Self == CMTime {
+    /// `CMTime` value.
+    public static func cmTime(_ source: CMTime) -> Self {
+        source
+    }
+}
+
 // MARK: - Get
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
