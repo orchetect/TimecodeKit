@@ -20,24 +20,12 @@ class Timecode_init_Tests: XCTestCase {
         
         // defaults
         
-        var tc = Timecode(at: ._24)
-        XCTAssertEqual(tc.frameRate, ._24)
-        XCTAssertEqual(tc.upperLimit, ._24hours)
+        let tc = Timecode(.zero, using: ._24)
+        XCTAssertEqual(tc.properties.frameRate, ._24)
+        XCTAssertEqual(tc.properties.upperLimit, ._24hours)
         XCTAssertEqual(tc.frameCount.subFrameCount, 0)
-        XCTAssertEqual(tc.components, TCC(d: 0, h: 0, m: 0, s: 0, f: 0))
-        XCTAssertEqual(tc.stringValue, "00:00:00:00")
-        
-        // expected initializers
-        
-        tc = Timecode(at: ._24)
-        tc = Timecode(at: ._24, limit: ._24hours)
-        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames)
-        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames, format: [.showSubFrames])
-        
-        tc = Timecode(at: ._24, base: ._100SubFrames)
-        tc = Timecode(at: ._24, base: ._100SubFrames, format: [.showSubFrames])
-        
-        tc = Timecode(at: ._24, format: [.showSubFrames])
+        XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0))
+        XCTAssertEqual(tc.stringValue(), "00:00:00:00")
     }
     
     // MARK: - Misc
@@ -46,10 +34,11 @@ class Timecode_init_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 "00:00:00:00",
-                at: $0,
-                limit: ._24hours,
-                base: ._100SubFrames,
-                format: [.showSubFrames]
+                using: .init(
+                    rate: $0,
+                    base: ._100SubFrames,
+                    limit: ._24hours
+                )
             )
             
             var frm: String
@@ -63,7 +52,7 @@ class Timecode_init_Tests: XCTestCase {
             
             let frSep = $0.isDrop ? ";" : ":"
             
-            XCTAssertEqual(tc.stringValue, "00:00:00\(frSep)\(frm).00")
+            XCTAssertEqual(tc.stringValue(format: .showSubFrames), "00:00:00\(frSep)\(frm).00")
         }
     }
 }

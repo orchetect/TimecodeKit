@@ -13,11 +13,7 @@ class Timecode_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testEmpty() throws {
-        // no tests in this file
-        
-        XCTAssertTrue(true)
-    }
+    // no tests in this file
 }
 
 #endif
