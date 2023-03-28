@@ -87,7 +87,7 @@ extension Timecode {
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
-        if let rate {
+        if let rate = rate {
             let properties = Properties(rate: rate, base: base, limit: limit)
             try self.init(.avAsset(asset, .start), using: properties)
         } else {
@@ -103,7 +103,7 @@ extension Timecode {
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
-        if let rate {
+        if let rate = rate {
             let properties = Properties(rate: rate, base: base, limit: limit)
             try self.init(.avAsset(asset, .start), using: properties)
         } else {
@@ -119,7 +119,7 @@ extension Timecode {
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
-        if let rate {
+        if let rate = rate {
             let properties = Properties(rate: rate, base: base, limit: limit)
             try self.init(.avAsset(asset, .duration), using: properties)
         } else {
