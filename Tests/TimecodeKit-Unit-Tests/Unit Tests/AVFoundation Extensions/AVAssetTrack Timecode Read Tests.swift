@@ -38,7 +38,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         
         // manually supply frame rate
         do {
-            let tcRange = try track.timecodeRange(at: frameRate)
+            let tcRange = try track.timecodeRange(using: frameRate)
             XCTAssertEqual(tcRange.lowerBound, correctStart)
             XCTAssertEqual(tcRange.upperBound, correctEnd)
         }
@@ -56,7 +56,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
+        XCTAssertEqual(try track.durationTimecode(using: frameRate), correctDur)
     }
     
     func testReadDurationTimecode_29_97fps() throws {
@@ -71,7 +71,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
+        XCTAssertEqual(try track.durationTimecode(using: frameRate), correctDur)
     }
 }
 

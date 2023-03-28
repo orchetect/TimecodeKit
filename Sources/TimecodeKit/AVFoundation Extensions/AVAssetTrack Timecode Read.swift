@@ -21,7 +21,7 @@ extension AVAssetTrack {
     /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
     public func durationTimecode(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
@@ -31,7 +31,7 @@ extension AVAssetTrack {
         }
         
         let range = try timecodeRange(
-            at: frameRate,
+            using: frameRate,
             limit: limit,
             base: base
         )
@@ -55,7 +55,7 @@ extension AVAssetTrack {
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
     internal func timecodeRange(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default()
     ) throws -> ClosedRange<Timecode> {

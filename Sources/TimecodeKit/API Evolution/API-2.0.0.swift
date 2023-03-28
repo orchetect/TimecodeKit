@@ -183,6 +183,29 @@ extension Timecode {
 
 #endif
 
+// MARK: - AVAssetTrack
+
+// AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
+#if canImport(AVFoundation) && !os(watchOS)
+
+import Foundation
+import AVFoundation
+
+extension AVAssetTrack {
+    @available(*, deprecated, renamed: "durationTimecode(using:limit:base:)")
+    @_disfavoredOverload
+    public func durationTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> Timecode {
+        try durationTimecode(using: frameRate, limit: limit, base: base)
+    }
+}
+
+#endif
+
 // MARK: - Components
 
 extension Timecode {
