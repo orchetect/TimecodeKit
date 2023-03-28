@@ -8,6 +8,11 @@ import Foundation
 
 // MARK: API Changes in TimecodeKit 2.0.0
 
+// MARK: - TCC
+
+@available(*, deprecated, message: "TCC() is removed in TimecodeKit 2.x. Use Timecode(.components(), at:) instead.")
+public typealias TCC = Timecode.Components
+
 // MARK: - Inits
 
 extension Timecode {
