@@ -59,7 +59,7 @@ let package = Package(
         // (not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
             name: "TimecodeKit-Dev-Tests",
-            dependencies: ["TimecodeKit"] // , "SegmentedProgress"
+            dependencies: ["TimecodeKit"] // , "XCTestUtils"
         )
     ]
 )

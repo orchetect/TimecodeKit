@@ -9,12 +9,10 @@
 import XCTest
 @testable import TimecodeKit
 
-// import SegmentedProgress
+//import XCTestUtils
 //
-// final class Timecode_ExtendedTests: XCTestCase {
-//
+//final class Timecode_ExtendedTests: XCTestCase {
 //    func testTimecode_Iterative() {
-//
 //        // test conversions from components(from:) and frameCount(of:)
 //
 //        // ==============================================================================
@@ -29,7 +27,7 @@ import XCTest
 //
 //        let limit: Timecode.UpperLimit =
 //            ._24hours
-//        //._100days
+//        // ._100days
 //
 //        let frameRatesToTest: [TimecodeFrameRate] =
 //            TimecodeFrameRate.allCases
@@ -40,25 +38,28 @@ import XCTest
 //        // ======= run ==============
 //
 //        for fr in frameRatesToTest {
-//
-//            let tc = Timecode(at: fr, limit: limit)
+//            let tc = Timecode(.zero, using: .init(rate:fr, limit: limit))
 //
 //            // log status
-//            print ("Testing all frames in \(tc.upperLimit) at \(fr.stringValue)... ", terminator: "")
+//            print("Testing all frames in \(tc.properties.upperLimit) at \(fr.stringValue)... ", terminator: "")
 //
-//            var failures: [(Int, TCC)] = []
+//            var failures: [(Int, Timecode.Components)] = []
 //
-//            let ubound = tc.frameRate.maxTotalFrames(in: tc.upperLimit)
+//            let ubound = tc.properties.frameRate.maxTotalFrames(in: tc.properties.upperLimit)
 //
-//            var per = SegmentedProgress(0...ubound, segments: 20, roundedToPlaces: 0)
+//            var per = SegmentedProgress(0 ... ubound, segments: 20, roundedToPlaces: 0)
 //
-//            for i in 0...ubound {
-//                let vals = Timecode.components(from: i,
-//                                               at: tc.frameRate,
-//                                               subFramesBase: tc.subFramesBase)
+//            for i in 0 ... ubound {
+//                let vals = Timecode.components(
+//                    of: .init(.frames(i), base: tc.properties.subFramesBase),
+//                    at: tc.properties.frameRate
+//                )
 //
-//                if i != Int(floor(Timecode.frameCount(of: vals, at: tc.frameRate,
-//                                                      subFramesBase: tc.subFramesBase)))
+//                if i != Timecode.frameCount(
+//                    of: vals,
+//                    at: tc.properties.frameRate,
+//                    base: tc.properties.subFramesBase
+//                ).wholeFrames
 //
 //                { failures.append((i, vals)) }
 //
@@ -69,58 +70,66 @@ import XCTest
 //            }
 //            print("") // finalize log with newline char
 //
-//            XCTAssertEqual(failures.count, 0, "Failed iterative test for \(fr) with \(failures.count) failures.")
+//            XCTAssertEqual(
+//                failures.count,
+//                0,
+//                "Failed iterative test for \(fr) with \(failures.count) failures."
+//            )
 //
-//            if failures.count > 0 {
-//                print("First",
-//                      fr,
-//                      "failure: input elapsed frames",
-//                      failures.first!.0,
-//                      "converted to components",
-//                      failures.first!.1,
-//                      "converted back to",
-//                      Timecode.frameCount(of: failures.first!.1,
-//                                          at: tc.frameRate,
-//                                          subFramesBase: tc.subFramesBase),
-//                      "elapsed frames.")
-//
+//            if !failures.isEmpty {
+//                print(
+//                    "First",
+//                    fr,
+//                    "failure: input elapsed frames",
+//                    failures.first!.0,
+//                    "converted to components",
+//                    failures.first!.1,
+//                    "converted back to",
+//                    Timecode.frameCount(
+//                        of: failures.first!.1,
+//                        at: tc.properties.frameRate,
+//                        base: tc.properties.subFramesBase
+//                    ),
+//                    "elapsed frames."
+//                )
 //            }
 //            if failures.count > 1 {
-//                print("Last",
-//                      fr,
-//                      "failure: input elapsed frames",
-//                      failures.last!.0,
-//                      "converted to components",
-//                      failures.last!.1,
-//                      "converted back to",
-//                      Timecode.frameCount(of: failures.last!.1,
-//                                          at: tc.frameRate,
-//                                          subFramesBase: tc.subFramesBase),
-//                      "elapsed frames.")
-//
+//                print(
+//                    "Last",
+//                    fr,
+//                    "failure: input elapsed frames",
+//                    failures.last!.0,
+//                    "converted to components",
+//                    failures.last!.1,
+//                    "converted back to",
+//                    Timecode.frameCount(
+//                        of: failures.last!.1,
+//                        at: tc.properties.frameRate,
+//                        base: tc.properties.subFramesBase
+//                    ),
+//                    "elapsed frames."
+//                )
 //            }
-//
 //        }
 //
 //        print("Done")
-//
 //    }
-//
 // }
 
-// final class DevTests: XCTestCase {
-//     func testDummy() throws {
-//         let tc = try TCC(d: 1)
-//             .toTimecode(at: ._30_drop, limit: ._100days)
-//         print(tc.realTimeValue)
-//     }
-// 
-//     func testDummy2() throws {
-//         let tc = try Timecode(.frames(2_589_408),
-//                               at: ._30_drop,
-//                               limit: ._100days)
-//         print(tc)
-//         print(tc.realTimeValue)
-//     }
-// }
+//final class DevTests: XCTestCase {
+//    func testDummy() throws {
+//        let tc = try Timecode.Components(d: 1)
+//            .timecode(using: .init(rate: ._30_drop, limit: ._100days))
+//        print(tc.realTimeValue)
+//    }
+//
+//    func testDummy2() throws {
+//        let tc = try Timecode(.frames(2_589_408),
+//                              using: .init(rate: ._30_drop,
+//                                           limit: ._100days))
+//        print(tc)
+//        print(tc.realTimeValue)
+//    }
+//}
+
 #endif
