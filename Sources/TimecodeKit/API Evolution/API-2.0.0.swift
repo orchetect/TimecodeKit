@@ -928,9 +928,9 @@ extension Timecode {
     @available(*, deprecated, renamed: "stringValue()")
     public var stringValue: String { stringValue() }
     
-    @available(*, deprecated, renamed: "stringValue(filenameCompatible:)")
+    @available(*, deprecated, message: "Renamed to stringValue(format: [.filenameCompatible])")
     public var stringValueFileNameCompatible: String {
-        stringValue(filenameCompatible: true)
+        stringValue(format: [.filenameCompatible])
     }
 }
 
@@ -992,6 +992,16 @@ extension String {
     @_disfavoredOverload
     public var toTimecodeFrameRate: TimecodeFrameRate? {
         timecodeFrameRate
+    }
+}
+
+// MARK: - VideoFrameRate
+
+extension String {
+    @available(*, deprecated, renamed: "videoFrameRate")
+    @_disfavoredOverload
+    public var toVideoFrameRate: VideoFrameRate? {
+        VideoFrameRate(stringValue: self)
     }
 }
 

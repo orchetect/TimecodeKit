@@ -125,7 +125,7 @@ extension Timecode.Components {
 }
 
 extension Timecode {
-    internal mutating func __clamp(component: Component) {
+    internal mutating func _clamp(component: Component) {
         switch component {
         case .days:
             components.days = components.days.clamped(to: validRange(of: .days))
@@ -152,12 +152,12 @@ extension Timecode {
     /// Validates and clamps all timecode components to valid values at the current `frameRate` and
     /// `upperLimit` bound.
     public mutating func clampComponents() {
-        __clamp(component: .days)
-        __clamp(component: .hours)
-        __clamp(component: .minutes)
-        __clamp(component: .seconds)
-        __clamp(component: .frames)
-        __clamp(component: .subFrames)
+        _clamp(component: .days)
+        _clamp(component: .hours)
+        _clamp(component: .minutes)
+        _clamp(component: .seconds)
+        _clamp(component: .frames)
+        _clamp(component: .subFrames)
     }
 }
 

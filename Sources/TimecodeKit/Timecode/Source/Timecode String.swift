@@ -68,8 +68,7 @@ extension Timecode {
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
     public func stringValue(
-        format: StringFormat = .default(),
-        filenameCompatible: Bool = false
+        format: StringFormat = .default()
     ) -> String {
         let sepDays = " "
         let sepMain = ":"
@@ -90,7 +89,7 @@ extension Timecode {
             output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", components.subFrames))"
         }
         
-        if filenameCompatible {
+        if format.contains(.filenameCompatible) {
             return output
                 .replacingOccurrences(of: ":", with: "-")
                 .replacingOccurrences(of: ";", with: "-")
@@ -102,7 +101,8 @@ extension Timecode {
     
     // MARK: stringValueValidated
     
-    /// Returns `stringValue` as `NSAttributedString`, highlighting invalid values.
+    /// Returns ``stringValue(format:)`` as `NSAttributedString`, highlighting
+    /// invalid values.
     ///
     /// `invalidAttributes` are the `NSAttributedString` attributes applied to invalid values.
     /// If `invalidAttributes` are not passed, the default of red foreground color is used.

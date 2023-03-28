@@ -5,9 +5,9 @@
 //
 
 extension String {
-    /// Convenience method to call `VideoFrameRate(stringValue: self)`
+    /// Convenience method to call ``VideoFrameRate/init(stringValue:)``.
     @_disfavoredOverload
-    public var toVideoFrameRate: VideoFrameRate? {
+    public var videoFrameRate: VideoFrameRate? {
         VideoFrameRate(stringValue: self)
     }
 }

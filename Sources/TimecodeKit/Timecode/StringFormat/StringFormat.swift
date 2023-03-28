@@ -20,6 +20,7 @@ extension Timecode.StringFormat {
 }
 
 extension Timecode.StringFormat {
+    /// Get or set ``Timecode/StringFormatParameter/showSubFrames`` state.
     public var showSubFrames: Bool {
         get {
             contains(.showSubFrames)
@@ -27,6 +28,17 @@ extension Timecode.StringFormat {
         set {
             if newValue { insert(.showSubFrames) }
             else { remove(.showSubFrames) }
+        }
+    }
+    
+    /// Get or set ``Timecode/StringFormatParameter/filenameCompatible`` state.
+    public var filenameCompatible: Bool {
+        get {
+            contains(.filenameCompatible)
+        }
+        set {
+            if newValue { insert(.filenameCompatible) }
+            else { remove(.filenameCompatible) }
         }
     }
 }
@@ -38,12 +50,16 @@ extension Timecode {
         ///
         /// This does not disable subframes from being stored or calculated, only whether they are output in the string.
         case showSubFrames
+        
+        /// Substitutes illegal characters for filename-compatible characters.
+        case filenameCompatible
     }
 }
 
 extension Timecode.StringFormatParameter: Codable {
     private enum CodingKeys: String, CodingKey {
         case showSubFrames
+        case filenameCompatible
     }
     
     public init(from decoder: Decoder) throws {
@@ -62,6 +78,8 @@ extension Timecode.StringFormatParameter: Codable {
         switch keyFromString {
         case .showSubFrames:
             self = .showSubFrames
+        case .filenameCompatible:
+            self = .filenameCompatible
         }
     }
     
@@ -71,6 +89,8 @@ extension Timecode.StringFormatParameter: Codable {
         switch self {
         case .showSubFrames:
             try container.encode(CodingKeys.showSubFrames.rawValue)
+        case .filenameCompatible:
+            try container.encode(CodingKeys.filenameCompatible.rawValue)
         }
     }
 }

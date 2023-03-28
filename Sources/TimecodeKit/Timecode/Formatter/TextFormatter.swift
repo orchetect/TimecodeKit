@@ -50,7 +50,6 @@ extension Timecode {
         // MARK: init
         
         public required init?(coder: NSCoder) {
-            
             super.init(coder: coder)
         }
         
@@ -131,18 +130,19 @@ extension Timecode {
             else { return nil }
             
             func entirelyInvalid() -> NSAttributedString {
-                showsValidation
-                    ? NSAttributedString(
-                        string: stringForObj,
-                        attributes: validationAttributes
-                            .merging(
-                                attrs ?? [:],
-                                uniquingKeysWith: { current, _ in current }
-                            )
-                    )
-                    .addingAttribute(alignment: alignment)
-                    : NSAttributedString(string: stringForObj, attributes: attrs)
-                        .addingAttribute(alignment: alignment)
+                (
+                    showsValidation
+                        ? NSAttributedString(
+                            string: stringForObj,
+                            attributes: validationAttributes
+                                .merging(
+                                    attrs ?? [:],
+                                    uniquingKeysWith: { current, _ in current }
+                                )
+                        )
+                        : NSAttributedString(string: stringForObj, attributes: attrs)
+                )
+                .addingAttribute(alignment: alignment)
             }
             
             // grab properties from the formatter

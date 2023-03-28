@@ -6,7 +6,8 @@
 
 /// Value type representing SMPTE timecode.
 ///
-/// - A variety of initializers and methods are available for string and numeric representation, validation, and conversion
+/// - A variety of initializers and methods are available for string and numeric representation,
+///   validation, and conversion
 /// - Mathematical operators are available between two instances: `+`, `-`, `*`, `\`
 /// - Comparison operators are available between two instances: `==`, `!=`, `<`, `>`
 /// - `Range` and `Stride` can be formed between two instances

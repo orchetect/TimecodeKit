@@ -5,7 +5,7 @@
 //
 
 extension String {
-    /// Convenience method to call `TimecodeFrameRate(stringValue: self)`
+    /// Convenience method to call ``TimecodeFrameRate/init(stringValue:)``.
     @_disfavoredOverload
     public var timecodeFrameRate: TimecodeFrameRate? {
         TimecodeFrameRate(stringValue: self)

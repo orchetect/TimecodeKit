@@ -13,7 +13,7 @@ import TimecodeKit
 extension Timecode {
     // MARK: textViewValidated
     
-    /// Returns `stringValue` as SwiftUI `Text`, highlighting invalid values.
+    /// Returns ``stringValue(format:)`` as SwiftUI `Text`, highlighting invalid values.
     ///
     /// `invalidModifiers` are the view modifiers applied to invalid values.
     /// If `invalidModifiers` are not passed, the default of red foreground color is used.
@@ -31,15 +31,19 @@ extension Timecode {
         }
         
         let sepDays = withDefaultModifiers(Text(" "))
-        let sepMain = withDefaultModifiers(Text(":"))
-        let sepFrames = withDefaultModifiers(Text(properties.frameRate.isDrop ? ";" : ":"))
+        let sepMain = format.filenameCompatible
+            ? withDefaultModifiers(Text("-"))
+            : withDefaultModifiers(Text(":"))
+        let sepFrames = format.filenameCompatible
+            ? withDefaultModifiers(Text("-"))
+            : withDefaultModifiers(Text(properties.frameRate.isDrop ? ";" : ":"))
         let sepSubFrames = withDefaultModifiers(Text("."))
         
         let invalids = invalidComponents
         
         // early return logic
         if invalids.isEmpty {
-            return withDefaultModifiers(Text(stringValue()))
+            return withDefaultModifiers(Text(stringValue(format: format)))
         }
         
         var output = withDefaultModifiers(Text(""))

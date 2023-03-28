@@ -33,7 +33,7 @@ extension VideoFrameRate {
         }
     }
     
-    /// Initializes from a ``stringValue`` string. Case-sensitive.
+    /// Initializes from the human-readable ``stringValue`` string. Case-sensitive.
     public init?(stringValue: String) {
         if let findMatch = Self.allCases
             .first(where: { $0.stringValue == stringValue })
