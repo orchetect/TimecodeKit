@@ -331,11 +331,6 @@ extension Timecode.Components {
     }
 }
 
-extension Timecode.Components {
-    @available(*, deprecated, renamed: "days")
-    public var d: Int { days }
-}
-
 // MARK: - FeetAndFrames
 
 extension Timecode {
