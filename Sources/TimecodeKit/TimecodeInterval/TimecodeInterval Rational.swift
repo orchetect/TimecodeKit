@@ -16,14 +16,14 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ rational: Fraction,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws {
         let neg = rational.isNegative
         let absRational = rational.abs()
         
-        let absTimecode = try Timecode(absRational, using: frameRate, base: base, limit: limit)
+        let absTimecode = try Timecode(absRational, at: frameRate, base: base, limit: limit)
         
         self.init(absTimecode, neg ? .minus : .plus)
     }
@@ -65,11 +65,11 @@ extension Fraction {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func timecodeInterval(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> TimecodeInterval {
-        try TimecodeInterval(self, using: frameRate, base: base, limit: limit)
+        try TimecodeInterval(self, at: frameRate, base: base, limit: limit)
     }
     
     /// Convenience function to initialize a `TimecodeInterval` instance from a time duration

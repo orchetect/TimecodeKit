@@ -84,6 +84,6 @@ extension Timecode.Components: Codable { }
 // MARK: - Static Constructors
 
 extension Timecode.Components {
-    /// Components value of zero (0 00:00:00:00.00)
+    /// Components value of zero (00:00:00:00)
     public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
 }

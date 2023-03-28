@@ -27,7 +27,7 @@ extension Timecode {
         if preservingValues,
            let newTC = try? Timecode(
                .components(components),
-               using: newFrameRate,
+               at: newFrameRate,
                base: properties.subFramesBase,
                limit: properties.upperLimit
            )
@@ -39,7 +39,7 @@ extension Timecode {
         
         return try Timecode(
             .realTime(seconds: realTimeValue),
-            using: newFrameRate,
+            at: newFrameRate,
             base: properties.subFramesBase,
             limit: properties.upperLimit
         )

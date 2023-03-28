@@ -84,7 +84,7 @@ extension Timecode {
         if lhsFrameCount >= timelineStartFrameCount {
             let lhsOneDay = Timecode(
                 .components(d: 1),
-                using: properties.frameRate,
+                at: properties.frameRate,
                 base: properties.subFramesBase,
                 limit: ._100days,
                 by: .allowingInvalid
@@ -95,7 +95,7 @@ extension Timecode {
         if rhsFrameCount >= timelineStartFrameCount {
             let rhsOneDay = Timecode(
                 .components(d: 1),
-                using: other.properties.frameRate,
+                at: other.properties.frameRate,
                 base: other.properties.subFramesBase,
                 limit: ._100days,
                 by: .allowingInvalid

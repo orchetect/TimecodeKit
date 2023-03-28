@@ -17,30 +17,30 @@ class Timecode_Comparable_Tests: XCTestCase {
         // ==
         
         XCTAssertEqual(
-            try "01:00:00:00".timecode(using: ._23_976),
-            try "01:00:00:00".timecode(using: ._23_976)
+            try "01:00:00:00".timecode(at: ._23_976),
+            try "01:00:00:00".timecode(at: ._23_976)
         )
         XCTAssertEqual(
-            try "01:00:00:00".timecode(using: ._23_976),
-            try "01:00:00:00".timecode(using: ._29_97)
+            try "01:00:00:00".timecode(at: ._23_976),
+            try "01:00:00:00".timecode(at: ._29_97)
         )
         
         // == where elapsed frame count matches but frame rate differs (two frame rates where elapsed frames in 24 hours is identical)
         
         XCTAssertNotEqual(
-            try "01:00:00:00".timecode(using: ._23_976),
-            try "01:00:00:00".timecode(using: ._24)
+            try "01:00:00:00".timecode(at: ._23_976),
+            try "01:00:00:00".timecode(at: ._24)
         )
         
         try TimecodeFrameRate.allCases.forEach { frameRate in
             XCTAssertEqual(
-                try "01:00:00:00".timecode(using: frameRate),
-                try "01:00:00:00".timecode(using: frameRate)
+                try "01:00:00:00".timecode(at: frameRate),
+                try "01:00:00:00".timecode(at: frameRate)
             )
             
             XCTAssertEqual(
-                try "01:00:00:01".timecode(using: frameRate),
-                try "01:00:00:01".timecode(using: frameRate)
+                try "01:00:00:01".timecode(at: frameRate),
+                try "01:00:00:01".timecode(at: frameRate)
             )
         }
     }
@@ -49,33 +49,33 @@ class Timecode_Comparable_Tests: XCTestCase {
         // < >
         
         XCTAssertFalse(
-            try "01:00:00:00".timecode(using: ._23_976) // false because they're ==
-                < "01:00:00:00".timecode(using: ._29_97)
+            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
+                < "01:00:00:00".timecode(at: ._29_97)
         )
         XCTAssertFalse(
-            try "01:00:00:00".timecode(using: ._23_976) // false because they're ==
-                > "01:00:00:00".timecode(using: ._29_97)
+            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
+                > "01:00:00:00".timecode(at: ._29_97)
         )
         
         XCTAssertFalse(
-            try "01:00:00:00".timecode(using: ._23_976) // false because they're ==
-                < "01:00:00:00".timecode(using: ._23_976)
+            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
+                < "01:00:00:00".timecode(at: ._23_976)
         )
         XCTAssertFalse(
-            try "01:00:00:00".timecode(using: ._23_976) // false because they're ==
-                > "01:00:00:00".timecode(using: ._23_976)
+            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
+                > "01:00:00:00".timecode(at: ._23_976)
         )
         
         try TimecodeFrameRate.allCases.forEach { frameRate in
             XCTAssertTrue(
-                try "01:00:00:00".timecode(using: frameRate) <
-                    "01:00:00:01".timecode(using: frameRate),
+                try "01:00:00:00".timecode(at: frameRate) <
+                    "01:00:00:01".timecode(at: frameRate),
                 "\(frameRate)fps"
             )
             
             XCTAssertTrue(
-                try "01:00:00:01".timecode(using: frameRate) >
-                    "01:00:00:00".timecode(using: frameRate),
+                try "01:00:00:01".timecode(at: frameRate) >
+                    "01:00:00:00".timecode(at: frameRate),
                 "\(frameRate)fps"
             )
         }
@@ -85,21 +85,21 @@ class Timecode_Comparable_Tests: XCTestCase {
     func testTimecode_Comparable_Sorted() throws {
         try TimecodeFrameRate.allCases.forEach { frameRate in
             let presortedTimecodes: [Timecode] = [
-                try "00:00:00:00".timecode(using: frameRate),
-                try "00:00:00:01".timecode(using: frameRate),
-                try "00:00:00:14".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate), // sequential dupe
-                try "00:00:01:00".timecode(using: frameRate),
-                try "00:00:01:01".timecode(using: frameRate),
-                try "00:00:01:23".timecode(using: frameRate),
-                try "00:00:02:00".timecode(using: frameRate),
-                try "00:01:00:05".timecode(using: frameRate),
-                try "00:02:00:08".timecode(using: frameRate),
-                try "00:23:00:10".timecode(using: frameRate),
-                try "01:00:00:00".timecode(using: frameRate),
-                try "02:00:00:00".timecode(using: frameRate),
-                try "03:00:00:00".timecode(using: frameRate)
+                try "00:00:00:00".timecode(at: frameRate),
+                try "00:00:00:01".timecode(at: frameRate),
+                try "00:00:00:14".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate), // sequential dupe
+                try "00:00:01:00".timecode(at: frameRate),
+                try "00:00:01:01".timecode(at: frameRate),
+                try "00:00:01:23".timecode(at: frameRate),
+                try "00:00:02:00".timecode(at: frameRate),
+                try "00:01:00:05".timecode(at: frameRate),
+                try "00:02:00:08".timecode(at: frameRate),
+                try "00:23:00:10".timecode(at: frameRate),
+                try "01:00:00:00".timecode(at: frameRate),
+                try "02:00:00:00".timecode(at: frameRate),
+                try "03:00:00:00".timecode(at: frameRate)
             ]
             
             // shuffle
@@ -116,21 +116,21 @@ class Timecode_Comparable_Tests: XCTestCase {
     func testTimecode_Sorted_1HourStart() throws {
         try TimecodeFrameRate.allCases.forEach { frameRate in
             let presorted: [Timecode] = [
-                try "01:00:00:00".timecode(using: frameRate),
-                try "02:00:00:00".timecode(using: frameRate),
-                try "03:00:00:00".timecode(using: frameRate),
-                try "00:00:00:00".timecode(using: frameRate),
-                try "00:00:00:01".timecode(using: frameRate),
-                try "00:00:00:14".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate), // sequential dupe
-                try "00:00:01:00".timecode(using: frameRate),
-                try "00:00:01:01".timecode(using: frameRate),
-                try "00:00:01:23".timecode(using: frameRate),
-                try "00:00:02:00".timecode(using: frameRate),
-                try "00:01:00:05".timecode(using: frameRate),
-                try "00:02:00:08".timecode(using: frameRate),
-                try "00:23:00:10".timecode(using: frameRate)
+                try "01:00:00:00".timecode(at: frameRate),
+                try "02:00:00:00".timecode(at: frameRate),
+                try "03:00:00:00".timecode(at: frameRate),
+                try "00:00:00:00".timecode(at: frameRate),
+                try "00:00:00:01".timecode(at: frameRate),
+                try "00:00:00:14".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate), // sequential dupe
+                try "00:00:01:00".timecode(at: frameRate),
+                try "00:00:01:01".timecode(at: frameRate),
+                try "00:00:01:23".timecode(at: frameRate),
+                try "00:00:02:00".timecode(at: frameRate),
+                try "00:01:00:05".timecode(at: frameRate),
+                try "00:02:00:08".timecode(at: frameRate),
+                try "00:23:00:10".timecode(at: frameRate)
             ]
             
             // shuffle
@@ -140,14 +140,14 @@ class Timecode_Comparable_Tests: XCTestCase {
             // sort the shuffled array ascending
             let sortedAscending = shuffled.sorted(
                 ascending: true,
-                timelineStart: try "01:00:00:00".timecode(using: frameRate)
+                timelineStart: try "01:00:00:00".timecode(at: frameRate)
             )
             XCTAssertEqual(sortedAscending, presorted, "\(frameRate)fps")
             
             // sort the shuffled array descending
             let sortedDecending = shuffled.sorted(
                 ascending: false,
-                timelineStart: try "01:00:00:00".timecode(using: frameRate)
+                timelineStart: try "01:00:00:00".timecode(at: frameRate)
             )
             let presortedReversed = Array(presorted.reversed())
             XCTAssertEqual(sortedDecending, presortedReversed, "\(frameRate)fps")
@@ -157,21 +157,21 @@ class Timecode_Comparable_Tests: XCTestCase {
     func testTimecode_Sort_1HourStart() throws {
         try TimecodeFrameRate.allCases.forEach { frameRate in
             let presorted: [Timecode] = [
-                try "01:00:00:00".timecode(using: frameRate),
-                try "02:00:00:00".timecode(using: frameRate),
-                try "03:00:00:00".timecode(using: frameRate),
-                try "00:00:00:00".timecode(using: frameRate),
-                try "00:00:00:01".timecode(using: frameRate),
-                try "00:00:00:14".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate), // sequential dupe
-                try "00:00:01:00".timecode(using: frameRate),
-                try "00:00:01:01".timecode(using: frameRate),
-                try "00:00:01:23".timecode(using: frameRate),
-                try "00:00:02:00".timecode(using: frameRate),
-                try "00:01:00:05".timecode(using: frameRate),
-                try "00:02:00:08".timecode(using: frameRate),
-                try "00:23:00:10".timecode(using: frameRate)
+                try "01:00:00:00".timecode(at: frameRate),
+                try "02:00:00:00".timecode(at: frameRate),
+                try "03:00:00:00".timecode(at: frameRate),
+                try "00:00:00:00".timecode(at: frameRate),
+                try "00:00:00:01".timecode(at: frameRate),
+                try "00:00:00:14".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate), // sequential dupe
+                try "00:00:01:00".timecode(at: frameRate),
+                try "00:00:01:01".timecode(at: frameRate),
+                try "00:00:01:23".timecode(at: frameRate),
+                try "00:00:02:00".timecode(at: frameRate),
+                try "00:01:00:05".timecode(at: frameRate),
+                try "00:02:00:08".timecode(at: frameRate),
+                try "00:23:00:10".timecode(at: frameRate)
             ]
             
             // shuffle
@@ -182,14 +182,14 @@ class Timecode_Comparable_Tests: XCTestCase {
             var sortedAscending = shuffled
             sortedAscending.sort(
                 ascending: true,
-                timelineStart: try "01:00:00:00".timecode(using: frameRate)
+                timelineStart: try "01:00:00:00".timecode(at: frameRate)
             )
             XCTAssertEqual(sortedAscending, presorted, "\(frameRate)fps")
             
             // sort the shuffled array descending
             var sortedDecending = shuffled
             sortedDecending.sort(ascending: false,
-                                 timelineStart: try "01:00:00:00".timecode(using: frameRate))
+                                 timelineStart: try "01:00:00:00".timecode(at: frameRate))
             let presortedReversed = Array(presorted.reversed())
             XCTAssertEqual(sortedDecending, presortedReversed, "\(frameRate)fps")
         }
@@ -202,21 +202,21 @@ class Timecode_Comparable_Tests: XCTestCase {
         
         try TimecodeFrameRate.allCases.forEach { frameRate in
             let presorted: [Timecode] = [
-                try "01:00:00:00".timecode(using: frameRate),
-                try "02:00:00:00".timecode(using: frameRate),
-                try "03:00:00:00".timecode(using: frameRate),
-                try "00:00:00:00".timecode(using: frameRate),
-                try "00:00:00:01".timecode(using: frameRate),
-                try "00:00:00:14".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate),
-                try "00:00:00:15".timecode(using: frameRate), // sequential dupe
-                try "00:00:01:00".timecode(using: frameRate),
-                try "00:00:01:01".timecode(using: frameRate),
-                try "00:00:01:23".timecode(using: frameRate),
-                try "00:00:02:00".timecode(using: frameRate),
-                try "00:01:00:05".timecode(using: frameRate),
-                try "00:02:00:08".timecode(using: frameRate),
-                try "00:23:00:10".timecode(using: frameRate)
+                try "01:00:00:00".timecode(at: frameRate),
+                try "02:00:00:00".timecode(at: frameRate),
+                try "03:00:00:00".timecode(at: frameRate),
+                try "00:00:00:00".timecode(at: frameRate),
+                try "00:00:00:01".timecode(at: frameRate),
+                try "00:00:00:14".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate),
+                try "00:00:00:15".timecode(at: frameRate), // sequential dupe
+                try "00:00:01:00".timecode(at: frameRate),
+                try "00:00:01:01".timecode(at: frameRate),
+                try "00:00:01:23".timecode(at: frameRate),
+                try "00:00:02:00".timecode(at: frameRate),
+                try "00:01:00:05".timecode(at: frameRate),
+                try "00:02:00:08".timecode(at: frameRate),
+                try "00:23:00:10".timecode(at: frameRate)
             ]
             
             // shuffle
@@ -226,7 +226,7 @@ class Timecode_Comparable_Tests: XCTestCase {
             // sort the shuffled array ascending
             let ascendingComparator = TimecodeSortComparator(
                 order: .forward,
-                timelineStart: try "01:00:00:00".timecode(using: frameRate)
+                timelineStart: try "01:00:00:00".timecode(at: frameRate)
             )
             let sortedAscending = shuffled
                 .sorted(using: ascendingComparator)
@@ -235,7 +235,7 @@ class Timecode_Comparable_Tests: XCTestCase {
             // sort the shuffled array descending
             let descendingComparator = TimecodeSortComparator(
                 order: .reverse,
-                timelineStart: try "01:00:00:00".timecode(using: frameRate)
+                timelineStart: try "01:00:00:00".timecode(at: frameRate)
             )
             let sortedDecending = shuffled
                 .sorted(using: descendingComparator)
@@ -249,7 +249,7 @@ class Timecode_Comparable_Tests: XCTestCase {
         let frameRate: TimecodeFrameRate = ._24
         
         func tc(_ string: String) throws -> Timecode {
-            try string.timecode(using: frameRate)
+            try string.timecode(at: frameRate)
         }
         
         // orderedSame (==)
@@ -359,7 +359,7 @@ class Timecode_Comparable_Tests: XCTestCase {
         let frameRate: TimecodeFrameRate = ._24
         
         func tc(_ string: String) throws -> Timecode {
-            try string.timecode(using: frameRate)
+            try string.timecode(at: frameRate)
         }
         
         XCTAssertTrue(

@@ -122,4 +122,9 @@ public struct Timecode {
         get { properties.upperLimit }
         set { properties.upperLimit = newValue }
     }
+    
+    // Just to disable synthesized init
+    private init() {
+        properties = Properties(rate: ._24)
+    }
 }

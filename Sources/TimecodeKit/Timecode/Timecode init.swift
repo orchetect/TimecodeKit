@@ -12,7 +12,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode at a given frame rate.
     public init(
         _ source: TimecodeSource,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours
         
@@ -24,7 +24,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
     public init(
         _ source: TimecodeSource,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours,
         by validation: ValidationRule
@@ -57,7 +57,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode at a given frame rate.
     public init(
         _ source: FormattedTimecodeSource,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours
     ) throws {
@@ -68,7 +68,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
     public init(
         _ source: FormattedTimecodeSource,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours,
         by validation: ValidationRule
@@ -112,7 +112,7 @@ extension Timecode {
     /// Uses defaulted properties.
     public init(
         _ source: GuaranteedTimecodeSource,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours
     ) {
@@ -145,21 +145,21 @@ extension Timecode {
 extension TimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     public func timecode(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode {
-        try Timecode(self, using: frameRate, base: base, limit: limit)
+        try Timecode(self, at: frameRate, base: base, limit: limit)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     public func timecode(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours,
         by validation: Timecode.ValidationRule
     ) -> Timecode {
-        Timecode(self, using: frameRate, base: base, limit: limit, by: validation)
+        Timecode(self, at: frameRate, base: base, limit: limit, by: validation)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
@@ -183,21 +183,21 @@ extension TimecodeSource {
 extension FormattedTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     public func timecode(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode {
-        try Timecode(self, using: frameRate, base: base, limit: limit)
+        try Timecode(self, at: frameRate, base: base, limit: limit)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     public func timecode(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours,
         by validation: Timecode.ValidationRule
     ) throws -> Timecode {
-        try Timecode(self, using: frameRate, base: base, limit: limit, by: validation)
+        try Timecode(self, at: frameRate, base: base, limit: limit, by: validation)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.
@@ -230,11 +230,11 @@ extension RichTimecodeSource {
 extension GuaranteedTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at a given frame rate.
     public func timecode(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) -> Timecode {
-        Timecode(self, using: frameRate, base: base, limit: limit)
+        Timecode(self, at: frameRate, base: base, limit: limit)
     }
     
     /// Returns a new ``Timecode`` instance by converting a time source.

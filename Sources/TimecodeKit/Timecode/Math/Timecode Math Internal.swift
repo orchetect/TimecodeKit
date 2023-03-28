@@ -433,7 +433,7 @@ extension Timecode {
         if components == other {
             return TimecodeInterval(
                 Timecode.Components.zero.timecode(
-                    using: frameRate,
+                    at: frameRate,
                     base: subFramesBase,
                     limit: upperLimit,
                     by: .allowingInvalid
@@ -444,7 +444,7 @@ extension Timecode {
         
         let otherTimecode = Timecode(
             .components(other),
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase,
             limit: ._100days,
             by: .allowingInvalid

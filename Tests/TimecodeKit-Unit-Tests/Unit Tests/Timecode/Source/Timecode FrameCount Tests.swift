@@ -16,7 +16,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
             Timecode.FrameCount(.frames(670_907), base: ._80SubFrames),
-            using: ._30
+            at: ._30
         )
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
@@ -28,7 +28,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             ),
-            using: ._24,
+            at: ._24,
             by: .clamping
         )
         
@@ -44,7 +44,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames(2073600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             ),
-            using: ._24,
+            at: ._24,
             by: .wrapping
         )
         
@@ -57,7 +57,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
                 base: ._80SubFrames
             ),
-            using: ._24,
+            at: ._24,
             by: .allowingInvalid
         )
         
@@ -149,7 +149,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testSetTimecodeExactly() throws {
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
-        var tc = Timecode(.zero, using: ._30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._30, base: ._80SubFrames)
         
         try tc.set(Timecode.FrameCount(
             .frames(670_907),
@@ -160,7 +160,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
     
     func testSetTimecodeFrameCount_Clamping() {
-        var tc = Timecode(.zero, using: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
@@ -177,7 +177,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_Wrapping() {
-        var tc = Timecode(.zero, using: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
@@ -191,7 +191,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_RawValues() {
-        var tc = Timecode(.zero, using: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(

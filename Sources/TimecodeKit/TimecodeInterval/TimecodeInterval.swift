@@ -58,7 +58,7 @@ public struct TimecodeInterval: Equatable, Hashable {
         case .minus:
             return Timecode(
                 .components(.zero),
-                using: absoluteInterval.frameRate,
+                at: absoluteInterval.frameRate,
                 base: absoluteInterval.subFramesBase,
                 limit: absoluteInterval.upperLimit,
                 by: .allowingInvalid

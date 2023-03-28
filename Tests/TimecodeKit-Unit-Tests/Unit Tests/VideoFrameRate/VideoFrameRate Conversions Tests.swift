@@ -408,7 +408,7 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
             let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
             let oneFrameDuration = try Timecode.Components(f: 1)
-                .timecode(using: $0.timecodeFrameRate(drop: false)!)
+                .timecode(at: $0.timecodeFrameRate(drop: false)!)
                 .realTimeValue
             
             XCTAssertEqual(

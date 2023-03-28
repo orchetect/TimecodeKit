@@ -17,7 +17,7 @@ class Timecode_Components_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 .components(d: 0, h: 0, m: 0, s: 0, f: 0),
-                using: $0
+                at: $0
             )
             
             XCTAssertEqual(tc.components, .zero, "for \($0)")
@@ -26,7 +26,7 @@ class Timecode_Components_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 .components(d: 0, h: 1, m: 2, s: 3, f: 4),
-                using: $0
+                at: $0
             )
             
             XCTAssertEqual(
@@ -40,7 +40,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_init_Components_Clamping() {
         let tc = Timecode(
             .components(h: 25),
-            using: ._24,
+            at: ._24,
             by: .clamping
         )
         
@@ -53,7 +53,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_init_Components_ClampingEach() {
         let tc = Timecode(
             .components(h: 25),
-            using: ._24,
+            at: ._24,
             by: .clampingComponents
         )
         
@@ -67,7 +67,7 @@ class Timecode_Components_Tests: XCTestCase {
         TimecodeFrameRate.allCases.forEach {
             let tc = Timecode(
                 .components(h: 25),
-                using: $0,
+                at: $0,
                 by: .wrapping
             )
             
@@ -79,7 +79,7 @@ class Timecode_Components_Tests: XCTestCase {
         TimecodeFrameRate.allCases.forEach {
             let tc = Timecode(
                 .components(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 99),
-                using: $0,
+                at: $0,
                 by: .allowingInvalid
             )
             
@@ -94,7 +94,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_components_24hours() {
         // default
         
-        var tc = Timecode(.zero, using: ._30)
+        var tc = Timecode(.zero, at: ._30)
         
         XCTAssertEqual(tc.components, Timecode.Components.zero)
         
@@ -108,7 +108,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_components_100days() {
         // default
         
-        var tc = Timecode(.zero, using: ._30, limit: ._100days)
+        var tc = Timecode(.zero, at: ._30, limit: ._100days)
         
         XCTAssertEqual(tc.components, Timecode.Components.zero)
         
@@ -122,7 +122,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeExactly() throws {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: ._30)
+        var tc = Timecode(.zero, at: ._30)
         
         try tc.set(.components(h: 1, m: 2, s: 3, f: 4, sf: 5))
         
@@ -132,7 +132,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClamping() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: ._30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._30, base: ._80SubFrames)
         
         tc.set(.components(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500), by: .clamping)
         
@@ -142,7 +142,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClampingEach() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: ._30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: ._30, base: ._80SubFrames)
         
         tc.set(.components(h: 70, m: 00, s: 70, f: 00, sf: 500), by: .clampingComponents)
         
@@ -152,7 +152,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeWrapping() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: ._30)
+        var tc = Timecode(.zero, at: ._30)
         
         tc.set(.components(f: -1), by: .wrapping)
         
@@ -166,22 +166,22 @@ class Timecode_Components_Tests: XCTestCase {
         
         XCTAssertEqual(
             try Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(using: ._23_976),
+                .timecode(at: ._23_976),
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14),
-                using: ._23_976
+                at: ._23_976
             )
         )
         
         // timecode(rawValuesAt:) with subframes
         
         let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(using: ._23_976, base: ._100SubFrames)
+            .timecode(at: ._23_976, base: ._100SubFrames)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: ._23_976,
+                at: ._23_976,
                 base: ._100SubFrames
             )
         )
@@ -196,10 +196,10 @@ class Timecode_Components_Tests: XCTestCase {
         
         XCTAssertEqual(
             Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(using: ._23_976, by: .allowingInvalid),
+                .timecode(at: ._23_976, by: .allowingInvalid),
             Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14),
-                using: ._23_976,
+                at: ._23_976,
                 by: .allowingInvalid
             )
         )
@@ -208,7 +208,7 @@ class Timecode_Components_Tests: XCTestCase {
         
         let tcWithSubFrames = Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
             .timecode(
-                using: ._23_976,
+                at: ._23_976,
                 base: ._100SubFrames,
                 by: .allowingInvalid
             )
@@ -216,7 +216,7 @@ class Timecode_Components_Tests: XCTestCase {
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: ._23_976,
+                at: ._23_976,
                 base: ._100SubFrames
             )
         )

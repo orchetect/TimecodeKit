@@ -18,7 +18,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         // ensure conversion produces identical output if frame rates are equal
         
         try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(h: 1), using: $0)
+            let tc = try Timecode(.components(h: 1), at: $0)
             
             let convertedTC = try tc.converted(to: $0)
             
@@ -29,7 +29,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1),
-            using: ._23_976,
+            at: ._23_976,
             base: ._100SubFrames
         )
         .converted(to: ._30)
@@ -43,7 +43,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         // ensure conversion produces identical output if frame rates are equal
         
         try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(h: 1), using: $0)
+            let tc = try Timecode(.components(h: 1), at: $0)
             
             let convertedTC = try tc.converted(to: $0, preservingValues: true)
             
@@ -56,7 +56,7 @@ class Timecode_Conversion_Tests: XCTestCase {
             try TimecodeFrameRate.allCases.forEach { destinationFrameRate in
                 let convertedTC = try Timecode(
                     .components(h: 2, m: 07, s: 24, f: 11),
-                    using:  sourceFrameRate,
+                    at:  sourceFrameRate,
                     base: ._100SubFrames
                 )
                 .converted(to: destinationFrameRate, preservingValues: true)
@@ -70,7 +70,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1, m: 0, s: 0, f: 96),
-            using:  ._100,
+            at:  ._100,
             base: ._100SubFrames
         )
         .converted(to: ._50, preservingValues: true)
@@ -80,21 +80,21 @@ class Timecode_Conversion_Tests: XCTestCase {
     }
     
     func testTransform() throws {
-        var tc = try Timecode(.components(m: 1), using: ._24)
+        var tc = try Timecode(.components(m: 1), at: ._24)
         
         let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
         tc.transform(using: transformer)
         
-        XCTAssertEqual(tc, try Timecode(.components(m: 2), using: ._24))
+        XCTAssertEqual(tc, try Timecode(.components(m: 2), at: ._24))
     }
     
     func testTransformed() throws {
-        let tc = try Timecode(.components(m: 1), using: ._24)
+        let tc = try Timecode(.components(m: 1), at: ._24)
         
         let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
         let newTC = tc.transformed(using: transformer)
         
-        XCTAssertEqual(newTC, try Timecode(.components(m: 2), using: ._24))
+        XCTAssertEqual(newTC, try Timecode(.components(m: 2), at: ._24))
     }
 }
 

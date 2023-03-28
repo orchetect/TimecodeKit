@@ -17,12 +17,12 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws {
         let fraction = Fraction(cmTime)
-        try self.init(fraction, using: frameRate, base: base, limit: limit)
+        try self.init(fraction, at: frameRate, base: base, limit: limit)
     }
     
     /// Returns the rational fraction for the timecode interval as `CMTime`.
@@ -51,11 +51,11 @@ extension CMTime {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func timecodeInterval(
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> TimecodeInterval {
-        try TimecodeInterval(self, using: frameRate, base: base, limit: limit)
+        try TimecodeInterval(self, at: frameRate, base: base, limit: limit)
     }
     
     /// Convenience function to initialize a `TimecodeInterval` instance from a time duration

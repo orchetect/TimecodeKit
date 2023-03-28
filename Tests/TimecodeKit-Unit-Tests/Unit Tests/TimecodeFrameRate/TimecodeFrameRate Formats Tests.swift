@@ -30,7 +30,7 @@ class TimecodeFrameRate_Formats_Tests: XCTestCase {
             
             let editRateSeconds = Double(editRateComponents[1]) / Double(editRateComponents[0])
             
-            let oneFrameDuration = try Timecode(.components(f: 1), using: $0)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: $0)
                 .realTimeValue
             
             XCTAssertEqual(

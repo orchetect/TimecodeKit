@@ -42,7 +42,7 @@ class FeetAndFrames_Tests: XCTestCase {
     
     func testFrameCount() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let tc10Hours = try Timecode(.components(h: 10), using: frate)
+            let tc10Hours = try Timecode(.components(h: 10), at: frate)
             let ff = tc10Hours.feetAndFramesValue
             XCTAssertEqual(ff.frameCount, tc10Hours.frameCount)
         }

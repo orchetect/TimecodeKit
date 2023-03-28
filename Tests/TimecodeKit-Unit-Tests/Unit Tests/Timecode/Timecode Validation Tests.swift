@@ -19,11 +19,11 @@ class Timecode_Validation_Tests: XCTestCase {
         let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
-        let tc = Timecode(.zero, using: fr, limit: limit)
+        let tc = Timecode(.zero, at: fr, limit: limit)
         
         XCTAssertEqual(tc.invalidComponents, [])
         XCTAssertEqual(
-            tc.components.invalidComponents(using: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
             []
         )
         
@@ -41,7 +41,7 @@ class Timecode_Validation_Tests: XCTestCase {
         let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
-        var tc = Timecode(.zero, using: fr, limit: limit)
+        var tc = Timecode(.zero, at: fr, limit: limit)
         tc.components.days = 5
         tc.components.hours = 25
         tc.components.minutes = 75
@@ -54,7 +54,7 @@ class Timecode_Validation_Tests: XCTestCase {
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
         XCTAssertEqual(
-            tc.components.invalidComponents(using: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
     }
@@ -65,7 +65,7 @@ class Timecode_Validation_Tests: XCTestCase {
         let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
-        var tc = Timecode(.zero, using: fr, limit: limit)
+        var tc = Timecode(.zero, at: fr, limit: limit)
         tc.components.days = -1
         tc.components.hours = -1
         tc.components.minutes = -1
@@ -78,7 +78,7 @@ class Timecode_Validation_Tests: XCTestCase {
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
         XCTAssertEqual(
-            tc.components.invalidComponents(using: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
     }
@@ -92,7 +92,7 @@ class Timecode_Validation_Tests: XCTestCase {
             // every 10 minutes, no frames are skipped
             
             do {
-                var tc = Timecode(.zero, using: $0, limit: limit)
+                var tc = Timecode(.zero, at: $0, limit: limit)
                 tc.components.minutes = 0
                 tc.components.frames = 0
                 
@@ -103,7 +103,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        using: $0,
+                        at: $0,
                         base: ._80SubFrames,
                         limit: limit
                     ),
@@ -115,7 +115,7 @@ class Timecode_Validation_Tests: XCTestCase {
             // all other minutes each skip frame 0 and 1
             
             for minute in 1 ... 9 {
-                var tc = Timecode(.zero, using: $0, limit: limit)
+                var tc = Timecode(.zero, at: $0, limit: limit)
                 tc.components.minutes = minute
                 tc.components.frames = 0
                 
@@ -126,7 +126,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        using:  $0,
+                        at: $0,
                         base: ._80SubFrames,
                         limit: limit
                     ),
@@ -134,7 +134,7 @@ class Timecode_Validation_Tests: XCTestCase {
                     "for \($0) at \(minute) minutes"
                 )
                 
-                tc = Timecode(.zero, using: $0, limit: limit)
+                tc = Timecode(.zero, at: $0, limit: limit)
                 tc.components.minutes = minute
                 tc.components.frames = 1
                 
@@ -145,7 +145,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        using: $0,
+                        at: $0,
                         base: ._80SubFrames,
                         limit: limit
                     ),
@@ -161,7 +161,7 @@ class Timecode_Validation_Tests: XCTestCase {
         
         let tc = try Timecode(
             comps,
-            using: ._29_97_drop,
+            at: ._29_97_drop,
             base: ._80SubFrames,
             limit: ._24hours
         )
@@ -175,7 +175,7 @@ class Timecode_Validation_Tests: XCTestCase {
         
         let tc = Timecode(
             .zero,
-            using: ._24,
+            at: ._24,
             base: subFramesBase,
             limit: ._24hours
         )

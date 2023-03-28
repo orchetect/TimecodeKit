@@ -23,7 +23,7 @@ class Timecode_Codable_Tests: XCTestCase {
             // set up a timecode object that has all non-defaults
             
             let tc = try "1 12:34:56:11.85".timecode(
-                using: $0,
+                at: $0,
                 base: ._100SubFrames,
                 limit: ._100days
             )

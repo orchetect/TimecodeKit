@@ -119,7 +119,7 @@ import XCTest
 final class DevTests: XCTestCase {
     func testDummy() throws {
         var tc = try Timecode.Components(d: 1)
-            .timecode(using: ._30_drop, limit: ._100days)
+            .timecode(at: ._30_drop, limit: ._100days)
         print(tc.realTimeValue)
         tc.set(.zero)
         try tc.set("")

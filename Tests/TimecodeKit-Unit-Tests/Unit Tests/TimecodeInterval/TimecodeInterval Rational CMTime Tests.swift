@@ -17,20 +17,20 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     func testTimecodeInterval_init_cmTime() throws {
         let ti = try TimecodeInterval(
             CMTime(value: 60, timescale: 30),
-            using: ._24
+            at: ._24
         )
         
         XCTAssertEqual(ti.sign, .plus)
         
         XCTAssertEqual(
             ti.absoluteInterval,
-            try Timecode(.components(s: 2), using: ._24)
+            try Timecode(.components(s: 2), at: ._24)
         )
     }
     
     func testCMTime() throws {
         let ti = try TimecodeInterval(
-            Timecode(.components(s: 2), using: ._24)
+            Timecode(.components(s: 2), at: ._24)
         )
         
         let cmTime = ti.cmTime
@@ -41,13 +41,13 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     }
     
     func testCMTime_timecodeInterval() throws {
-        let ti = try CMTime(value: 60, timescale: 30).timecodeInterval(using: ._24)
+        let ti = try CMTime(value: 60, timescale: 30).timecodeInterval(at: ._24)
         
         XCTAssertEqual(ti.sign, .plus)
         
         XCTAssertEqual(
             ti.absoluteInterval,
-            try Timecode(.components(s: 2), using: ._24)
+            try Timecode(.components(s: 2), at: ._24)
         )
     }
 }

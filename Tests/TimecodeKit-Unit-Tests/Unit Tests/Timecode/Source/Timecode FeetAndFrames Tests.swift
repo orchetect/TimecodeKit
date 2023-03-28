@@ -14,25 +14,25 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_23_976fps_zero() throws {
-        let ff = Timecode(.zero, using: ._23_976).feetAndFramesValue
+        let ff = Timecode(.zero, at: ._23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 0)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_23_976fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(using: ._23_976).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).timecode(at: ._23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_24fps_zero() throws {
-        let ff = Timecode(.zero, using: ._24).feetAndFramesValue
+        let ff = Timecode(.zero, at: ._24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 0)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_24fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(using: ._24).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).timecode(at: ._24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
@@ -40,7 +40,7 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     func testTimecode_allRates_complex() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
             let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4)
-                .timecode(using: frate).feetAndFramesValue
+                .timecode(at: frate).feetAndFramesValue
             
             // TimecodeFrameRate.maxTotalFrames is a good reference for groupings
             // which shows frame rates with the same frame counts over time
@@ -91,7 +91,7 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     func testTimecode_allRates_subFrames() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
             let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4, sf: 24)
-                .timecode(using: frate).feetAndFramesValue
+                .timecode(at: frate).feetAndFramesValue
             
             XCTAssertEqual(ff.subFrames, 24, "\(frate)")
         }

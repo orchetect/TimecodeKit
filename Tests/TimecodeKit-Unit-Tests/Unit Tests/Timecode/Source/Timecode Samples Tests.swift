@@ -17,7 +17,7 @@ class Timecode_Samples_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 .samples(48000 * 2, sampleRate: 48000),
-                using: $0
+                at: $0
             )
             
             // don't imperatively check each result, just make sure that a value was set;
@@ -32,7 +32,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
                 sampleRate: 48000
             ),
-            using: ._24,
+            at: ._24,
             by: .clamping
         )
         
@@ -48,7 +48,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
                 sampleRate: 48000
             ),
-            using: ._24,
+            at: ._24,
             by: .wrapping
         )
         
@@ -61,7 +61,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 (4_147_200_000 * 2) + 172_800_000, // 2 days + 1 hour @ 24fps
                 sampleRate: 48000
             ),
-            using: ._24,
+            at: ._24,
             by: .allowingInvalid
         )
         
@@ -74,7 +74,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 -((4_147_200_000 * 2) + 172_800_000), // 2 days + 1 hour @ 24fps
                 sampleRate: 48000
             ),
-            using: ._24,
+            at: ._24,
             by: .allowingInvalid
         )
         
@@ -101,7 +101,7 @@ class Timecode_Samples_Tests: XCTestCase {
             fRate: TimecodeFrameRate,
             roundedForDropFrame: Bool
         ) throws {
-            var tc = Timecode(.zero, using: fRate, limit: ._100days)
+            var tc = Timecode(.zero, at: fRate, limit: ._100days)
             
             // get
             try tc.set(.components(d: 1))
@@ -136,7 +136,7 @@ class Timecode_Samples_Tests: XCTestCase {
             sRate: Int,
             fRate: TimecodeFrameRate
         ) throws {
-            var tc = Timecode(.zero, using: fRate, limit: ._100days)
+            var tc = Timecode(.zero, at: fRate, limit: ._100days)
             
             // get
             try tc.set(.components(d: 1))
@@ -256,7 +256,7 @@ class Timecode_Samples_Tests: XCTestCase {
             try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
                     tcc,
-                    using:  $0,
+                    at:  $0,
                     base: subFramesBase,
                     limit: ._100days
                 )

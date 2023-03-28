@@ -19,15 +19,15 @@ class TimecodeTransformer_Tests: XCTestCase {
         let transformer = TimecodeTransformer(.none)
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
     }
     
     func testOffset() throws {
         // .offset()
         
-        let deltaTC = try Timecode(.components(m: 1), using: ._24)
+        let deltaTC = try Timecode(.components(m: 1), at: ._24)
         let delta = TimecodeInterval(deltaTC, .plus)
         
         var transformer = TimecodeTransformer(.offset(by: delta))
@@ -37,8 +37,8 @@ class TimecodeTransformer_Tests: XCTestCase {
         transformer.enabled = false
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
         
         // enabled
@@ -46,8 +46,8 @@ class TimecodeTransformer_Tests: XCTestCase {
         transformer.enabled = true
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
     }
     
@@ -59,8 +59,8 @@ class TimecodeTransformer_Tests: XCTestCase {
         })
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
     }
     
@@ -69,30 +69,30 @@ class TimecodeTransformer_Tests: XCTestCase {
         let transformer = TimecodeTransformer([])
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
     }
     
     func testMultiple_Offsets() throws {
         // .offset(by:)
         
-        let deltaTC1 = try Timecode(.components(m: 1), using: ._24)
+        let deltaTC1 = try Timecode(.components(m: 1), at: ._24)
         let delta1 = TimecodeInterval(deltaTC1, .plus)
         
-        let deltaTC2 = try Timecode(.components(s: 1), using: ._24)
+        let deltaTC2 = try Timecode(.components(s: 1), at: ._24)
         let delta2 = TimecodeInterval(deltaTC2, .minus)
         
         let transformer = TimecodeTransformer([.offset(by: delta1), .offset(by: delta2)])
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), using: ._24)),
-            try Timecode(.components(h: 01, m: 00, s: 59, f: 00), using: ._24)
+            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try Timecode(.components(h: 01, m: 00, s: 59, f: 00), at: ._24)
         )
     }
     
     func testShorthand() throws {
-        let delta = Timecode(.zero, using: ._24)
+        let delta = Timecode(.zero, at: ._24)
         _ = TimecodeTransformer(.offset(by: .positive(delta)))
     }
 }
