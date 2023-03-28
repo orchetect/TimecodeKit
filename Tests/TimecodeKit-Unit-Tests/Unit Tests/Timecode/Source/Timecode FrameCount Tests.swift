@@ -16,68 +16,52 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
             Timecode.FrameCount(.frames(670_907), base: ._80SubFrames),
-            at: ._30,
-            limit: ._24hours
+            using: ._30
         )
         
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 6)
-        XCTAssertEqual(tc.minutes, 12)
-        XCTAssertEqual(tc.seconds, 43)
-        XCTAssertEqual(tc.frames, 17)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
     }
     
     func testTimecode_init_FrameCount_Clamping() {
         let tc = Timecode(
-            clamping: Timecode.FrameCount(
+            Timecode.FrameCount(
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             ),
-            at: ._24,
-            limit: ._24hours
+            using: ._24,
+            by: .clamping
         )
         
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
         )
     }
     
     func testTimecode_init_FrameCount_Wrapping() {
         let tc = Timecode(
-            wrapping: Timecode.FrameCount(
+            Timecode.FrameCount(
                 .frames(2073600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             ),
-            at: ._24,
-            limit: ._24hours
+            using: ._24,
+            by: .wrapping
         )
         
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01))
     }
     
     func testTimecode_init_FrameCount_RawValues() {
         let tc = Timecode(
-            rawValues: Timecode.FrameCount(
+            Timecode.FrameCount(
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
                 base: ._80SubFrames
             ),
-            at: ._24,
-            limit: ._24hours
+            using: ._24,
+            by: .allowingInvalid
         )
         
-        XCTAssertEqual(tc.days, 2)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: 2, h: 01))
     }
     
     func testAllFrameRates_ElapsedFrames() {
@@ -165,42 +149,43 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testSetTimecodeExactly() throws {
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
-        var tc = Timecode(at: ._30, base: ._80SubFrames)
+        var tc = Timecode(.zero, using: .init(rate: ._30, base: ._80SubFrames))
         
-        try tc.setTimecode(exactly: Timecode.FrameCount(
+        try tc.set(Timecode.FrameCount(
             .frames(670_907),
             base: ._80SubFrames
         ))
         
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 6)
-        XCTAssertEqual(tc.minutes, 12)
-        XCTAssertEqual(tc.seconds, 43)
-        XCTAssertEqual(tc.frames, 17)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
     }
     
     func testSetTimecodeFrameCount_Clamping() {
-        var tc = Timecode(at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, using: .init(rate: ._24, base: ._80SubFrames))
         
-        tc.setTimecode(clamping: Timecode.FrameCount(
-            .frames(2_073_600 + 86400), // 25 hours @ 24fps
-            base: ._80SubFrames
-        ))
+        tc.set(
+            Timecode.FrameCount(
+                .frames(2_073_600 + 86400), // 25 hours @ 24fps
+                base: ._80SubFrames
+            ),
+            by: .clamping
+        )
 
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
         )
     }
 
     func testSetTimecodeFrameCount_Wrapping() {
-        var tc = Timecode(at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, using: .init(rate: ._24, base: ._80SubFrames))
         
-        tc.setTimecode(wrapping: Timecode.FrameCount(
-            .frames(2073600 + 86400), // 25 hours @ 24fps
-            base: ._80SubFrames
-        ))
+        tc.set(
+            Timecode.FrameCount(
+                .frames(2073600 + 86400), // 25 hours @ 24fps
+                base: ._80SubFrames
+            ),
+            by: .wrapping
+        )
 
         XCTAssertEqual(tc.days, 0)
         XCTAssertEqual(tc.hours, 1)

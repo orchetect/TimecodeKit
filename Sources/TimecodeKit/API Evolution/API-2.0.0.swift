@@ -8,64 +8,6 @@ import Foundation
 
 // MARK: API Changes in TimecodeKit 2.0.0
 
-// MARK: - Properties
-
-extension Timecode {
-    @available(*, deprecated, renamed: "properties.frameRate")
-    public var frameRate: TimecodeFrameRate {
-        get { properties.frameRate }
-        set { properties.frameRate = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "properties.subFramesBase")
-    public var subFramesBase: SubFramesBase {
-        get { properties.subFramesBase }
-        set { properties.subFramesBase = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "properties.upperLimit")
-    public var upperLimit: UpperLimit {
-        get { properties.upperLimit }
-        set { properties.upperLimit = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.days")
-    public var days: Int {
-        get { components.days }
-        set { components.days = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.hours")
-    public var hours: Int {
-        get { components.hours }
-        set { components.hours = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.minutes")
-    public var minutes: Int {
-        get { components.minutes }
-        set { components.minutes = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.seconds")
-    public var seconds: Int {
-        get { components.seconds }
-        set { components.seconds = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.frames")
-    public var frames: Int {
-        get { components.frames }
-        set { components.frames = newValue }
-    }
-    
-    @available(*, deprecated, renamed: "components.subFrames")
-    public var subFrames: Int {
-        get { components.subFrames }
-        set { components.subFrames = newValue }
-    }
-}
-
 // MARK: - Inits
 
 extension Timecode {

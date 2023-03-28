@@ -11,7 +11,7 @@ extension Timecode {
     public struct Properties: Equatable, Hashable {
         /// Frame rate.
         ///
-        /// Note: Several properties are available on the frame rate that is selected, including its
+        /// - Note: Several properties are available on the frame rate that is selected, including its
         /// ``stringValue`` representation or whether the rate ``TimecodeFrameRate/isDrop``.
         ///
         /// Setting this value directly does not trigger any validation.
@@ -24,15 +24,18 @@ extension Timecode {
         /// (ie: a divisor of 80 subframes per frame implies a visible value range of 00...79)
         ///
         /// This will vary depending on application. Most common divisors are 80 or 100.
+        ///
+        /// - Note: Setting this value directly does not trigger any validation.
         public var subFramesBase: SubFramesBase
         
         /// Timecode maximum upper bound.
         ///
         /// This also affects how timecode values wrap when adding or clamping.
         ///
-        /// Setting this value directly does not trigger any validation.
+        /// - Note: Setting this value directly does not trigger any validation.
         public var upperLimit: UpperLimit
         
+        /// ``Timecode`` properties.
         public init(
             rate: TimecodeFrameRate,
             base: SubFramesBase = .default(),
