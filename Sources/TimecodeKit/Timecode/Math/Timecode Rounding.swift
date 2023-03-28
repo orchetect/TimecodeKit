@@ -17,13 +17,16 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundedUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedUp(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundedUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
     ///
@@ -44,13 +47,16 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundUp(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
     ///
@@ -110,13 +116,16 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundedDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedDown(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundedDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
     public func roundedDown(toNearest component: Component) -> Self {
@@ -135,13 +144,16 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundDown(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    ///     .roundDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
     public mutating func roundDown(toNearest component: Component) {

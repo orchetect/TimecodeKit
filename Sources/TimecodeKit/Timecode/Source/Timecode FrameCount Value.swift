@@ -115,7 +115,7 @@ extension Timecode {
         
         return Self.components(
             of: fc,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -127,7 +127,7 @@ extension Timecode {
         
         return Self.components(
             of: fc,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
 }

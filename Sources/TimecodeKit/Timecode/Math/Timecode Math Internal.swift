@@ -15,12 +15,12 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -36,7 +36,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -48,12 +48,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -68,7 +68,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -80,12 +80,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -114,7 +114,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -128,12 +128,12 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -149,7 +149,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -161,12 +161,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -181,7 +181,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -193,12 +193,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -227,7 +227,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -241,7 +241,7 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -257,7 +257,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -269,7 +269,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -284,7 +284,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -296,7 +296,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -325,7 +325,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -339,7 +339,7 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -355,7 +355,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -367,7 +367,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
@@ -381,7 +381,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
@@ -393,7 +393,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            at: properties.frameRate,
+            using: properties.frameRate,
             base: properties.subFramesBase
         )
         
@@ -422,7 +422,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            at: properties.frameRate
+            using: properties.frameRate
         )
     }
     
