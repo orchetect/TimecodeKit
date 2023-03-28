@@ -54,7 +54,7 @@ extension Timecode {
         }
         
         public init(
-            properties: Timecode.Properties? = nil,
+            using properties: Timecode.Properties? = nil,
             stringFormat: StringFormat? = nil,
             showsValidation: Bool = false,
             validationAttributes: [NSAttributedString.Key: Any]? = nil
@@ -81,7 +81,7 @@ extension Timecode {
             validationAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             self.init(
-                properties: timecode.properties,
+                using: timecode.properties,
                 stringFormat: stringFormat,
                 showsValidation: showsValidation,
                 validationAttributes: validationAttributes
