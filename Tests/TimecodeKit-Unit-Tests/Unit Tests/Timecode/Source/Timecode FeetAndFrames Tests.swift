@@ -20,7 +20,7 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     }
     
     func testTimecode_23_976fps_1min() throws {
-        let ff = try TCC(m: 1).toTimecode(at: ._23_976).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).toTimecode(at: ._23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
@@ -32,14 +32,14 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     }
     
     func testTimecode_24fps_1min() throws {
-        let ff = try TCC(m: 1).toTimecode(at: ._24).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).toTimecode(at: ._24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_allRates_complex() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let ff = try TCC(h: 1, m: 2, s: 3, f: 4)
+            let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4)
                 .toTimecode(at: frate).feetAndFramesValue
             
             // TimecodeFrameRate.maxTotalFrames is a good reference for groupings
@@ -90,7 +90,7 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     /// Ensure subFrames are correct when set.
     func testTimecode_allRates_subFrames() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let ff = try TCC(h: 1, m: 2, s: 3, f: 4, sf: 24)
+            let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4, sf: 24)
                 .toTimecode(at: frate).feetAndFramesValue
             
             XCTAssertEqual(ff.subFrames, 24, "\(frate)")

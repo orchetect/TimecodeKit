@@ -23,27 +23,27 @@ class Timecode_AVAsset_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(startOf: asset, format: [.showSubFrames])
-        XCTAssertEqual(timecode.components, TCC(m: 58, s: 40))
-        XCTAssertEqual(timecode.frameRate, ._23_976)
+        let timecode = try Timecode(.avAsset(asset, .start))
+        XCTAssertEqual(timecode.components, Timecode.Components(m: 58, s: 40))
+        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
     }
     
     func testTimecode_init_durationOfAsset() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(durationOf: asset, format: [.showSubFrames])
-        XCTAssertEqual(timecode.components, TCC(m: 24, s: 10, f: 19, sf: 03))
-        XCTAssertEqual(timecode.frameRate, ._23_976)
+        let timecode = try Timecode(.avAsset(asset, .duration))
+        XCTAssertEqual(timecode.components, Timecode.Components(m: 24, s: 10, f: 19, sf: 03))
+        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
     }
     
     func testTimecode_init_endOfAsset() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(endOf: asset, format: [.showSubFrames])
-        XCTAssertEqual(timecode.components, TCC(h: 1, m: 22, s: 50, f: 19, sf: 03))
-        XCTAssertEqual(timecode.frameRate, ._23_976)
+        let timecode = try Timecode(.avAsset(asset, .end))
+        XCTAssertEqual(timecode.components, Timecode.Components(h: 1, m: 22, s: 50, f: 19, sf: 03))
+        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
     }
 }
 

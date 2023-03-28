@@ -16,79 +16,70 @@ class Timecode_Samples_Tests: XCTestCase {
     func testTimecode_init_Samples_Exactly() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                samples: 48000 * 2,
-                sampleRate: 48000,
-                at: $0,
-                limit: ._24hours
+                .samples(48000 * 2, sampleRate: 48000),
+                using: $0
             )
             
             // don't imperatively check each result, just make sure that a value was set;
             // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
-            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertNotEqual(tc.components.seconds, 0, "for \($0)")
         }
     }
     
     func testTimecode_init_Samples_Clamping() {
         let tc = Timecode(
-            clampingSamples: 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
-            sampleRate: 48000,
-            at: ._24,
-            limit: ._24hours
+            .samples(
+                4_147_200_000 + 172_800_000, // 25 hours @ 24fps
+                sampleRate: 48000
+            ),
+            using: ._24,
+            by: .clamping
         )
         
         XCTAssertEqual(
             tc.components,
-            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
         )
     }
     
     func testTimecode_init_Samples_Wrapping() {
         let tc = Timecode(
-            wrappingSamples: 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
-            sampleRate: 48000,
-            at: ._24,
-            limit: ._24hours
+            .samples(
+                4_147_200_000 + 172_800_000, // 25 hours @ 24fps
+                sampleRate: 48000
+            ),
+            using: ._24,
+            by: .wrapping
         )
         
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 1))
     }
     
     func testTimecode_init_Samples_RawValues() {
         let tc = Timecode(
-            rawValuesSamples: (4_147_200_000 * 2) + 172_800_000, // 2 days + 1 hour @ 24fps
-            sampleRate: 48000,
-            at: ._24,
-            limit: ._24hours
+            .samples(
+                (4_147_200_000 * 2) + 172_800_000, // 2 days + 1 hour @ 24fps
+                sampleRate: 48000
+            ),
+            using: ._24,
+            by: .allowingInvalid
         )
         
-        XCTAssertEqual(tc.days, 2)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: 2, h: 1))
     }
     
     func testTimecode_init_Samples_RawValues_Negative() {
         let tc = Timecode(
-            rawValuesSamples: -((4_147_200_000 * 2) + 172_800_000), // 2 days + 1 hour @ 24fps
-            sampleRate: 48000,
-            at: ._24,
-            limit: ._24hours
+            .samples(
+                -((4_147_200_000 * 2) + 172_800_000), // 2 days + 1 hour @ 24fps
+                sampleRate: 48000
+            ),
+            using: ._24,
+            by: .allowingInvalid
         )
         
         // Negates only the largest non-zero component if input is negative
-        XCTAssertEqual(tc.days, -2)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: -2, h: 1))
     }
     
     func testSamplesGetSet_48KHz() throws {
@@ -110,10 +101,10 @@ class Timecode_Samples_Tests: XCTestCase {
             fRate: TimecodeFrameRate,
             roundedForDropFrame: Bool
         ) throws {
-            var tc = Timecode(at: fRate, limit: ._100days)
+            var tc = Timecode(.zero, using: .init(rate: fRate, limit: ._100days))
             
             // get
-            try tc.setTimecode(exactly: TCC(d: 1))
+            try tc.set(.components(d: 1))
             var sv = tc.samplesDoubleValue(sampleRate: sRate)
             if roundedForDropFrame {
                 // add rounding for real drop rates (ie: 29.97d, not 30d);
@@ -128,13 +119,13 @@ class Timecode_Samples_Tests: XCTestCase {
             )
             
             // set
-            try tc.setTimecode(
-                samples: samplesIn1DayTC,
+            try tc.set(.samples(
+                samplesIn1DayTC,
                 sampleRate: sRate
-            )
+            ))
             XCTAssertEqual(
                 tc.components,
-                TCC(d: 1),
+                Timecode.Components(d: 1),
                 "at \(fRate)"
             )
         }
@@ -145,10 +136,10 @@ class Timecode_Samples_Tests: XCTestCase {
             sRate: Int,
             fRate: TimecodeFrameRate
         ) throws {
-            var tc = Timecode(at: fRate, limit: ._100days)
+            var tc = Timecode(.zero, using: .init(rate: fRate, limit: ._100days))
             
             // get
-            try tc.setTimecode(exactly: TCC(d: 1))
+            try tc.set(.components(d: 1))
             XCTAssertEqual(
                 tc.samplesValue(sampleRate: sRate),
                 samplesIn1DayTC,
@@ -156,13 +147,13 @@ class Timecode_Samples_Tests: XCTestCase {
             )
             
             // set
-            try tc.setTimecode(
-                samples: samplesIn1DayTC,
+            try tc.set(.samples(
+                samplesIn1DayTC,
                 sampleRate: sRate
-            )
+            ))
             XCTAssertEqual(
                 tc.components,
-                TCC(d: 1),
+                Timecode.Components(d: 1),
                 "at \(fRate)"
             )
         }
@@ -260,14 +251,16 @@ class Timecode_Samples_Tests: XCTestCase {
         var frameRatesWithMismatchingComponentsCount = 0
         
         for subFrame in 0 ..< subFramesBase.rawValue {
-            let tcc = TCC(d: 99, h: 23, sf: subFrame)
+            let tcc = Timecode.Components(d: 99, h: 23, sf: subFrame)
             
             try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
                     tcc,
-                    at: $0,
-                    limit: ._100days,
-                    base: subFramesBase
+                    using: .init(
+                        rate: $0,
+                        base: subFramesBase,
+                        limit: ._100days
+                    )
                 )
                 
                 let sRate = 48000
@@ -278,10 +271,10 @@ class Timecode_Samples_Tests: XCTestCase {
                 
                 // samples to timecode
                 
-                if (try? tc.setTimecode(
-                    samples: samples,
+                if (try? tc.set(.samples(
+                    samples,
                     sampleRate: sRate
-                )) == nil {
+                ))) == nil {
                     frameRatesWithSetTimecodeErrors.insert($0)
                     frameRatesWithSetTimecodeErrorsCount += 1
                     if logErrors {
@@ -296,7 +289,7 @@ class Timecode_Samples_Tests: XCTestCase {
                     if logErrors {
                         let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
                         print(
-                            "TCC match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)"
+                            "Timecode.Components match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)"
                         )
                     }
                 }

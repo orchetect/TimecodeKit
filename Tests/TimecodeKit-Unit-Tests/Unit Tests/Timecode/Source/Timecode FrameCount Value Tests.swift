@@ -37,7 +37,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc.components,
-            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
     }
     
