@@ -11,8 +11,8 @@ extension Timecode {
         /// Clamp timecode to valid timecode range if necessary.
         case clamping
         
-        /// Clamp individual values if necessary.
-        case clampingEach
+        /// Clamp individual components if necessary.
+        case clampingComponents
         
         /// Wrap over or under the valid timecode range if necessary.
         case wrapping

@@ -175,7 +175,7 @@ extension Timecode {
         self.init(rawValues, using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.components(), using:, by: .clampingEach)")
+    @available(*, deprecated, message: "Renamed to Timecode(.components(), using:, by: .clampingComponents)")
     public init(
         clampingEach rawValues: Components,
         at rate: TimecodeFrameRate,
@@ -184,7 +184,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(rawValues, using: properties, by: .clampingEach)
+        self.init(rawValues, using: properties, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.components(), using:, by: .wrapping)")
@@ -223,9 +223,9 @@ extension Timecode {
         set(values, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to set(.components(), by: .clampingEach)")
+    @available(*, deprecated, message: "Renamed to set(.components(), by: .clampingComponents)")
     public mutating func setTimecode(clampingEach values: Components) {
-        set(values, by: .clampingEach)
+        set(values, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to set(.components(), by: .wrapping)")
@@ -908,7 +908,7 @@ extension Timecode {
         try self.init(timecodeString, using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.string(), using:, by: .clampingEach)")
+    @available(*, deprecated, message: "Renamed to Timecode(.string(), using:, by: .clampingComponents)")
     public init(
         clampingEach timecodeString: String,
         at rate: TimecodeFrameRate,
@@ -917,7 +917,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(timecodeString, using: properties, by: .clampingEach)
+        try self.init(timecodeString, using: properties, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.string(), using:, by: .wrapping)")
@@ -966,9 +966,9 @@ extension Timecode {
         try set(string, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to set(.string(), by: .clampingEach)")
+    @available(*, deprecated, message: "Renamed to set(.string(), by: .clampingComponents)")
     public mutating func setTimecode(clampingEach string: String) throws {
-        try set(string, by: .clampingEach)
+        try set(string, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to set(.string(), by: .wrapping)")

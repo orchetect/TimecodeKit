@@ -15,7 +15,7 @@ extension Timecode.FrameCount.Value: TimecodeSource {
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
-        case .clamping, .clampingEach:
+        case .clamping, .clampingComponents:
             timecode._setTimecode(clamping: self)
         case .wrapping:
             timecode._setTimecode(wrapping: self)

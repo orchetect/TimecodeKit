@@ -16,11 +16,12 @@ class Timecode_Math_Public_Tests: XCTestCase {
     func testAdd_and_Subtract_Methods() throws {
         // .add / .subtract methods
         
-        var tc = Timecode(.zero, using: .init(rate: ._23_976, limit: ._24hours))
+        var tc = Timecode(.zero, using: ._23_976, limit: ._24hours)
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(h: 00, m: 00, s: 00, f: 23))
@@ -33,7 +34,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(h: 01, m: 15, s: 30, f: 10))
@@ -50,14 +52,16 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         XCTAssertThrowsError(try tc.subtract(.components(h: 02, m: 31, s: 00, f: 20)))
         
         tc = try Timecode(
             .components(h: 23, m: 59, s: 59, f: 23),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.subtract(.components(h: 23, m: 59, s: 59, f: 23))
@@ -66,7 +70,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 23, m: 59, s: 59, f: 23),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         XCTAssertThrowsError(try tc.subtract(.components(h: 23, m: 59, s: 59, f: 24))) // 1 frame too many
@@ -75,7 +80,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(f: 24)) // roll up to 1 sec
@@ -84,7 +90,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(s: 60)) // roll up to 1 min
@@ -93,7 +100,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(m: 60)) // roll up to 1 hr
@@ -102,7 +110,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(d: 0, h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._100days)
+            using: ._23_976,
+            limit: ._100days
         )
         
         try tc.add(.components(h: 24)) // roll up to 1 day
@@ -111,7 +120,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.add(.components(h: 00, m: 00, s: 00, f: 2_073_599))
@@ -120,7 +130,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 23, m: 59, s: 59, f: 23),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.subtract(.components(h: 00, m: 00, s: 00, f: 2_073_599))
@@ -137,7 +148,9 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, base: ._80SubFrames, limit: ._24hours)
+            using: ._23_976,
+            base: ._80SubFrames,
+            limit: ._24hours
         )
         
         tc.add(clamping: Timecode.Components(h: 25))
@@ -146,7 +159,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.subtract(clamping: Timecode.Components(h: 4))
@@ -157,7 +171,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.add(wrapping: Timecode.Components(h: 25))
@@ -166,7 +181,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.add(wrapping: Timecode.Components(f: -1)) // add negative number
@@ -175,7 +191,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.subtract(wrapping: Timecode.Components(h: 4))
@@ -184,7 +201,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.subtract(wrapping: Timecode.Components(h: -4)) // subtract negative number
@@ -195,7 +213,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         try tc.add(.components(h: 00, m: 00, s: 00, f: 29))
@@ -208,7 +227,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         try tc.add(.components(m: 60)) // roll up to 1 hr
@@ -217,7 +237,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         try tc = Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         try tc.add(.components(f: 30)) // roll up to 1 sec
@@ -226,7 +247,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         try tc = Timecode(
             .components(h: 00, m: 00, s: 59, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
@@ -236,7 +258,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 01, s: 00, f: 02),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
@@ -252,7 +275,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 10, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         // exactly
@@ -275,7 +299,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 10, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         // exactly
@@ -290,7 +315,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         var tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         try tc.multiply(2)
         
@@ -298,7 +324,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         try tc.multiply(2.5)
@@ -307,7 +334,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         try tc.multiply(2)
@@ -316,7 +344,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         try tc.multiply(2.5)
@@ -325,7 +354,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._29_97_drop, limit: ._24hours)
+            using: ._29_97_drop,
+            limit: ._24hours
         )
         
         XCTAssertThrowsError(try tc.multiply(25))
@@ -336,7 +366,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.multiply(clamping: 25.0)
@@ -348,7 +379,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.divide(clamping: 4)
@@ -359,7 +391,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.multiply(wrapping: 25.0)
@@ -368,7 +401,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.multiply(wrapping: 2)
@@ -377,7 +411,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.multiply(wrapping: 25)
@@ -388,7 +423,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.divide(wrapping: -2)
@@ -397,7 +433,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.divide(wrapping: 2)
@@ -406,7 +443,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 12, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.divide(wrapping: -2)
@@ -417,7 +455,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 04, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         // exactly
@@ -430,7 +469,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 04, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         // exactly
@@ -445,12 +485,14 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         var tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         let intervalTC = try Timecode(
             .components(h: 00, m: 01, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         tc.offset(by: .init(intervalTC, .plus))
@@ -469,7 +511,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         tc = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         XCTAssertEqual(
@@ -483,12 +526,14 @@ class Timecode_Math_Public_Tests: XCTestCase {
     func testIntervalTo() throws {
         let tc1 = try Timecode(
             .components(h: 01, m: 00, s: 00, f: 00),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         let tc2 = try Timecode(
             .components(h: 01, m: 04, s: 37, f: 15),
-            using: .init(rate: ._23_976, limit: ._24hours)
+            using: ._23_976,
+            limit: ._24hours
         )
         
         // positive
@@ -500,7 +545,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
             interval.flattened(),
             try Timecode(
                 .components(h: 00, m: 04, s: 37, f: 15),
-                using: .init(rate: ._23_976, limit: ._24hours)
+                using: ._23_976,
+                limit: ._24hours
             )
         )
         
@@ -513,14 +559,16 @@ class Timecode_Math_Public_Tests: XCTestCase {
             interval.absoluteInterval,
             try Timecode(
                 .components(h: 00, m: 04, s: 37, f: 15),
-                using: .init(rate: ._23_976, limit: ._24hours)
+                using: ._23_976,
+                limit: ._24hours
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             try Timecode(
                 .components(h: 23, m: 55, s: 22, f: 09),
-                using: .init(rate: ._23_976, limit: ._24hours)
+                using: ._23_976,
+                limit: ._24hours
             )
         )
         
@@ -528,7 +576,8 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         let tc3 = try Timecode(
             .components(d: 1, h: 03, m: 04, s: 37, f: 15),
-            using: .init(rate: ._23_976, limit: ._100days)
+            using: ._23_976,
+            limit: ._100days
         )
         
         // positive, > 24 hours delta
@@ -540,14 +589,16 @@ class Timecode_Math_Public_Tests: XCTestCase {
             interval.absoluteInterval,
             try Timecode(
                 .components(d: 1, h: 02, m: 04, s: 37, f: 15),
-                using: .init(rate: ._23_976, limit: ._100days)
+                using: ._23_976,
+                limit: ._100days
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             try Timecode(
                 .components(h: 02, m: 04, s: 37, f: 15),
-                using: .init(rate: ._23_976, limit: ._24hours)
+                using: ._23_976,
+                limit: ._24hours
             )
         )
         
@@ -560,14 +611,16 @@ class Timecode_Math_Public_Tests: XCTestCase {
             interval.absoluteInterval,
             try Timecode(
                 .components(d: 1, h: 02, m: 04, s: 37, f: 15),
-                using: .init(rate: ._23_976, limit: ._100days)
+                using: ._23_976,
+                limit: ._100days
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             Timecode(
                 .components(d: 98, h: 21, m: 55, s: 22, f: 09),
-                using: .init(rate: ._23_976, limit: ._100days),
+                using: ._23_976,
+                limit: ._100days,
                 by: .allowingInvalid
             )
         )

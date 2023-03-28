@@ -16,7 +16,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
     func testTimecode_init_FrameCountValue_Exactly() throws {
         let tc = try Timecode(
             .frames(670_907),
-            at: ._30,
+            using: ._30,
             limit: ._24hours
         )
         
@@ -30,9 +30,10 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
     
     func testTimecode_init_FrameCountValue_Clamping() {
         let tc = Timecode(
-            clamping: .frames(2073600 + 86400), // 25 hours @ 24fps
-            at: ._24,
-            limit: ._24hours
+            .frames(2073600 + 86400), // 25 hours @ 24fps
+            using: ._24,
+            limit: ._24hours,
+            by: .clamping
         )
         
         XCTAssertEqual(
@@ -43,9 +44,10 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
     
     func testTimecode_init_FrameCountValue_Wrapping() {
         let tc = Timecode(
-            wrapping: .frames(2073600 + 86400), // 25 hours @ 24fps
-            at: ._24,
-            limit: ._24hours
+            .frames(2073600 + 86400), // 25 hours @ 24fps
+            using: ._24,
+            limit: ._24hours,
+            by: .wrapping
         )
         
         XCTAssertEqual(tc.days, 0)
@@ -58,9 +60,10 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
     
     func testTimecode_init_FrameCountValue_RawValues() {
         let tc = Timecode(
-            rawValues: .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
-            at: ._24,
-            limit: ._24hours
+            .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
+            using: ._24,
+            limit: ._24hours,
+            by: .allowingInvalid
         )
         
         XCTAssertEqual(tc.days, 2)

@@ -23,8 +23,8 @@ extension String: FormattedTimecodeSource {
         switch validation {
         case .clamping:
             try timecode._setTimecode(clamping: self)
-        case .clampingEach:
-            try timecode._setTimecode(clampingEach: self)
+        case .clampingComponents:
+            try timecode._setTimecode(clampingComponents: self)
         case .wrapping:
             try timecode._setTimecode(wrapping: self)
         case .allowingInvalid:
@@ -277,9 +277,9 @@ extension Timecode {
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    internal mutating func _setTimecode(clampingEach string: String) throws {
+    internal mutating func _setTimecode(clampingComponents string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
-        _setTimecode(clampingEach: tcVals)
+        _setTimecode(clampingComponents: tcVals)
     }
     
     /// Set timecode from a string. Values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.

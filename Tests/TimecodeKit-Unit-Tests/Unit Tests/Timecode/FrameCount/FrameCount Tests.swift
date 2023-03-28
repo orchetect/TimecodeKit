@@ -211,7 +211,8 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr),
-                using: .init(rate: ._30_drop, limit: ._100days)
+                using: ._30_drop,
+                limit: ._100days
             ).components,
             Timecode.Components(d: 1)
         )

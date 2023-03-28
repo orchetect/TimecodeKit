@@ -13,7 +13,7 @@ import XCTest
 //
 //final class Timecode_ExtendedTests: XCTestCase {
 //    func testTimecode_Iterative() {
-//        // test conversions from components(from:) and frameCount(of:)
+//        // test conversions from components(of:) and frameCount(of:)
 //
 //        // ==============================================================================
 //        // NOTE:
@@ -116,20 +116,23 @@ import XCTest
 //    }
 // }
 
-//final class DevTests: XCTestCase {
-//    func testDummy() throws {
-//        let tc = try Timecode.Components(d: 1)
-//            .timecode(using: .init(rate: ._30_drop, limit: ._100days))
-//        print(tc.realTimeValue)
-//    }
+final class DevTests: XCTestCase {
+    func testDummy() throws {
+        var tc = try Timecode.Components(d: 1)
+            .timecode(using: ._30_drop, limit: ._100days)
+        print(tc.realTimeValue)
+        tc.set(.zero)
+        try tc.set("")
+        try tc.set(.components(d: 1))
+    }
 //
 //    func testDummy2() throws {
 //        let tc = try Timecode(.frames(2_589_408),
-//                              using: .init(rate: ._30_drop,
-//                                           limit: ._100days))
+//                              using: ._30_drop,
+//                              limit: ._100days)
 //        print(tc)
 //        print(tc.realTimeValue)
 //    }
-//}
+}
 
 #endif

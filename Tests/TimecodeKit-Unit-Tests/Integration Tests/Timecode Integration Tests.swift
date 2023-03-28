@@ -18,7 +18,7 @@ class TimecodeIntegrationTests: XCTestCase {
                 Timecode(
                     .components(h: -1, m: -1, s: -1, f: -1),
                     using: $0,
-                    by: .clampingEach
+                    by: .clampingComponents
                 )
                 .components,
                 Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -30,7 +30,7 @@ class TimecodeIntegrationTests: XCTestCase {
             let clamped = Timecode(
                 .components(h: 99, m: 99, s: 99, f: 10000),
                 using: $0,
-                by: .clampingEach
+                by: .clampingComponents
             )
             .components
             
@@ -48,7 +48,7 @@ class TimecodeIntegrationTests: XCTestCase {
                 Timecode(
                     .components(d: -1, h: -1, m: -1, s: -1, f: -1),
                     using: $0,
-                    by: .clampingEach
+                    by: .clampingComponents
                 )
                 .components,
                 Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -60,7 +60,7 @@ class TimecodeIntegrationTests: XCTestCase {
             let clamped = Timecode(
                 .components(d: 99, h: 99, m: 99, s: 99, f: 10000),
                 using: $0,
-                by: .clampingEach
+                by: .clampingComponents
             )
             .components
             
@@ -78,7 +78,7 @@ class TimecodeIntegrationTests: XCTestCase {
                 Timecode(
                     .components(h: -1, m: -1, s: -1, f: -1),
                     using: $0,
-                    by: .clampingEach
+                    by: .clampingComponents
                 )
                 .components,
                 Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -90,7 +90,7 @@ class TimecodeIntegrationTests: XCTestCase {
             let clamped = Timecode(
                 .components(h: 99, m: 99, s: 99, f: 10000),
                 using: $0,
-                by: .clampingEach
+                by: .clampingComponents
             )
             .components
             
@@ -107,8 +107,9 @@ class TimecodeIntegrationTests: XCTestCase {
             XCTAssertEqual(
                 Timecode(
                     .components(d: -1, h: -1, m: -1, s: -1, f: -1),
-                    using: .init(rate: $0, limit: ._100days),
-                    by: .clampingEach
+                    using: $0,
+                    limit: ._100days,
+                    by: .clampingComponents
                 )
                 .components,
                 Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0),
@@ -119,8 +120,9 @@ class TimecodeIntegrationTests: XCTestCase {
         TimecodeFrameRate.allCases.forEach {
             let clamped = Timecode(
                 .components(d: 99, h: 99, m: 99, s: 99, f: 10000),
-                using: .init(rate: $0, limit: ._100days),
-                by: .clampingEach
+                using: $0,
+                limit: ._100days,
+                by: .clampingComponents
             )
             .components
             
@@ -181,7 +183,8 @@ class TimecodeIntegrationTests: XCTestCase {
         TimecodeFrameRate.allCases.forEach {
             let wrapped = Timecode(
                 .components(d: -1),
-                using: .init(rate: $0, limit: ._100days),
+                using: $0,
+                limit: ._100days,
                 by: .wrapping
             )
             .components

@@ -15,7 +15,7 @@ extension TimeInterval: TimecodeSource {
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
-        case .clamping, .clampingEach:
+        case .clamping, .clampingComponents:
             timecode._setTimecode(clampingRealTime: self)
         case .wrapping:
             timecode._setTimecode(wrappingRealTime: self)

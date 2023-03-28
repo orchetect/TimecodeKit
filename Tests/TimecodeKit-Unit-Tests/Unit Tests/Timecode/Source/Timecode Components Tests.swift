@@ -54,7 +54,7 @@ class Timecode_Components_Tests: XCTestCase {
         let tc = Timecode(
             .components(h: 25),
             using: ._24,
-            by: .clampingEach
+            by: .clampingComponents
         )
         
         XCTAssertEqual(
@@ -108,7 +108,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_components_100days() {
         // default
         
-        var tc = Timecode(.zero, using: .init(rate: ._30, limit: ._100days))
+        var tc = Timecode(.zero, using: ._30, limit: ._100days)
         
         XCTAssertEqual(tc.components, Timecode.Components.zero)
         
@@ -132,7 +132,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClamping() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: .init(rate: ._30, base: ._80SubFrames))
+        var tc = Timecode(.zero, using: ._30, base: ._80SubFrames)
         
         tc.set(.components(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500), by: .clamping)
         
@@ -142,9 +142,9 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClampingEach() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, using: .init(rate: ._30, base: ._80SubFrames))
+        var tc = Timecode(.zero, using: ._30, base: ._80SubFrames)
         
-        tc.set(.components(h: 70, m: 00, s: 70, f: 00, sf: 500), by: .clampingEach)
+        tc.set(.components(h: 70, m: 00, s: 70, f: 00, sf: 500), by: .clampingComponents)
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 23, m: 00, s: 59, f: 00, sf: 79))
     }

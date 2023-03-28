@@ -49,7 +49,7 @@ class Timecode_String_Tests: XCTestCase {
         let tc = try Timecode(
             "25:00:00:00",
             using: ._24,
-            by: .clampingEach
+            by: .clampingComponents
         )
         
         XCTAssertEqual(
@@ -93,7 +93,7 @@ class Timecode_String_Tests: XCTestCase {
         XCTAssertThrowsError(try tc.set("50:05:20:14"))
         XCTAssertEqual(tc.stringValue(), "01:05:20:14") // no change
         
-        try tc.set("50:05:20:14", by: .clampingEach)
+        try tc.set("50:05:20:14", by: .clampingComponents)
         XCTAssertEqual(tc.stringValue(), "23:05:20:14")
     }
     

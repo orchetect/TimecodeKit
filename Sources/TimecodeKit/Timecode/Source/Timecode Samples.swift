@@ -20,7 +20,7 @@ extension SamplesPayload: TimecodeSource {
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
-        case .clamping, .clampingEach:
+        case .clamping, .clampingComponents:
             timecode._setTimecode(clampingSamples: samples, sampleRate: sampleRate)
         case .wrapping:
             timecode._setTimecode(wrappingSamples: samples, sampleRate: sampleRate)

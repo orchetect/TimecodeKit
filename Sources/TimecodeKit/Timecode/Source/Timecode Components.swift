@@ -15,8 +15,8 @@ extension Timecode.Components: TimecodeSource {
         switch validation {
         case .clamping:
             timecode._setTimecode(clamping: self)
-        case .clampingEach:
-            timecode._setTimecode(clampingEach: self)
+        case .clampingComponents:
+            timecode._setTimecode(clampingComponents: self)
         case .wrapping:
             timecode._setTimecode(wrapping: self)
         case .allowingInvalid:
@@ -82,7 +82,7 @@ extension Timecode {
     /// Set timecode from components, clamping individual values if necessary.
     ///
     /// (Validation is based on the frame rate and `upperLimit` property.)
-    internal mutating func _setTimecode(clampingEach values: Components) {
+    internal mutating func _setTimecode(clampingComponents values: Components) {
         components = values
         
         clampComponents()

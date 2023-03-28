@@ -191,7 +191,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_RawValues() {
-        var tc = Timecode(.zero, using: .init(rate: ._24, base: ._80SubFrames))
+        var tc = Timecode(.zero, using: ._24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(

@@ -47,10 +47,10 @@ class Timecode_Strideable_Tests: XCTestCase {
         
         try TimecodeFrameRate.allCases.forEach {
             let zero = try Timecode.Components(h: 00, m: 00, s: 00, f: 00)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
             
             let target = try Timecode.Components(d: 99, h: 23, m: 59, s: 59, f: $0.maxFrameNumberDisplayable)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
             
             let delta = zero.distance(to: target)
             
