@@ -17,7 +17,7 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     func testTimecodeInterval_init_cmTime() throws {
         let ti = try TimecodeInterval(
             CMTime(value: 60, timescale: 30),
-            at: ._24
+            using: ._24
         )
         
         XCTAssertEqual(ti.sign, .plus)
@@ -41,8 +41,7 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     }
     
     func testCMTime_timecodeInterval() throws {
-        let ti = try CMTime(value: 60, timescale: 30)
-            .timecodeInterval(using: ._24)
+        let ti = try CMTime(value: 60, timescale: 30).timecodeInterval(using: ._24)
         
         XCTAssertEqual(ti.sign, .plus)
         

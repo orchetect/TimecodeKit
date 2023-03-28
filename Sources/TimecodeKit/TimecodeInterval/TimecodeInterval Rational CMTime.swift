@@ -29,7 +29,7 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
-        at rate: TimecodeFrameRate
+        using rate: TimecodeFrameRate
     ) throws {
         let fraction = Fraction(cmTime)
         try self.init(fraction, using: .init(rate: rate))
