@@ -432,26 +432,21 @@ extension Timecode {
     internal func _offset(to other: Components) -> TimecodeInterval {
         if components == other {
             return TimecodeInterval(
-                Timecode.Components.zero
-                    .timecode(
-                        using: .init(
-                            rate: frameRate,
-                            base: subFramesBase,
-                            limit: upperLimit
-                        ),
-                        by: .allowingInvalid
-                    ),
+                Timecode.Components.zero.timecode(
+                    using: frameRate,
+                    base: subFramesBase,
+                    limit: upperLimit,
+                    by: .allowingInvalid
+                ),
                 .plus
             )
         }
         
         let otherTimecode = Timecode(
             .components(other),
-            using: .init(
-                rate: frameRate,
-                base: subFramesBase,
-                limit: ._100days
-            ),
+            using: frameRate,
+            base: subFramesBase,
+            limit: ._100days,
             by: .allowingInvalid
         )
         

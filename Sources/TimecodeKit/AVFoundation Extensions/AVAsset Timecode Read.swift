@@ -81,7 +81,9 @@ extension AVAsset {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         return try Timecode(
             duration,
-            using: .init(rate: frameRate, base: base, limit: limit)
+            using: frameRate,
+            base: base,
+            limit: limit
         )
     }
     
@@ -105,7 +107,9 @@ extension AVAsset {
         
         let timecodes = try samples.map {
             try $0.mapToTimecode(
-                using: .init(rate: frameRate, base: base, limit: limit)
+                using: frameRate,
+                base: base,
+                limit: limit
             )
         }
         

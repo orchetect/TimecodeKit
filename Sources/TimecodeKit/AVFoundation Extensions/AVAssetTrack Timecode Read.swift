@@ -65,7 +65,9 @@ extension AVAssetTrack {
         }
         
         return try timeRange.timecodeRange(
-            using: .init(rate: frameRate, base: base, limit: limit)
+            using: frameRate,
+            base: base,
+            limit: limit
         )
     }
     

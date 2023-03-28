@@ -17,10 +17,17 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
-        using properties: Timecode.Properties
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
     ) throws {
         let fraction = Fraction(cmTime)
-        try self.init(fraction, using: properties)
+        try self.init(fraction, using: frameRate, base: base, limit: limit)
+    }
+    
+    /// Returns the rational fraction for the timecode interval as `CMTime`.
+    public var cmTime: CMTime {
+        CMTime(rationalValue)
     }
     
     /// Initialize from a time duration represented as a rational fraction.
@@ -29,15 +36,10 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ cmTime: CMTime,
-        using rate: TimecodeFrameRate
+        using properties: Timecode.Properties
     ) throws {
         let fraction = Fraction(cmTime)
-        try self.init(fraction, using: .init(rate: rate))
-    }
-    
-    /// Returns the rational fraction for the timecode interval as `CMTime`.
-    public var cmTime: CMTime {
-        CMTime(rationalValue)
+        try self.init(fraction, using: properties)
     }
 }
 
@@ -49,12 +51,11 @@ extension CMTime {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func timecodeInterval(
-        using properties: Timecode.Properties
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
     ) throws -> TimecodeInterval {
-        try TimecodeInterval(
-            self,
-            using: properties
-        )
+        try TimecodeInterval(self, using: frameRate, base: base, limit: limit)
     }
     
     /// Convenience function to initialize a `TimecodeInterval` instance from a time duration
@@ -63,12 +64,9 @@ extension CMTime {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func timecodeInterval(
-        using rate: TimecodeFrameRate
+        using properties: Timecode.Properties
     ) throws -> TimecodeInterval {
-        try TimecodeInterval(
-            self,
-            using: .init(rate: rate)
-        )
+        try TimecodeInterval(self, using: properties)
     }
 }
 

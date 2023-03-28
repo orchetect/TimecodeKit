@@ -16,6 +16,15 @@ protocol CMTimeCode {
 
 extension Collection where Element == CMTimeCode {
     func mapToTimecode(
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
+    ) throws -> [Timecode] {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return try mapToTimecode(using: properties)
+    }
+    
+    func mapToTimecode(
         using properties: Timecode.Properties
     ) throws -> [Timecode] {
         try compactMap { sample in

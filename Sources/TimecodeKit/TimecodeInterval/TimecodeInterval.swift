@@ -58,11 +58,9 @@ public struct TimecodeInterval: Equatable, Hashable {
         case .minus:
             return Timecode(
                 .components(.zero),
-                using: .init(
-                    rate: absoluteInterval.properties.frameRate,
-                    base: absoluteInterval.properties.subFramesBase,
-                    limit: absoluteInterval.properties.upperLimit
-                ),
+                using: absoluteInterval.frameRate,
+                base: absoluteInterval.subFramesBase,
+                limit: absoluteInterval.upperLimit,
                 by: .allowingInvalid
             )
             .subtracting(wrapping: absoluteInterval.components)
@@ -98,7 +96,7 @@ extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertibl
     }
     
     public var verboseDescription: String {
-        "TimecodeInterval \(description) @ \(absoluteInterval.properties.frameRate.stringValueVerbose)"
+        "TimecodeInterval \(description) @ \(absoluteInterval.frameRate.stringValueVerbose)"
     }
 }
 

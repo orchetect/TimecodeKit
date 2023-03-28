@@ -102,7 +102,7 @@ extension Timecode {
     public init(
         _ source: RichTimecodeSource
     ) throws {
-        properties = .init(rate: ._24) // must init to a default first
+        properties = Properties(rate: ._24) // must init to a default first
         try set(source)
     }
     
@@ -135,7 +135,7 @@ extension Timecode {
     public init(
         _ source: GuaranteedRichTimecodeSource
     ) {
-        properties = .init(rate: ._24) // needs to be initialized with something first
+        properties = Properties(rate: ._24) // needs to be initialized with something first
         properties = set(source)
     }
 }

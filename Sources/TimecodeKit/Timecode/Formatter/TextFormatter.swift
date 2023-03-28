@@ -107,7 +107,7 @@ extension Timecode {
             guard let string = obj as? String
             else { return nil }
             
-            guard var tc = timecodeTemplate
+            guard let tcProps = timecodeProperties
             else { return string }
             
             // form timecode components without validating
@@ -115,7 +115,7 @@ extension Timecode {
             else { return string }
             
             // set values without validating
-            tc._setTimecode(rawValues: tcc)
+            let tc = Timecode(tcc, using: tcProps, by: .allowingInvalid)
             
             return tc.stringValue(format: stringFormat)
         }
@@ -146,14 +146,14 @@ extension Timecode {
             }
             
             // grab properties from the formatter
-            guard var tc = timecodeTemplate else { return entirelyInvalid() }
+            guard let tcProps = timecodeProperties else { return entirelyInvalid() }
             
             // form timecode components without validating
             guard let tcc = try? Timecode.decode(timecode: stringForObj)
             else { return entirelyInvalid() }
             
             // set values without validating
-            tc._setTimecode(rawValues: tcc)
+            let tc = Timecode(tcc, using: tcProps, by: .allowingInvalid)
             
             return (
                 showsValidation
@@ -327,7 +327,7 @@ extension Timecode {
 // MARK: timecodeTemplate
 
 extension Timecode.TextFormatter {
-    public var timecodeTemplate: Timecode? {
+    public var timecodeProperties: Timecode.Properties? {
         guard let unwrappedFrameRate = frameRate,
               let unwrappedUpperLimit = upperLimit,
               let unwrappedSubFramesBase = subFramesBase
@@ -335,13 +335,10 @@ extension Timecode.TextFormatter {
             return nil
         }
         
-        return Timecode(
-            .zero,
-            using: .init(
-                rate: unwrappedFrameRate,
-                base: unwrappedSubFramesBase,
-                limit: unwrappedUpperLimit
-            )
+        return Timecode.Properties(
+            rate: unwrappedFrameRate,
+            base: unwrappedSubFramesBase,
+            limit: unwrappedUpperLimit
         )
     }
 }

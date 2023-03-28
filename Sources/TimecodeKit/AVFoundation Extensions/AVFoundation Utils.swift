@@ -40,9 +40,12 @@ extension CMTimeRange {
     ///
     /// - Throws: ``Timecode/MediaParseError``
     public func timecodeRange(
-        using frameRate: TimecodeFrameRate
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
     ) throws -> ClosedRange<Timecode> {
-        try timecodeRange(using: .init(rate: frameRate))
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return try timecodeRange(using: properties)
     }
     
     /// Returns the time range as a timecode range.
