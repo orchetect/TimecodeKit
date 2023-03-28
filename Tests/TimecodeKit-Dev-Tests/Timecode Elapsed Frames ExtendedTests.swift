@@ -41,24 +41,24 @@ import XCTest
 //            let tc = Timecode(.zero, at: fr, limit: limit)
 //
 //            // log status
-//            print("Testing all frames in \(tc.properties.upperLimit) at \(fr.stringValue)... ", terminator: "")
+//            print("Testing all frames in \(tc.upperLimit) at \(fr.stringValue)... ", terminator: "")
 //
 //            var failures: [(Int, Timecode.Components)] = []
 //
-//            let ubound = tc.properties.frameRate.maxTotalFrames(in: tc.properties.upperLimit)
+//            let ubound = tc.frameRate.maxTotalFrames(in: tc.upperLimit)
 //
 //            var per = SegmentedProgress(0 ... ubound, segments: 20, roundedToPlaces: 0)
 //
 //            for i in 0 ... ubound {
 //                let vals = Timecode.components(
-//                    of: .init(.frames(i), base: tc.properties.subFramesBase),
-//                    at: tc.properties.frameRate
+//                    of: .init(.frames(i), base: tc.subFramesBase),
+//                    at: tc.frameRate
 //                )
 //
 //                if i != Timecode.frameCount(
 //                    of: vals,
-//                    at: tc.properties.frameRate,
-//                    base: tc.properties.subFramesBase
+//                    at: tc.frameRate,
+//                    base: tc.subFramesBase
 //                ).wholeFrames
 //
 //                { failures.append((i, vals)) }
@@ -87,8 +87,8 @@ import XCTest
 //                    "converted back to",
 //                    Timecode.frameCount(
 //                        of: failures.first!.1,
-//                        at: tc.properties.frameRate,
-//                        base: tc.properties.subFramesBase
+//                        at: tc.frameRate,
+//                        base: tc.subFramesBase
 //                    ),
 //                    "elapsed frames."
 //                )
@@ -104,8 +104,8 @@ import XCTest
 //                    "converted back to",
 //                    Timecode.frameCount(
 //                        of: failures.last!.1,
-//                        at: tc.properties.frameRate,
-//                        base: tc.properties.subFramesBase
+//                        at: tc.frameRate,
+//                        base: tc.subFramesBase
 //                    ),
 //                    "elapsed frames."
 //                )

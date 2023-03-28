@@ -19,9 +19,9 @@ public struct AVAssetTimecodeSource {
 
 extension AVAssetTimecodeSource: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        let rate: TimecodeFrameRate = timecode.properties.frameRate
-        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
-        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
+        let rate: TimecodeFrameRate = timecode.frameRate
+        let base: Timecode.SubFramesBase = timecode.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.upperLimit
         
         switch attribute {
         case .start:
@@ -54,9 +54,9 @@ extension AVAssetTimecodeSource: TimecodeSource {
     }
     
     public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
-        let rate: TimecodeFrameRate = timecode.properties.frameRate
-        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
-        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
+        let rate: TimecodeFrameRate = timecode.frameRate
+        let base: Timecode.SubFramesBase = timecode.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.upperLimit
         
         func zeroTimecode() -> Timecode {
             Timecode(.zero, using: timecode.properties)
@@ -113,8 +113,8 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
     public func set(
         timecode: inout Timecode
     ) throws -> Timecode.Properties {
-        let base: Timecode.SubFramesBase = timecode.properties.subFramesBase
-        let limit: Timecode.UpperLimit = timecode.properties.upperLimit
+        let base: Timecode.SubFramesBase = timecode.subFramesBase
+        let limit: Timecode.UpperLimit = timecode.upperLimit
         
         switch attribute {
         case .start:

@@ -109,7 +109,6 @@ extension Timecode {
     // MARK: - GuaranteedTimecodeSource
     
     /// Initialize by converting a time source to timecode at a given frame rate.
-    /// Uses defaulted properties.
     public init(
         _ source: GuaranteedTimecodeSource,
         at frameRate: TimecodeFrameRate,

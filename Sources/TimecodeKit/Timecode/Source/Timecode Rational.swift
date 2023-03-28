@@ -42,9 +42,9 @@ extension Timecode {
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
     public var rationalValue: Fraction {
-        let frFrac = properties.frameRate.frameDuration
+        let frFrac = frameRate.frameDuration
         let n = frFrac.numerator * frameCount.subFrameCount
-        let d = frFrac.denominator * properties.subFramesBase.rawValue
+        let d = frFrac.denominator * subFramesBase.rawValue
         
         return Fraction(n, d).reduced()
     }
@@ -113,7 +113,7 @@ extension Timecode {
     /// Returns frame count of the rational fraction at current frame rate.
     /// Truncates subframes if present.
     internal func frameCount(of rational: Fraction) -> Int {
-        let frFrac = properties.frameRate.frameDuration
+        let frFrac = frameRate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) /
         (rational.denominator * frFrac.numerator)
         return frameCount
@@ -123,7 +123,7 @@ extension Timecode {
     /// Returns frame count of the rational fraction at current frame rate.
     /// Preserves subframes as floating-point potion of a frame.
     internal func floatingFrameCount(of rational: Fraction) -> Double {
-        let frFrac = properties.frameRate.frameDuration
+        let frFrac = frameRate.frameDuration
         let frameCount = (Double(rational.numerator) * Double(frFrac.denominator)) /
         (Double(rational.denominator) * Double(frFrac.numerator))
         return frameCount

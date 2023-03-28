@@ -49,8 +49,8 @@ extension Timecode {
         var output = withDefaultModifiers(Text(""))
         
         // days
-        if components.days != 0 {
-            let daysText = Text("\(components.days)")
+        if days != 0 {
+            let daysText = Text("\(days)")
             if invalids.contains(.days) {
                 output = output + invalidModifiers(daysText)
             } else {
@@ -62,7 +62,7 @@ extension Timecode {
         
         // hours
         
-        let hoursText = Text(String(format: "%02d", components.hours))
+        let hoursText = Text(String(format: "%02d", hours))
         if invalids.contains(.hours) {
             output = output + invalidModifiers(hoursText)
         } else {
@@ -73,7 +73,7 @@ extension Timecode {
         
         // minutes
         
-        let minutesText = Text(String(format: "%02d", components.minutes))
+        let minutesText = Text(String(format: "%02d", minutes))
         if invalids.contains(.minutes) {
             output = output + invalidModifiers(minutesText)
         } else {
@@ -84,7 +84,7 @@ extension Timecode {
         
         // seconds
         
-        let secondsText = Text(String(format: "%02d", components.seconds))
+        let secondsText = Text(String(format: "%02d", seconds))
         if invalids.contains(.seconds) {
             output = output + invalidModifiers(secondsText)
         } else {
@@ -95,7 +95,7 @@ extension Timecode {
         
         // frames
         
-        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)d", components.frames))
+        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)d", frames))
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
@@ -109,7 +109,7 @@ extension Timecode {
             
             output = output + sepSubFrames
             
-            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)d", components.subFrames))
+            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))
             if invalids.contains(.subFrames) {
                 output = output + invalidModifiers(subframesText)
             } else {

@@ -12,14 +12,14 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
     public var debugDescription: String {
         // include Days even if it's 0 if we have a mode set that enables Days
         let daysString =
-            properties.upperLimit == ._100days
-                ? "\(components.days):"
+            upperLimit == ._100days
+                ? "\(days):"
                 : ""
         
-        return "Timecode<\(daysString)\(stringValue(format: .showSubFrames)) @ \(properties.frameRate.stringValueVerbose)>"
+        return "Timecode<\(daysString)\(stringValue(format: .showSubFrames)) @ \(frameRate.stringValueVerbose)>"
     }
     
     public var verboseDescription: String {
-        "\(stringValue(format: .showSubFrames)) @ \(properties.frameRate.stringValueVerbose)"
+        "\(stringValue(format: .showSubFrames)) @ \(frameRate.stringValueVerbose)"
     }
 }

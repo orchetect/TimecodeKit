@@ -107,7 +107,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     internal func components(exactly source: FrameCount.Value) throws -> Components {
-        let fc = FrameCount(source, base: properties.subFramesBase)
+        let fc = FrameCount(source, base: subFramesBase)
         
         guard fc.subFrameCount >= 0,
               fc <= maxFrameCountExpressible
@@ -115,7 +115,7 @@ extension Timecode {
         
         return Self.components(
             of: fc,
-            at: properties.frameRate
+            at: frameRate
         )
     }
     
@@ -123,11 +123,11 @@ extension Timecode {
     /// Returns frame count value converted to components using the instance's
     /// frame rate and subframes base.
     internal func components(rawValues source: FrameCount.Value) -> Components {
-        let fc = FrameCount(source, base: properties.subFramesBase)
+        let fc = FrameCount(source, base: subFramesBase)
         
         return Self.components(
             of: fc,
-            at: properties.frameRate
+            at: frameRate
         )
     }
 }

@@ -291,10 +291,10 @@ extension Timecode {
     
     /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
     public func interval(to other: Timecode) -> TimecodeInterval {
-        if properties.frameRate == other.properties.frameRate {
+        if frameRate == other.frameRate {
             return _offset(to: other.components)
         } else {
-            guard let otherConverted = try? other.converted(to: properties.frameRate) else {
+            guard let otherConverted = try? other.converted(to: frameRate) else {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
                 return .init(
                     Timecode.Components.zero

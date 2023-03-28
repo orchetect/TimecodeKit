@@ -42,12 +42,12 @@ class Timecode_Validation_Tests: XCTestCase {
         let limit = Timecode.UpperLimit._24hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
-        tc.components.days = 5
-        tc.components.hours = 25
-        tc.components.minutes = 75
-        tc.components.seconds = 75
-        tc.components.frames = 52
-        tc.components.subFrames = 500
+        tc.days = 5
+        tc.hours = 25
+        tc.minutes = 75
+        tc.seconds = 75
+        tc.frames = 52
+        tc.subFrames = 500
         
         XCTAssertEqual(
             tc.invalidComponents,
@@ -66,12 +66,12 @@ class Timecode_Validation_Tests: XCTestCase {
         let limit = Timecode.UpperLimit._24hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
-        tc.components.days = -1
-        tc.components.hours = -1
-        tc.components.minutes = -1
-        tc.components.seconds = -1
-        tc.components.frames = -1
-        tc.components.subFrames = -1
+        tc.days = -1
+        tc.hours = -1
+        tc.minutes = -1
+        tc.seconds = -1
+        tc.frames = -1
+        tc.subFrames = -1
         
         XCTAssertEqual(
             tc.invalidComponents,
@@ -93,8 +93,8 @@ class Timecode_Validation_Tests: XCTestCase {
             
             do {
                 var tc = Timecode(.zero, at: $0, limit: limit)
-                tc.components.minutes = 0
-                tc.components.frames = 0
+                tc.minutes = 0
+                tc.frames = 0
                 
                 XCTAssertEqual(
                     tc.invalidComponents,
@@ -116,8 +116,8 @@ class Timecode_Validation_Tests: XCTestCase {
             
             for minute in 1 ... 9 {
                 var tc = Timecode(.zero, at: $0, limit: limit)
-                tc.components.minutes = minute
-                tc.components.frames = 0
+                tc.minutes = minute
+                tc.frames = 0
                 
                 XCTAssertEqual(
                     tc.invalidComponents,
@@ -135,8 +135,8 @@ class Timecode_Validation_Tests: XCTestCase {
                 )
                 
                 tc = Timecode(.zero, at: $0, limit: limit)
-                tc.components.minutes = minute
-                tc.components.frames = 1
+                tc.minutes = minute
+                tc.frames = 1
                 
                 XCTAssertEqual(
                     tc.invalidComponents,

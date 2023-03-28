@@ -162,22 +162,22 @@ extension Timecode {
     internal mutating func _clamp(component: Component) {
         switch component {
         case .days:
-            components.days = components.days.clamped(to: validRange(of: .days))
+            days = days.clamped(to: validRange(of: .days))
             
         case .hours:
-            components.hours = components.hours.clamped(to: validRange(of: .hours))
+            hours = hours.clamped(to: validRange(of: .hours))
             
         case .minutes:
-            components.minutes = components.minutes.clamped(to: validRange(of: .minutes))
+            minutes = minutes.clamped(to: validRange(of: .minutes))
             
         case .seconds:
-            components.seconds = components.seconds.clamped(to: validRange(of: .seconds))
+            seconds = seconds.clamped(to: validRange(of: .seconds))
             
         case .frames:
-            components.frames = components.frames.clamped(to: validRange(of: .frames))
+            frames = frames.clamped(to: validRange(of: .frames))
             
         case .subFrames:
-            components.subFrames = components.subFrames.clamped(to: validRange(of: .subFrames))
+            subFrames = subFrames.clamped(to: validRange(of: .subFrames))
         }
     }
 }
@@ -207,18 +207,18 @@ extension Timecode {
     public var maxFrameCountExpressible: FrameCount {
         FrameCount(
             .split(
-                frames: properties.frameRate.maxTotalFramesExpressible(in: properties.upperLimit),
+                frames: frameRate.maxTotalFramesExpressible(in: upperLimit),
                 subFrames: maxSubFramesExpressible
             ),
-            base: properties.subFramesBase
+            base: subFramesBase
         )
     }
     
     /// Returns the `upperLimit` minus 1 subframe expressed as total subframes.
     public var maxSubFrameCountExpressible: Int {
-        properties.frameRate.maxSubFrameCountExpressible(
-            in: properties.upperLimit,
-            base: properties.subFramesBase
+        frameRate.maxSubFrameCountExpressible(
+            in: upperLimit,
+            base: subFramesBase
         )
     }
 }

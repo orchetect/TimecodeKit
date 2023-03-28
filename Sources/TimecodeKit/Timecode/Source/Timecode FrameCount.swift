@@ -10,7 +10,7 @@ import Foundation
 
 extension Timecode.FrameCount: TimecodeSource {
     public func set(timecode: inout Timecode) throws {
-        timecode.properties.subFramesBase = self.subFramesBase
+        timecode.subFramesBase = self.subFramesBase
         try timecode._setTimecode(exactly: self)
     }
     
@@ -40,8 +40,8 @@ extension Timecode {
     public var frameCount: FrameCount {
         Self.frameCount(
             of: components,
-            at: properties.frameRate,
-            base: properties.subFramesBase
+            at: frameRate,
+            base: subFramesBase
         )
     }
 }
@@ -99,7 +99,7 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     internal func components(exactly source: FrameCount) throws -> Components {
         // early return if we don't need to scale subframes
-        if source.subFramesBase == properties.subFramesBase || source.subFrames == 0 {
+        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
             return try components(exactly: source.value)
         }
         
@@ -107,7 +107,7 @@ extension Timecode {
         var convertedComponents = components(rawValues: source)
         convertedComponents.subFrames = source.subFramesBase.convert(
             subFrames: convertedComponents.subFrames,
-            to: properties.subFramesBase
+            to: subFramesBase
         )
         return convertedComponents
     }
@@ -119,14 +119,14 @@ extension Timecode {
         var convertedComponents = components(rawValues: source.value)
         
         // early return if we don't need to scale subframes
-        if source.subFramesBase == properties.subFramesBase || source.subFrames == 0 {
+        if source.subFramesBase == subFramesBase || source.subFrames == 0 {
             return convertedComponents
         }
         
         // scale subframes between subframes bases
         convertedComponents.subFrames = source.subFramesBase.convert(
             subFrames: convertedComponents.subFrames,
-            to: properties.subFramesBase
+            to: subFramesBase
         )
         return convertedComponents
     }

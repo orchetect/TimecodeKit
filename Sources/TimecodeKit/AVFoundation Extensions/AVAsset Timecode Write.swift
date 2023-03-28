@@ -161,8 +161,8 @@ extension Timecode {
         // 'throws' method might return something related if an error occurs.
         return try CMTimeCodeFormatDescription( // typealias of CMFormatDescription
             timeCodeFormatType: .timeCode32, // one that exists in CMTimeCodeFormatType
-            frameDuration: properties.frameRate.frameDurationCMTime,
-            frameQuanta: properties.frameRate.maxFrames,
+            frameDuration: frameRate.frameDurationCMTime,
+            frameQuanta: frameRate.maxFrames,
             flags: cmFormatDescriptionTimeCodeFlags,
             extensions: extensions
         )
@@ -172,8 +172,8 @@ extension Timecode {
     /// Assembles timecode flags for use in `CMFormatDescription`
     private var cmFormatDescriptionTimeCodeFlags: CMFormatDescription.TimeCode.Flag {
         var flags: CMFormatDescription.TimeCode.Flag = []
-        if properties.upperLimit == ._24hours { flags.insert(.twentyFourHourMax) }
-        if properties.frameRate.isDrop { flags.insert(.dropFrame) }
+        if upperLimit == ._24hours { flags.insert(.twentyFourHourMax) }
+        if frameRate.isDrop { flags.insert(.dropFrame) }
         return flags
     }
 }

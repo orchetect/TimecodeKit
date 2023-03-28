@@ -163,7 +163,7 @@ class Timecode_String_Tests: XCTestCase {
         try TimecodeFrameRate.allNonDrop.forEach {
             var tc = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
                 .timecode(at: $0)
-            tc.components.days = 2 // set days after init since init fails if we pass days
+            tc.days = 2 // set days after init since init fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -182,7 +182,7 @@ class Timecode_String_Tests: XCTestCase {
         try TimecodeFrameRate.allDrop.forEach {
             var tc = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
                 .timecode(at: $0)
-            tc.components.days = 2 // set days after init since init fails if we pass days
+            tc.days = 2 // set days after init since init fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -232,7 +232,7 @@ class Timecode_String_Tests: XCTestCase {
         try TimecodeFrameRate.allNonDrop.forEach {
             var tc = try Timecode.Components(h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .timecode(at: $0)
-            tc.components.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
+            tc.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -251,7 +251,7 @@ class Timecode_String_Tests: XCTestCase {
         try TimecodeFrameRate.allDrop.forEach {
             var tc = try Timecode.Components(h: 1, m: 02, s: 03, f: 04, sf: 12)
                 .timecode(at: $0)
-            tc.components.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
+            tc.days = 2 // set days after init since init @ ._24hour limit fails if we pass days
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             

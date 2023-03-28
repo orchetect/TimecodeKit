@@ -72,21 +72,21 @@ extension Timecode {
     ) -> String {
         let sepDays = " "
         let sepMain = ":"
-        let sepFrames = properties.frameRate.isDrop ? ";" : ":"
+        let sepFrames = frameRate.isDrop ? ";" : ":"
         let sepSubFrames = "."
         
         var output = ""
         
-        output += "\(components.days != 0 ? "\(components.days)\(sepDays)" : "")"
-        output += "\(String(format: "%02d", components.hours))\(sepMain)"
-        output += "\(String(format: "%02d", components.minutes))\(sepMain)"
-        output += "\(String(format: "%02d", components.seconds))\(sepFrames)"
-        output += "\(String(format: "%0\(properties.frameRate.numberOfDigits)d", components.frames))"
+        output += "\(days != 0 ? "\(days)\(sepDays)" : "")"
+        output += "\(String(format: "%02d", hours))\(sepMain)"
+        output += "\(String(format: "%02d", minutes))\(sepMain)"
+        output += "\(String(format: "%02d", seconds))\(sepFrames)"
+        output += "\(String(format: "%0\(frameRate.numberOfDigits)d", frames))"
         
         if format.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
-            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", components.subFrames))"
+            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))"
         }
         
         if format.contains(.filenameCompatible) {
@@ -113,7 +113,7 @@ extension Timecode {
     ) -> NSAttributedString {
         let sepDays = NSAttributedString(string: " ", attributes: attrs)
         let sepMain = NSAttributedString(string: ":", attributes: attrs)
-        let sepFrames = NSAttributedString(string: properties.frameRate.isDrop ? ";" : ":", attributes: attrs)
+        let sepFrames = NSAttributedString(string: frameRate.isDrop ? ";" : ":", attributes: attrs)
         let sepSubFrames = NSAttributedString(string: ".", attributes: attrs)
         
         #if os(macOS)
@@ -134,8 +134,8 @@ extension Timecode {
         var piece: NSMutableAttributedString
         
         // days
-        if components.days != 0 {
-            piece = NSMutableAttributedString(string: "\(components.days)", attributes: attrs)
+        if days != 0 {
+            piece = NSMutableAttributedString(string: "\(days)", attributes: attrs)
             if invalids.contains(.days) {
                 piece.addAttributes(
                     invalidColor,
@@ -151,7 +151,7 @@ extension Timecode {
         // hours
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", components.hours),
+            string: String(format: "%02d", hours),
             attributes: attrs
         )
         if invalids.contains(.hours) {
@@ -168,7 +168,7 @@ extension Timecode {
         // minutes
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", components.minutes),
+            string: String(format: "%02d", minutes),
             attributes: attrs
         )
         if invalids.contains(.minutes) {
@@ -185,7 +185,7 @@ extension Timecode {
         // seconds
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", components.seconds),
+            string: String(format: "%02d", seconds),
             attributes: attrs
         )
         if invalids.contains(.seconds) {
@@ -204,8 +204,8 @@ extension Timecode {
         piece = NSMutableAttributedString(
             string:
             String(
-                format: "%0\(properties.frameRate.numberOfDigits)d",
-                components.frames
+                format: "%0\(frameRate.numberOfDigits)d",
+                frames
             ),
             attributes: attrs
         )
@@ -229,7 +229,7 @@ extension Timecode {
                 string:
                 String(
                     format: "%0\(numberOfSubFramesDigits)d",
-                    components.subFrames
+                    subFrames
                 ),
                 attributes: attrs
             )

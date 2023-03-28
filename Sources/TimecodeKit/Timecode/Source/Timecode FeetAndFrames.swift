@@ -49,8 +49,8 @@ extension Timecode {
         return FeetAndFrames(
             feet: feet,
             frames: frames,
-            subFrames: components.subFrames,
-            subFramesBase: properties.subFramesBase
+            subFrames: subFrames,
+            subFramesBase: subFramesBase
         )
     }
 }

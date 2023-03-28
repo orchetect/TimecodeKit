@@ -38,7 +38,7 @@ extension Timecode {
     /// (Lossy) Returns the current timecode converted to a duration in
     /// real-time (wall-clock time), based on the frame rate.
     public var realTimeValue: TimeInterval {
-        frameCount.doubleValue * (1.0 / properties.frameRate.frameRateForRealTimeCalculation)
+        frameCount.doubleValue * (1.0 / frameRate.frameRateForRealTimeCalculation)
     }
 }
 
@@ -93,15 +93,15 @@ extension Timecode {
         let elapsedFrames = elapsedFrames(realTime: realTime)
         
         return Self.components(
-            of: .init(.combined(frames: elapsedFrames), base: properties.subFramesBase),
-            at: properties.frameRate
+            of: .init(.combined(frames: elapsedFrames), base: subFramesBase),
+            at: frameRate
         )
     }
     
     /// Internal:
     /// Calculates elapsed frames at current frame rate from real-time (wall-clock time).
     internal func elapsedFrames(realTime: TimeInterval) -> Double {
-        var calc = realTime / (1.0 / properties.frameRate.frameRateForRealTimeCalculation)
+        var calc = realTime / (1.0 / frameRate.frameRateForRealTimeCalculation)
         
         // over-estimate so real time is just past the equivalent timecode
         // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)

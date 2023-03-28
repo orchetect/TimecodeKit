@@ -225,8 +225,8 @@ extension Timecode {
         
         // then derive components
         return Self.components(
-            of: .init(.combined(frames: base), base: properties.subFramesBase),
-            at: properties.frameRate
+            of: .init(.combined(frames: base), base: subFramesBase),
+            at: frameRate
         )
     }
 }
