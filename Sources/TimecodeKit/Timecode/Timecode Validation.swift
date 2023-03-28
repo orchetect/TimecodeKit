@@ -109,7 +109,7 @@ extension Timecode {
 
 extension Timecode {
     /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
-    public func validRange(of component: Component) -> (ClosedRange<Int>) {
+    public func validRange(of component: Component) -> ClosedRange<Int> {
         components.validRange(of: component, using: properties)
     }
 }
@@ -121,7 +121,7 @@ extension Timecode.Components {
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
-    ) -> (ClosedRange<Int>) {
+    ) -> ClosedRange<Int> {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         return validRange(of: component, using: properties)
     }
@@ -130,7 +130,7 @@ extension Timecode.Components {
     public func validRange(
         of component: Timecode.Component,
         using properties: Timecode.Properties
-    ) -> (ClosedRange<Int>) {
+    ) -> ClosedRange<Int> {
         switch component {
         case .days:
             return 0 ... properties.upperLimit.maxDaysExpressible
