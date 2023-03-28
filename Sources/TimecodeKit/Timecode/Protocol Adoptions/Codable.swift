@@ -30,6 +30,7 @@ extension Timecode: Codable {
         try container.encode(components.hours, forKey: .hours)
         try container.encode(components.minutes, forKey: .minutes)
         try container.encode(components.seconds, forKey: .seconds)
+        try container.encode(components.frames, forKey: .frames)
         try container.encode(components.subFrames, forKey: .subFrames)
         
         // skip stringFormat; deprecated in TimecodeKit 2.0
