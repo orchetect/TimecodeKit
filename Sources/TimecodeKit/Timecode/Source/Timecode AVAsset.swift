@@ -26,7 +26,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
         switch attribute {
         case .start:
             guard let tc = try asset.startTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             ) else {
@@ -36,7 +36,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
             
         case .end:
             guard let tc = try asset.endTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             ) else {
@@ -46,7 +46,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
             
         case .duration:
             timecode = try asset.durationTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             )
@@ -65,21 +65,21 @@ extension AVAssetTimecodeSource: TimecodeSource {
         switch attribute {
         case .start:
             timecode = (try? asset.startTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .end:
             timecode = (try? asset.endTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .duration:
             timecode = (try? asset.durationTimecode(
-                using: rate,
+                at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
@@ -119,7 +119,7 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
         switch attribute {
         case .start:
             guard let tc = try asset.startTimecode(
-                using: nil, // auto-detect from asset
+                at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
             ) else {
@@ -129,7 +129,7 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
             
         case .end:
             guard let tc = try asset.endTimecode(
-                using: nil, // auto-detect from asset
+                at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
             ) else {
@@ -139,7 +139,7 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
             
         case .duration:
             timecode = try asset.durationTimecode(
-                using: nil, // auto-detect from asset
+                at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
             )

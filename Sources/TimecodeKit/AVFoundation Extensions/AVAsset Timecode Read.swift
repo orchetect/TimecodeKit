@@ -23,12 +23,12 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
     public func startTimecode(
-        using frameRate: TimecodeFrameRate? = nil,
+        at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode? {
         try timecodes(
-            using: frameRate,
+            at: frameRate,
             base: base,
             limit: limit
         )
@@ -46,19 +46,19 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
     public func endTimecode(
-        using frameRate: TimecodeFrameRate? = nil,
+        at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode? {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         guard let start = try startTimecode(
-            using: frameRate,
+            at: frameRate,
             base: base,
             limit: limit
         ) else { return nil }
         
         return try start + durationTimecode(
-            using: frameRate,
+            at: frameRate,
             base: base,
             limit: limit
         )
@@ -74,7 +74,7 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
     public func durationTimecode(
-        using frameRate: TimecodeFrameRate? = nil,
+        at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode {
@@ -96,7 +96,7 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
     public func timecodes(
-        using frameRate: TimecodeFrameRate? = nil,
+        at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> [[Timecode]] {
@@ -107,7 +107,7 @@ extension AVAsset {
         
         let timecodes = try samples.map {
             try $0.mapToTimecode(
-                using: frameRate,
+                at: frameRate,
                 base: base,
                 limit: limit
             )

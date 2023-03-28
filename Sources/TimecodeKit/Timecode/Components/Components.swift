@@ -85,5 +85,6 @@ extension Timecode.Components: Codable { }
 
 extension Timecode.Components {
     /// Components value of zero (00:00:00:00)
+    @_disfavoredOverload
     public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
 }
