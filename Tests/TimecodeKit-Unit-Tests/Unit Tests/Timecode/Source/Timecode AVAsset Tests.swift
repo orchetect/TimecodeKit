@@ -25,7 +25,7 @@ class Timecode_AVAsset_Tests: XCTestCase {
         
         let timecode = try Timecode(.avAsset(asset, .start))
         XCTAssertEqual(timecode.components, Timecode.Components(m: 58, s: 40))
-        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
+        XCTAssertEqual(timecode.frameRate, ._23_976)
     }
     
     func testTimecode_init_durationOfAsset() throws {
@@ -34,7 +34,7 @@ class Timecode_AVAsset_Tests: XCTestCase {
         
         let timecode = try Timecode(.avAsset(asset, .duration))
         XCTAssertEqual(timecode.components, Timecode.Components(m: 24, s: 10, f: 19, sf: 03))
-        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
+        XCTAssertEqual(timecode.frameRate, ._23_976)
     }
     
     func testTimecode_init_endOfAsset() throws {
@@ -43,7 +43,7 @@ class Timecode_AVAsset_Tests: XCTestCase {
         
         let timecode = try Timecode(.avAsset(asset, .end))
         XCTAssertEqual(timecode.components, Timecode.Components(h: 1, m: 22, s: 50, f: 19, sf: 03))
-        XCTAssertEqual(timecode.properties.frameRate, ._23_976)
+        XCTAssertEqual(timecode.frameRate, ._23_976)
     }
 }
 

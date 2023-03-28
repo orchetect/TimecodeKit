@@ -34,7 +34,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
     }
     
@@ -172,7 +172,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
 
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
     }
 
@@ -186,29 +186,22 @@ class Timecode_FrameCount_Tests: XCTestCase {
             ),
             by: .wrapping
         )
-
-        XCTAssertEqual(tc.days, 0)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01))
     }
 
     func testSetTimecodeFrameCount_RawValues() {
-        var tc = Timecode(at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, using: .init(rate: ._24, base: ._80SubFrames))
         
-        tc.setTimecode(rawValues: Timecode.FrameCount(
-            .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
-            base: ._80SubFrames
-        ))
+        tc.set(
+            Timecode.FrameCount(
+                .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
+                base: ._80SubFrames
+            ),
+            by: .allowingInvalid
+        )
 
-        XCTAssertEqual(tc.days, 2)
-        XCTAssertEqual(tc.hours, 1)
-        XCTAssertEqual(tc.minutes, 0)
-        XCTAssertEqual(tc.seconds, 0)
-        XCTAssertEqual(tc.frames, 0)
-        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.components, Timecode.Components(d: 2, h: 01))
     }
     
     func testStatic_componentsOfFrameCount_2997d() {

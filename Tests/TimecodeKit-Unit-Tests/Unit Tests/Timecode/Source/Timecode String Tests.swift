@@ -41,7 +41,7 @@ class Timecode_String_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
     }
     

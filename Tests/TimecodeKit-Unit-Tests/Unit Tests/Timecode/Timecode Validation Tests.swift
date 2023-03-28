@@ -191,15 +191,15 @@ class Timecode_Validation_Tests: XCTestCase {
         )
         
         XCTAssertEqual(tc.validRange(of: .subFrames), 0 ... (subFramesBase.rawValue - 1))
-        XCTAssertEqual(tc.components.subFrames, 0)
-        XCTAssertEqual(tc.properties.subFramesBase, subFramesBase)
+        XCTAssertEqual(tc.subFrames, 0)
+        XCTAssertEqual(tc.subFramesBase, subFramesBase)
         
         let mf = tc.maxFrameCountExpressible
         XCTAssertEqual(mf.doubleValue, 2_073_599.9875)
         
         let tcc = Timecode.components(
             of: mf,
-            using: tc.properties.frameRate
+            using: tc.frameRate
         )
         
         XCTAssertEqual(tcc, Timecode.Components(

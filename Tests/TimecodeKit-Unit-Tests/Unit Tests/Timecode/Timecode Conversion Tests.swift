@@ -36,7 +36,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         )
         .converted(to: ._30)
         
-        XCTAssertEqual(convertedTC.properties.frameRate, ._30)
+        XCTAssertEqual(convertedTC.frameRate, ._30)
         XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 03, f: 18, sf: 00))
     }
     
@@ -65,7 +65,7 @@ class Timecode_Conversion_Tests: XCTestCase {
                 )
                 .converted(to: destinationFrameRate, preservingValues: true)
                 
-                XCTAssertEqual(convertedTC.properties.frameRate, destinationFrameRate)
+                XCTAssertEqual(convertedTC.frameRate, destinationFrameRate)
                 XCTAssertEqual(convertedTC.components, Timecode.Components(h: 2, m: 07, s: 24, f: 11, sf: 00))
             }
         }
@@ -81,7 +81,7 @@ class Timecode_Conversion_Tests: XCTestCase {
         )
         .converted(to: ._50, preservingValues: true)
             
-        XCTAssertEqual(convertedTC.properties.frameRate, ._50)
+        XCTAssertEqual(convertedTC.frameRate, ._50)
         XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 00, f: 48, sf: 00))
     }
     

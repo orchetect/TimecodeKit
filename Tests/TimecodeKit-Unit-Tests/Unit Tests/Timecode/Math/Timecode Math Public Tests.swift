@@ -268,7 +268,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc.adding(clamping: Timecode.Components(h: 26)).components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 29, sf: tc.properties.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesBase.rawValue - 1)
         )
         
         // .subtracting()
@@ -343,7 +343,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         XCTAssertEqual(
             tc.components,
-            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.properties.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
         
         tc = try Timecode(
@@ -583,7 +583,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             interval.flattened().components,
             Timecode.Components(h: 21, m: 55, s: 22, f: 9)
         )
-        XCTAssertEqual(interval.flattened().properties.frameRate, ._24)
+        XCTAssertEqual(interval.flattened().frameRate, ._24)
         XCTAssertTrue(interval.isNegative)
     }
 }

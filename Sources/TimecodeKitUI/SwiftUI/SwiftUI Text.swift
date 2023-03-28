@@ -36,7 +36,7 @@ extension Timecode {
             : withDefaultModifiers(Text(":"))
         let sepFrames = format.filenameCompatible
             ? withDefaultModifiers(Text("-"))
-            : withDefaultModifiers(Text(properties.frameRate.isDrop ? ";" : ":"))
+            : withDefaultModifiers(Text(frameRate.isDrop ? ";" : ":"))
         let sepSubFrames = withDefaultModifiers(Text("."))
         
         let invalids = invalidComponents
@@ -95,7 +95,7 @@ extension Timecode {
         
         // frames
         
-        let framesText = Text(String(format: "%0\(properties.frameRate.numberOfDigits)d", components.frames))
+        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)d", components.frames))
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
