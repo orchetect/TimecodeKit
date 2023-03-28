@@ -1034,17 +1034,17 @@ extension String {
 // MARK: - TimecodeFrameRate
 
 extension String {
-    @available(*, deprecated, renamed: "timecodeFrameRate")
+    @available(*, deprecated, renamed: "timecodeFrameRate()")
     @_disfavoredOverload
     public var toTimecodeFrameRate: TimecodeFrameRate? {
-        timecodeFrameRate
+        timecodeFrameRate()
     }
 }
 
 // MARK: - VideoFrameRate
 
 extension String {
-    @available(*, deprecated, renamed: "videoFrameRate")
+    @available(*, deprecated, renamed: "videoFrameRate()")
     @_disfavoredOverload
     public var toVideoFrameRate: VideoFrameRate? {
         VideoFrameRate(stringValue: self)

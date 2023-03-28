@@ -196,8 +196,7 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
-            let oneFrameDuration = try TCC(f: 1)
-                .toTimecode(at: $0)
+            let oneFrameDuration = try Timecode(.components(f: 1), using: $0)
                 .realTimeValue
             
             XCTAssertEqual(

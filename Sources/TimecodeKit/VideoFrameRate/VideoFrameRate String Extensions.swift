@@ -7,7 +7,7 @@
 extension String {
     /// Convenience method to call ``VideoFrameRate/init(stringValue:)``.
     @_disfavoredOverload
-    public var videoFrameRate: VideoFrameRate? {
+    public func videoFrameRate() -> VideoFrameRate? {
         VideoFrameRate(stringValue: self)
     }
 }
