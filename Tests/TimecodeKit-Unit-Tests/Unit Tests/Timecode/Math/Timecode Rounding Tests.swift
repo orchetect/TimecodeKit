@@ -17,293 +17,301 @@ class Timecode_Rounding_Tests: XCTestCase {
     
     func testRoundedUp_days() throws {
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .days)
-                .components,
-            TCC()
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24, limit: ._100days).roundedUp(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24, limit: ._100days).roundedUp(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(s: 1), at: ._24, limit: ._100days).roundedUp(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24, limit: ._100days).roundedUp(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24, limit: ._100days).roundedUp(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.zero, using: ._24)
                 .roundedUp(toNearest: .days)
                 .components,
-            TCC(d: 1)
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(sf: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedUp(toNearest: .days)
                 .components,
-            TCC(d: 1)
+            Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(f: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedUp(toNearest: .days)
                 .components,
-            TCC(d: 2)
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(s: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .days)
+                .components,
+            Timecode.Components(d: 2)
         )
     }
     
     func testRoundedUp_hours() throws {
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC()
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(s: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1, f: 1, sf: 1), at: ._24).roundedUp(toNearest: .hours)
-                .components,
-            TCC(h: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.zero, using: ._24)
                 .roundedUp(toNearest: .hours)
                 .components,
-            TCC(d: 1, h: 1)
+            Timecode.Components()
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(sf: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(f: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(s: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), using: ._24).roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(h: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedUp(toNearest: .hours)
+                .components,
+            Timecode.Components(d: 1, h: 1)
         )
     }
     
     func testRoundedUp_minutes() throws {
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.zero, using: ._24)
+                .roundedUp(toNearest: .minutes)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(sf: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(f: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(s: 2), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, sf: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(s: 2, sf: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(s: 2, f: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1, sf: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(s: 2, f: 1, sf: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(m: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, sf: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(m: 1, sf: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 2)
+            Timecode.Components(m: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, f: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(m: 1, f: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 2)
+            Timecode.Components(m: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(m: 1, s: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(m: 2)
+            Timecode.Components(m: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(h: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(h: 1)
+            Timecode.Components(h: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(h: 1, m: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(h: 1, m: 1)
+            Timecode.Components(h: 1, m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1, f: 1), at: ._24).roundedUp(toNearest: .minutes)
+            try Timecode(.components(h: 1, m: 1, f: 1), using: ._24).roundedUp(toNearest: .minutes)
                 .components,
-            TCC(h: 1, m: 2)
+            Timecode.Components(h: 1, m: 2)
         )
     }
     
     func testRoundedUp_seconds() throws {
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.zero, using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(sf: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 1)
+            Timecode.Components(s: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(f: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 1)
+            Timecode.Components(s: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 1)
+            Timecode.Components(s: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(s: 2), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 2)
+            Timecode.Components(s: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, sf: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(s: 2, sf: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 3)
+            Timecode.Components(s: 3)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(s: 2, f: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 3)
+            Timecode.Components(s: 3)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1, sf: 1), at: ._24).roundedUp(toNearest: .seconds)
+            try Timecode(.components(s: 2, f: 1, sf: 1), using: ._24).roundedUp(toNearest: .seconds)
                 .components,
-            TCC(s: 3)
+            Timecode.Components(s: 3)
         )
     }
     
     func testRoundedUp_frames() throws {
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .frames)
+            try Timecode(.zero, using: ._24).roundedUp(toNearest: .frames)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedUp(toNearest: .frames)
+            try Timecode(.components(sf: 1), using: ._24).roundedUp(toNearest: .frames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedUp(toNearest: .frames)
+            try Timecode(.components(f: 1), using: ._24).roundedUp(toNearest: .frames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedUp(toNearest: .frames)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedUp(toNearest: .frames)
                 .components,
-            TCC(f: 2)
+            Timecode.Components(f: 2)
         )
     }
     
     func testRoundedUp_frames_EdgeCases() throws {
         XCTAssertEqual(
-            try Timecode(TCC(h: 23, m: 59, s: 59, f: 23, sf: 0), at: ._24)
+            try Timecode(.components(h: 23, m: 59, s: 59, f: 23, sf: 0), using: ._24)
                 .roundedUp(toNearest: .frames)
                 .components,
-            TCC(h: 23, m: 59, s: 59, f: 23, sf: 0)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 0)
         )
         
         // 'exactly' throws error because result would be 24:00:00:00
         XCTAssertThrowsError(
-            try Timecode(TCC(h: 23, m: 59, s: 59, f: 23, sf: 1), at: ._24)
+            try Timecode(.components(h: 23, m: 59, s: 59, f: 23, sf: 1), using: ._24)
                 .roundedUp(toNearest: .frames)
         )
     }
@@ -312,27 +320,27 @@ class Timecode_Rounding_Tests: XCTestCase {
         // subFrames has no effect
         
         XCTAssertEqual(
-            try Timecode(at: ._24).roundedUp(toNearest: .subFrames)
+            try Timecode(.zero, using: ._24).roundedUp(toNearest: .subFrames)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedUp(toNearest: .subFrames)
+            try Timecode(.components(sf: 1), using: ._24).roundedUp(toNearest: .subFrames)
                 .components,
-            TCC(sf: 1)
+            Timecode.Components(sf: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedUp(toNearest: .subFrames)
+            try Timecode(.components(f: 1), using: ._24).roundedUp(toNearest: .subFrames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedUp(toNearest: .subFrames)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedUp(toNearest: .subFrames)
                 .components,
-            TCC(f: 1, sf: 1)
+            Timecode.Components(f: 1, sf: 1)
         )
     }
     
@@ -340,291 +348,298 @@ class Timecode_Rounding_Tests: XCTestCase {
     
     func testRoundedDown_days() throws {
         XCTAssertEqual(
-            Timecode(at: ._24).roundedDown(toNearest: .days)
+            Timecode(.zero, using: ._24).roundedDown(toNearest: .days)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 0)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 0)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(s: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 0)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 0)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 0)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(sf: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedDown(toNearest: .days)
                 .components,
-            TCC(d: 0)
+            Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(f: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedDown(toNearest: .days)
                 .components,
-            TCC(d: 0)
+            Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(d: 1), at: ._24, limit: ._100days).roundedDown(toNearest: .days)
-                .components,
-            TCC(d: 1)
-        )
-        
-        XCTAssertEqual(
-            try Timecode(TCC(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(s: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedDown(toNearest: .days)
                 .components,
-            TCC(d: 1)
+            Timecode.Components(d: 0)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 0)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 0)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 0)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 0)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(d: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
+        )
+        
+        XCTAssertEqual(
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
+                .roundedDown(toNearest: .days)
+                .components,
+            Timecode.Components(d: 1)
         )
     }
     
     func testRoundedDown_hours() throws {
         XCTAssertEqual(
-            Timecode(at: ._24).roundedDown(toNearest: .hours)
+            Timecode(.zero, using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(sf: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 0)
+            Timecode.Components(h: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(f: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 0)
+            Timecode.Components(h: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(s: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 0)
+            Timecode.Components(h: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(m: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 0)
+            Timecode.Components(h: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(h: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 1)
+            Timecode.Components(h: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1, f: 1, sf: 1), at: ._24).roundedDown(toNearest: .hours)
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), using: ._24).roundedDown(toNearest: .hours)
                 .components,
-            TCC(h: 0)
+            Timecode.Components(h: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: ._24, limit: ._100days)
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), using: .init(rate: ._24, limit: ._100days))
                 .roundedDown(toNearest: .hours)
                 .components,
-            TCC(d: 1, h: 0)
+            Timecode.Components(d: 1, h: 0)
         )
     }
     
     func testRoundedDown_minutes() throws {
         XCTAssertEqual(
-            Timecode(at: ._24).roundedDown(toNearest: .minutes)
+            Timecode(.zero, using: ._24)
+                .roundedDown(toNearest: .minutes)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(sf: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(f: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(s: 2), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, sf: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(s: 2, sf: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(s: 2, f: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1, sf: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(s: 2, f: 1, sf: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 0)
+            Timecode.Components(m: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(m: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, sf: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(m: 1, sf: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, f: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(m: 1, f: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(m: 1, s: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(m: 1, s: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(m: 1)
+            Timecode.Components(m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(h: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(h: 1)
+            Timecode.Components(h: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(h: 1, m: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(h: 1, m: 1)
+            Timecode.Components(h: 1, m: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, m: 1, f: 1), at: ._24).roundedDown(toNearest: .minutes)
+            try Timecode(.components(h: 1, m: 1, f: 1), using: ._24).roundedDown(toNearest: .minutes)
                 .components,
-            TCC(h: 1, m: 1)
+            Timecode.Components(h: 1, m: 1)
         )
     }
     
     func testRoundedDown_seconds() throws {
         XCTAssertEqual(
-            Timecode(at: ._24).roundedDown(toNearest: .seconds)
+            Timecode(.zero, using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(sf: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 0)
+            Timecode.Components(s: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(f: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 0)
+            Timecode.Components(s: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(f: 1, sf: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 0)
+            Timecode.Components(s: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(s: 2), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 2)
+            Timecode.Components(s: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, sf: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(s: 2, sf: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 2)
+            Timecode.Components(s: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(s: 2, f: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 2)
+            Timecode.Components(s: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(s: 2, f: 1, sf: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(s: 2, f: 1, sf: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(s: 2)
+            Timecode.Components(s: 2)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(h: 1, s: 2, f: 1, sf: 1), at: ._24).roundedDown(toNearest: .seconds)
+            try Timecode(.components(h: 1, s: 2, f: 1, sf: 1), using: ._24).roundedDown(toNearest: .seconds)
                 .components,
-            TCC(h: 1, s: 2)
+            Timecode.Components(h: 1, s: 2)
         )
     }
     
     func testRoundedDown_frames() throws {
         XCTAssertEqual(
-            Timecode(at: ._23_976).roundedDown(toNearest: .frames)
+            Timecode(.zero, using: ._23_976).roundedDown(toNearest: .frames)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._23_976).roundedDown(toNearest: .frames)
+            try Timecode(.components(sf: 1), using: ._23_976).roundedDown(toNearest: .frames)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._23_976).roundedDown(toNearest: .frames)
+            try Timecode(.components(f: 1), using: ._23_976).roundedDown(toNearest: .frames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._23_976).roundedDown(toNearest: .frames)
+            try Timecode(.components(f: 1, sf: 1), using: ._23_976).roundedDown(toNearest: .frames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
     }
     
@@ -632,27 +647,27 @@ class Timecode_Rounding_Tests: XCTestCase {
         // subFrames has no effect
         
         XCTAssertEqual(
-            Timecode(at: ._23_976).roundedDown(toNearest: .subFrames)
+            Timecode(.zero, using: ._23_976).roundedDown(toNearest: .subFrames)
                 .components,
-            TCC()
+            Timecode.Components()
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(sf: 1), at: ._23_976).roundedDown(toNearest: .subFrames)
+            try Timecode(.components(sf: 1), using: ._23_976).roundedDown(toNearest: .subFrames)
                 .components,
-            TCC(sf: 1)
+            Timecode.Components(sf: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1), at: ._23_976).roundedDown(toNearest: .subFrames)
+            try Timecode(.components(f: 1), using: ._23_976).roundedDown(toNearest: .subFrames)
                 .components,
-            TCC(f: 1)
+            Timecode.Components(f: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(TCC(f: 1, sf: 1), at: ._23_976).roundedDown(toNearest: .subFrames)
+            try Timecode(.components(f: 1, sf: 1), using: ._23_976).roundedDown(toNearest: .subFrames)
                 .components,
-            TCC(f: 1, sf: 1)
+            Timecode.Components(f: 1, sf: 1)
         )
     }
 }
