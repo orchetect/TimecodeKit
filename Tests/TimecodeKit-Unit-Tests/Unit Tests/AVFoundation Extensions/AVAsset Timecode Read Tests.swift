@@ -41,27 +41,26 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         
         // start
-        let correctStart = try TCC(m: 58, s: 40).toTimecode(at: frameRate)
+        let correctStart = try Timecode(.components(m: 58, s: 40), using: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(try asset.startTimecode(), correctStart)
         // manually supply frame rate
-        XCTAssertEqual(try asset.startTimecode(at: frameRate), correctStart)
+        XCTAssertEqual(try asset.startTimecode(using: frameRate), correctStart)
         
         // duration
-        let correctDur = try TCC(m: 24, s: 10, f: 19, sf: 03).toTimecode(at: frameRate)
+        let correctDur = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), using: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(try asset.durationTimecode(), correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try asset.durationTimecode(at: frameRate), correctDur)
+        XCTAssertEqual(try asset.durationTimecode(using: frameRate), correctDur)
         
         // end
-        let correctEnd = try TCC(h: 1, m: 22, s: 50, f: 19, sf: 03)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctEnd = try Timecode(.components(h: 1, m: 22, s: 50, f: 19, sf: 03), using: frameRate)
         // auto-detect frame rate
-        XCTAssertEqual(try asset.endTimecode(format: [.showSubFrames]),
+        XCTAssertEqual(try asset.endTimecode(),
                        correctEnd)
         // manually supply frame rate
-        XCTAssertEqual(try asset.endTimecode(at: frameRate, format: [.showSubFrames]),
+        XCTAssertEqual(try asset.endTimecode(using: frameRate),
                        correctEnd)
     }
     
@@ -71,27 +70,27 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         
         // start
-        let correctStart = try TCC(m: 58, s: 40).toTimecode(at: frameRate)
+        let correctStart = try Timecode(.components(m: 58, s: 40), using: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(try asset.startTimecode(), correctStart)
         // manually supply frame rate
-        XCTAssertEqual(try asset.startTimecode(at: frameRate), correctStart)
+        XCTAssertEqual(try asset.startTimecode(using: frameRate), correctStart)
         
         // duration
-        let correctDur = try TCC(m: 24, s: 12, f: 05, sf: 85).toTimecode(at: frameRate)
+        let correctDur = try Timecode(.components(m: 24, s: 12, f: 05, sf: 85), using: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(try asset.durationTimecode(), correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try asset.durationTimecode(at: frameRate), correctDur)
+        XCTAssertEqual(try asset.durationTimecode(using: frameRate), correctDur)
         
         // end
-        let correctEnd = try TCC(h: 1, m: 22, s: 52, f: 05, sf: 85)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctEnd = try Timecode.Components(h: 1, m: 22, s: 52, f: 05, sf: 85)
+            .timecode(using: frameRate)
         // auto-detect frame rate
-        XCTAssertEqual(try asset.endTimecode(format: [.showSubFrames]),
+        XCTAssertEqual(try asset.endTimecode(),
                        correctEnd)
         // manually supply frame rate
-        XCTAssertEqual(try asset.endTimecode(at: frameRate, format: [.showSubFrames]),
+        XCTAssertEqual(try asset.endTimecode(using: frameRate),
                        correctEnd)
     }
     
@@ -105,21 +104,21 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         // auto-detect frame rate
         XCTAssertEqual(try asset.startTimecode(), nil)
         // manually supply frame rate
-        XCTAssertEqual(try asset.startTimecode(at: frameRate), nil)
+        XCTAssertEqual(try asset.startTimecode(using: frameRate), nil)
         
         // duration
-        let correctDur = try TCC(s: 10).toTimecode(at: frameRate)
+        let correctDur = try Timecode(.components(s: 10), using: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(try asset.durationTimecode(), correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try asset.durationTimecode(at: frameRate), correctDur)
+        XCTAssertEqual(try asset.durationTimecode(using: frameRate), correctDur)
         
         // end
         // no start timecode can be derived from this video file
         // auto-detect frame rate
         XCTAssertEqual(try asset.endTimecode(), nil)
         // manually supply frame rate
-        XCTAssertEqual(try asset.endTimecode(at: frameRate, format: [.showSubFrames]), nil)
+        XCTAssertEqual(try asset.endTimecode(using: frameRate), nil)
     }
 }
 

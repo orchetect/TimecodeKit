@@ -96,6 +96,41 @@ extension Timecode {
 import Foundation
 import AVFoundation
 
+extension AVAsset {
+    @available(*, deprecated, renamed: "startTimecode(using:base:limit:)")
+    @_disfavoredOverload
+    public func startTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours,
+        format: Timecode.StringFormat
+    ) throws -> Timecode? {
+        try startTimecode(using: frameRate, base: base, limit: limit)
+    }
+    
+    @available(*, deprecated, renamed: "endTimecode(using:base:limit:)")
+    @_disfavoredOverload
+    public func endTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours,
+        format: Timecode.StringFormat
+    ) throws -> Timecode? {
+        try endTimecode(using: frameRate, base: base, limit: limit)
+    }
+    
+    @available(*, deprecated, renamed: "durationTimecode(using:base:limit:)")
+    @_disfavoredOverload
+    public func durationTimecode(
+        at frameRate: TimecodeFrameRate? = nil,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> Timecode {
+        try durationTimecode(using: frameRate, base: base, limit: limit)
+    }
+}
+
 extension Timecode {
     @available(*, deprecated, message: "Renamed to Timecode(.avAsset(asset, .start))")
     public init(

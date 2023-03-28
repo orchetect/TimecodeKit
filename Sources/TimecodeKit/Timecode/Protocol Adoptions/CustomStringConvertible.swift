@@ -16,10 +16,10 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
                 ? "\(components.days):"
                 : ""
         
-        return "Timecode<\(daysString)\(stringValue()) @ \(properties.frameRate.stringValueVerbose)>"
+        return "Timecode<\(daysString)\(stringValue(format: .showSubFrames)) @ \(properties.frameRate.stringValueVerbose)>"
     }
     
     public var verboseDescription: String {
-        "\(stringValue()) @ \(properties.frameRate.stringValueVerbose)"
+        "\(stringValue(format: .showSubFrames)) @ \(properties.frameRate.stringValueVerbose)"
     }
 }

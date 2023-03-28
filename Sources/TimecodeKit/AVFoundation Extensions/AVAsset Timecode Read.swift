@@ -23,12 +23,12 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
     public func startTimecode(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode? {
         try timecodes(
-            at: frameRate,
+            using: frameRate,
             base: base,
             limit: limit
         )
@@ -46,19 +46,19 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
     public func endTimecode(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode? {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         guard let start = try startTimecode(
-            at: frameRate,
+            using: frameRate,
             base: base,
             limit: limit
         ) else { return nil }
         
         return try start + durationTimecode(
-            at: frameRate,
+            using: frameRate,
             base: base,
             limit: limit
         )
@@ -74,7 +74,7 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
     @_disfavoredOverload
     public func durationTimecode(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode {
@@ -94,7 +94,7 @@ extension AVAsset {
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
     public func timecodes(
-        at frameRate: TimecodeFrameRate? = nil,
+        using frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> [[Timecode]] {

@@ -23,9 +23,8 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         let track = try XCTUnwrap(asset.tracks.first)
         
-        let correctStart = try TCC().toTimecode(at: frameRate)
-        let correctEnd = try TCC(m: 24, s: 10, f: 19, sf: 03)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctStart = Timecode(.zero, using: frameRate)
+        let correctEnd = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), using: frameRate)
         
         // even though it's a timecode track, its timeRange property relates to overall timeline of the asset,
         // so its start is 0.
@@ -52,8 +51,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         let track = try XCTUnwrap(asset.tracks.first)
         
         // duration
-        let correctDur = try TCC(m: 24, s: 10, f: 19, sf: 03)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctDur = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), using: frameRate)
         
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)
@@ -68,8 +66,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         let track = try XCTUnwrap(asset.tracks.first)
         
         // duration
-        let correctDur = try TCC(s: 10)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctDur = try Timecode(.components(s: 10), using: frameRate)
         
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)

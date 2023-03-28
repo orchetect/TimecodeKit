@@ -23,12 +23,12 @@ class AVFoundationUtils_Tests: XCTestCase {
         
         XCTAssertEqual(
             try CMTimeRange(start: s10, end: s10).timecodeRange(at: ._30),
-            try Timecode(TCC(s: 10), at: ._30) ... Timecode(TCC(s: 10), at: ._30)
+            try Timecode(.components(s: 10), using: ._30) ... Timecode(.components(s: 10), using: ._30)
         )
         
         XCTAssertEqual(
             try CMTimeRange(start: s10, duration: s10).timecodeRange(at: ._30),
-            try Timecode(TCC(s: 10), at: ._30) ... Timecode(TCC(s: 20), at: ._30)
+            try Timecode(.components(s: 10), using: ._30) ... Timecode(.components(s: 20), using: ._30)
         )
         
         // invalid
