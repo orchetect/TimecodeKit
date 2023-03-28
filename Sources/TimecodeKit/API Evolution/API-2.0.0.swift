@@ -319,6 +319,16 @@ extension Timecode.Components {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
         return timecode(using: properties, by: .allowingInvalid)
     }
+    
+    @available(*, deprecated, renamed: "invalidComponents(using:)")
+    public func invalidComponents(
+        at rate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit,
+        base: Timecode.SubFramesBase
+    ) -> Set<Timecode.Component> {
+        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
+        return invalidComponents(using: properties)
+    }
 }
 
 // MARK: - FeetAndFrames

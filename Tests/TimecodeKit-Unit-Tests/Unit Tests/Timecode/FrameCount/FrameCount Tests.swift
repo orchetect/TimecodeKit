@@ -169,32 +169,35 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr - 1),
-                at: ._29_97_drop,
-                limit: ._24hours,
-                base: ._80SubFrames,
-                format: [.showSubFrames]
+                using: .init(
+                    rate: ._29_97_drop,
+                    base: ._80SubFrames,
+                    limit: ._24hours
+                )
             ).components,
-            TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
+            Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
         )
         
         XCTAssertEqual(
             try Timecode(
-                .split(frames: totalFramesin24Hr - 1, subFrames: 79),
-                at: ._29_97_drop,
-                limit: ._24hours,
-                base: ._80SubFrames,
-                format: [.showSubFrames]
+                .frames(totalFramesin24Hr - 1, subFrames: 79),
+                using: .init(
+                    rate: ._29_97_drop,
+                    base: ._80SubFrames,
+                    limit: ._24hours
+                )
             ).components,
-            TCC(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
+            Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
         )
         
         XCTAssertEqual(
             try Timecode(
-                .split(frames: totalFramesin24Hr - 1, subFrames: 79),
-                at: ._29_97_drop,
-                limit: ._24hours,
-                base: ._80SubFrames,
-                format: [.showSubFrames]
+                .frames(totalFramesin24Hr - 1, subFrames: 79),
+                using: .init(
+                    rate: ._29_97_drop,
+                    base: ._80SubFrames,
+                    limit: ._24hours
+                )
             )
             .frameCount
             .subFrameCount,
@@ -208,10 +211,9 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr),
-                at: ._30_drop,
-                limit: ._100days
+                using: .init(rate: ._30_drop, limit: ._100days)
             ).components,
-            TCC(d: 1)
+            Timecode.Components(d: 1)
         )
     }
 }
