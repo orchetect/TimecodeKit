@@ -38,6 +38,17 @@ extension Timecode.Components {
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
     public func invalidComponents(
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
+    ) -> Set<Timecode.Component> {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return invalidComponents(using: properties)
+    }
+    
+    /// Returns a set of invalid components, if any.
+    /// A fully valid timecode will return an empty set.
+    public func invalidComponents(
         using properties: Timecode.Properties
     ) -> Set<Timecode.Component> {
         Timecode.invalidComponents(
@@ -48,6 +59,18 @@ extension Timecode.Components {
 }
 
 extension Timecode {
+    /// Returns a set of invalid components, if any.
+    /// A fully valid timecode will return an empty set.
+    public static func invalidComponents(
+        in components: Components,
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
+    ) -> Set<Component> {
+        let properties = Properties(rate: frameRate, base: base, limit: limit)
+        return invalidComponents(in: components, using: properties)
+    }
+    
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
     public static func invalidComponents(
@@ -92,6 +115,17 @@ extension Timecode {
 }
 
 extension Timecode.Components {
+    /// Returns valid range of values for a timecode component.
+    public func validRange(
+        of component: Timecode.Component,
+        using frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = ._24hours
+    ) -> (ClosedRange<Int>) {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return validRange(of: component, using: properties)
+    }
+    
     /// Returns valid range of values for a timecode component.
     public func validRange(
         of component: Timecode.Component,

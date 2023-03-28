@@ -29,10 +29,8 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1),
-            using: .init(
-                rate: ._23_976,
-                base: ._100SubFrames
-            )
+            using: ._23_976,
+            base: ._100SubFrames
         )
         .converted(to: ._30)
         
@@ -58,10 +56,8 @@ class Timecode_Conversion_Tests: XCTestCase {
             try TimecodeFrameRate.allCases.forEach { destinationFrameRate in
                 let convertedTC = try Timecode(
                     .components(h: 2, m: 07, s: 24, f: 11),
-                    using: .init(
-                        rate: sourceFrameRate,
-                        base: ._100SubFrames
-                    )
+                    using:  sourceFrameRate,
+                    base: ._100SubFrames
                 )
                 .converted(to: destinationFrameRate, preservingValues: true)
                 
@@ -74,10 +70,8 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1, m: 0, s: 0, f: 96),
-            using: .init(
-                rate: ._100,
-                base: ._100SubFrames
-            )
+            using:  ._100,
+            base: ._100SubFrames
         )
         .converted(to: ._50, preservingValues: true)
             

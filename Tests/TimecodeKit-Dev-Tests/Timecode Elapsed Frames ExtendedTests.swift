@@ -38,7 +38,7 @@ import XCTest
 //        // ======= run ==============
 //
 //        for fr in frameRatesToTest {
-//            let tc = Timecode(.zero, using: .init(rate:fr, limit: limit))
+//            let tc = Timecode(.zero, using: fr, limit: limit)
 //
 //            // log status
 //            print("Testing all frames in \(tc.properties.upperLimit) at \(fr.stringValue)... ", terminator: "")

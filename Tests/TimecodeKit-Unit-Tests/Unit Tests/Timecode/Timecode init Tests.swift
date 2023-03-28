@@ -34,11 +34,9 @@ class Timecode_init_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 "00:00:00:00",
-                using: .init(
-                    rate: $0,
-                    base: ._100SubFrames,
-                    limit: ._24hours
-                )
+                using:  $0,
+                base: ._100SubFrames,
+                limit: ._24hours
             )
             
             var frm: String

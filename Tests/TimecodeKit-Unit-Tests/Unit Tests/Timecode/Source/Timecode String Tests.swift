@@ -133,7 +133,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -145,7 +145,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let sv = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -202,7 +202,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -214,7 +214,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let sv = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -271,7 +271,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let tc = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -283,7 +283,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let tc = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-                .timecode(using: .init(rate: $0, limit: ._100days))
+                .timecode(using: $0, limit: ._100days)
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -566,16 +566,16 @@ class Timecode_String_Tests: XCTestCase {
         // timecode(at:) with subframes
         
         let tcWithSubFrames = try "01:05:20:14.94"
-            .timecode(using: .init(
-                rate: ._23_976,
+            .timecode(
+                using: ._23_976,
                 base: ._100SubFrames
-            ))
+            )
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: .init(rate: ._23_976,
-                             base: ._100SubFrames)
+                using: ._23_976,
+                base: ._100SubFrames
             )
         )
         XCTAssertEqual(
@@ -599,14 +599,16 @@ class Timecode_String_Tests: XCTestCase {
         
         let tcWithSubFrames = try "01:05:20:14.94"
             .timecode(
-                using: .init(rate: ._23_976, base: ._100SubFrames),
+                using: ._23_976,
+                base: ._100SubFrames,
                 by: .allowingInvalid
             )
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: .init(rate: ._23_976, base: ._100SubFrames)
+                using: ._23_976,
+                base: ._100SubFrames
             )
         )
         XCTAssertEqual(

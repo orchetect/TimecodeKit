@@ -169,11 +169,9 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr - 1),
-                using: .init(
-                    rate: ._29_97_drop,
-                    base: ._80SubFrames,
-                    limit: ._24hours
-                )
+                using:  ._29_97_drop,
+                base: ._80SubFrames,
+                limit: ._24hours
             ).components,
             Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
         )
@@ -181,11 +179,9 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr - 1, subFrames: 79),
-                using: .init(
-                    rate: ._29_97_drop,
-                    base: ._80SubFrames,
-                    limit: ._24hours
-                )
+                using: ._29_97_drop,
+                base: ._80SubFrames,
+                limit: ._24hours
             ).components,
             Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
         )
@@ -193,11 +189,9 @@ class FrameCount_Tests: XCTestCase {
         XCTAssertEqual(
             try Timecode(
                 .frames(totalFramesin24Hr - 1, subFrames: 79),
-                using: .init(
-                    rate: ._29_97_drop,
-                    base: ._80SubFrames,
-                    limit: ._24hours
-                )
+                using: ._29_97_drop,
+                base: ._80SubFrames,
+                limit: ._24hours
             )
             .frameCount
             .subFrameCount,

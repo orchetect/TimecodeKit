@@ -176,12 +176,13 @@ class Timecode_Components_Tests: XCTestCase {
         // timecode(rawValuesAt:) with subframes
         
         let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(using: .init(rate: ._23_976, base: ._100SubFrames))
+            .timecode(using: ._23_976, base: ._100SubFrames)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: .init(rate: ._23_976, base: ._100SubFrames)
+                using: ._23_976,
+                base: ._100SubFrames
             )
         )
         XCTAssertEqual(
@@ -207,14 +208,16 @@ class Timecode_Components_Tests: XCTestCase {
         
         let tcWithSubFrames = Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
             .timecode(
-                using: .init(rate: ._23_976, base: ._100SubFrames),
+                using: ._23_976,
+                base: ._100SubFrames,
                 by: .allowingInvalid
             )
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                using: .init(rate: ._23_976, base: ._100SubFrames)
+                using: ._23_976,
+                base: ._100SubFrames
             )
         )
         XCTAssertEqual(
