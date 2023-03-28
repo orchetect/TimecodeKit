@@ -40,7 +40,7 @@ extension Timecode {
     public var frameCount: FrameCount {
         Self.frameCount(
             of: components,
-            using: properties.frameRate,
+            at: properties.frameRate,
             base: properties.subFramesBase
         )
     }
@@ -138,7 +138,7 @@ extension Timecode {
     /// Calculates total frames from given values at the current frame rate.
     public static func frameCount(
         of values: Components,
-        using frameRate: TimecodeFrameRate,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default()
     ) -> FrameCount {
         let subFramesUnitInterval = Double(values.subFrames) / Double(base.rawValue)
@@ -183,7 +183,7 @@ extension Timecode {
     /// (You can add subframes afterward to the `sf` property if needed.)
     public static func components(
         of frameCount: FrameCount,
-        using frameRate: TimecodeFrameRate
+        at frameRate: TimecodeFrameRate
     ) -> Components {
         // prep vars
         

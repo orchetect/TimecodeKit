@@ -38,7 +38,7 @@ import XCTest
 //        // ======= run ==============
 //
 //        for fr in frameRatesToTest {
-//            let tc = Timecode(.zero, using: fr, limit: limit)
+//            let tc = Timecode(.zero, at: fr, limit: limit)
 //
 //            // log status
 //            print("Testing all frames in \(tc.properties.upperLimit) at \(fr.stringValue)... ", terminator: "")
@@ -52,12 +52,12 @@ import XCTest
 //            for i in 0 ... ubound {
 //                let vals = Timecode.components(
 //                    of: .init(.frames(i), base: tc.properties.subFramesBase),
-//                    using: tc.properties.frameRate
+//                    at: tc.properties.frameRate
 //                )
 //
 //                if i != Timecode.frameCount(
 //                    of: vals,
-//                    using: tc.properties.frameRate,
+//                    at: tc.properties.frameRate,
 //                    base: tc.properties.subFramesBase
 //                ).wholeFrames
 //
@@ -87,7 +87,7 @@ import XCTest
 //                    "converted back to",
 //                    Timecode.frameCount(
 //                        of: failures.first!.1,
-//                        using: tc.properties.frameRate,
+//                        at: tc.properties.frameRate,
 //                        base: tc.properties.subFramesBase
 //                    ),
 //                    "elapsed frames."
@@ -104,7 +104,7 @@ import XCTest
 //                    "converted back to",
 //                    Timecode.frameCount(
 //                        of: failures.last!.1,
-//                        using: tc.properties.frameRate,
+//                        at: tc.properties.frameRate,
 //                        base: tc.properties.subFramesBase
 //                    ),
 //                    "elapsed frames."
@@ -116,23 +116,23 @@ import XCTest
 //    }
 // }
 
-final class DevTests: XCTestCase {
-    func testDummy() throws {
-        var tc = try Timecode.Components(d: 1)
-            .timecode(at: ._30_drop, limit: ._100days)
-        print(tc.realTimeValue)
-        tc.set(.zero)
-        try tc.set("")
-        try tc.set(.components(d: 1))
-    }
+//final class DevTests: XCTestCase {
+//    func testDummy() throws {
+//        var tc = try Timecode.Components(d: 1)
+//            .timecode(at: ._30_drop, limit: ._100days)
+//        print(tc.realTimeValue)
+//        tc.set(.zero)
+//        try tc.set("")
+//        try tc.set(.components(d: 1))
+//    }
 //
 //    func testDummy2() throws {
 //        let tc = try Timecode(.frames(2_589_408),
-//                              using: ._30_drop,
+//                              at: ._30_drop,
 //                              limit: ._100days)
 //        print(tc)
 //        print(tc.realTimeValue)
 //    }
-}
+//}
 
 #endif

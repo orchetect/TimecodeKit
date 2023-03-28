@@ -94,7 +94,7 @@ extension Timecode {
         
         return Self.components(
             of: .init(.combined(frames: elapsedFrames), base: properties.subFramesBase),
-            using: properties.frameRate
+            at: properties.frameRate
         )
     }
     

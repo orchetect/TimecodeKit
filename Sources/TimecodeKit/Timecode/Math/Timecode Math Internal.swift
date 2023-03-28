@@ -15,12 +15,12 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -36,7 +36,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -48,12 +48,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -68,7 +68,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -80,12 +80,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let fcAdd = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -114,7 +114,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -128,12 +128,12 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -149,7 +149,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -161,12 +161,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -181,7 +181,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -193,12 +193,12 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: base,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         let tcSubtract = Self.frameCount(
             of: duration,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -227,7 +227,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -241,7 +241,7 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: with,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -257,7 +257,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -269,7 +269,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -284,7 +284,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -296,7 +296,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: with,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -325,7 +325,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -339,7 +339,7 @@ extension Timecode {
     ) -> Components? {
         let fcOrigin = Self.frameCount(
             of: into,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -355,7 +355,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -367,7 +367,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         var sfcNew = Int(Double(fcOrigin.subFrameCount) / divisor)
@@ -381,7 +381,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     
@@ -393,7 +393,7 @@ extension Timecode {
     ) -> Components {
         let fcOrigin = Self.frameCount(
             of: into,
-            using: frameRate,
+            at: frameRate,
             base: subFramesBase
         )
         
@@ -422,7 +422,7 @@ extension Timecode {
         
         return Self.components(
             of: fcNew,
-            using: frameRate
+            at: frameRate
         )
     }
     

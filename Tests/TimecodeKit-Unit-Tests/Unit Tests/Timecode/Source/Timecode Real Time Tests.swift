@@ -396,7 +396,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     }
     
     func testTimeInterval_timeCode() throws {
-        // timecode(using:)
+        // timecode(at:)
         
         XCTAssertEqual(
             try TimeInterval(secInTC10Days_BaseFrameRates)

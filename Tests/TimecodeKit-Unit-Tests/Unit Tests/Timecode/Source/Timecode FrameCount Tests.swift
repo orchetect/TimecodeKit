@@ -215,7 +215,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .split(frames: totalFramesIn24Hr - 1, subFrames: 79),
                 base: ._80SubFrames
             ),
-            using: ._29_97_drop
+            at: ._29_97_drop
         )
         
         XCTAssertEqual(tcc, Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79))

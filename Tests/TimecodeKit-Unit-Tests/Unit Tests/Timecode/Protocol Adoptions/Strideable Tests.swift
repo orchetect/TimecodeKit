@@ -15,7 +15,7 @@ class Timecode_Strideable_Tests: XCTestCase {
     
     func testAdvancedBy() throws {
         try TimecodeFrameRate.allCases.forEach {
-            let frames = Timecode.frameCount(of: Timecode.Components(h: 1), using: $0).wholeFrames
+            let frames = Timecode.frameCount(of: Timecode.Components(h: 1), at: $0).wholeFrames
             
             let advanced = try Timecode.Components(f: 00)
                 .timecode(at: $0)

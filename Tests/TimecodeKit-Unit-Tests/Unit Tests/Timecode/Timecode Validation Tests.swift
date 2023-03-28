@@ -189,7 +189,7 @@ class Timecode_Validation_Tests: XCTestCase {
         
         let tcc = Timecode.components(
             of: mf,
-            using: tc.frameRate
+            at: tc.frameRate
         )
         
         XCTAssertEqual(tcc, Timecode.Components(

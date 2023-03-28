@@ -17,15 +17,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundedUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
@@ -47,15 +47,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
@@ -64,39 +64,39 @@ extension Timecode {
     public mutating func roundUp(toNearest component: Timecode.Component) throws {
         switch component {
         case .days:
-            if components.hours > 0 || components.minutes > 0 || components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+            if hours > 0 || minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
                 try add(Components(d: 1))
-                components.hours = 0
-                components.minutes = 0
-                components.seconds = 0
-                components.frames = 0
-                components.subFrames = 0
+                hours = 0
+                minutes = 0
+                seconds = 0
+                frames = 0
+                subFrames = 0
             }
         case .hours:
-            if components.minutes > 0 || components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+            if minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
                 try add(Components(h: 1))
-                components.minutes = 0
-                components.seconds = 0
-                components.frames = 0
-                components.subFrames = 0
+                minutes = 0
+                seconds = 0
+                frames = 0
+                subFrames = 0
             }
         case .minutes:
-            if components.seconds > 0 || components.frames > 0 || components.subFrames > 0 {
+            if seconds > 0 || frames > 0 || subFrames > 0 {
                 try add(Components(m: 1))
-                components.seconds = 0
-                components.frames = 0
-                components.subFrames = 0
+                seconds = 0
+                frames = 0
+                subFrames = 0
             }
         case .seconds:
-            if components.frames > 0 || components.subFrames > 0 {
+            if frames > 0 || subFrames > 0 {
                 try add(Components(s: 1))
-                components.frames = 0
-                components.subFrames = 0
+                frames = 0
+                subFrames = 0
             }
         case .frames:
-            if components.subFrames > 0 {
+            if subFrames > 0 {
                 try add(Components(f: 1))
-                components.subFrames = 0
+                subFrames = 0
             }
         case .subFrames:
             // nothing to round, this is the smallest component
@@ -116,15 +116,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundedDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
@@ -144,34 +144,34 @@ extension Timecode {
     /// ie:
     ///
     /// ```
-    /// try Timecode(.string("01:02:03:04.00"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode(.string("01:02:03:04.05"), using: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
     ///     .roundDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
     public mutating func roundDown(toNearest component: Component) {
         switch component {
         case .days:
-            if components.hours > 0 { components.hours = 0 }
+            if hours > 0 { hours = 0 }
             fallthrough
         case .hours:
-            if components.minutes > 0 { components.minutes = 0 }
+            if minutes > 0 { minutes = 0 }
             fallthrough
         case .minutes:
-            if components.seconds > 0 { components.seconds = 0 }
+            if seconds > 0 { seconds = 0 }
             fallthrough
         case .seconds:
-            if components.frames > 0 { components.frames = 0 }
+            if frames > 0 { frames = 0 }
             fallthrough
         case .frames:
-            if components.subFrames > 0 { components.subFrames = 0 }
+            if subFrames > 0 { subFrames = 0 }
             fallthrough
         case .subFrames:
             // nothing to round, this is the smallest component
