@@ -648,6 +648,17 @@ extension Fraction {
         let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
         return try timecode(using: properties)
     }
+    
+    @available(*, deprecated, renamed: "timecodeInterval(using:)")
+    public func toTimecodeInterval(
+        at rate: TimecodeFrameRate,
+        limit: Timecode.UpperLimit = ._24hours,
+        base: Timecode.SubFramesBase = .default(),
+        format: Timecode.StringFormat = .default()
+    ) throws -> TimecodeInterval {
+        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
+        return try timecodeInterval(using: properties)
+    }
 }
 
 // MARK: - Real Time

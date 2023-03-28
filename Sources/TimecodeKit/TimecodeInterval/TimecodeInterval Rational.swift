@@ -38,7 +38,7 @@ extension TimecodeInterval {
     /// - Throws: ``Timecode/ValidationError``
     public init(
         _ rational: Fraction,
-        at rate: TimecodeFrameRate
+        using rate: TimecodeFrameRate
     ) throws {
         let neg = rational.isNegative
         let absRational = rational.abs()
@@ -86,7 +86,7 @@ extension Fraction {
     ///
     /// - Throws: ``Timecode/ValidationError``
     public func timecodeInterval(
-        at rate: TimecodeFrameRate
+        using rate: TimecodeFrameRate
     ) throws -> TimecodeInterval {
         try TimecodeInterval(
             self,
