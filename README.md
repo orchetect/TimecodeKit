@@ -705,11 +705,11 @@ interval.flattened() // 23:00:00:00
 
 #### Timecode Transformer
 
-`TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a ` Timecode` instance.
+`TimecodeTransformer` is a mechanism that can define one or more timecode transforms in series. It can then be used to transform a `Timecode` instance.
 
 #### Feet+Frames
 
-`FeedAndFrames` is a type used to convert feed+frames. Initializers and properties on `Timecode` are also available.
+`FeetAndFrames` is a type used to convert feet+frames. Initializers and properties on `Timecode` are also available.
 
 ## References
 
