@@ -709,7 +709,7 @@ interval.flattened() // 23:00:00:00
 
 #### Feet+Frames
 
-`FeedAndFrames` is a type used to convert feed+frames. Initializers and properties on `Timecode` are also available.
+`FeetAndFrames` is a type used to convert feet+frames. Initializers and properties on `Timecode` are also available.
 
 ## References
 
