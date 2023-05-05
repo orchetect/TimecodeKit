@@ -723,6 +723,17 @@ Coded by a bunch of 🐹 hamsters in a trenchcoat that calls itself [@orchetect]
 
 Licensed under the MIT license. See [LICENSE](https://github.com/orchetect/TimecodeKit/blob/master/LICENSE) for details.
 
+## Sponsoring
+
+If you enjoy using TimecodeKit and want to contribute to open-source financially, GitHub sponsorship is much appreciated. Feedback and code contributions are also welcome.
+
+## Community & Support
+
+Please do not email maintainers for technical support. Several options are available for questions and feature ideas:
+
+- Questions and feature ideas can be posted to [Discussions](https://github.com/orchetect/TimecodeKit/discussions).
+- If an issue is a verifiable bug with reproducible steps it may be posted in [Issues](https://github.com/orchetect/TimecodeKit/issues).
+
 ## Contributions
 
 Contributions are welcome. Feel free to post an Issue to discuss.
