@@ -201,7 +201,7 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: ._24, by: .wrapping)
 Timecode components can be get or set directly as instance properties.
 
 ```swift
-let tc = try "01:12:20:05".toTimecode(at: ._23_976)
+let tc = try "01:12:20:05".timecode(at: ._23_976)
 
 // get
 tc.days          // == 0
@@ -230,7 +230,7 @@ Timecode(.components(h: 1), at: ._23_976)
 
 ```swift
 let cmp = try "01:12:20:05"
-    .toTimecode(at: ._23_976)
+    .timecode(at: ._23_976)
     .components // Timecode.Components
 
 cmp.days      // == 0
@@ -250,11 +250,11 @@ try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._29_97_drop)
 
 ### Math
 
-Using operators (which use `wrapping:` internally if the result underflows or overflows timecode bounds):
+Using operators (which use wrapping validation internally if the result underflows or overflows timecode bounds):
 
 ```swift
-let tc1 = try "01:00:00:00".toTimecode(at: ._23_976)
-let tc2 = try "00:00:02:00".toTimecode(at: ._23_976)
+let tc1 = try "01:00:00:00".timecode(at: ._23_976)
+let tc2 = try "00:00:02:00".timecode(at: ._23_976)
 
 (tc1 + tc2).stringValue() // == "01:00:02:00"
 (tc1 - tc2).stringValue() // == "00:00:58:00"
@@ -287,7 +287,7 @@ Non-mutating methods that produce a new `Timecode` instance:
 ```swift
 // convert between frame rates
 try "01:00:00;00"
-    .toTimecode(at: ._29_97_drop)
+    .timecode(at: ._29_97_drop)
     .converted(to: ._29_97)
     .stringValue() // == "00:59:56:12"
 ```
@@ -297,7 +297,7 @@ try "01:00:00;00"
 ```swift
 // timecode to real-world time in seconds
 let tc = try "01:00:00:00"
-    .toTimecode(at: ._23_976)
+    .timecode(at: ._23_976)
     .realTimeValue // == 3603.6 as TimeInterval (Double)
 
 // real-world time to timecode
@@ -310,7 +310,7 @@ try Timecode(.realTime(seconds: 3603.6), at: ._23_976)
 ```swift
 // timecode to elapsed audio samples
 let tc = try "01:00:00:00"
-    .toTimecode(at: ._24)
+    .timecode(at: ._24)
     .samplesValue(sampleRate: 48000) // == 172800000
 
 // elapsed audio samples to timecode
@@ -426,7 +426,7 @@ textField.formatter = tcFormatter
 
 #### Days Component
 
-Some DAWs (digital audio workstation) such as Cubase supports the use of the Days timecode component when deemed appropriate.
+Although not covered by SMPTE spec, some DAWs (digital audio workstation) such as Cubase support the use of the Days timecode component for timelines longer than (or outside of) 24 hours.
 
 By default, `Timecode` is constructed with an `upperLimit` of 24-hour maximum expression (`._24hours`) which suppresses the ability to use Days. To enable Days, set the limit to `._100days`.
 
@@ -455,7 +455,7 @@ Timecode supports subframes throughout. However, by default subframes are not di
 
 ```swift
 var tc = try "01:12:20:05.62"
-    .toTimecode(at: ._24, base: ._80SubFrames)
+    .timecode(at: ._24, base: ._80SubFrames)
 
 // string with default formatting
 tc.stringValue() // == "01:12:20:05"
@@ -469,7 +469,7 @@ Subframes are always calculated when performing operations on the `Timecode` ins
 
 ```swift
 var tc = try "00:00:00:00.40"
-    .toTimecode(at: ._24, base: ._80SubFrames)
+    .timecode(at: ._24, base: ._80SubFrames)
 
 tc.stringValue() // == "00:00:00:00"
 tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"
@@ -483,14 +483,14 @@ tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"
 Two `Timecode` instances can be compared linearly using common comparison operators.
 
 ```swift
-try "01:00:00:00".toTimecode(at: ._24) 
-    == try "01:00:00:00".toTimecode(at: ._24) // == true
+try "01:00:00:00".timecode(at: ._24) 
+    == try "01:00:00:00".timecode(at: ._24) // == true
 
-try "00:59:50:00".toTimecode(at: ._24) 
-    < "01:00:00:00".toTimecode(at: ._24) // == true
+try "00:59:50:00".timecode(at: ._24) 
+    < "01:00:00:00".timecode(at: ._24) // == true
 
-try "00:59:50:00".toTimecode(at: ._24) 
-    > "01:00:00:00".toTimecode(at: ._24) // == false
+try "00:59:50:00".timecode(at: ._24) 
+    > "01:00:00:00".timecode(at: ._24) // == false
 ```
 
 #### Compare using Timeline Context
@@ -557,7 +557,7 @@ Collections of `Timecode` can be sorted ascending or descending.
 
 ```swift
 let timeline: [Timecode] = [ ... ]
-let start = try "01:00:00:00".toTimecode(at: ._24)
+let start = try "01:00:00:00".timecode(at: ._24)
 let sorted: [Timecode] = timeline.sorted(timelineStart: start) // ascending
 let sorted: [Timecode] = timeline.sorted(order: .reverse, timelineStart: start) // descending
 ```
@@ -566,7 +566,7 @@ These collections can also be tested for sort order:
 
 ```swift
 let timeline: [Timecode] = [ ... ]
-let start = try "01:00:00:00".toTimecode(at: ._24)
+let start = try "01:00:00:00".timecode(at: ._24)
 let isSorted: Bool = timeline.isSorted(timelineStart: start) // ascending
 let isSorted: Bool = timeline.isSorted(order: .reverse, timelineStart: start) // descending
 ```
@@ -574,7 +574,7 @@ let isSorted: Bool = timeline.isSorted(order: .reverse, timelineStart: start) //
 On newer systems, a `SortComparator` called `TimecodeSortComparator` is available as well.
 
 ```swift
-let start = try "01:00:00:00".toTimecode(at: ._24)
+let start = try "01:00:00:00".timecode(at: ._24)
 let comparator = TimecodeSortComparator(timelineStart: start) // ascending
 let comparator = TimecodeSortComparator(order: .reverse, timelineStart: start) // descending
 
@@ -587,8 +587,8 @@ let sorted: [Timecode] = timeline.sorted(using: comparator)
 A `Stride` or `Range` can be formed between two `Timecode` instances.
 
 ```swift
-let startTC = try "01:00:00:00".toTimecode(at: ._24)
-let endTC   = try "01:00:00:10".toTimecode(at: ._24)
+let startTC = try "01:00:00:00".timecode(at: ._24)
+let endTC   = try "01:00:00:10".timecode(at: ._24)
 ```
 
 Range:
@@ -596,8 +596,8 @@ Range:
 ```swift
 // check if a timecode is contained within the range
 
-(startTC...endTC).contains(try "01:00:00:05".toTimecode(at: ._24)) // == true
-(startTC...endTC).contains(try "01:05:00:00".toTimecode(at: ._24)) // == false
+(startTC...endTC).contains(try "01:00:00:05".timecode(at: ._24)) // == true
+(startTC...endTC).contains(try "01:05:00:00".timecode(at: ._24)) // == false
 ```
 
 ```swift
