@@ -105,7 +105,7 @@ Note: This documentation does not cover every property and initializer available
   - [Timecode Intervals](#Timecode-Intervals)
   - [Timecode Transformer](#Timecode-Transformer)
   - [Feet+Frames](#Feet-Frames)
-  - [AVAsset Timecode Track Read/Write](#AVAsset-Timecode-Track-Read-Write)
+  - [AVAsset Timecode Track Read/Write](#AVAsset-Timecode-Track-ReadWrite)
 
 ### Initialization
 
@@ -740,7 +740,7 @@ let endTimecode = try asset.endTimecode()
 let endTimecode = try asset.endTimecode(at: ._29_97)
 ```
 
-##### Add or Replace Timecode in a QuickTime Movie
+##### Add or Replace Timecode Track in a QuickTime Movie
 
 Currently timecode tracks can be modified on `AVMutableMovie`.
 
