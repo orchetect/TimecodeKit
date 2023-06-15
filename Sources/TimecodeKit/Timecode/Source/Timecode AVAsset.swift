@@ -87,6 +87,8 @@ extension AVAssetTimecodeSource: TimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension TimecodeSource where Self == AVAssetTimecodeSource {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be overridden by the passed properties, and will not be auto-detected from
@@ -148,6 +150,8 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
         return timecode.properties
     }
 }
+
+// MARK: - Static Constructors
 
 extension RichTimecodeSource where Self == AVAssetRichTimecodeSource {
     /// Read start, end or duration of an `AVAsset`.

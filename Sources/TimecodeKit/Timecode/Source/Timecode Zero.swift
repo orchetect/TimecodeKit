@@ -20,6 +20,8 @@ extension Timecode.Zero: GuaranteedTimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension GuaranteedTimecodeSource where Self == Timecode.Zero {
     /// Zero timecode (00:00:00:00).
     /// This is guaranteed at all frame rates and requires no validation or error handling.

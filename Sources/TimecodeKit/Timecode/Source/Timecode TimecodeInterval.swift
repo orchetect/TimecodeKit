@@ -12,6 +12,8 @@ extension TimecodeInterval: GuaranteedRichTimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension GuaranteedRichTimecodeSource where Self == TimecodeInterval {
     /// Instance by flattening a ``TimecodeInterval``, wrapping as necessary based on the
     /// ``Timecode/Properties-swift.struct/upperLimit`` and

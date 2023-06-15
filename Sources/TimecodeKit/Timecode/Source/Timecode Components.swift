@@ -25,6 +25,8 @@ extension Timecode.Components: TimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension TimecodeSource where Self == Timecode.Components {
     /// Timecode components.
     public static func components(_ source: Timecode.Components) -> Self {

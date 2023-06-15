@@ -29,6 +29,8 @@ extension CMTime: TimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension TimecodeSource where Self == CMTime {
     /// `CMTime` value.

@@ -15,7 +15,6 @@ extension Timecode {
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
         limit: UpperLimit = ._24hours
-        
     ) throws {
         properties = Properties(rate: frameRate, base: base, limit: limit)
         try set(source)

@@ -25,6 +25,8 @@ extension Timecode.FrameCount.Value: TimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension TimecodeSource where Self == Timecode.FrameCount.Value {
     /// Total elapsed frames count, and optional subframes count.
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/split(frames:subFrames:)``.)

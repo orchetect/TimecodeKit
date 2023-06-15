@@ -33,6 +33,8 @@ extension String: FormattedTimecodeSource {
     }
 }
 
+// MARK: - Static Constructors
+
 extension FormattedTimecodeSource where Self == String {
     /// Timecode string.
     public static func string(_ timecodeString: String) -> Self {
