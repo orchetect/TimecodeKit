@@ -12,26 +12,44 @@ extension Timecode {
     /// Set timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func set(_ source: TimecodeSource) throws {
-        try source.set(timecode: &self)
+    public mutating func set(_ source: TimecodeSourceValue) throws {
+        try set(source.value)
     }
     
     /// Set timecode by converting from a time source.
-    public mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
-        source.set(timecode: &self, by: validation)
+    public mutating func set(_ source: TimecodeSourceValue, by validation: ValidationRule) {
+        set(source.value, by: validation)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
-    public func setting(_ value: TimecodeSource) throws -> Timecode {
+    public func setting(_ source: TimecodeSourceValue) throws -> Timecode {
+        try setting(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(_ source: TimecodeSourceValue, by validation: ValidationRule) -> Timecode {
+        setting(source.value, by: validation)
+    }
+}
+
+extension Timecode {
+    internal mutating func set(_ source: TimecodeSource) throws {
+        try source.set(timecode: &self)
+    }
+    
+    internal mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
+        source.set(timecode: &self, by: validation)
+    }
+    
+    internal func setting(_ value: TimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(value)
         return copy
     }
     
-    /// Returns a copy of this instance, setting its timecode by converting from a time source.
-    public func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
+    internal func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
         var copy = self
         copy.set(value, by: validation)
         return copy
@@ -44,28 +62,46 @@ extension Timecode {
     /// Set timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func set(_ source: FormattedTimecodeSource) throws {
-        try source.set(timecode: &self)
+    public mutating func set(_ source: FormattedTimecodeSourceValue) throws {
+        try set(source.value)
     }
     
     /// Set timecode by converting from a time source.
-    public mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
-        try source.set(timecode: &self, by: validation)
+    public mutating func set(_ source: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
+        try set(source.value, by: validation)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
-    public func setting(_ value: FormattedTimecodeSource) throws -> Timecode {
-        var copy = self
-        try copy.set(value)
-        return copy
+    public func setting(_ source: FormattedTimecodeSourceValue) throws -> Timecode {
+        try setting(source.value)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
-    public func setting(_ value: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
+    public func setting(_ source: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        try setting(source.value, by: validation)
+    }
+}
+
+extension Timecode {
+    internal mutating func set(_ source: FormattedTimecodeSource) throws {
+        try source.set(timecode: &self)
+    }
+    
+    internal mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
+        try source.set(timecode: &self, by: validation)
+    }
+    
+    internal func setting(_ source: FormattedTimecodeSource) throws -> Timecode {
         var copy = self
-        try copy.set(value, by: validation)
+        try copy.set(source)
+        return copy
+    }
+    
+    internal func setting(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
+        var copy = self
+        try copy.set(source, by: validation)
         return copy
     }
 }
@@ -77,19 +113,33 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     public mutating func set(
-        _ source: RichTimecodeSource
+        _ source: RichTimecodeSourceValue
     ) throws {
-        self.properties = try source.set(timecode: &self)
+        try set(source.value)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
     public func setting(
-        _ value: RichTimecodeSource
+        _ source: RichTimecodeSourceValue
+    ) throws -> Timecode {
+        try setting(source.value)
+    }
+}
+
+extension Timecode {
+    public mutating func set(
+        _ source: RichTimecodeSource
+    ) throws {
+        self.properties = try source.set(timecode: &self)
+    }
+    
+    public func setting(
+        _ source: RichTimecodeSource
     ) throws -> Timecode {
         var copy = self
-        try copy.set(value)
+        try copy.set(source)
         return copy
     }
 }
@@ -99,17 +149,31 @@ extension Timecode {
 extension Timecode {
     /// Set timecode by converting from a time source.
     public mutating func set(
+        _ source: GuaranteedTimecodeSourceValue
+    ) {
+        set(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(
+        _ source: GuaranteedTimecodeSourceValue
+    ) -> Timecode {
+        setting(source.value)
+    }
+}
+
+extension Timecode {
+    public mutating func set(
         _ source: GuaranteedTimecodeSource
     ) {
         source.set(timecode: &self)
     }
     
-    /// Returns a copy of this instance, setting its timecode by converting from a time source.
     public func setting(
-        _ value: GuaranteedTimecodeSource
+        _ source: GuaranteedTimecodeSource
     ) -> Timecode {
         var copy = self
-        copy.set(value)
+        copy.set(source)
         return copy
     }
 }
@@ -119,17 +183,31 @@ extension Timecode {
 extension Timecode {
     /// Set timecode by converting from a time source.
     public mutating func set(
+        _ source: GuaranteedRichTimecodeSourceValue
+    ) -> Properties {
+        set(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(
+        _ source: GuaranteedRichTimecodeSourceValue
+    ) -> Timecode {
+        setting(source.value)
+    }
+}
+
+extension Timecode {
+    public mutating func set(
         _ source: GuaranteedRichTimecodeSource
     ) -> Properties {
         source.set(timecode: &self)
     }
     
-    /// Returns a copy of this instance, setting its timecode by converting from a time source.
     public func setting(
-        _ value: GuaranteedRichTimecodeSource
+        _ source: GuaranteedRichTimecodeSource
     ) -> Timecode {
         var copy = self
-        copy.properties = copy.set(value)
+        copy.properties = copy.set(source)
         return copy
     }
 }

@@ -89,7 +89,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == AVAssetTimecodeSource {
+extension TimecodeSourceValue {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be overridden by the passed properties, and will not be auto-detected from
     /// the asset.
@@ -97,10 +97,10 @@ extension TimecodeSource where Self == AVAssetTimecodeSource {
         _ asset: AVAsset,
         _ attribute: RangeAttribute
     ) -> Self {
-        AVAssetTimecodeSource(
+        .init(value: AVAssetTimecodeSource(
             asset: asset,
             attribute: attribute
-        )
+        ))
     }
 }
 
@@ -153,17 +153,17 @@ extension AVAssetRichTimecodeSource: RichTimecodeSource {
 
 // MARK: - Static Constructors
 
-extension RichTimecodeSource where Self == AVAssetRichTimecodeSource {
+extension RichTimecodeSourceValue {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be automatically detected from the asset if possible.
     public static func avAsset(
         _ asset: AVAsset,
         _ attribute: RangeAttribute
     ) -> Self {
-        AVAssetRichTimecodeSource(
+        .init(value: AVAssetRichTimecodeSource(
             asset: asset,
             attribute: attribute
-        )
+        ))
     }
 }
 

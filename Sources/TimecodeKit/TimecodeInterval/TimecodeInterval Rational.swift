@@ -23,7 +23,7 @@ extension TimecodeInterval {
         let neg = rational.isNegative
         let absRational = rational.abs()
         
-        let absTimecode = try Timecode(absRational, at: frameRate, base: base, limit: limit)
+        let absTimecode = try Timecode(.rational(absRational), at: frameRate, base: base, limit: limit)
         
         self.init(absTimecode, neg ? .minus : .plus)
     }
@@ -42,7 +42,7 @@ extension TimecodeInterval {
         let neg = rational.isNegative
         let absRational = rational.abs()
         
-        let absTimecode = try Timecode(absRational, using: properties)
+        let absTimecode = try Timecode(.rational(absRational), using: properties)
         
         self.init(absTimecode, neg ? .minus : .plus)
     }

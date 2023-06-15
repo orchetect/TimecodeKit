@@ -22,8 +22,8 @@ extension Timecode.Zero: GuaranteedTimecodeSource {
 
 // MARK: - Static Constructors
 
-extension GuaranteedTimecodeSource where Self == Timecode.Zero {
+extension GuaranteedTimecodeSourceValue {
     /// Zero timecode (00:00:00:00).
     /// This is guaranteed at all frame rates and requires no validation or error handling.
-    public static var zero: Self { Timecode.Zero() }
+    public static let zero: Self = .init(value: Timecode.Zero())
 }

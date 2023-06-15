@@ -27,33 +27,35 @@ extension Timecode.FrameCount.Value: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == Timecode.FrameCount.Value {
+extension TimecodeSourceValue {
+    /// Total elapsed frames count.
+    public static func frames(_ source: Timecode.FrameCount.Value) -> Self {
+        .init(value: source)
+    }
+    
     /// Total elapsed frames count, and optional subframes count.
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/split(frames:subFrames:)``.)
-    @_disfavoredOverload
     public static func frames(_ frames: Int, subFrames: Int = 0) -> Self {
         if subFrames == 0 {
-            return Timecode.FrameCount.Value.frames(frames)
+            return .init(value: Timecode.FrameCount.Value.frames(frames))
         } else {
-            return Timecode.FrameCount.Value.split(frames: frames, subFrames: subFrames)
+            return .init(value: Timecode.FrameCount.Value.split(frames: frames, subFrames: subFrames))
         }
     }
     
     /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/combined(frames:)``.)
-    @_disfavoredOverload
     public static func frames(_ frames: Double) -> Self {
-        Timecode.FrameCount.Value.combined(frames: frames)
+        .init(value: Timecode.FrameCount.Value.combined(frames: frames))
     }
     
     /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/splitUnitInterval(frames:subFramesUnitInterval:)``.)
-    @_disfavoredOverload
     public static func frames(_ frames: Int, subFramesUnitInterval: Double) -> Self {
-        Timecode.FrameCount.Value.splitUnitInterval(
+        .init(value: Timecode.FrameCount.Value.splitUnitInterval(
             frames: frames,
             subFramesUnitInterval: subFramesUnitInterval
-        )
+        ))
     }
 }
 

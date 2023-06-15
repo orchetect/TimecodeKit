@@ -32,13 +32,13 @@ extension CMTime: TimecodeSource {
 // MARK: - Static Constructors
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-extension TimecodeSource where Self == CMTime {
+extension TimecodeSourceValue {
     /// `CMTime` value.
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
     public static func cmTime(_ source: CMTime) -> Self {
-        source
+        .init(value: source)
     }
 }
 

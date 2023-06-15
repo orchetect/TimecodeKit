@@ -15,7 +15,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
-            Timecode.FrameCount(.frames(670_907), base: ._80SubFrames),
+            .frames(Timecode.FrameCount(.frames(670_907), base: ._80SubFrames)),
             at: ._30
         )
         
@@ -24,10 +24,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
     
     func testTimecode_init_FrameCount_Clamping() {
         let tc = Timecode(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
-            ),
+            )),
             at: ._24,
             by: .clamping
         )
@@ -40,10 +40,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
     
     func testTimecode_init_FrameCount_Wrapping() {
         let tc = Timecode(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames(2073600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
-            ),
+            )),
             at: ._24,
             by: .wrapping
         )
@@ -53,10 +53,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
     
     func testTimecode_init_FrameCount_RawValues() {
         let tc = Timecode(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
                 base: ._80SubFrames
-            ),
+            )),
             at: ._24,
             by: .allowingInvalid
         )

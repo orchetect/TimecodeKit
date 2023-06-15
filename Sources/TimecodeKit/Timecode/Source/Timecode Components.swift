@@ -27,10 +27,10 @@ extension Timecode.Components: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == Timecode.Components {
+extension TimecodeSourceValue {
     /// Timecode components.
     public static func components(_ source: Timecode.Components) -> Self {
-        source
+        .init(value: source)
     }
     
     /// Timecode components.
@@ -42,7 +42,7 @@ extension TimecodeSource where Self == Timecode.Components {
         f: Int = 0,
         sf: Int = 0
     ) -> Self {
-        Timecode.Components(d: d, h: h, m: m, s: s, f: f, sf: sf)
+        .init(value: Timecode.Components(d: d, h: h, m: m, s: s, f: f, sf: sf))
     }
 }
 

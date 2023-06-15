@@ -152,7 +152,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         let tcc = Timecode.Components(d: 10)
         
         try TimecodeFrameRate.allCases.forEach {
-            var tc = try Timecode(tcc, at: $0, limit: ._100days)
+            var tc = try Timecode(.components(tcc), at: $0, limit: ._100days)
             
             switch $0 {
             case ._23_976,
@@ -220,7 +220,7 @@ class Timecode_RealTime_Tests: XCTestCase {
             
             try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
-                    tcc,
+                    .components(tcc),
                     at: $0,
                     base: subFramesBase,
                     limit: ._100days

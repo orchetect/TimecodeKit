@@ -115,7 +115,7 @@ extension Timecode {
             else { return string }
             
             // set values without validating
-            let tc = Timecode(tcc, using: tcProps, by: .allowingInvalid)
+            let tc = Timecode(.components(tcc), using: tcProps, by: .allowingInvalid)
             
             return tc.stringValue(format: stringFormat)
         }
@@ -153,7 +153,7 @@ extension Timecode {
             else { return entirelyInvalid() }
             
             // set values without validating
-            let tc = Timecode(tcc, using: tcProps, by: .allowingInvalid)
+            let tc = Timecode(.components(tcc), using: tcProps, by: .allowingInvalid)
             
             return (
                 showsValidation

@@ -160,7 +160,7 @@ class Timecode_Validation_Tests: XCTestCase {
         let comps = Timecode.Components(h: 23, m: 59, s: 59, f: 29, sf: 79)
         
         let tc = try Timecode(
-            comps,
+            .components(comps),
             at: ._29_97_drop,
             base: ._80SubFrames,
             limit: ._24hours

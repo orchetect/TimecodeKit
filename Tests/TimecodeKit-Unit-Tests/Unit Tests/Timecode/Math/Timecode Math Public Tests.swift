@@ -24,11 +24,11 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 23))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 23))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 23))
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 01))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
@@ -38,15 +38,15 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(h: 01, m: 15, s: 30, f: 10))
+        try tc.add(Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
-        try tc.add(.components(h: 01, m: 15, s: 30, f: 10))
+        try tc.add(Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 31, s: 00, f: 20))
         
-        XCTAssertThrowsError(try tc.add(.components(h: 23, m: 15, s: 30, f: 10)))
+        XCTAssertThrowsError(try tc.add(Timecode.Components(h: 23, m: 15, s: 30, f: 10)))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 31, s: 00, f: 20)) // unchanged value
         
@@ -56,7 +56,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        XCTAssertThrowsError(try tc.subtract(.components(h: 02, m: 31, s: 00, f: 20)))
+        XCTAssertThrowsError(try tc.subtract(Timecode.Components(h: 02, m: 31, s: 00, f: 20)))
         
         tc = try Timecode(
             .components(h: 23, m: 59, s: 59, f: 23),
@@ -64,7 +64,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.subtract(.components(h: 23, m: 59, s: 59, f: 23))
+        try tc.subtract(Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
@@ -74,7 +74,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        XCTAssertThrowsError(try tc.subtract(.components(h: 23, m: 59, s: 59, f: 24))) // 1 frame too many
+        XCTAssertThrowsError(try tc.subtract(Timecode.Components(h: 23, m: 59, s: 59, f: 24))) // 1 frame too many
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23)) // unchanged value
         
@@ -84,7 +84,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(f: 24)) // roll up to 1 sec
+        try tc.add(Timecode.Components(f: 24)) // roll up to 1 sec
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
@@ -94,7 +94,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(s: 60)) // roll up to 1 min
+        try tc.add(Timecode.Components(s: 60)) // roll up to 1 min
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 01, s: 00, f: 00))
         
@@ -104,7 +104,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(m: 60)) // roll up to 1 hr
+        try tc.add(Timecode.Components(m: 60)) // roll up to 1 hr
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
@@ -114,7 +114,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._100days
         )
         
-        try tc.add(.components(h: 24)) // roll up to 1 day
+        try tc.add(Timecode.Components(h: 24)) // roll up to 1 day
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 01, h: 00, m: 00, s: 00, f: 00))
         
@@ -124,7 +124,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 2_073_599))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 2_073_599))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
@@ -134,13 +134,13 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.subtract(.components(h: 00, m: 00, s: 00, f: 2_073_599))
+        try tc.subtract(Timecode.Components(h: 00, m: 00, s: 00, f: 2_073_599))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 200))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 200))
         
-        try tc.subtract(.components(h: 00, m: 00, s: 00, f: 199))
+        try tc.subtract(Timecode.Components(h: 00, m: 00, s: 00, f: 199))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
@@ -153,7 +153,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.add(clamping: Timecode.Components(h: 25))
+        tc.add(Timecode.Components(h: 25), by: .clamping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 79))
         
@@ -163,7 +163,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.subtract(clamping: Timecode.Components(h: 4))
+        tc.subtract(Timecode.Components(h: 4), by: .clamping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
@@ -175,7 +175,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.add(wrapping: Timecode.Components(h: 25))
+        tc.add(Timecode.Components(h: 25), by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
@@ -185,7 +185,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.add(wrapping: Timecode.Components(f: -1)) // add negative number
+        tc.add(Timecode.Components(f: -1), by: .wrapping) // add negative number
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
@@ -195,7 +195,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.subtract(wrapping: Timecode.Components(h: 4))
+        tc.subtract(Timecode.Components(h: 4), by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 20, m: 00, s: 00, f: 00))
         
@@ -205,7 +205,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.subtract(wrapping: Timecode.Components(h: -4)) // subtract negative number
+        tc.subtract(Timecode.Components(h: -4), by: .wrapping) // subtract negative number
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
         
@@ -217,11 +217,11 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 29))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 29))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 29))
         
-        try tc.add(.components(h: 00, m: 00, s: 00, f: 01))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
@@ -231,7 +231,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(m: 60)) // roll up to 1 hr
+        try tc.add(Timecode.Components(m: 60)) // roll up to 1 hr
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
@@ -241,7 +241,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        try tc.add(.components(f: 30)) // roll up to 1 sec
+        try tc.add(Timecode.Components(f: 30)) // roll up to 1 sec
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
@@ -252,7 +252,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
         )
         
         // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
-        try tc.add(.components(f: 30))
+        try tc.add(Timecode.Components(f: 30))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 01, s: 00, f: 02))
         
@@ -263,11 +263,11 @@ class Timecode_Math_Public_Tests: XCTestCase {
         )
         
         // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
-        try tc.add(.components(m: 01))
+        try tc.add(Timecode.Components(m: 01))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 02, s: 00, f: 02))
         
-        try tc.add(.components(m: 08))
+        try tc.add(Timecode.Components(m: 08))
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 10, s: 00, f: 00))
         
@@ -286,12 +286,12 @@ class Timecode_Math_Public_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            tc.adding(wrapping: Timecode.Components(h: 26)).components,
+            tc.adding(Timecode.Components(h: 26), by: .wrapping).components,
             Timecode.Components(h: 2, m: 10, s: 00, f: 00)
         )
         
         XCTAssertEqual(
-            tc.adding(clamping: Timecode.Components(h: 26)).components,
+            tc.adding(Timecode.Components(h: 26), by: .clamping).components,
             Timecode.Components(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesBase.rawValue - 1)
         )
         
@@ -305,7 +305,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         // exactly
         XCTAssertEqual(
-            try tc.subtracting(.components(m: 5)).components,
+            try tc.subtracting(Timecode.Components(m: 5)).components,
             Timecode.Components(h: 0, m: 05, s: 00, f: 02)
         ) // remember, we're using drop rate!
     }
@@ -370,7 +370,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.multiply(clamping: 25.0)
+        tc.multiply(25.0, by: .clamping)
         
         XCTAssertEqual(
             tc.components,
@@ -383,7 +383,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.divide(clamping: 4)
+        tc.divide(4, by: .clamping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
@@ -395,7 +395,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.multiply(wrapping: 25.0)
+        tc.multiply(25.0, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
@@ -405,7 +405,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.multiply(wrapping: 2)
+        tc.multiply(2, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00)) // normal, no wrap
         
@@ -415,7 +415,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.multiply(wrapping: 25)
+        tc.multiply(25, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00)) // wraps
         
@@ -427,7 +427,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.divide(wrapping: -2)
+        tc.divide(-2, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 30, s: 00, f: 00))
         
@@ -437,7 +437,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.divide(wrapping: 2)
+        tc.divide(2, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 30, s: 00, f: 00)) // normal, no wrap
         
@@ -447,7 +447,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
             limit: ._24hours
         )
         
-        tc.divide(wrapping: -2)
+        tc.divide(-2, by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(h: 18, m: 00, s: 00, f: 00)) // wraps
         

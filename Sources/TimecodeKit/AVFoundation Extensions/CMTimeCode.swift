@@ -42,7 +42,7 @@ extension Collection where Element == CMTimeCode {
                     f: Int(timecode64.f)
                 )
                 return try Timecode(
-                    tcc,
+                    .components(tcc),
                     using: properties
                 )
             default:

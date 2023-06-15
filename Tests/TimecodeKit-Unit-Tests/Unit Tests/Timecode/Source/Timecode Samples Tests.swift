@@ -255,7 +255,7 @@ class Timecode_Samples_Tests: XCTestCase {
             
             try TimecodeFrameRate.allCases.forEach {
                 var tc = try Timecode(
-                    tcc,
+                    .components(tcc),
                     at: $0,
                     base: subFramesBase,
                     limit: ._100days

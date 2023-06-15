@@ -143,38 +143,38 @@ class Timecode_Strideable_Tests: XCTestCase {
         
         XCTAssertTrue(
             try ("01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode("01:00:00:02", at: ._23_976))
+                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
         )
         XCTAssertFalse(
             try ("01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode("01:00:00:10", at: ._23_976))
+                .contains(Timecode(.string("01:00:00:10"), at: ._23_976))
         )
         XCTAssertTrue(
             try ("01:00:00:00".timecode(at: ._23_976)...)
-                .contains(Timecode("01:00:00:02", at: ._23_976))
+                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
         )
         XCTAssertTrue(
             try (..."01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode("01:00:00:02", at: ._23_976))
+                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
         )
         
         // (same tests, but with ~= operator instead of .contains(...) which should produce the same result)
         
         XCTAssertTrue(
             try "01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode("01:00:00:02", at: ._23_976)
+                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
         )
         XCTAssertFalse(
             try "01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode("01:00:00:10", at: ._23_976)
+                ~= Timecode(.string("01:00:00:10"), at: ._23_976)
         )
         XCTAssertTrue(
             try "01:00:00:00".timecode(at: ._23_976)...
-                ~= Timecode("01:00:00:02", at: ._23_976)
+                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
         )
         XCTAssertTrue(
             try ..."01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode("01:00:00:02", at: ._23_976)
+                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
         )
     }
 }

@@ -166,7 +166,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.components(exactly), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clamping)")
@@ -178,7 +178,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(rawValues, using: properties, by: .clamping)
+        self.init(.components(rawValues), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clampingComponents)")
@@ -190,7 +190,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(rawValues, using: properties, by: .clampingComponents)
+        self.init(.components(rawValues), using: properties, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .wrapping)")
@@ -202,7 +202,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(rawValues, using: properties, by: .wrapping)
+        self.init(.components(rawValues), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .allowingInvalid)")
@@ -214,7 +214,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(rawValues, using: properties, by: .allowingInvalid)
+        self.init(.components(rawValues), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -292,7 +292,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.feetAndFrames(exactly), using: properties)
     }
 }
 
@@ -316,7 +316,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.frames(exactly), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)")
@@ -328,7 +328,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .clamping)
+        self.init(.frames(source), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)")
@@ -340,7 +340,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .wrapping)
+        self.init(.frames(source), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)")
@@ -352,7 +352,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .allowingInvalid)
+        self.init(.frames(source), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -381,7 +381,7 @@ extension Timecode {
 // MARK: - FrameCount
 
 extension Timecode {
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(count:), at:, base:, limit:)")
+    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:)")
     @_disfavoredOverload
     public init(
         _ exactly: FrameCount,
@@ -390,10 +390,10 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.frames(exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(count:), at:, base:, limit:, by: .clamping)")
+    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)")
     public init(
         clamping source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -401,10 +401,10 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
-        self.init(source, using: properties, by: .clamping)
+        self.init(.frames(source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(count:), at:, base:, limit:, by: .wrapping)")
+    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)")
     public init(
         wrapping source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -412,10 +412,10 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
-        self.init(source, using: properties, by: .wrapping)
+        self.init(.frames(source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(count:), at:, base:, limit:, by: .allowingInvalid)")
+    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)")
     public init(
         rawValues source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -423,7 +423,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
-        self.init(source, using: properties, by: .allowingInvalid)
+        self.init(.frames(source), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -468,7 +468,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(source, using: properties)
+        try self.init(.cmTime(source), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .clamping)")
@@ -480,7 +480,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .clamping)
+        self.init(.cmTime(source), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .wrapping)")
@@ -492,7 +492,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .wrapping)
+        self.init(.cmTime(source), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .allowingInvalid)")
@@ -504,7 +504,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .allowingInvalid)
+        self.init(.cmTime(source), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -560,7 +560,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.rational(exactly), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .clamping)")
@@ -572,7 +572,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .clamping)
+        self.init(.rational(source), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .wrapping)")
@@ -585,7 +585,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .wrapping)
+        self.init(.rational(source), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit::, by: .allowingInvalid)")
@@ -597,7 +597,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .allowingInvalid)
+        self.init(.rational(source), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -659,7 +659,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactly, using: properties)
+        try self.init(.realTime(seconds: exactly), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .clamping)")
@@ -671,7 +671,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .clamping)
+        self.init(.realTime(seconds: source), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .wrapping)")
@@ -683,7 +683,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .wrapping)
+        self.init(.realTime(seconds: source), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .allowingInvalid)")
@@ -695,7 +695,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        self.init(source, using: properties, by: .allowingInvalid)
+        self.init(.realTime(seconds: source), using: properties, by: .allowingInvalid)
     }
 }
 
@@ -905,7 +905,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(exactlyTimecodeString, using: properties)
+        try self.init(.string(exactlyTimecodeString), using: properties)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clamping)")
@@ -917,7 +917,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(timecodeString, using: properties, by: .clamping)
+        try self.init(.string(timecodeString), using: properties, by: .clamping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clampingComponents)")
@@ -929,7 +929,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(timecodeString, using: properties, by: .clampingComponents)
+        try self.init(.string(timecodeString), using: properties, by: .clampingComponents)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .wrapping)")
@@ -941,7 +941,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(timecodeString, using: properties, by: .wrapping)
+        try self.init(.string(timecodeString), using: properties, by: .wrapping)
     }
     
     @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .allowingInvalid)")
@@ -953,7 +953,7 @@ extension Timecode {
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: base, limit: limit)
-        try self.init(timecodeString, using: properties, by: .allowingInvalid)
+        try self.init(.string(timecodeString), using: properties, by: .allowingInvalid)
     }
 }
 

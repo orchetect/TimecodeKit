@@ -11,27 +11,28 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func add(_ exactly: Components) throws {
-        guard let newTC = _add(exactly: exactly, to: components)
+    public mutating func add(_ source: Components) throws {
+        guard let newTC = _add(exactly: source, to: components)
         else { throw ValidationError.outOfBounds }
         
         try _setTimecode(exactly: newTC)
     }
     
     /// Add a duration to the current timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func add(clamping values: Components) {
-        let newTC = _add(clamping: values, to: components)
+    public mutating func add(_ source: Components, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        _setTimecode(rawValues: newTC)
-    }
-    
-    /// Add a duration to the current timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func add(wrapping values: Components) {
-        let newTC = _add(wrapping: values, to: components)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _add(clamping: source, to: components)
+            
+        case .wrapping:
+            newTC = _add(wrapping: source, to: components)
+            
+        case .allowingInvalid:
+            newTC = _add(rawValues: source, to: components)
+        }
         
         _setTimecode(rawValues: newTC)
     }
@@ -40,37 +41,17 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func adding(_ exactly: Components) throws -> Timecode {
-        guard let newTC = _add(exactly: exactly, to: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func adding(_ source: Components) throws -> Timecode {
         var newTimecode = self
-        try newTimecode._setTimecode(exactly: newTC)
-        
+        try newTimecode.add(source)
         return newTimecode
     }
     
     /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func adding(clamping values: Components) -> Timecode {
-        let newTC = _add(clamping: values, to: components)
-        
+    public func adding(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func adding(wrapping values: Components) -> Timecode {
-        let newTC = _add(wrapping: values, to: components)
-        
-        var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
+        newTimecode.add(source, by: validation)
         return newTimecode
     }
     
@@ -88,58 +69,37 @@ extension Timecode {
     }
     
     /// Subtract a duration from the current timecode.
-    /// Clamps to valid timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func subtract(clamping: Components) {
-        let newTC = _subtract(clamping: clamping, from: components)
+    public mutating func subtract(_ source: Components, by validation: ValidationRule) {
+        let newTC: Timecode.Components
+        
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _subtract(clamping: source, from: components)
+            
+        case .wrapping:
+            newTC = _subtract(wrapping: source, from: components)
+            
+        case .allowingInvalid:
+            newTC = _subtract(rawValues: source, from: components)
+        }
         
         _setTimecode(rawValues: newTC)
     }
     
-    /// Subtract a duration from the current timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func subtract(wrapping: Components) {
-        let newTC = _subtract(wrapping: wrapping, from: components)
-        
-        _setTimecode(rawValues: newTC)
-    }
-    
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    ///
-    /// - Throws: ``ValidationError``
-    public func subtracting(_ exactly: Components) throws -> Timecode {
-        guard let newTC = _subtract(exactly: exactly, from: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func subtracting(_ source: Components) throws -> Timecode {
         var newTimecode = self
-        try newTimecode._setTimecode(exactly: newTC)
-        
+        try newTimecode.subtract(source)
         return newTimecode
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func subtracting(clamping values: Components) -> Timecode {
-        let newTC = _subtract(clamping: values, from: components)
-        
+    public func subtracting(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func subtracting(wrapping values: Components) -> Timecode {
-        let newTC = _subtract(wrapping: values, from: components)
-        
-        var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
+        newTimecode.subtract(source, by: validation)
         return newTimecode
     }
     
@@ -156,17 +116,19 @@ extension Timecode {
     }
     
     /// Multiply the current timecode by an amount.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
-    public mutating func multiply(clamping value: Double) {
-        let newTC = _multiply(clamping: value, with: components)
+    public mutating func multiply(_ source: Double, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        _setTimecode(rawValues: newTC)
-    }
-    
-    /// Multiply the current timecode by an amount.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public mutating func multiply(wrapping value: Double) {
-        let newTC = _multiply(wrapping: value, with: components)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _multiply(clamping: source, with: components)
+            
+        case .wrapping:
+            newTC = _multiply(wrapping: source, with: components)
+            
+        case .allowingInvalid:
+            newTC = _multiply(rawValues: source, with: components)
+        }
         
         _setTimecode(rawValues: newTC)
     }
@@ -175,37 +137,17 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func multiplying(_ exactly: Double) throws -> Timecode {
-        guard let newTC = _multiply(exactly: exactly, with: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func multiplying(_ source: Double) throws -> Timecode {
         var newTimecode = self
-        try newTimecode._setTimecode(exactly: newTC)
-        
+        try newTimecode.multiply(source)
         return newTimecode
     }
     
     /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func multiplying(clamping value: Double) -> Timecode {
-        let newTC = _multiply(clamping: value, with: components)
-        
+    public func multiplying(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func multiplying(wrapping value: Double) -> Timecode {
-        let newTC = _multiply(wrapping: value, with: components)
-        
-        var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
+        newTimecode.multiply(source, by: validation)
         return newTimecode
     }
     
@@ -222,17 +164,19 @@ extension Timecode {
     }
     
     /// Divide the current timecode by a duration.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
-    public mutating func divide(clamping value: Double) {
-        let newTC = _divide(clamping: value, into: components)
+    public mutating func divide(_ source: Double, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        _setTimecode(rawValues: newTC)
-    }
-    
-    /// Divide the current timecode by a duration.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public mutating func divide(wrapping value: Double) {
-        let newTC = _divide(wrapping: value, into: components)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _divide(clamping: source, into: components)
+            
+        case .wrapping:
+            newTC = _divide(wrapping: source, into: components)
+            
+        case .allowingInvalid:
+            newTC = _divide(rawValues: source, into: components)
+        }
         
         _setTimecode(rawValues: newTC)
     }
@@ -241,37 +185,17 @@ extension Timecode {
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func dividing(_ exactly: Double) throws -> Timecode {
-        guard let newTC = _divide(exactly: exactly, into: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func dividing(_ source: Double) throws -> Timecode {
         var newTimecode = self
-        try newTimecode._setTimecode(exactly: newTC)
-        
+        try newTimecode.divide(source)
         return newTimecode
     }
     
     /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func dividing(clamping value: Double) -> Timecode {
-        let newTC = _divide(clamping: value, into: components)
-        
+    public func dividing(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func dividing(wrapping value: Double) -> Timecode {
-        let newTC = _divide(wrapping: value, into: components)
-        
-        var newTimecode = self
-        newTimecode._setTimecode(rawValues: newTC)
-        
+        newTimecode.divide(source, by: validation)
         return newTimecode
     }
     

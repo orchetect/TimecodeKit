@@ -33,7 +33,7 @@ class Timecode_init_Tests: XCTestCase {
     func testTimecode_init_All_DisplaySubFrames() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "00:00:00:00",
+                .string("00:00:00:00"),
                 at: $0,
                 base: ._100SubFrames,
                 limit: ._24hours

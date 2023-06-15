@@ -28,10 +28,10 @@ extension Timecode.FrameCount: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == Timecode.FrameCount {
+extension TimecodeSourceValue {
     /// Timecode total elapsed frame count value (``Timecode/FrameCount``).
-    public static func frames(count: Timecode.FrameCount) -> Self {
-        count
+    public static func frames(_ source: Timecode.FrameCount) -> Self {
+        .init(value: source)
     }
 }
 

@@ -10,7 +10,7 @@ extension Timecode {
     /// a.k.a. `lhs.adding(wrapping: rhs)`
     public static func + (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
-            return lhs.adding(wrapping: rhs.components)
+            return lhs.adding(rhs.components, by: .wrapping)
         } else {
             guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
                 assertionFailure(
@@ -19,14 +19,14 @@ extension Timecode {
                 return lhs
             }
             
-            return lhs.adding(wrapping: rhsConverted.components)
+            return lhs.adding(rhsConverted.components, by: .wrapping)
         }
     }
     
     /// a.k.a. `lhs.add(wrapping: rhs)`
     public static func += (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
-            lhs.add(wrapping: rhs.components)
+            lhs.add(rhs.components, by: .wrapping)
         } else {
             guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
                 assertionFailure(
@@ -35,14 +35,14 @@ extension Timecode {
                 return
             }
             
-            return lhs.add(wrapping: rhsConverted.components)
+            return lhs.add(rhsConverted.components, by: .wrapping)
         }
     }
     
     /// a.k.a. `lhs.subtracting(wrapping: rhs)`
     public static func - (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
-            return lhs.subtracting(wrapping: rhs.components)
+            return lhs.subtracting(rhs.components, by: .wrapping)
         } else {
             guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
                 assertionFailure(
@@ -51,14 +51,14 @@ extension Timecode {
                 return lhs
             }
             
-            return lhs.subtracting(wrapping: rhsConverted.components)
+            return lhs.subtracting(rhsConverted.components, by: .wrapping)
         }
     }
     
     /// a.k.a. `lhs.subtract(wrapping: rhs)`
     public static func -= (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
-            lhs.subtract(wrapping: rhs.components)
+            lhs.subtract(rhs.components, by: .wrapping)
         } else {
             guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
                 assertionFailure(
@@ -67,7 +67,7 @@ extension Timecode {
                 return
             }
             
-            return lhs.subtract(wrapping: rhsConverted.components)
+            return lhs.subtract(rhsConverted.components, by: .wrapping)
         }
     }
 }
@@ -77,22 +77,22 @@ extension Timecode {
 extension Timecode {
     /// a.k.a. `lhs.multiplying(wrapping: rhs)`
     public static func * <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-        lhs.multiplying(wrapping: Double(rhs))
+        lhs.multiplying(Double(rhs), by: .wrapping)
     }
     
     /// a.k.a. `lhs.multiply(wrapping: rhs)`
     public static func *= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
-        lhs.multiply(wrapping: Double(rhs))
+        lhs.multiply(Double(rhs), by: .wrapping)
     }
     
     /// a.k.a. `lhs.dividing(wrapping: rhs)`
     public static func / <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-        lhs.dividing(wrapping: Double(rhs))
+        lhs.dividing(Double(rhs), by: .wrapping)
     }
     
     /// a.k.a. `lhs.divide(wrapping: rhs)`
     public static func /= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
-        lhs.divide(wrapping: Double(rhs))
+        lhs.divide(Double(rhs), by: .wrapping)
     }
 }
 
@@ -101,21 +101,21 @@ extension Timecode {
 extension Timecode {
     /// a.k.a. `lhs.multiplying(wrapping: rhs)`
     public static func * (lhs: Self, rhs: Double) -> Self {
-        lhs.multiplying(wrapping: rhs)
+        lhs.multiplying(rhs, by: .wrapping)
     }
     
     /// a.k.a. `lhs.multiply(wrapping: rhs)`
     public static func *= (lhs: inout Self, rhs: Double) {
-        lhs.multiply(wrapping: rhs)
+        lhs.multiply(rhs, by: .wrapping)
     }
     
     /// a.k.a. `lhs.dividing(wrapping: rhs)`
     public static func / (lhs: Self, rhs: Double) -> Self {
-        lhs.dividing(wrapping: rhs)
+        lhs.dividing(rhs, by: .wrapping)
     }
     
     /// a.k.a. `lhs.divide(wrapping: rhs)`
     public static func /= (lhs: inout Self, rhs: Double) {
-        lhs.divide(wrapping: rhs)
+        lhs.divide(rhs, by: .wrapping)
     }
 }

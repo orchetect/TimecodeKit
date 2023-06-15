@@ -55,7 +55,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         // .custom()
         
         let transformer = TimecodeTransformer(.custom { // inputTC -> Timecode in
-            $0.adding(wrapping: Timecode.Components(m: 1))
+            $0.adding(Timecode.Components(m: 1), by: .wrapping)
         })
         
         XCTAssertEqual(

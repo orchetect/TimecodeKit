@@ -13,7 +13,7 @@ extension Timecode: Strideable {
     /// Same as calling `.adding(clamping: Timecode.Components(f: n))` but implemented in order to allow Timecode to conform to `Strideable`.
     /// Will clamp to valid timecode range.
     public func advanced(by n: Stride) -> Self {
-        adding(clamping: Components(f: n))
+        adding(Components(f: n), by: .clamping)
     }
     
     /// Distance between two timecode expressed as number of frames.

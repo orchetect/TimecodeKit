@@ -63,7 +63,7 @@ extension CMTimeRange {
         
         let timecodes = try [start, end]
             .map {
-                try Timecode($0, using: properties)
+                try Timecode(.cmTime($0), using: properties)
             }
         
         return timecodes[0] ... timecodes[1]

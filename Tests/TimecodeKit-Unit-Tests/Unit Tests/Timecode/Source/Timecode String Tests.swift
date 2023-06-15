@@ -15,7 +15,7 @@ class Timecode_String_Tests: XCTestCase {
     func testTimecode_init_String_Exactly() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "00:00:00:00",
+                .string("00:00:00:00"),
                 at: $0
             )
             
@@ -24,7 +24,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "01:02:03:04",
+                .string("01:02:03:04"),
                 at: $0
             )
             
@@ -34,7 +34,7 @@ class Timecode_String_Tests: XCTestCase {
     
     func testTimecode_init_String_Clamping() throws {
         let tc = try Timecode(
-            "25:00:00:00",
+            .string("25:00:00:00"),
             at: ._24,
             by: .clamping
         )
@@ -47,7 +47,7 @@ class Timecode_String_Tests: XCTestCase {
     
     func testTimecode_init_String_ClampingEach() throws {
         let tc = try Timecode(
-            "25:00:00:00",
+            .string("25:00:00:00"),
             at: ._24,
             by: .clampingComponents
         )
@@ -61,7 +61,7 @@ class Timecode_String_Tests: XCTestCase {
     func testTimecode_init_String_Wrapping() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "25:00:00:00",
+                .string("25:00:00:00"),
                 at: $0,
                 by: .wrapping
             )
@@ -73,7 +73,7 @@ class Timecode_String_Tests: XCTestCase {
     func testTimecode_init_String_RawValues() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "99 99:99:99:99.99",
+                .string("99 99:99:99:99.99"),
                 at: $0,
                 by: .allowingInvalid
             )

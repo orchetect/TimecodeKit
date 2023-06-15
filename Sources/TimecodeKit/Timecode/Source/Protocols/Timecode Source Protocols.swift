@@ -4,6 +4,8 @@
 //  © 2023 Steffan Andrews • Licensed under MIT License
 //
 
+// MARK: - Protocols
+
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information.
 public protocol TimecodeSource {
@@ -48,4 +50,51 @@ public protocol GuaranteedRichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
+}
+
+// MARK: - Type Erasure
+
+/// Box containing a concrete ``TimecodeSource`` instance.
+public struct TimecodeSourceValue {
+    internal var value: TimecodeSource
+    
+    internal init(value: TimecodeSource) {
+        self.value = value
+    }
+}
+
+/// Box containing a concrete ``FormattedTimecodeSource`` instance.
+public struct FormattedTimecodeSourceValue {
+    internal var value: FormattedTimecodeSource
+    
+    internal init(value: FormattedTimecodeSource) {
+        self.value = value
+    }
+}
+
+/// Box containing a concrete ``RichTimecodeSource`` instance.
+public struct RichTimecodeSourceValue {
+    internal var value: RichTimecodeSource
+    
+    internal init(value: RichTimecodeSource) {
+        self.value = value
+    }
+}
+
+/// Box containing a concrete ``GuaranteedTimecodeSource`` instance.
+public struct GuaranteedTimecodeSourceValue {
+    internal var value: GuaranteedTimecodeSource
+    
+    internal init(value: GuaranteedTimecodeSource) {
+        self.value = value
+    }
+}
+
+/// Box containing a concrete ``GuaranteedRichTimecodeSource`` instance.
+public struct GuaranteedRichTimecodeSourceValue {
+    internal var value: GuaranteedRichTimecodeSource
+    
+    internal init(value: GuaranteedRichTimecodeSource) {
+        self.value = value
+    }
 }

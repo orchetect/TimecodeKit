@@ -27,10 +27,10 @@ extension FeetAndFrames: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == FeetAndFrames {
+extension TimecodeSourceValue {
     /// Feet and Frames time value.
     public static func feetAndFrames(_ source: FeetAndFrames) -> Self {
-        source
+        .init(value: source)
     }
 }
 

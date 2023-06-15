@@ -27,10 +27,10 @@ extension TimeInterval: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == TimeInterval {
+extension TimecodeSourceValue {
     /// Real time (wall time) in seconds.
     public static func realTime(seconds: TimeInterval) -> Self {
-        seconds
+        .init(value: seconds)
     }
 }
 

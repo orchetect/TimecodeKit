@@ -8,17 +8,17 @@
 
 extension TimecodeInterval: GuaranteedRichTimecodeSource {
     public func set(timecode: inout Timecode) -> Timecode.Properties {
-        return timecode.set(self)
+        timecode.set(self)
     }
 }
 
 // MARK: - Static Constructors
 
-extension GuaranteedRichTimecodeSource where Self == TimecodeInterval {
+extension GuaranteedRichTimecodeSourceValue {
     /// Instance by flattening a ``TimecodeInterval``, wrapping as necessary based on the
     /// ``Timecode/Properties-swift.struct/upperLimit`` and
     /// ``Timecode/Properties-swift.struct/frameRate`` of the interval.
     public static func interval(flattening interval: TimecodeInterval) -> Self {
-        interval
+        .init(value: interval)
     }
 }

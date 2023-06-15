@@ -80,7 +80,7 @@ class TimecodeInterval_Tests: XCTestCase {
         
         XCTAssertEqual(
             interval.flattened(),
-            try Timecode(Timecode.Components(h: 23, m: 59, s: 00, f: 00), at: ._24)
+            try Timecode(.components(h: 23, m: 59, s: 00, f: 00), at: ._24)
         )
     }
     

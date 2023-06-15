@@ -53,7 +53,7 @@ public struct TimecodeInterval: Equatable, Hashable {
         
         switch sign {
         case .plus:
-            return absoluteInterval.adding(wrapping: Timecode.Components())
+            return absoluteInterval.adding(Timecode.Components(), by: .wrapping)
             
         case .minus:
             return Timecode(
@@ -63,7 +63,7 @@ public struct TimecodeInterval: Equatable, Hashable {
                 limit: absoluteInterval.upperLimit,
                 by: .allowingInvalid
             )
-            .subtracting(wrapping: absoluteInterval.components)
+            .subtracting(absoluteInterval.components, by: .wrapping)
         }
     }
     

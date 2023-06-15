@@ -32,15 +32,15 @@ extension SamplesPayload: TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSource where Self == SamplesPayload {
+extension TimecodeSourceValue {
     /// Audio samples at a given sample rate.
     public static func samples(_ samples: Int, sampleRate: Int) -> Self {
-        SamplesPayload(samples: Double(samples), sampleRate: sampleRate)
+        .init(value: SamplesPayload(samples: Double(samples), sampleRate: sampleRate))
     }
     
     /// Audio samples at a given sample rate.
     public static func samples(_ samples: Double, sampleRate: Int) -> Self {
-        SamplesPayload(samples: samples, sampleRate: sampleRate)
+        .init(value: SamplesPayload(samples: samples, sampleRate: sampleRate))
     }
 }
 

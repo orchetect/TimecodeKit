@@ -80,7 +80,7 @@ extension AVAsset {
     ) throws -> Timecode {
         let frameRate = try frameRate ?? self.timecodeFrameRate()
         return try Timecode(
-            duration,
+            .cmTime(duration),
             at: frameRate,
             base: base,
             limit: limit

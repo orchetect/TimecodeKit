@@ -16,7 +16,7 @@ class TimecodeInterval_UnaryOperators_Tests: XCTestCase {
     func testNegative() throws {
         let interval = try -Timecode(.components(m: 1), at: ._24)
         
-        XCTAssertEqual(interval.absoluteInterval, try Timecode(Timecode.Components(m: 1), at: ._24))
+        XCTAssertEqual(interval.absoluteInterval, try Timecode(.components(m: 1), at: ._24))
         XCTAssertTrue(interval.isNegative)
     }
     

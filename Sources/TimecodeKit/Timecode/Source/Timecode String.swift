@@ -35,18 +35,16 @@ extension String: FormattedTimecodeSource {
 
 // MARK: - Static Constructors
 
-extension FormattedTimecodeSource where Self == String {
+extension FormattedTimecodeSourceValue {
     /// Timecode string.
     public static func string(_ timecodeString: String) -> Self {
-        timecodeString
+        .init(value: timecodeString)
     }
-}
-
-extension FormattedTimecodeSource where Self: StringProtocol {
+    
     /// Timecode string.
     @_disfavoredOverload
-    public static func string<S: StringProtocol>(_ timecodeString: S) -> String {
-        String(timecodeString)
+    public static func string<S: StringProtocol>(_ timecodeString: S) -> Self {
+        .init(value: String(timecodeString))
     }
 }
 
