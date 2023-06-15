@@ -66,7 +66,7 @@ The following video frame rates are supported. These are actual video rates.
    - In a Swift Package, add it to the Package.swift dependencies:
 
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "1.6.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.0.0")
      ```
 
 2. Import the library:
@@ -109,50 +109,91 @@ Note: This documentation does not cover every property and initializer available
 
 ### Initialization
 
-Using `(_ exactly:)` by default:
+TimecodeKit is designed to work with Xcode's autocomplete fluidly. Beginning a `Timecode` initializer with a period will produce a list of all available source value types.
+
+![Timecode init](Images/timecode-init.png)
+
+Standard source value types:
 
 ```swift
-// from Int timecode component values
-try Timecode(TCC(h: 01, m: 00, s: 00, f: 00), at: ._23_976)
-try TCC(h: 01, m: 00, s: 00, f: 00).toTimecode(at: ._23_976) // alternate method
+// zero timecode (00:00:00:00)
+.zero
 
-// from frame number (total elapsed frames)
-try Timecode(.frames(40000), at: ._23_976)
+// timecode component values
+.components(h: 01, m: 00, s: 00, f: 00)
 
-// from timecode string
-try Timecode("01:00:00:00", at: ._23_976)
-try "01:00:00:00".toTimecode(at: ._23_976) // alternate method
+// frame number (total elapsed frames)
+.frames(40000) // whole frames
+.frames(40000, subFrames: 20) // whole frames + subframes
+.frames(40000.25) // Double whole frames + float subframes
+.frames(40000, subFramesUnitInterval: 0.25) // whole frames + float subframes
 
-// from real time (wall clock) elapsed in seconds
-try Timecode(realTime: 4723.241579, at: ._23_976)
-try (4723.241579).toTimecode(at: ._23_976) // alternate method on TimeInterval
+// timecode string
+.string("01:00:00:00")
+.string("2 01:00:00:00.00") // days and subframes allowed
 
-// from elapsed number of audio samples at a given sample rate
-try Timecode(samples: 123456789, sampleRate: 48000, at: ._23_976)
+// real time (wall clock) elapsed in seconds
+.realTime(seconds: 4723.241579)
+
+// elapsed audio samples at a given sample rate in Hz
+.samples(123456789, sampleRate: 48000)
 ```
 
-Using `(clamping:, ...)` and `(clampingEach:, ...)`:
+Extended source value types:
+
+```swift
+// AVFoundation AVAsset: read .start, .end or .duration timecode of a movie
+.avAsset(AVAsset(...), .start)
+
+// AVFoundation CMTime
+.cmTime(CMTime(value: 1920919, timescale: 30000))
+
+// rational time fraction (ie: Final Cut Pro XML, or AAF)
+.rational(Fraction(1920919, 30000))
+
+// legacy Feet+Frames designation
+.feetAndFrames(FeetAndFrames(feet: 60, frames: 10))
+```
+
+The frame rate must also be supplied. This can be done easily with the `at:` overload.
+
+```swift
+let tc = try Timecode(.string("01:00:00:00"), at: ._23_976)
+```
+
+If additional properties need to be specified, supply a `Properties` struct with the `using:` overload.
+
+```swift
+let tcProperties = Timecode.Properties(
+    rate: ._23_976,
+    base: ._100SubFrames,
+    limit: ._100days
+)
+let tc = try Timecode(.string("01:00:00:00"), using: tcProperties)
+```
+
+It is possible to clamp to valid timecode using a non-throwing init.
 
 ```swift
 // clamp full timecode to valid range
-try Timecode(clamping: "26:00:00:00", at: ._24)
-    .stringValue // == "23:59:59:23"
+Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: ._24, by: .clamping)
+    .stringValue() // == "23:59:59:23"
 
 // clamp individual timecode component values to valid values if they are out-of-bounds
-try Timecode(clampingEach: "01:00:85:50", at: ._24)
-    .stringValue // == "01:00:59:23"
+Timecode(.components(h: 01, m: 00, s: 85, f: 50), at: ._24, by: .clampingEach)
+    .stringValue() // == "01:00:59:23"
 ```
 
-Using `(wrapping:, ...)`:
+It is also possible to wrap to valid timecode using a non-throwing init.
 
 ```swift
 // wrap around clock continuously if entire timecode overflows or underflows
 
-try Timecode(wrapping: "26:00:00:00", at: ._24)
-    .stringValue // == "02:00:00:00"
+Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: ._24, by: .wrapping)
+    .stringValue() // == "02:00:00:00"
 
-try Timecode(wrapping: "23:59:59:24", at: ._24)
-    .stringValue // == "00:00:00:00"
+Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: ._24, by: .wrapping)
+    .stringValue() // == "00:00:00:00"
 ```
 
 ### Properties
@@ -163,16 +204,16 @@ Timecode components can be get or set directly as instance properties.
 let tc = try "01:12:20:05".toTimecode(at: ._23_976)
 
 // get
-tc.days        // == 0
-tc.hours       // == 1
-tc.minutes     // == 12
-tc.seconds     // == 20
-tc.frames      // == 5
-tc.subFrames   // == 0
+tc.days          // == 0
+tc.hours         // == 1
+tc.minutes       // == 12
+tc.seconds       // == 20
+tc.frames        // == 5
+tc.subFrames     // == 0
 
 // set
 tc.hours = 5
-tc.stringValue // == "05:12:20:05"
+tc.stringValue() // == "05:12:20:05"
 ```
 
 ### Components
@@ -180,34 +221,31 @@ tc.stringValue // == "05:12:20:05"
 In order to help facilitate defining a set of timecode component values, a simple `Components` struct is implemented. This struct can be passed into many methods and initializers.
 
 ```swift
-// a global typealias is exposed to shorten the syntax when constructing
-public typealias TCC = Timecode.Components
+let tcc = Timecode.Components(h: 1)
+Timecode(.components(tcc), at: ._23_976)
 
-// ie:
-Timecode(TCC(h: 1), at: ._23_976)
-// is the same as:
-Timecode(Timecode.Components(h: 1), at: ._23_976)
+// is the same as using the shorthand:
+Timecode(.components(h: 1), at: ._23_976)
 ```
 
 ```swift
 let cmp = try "01:12:20:05"
     .toTimecode(at: ._23_976)
-    .components // Timecode.Components(), aka TCC()
+    .components // Timecode.Components
 
-cmp.d  // == 0   (days)
-cmp.h  // == 1   (hours)
-cmp.m  // == 12  (minutes)
-cmp.s  // == 20  (seconds)
-cmp.f  // == 5   (frames)
-cmp.sf // == 0   (subframes)
+cmp.days      // == 0
+cmp.hours     // == 1
+cmp.minutes   // == 12
+cmp.seconds   // == 20
+cmp.frames    // == 5
+cmp.subFrames // == 0
 ```
 
 ### Timecode Display String
 
 ```swift
-try TCC(h: 01, m: 00, s: 00, f: 00)
-    .toTimecode(at: ._29_97_drop)
-    .stringValue // == "01:00:00;00"
+try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._29_97_drop)
+    .stringValue() // == "01:00:00;00"
 ```
 
 ### Math
@@ -218,29 +256,29 @@ Using operators (which use `wrapping:` internally if the result underflows or ov
 let tc1 = try "01:00:00:00".toTimecode(at: ._23_976)
 let tc2 = try "00:00:02:00".toTimecode(at: ._23_976)
 
-(tc1 + tc2).stringValue // == "01:00:02:00"
-(tc1 - tc2).stringValue // == "00:00:58:00"
-(tc1 * 2.0).stringValue // == "02:00:00:00"
-(tc1 / 2.0).stringValue // == "00:30:00:00"
+(tc1 + tc2).stringValue() // == "01:00:02:00"
+(tc1 - tc2).stringValue() // == "00:00:58:00"
+(tc1 * 2.0).stringValue() // == "02:00:00:00"
+(tc1 / 2.0).stringValue() // == "00:30:00:00"
 ```
 
 Methods also exist to achieve the same results.
 
 Mutating methods:
 
-- `.add()`
-- `.subtract()`
-- `.multiply()`
-- `.divide()`
-- `.offset()`
+- `add()`
+- `subtract()`
+- `multiply()`
+- `divide()`
+- `offset()`
 
 Non-mutating methods that produce a new `Timecode` instance:
 
-- `.adding()`
-- `.subtracting()`
-- `.multiplying()`
-- `.dividing()`
-- `.offsetting()`
+- `adding()`
+- `subtracting()`
+- `multiplying()`
+- `dividing()`
+- `offsetting()`
 
 ### Conversions
 
@@ -251,7 +289,7 @@ Non-mutating methods that produce a new `Timecode` instance:
 try "01:00:00;00"
     .toTimecode(at: ._29_97_drop)
     .converted(to: ._29_97)
-    .stringValue // == "00:59:56:12"
+    .stringValue() // == "00:59:56:12"
 ```
 
 #### Real Time
@@ -263,9 +301,8 @@ let tc = try "01:00:00:00"
     .realTimeValue // == 3603.6 as TimeInterval (Double)
 
 // real-world time to timecode
-try (3603.6) // TimeInterval, aka Double
-    .toTimecode(at: ._23_976)
-    .stringValue // == "01:00:00:00"
+try Timecode(.realTime(seconds: 3603.6), at: ._23_976)
+    .stringValue() // == "01:00:00:00"
 ```
 
 #### Audio Samples
@@ -277,8 +314,8 @@ let tc = try "01:00:00:00"
     .samplesValue(sampleRate: 48000) // == 172800000
 
 // elapsed audio samples to timecode
-try Timecode(samples: 172800000, sampleRate: 48000, at: ._24)
-    .stringValue // == "01:00:00:00"
+try Timecode(.samples(172800000, sampleRate: 48000), at: ._24)
+    .stringValue() // == "01:00:00:00"
 ```
 
 ### Validation
@@ -298,13 +335,12 @@ Timecode can be tested as:
 // but 75 seconds and 60 frames are NOT valid
 
 // non-granular validation
-try TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(at: ._23_976) // == throws error; cannot form a valid timecode
+try Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976)
+// == throws error; cannot form a valid timecode
 
 // granular validation
-// rawValues allow invalid values; does not throw errors so 'try' is not needed
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976) 
+// allowingInvalid allows invalid values; does not throw errors so 'try' is not needed
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .invalidComponents // == [.seconds, .frames]
 ```
 
@@ -313,9 +349,8 @@ TCC(h: 1, m: 20, s: 75, f: 60)
 This method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of attributes.
 
 ```swift
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)
-    .stringValueValidated
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    .stringValueValidated()
 ```
 
 The invalid formatting attributes defaults to applying `[.foregroundColor: NSColor.red]` to invalid components. You can alternatively supply your own invalid attributes by setting the `invalidAttributes` argument.
@@ -324,15 +359,16 @@ You can also supply a set of default attributes to set as the baseline attribute
 
 ```swift
 // set text's background color to red instead of its foreground color
-let invalidAttr: [NSAttributedString.Key: Any] =
-    [.backgroundColor: NSColor.red]
+let invalidAttr: [NSAttributedString.Key: Any] = [
+    .backgroundColor: NSColor.red
+]
 
 // set custom font and font size for the entire string
-let defaultAttr: [NSAttributedString.Key: Any] =
-    [.font: NSFont.systemFont(ofSize: 16)]
+let defaultAttr: [NSAttributedString.Key: Any] = [
+    .font: NSFont.systemFont(ofSize: 16)
+]
 
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidated(invalidAttributes: invalidAttr,
                           withDefaultAttributes: defaultAttr)
 ```
@@ -342,16 +378,14 @@ TCC(h: 1, m: 20, s: 75, f: 60)
 This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
 
 ```swift
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidatedText()
 ```
 
 The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components. You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
 
 ```swift
-TCC(h: 1, m: 20, s: 75, f: 60)
-    .toTimecode(rawValuesAt: ._23_976)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidatedText(
         invalidModifiers: {
             $0.foregroundColor(.blue)
@@ -372,13 +406,16 @@ The invalid formatting attributes defaults to applying `[.foregroundColor: NSCol
 
 ```swift
 // set up formatter
-let tcFormatter = 
-    Timecode.TextFormatter(frameRate: ._23_976,
-                           limit: ._24hours,
-                           stringFormat: [.showSubFrames],
-                           subFramesBase: ._80SubFrames,
-                           showsValidation: true,     // enable invalid component highlighting
-                           validationAttributes: nil) // if nil, defaults to red foreground color
+let tcFormatter = Timecode.TextFormatter(
+    using: .init(
+        rate: ._23_976,
+        base: ._80SubFrames,
+        limit: ._24hours
+    )
+    stringFormat: [.showSubFrames],
+    showsValidation: true,     // enable invalid component highlighting
+    validationAttributes: nil // if nil, defaults to red foreground color
+)
 
 // assign formatter to a TextField UI object, for example
 let textField = NSTextField()
@@ -396,10 +433,10 @@ By default, `Timecode` is constructed with an `upperLimit` of 24-hour maximum ex
 The limit setting naturally affects internal timecode validation routines, as well as clamping and wrapping.
 
 ```swift
-// valid timecode range at 24 fps, ._24hours
+// valid timecode range at 24 fps, with 24 hours limit
 "00:00:00:00" ... "23:59:59:23"
 
-// valid timecode range at 24 fps, ._100days
+// valid timecode range at 24 fps, with 100 days limit
 "00:00:00:00" ... "99 23:59:59:23"
 ```
 
@@ -414,18 +451,18 @@ For example:
 - *Cubase/Nuendo* and *Logic Pro* globally use 80 subframes per frame (0...79) regardless of frame rate
 - *Pro Tools* uses 100 subframes (0...99) globally regardless of frame rate
 
-Timecode supports subframes throughout. However, by default subframes are not displayed in `stringValue`. You can enable them:
+Timecode supports subframes throughout. However, by default subframes are not displayed in `stringValue()`. You can enable them:
 
 ```swift
 var tc = try "01:12:20:05.62"
     .toTimecode(at: ._24, base: ._80SubFrames)
 
-tc.stringValue // == "01:12:20:05"
-tc.subFrames   // == 62 (subframes are preserved even though not displayed in stringValue)
+// string with default formatting
+tc.stringValue() // == "01:12:20:05"
+tc.subFrames     // == 62 (subframes are preserved even though not displayed in stringValue)
 
-tc.stringFormat.showSubFrames = true // default: false
-
-tc.stringValue // == "01:12:20:05.62"
+// string with subframes shown
+tc.stringValue(format: .showSubFrames) // == "01:12:20:05.62"
 ```
 
 Subframes are always calculated when performing operations on the `Timecode` instance, regardless whether `displaySubFrames` set or not.
@@ -434,22 +471,11 @@ Subframes are always calculated when performing operations on the `Timecode` ins
 var tc = try "00:00:00:00.40"
     .toTimecode(at: ._24, base: ._80SubFrames)
 
-tc.stringValue // == "00:00:00:00"
-
-tc.stringFormat.showSubFrames = true // default: false
-tc.stringValue // == "00:00:00:00.40"
+tc.stringValue() // == "00:00:00:00"
+tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"
 
 // multiply timecode by 2. 40 subframes is half of a frame at 80 subframes per frame
-(tc * 2).stringValue // == "00:00:00:01.00"
-```
-
-It is also possible to set this flag during construction.
-
-```swift
-var tc = try "01:12:20:05.62"
-    .toTimecode(at: ._24, base: ._80SubFrames, format: [.showSubFrames])
-
-tc.stringValue // == "01:12:20:05.62"
+(tc * 2).stringValue(format: .showSubFrames) // == "00:00:00:01.00"
 ```
 
 #### Comparable
@@ -617,10 +643,10 @@ Video file metadata and timeline interchange files (AAF, Final Cut Pro XML) enco
 `Timecode` is capable of initializing from an elapsed time expressed as a rational fraction using the `init?(rational:)` initializer. The `rationalValue` property returns the `Timecode`'s elapsed time expressed as a rational fraction.
 
 ```swift
-try Timecode(Fraction(1920919, 30000), at: ._29_97)
-    .stringValue // == "00:01:03;29"
+try Timecode(.rational(Fraction(1920919, 30000)), at: ._29_97)
+    .stringValue() // == "00:01:03;29"
 
-try Timecode(TCC(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
+try Timecode(.components(h: 00, m: 01, s: 03, f: 29), at: ._29_97)
     .rationalValue // == Fraction(1920919, 30000)
 ```
 
@@ -665,16 +691,16 @@ However, to meet the demand of some timecode calculations (such as offset transf
 
 ```swift
 // construct directly:
-let tc = try Timecode(TCC(h: 1), at: ._24)
+let tc = try Timecode(.components(h: 1), at: ._24)
 let interval = TimecodeInterval(tc, .negative)
 
 // construct with Timecode method:
-let tc = try Timecode(TCC(h: 1), at: ._24)
+let tc = try Timecode(.components(h: 1), at: ._24)
 let interval = tc.interval(.negative)
 
 // construct with - or + unary operator:
-let interval = try -Timecode(TCC(h: 1), at: ._24) // negative
-let interval = try +Timecode(TCC(h: 1), at: ._24) // positive
+let interval = try -Timecode(.components(h: 1), at: ._24) // negative
+let interval = try +Timecode(.components(h: 1), at: ._24) // positive
 
 // construct between two Timecode instances
 let interval = timecode1.interval(to: timecode2)
@@ -683,7 +709,7 @@ let interval = timecode1.interval(to: timecode2)
 The absolute interval can be returned.
 
 ```swift
-let tc = try Timecode(TCC(h: 1), at: ._24)
+let tc = try Timecode(.components(h: 1), at: ._24)
 
 let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
 interval.absoluteInterval // 01:00:00:00
@@ -695,7 +721,7 @@ interval.absoluteInterval // 01:00:00:00
 The interval can be flattened by wrapping it around the upper limit if necessary, which is 24 hours in timecode by default.
 
 ```swift
-let tc = try Timecode(TCC(h: 1), at: ._24)
+let tc = try Timecode(.components(h: 1), at: ._24)
 
 let interval = TimecodeInterval(tc, .positive) // 01:00:00:00
 interval.flattened() // 01:00:00:00
@@ -744,15 +770,35 @@ let endTimecode = try asset.endTimecode(at: ._29_97)
 
 Currently timecode tracks can be modified on `AVMutableMovie`.
 
-```swift
-let movie = AVMutableMovie( ... )
+This is one way to make an `AVMovie` into a mutable `AVMutableMovie` if needed.
 
+```swift
+let movie = AVMovie( ... )
+let mutableMovie = movie.mutableCopy() as! AVMutableMovie
+```
+
+Then add/replace the timecode track.
+
+```swift
 // replace existing timecode track if it exists, otherwise add a new timecode track
-try movie.replaceTimecodeTrack(
-    startTimecode: Timecode(TCC(h: 0, m: 59, s: 58, f: 00), at: ._29_97),
-    duration: Timecode(TCC(h: 1), at: ._29_97),
+try mutableMovie.replaceTimecodeTrack(
+    startTimecode: Timecode(.components(h: 0, m: 59, s: 58, f: 00), at: ._29_97),
     fileType: .mov
 )
+```
+
+Finally, the new file can be saved back to disk using `AVAssetExportSession`. There are other ways of course but this is the vanilla method.
+
+```swift
+let export = AVAssetExportSession(
+    asset: mutableMovie,
+    presetName: AVAssetExportPresetPassthrough
+)
+export.outputFileType = .mov
+export.outputURL = // new file URL on disk
+export.exportAsynchronously {
+    // completion handler
+}
 ```
 
 ## References
