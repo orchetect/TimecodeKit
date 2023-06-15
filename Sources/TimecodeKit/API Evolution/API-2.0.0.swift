@@ -4,6 +4,8 @@
 //  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
+#if ENABLE_API_DEPRECATIONS
+
 import Foundation
 
 // MARK: API Changes in TimecodeKit 2.0.0
@@ -1166,5 +1168,7 @@ extension CMTime {
         return try timecodeInterval(using: properties)
     }
 }
+
+#endif
 
 #endif
