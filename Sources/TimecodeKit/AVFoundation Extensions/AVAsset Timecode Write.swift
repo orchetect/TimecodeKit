@@ -17,10 +17,11 @@ import AVFoundation
 extension AVMutableMovie {
     /// Add a timecode track containing one sample (start timecode).
     /// Existing timecode track(s) are left unaltered.
+    /// If `duration` is omitted, the video's duration will be used.
     @discardableResult
     public func addTimecodeTrack(
         startTimecode: Timecode,
-        duration: Timecode,
+        duration: Timecode? = nil,
         extensions: CMFormatDescription.Extensions? = nil,
         fileType outputFileType: AVFileType
     ) throws -> AVAssetTrack {
@@ -30,7 +31,7 @@ extension AVMutableMovie {
         // of a timecode track.
         let newAsset = try AVMutableMovie(
             timecodeTrackStart: startTimecode,
-            duration: duration,
+            duration: duration ?? (try durationTimecode()),
             extensions: extensions,
             fileType: outputFileType
         )
@@ -63,10 +64,11 @@ extension AVMutableMovie {
     /// Removes timecode track(s) if any exist, and adds a new timecode track containing one sample
     /// (start timecode)
     /// The frame rate is derived from the `timecode` supplied.
+    /// If `duration` is omitted, the video's duration will be used.
     @discardableResult
     public func replaceTimecodeTrack(
         startTimecode: Timecode,
-        duration: Timecode,
+        duration: Timecode? = nil,
         extensions: CMFormatDescription.Extensions? = nil,
         fileType outputFileType: AVFileType
     ) throws -> AVAssetTrack {
@@ -76,7 +78,7 @@ extension AVMutableMovie {
         
         return try addTimecodeTrack(
             startTimecode: startTimecode,
-            duration: duration,
+            duration: duration ?? (try durationTimecode()),
             extensions: extensions,
             fileType: outputFileType
         )
