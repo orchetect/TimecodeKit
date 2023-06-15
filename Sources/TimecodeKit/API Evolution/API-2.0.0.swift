@@ -35,6 +35,98 @@ extension Timecode {
     }
 }
 
+// MARK: - Math
+
+extension Timecode {
+    // MARK: Add
+    
+    @available(*, deprecated, message: "Renamed to add(_:, by: .clamping)")
+    public mutating func add(clamping values: Components) {
+        add(values, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to add(_:, by: .wrapping)")
+    public mutating func add(wrapping values: Components) {
+        add(values, by: .wrapping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to adding(_:, by: .clamping)")
+    public func adding(clamping values: Components) -> Timecode {
+        adding(values, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to adding(_:, by: .wrapping)")
+    public func adding(wrapping values: Components) -> Timecode {
+        adding(values, by: .wrapping)
+    }
+    
+    // MARK: Subtract
+    
+    @available(*, deprecated, message: "Renamed to subtract(_:, by: .clamping)")
+    public mutating func subtract(clamping values: Components) {
+        subtract(values, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to subtract(_:, by: .wrapping)")
+    public mutating func subtract(wrapping values: Components) {
+        subtract(values, by: .wrapping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to subtracting(_:, by: .clamping)")
+    public func subtracting(clamping values: Components) -> Timecode {
+        subtracting(values, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to subtracting(_:, by: .wrapping)")
+    public func subtracting(wrapping values: Components) -> Timecode {
+        subtracting(values, by: .wrapping)
+    }
+    
+    // MARK: Multiply
+    
+    @available(*, deprecated, message: "Renamed to multiply(_:, by: .clamping)")
+    public mutating func multiply(clamping value: Double) {
+        multiply(value, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to multiply(_:, by: .wrapping)")
+    public mutating func multiply(wrapping value: Double) {
+        multiply(value, by: .wrapping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to multiplying(_:, by: .clamping)")
+    public func multiplying(clamping value: Double) -> Timecode {
+        multiplying(value, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to multiplying(_:, by: .wrapping)")
+    public func multiplying(wrapping value: Double) -> Timecode {
+        multiplying(value, by: .wrapping)
+    }
+    
+    // MARK: Divide
+    
+    @available(*, deprecated, message: "Renamed to divide(_:, by: .clamping)")
+    public mutating func divide(clamping value: Double) {
+        divide(value, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to divide(_:, by: .wrapping)")
+    public mutating func divide(wrapping value: Double) {
+        divide(value, by: .wrapping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to dividing(_:, by: .clamping)")
+    public func dividing(clamping value: Double) -> Timecode {
+        dividing(value, by: .clamping)
+    }
+    
+    @available(*, deprecated, message: "Renamed to dividing(_:, by: .wrapping)")
+    public func dividing(wrapping value: Double) -> Timecode {
+        dividing(value, by: .wrapping)
+    }
+}
+
 // MARK: - AVAsset
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
