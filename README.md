@@ -121,6 +121,7 @@ Standard source value types:
 
 // timecode component values
 .components(h: 01, m: 00, s: 00, f: 00)
+.components(d: 00, h: 01, m: 00, s: 00, f: 00, sf: 00) // days and subframes allowed
 
 // frame number (total elapsed frames)
 .frames(40000) // whole frames
