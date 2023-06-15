@@ -49,7 +49,7 @@ The following video frame rates are supported. These are actual video rates.
 - Conforms to `Codable`
 - A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
 - A SwiftUI `Text` object showing invalid timecode components using alternate attributes (such as red text color)
-- `AVAsset` video file utilities to easily read/write timecode and locate `AVPlayer` to timecode locations
+- `AVAsset` video file utilities to easily read/write timecode tracks and locate `AVPlayer` to timecode locations
 - Exhaustive unit tests ensuring accuracy
 
 ## Installation
@@ -105,6 +105,7 @@ Note: This documentation does not cover every property and initializer available
   - [Timecode Intervals](#Timecode-Intervals)
   - [Timecode Transformer](#Timecode-Transformer)
   - [Feet+Frames](#Feet-Frames)
+  - [AVAsset Timecode Track Read/Write](#AVAsset-Timecode-Track-ReadWrite)
 
 ### Initialization
 
@@ -710,6 +711,49 @@ interval.flattened() // 23:00:00:00
 #### Feet+Frames
 
 `FeetAndFrames` is a type used to convert feet+frames. Initializers and properties on `Timecode` are also available.
+
+#### AVAsset Timecode Track Read/Write
+
+##### Read Timecode from QuickTime Movie
+
+Simple methods to read start timecode and duration from `AVAsset` and its subclasses (`AVMovie`) as well as `AVAssetTrack` are provided by TimecodeKit. The methods are throwing since timecode information is not guaranteed to be present inside movie files.
+
+```swift
+let asset = AVAsset( ... )
+
+// auto-detect frame rate if it's embedded in the file
+let frameRate = try asset.timecodeFrameRate() // ie: ._29_97
+
+// read start timecode, auto-detecting frame rate
+let startTimecode = try asset.startTimecode()
+// read start timecode, forcing a known frame rate
+let startTimecode = try asset.startTimecode(at: ._29_97)
+
+// read video duration expressed as timecode
+let durationTimecode = try asset.durationTimecode()
+// read video duration expressed as timecode, forcing a known frame rate
+let durationTimecode = try asset.durationTimecode(at: ._29_97)
+
+// read end timecode, auto-detecting frame rate
+let endTimecode = try asset.endTimecode()
+// read end timecode, forcing a known frame rate
+let endTimecode = try asset.endTimecode(at: ._29_97)
+```
+
+##### Add or Replace Timecode Track in a QuickTime Movie
+
+Currently timecode tracks can be modified on `AVMutableMovie`.
+
+```swift
+let movie = AVMutableMovie( ... )
+
+// replace existing timecode track if it exists, otherwise add a new timecode track
+try movie.replaceTimecodeTrack(
+    startTimecode: Timecode(TCC(h: 0, m: 59, s: 58, f: 00), at: ._29_97),
+    duration: Timecode(TCC(h: 1), at: ._29_97),
+    fileType: .mov
+)
+```
 
 ## References
 
