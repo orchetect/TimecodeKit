@@ -5,7 +5,7 @@
 //
 
 extension Timecode {
-    // MARK: - Add
+    // MARK: - Add Timecode
     
     /// Add a duration to the current timecode.
     ///
@@ -29,6 +29,90 @@ extension Timecode {
             by: validation
         )
     }
+    
+    // MARK: - Add Time Source Value
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: TimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: FormattedTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: RichTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedTimecodeSourceValue) throws {
+        let otherTC = Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedRichTimecodeSourceValue) throws {
+        let otherTC = Timecode(other)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: TimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other)
+        try add(otherTC, by: validation)
+    }
+    
+    // MARK: - Add Components
     
     /// Add a duration to the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
@@ -60,7 +144,9 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    // MARK: - Adding Timecode
+    
+    /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
     public func adding(_ other: Timecode) throws -> Timecode {
@@ -71,7 +157,7 @@ extension Timecode {
         )
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
     public func adding(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
@@ -83,7 +169,91 @@ extension Timecode {
         )
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    // MARK: - Adding Time Source Value
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: TimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: RichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try adding(otherTC, by: validation)
+    }
+    
+    // MARK: - Adding Components
+    
+    /// Add a duration to the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
@@ -93,7 +263,7 @@ extension Timecode {
         return newTimecode
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    /// Add a duration to the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func adding(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
@@ -156,7 +326,7 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
     public func subtracting(_ other: Timecode) throws -> Timecode {
@@ -167,7 +337,7 @@ extension Timecode {
         )
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
     public func subtracting(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
@@ -179,7 +349,7 @@ extension Timecode {
         )
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    /// Subtract a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func subtracting(_ source: Components) throws -> Timecode {
         var newTimecode = self
@@ -187,7 +357,7 @@ extension Timecode {
         return newTimecode
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    /// Subtract a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func subtracting(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
@@ -225,7 +395,7 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
+    /// Multiply a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
@@ -235,7 +405,7 @@ extension Timecode {
         return newTimecode
     }
     
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
+    /// Multiply a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func multiplying(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
