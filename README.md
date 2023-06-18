@@ -46,7 +46,6 @@ The following video frame rates are supported. (Video rates)
   - elapsed audio samples at given audio sample-rate
   - rational time notation (such as `CMTime` or Final Cut Pro XML and AAF encoding)
   - feet + frames
-
 - Convert timecode and/or frame rate to a rational fraction, and vice-versa (including `CMTime`)
 - Support for Subframes
 - Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
@@ -64,20 +63,15 @@ The following video frame rates are supported. (Video rates)
 ### Swift Package Manager (SPM)
 
 1. Add TimecodeKit as a dependency using Swift Package Manager.
-
    - In an app project or framework, in Xcode:
-
      - Select the menu: **File → Swift Packages → Add Package Dependency...**
      - Enter this URL: `https://github.com/orchetect/TimecodeKit`
-
    - In a Swift Package, add it to the Package.swift dependencies:
 
      ```swift
      .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.0.0")
      ```
-
 2. Import the library:
-
    ```swift
    import TimecodeKit
    ```
@@ -443,7 +437,7 @@ The invalid formatting attributes defaults to applying `[.foregroundColor: NSCol
 
 ```swift
 // set up formatter
-let tcFormatter = Timecode.TextFormatter(
+let formatter = Timecode.TextFormatter(
     using: .init(
         rate: ._23_976,
         base: ._80SubFrames,
@@ -456,7 +450,7 @@ let tcFormatter = Timecode.TextFormatter(
 
 // assign formatter to a TextField UI object, for example
 let textField = NSTextField()
-textField.formatter = tcFormatter
+textField.formatter = formatter
 ```
 
 ### Advanced
@@ -731,7 +725,7 @@ However, to meet the demand of some timecode calculations (such as offset transf
 let tc = try Timecode(.components(h: 1), at: ._24)
 let interval = TimecodeInterval(tc, .negative)
 
-// construct with Timecode method:
+// construct with Timecode instance method:
 let tc = try Timecode(.components(h: 1), at: ._24)
 let interval = tc.interval(.negative)
 
