@@ -32,6 +32,11 @@ extension TimecodeSourceValue {
     public static func rational(_ source: Fraction) -> Self {
         .init(value: source)
     }
+    
+    /// Numerical fraction containing a numerator and a denominator.
+    public static func rational(_ numerator: Int, _ denominator: Int) -> Self {
+        .init(value: Fraction(numerator, denominator))
+    }
 }
 
 // MARK: - Get
