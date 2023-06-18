@@ -535,9 +535,9 @@ extension Timecode {
         return newTimecode
     }
     
-    // MARK: - Multiply
+    // MARK: - Multiply Double
     
-    /// Multiply the current timecode by an amount.
+    /// Multiply the current timecode by floating-point number.
     ///
     /// - Throws: ``ValidationError``
     public mutating func multiply(_ exactly: Double) throws {
@@ -547,7 +547,7 @@ extension Timecode {
         try _setTimecode(exactly: newTC)
     }
     
-    /// Multiply the current timecode by an amount.
+    /// Multiply the current timecode by floating-point number.
     public mutating func multiply(_ source: Double, by validation: ValidationRule) {
         let newTC: Timecode.Components
         
@@ -565,7 +565,7 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
-    /// Multiply a duration from the current timecode and return a new instance.
+    /// Multiply the current timecode by floating-point number and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
@@ -575,7 +575,7 @@ extension Timecode {
         return newTimecode
     }
     
-    /// Multiply a duration from the current timecode and return a new instance.
+    /// Multiply the current timecode by floating-point number and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public func multiplying(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
@@ -583,9 +583,9 @@ extension Timecode {
         return newTimecode
     }
     
-    // MARK: - Divide
+    // MARK: - Divide Double
     
-    /// Divide the current timecode by a duration.
+    /// Divide the current timecode by floating-point number.
     ///
     /// - Throws: ``ValidationError``
     public mutating func divide(_ exactly: Double) throws {
@@ -595,7 +595,7 @@ extension Timecode {
         try _setTimecode(exactly: newTC)
     }
     
-    /// Divide the current timecode by a duration.
+    /// Divide the current timecode by floating-point number.
     public mutating func divide(_ source: Double, by validation: ValidationRule) {
         let newTC: Timecode.Components
         
@@ -613,8 +613,11 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+    // MARK: - Dividing Double -> Timecode
+    
+    /// Divide the current timecode by floating-point number and return a new instance.
+    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000)
+    /// or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
     public func dividing(_ source: Double) throws -> Timecode {
@@ -623,12 +626,39 @@ extension Timecode {
         return newTimecode
     }
     
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+    /// Divide the current timecode by floating-point number and return a new instance.
+    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000)
+    /// or (0,0,500,0)
     public func dividing(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
         newTimecode.divide(source, by: validation)
         return newTimecode
+    }
+    
+    // MARK: - Dividing Timecode -> Double
+    
+    /// Divide the current timecode by floating-point number and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public func dividing(_ other: Timecode) throws -> Double {
+        try dividing(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    // MARK: - Dividing Components
+    
+    /// Divide the current timecode by a duration and return a new instance.
+    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+    ///
+    /// - Throws: ``ValidationError``
+    public func dividing(_ source: Components) throws -> Double {
+        guard let dbl = _divide(exactly: source, into: components)
+        else { throw ValidationError.outOfBounds }
+        
+        return dbl
     }
     
     // MARK: - Offset / TimecodeInterval

@@ -291,9 +291,9 @@ extension Timecode {
         )
     }
     
-    // MARK: - Multiply
+    // MARK: - Multiply Double
     
-    /// Utility function to multiply a base timecode by a duration.
+    /// Utility function to multiply a base timecode by a float.
     /// Returns `nil` if it overflows possible timecode values.
     internal func _multiply(
         exactly factor: Double,
@@ -321,7 +321,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to multiply a base timecode by a duration.
+    /// Utility function to multiply a base timecode by a float.
     /// Clamps to maximum timecode expressible.
     internal func _multiply(
         clamping factor: Double,
@@ -348,7 +348,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to multiply a base timecode by a duration.
+    /// Utility function to multiply a base timecode by a float.
     /// Wraps around the clock as set by the `upperLimit` property.
     internal func _multiply(
         wrapping factor: Double,
@@ -389,7 +389,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to multiply a base timecode by a duration.
+    /// Utility function to multiply a base timecode by a float.
     /// Invalid values are retained without validation.
     internal func _multiply(
         rawValues factor: Double,
@@ -414,9 +414,9 @@ extension Timecode {
         )
     }
     
-    // MARK: - Divide
+    // MARK: - Divide Double
     
-    /// Utility function to divide a base timecode by a duration.
+    /// Utility function to divide a base timecode by a float.
     /// Returns `nil` if it overflows possible timecode values.
     internal func _divide(
         exactly divisor: Double,
@@ -444,7 +444,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to divide a base timecode by a duration.
+    /// Utility function to divide a base timecode by a float.
     /// Clamps to valid timecode between 0 and `upperLimit`.
     internal func _divide(
         clamping divisor: Double,
@@ -471,7 +471,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to divide a base timecode by a duration.
+    /// Utility function to divide a base timecode by a float.
     /// Wraps around the clock as set by the `upperLimit` property.
     internal func _divide(
         wrapping divisor: Double,
@@ -512,7 +512,7 @@ extension Timecode {
         )
     }
     
-    /// Utility function to divide a base timecode by a duration.
+    /// Utility function to divide a base timecode by a float.
     /// Invalid values are retained without validation.
     internal func _divide(
         rawValues divisor: Double,
@@ -535,6 +535,34 @@ extension Timecode {
             of: fcNew,
             at: frameRate
         )
+    }
+    
+    // MARK: - Divide Components
+    
+    /// Utility function to divide a base timecode by a duration.
+    /// Returns `nil` if it overflows possible timecode values.
+    internal func _divide(
+        exactly divisor: Components,
+        into: Components
+    ) -> Double? {
+        let fcDivisor = Self.frameCount(
+            of: divisor,
+            at: frameRate,
+            base: subFramesBase
+        )
+        
+        let fcOrigin = Self.frameCount(
+            of: into,
+            at: frameRate,
+            base: subFramesBase
+        )
+        
+        let sfcNew = Double(fcOrigin.subFrameCount) / Double(fcDivisor.subFrameCount)
+        
+        if sfcNew < 0.0 { return nil }
+        if sfcNew > Double(maxSubFrameCountExpressible) { return nil }
+        
+        return sfcNew
     }
     
     // MARK: - Offset / TimecodeInterval
