@@ -32,6 +32,21 @@ extension TimecodeSourceValue {
     public static func feetAndFrames(_ source: FeetAndFrames) -> Self {
         .init(value: source)
     }
+    
+    /// Feet and Frames time value.
+    public static func feetAndFrames(
+        feet: Int,
+        frames: Int,
+        subFrames: Int = 0,
+        subFramesBase: Timecode.SubFramesBase = .default()
+    ) -> Self {
+        .init(value: FeetAndFrames(
+            feet: feet,
+            frames: frames,
+            subFrames: subFrames,
+            subFramesBase: subFramesBase
+        ))
+    }
 }
 
 // MARK: - Get
