@@ -7,7 +7,7 @@
 // MARK: - Math operators: Self, Self
 
 extension Timecode {
-    /// a.k.a. `lhs.adding(wrapping: rhs)`
+    /// a.k.a. `lhs.adding(rhs, by: wrapping)`
     public static func + (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
             return lhs.adding(rhs.components, by: .wrapping)
@@ -23,7 +23,7 @@ extension Timecode {
         }
     }
     
-    /// a.k.a. `lhs.add(wrapping: rhs)`
+    /// a.k.a. `lhs.add(rhs, by: wrapping)`
     public static func += (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
             lhs.add(rhs.components, by: .wrapping)
@@ -39,7 +39,7 @@ extension Timecode {
         }
     }
     
-    /// a.k.a. `lhs.subtracting(wrapping: rhs)`
+    /// a.k.a. `lhs.subtracting(rhs, by: wrapping)`
     public static func - (lhs: Self, rhs: Self) -> Timecode {
         if lhs.frameRate == rhs.frameRate {
             return lhs.subtracting(rhs.components, by: .wrapping)
@@ -55,7 +55,7 @@ extension Timecode {
         }
     }
     
-    /// a.k.a. `lhs.subtract(wrapping: rhs)`
+    /// a.k.a. `lhs.subtract(rhs, by: wrapping)`
     public static func -= (lhs: inout Self, rhs: Self) {
         if lhs.frameRate == rhs.frameRate {
             lhs.subtract(rhs.components, by: .wrapping)
@@ -75,22 +75,22 @@ extension Timecode {
 // MARK: - Math operators: Self, BinaryInteger
 
 extension Timecode {
-    /// a.k.a. `lhs.multiplying(wrapping: rhs)`
+    /// a.k.a. `lhs.multiplying(rhs, by: wrapping)`
     public static func * <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
         lhs.multiplying(Double(rhs), by: .wrapping)
     }
     
-    /// a.k.a. `lhs.multiply(wrapping: rhs)`
+    /// a.k.a. `lhs.multiply(rhs, by: wrapping)`
     public static func *= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
         lhs.multiply(Double(rhs), by: .wrapping)
     }
     
-    /// a.k.a. `lhs.dividing(wrapping: rhs)`
+    /// a.k.a. `lhs.dividing(rhs, by: wrapping)`
     public static func / <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
         lhs.dividing(Double(rhs), by: .wrapping)
     }
     
-    /// a.k.a. `lhs.divide(wrapping: rhs)`
+    /// a.k.a. `lhs.divide(rhs, by: wrapping)`
     public static func /= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
         lhs.divide(Double(rhs), by: .wrapping)
     }
@@ -99,22 +99,22 @@ extension Timecode {
 // MARK: - Math operators: Self, Double
 
 extension Timecode {
-    /// a.k.a. `lhs.multiplying(wrapping: rhs)`
+    /// a.k.a. `lhs.multiplying(rhs, by: wrapping)`
     public static func * (lhs: Self, rhs: Double) -> Self {
         lhs.multiplying(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.multiply(wrapping: rhs)`
+    /// a.k.a. `lhs.multiply(rhs, by: wrapping)`
     public static func *= (lhs: inout Self, rhs: Double) {
         lhs.multiply(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.dividing(wrapping: rhs)`
+    /// a.k.a. `lhs.dividing(rhs, by: wrapping)`
     public static func / (lhs: Self, rhs: Double) -> Self {
         lhs.dividing(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.divide(wrapping: rhs)`
+    /// a.k.a. `lhs.divide(rhs, by: wrapping)`
     public static func /= (lhs: inout Self, rhs: Double) {
         lhs.divide(rhs, by: .wrapping)
     }

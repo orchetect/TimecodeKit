@@ -35,6 +35,7 @@ extension Timecode {
 }
 
 extension Timecode {
+    /// - Throws: ``ValidationError``
     internal mutating func set(_ source: TimecodeSource) throws {
         try source.set(timecode: &self)
     }
@@ -43,6 +44,7 @@ extension Timecode {
         source.set(timecode: &self, by: validation)
     }
     
+    /// - Throws: ``ValidationError``
     internal func setting(_ value: TimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(value)
@@ -85,6 +87,7 @@ extension Timecode {
 }
 
 extension Timecode {
+    /// - Throws: ``ValidationError``
     internal mutating func set(_ source: FormattedTimecodeSource) throws {
         try source.set(timecode: &self)
     }
@@ -93,6 +96,7 @@ extension Timecode {
         try source.set(timecode: &self, by: validation)
     }
     
+    /// - Throws: ``ValidationError``
     internal func setting(_ source: FormattedTimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(source)
@@ -129,12 +133,14 @@ extension Timecode {
 }
 
 extension Timecode {
+    /// - Throws: ``ValidationError``
     public mutating func set(
         _ source: RichTimecodeSource
     ) throws {
         self.properties = try source.set(timecode: &self)
     }
     
+    /// - Throws: ``ValidationError``
     public func setting(
         _ source: RichTimecodeSource
     ) throws -> Timecode {
