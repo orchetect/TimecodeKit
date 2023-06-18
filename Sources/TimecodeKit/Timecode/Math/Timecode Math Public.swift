@@ -8,6 +8,29 @@ extension Timecode {
     // MARK: - Add
     
     /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: Timecode) throws {
+        try add(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: Timecode, by validation: ValidationRule) throws {
+        try add(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    /// Add a duration to the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
@@ -38,6 +61,29 @@ extension Timecode {
     }
     
     /// Add a duration to the current timecode and return a new instance with the new timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public func adding(_ other: Timecode) throws -> Timecode {
+        try adding(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public func adding(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
+        try adding(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    /// Add a duration to the current timecode and return a new instance with the new timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
@@ -56,6 +102,29 @@ extension Timecode {
     }
     
     // MARK: - Subtract
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: Timecode) throws {
+        try subtract(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: Timecode, by validation: ValidationRule) throws {
+        try subtract(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
     
     /// Subtract a duration from the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
@@ -85,6 +154,29 @@ extension Timecode {
         }
         
         _setTimecode(rawValues: newTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public func subtracting(_ other: Timecode) throws -> Timecode {
+        try subtracting(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public func subtracting(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
+        try subtracting(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
     }
     
     /// Subtract a duration from the current timecode and return a new instance with the new timecode.

@@ -9,65 +9,49 @@
 extension Timecode {
     /// a.k.a. `lhs.adding(rhs, by: wrapping)`
     public static func + (lhs: Self, rhs: Self) -> Timecode {
-        if lhs.frameRate == rhs.frameRate {
-            return lhs.adding(rhs.components, by: .wrapping)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return lhs
-            }
-            
-            return lhs.adding(rhsConverted.components, by: .wrapping)
+        do {
+            return try lhs.adding(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return lhs
         }
     }
     
     /// a.k.a. `lhs.add(rhs, by: wrapping)`
     public static func += (lhs: inout Self, rhs: Self) {
-        if lhs.frameRate == rhs.frameRate {
-            lhs.add(rhs.components, by: .wrapping)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return
-            }
-            
-            return lhs.add(rhsConverted.components, by: .wrapping)
+        do {
+            try lhs.add(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return
         }
     }
     
     /// a.k.a. `lhs.subtracting(rhs, by: wrapping)`
     public static func - (lhs: Self, rhs: Self) -> Timecode {
-        if lhs.frameRate == rhs.frameRate {
-            return lhs.subtracting(rhs.components, by: .wrapping)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return lhs
-            }
-            
-            return lhs.subtracting(rhsConverted.components, by: .wrapping)
+        do {
+            return try lhs.subtracting(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return lhs
         }
     }
     
     /// a.k.a. `lhs.subtract(rhs, by: wrapping)`
     public static func -= (lhs: inout Self, rhs: Self) {
-        if lhs.frameRate == rhs.frameRate {
-            lhs.subtract(rhs.components, by: .wrapping)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return
-            }
-            
-            return lhs.subtract(rhsConverted.components, by: .wrapping)
+        do {
+            try lhs.subtract(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return
         }
     }
 }
