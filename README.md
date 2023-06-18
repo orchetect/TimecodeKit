@@ -2,17 +2,17 @@
 
 # TimecodeKit
 
-[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.7](https://img.shields.io/badge/Swift-5.5–5.7-orange.svg?style=flat) [![Xcode 13-14](https://img.shields.io/badge/Xcode-13–14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.9](https://img.shields.io/badge/Swift-5.5–5.9-orange.svg?style=flat) [![Xcode 13-15](https://img.shields.io/badge/Xcode-13–15-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 22 industry timecode frame rates, including conversions to/from timecode strings and offering timecode-based calculations.
+The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 22 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
-Timecode is a standard for representing video frames and used for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/NLE applications.
+Timecode is a broadcast and post-production standard for addressing video frames. It is used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
 
-> **Note:** See the TimecodeKit 1.x → 2.x [Migration Guide](TimecodeKit-2-Migration-Guide.md) if you are a previous user of TimecodeKit 1.x.
+> **Note**: See the TimecodeKit 1.x → 2.x [Migration Guide](TimecodeKit-2-Migration-Guide.md) if you are a previous user of TimecodeKit 1.x.
 
 ## Supported Timecode Frame Rates
 
-The following timecode frame rates are supported. These are display rates.
+The following timecode rates and formats are supported.
 
 | Film / ATSC / HD | PAL / SECAM / DVB / ATSC | NTSC / ATSC / PAL-M | NTSC Non-Standard | ATSC |
 | ---------------- | ------------------------ | ------------------- | ----------------- | ---- |
@@ -26,7 +26,7 @@ The following timecode frame rates are supported. These are display rates.
 
 ## Supported Video Frame Rates
 
-The following video frame rates are supported. These are actual video rates.
+The following video frame rates are supported. (Video rates)
 
 | Film / HD | PAL       | NTSC            |
 | --------- | --------- | --------------- |
@@ -39,13 +39,18 @@ The following video frame rates are supported. These are actual video rates.
 
 ## Core Features
 
-- Convert timecode values to timecode display string, and vice-versa
-- Convert timecode values to real wall-clock time, and vice-versa
-- Convert timecode to # of samples at any audio sample-rate, and vice-versa
+- Convert timecode between:
+  - timecode display string
+  - total elapsed frame count
+  - real wall-clock time
+  - elapsed audio samples at given audio sample-rate
+  - rational time notation (such as `CMTime` or Final Cut Pro XML and AAF encoding)
+  - feet + frames
+
 - Convert timecode and/or frame rate to a rational fraction, and vice-versa (including `CMTime`)
 - Support for Subframes
 - Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
-- Common math operations between timecodes: add, subtract, multiply, divide
+- Math operations: add, subtract, multiply, divide
 - Granular timecode validation
 - Form a `Range` or `Stride` between two timecodes
 - Conforms to `Codable`
@@ -257,35 +262,60 @@ try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._29_97_drop)
 
 ### Math
 
-Using operators (which use wrapping validation internally if the result underflows or overflows timecode bounds):
+Math operations are possible by either methods or operators.
+
+Addition and subtraction may be performed using two timecode operands to produce a timecode result.
+
+- `Timecode` + `Timecode` = `Timecode`
+- `Timecode` - `Timecode` = `Timecode`
+
+Multiplication and division may be performed using one timecode operand and one floating-point number operand. This forms a calculation of timecode (position or duration) against a number of iterations or subdivisions.
+
+Multiplying timecode against timecode in order to produce a timecode result is not possible since it is ambiguous and considered undefined behavior.
+
+- `Timecode` * `Double` = `Timecode`
+- `Timecode` * `Timecode` is undefined and therefore not implemented
+- `Timecode` / `Double` = `Timecode`
+- `Timecode` / `Timecode` = `Double`
+
+#### Arithmetic Methods
+
+Arithmetic methods follow the same behavior as `Timecode` initializers whereby the operation can be completed either using validation with a throwing call, or by using validation rules to constrain the result such as `clamping` or `wrapping`.
+
+The right-hand operand may be a `Timecode` instance, a `Timecode.Components` instance, or a time source value.
+
+- `add()` / `adding()`
+- `subtract()` / `subtracting()`
+- `multiply()` / `multiplying()`
+- `divide()` / `dividing()`
+
+```swift
+var tc1 = try "01:00:00:00".timecode(at: ._23_976)
+var tc2 = try "00:00:02:00".timecode(at: ._23_976)
+
+// in-place mutation
+try tc1.add(tc2)
+try tc1.add(tc2, by: wrapping) // using result validation rule
+
+// return a new instance
+let tc3 = try tc1.adding(tc2)
+let tc3 = try tc1.adding(tc2, by: wrapping) // using result validation rule
+```
+
+#### Arithmetic Operators
+
+Arithmetic operators are provided for convenience. These operators employ the `wrapping` validation rule in the event of underflows or overflows.
 
 ```swift
 let tc1 = try "01:00:00:00".timecode(at: ._23_976)
-let tc2 = try "00:00:02:00".timecode(at: ._23_976)
+let tc2 = try "00:02:00:00".timecode(at: ._23_976)
 
-(tc1 + tc2).stringValue() // == "01:00:02:00"
-(tc1 - tc2).stringValue() // == "00:00:58:00"
+(tc1 + tc2).stringValue() // == "01:02:00:00"
+(tc1 - tc2).stringValue() // == "00:58:00:00"
 (tc1 * 2.0).stringValue() // == "02:00:00:00"
 (tc1 / 2.0).stringValue() // == "00:30:00:00"
+tc1 / tc2 // == 30.0
 ```
-
-Methods also exist to achieve the same results.
-
-Mutating methods:
-
-- `add()`
-- `subtract()`
-- `multiply()`
-- `divide()`
-- `offset()`
-
-Non-mutating methods that produce a new `Timecode` instance:
-
-- `adding()`
-- `subtracting()`
-- `multiplying()`
-- `dividing()`
-- `offsetting()`
 
 ### Conversions
 
