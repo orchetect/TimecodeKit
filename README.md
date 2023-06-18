@@ -8,6 +8,8 @@ The most robust, precise and complete Swift library for working with SMPTE timec
 
 Timecode is a standard for representing video frames and used for video burn-in timecode (BITC), or display in a DAW (Digital Audio Workstation) or video playback/NLE applications.
 
+> **Note:** See the TimecodeKit 1.x → 2.x [Migration Guide](TimecodeKit-2-Migration-Guide.md) if you are a previous user of TimecodeKit 1.x.
+
 ## Supported Timecode Frame Rates
 
 The following timecode frame rates are supported. These are display rates.
@@ -109,11 +111,11 @@ Note: This documentation does not cover every property and initializer available
 
 ### Initialization
 
-TimecodeKit is designed to work with Xcode's autocomplete fluidly. Beginning a `Timecode` initializer with a period will produce a list of all available source value types.
+TimecodeKit is designed to work with Xcode's autocomplete fluidly. Beginning a `Timecode` initializer with a period will produce a list of all available source time value types.
 
 ![Timecode init](Images/timecode-init.png)
 
-Standard source value types:
+Timecode can be formed by providing discrete values.
 
 ```swift
 // zero timecode (00:00:00:00)
@@ -122,12 +124,18 @@ Standard source value types:
 // timecode component values
 .components(h: 01, m: 00, s: 00, f: 00)
 .components(d: 00, h: 01, m: 00, s: 00, f: 00, sf: 00) // days and subframes allowed
+.components(Timecode.Components(h: 1)) // also accepts struct instance
+```
 
+Timecode can be formed by converting from a variety of common time values.
+
+```swift
 // frame number (total elapsed frames)
-.frames(40000) // whole frames
-.frames(40000, subFrames: 20) // whole frames + subframes
-.frames(40000.25) // Double whole frames + float subframes
-.frames(40000, subFramesUnitInterval: 0.25) // whole frames + float subframes
+.frames(10000) // whole frames
+.frames(10000, subFrames: 20) // whole frames + subframes
+.frames(10000.25) // (Double) whole frames + float subframes
+.frames(10000, subFramesUnitInterval: 0.25) // whole frames + float subframes
+.frames(Timecode.FrameCount(...)) // also accepts struct instance
 
 // timecode string
 .string("01:00:00:00")
@@ -138,11 +146,7 @@ Standard source value types:
 
 // elapsed audio samples at a given sample rate in Hz
 .samples(123456789, sampleRate: 48000)
-```
 
-Extended source value types:
-
-```swift
 // AVFoundation AVAsset: read .start, .end or .duration timecode of a movie
 .avAsset(AVAsset(...), .start)
 
@@ -150,10 +154,12 @@ Extended source value types:
 .cmTime(CMTime(value: 1920919, timescale: 30000))
 
 // rational time fraction (ie: Final Cut Pro XML, or AAF)
-.rational(Fraction(1920919, 30000))
+.rational(1920919, 30000)
+.rational(Fraction(1920919, 30000)) // also accepts struct instance
 
 // legacy Feet+Frames designation
-.feetAndFrames(FeetAndFrames(feet: 60, frames: 10))
+.feetAndFrames(feet: 60, frames: 10)
+.feetAndFrames(FeetAndFrames(feet: 60, frames: 10)) // also accepts struct instance
 ```
 
 The frame rate must also be supplied. This can be done easily with the `at:` overload.
