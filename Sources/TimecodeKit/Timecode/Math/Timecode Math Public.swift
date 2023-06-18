@@ -271,7 +271,7 @@ extension Timecode {
         return newTimecode
     }
     
-    // MARK: - Subtract
+    // MARK: - Subtract Timecode
     
     /// Subtract a duration from the current timecode.
     ///
@@ -295,6 +295,90 @@ extension Timecode {
             by: validation
         )
     }
+    
+    // MARK: - Subtract Time Source Value
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: TimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: FormattedTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: RichTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedTimecodeSourceValue) throws {
+        let otherTC = Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedRichTimecodeSourceValue) throws {
+        let otherTC = Timecode(other)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: TimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other)
+        try subtract(otherTC, by: validation)
+    }
+    
+    // MARK: - Subtract Components
     
     /// Subtract a duration from the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
@@ -326,6 +410,8 @@ extension Timecode {
         _setTimecode(rawValues: newTC)
     }
     
+    // MARK: - Subtracting Timecode
+    
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
@@ -348,6 +434,90 @@ extension Timecode {
             by: validation
         )
     }
+    
+    // MARK: - Subtracting Time Source Value
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: TimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: RichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    // MARK: - Subtracting Components
     
     /// Subtract a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)

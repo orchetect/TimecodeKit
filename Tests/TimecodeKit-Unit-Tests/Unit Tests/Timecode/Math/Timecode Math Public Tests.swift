@@ -289,6 +289,64 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 99))
     }
     
+    func testSubtractTimecodeSourceValue() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: ._23_976,
+            limit: ._24hours
+        )
+        
+        try tc.subtract(.components(f: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        try tc.subtract(.string("00:00:00:01"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testSubtractTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: ._23_976,
+            limit: ._24hours
+        )
+        
+        try tc.subtract(.components(h: 6), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        try tc.subtract(.string("06:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractingTimecodeSourceValue() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: ._23_976,
+            limit: ._24hours
+        )
+        
+        tc = try tc.subtracting(.components(f: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        tc = try tc.subtracting(.string("00:00:00:01"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testSubtractingTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: ._23_976,
+            limit: ._24hours
+        )
+        
+        tc = try tc.subtracting(.components(h: 06), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        tc = try tc.subtracting(.string("06:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
     func testAdd_and_Subtract_Components_Methods() throws {
         // .add / .subtract methods
         
