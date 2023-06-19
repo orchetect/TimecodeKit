@@ -109,6 +109,22 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let frameRate = try asset.videoFrameRate()
         XCTAssertEqual(frameRate, ._29_97p)
     }
+    
+    // MARK: - VideoFrameRate (VFR)
+    
+    func testVideoFrameRate_25p_VFR_A() throws {
+        let url = try TestResource.videoTrack_25_VFR_1sec.url()
+        let asset = AVAsset(url: url)
+        let frameRate = try asset.videoFrameRate()
+        XCTAssertEqual(frameRate, ._25p)
+    }
+    
+    func testVideoFrameRate_25p_VFR_B() throws {
+        let url = try TestResource.videoTrack_25_VFR_2sec.url()
+        let asset = AVAsset(url: url)
+        let frameRate = try asset.videoFrameRate()
+        XCTAssertEqual(frameRate, ._25p)
+    }
 }
 
 #endif

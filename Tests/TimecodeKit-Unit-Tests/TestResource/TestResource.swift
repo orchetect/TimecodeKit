@@ -27,6 +27,14 @@ enum TestResource: CaseIterable {
         name: "VideoAndTimecodeTrack_29_97i_Start-00-00-00-00", ext: "mov", subFolder: "Media Files"
     )
     
+    static let videoTrack_25_VFR_1sec = TestResource.File(
+        name: "VideoTrack_25_VFR_1sec", ext: "mov", subFolder: "Media Files"
+    )
+    
+    static let videoTrack_25_VFR_2sec = TestResource.File(
+        name: "VideoTrack_25_VFR_2sec", ext: "mov", subFolder: "Media Files"
+    )
+    
     static let videoTrack_29_97_Start_00_00_00_00 = TestResource.File(
         name: "VideoTrack_29_97_Start-00-00-00-00", ext: "mp4", subFolder: "Media Files"
     )
