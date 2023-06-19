@@ -24,6 +24,7 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         
         XCTAssertEqual(VideoFrameRate(fps: 25, strict: false), ._25p)
         XCTAssertEqual(VideoFrameRate(fps: 25, interlaced: true, strict: false), ._25i)
+        XCTAssertEqual(VideoFrameRate(fps: 24.997648, interlaced: false, strict: false), ._25p) // VFR-like
         
         XCTAssertEqual(VideoFrameRate(fps: 29, strict: false), nil)
         XCTAssertEqual(VideoFrameRate(fps: 29.9, strict: false), ._29_97p)
@@ -88,6 +89,7 @@ class VideoFrameRate_Conversions_Tests: XCTestCase {
         
         XCTAssertEqual(VideoFrameRate(fps: 25, strict: true), ._25p)
         XCTAssertEqual(VideoFrameRate(fps: 25, interlaced: true, strict: true), ._25i)
+        XCTAssertEqual(VideoFrameRate(fps: 24.997648, interlaced: false, strict: true), nil) // VFR-like
         
         XCTAssertEqual(VideoFrameRate(fps: 29, strict: true), nil)
         XCTAssertEqual(VideoFrameRate(fps: 29.9, strict: true), nil)

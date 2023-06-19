@@ -56,12 +56,24 @@ extension VideoFrameRate {
     ///   - interlaced: `true` for interlaced, `false` for progressive.
     ///   - strict: Enforces 3 decimal places of precision if `true` otherwise 1 decimal place.
     public init?(fps: Double, interlaced: Bool = false, strict: Bool = false) {
-        let findMatches = Self.allCases.filter {
-            $0.fps.truncated(decimalPlaces: strict ? 3 : 1)
-                == fps.truncated(decimalPlaces: strict ? 3 : 1)
+        let decimalPlaces = strict ? 3 : 1
+        
+        // first try truncating decimal places
+        let fpsTruncated = fps.truncated(decimalPlaces: decimalPlaces)
+        let truncMatches = Self.allCases.filter {
+            $0.fps.truncated(decimalPlaces: decimalPlaces) == fpsTruncated
+        }
+        if let firstMatch = truncMatches.first(where: { $0.isInterlaced == interlaced }) {
+            self = firstMatch
+            return
         }
         
-        if let firstMatch = findMatches.first(where: { $0.isInterlaced == interlaced }) {
+        // then try rounding decimal places to loosen up requirements
+        let fpsRounded = fps.rounded(decimalPlaces: decimalPlaces)
+        let roundMatches = Self.allCases.filter {
+            $0.fps.rounded(decimalPlaces: decimalPlaces) == fpsRounded
+        }
+        if let firstMatch = roundMatches.first(where: { $0.isInterlaced == interlaced }) {
             self = firstMatch
             return
         }

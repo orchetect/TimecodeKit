@@ -77,7 +77,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     
     /// Truncates decimal places to `decimalPlaces` number of decimal places.
     ///
-    /// If `decimalPlaces` <= 0, then `trunc(self)` is returned.
+    /// If `decimalPlaces <= 0`, then `trunc(self)` is returned.
     @_disfavoredOverload
     func truncated(decimalPlaces: Int) -> Self {
         if decimalPlaces < 1 {
