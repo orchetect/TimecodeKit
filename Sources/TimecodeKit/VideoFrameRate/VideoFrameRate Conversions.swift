@@ -196,7 +196,7 @@ extension VideoFrameRate {
 #endif
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
-#if canImport(AVFoundation) && !os(watchOS)
+#if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 import AVFoundation
 
 extension VideoFrameRate {

@@ -5,7 +5,7 @@
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
-#if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS)
+#if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
 import XCTest
 @testable import TimecodeKit
