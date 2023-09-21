@@ -91,7 +91,7 @@ public struct Timecode {
     /// Frame rate.
     ///
     /// - Note: Several properties are available on the frame rate that is selected, including its
-    /// ``stringValue`` representation or whether the rate ``TimecodeFrameRate/isDrop``.
+    /// ``stringValue(format:)`` representation or whether the rate ``TimecodeFrameRate/isDrop``.
     ///
     /// - Note: Setting this value directly does not trigger any validation.
     public var frameRate: TimecodeFrameRate {

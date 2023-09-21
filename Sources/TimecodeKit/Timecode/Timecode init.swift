@@ -157,7 +157,7 @@ extension Timecode {
 extension TimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
@@ -180,7 +180,7 @@ extension TimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         using properties: Timecode.Properties
     ) throws -> Timecode {
@@ -203,7 +203,7 @@ extension TimecodeSource {
 extension FormattedTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
@@ -215,7 +215,7 @@ extension FormattedTimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
@@ -228,7 +228,7 @@ extension FormattedTimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         using properties: Timecode.Properties
     ) throws -> Timecode {
@@ -238,7 +238,7 @@ extension FormattedTimecodeSource {
     
     /// Returns a new ``Timecode`` instance by converting a time source.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode(
         using properties: Timecode.Properties,
         by validation: Timecode.ValidationRule
@@ -253,7 +253,7 @@ extension FormattedTimecodeSource {
 extension RichTimecodeSource {
     /// Returns a new ``Timecode`` instance by converting a time source.
     ///
-    /// - Throws: ``ValidationError``
+    /// - Throws: ``Timecode/ValidationError``
     public func timecode() throws -> Timecode {
         let value = RichTimecodeSourceValue(value: self)
         return try Timecode(value)

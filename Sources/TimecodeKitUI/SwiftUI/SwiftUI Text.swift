@@ -13,7 +13,7 @@ import TimecodeKit
 extension Timecode {
     // MARK: textViewValidated
     
-    /// Returns ``stringValue(format:)`` as SwiftUI `Text`, highlighting invalid values.
+    /// Returns `stringValue(format:)` as SwiftUI `Text`, highlighting invalid values.
     ///
     /// `invalidModifiers` are the view modifiers applied to invalid values.
     /// If `invalidModifiers` are not passed, the default of red foreground color is used.

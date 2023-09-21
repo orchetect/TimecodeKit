@@ -12,7 +12,7 @@ extension Timecode {
         /// Frame rate.
         ///
         /// - Note: Several properties are available on the frame rate that is selected, including its
-        /// ``stringValue`` representation or whether the rate ``TimecodeFrameRate/isDrop``.
+        /// ``Timecode/stringValue(format:)`` representation or whether the rate ``TimecodeFrameRate/isDrop``.
         ///
         /// Setting this value directly does not trigger any validation.
         public var frameRate: TimecodeFrameRate
