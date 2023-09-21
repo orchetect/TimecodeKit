@@ -19,7 +19,7 @@ class Timecode_Validation_Tests: XCTestCase {
         let fr = TimecodeFrameRate._24
         let limit = Timecode.UpperLimit._24hours
         
-        let tc = Timecode(.zero, at: fr, limit: limit)
+        let tc = Timecode(.zero, at: fr, base: ._80SubFrames, limit: limit)
         
         XCTAssertEqual(tc.invalidComponents, [])
         XCTAssertEqual(
@@ -32,7 +32,7 @@ class Timecode_Validation_Tests: XCTestCase {
         XCTAssertEqual(tc.validRange(of: .minutes), 0 ... 59)
         XCTAssertEqual(tc.validRange(of: .seconds), 0 ... 59)
         XCTAssertEqual(tc.validRange(of: .frames), 0 ... 23)
-        // XCTAssertThrowsError(tc.validRange(of: .subFrames)) // TODO: test
+        XCTAssertEqual(tc.validRange(of: .subFrames), 0 ... 79)
     }
     
     func testInvalidOverRanges() {
@@ -81,6 +81,25 @@ class Timecode_Validation_Tests: XCTestCase {
             tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
+    }
+    
+    func testSubFrames() {
+        // test each subframes base range
+        
+        let fr = TimecodeFrameRate._24
+        let limit = Timecode.UpperLimit._24hours
+        
+        for base in Timecode.SubFramesBase.allCases {
+            let tc = Timecode(.zero, at: fr, base: base, limit: limit)
+            
+            let range = switch base {
+            case .quarterFrames: 0 ... 3
+            case ._80SubFrames: 0 ... 79
+            case ._100SubFrames: 0 ... 99
+            }
+            
+            XCTAssertEqual(tc.validRange(of: .subFrames), range)
+        }
     }
     
     func testDropFrame() {

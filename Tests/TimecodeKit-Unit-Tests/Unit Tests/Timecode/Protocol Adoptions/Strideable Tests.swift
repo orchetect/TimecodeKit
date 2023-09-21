@@ -137,7 +137,7 @@ class Timecode_Strideable_Tests: XCTestCase {
         
         // Strideable with drop rates
         
-        // TODO: add strideable drop rates tests
+        // TODO: add Strideable drop rates tests
         
         // Range .contains
         
