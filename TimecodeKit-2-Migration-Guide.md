@@ -70,10 +70,8 @@ Timecode(.string("01:00:00:00"), at: ._24, by: .allowingInvalid)
 
 ## Timecode String Value
 
-- The Timecode struct no longer stores string formatting properties.
 - The `stringValue` property is now the `stringValue()` method.
-
-- Formatting options are passed into `stringValue()`.
+- The Timecode struct no longer stores string formatting properties. Instead, formatting options are now optionally passed when calling `stringValue()`.
 
 ```swift
 // 1.x API
