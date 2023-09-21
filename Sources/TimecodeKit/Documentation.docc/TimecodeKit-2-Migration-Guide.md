@@ -6,7 +6,7 @@ This document details the major API changes from TimecodeKit version 1 to versio
 
 In order to simplify initialization API and make time value types more easily discoverable, time values are now passed in as static wrappers to Timecode inits.
 
-![Timecode init](Images/timecode-init.png)
+![Timecode init](timecode-init.png)
 
 For example:
 
@@ -70,8 +70,8 @@ Timecode(.string("01:00:00:00"), at: ._24, by: .allowingInvalid)
 
 ## Timecode String Value
 
-- The `stringValue` property is now the `stringValue()` method.
-- The Timecode struct no longer stores string formatting properties. Instead, formatting options are now optionally passed when calling `stringValue()`.
+- The `stringValue` property is now the ``Timecode/stringValue(format:)`` method.
+- The Timecode struct no longer stores string formatting properties. Instead, formatting options are now optionally passed when calling ``Timecode/stringValue(format:)``.
 
 ```swift
 // 1.x API
@@ -87,11 +87,34 @@ timecode.stringValue(format: [.showSubFrames]) // "01:00:00:00.50"
 
 ## Timecode Properties
 
-Timecode metadata can now be constructed and passed around as a new `Timecode.Properties` struct. It contains:
+Timecode metadata can now be constructed and passed around using a new ``Timecode/Properties`` struct. It contains:
 
 - `frameRate`
 - `subFramesBase`
 - `upperLimit`
+
+```swift
+// construct a Timecode.Properties instance
+// and pass it to a new Timecode instance
+let properties = Timecode.Properties(
+    rate: ._24,
+    base: ._80SubFrames,
+    limit: ._100Days
+)
+let timecode = Timecode(
+    .components(h: 1, m: 0, s: 0, f: 0),
+    using: properties
+)
+
+// it can also be fetched using the `properties` property and used to
+// construct a new Timecode with the same properties
+let newTimecode = Timecode(
+    .components(h: 2, m: 0, s: 0, f: 0),
+    using: timecode.properties
+)
+```
+
+It is still possible to pass properties directly as initializer parameters if desired:
 
 ```swift
 let timecode = try Timecode(
@@ -99,11 +122,6 @@ let timecode = try Timecode(
     at: ._24,
     base: ._80SubFrames,
     limit: ._100Days
-)
-
-let newTimecode = Timecode(
-    .components(h: 2, m: 0, s: 0, f: 0),
-    using: timecode.properties
 )
 ```
 
@@ -119,4 +137,3 @@ try "01:00:00:00".toTimecode(at: ._24)
 // 2.x API
 try "01:00:00:00".timecode(at: ._24)
 ```
-

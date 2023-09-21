@@ -134,14 +134,14 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
-    public mutating func set(
+    mutating func set(
         _ source: RichTimecodeSource
     ) throws {
         properties = try source.set(timecode: &self)
     }
     
     /// - Throws: ``ValidationError``
-    public func setting(
+    func setting(
         _ source: RichTimecodeSource
     ) throws -> Timecode {
         var copy = self
@@ -169,13 +169,13 @@ extension Timecode {
 }
 
 extension Timecode {
-    public mutating func set(
+    mutating func set(
         _ source: GuaranteedTimecodeSource
     ) {
         source.set(timecode: &self)
     }
     
-    public func setting(
+    func setting(
         _ source: GuaranteedTimecodeSource
     ) -> Timecode {
         var copy = self
@@ -203,13 +203,13 @@ extension Timecode {
 }
 
 extension Timecode {
-    public mutating func set(
+    mutating func set(
         _ source: GuaranteedRichTimecodeSource
     ) -> Properties {
         source.set(timecode: &self)
     }
     
-    public func setting(
+    func setting(
         _ source: GuaranteedRichTimecodeSource
     ) -> Timecode {
         var copy = self

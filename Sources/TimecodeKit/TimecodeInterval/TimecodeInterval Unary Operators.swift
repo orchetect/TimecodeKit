@@ -7,12 +7,12 @@
 import Foundation
 
 extension Timecode {
-    /// Returns self as a negative `TimecodeInterval`.
+    /// Returns self as a negative ``TimecodeInterval``.
     public static prefix func - (operand: Self) -> TimecodeInterval {
         TimecodeInterval(operand, .minus)
     }
     
-    /// Returns self as a positive `TimecodeInterval`.
+    /// Returns self as a positive ``TimecodeInterval``.
     public static prefix func + (operand: Self) -> TimecodeInterval {
         TimecodeInterval(operand, .plus)
     }

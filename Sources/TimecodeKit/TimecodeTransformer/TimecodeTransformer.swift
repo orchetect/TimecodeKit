@@ -5,6 +5,7 @@
 //
 
 /// A timecode transformer containing one or more transform rules in series.
+/// See <doc:Timecode-Transformer>.
 public struct TimecodeTransformer {
     public var transforms: [Transform]
         

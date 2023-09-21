@@ -45,7 +45,7 @@ extension Timecode {
     /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
     /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Methods to sort and test sort order of `Timecode` collections are provided.
+    /// Methods to sort and test sort order of ``Timecode`` collections are provided.
     ///
     /// For example, given a 24 hour limit:
     ///
@@ -61,8 +61,8 @@ extension Timecode {
     /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
     /// timeline.
     ///
-    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
-    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
+    /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
     public func compare(to other: Timecode, timelineStart: Timecode? = nil) -> ComparisonResult {
@@ -127,7 +127,7 @@ extension Collection where Element == Timecode {
     /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
     /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Methods to sort and test sort order of `Timecode` collections are provided.
+    /// Methods to sort and test sort order of ``Timecode`` collections are provided.
     ///
     /// For example, given a 24 hour limit:
     ///
@@ -143,8 +143,8 @@ extension Collection where Element == Timecode {
     /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
     /// timeline.
     ///
-    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
-    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
+    /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
     public func isSorted(
@@ -186,7 +186,7 @@ extension Collection where Element == Timecode {
     /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
     /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Methods to sort and test sort order of `Timecode` collections are provided.
+    /// Methods to sort and test sort order of ``Timecode`` collections are provided.
     ///
     /// For example, given a 24 hour limit:
     ///
@@ -202,8 +202,8 @@ extension Collection where Element == Timecode {
     /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
     /// timeline.
     ///
-    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
-    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
+    /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
     public func sorted(
@@ -234,7 +234,7 @@ extension MutableCollection
     /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
     /// 00:00:00:00 at some point along the timeline.
     ///
-    /// Methods to sort and test sort order of `Timecode` collections are provided.
+    /// Methods to sort and test sort order of ``Timecode`` collections are provided.
     ///
     /// For example, given a 24 hour limit:
     ///
@@ -250,8 +250,8 @@ extension MutableCollection
     /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
     /// timeline.
     ///
-    /// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
-    /// standard  `<`, `==`, or  `>` operators as a sort comparator.
+    /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
+    /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
     public mutating func sort(
@@ -277,7 +277,7 @@ extension MutableCollection
 /// timecode. Its timeline then extends for 24 hours from that timecode, wrapping around over
 /// 00:00:00:00 at some point along the timeline.
 ///
-/// Methods to sort and test sort order of `Timecode` collections are provided.
+/// Methods to sort and test sort order of ``Timecode`` collections are provided.
 ///
 /// For example, given a 24 hour limit:
 ///
@@ -293,7 +293,7 @@ extension MutableCollection
 /// wrapping timeline, and 18:00:00:00 is `>` 21:00:00:00 since it is later in the wrapping
 /// timeline.
 ///
-/// Note that passing `timelineStart` of `nil` or zero (00:00:00:00) is the same as using the
+/// Note that passing ``timelineStart`` of `nil` or zero (00:00:00:00) is the same as using the
 /// standard  `<`, `==`, or  `>` operators as a sort comparator.
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public struct TimecodeSortComparator: SortComparator {
