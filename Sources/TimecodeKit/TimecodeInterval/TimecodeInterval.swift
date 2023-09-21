@@ -1,7 +1,7 @@
 //
 //  TimecodeInterval.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -44,7 +44,8 @@ public struct TimecodeInterval: Equatable, Hashable {
         }
     }
     
-    /// Flattens the interval and returns it expressed as valid timecode, wrapping as necessary based on the ``Timecode/upperLimit-swift.property`` of the interval.
+    /// Flattens the interval and returns it expressed as valid timecode, wrapping as necessary based on the
+    /// ``Timecode/upperLimit-swift.property`` of the interval.
     ///
     /// If the interval is already valid timecode and the sign is positive, the interval is returned as-is.
     public func flattened() -> Timecode {
@@ -71,7 +72,7 @@ public struct TimecodeInterval: Equatable, Hashable {
     
     /// Internal:
     /// Returns a `Timecode` value offsetting it by the interval, wrapping around lower/upper timecode limit bounds if necessary.
-    internal func timecode(offsetting base: Timecode) -> Timecode {
+    func timecode(offsetting base: Timecode) -> Timecode {
         switch sign {
         case .plus:
             return base + absoluteInterval

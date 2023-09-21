@@ -1,7 +1,7 @@
 //
 //  FrameCount.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -63,7 +63,8 @@ extension Timecode {
             }
         }
         
-        /// Total elapsed frame count expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+        /// Total elapsed frame count expressed as a `Double` where the integer portion is whole frames and the fractional portion is the
+        /// subframes unit interval.
         public var doubleValue: Double {
             switch value {
             case let .frames(frames):
@@ -80,7 +81,8 @@ extension Timecode {
             }
         }
         
-        /// Total elapsed frame count expressed as a `Decimal` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+        /// Total elapsed frame count expressed as a `Decimal` where the integer portion is whole frames and the fractional portion is the
+        /// subframes unit interval.
         public var decimalValue: Decimal {
             switch value {
             case let .frames(frames):
@@ -102,7 +104,7 @@ extension Timecode {
 // MARK: - Internal inits
 
 extension Timecode.FrameCount {
-    internal init(
+    init(
         subFrameCount: Int,
         base: Timecode.SubFramesBase
     ) {
@@ -258,7 +260,7 @@ extension Timecode.FrameCount {
 }
 
 extension Timecode.FrameCount {
-    internal var subFrameCount: Int {
+    var subFrameCount: Int {
         Timecode.framesToSubFrames(
             frames: wholeFrames,
             subFrames: subFrames,
@@ -271,7 +273,7 @@ extension Timecode.FrameCount {
 
 extension Timecode {
     /// Internal utility
-    internal static func framesToSubFrames(
+    static func framesToSubFrames(
         frames: Int,
         subFrames: Int,
         base: SubFramesBase
@@ -280,7 +282,7 @@ extension Timecode {
     }
     
     /// Internal utility
-    internal static func subFramesToFrames(
+    static func subFramesToFrames(
         _ subFrames: Int,
         base: SubFramesBase
     )

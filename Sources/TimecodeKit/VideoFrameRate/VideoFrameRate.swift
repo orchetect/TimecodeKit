@@ -1,7 +1,7 @@
 //
 //  VideoFrameRate.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -73,7 +73,7 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     case _96p = "96p"
     
     /// 100 fps progressive.
-    /// 
+    ///
     /// Supported by Avid. (Not qualified for smooth playback)
     case _100p = "100p"
     

@@ -1,7 +1,7 @@
 //
 //  Codable.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode: Codable {
@@ -39,19 +39,19 @@ extension Timecode: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        properties = Properties(
-            rate: try values.decode(TimecodeFrameRate.self, forKey: .frameRate),
-            base: try values.decode(SubFramesBase.self, forKey: .subFramesBase),
-            limit: try values.decode(UpperLimit.self, forKey: .upperLimit)
+        properties = try Properties(
+            rate: values.decode(TimecodeFrameRate.self, forKey: .frameRate),
+            base: values.decode(SubFramesBase.self, forKey: .subFramesBase),
+            limit: values.decode(UpperLimit.self, forKey: .upperLimit)
         )
         
-        components = Components(
-            d: try values.decode(Int.self, forKey: .days),
-            h: try values.decode(Int.self, forKey: .hours),
-            m: try values.decode(Int.self, forKey: .minutes),
-            s: try values.decode(Int.self, forKey: .seconds),
-            f: try values.decode(Int.self, forKey: .frames),
-            sf: try values.decode(Int.self, forKey: .subFrames)
+        components = try Components(
+            d: values.decode(Int.self, forKey: .days),
+            h: values.decode(Int.self, forKey: .hours),
+            m: values.decode(Int.self, forKey: .minutes),
+            s: values.decode(Int.self, forKey: .seconds),
+            f: values.decode(Int.self, forKey: .frames),
+            sf: values.decode(Int.self, forKey: .subFrames)
         )
         
         // skip stringFormat; deprecated in TimecodeKit 2.0

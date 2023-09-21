@@ -1,13 +1,13 @@
 //
 //  Timecode Rational Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Rational_Tests: XCTestCase {
     override func setUp() { }

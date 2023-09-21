@@ -1,7 +1,7 @@
 //
 //  Timecode String.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -250,54 +250,60 @@ extension Timecode {
 // MARK: - Set
 
 extension Timecode {
-    /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a timecode string. Values which are out-of-bounds will also cause the setter to fail, and return false. An error
+    /// is thrown if the string is malformed and cannot be reasonably parsed.
     ///
     /// Validation is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError`` or ``ValidationError``
-    internal mutating func _setTimecode(exactly string: String) throws {
+    mutating func _setTimecode(exactly string: String) throws {
         let decoded = try Timecode.decode(timecode: string)
         try _setTimecode(exactly: decoded)
     }
     
-    /// Set timecode from a timecode string, clamping to valid timecode if necessary. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a timecode string, clamping to valid timecode if necessary. An error is thrown if the string is malformed and
+    /// cannot be reasonably parsed.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    internal mutating func _setTimecode(clamping string: String) throws {
+    mutating func _setTimecode(clamping string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         _setTimecode(clamping: tcVals)
     }
     
-    /// Set timecode from a timecode string, clamping individual values if necessary. Individual values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a timecode string, clamping individual values if necessary. Individual values which are out-of-bounds will be
+    /// clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
     ///
     /// Returns true/false depending on whether the string is formatted correctly or not.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    internal mutating func _setTimecode(clampingComponents string: String) throws {
+    mutating func _setTimecode(clampingComponents string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         _setTimecode(clampingComponents: tcVals)
     }
     
-    /// Set timecode from a string. Values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a string. Values which are out-of-bounds will be clamped to minimum or maximum possible values. An error is thrown
+    /// if the string is malformed and cannot be reasonably parsed.
     ///
     /// Clamping is based on the `upperLimit` and `subFramesBase` properties.
     ///
     /// - Throws: ``StringParseError``
-    internal mutating func _setTimecode(wrapping string: String) throws {
+    mutating func _setTimecode(wrapping string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         _setTimecode(wrapping: tcVals)
     }
     
-    /// Set timecode from a string, treating components as raw values. Timecode values will not be validated or rejected if they overflow. An error is thrown if the string is malformed and cannot be reasonably parsed.
+    /// Set timecode from a string, treating components as raw values. Timecode values will not be validated or rejected if they overflow.
+    /// An error is thrown if the string is malformed and cannot be reasonably parsed.
     ///
-    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be valid or not at the time of initializing.
+    /// This is useful, for example, when intending on running timecode validation methods against timecode values that are unknown to be
+    /// valid or not at the time of initializing.
     ///
     /// - Throws: ``StringParseError``
-    internal mutating func _setTimecode(rawValues string: String) throws {
+    mutating func _setTimecode(rawValues string: String) throws {
         let tcVals = try Timecode.decode(timecode: string)
         _setTimecode(rawValues: tcVals)
     }
@@ -306,7 +312,8 @@ extension Timecode {
 extension Timecode {
     /// Decodes a Timecode string into its component values, without validating.
     ///
-    /// An error is thrown if the string is malformed and cannot be reasonably parsed. Raw values themselves will be passed as-is and not validated based on a frame rate or upper limit.
+    /// An error is thrown if the string is malformed and cannot be reasonably parsed. Raw values themselves will be passed as-is and not
+    /// validated based on a frame rate or upper limit.
     ///
     /// Valid formats for 24-hour:
     ///

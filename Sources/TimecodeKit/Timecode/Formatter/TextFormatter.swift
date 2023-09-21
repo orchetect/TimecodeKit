@@ -1,7 +1,7 @@
 //
 //  TextFormatter.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if os(macOS)
@@ -186,7 +186,7 @@ extension Timecode {
         ) -> Bool {
             guard let unwrappedFrameRate = frameRate,
                   let unwrappedUpperLimit = upperLimit
-                  // let unwrappedSubFramesBase = subFramesBase,
+            // let unwrappedSubFramesBase = subFramesBase,
             else { return true }
             
             let partialString = partialStringPtr.pointee as String

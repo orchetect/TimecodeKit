@@ -1,13 +1,13 @@
 //
 //  Timecode Real Time Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_RealTime_Tests: XCTestCase {
     // pre-computed constants
@@ -252,7 +252,10 @@ class Timecode_RealTime_Tests: XCTestCase {
         // Cubase 11 XML file output (high resolution floating-point times in seconds)
         
         // the timecodes in the constant variable names are the timecodes as seen in Cubase
-        // the float-point number constant values are extracted from a Track Archive XML file exported from the Cubase project which outputs very high precision float-point numbers in seconds to define many attributes such as the project start time, and event start times and lengths on tracks which are in absolute time mode (not musical bars/beats mode which gets stored as PPQ values in the XML file instead of float-point seconds)
+        // the float-point number constant values are extracted from a Track Archive XML file exported from the Cubase project which outputs
+        // very high precision float-point numbers in seconds to define many attributes such as the project start time, and event start
+        // times and lengths on tracks which are in absolute time mode (not musical bars/beats mode which gets stored as PPQ values in the
+        // XML file instead of float-point seconds)
         
         // 23.976fps, 80 subframe divisor
         

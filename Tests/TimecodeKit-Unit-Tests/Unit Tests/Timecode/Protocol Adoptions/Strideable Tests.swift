@@ -1,13 +1,13 @@
 //
 //  Strideable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Strideable_Tests: XCTestCase {
     override func setUp() { }
@@ -63,9 +63,9 @@ class Timecode_Strideable_Tests: XCTestCase {
     func testTimecode_Strideable_Ranges() throws {
         // Stride through & array
         
-        let strideThrough = stride(
-            from: try "01:00:00:00".timecode(at: ._23_976),
-            through: try "01:00:00:06".timecode(at: ._23_976),
+        let strideThrough = try stride(
+            from: "01:00:00:00".timecode(at: ._23_976),
+            through: "01:00:00:06".timecode(at: ._23_976),
             by: 2
         )
         var array = Array(strideThrough)
@@ -73,18 +73,18 @@ class Timecode_Strideable_Tests: XCTestCase {
         XCTAssertEqual(array.count, 4)
         XCTAssertEqual(
             array,
-            [
-                try "01:00:00:00".timecode(at: ._23_976),
-                try "01:00:00:02".timecode(at: ._23_976),
-                try "01:00:00:04".timecode(at: ._23_976),
-                try "01:00:00:06".timecode(at: ._23_976)
+            try [
+                "01:00:00:00".timecode(at: ._23_976),
+                "01:00:00:02".timecode(at: ._23_976),
+                "01:00:00:04".timecode(at: ._23_976),
+                "01:00:00:06".timecode(at: ._23_976)
             ]
         )
         
         // Stride to
-        let strideTo = stride(
-            from: try "01:00:00:00".timecode(at: ._23_976),
-            to: try "01:00:00:06".timecode(at: ._23_976),
+        let strideTo = try stride(
+            from: "01:00:00:00".timecode(at: ._23_976),
+            to: "01:00:00:06".timecode(at: ._23_976),
             by: 2
         )
         array = Array(strideTo)
@@ -92,10 +92,10 @@ class Timecode_Strideable_Tests: XCTestCase {
         XCTAssertEqual(array.count, 3)
         XCTAssertEqual(
             array,
-            [
-                try "01:00:00:00".timecode(at: ._23_976),
-                try "01:00:00:02".timecode(at: ._23_976),
-                try "01:00:00:04".timecode(at: ._23_976)
+            try [
+                "01:00:00:00".timecode(at: ._23_976),
+                "01:00:00:02".timecode(at: ._23_976),
+                "01:00:00:04".timecode(at: ._23_976)
             ]
         )
         
@@ -113,22 +113,22 @@ class Timecode_Strideable_Tests: XCTestCase {
             try "01:00:00:00".timecode(at: ._23_976).frameCount.wholeFrames
         )
         
-        let strs = Array(
+        let strs = try Array(
             stride(
-                from: try "01:00:00:05".timecode(at: ._23_976),
-                through: try "01:00:10:05".timecode(at: ._23_976),
-                by: try Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
+                from: "01:00:00:05".timecode(at: ._23_976),
+                through: "01:00:10:05".timecode(at: ._23_976),
+                by: Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
             )
         )
         .map { $0.stringValue() }
         
         XCTAssertEqual(strs.count, 11)
         
-        let strs2 = Array(
+        let strs2 = try Array(
             stride(
-                from: try "01:00:00:05".timecode(at: ._23_976),
-                to: try "01:00:10:07".timecode(at: ._23_976),
-                by: try Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
+                from: "01:00:00:05".timecode(at: ._23_976),
+                to: "01:00:10:07".timecode(at: ._23_976),
+                by: Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
             )
         )
         .map { $0.stringValue() }

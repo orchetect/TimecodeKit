@@ -1,7 +1,7 @@
 //
 //  Timecode Source Protocols.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - Protocols
@@ -56,45 +56,45 @@ public protocol GuaranteedRichTimecodeSource {
 
 /// Box containing a concrete ``TimecodeSource`` instance.
 public struct TimecodeSourceValue {
-    internal var value: TimecodeSource
+    var value: TimecodeSource
     
-    internal init(value: TimecodeSource) {
+    init(value: TimecodeSource) {
         self.value = value
     }
 }
 
 /// Box containing a concrete ``FormattedTimecodeSource`` instance.
 public struct FormattedTimecodeSourceValue {
-    internal var value: FormattedTimecodeSource
+    var value: FormattedTimecodeSource
     
-    internal init(value: FormattedTimecodeSource) {
+    init(value: FormattedTimecodeSource) {
         self.value = value
     }
 }
 
 /// Box containing a concrete ``RichTimecodeSource`` instance.
 public struct RichTimecodeSourceValue {
-    internal var value: RichTimecodeSource
+    var value: RichTimecodeSource
     
-    internal init(value: RichTimecodeSource) {
+    init(value: RichTimecodeSource) {
         self.value = value
     }
 }
 
 /// Box containing a concrete ``GuaranteedTimecodeSource`` instance.
 public struct GuaranteedTimecodeSourceValue {
-    internal var value: GuaranteedTimecodeSource
+    var value: GuaranteedTimecodeSource
     
-    internal init(value: GuaranteedTimecodeSource) {
+    init(value: GuaranteedTimecodeSource) {
         self.value = value
     }
 }
 
 /// Box containing a concrete ``GuaranteedRichTimecodeSource`` instance.
 public struct GuaranteedRichTimecodeSourceValue {
-    internal var value: GuaranteedRichTimecodeSource
+    var value: GuaranteedRichTimecodeSource
     
-    internal init(value: GuaranteedRichTimecodeSource) {
+    init(value: GuaranteedRichTimecodeSource) {
         self.value = value
     }
 }

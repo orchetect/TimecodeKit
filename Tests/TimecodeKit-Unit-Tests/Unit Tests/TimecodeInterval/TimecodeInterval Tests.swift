@@ -1,13 +1,13 @@
 //
 //  TimecodeInterval Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class TimecodeInterval_Tests: XCTestCase {
     override func setUp() { }
@@ -105,7 +105,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(
-            interval.timecode(offsetting: try Timecode(.components(h: 1), at: ._24)),
+            try interval.timecode(offsetting: Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
     }
@@ -118,7 +118,7 @@ class TimecodeInterval_Tests: XCTestCase {
         let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(
-            interval.timecode(offsetting: try Timecode(.components(h: 1), at: ._24)),
+            try interval.timecode(offsetting: Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 00, m: 59, s: 00, f: 00), at: ._24)
         )
     }
@@ -144,8 +144,8 @@ class TimecodeInterval_Tests: XCTestCase {
     }
     
     func testStaticConstructors_Positive() throws {
-        let interval: TimecodeInterval = .positive(
-            try Timecode(.components(h: 1), at: ._24)
+        let interval: TimecodeInterval = try .positive(
+            Timecode(.components(h: 1), at: ._24)
         )
         XCTAssertEqual(
             interval.absoluteInterval,
@@ -155,8 +155,8 @@ class TimecodeInterval_Tests: XCTestCase {
     }
     
     func testStaticConstructors_Negative() throws {
-        let interval: TimecodeInterval = .negative(
-            try Timecode(.components(h: 1), at: ._24)
+        let interval: TimecodeInterval = try .negative(
+            Timecode(.components(h: 1), at: ._24)
         )
         XCTAssertEqual(
             interval.absoluteInterval,

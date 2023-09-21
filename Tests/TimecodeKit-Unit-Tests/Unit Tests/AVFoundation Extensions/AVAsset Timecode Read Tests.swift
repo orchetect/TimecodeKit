@@ -1,15 +1,15 @@
 //
 //  AVAsset Timecode Read Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import XCTest
-@testable import TimecodeKit
 import AVFoundation
+@testable import TimecodeKit
+import XCTest
 
 class AVAsset_TimecodeRead_Tests: XCTestCase {
     override func setUp() { }
@@ -57,11 +57,15 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         // end
         let correctEnd = try Timecode(.components(h: 1, m: 22, s: 50, f: 19, sf: 03), at: frameRate)
         // auto-detect frame rate
-        XCTAssertEqual(try asset.endTimecode(),
-                       correctEnd)
+        XCTAssertEqual(
+            try asset.endTimecode(),
+            correctEnd
+        )
         // manually supply frame rate
-        XCTAssertEqual(try asset.endTimecode(at: frameRate),
-                       correctEnd)
+        XCTAssertEqual(
+            try asset.endTimecode(at: frameRate),
+            correctEnd
+        )
     }
     
     func testReadTimecodes_24fps() throws {
@@ -87,11 +91,15 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         let correctEnd = try Timecode.Components(h: 1, m: 22, s: 52, f: 05, sf: 85)
             .timecode(at: frameRate)
         // auto-detect frame rate
-        XCTAssertEqual(try asset.endTimecode(),
-                       correctEnd)
+        XCTAssertEqual(
+            try asset.endTimecode(),
+            correctEnd
+        )
         // manually supply frame rate
-        XCTAssertEqual(try asset.endTimecode(at: frameRate),
-                       correctEnd)
+        XCTAssertEqual(
+            try asset.endTimecode(at: frameRate),
+            correctEnd
+        )
     }
     
     func testReadTimecodes_29_97fps() throws {

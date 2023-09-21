@@ -1,7 +1,7 @@
 //
 //  Timecode Validation.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -159,7 +159,7 @@ extension Timecode.Components {
 }
 
 extension Timecode {
-    internal mutating func _clamp(component: Component) {
+    mutating func _clamp(component: Component) {
         switch component {
         case .days:
             days = days.clamped(to: validRange(of: .days))

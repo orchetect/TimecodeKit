@@ -1,17 +1,17 @@
 //
 //  Timecode Elapsed Frames ExtendedTests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
-//import XCTestUtils
+// import XCTestUtils
 //
-//final class Timecode_ExtendedTests: XCTestCase {
+// final class Timecode_ExtendedTests: XCTestCase {
 //    func testTimecode_Iterative() {
 //        // test conversions from components(of:) and frameCount(of:)
 //
@@ -116,7 +116,7 @@ import XCTest
 //    }
 // }
 
-//final class DevTests: XCTestCase {
+// final class DevTests: XCTestCase {
 //    func testDummy() throws {
 //        var tc = try Timecode.Components(d: 1)
 //            .timecode(at: ._30_drop, limit: ._100days)
@@ -133,6 +133,6 @@ import XCTest
 //        print(tc)
 //        print(tc.realTimeValue)
 //    }
-//}
+// }
 
 #endif

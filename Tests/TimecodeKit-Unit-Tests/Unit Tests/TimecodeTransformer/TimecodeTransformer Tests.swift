@@ -1,13 +1,13 @@
 //
 //  TimecodeTransformer Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class TimecodeTransformer_Tests: XCTestCase {
     override func setUp() { }
@@ -19,7 +19,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         let transformer = TimecodeTransformer(.none)
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
     }
@@ -37,7 +37,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         transformer.enabled = false
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
         
@@ -46,7 +46,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         transformer.enabled = true
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
     }
@@ -59,7 +59,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         })
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
         )
     }
@@ -69,7 +69,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         let transformer = TimecodeTransformer([])
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: ._24)
         )
     }
@@ -86,7 +86,7 @@ class TimecodeTransformer_Tests: XCTestCase {
         let transformer = TimecodeTransformer([.offset(by: delta1), .offset(by: delta2)])
         
         XCTAssertEqual(
-            transformer.transform(try Timecode(.components(h: 1), at: ._24)),
+            try transformer.transform(Timecode(.components(h: 1), at: ._24)),
             try Timecode(.components(h: 01, m: 00, s: 59, f: 00), at: ._24)
         )
     }

@@ -1,7 +1,7 @@
 //
 //  Comparable.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Darwin
@@ -147,8 +147,10 @@ extension Collection where Element == Timecode {
     /// standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
-    public func isSorted(ascending: Bool = true,
-                         timelineStart: Timecode? = nil) -> Bool {
+    public func isSorted(
+        ascending: Bool = true,
+        timelineStart: Timecode? = nil
+    ) -> Bool {
         guard count > 1 else { return true }
         
         var priorIdx = startIndex
@@ -204,19 +206,21 @@ extension Collection where Element == Timecode {
     /// standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
-    public func sorted(ascending: Bool = true,
-                       timelineStart: Timecode) -> [Element] {
+    public func sorted(
+        ascending: Bool = true,
+        timelineStart: Timecode
+    ) -> [Element] {
         sorted {
             $0.compare(to: $1, timelineStart: timelineStart)
-                != (ascending ? .orderedDescending : .orderedAscending )
+                != (ascending ? .orderedDescending : .orderedAscending)
         }
     }
 }
 
 extension MutableCollection
-where Element == Timecode,
-      Self: RandomAccessCollection,
-      Element: Comparable
+    where Element == Timecode,
+    Self: RandomAccessCollection,
+    Element: Comparable
 {
     /// Sorts the collection in place by sorting all ``Timecode`` instances chronologically, either
     /// ascending or descending.
@@ -250,11 +254,13 @@ where Element == Timecode,
     /// standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
     /// See also: ``TimecodeSortComparator``.
-    public mutating func sort(ascending: Bool = true,
-                              timelineStart: Timecode) {
+    public mutating func sort(
+        ascending: Bool = true,
+        timelineStart: Timecode
+    ) {
         sort {
             $0.compare(to: $1, timelineStart: timelineStart)
-                != (ascending ? .orderedDescending : .orderedAscending )
+                != (ascending ? .orderedDescending : .orderedAscending)
         }
     }
 }
@@ -305,6 +311,7 @@ public struct TimecodeSortComparator: SortComparator {
             return result.inverted
         }
     }
+
     public init(order: SortOrder = .forward, timelineStart: Timecode? = nil) {
         self.order = order
         self.timelineStart = timelineStart

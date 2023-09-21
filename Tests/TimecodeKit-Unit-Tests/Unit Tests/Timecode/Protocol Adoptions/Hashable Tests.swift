@@ -1,19 +1,19 @@
 //
 //  Hashable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Hashable_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testHashValue() {
+    func testHashValue() throws {
         // hashValues should be equal
         
         XCTAssertEqual(
@@ -39,14 +39,14 @@ class Timecode_Hashable_Tests: XCTestCase {
         // Dictionary / Set
         
         var dict: [Timecode: String] = [:]
-        dict[try "01:00:00:00".timecode(at: ._23_976)] = "A Spot Note Here"
-        dict[try "01:00:00:06".timecode(at: ._23_976)] = "A Spot Note Also Here"
+        try dict["01:00:00:00".timecode(at: ._23_976)] = "A Spot Note Here"
+        try dict["01:00:00:06".timecode(at: ._23_976)] = "A Spot Note Also Here"
         XCTAssertEqual(dict.count, 2)
-        dict[try "01:00:00:00".timecode(at: ._24)] = "This should not replace"
+        try dict["01:00:00:00".timecode(at: ._24)] = "This should not replace"
         XCTAssertEqual(dict.count, 3)
         
-        XCTAssertEqual(dict[try "01:00:00:00".timecode(at: ._23_976)], "A Spot Note Here")
-        XCTAssertEqual(dict[try "01:00:00:00".timecode(at: ._24)], "This should not replace")
+        XCTAssertEqual(try dict["01:00:00:00".timecode(at: ._23_976)], "A Spot Note Here")
+        XCTAssertEqual(try dict["01:00:00:00".timecode(at: ._24)], "This should not replace")
     }
     
     func testSet() throws {

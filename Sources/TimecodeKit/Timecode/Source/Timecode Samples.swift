@@ -1,7 +1,7 @@
 //
 //  Timecode Samples.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - Payload
@@ -76,12 +76,14 @@ extension Timecode {
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         samples: Int,
         sampleRate: Int
     ) throws {
-        try _setTimecode(samples: Double(samples),
-                         sampleRate: sampleRate)
+        try _setTimecode(
+            samples: Double(samples),
+            sampleRate: sampleRate
+        )
     }
     
     /// (Lossy)
@@ -91,12 +93,14 @@ extension Timecode {
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         clampingSamples: Int,
         sampleRate: Int
     ) {
-        _setTimecode(clampingSamples: Double(clampingSamples),
-                     sampleRate: sampleRate)
+        _setTimecode(
+            clampingSamples: Double(clampingSamples),
+            sampleRate: sampleRate
+        )
     }
     
     /// (Lossy)
@@ -106,12 +110,14 @@ extension Timecode {
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         wrappingSamples: Int,
         sampleRate: Int
     ) {
-        _setTimecode(wrappingSamples: Double(wrappingSamples),
-                     sampleRate: sampleRate)
+        _setTimecode(
+            wrappingSamples: Double(wrappingSamples),
+            sampleRate: sampleRate
+        )
     }
     
     /// (Lossy)
@@ -121,12 +127,14 @@ extension Timecode {
     /// Sample rate must be expressed as an Integer of Hz (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         rawValuesSamples: Int,
         sampleRate: Int
     ) {
-        _setTimecode(rawValuesSamples: Double(rawValuesSamples),
-                     sampleRate: sampleRate)
+        _setTimecode(
+            rawValuesSamples: Double(rawValuesSamples),
+            sampleRate: sampleRate
+        )
     }
     
     // MARK: - Double
@@ -138,7 +146,7 @@ extension Timecode {
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         samples: Double,
         sampleRate: Int
     ) throws {
@@ -156,7 +164,7 @@ extension Timecode {
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         clampingSamples: Double,
         sampleRate: Int
     ) {
@@ -174,7 +182,7 @@ extension Timecode {
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         wrappingSamples: Double,
         sampleRate: Int
     ) {
@@ -192,7 +200,7 @@ extension Timecode {
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(
+    mutating func _setTimecode(
         rawValuesSamples: Double,
         sampleRate: Int
     ) {
@@ -205,7 +213,7 @@ extension Timecode {
     
     // MARK: Helper Methods
     
-    internal func components(
+    func components(
         fromSamples: Double,
         sampleRate: Int
     ) -> Components {

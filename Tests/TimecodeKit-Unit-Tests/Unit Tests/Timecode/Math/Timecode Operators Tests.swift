@@ -1,13 +1,13 @@
 //
 //  Timecode Operators Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Operators_Tests: XCTestCase {
     override func setUp() { }
@@ -106,19 +106,19 @@ class Timecode_Operators_Tests: XCTestCase {
         
         XCTAssertEqual(
             try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-            Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30),
+                Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30),
             1.0
         )
         
         XCTAssertEqual(
             try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-            Timecode.Components(h: 00, m: 10, s: 00, f: 00).timecode(at: ._30),
+                Timecode.Components(h: 00, m: 10, s: 00, f: 00).timecode(at: ._30),
             6.0
         )
         
         XCTAssertEqual(
             try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-            Timecode.Components(h: 00, m: 16, s: 00, f: 00).timecode(at: ._30),
+                Timecode.Components(h: 00, m: 16, s: 00, f: 00).timecode(at: ._30),
             3.75
         )
     }

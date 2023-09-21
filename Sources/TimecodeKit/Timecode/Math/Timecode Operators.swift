@@ -1,7 +1,7 @@
 //
 //  Timecode Operators.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - Math operators: Self, Self

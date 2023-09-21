@@ -1,14 +1,14 @@
 //
 //  CMTimeCode.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 protocol CMTimeCode {
     static var byteLength: Int { get }
@@ -109,9 +109,9 @@ struct CMTimeCode64: CMTimeCode, Equatable, Hashable {
     
     init(h: UInt16, m: UInt16, s: UInt16, f: UInt16) {
         uInt64 = ((UInt64(h) & 0xFFFF) << 48)
-        + ((UInt64(m) & 0xFFFF) << 32)
-        + ((UInt64(s) & 0xFFFF) << 16)
-        + (UInt64(f) & 0xFFFF)
+            + ((UInt64(m) & 0xFFFF) << 32)
+            + ((UInt64(s) & 0xFFFF) << 16)
+            + (UInt64(f) & 0xFFFF)
     }
     
     var h: UInt16 { UInt16((uInt64 >> 48) & 0xFFFF) }

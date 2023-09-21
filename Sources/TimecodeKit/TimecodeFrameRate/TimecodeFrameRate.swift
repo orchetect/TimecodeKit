@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - FrameRate
@@ -11,7 +11,8 @@
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)
     ///
-    /// Also known as 24p for HD video, sometimes rounded up to 23.98 fps. started out as the format for dealing with 24fps film in a NTSC post environment.
+    /// Also known as 24p for HD video, sometimes rounded up to 23.98 fps. started out as the format for dealing with 24fps film in a NTSC
+    /// post environment.
     case _23_976 = "23.976"
     
     /// 24 fps
@@ -21,7 +22,8 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     
     /// 24.98 fps (25/1.001)
     ///
-    /// This frame rate is commonly used to facilitate transfers between PAL and NTSC video and film sources. It is mostly used to compensate for some error.
+    /// This frame rate is commonly used to facilitate transfers between PAL and NTSC video and film sources. It is mostly used to
+    /// compensate for some error.
     case _24_98 = "24.98"
     
     /// 25 fps
@@ -39,7 +41,8 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     
     /// 30 fps
     ///
-    /// (ATSC) This is the frame count of NTSC broadcast video. However, the actual frame rate or speed of the video format runs at 29.97 fps.
+    /// (ATSC) This is the frame count of NTSC broadcast video. However, the actual frame rate or speed of the video format runs at 29.97
+    /// fps.
     ///
     /// This timecode clock does not run in realtime. It is slightly slower by 0.1%.
     /// ie: 1:00:00:00:00 (1 day/24 hours) at 30 fps is approx 1:00:00:00;02 in 29.97df
@@ -47,7 +50,9 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     
     /// 30 fps drop
     ///
-    /// The 30 fps drop count is an adaptation that allows a timecode display running at 29.97 fps to actually show the clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
+    /// The 30 fps drop count is an adaptation that allows a timecode display running at 29.97 fps to actually show the
+    /// clock-on-the-wall-time of the timeline by “dropping” or skipping specific frame numbers in order to “catch the clock up” to
+    /// realtime.
     ///
     /// - Warning: This is not a video frame rate - it is a display rate only.
     case _30_drop = "30d"
@@ -83,7 +88,8 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     ///
     /// Double 30 fps
     ///
-    /// This video frame rate is supported by many high definition cameras. However, the NTSC compatible 59.94 fps frame rate is much more common.
+    /// This video frame rate is supported by many high definition cameras. However, the NTSC compatible 59.94 fps frame rate is much more
+    /// common.
     case _60 = "60"
     
     /// 60 fps drop

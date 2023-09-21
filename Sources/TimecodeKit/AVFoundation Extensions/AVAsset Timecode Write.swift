@@ -1,14 +1,14 @@
 //
 //  AVAsset Timecode Write.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 #if !os(tvOS) // AVMutableMovie not available on tvOS
 
@@ -31,7 +31,7 @@ extension AVMutableMovie {
         // of a timecode track.
         let newAsset = try AVMutableMovie(
             timecodeTrackStart: startTimecode,
-            duration: duration ?? (try durationTimecode()),
+            duration: duration ?? durationTimecode(),
             extensions: extensions,
             fileType: outputFileType
         )
@@ -78,7 +78,7 @@ extension AVMutableMovie {
         
         return try addTimecodeTrack(
             startTimecode: startTimecode,
-            duration: duration ?? (try durationTimecode()),
+            duration: duration ?? durationTimecode(),
             extensions: extensions,
             fileType: outputFileType
         )
@@ -95,7 +95,7 @@ extension AVMutableMovie {
     
     /// Internal helper:
     /// Creates a new asset with a timecode track containing one sample (start timecode).
-    internal convenience init(
+    convenience init(
         timecodeTrackStart: Timecode,
         duration: Timecode,
         extensions: CMFormatDescription.Extensions? = nil,
@@ -119,7 +119,7 @@ extension AVMutableMovie {
         // otherwise we have to use append(buffer:) which is all kinds of scary
         try blockBuffer.fillDataBytes(with: 0x00)
         try withUnsafeBytes(of: &frames) { framesPtr in
-            //try blockBuffer.append(buffer: framesPtr) // dealloc crash
+            // try blockBuffer.append(buffer: framesPtr) // dealloc crash
             try blockBuffer.replaceDataBytes(with: framesPtr)
         }
         
@@ -161,7 +161,7 @@ extension Timecode {
         // this method essentially wraps CMTimeCodeFormatDescriptionCreate,
         // an old crusty Obj-C method. it returned OSStatus so we assume the new
         // 'throws' method might return something related if an error occurs.
-        return try CMTimeCodeFormatDescription( // typealias of CMFormatDescription
+        try CMTimeCodeFormatDescription( // typealias of CMFormatDescription
             timeCodeFormatType: .timeCode32, // one that exists in CMTimeCodeFormatType
             frameDuration: frameRate.frameDurationCMTime,
             frameQuanta: frameRate.maxFrames,

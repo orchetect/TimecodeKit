@@ -1,7 +1,7 @@
 //
 //  FrameCount Value.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode.FrameCount {
@@ -13,7 +13,8 @@ extension Timecode.FrameCount {
         /// Total elapsed whole frames, and subframes.
         case split(frames: Int, subFrames: Int)
         
-        /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+        /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the
+        /// subframes unit interval.
         case combined(frames: Double)
         
         /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).

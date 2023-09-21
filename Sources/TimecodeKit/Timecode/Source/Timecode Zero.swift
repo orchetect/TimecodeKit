@@ -1,13 +1,13 @@
 //
 //  Timecode Zero.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
     /// Zero timecode.
     /// Do not initialize directly; instead, pass `.zero` into a ``Timecode`` initializer.
-    internal struct Zero {
+    struct Zero {
         public init() { }
     }
 }

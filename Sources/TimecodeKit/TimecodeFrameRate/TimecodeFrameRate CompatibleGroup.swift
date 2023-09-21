@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate CompatibleGroup.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension TimecodeFrameRate {
@@ -16,7 +16,8 @@ extension TimecodeFrameRate {
         
         /// Constants table of `FrameRate` groups that share HH:MM:SS alignment between them, while only frames value may differ.
         ///
-        /// These groupings assert that they are interchangeable in so much as hours, minutes, and seconds values will always be identical between them at the same elapsed real time, but only frames value may differ.
+        /// These groupings assert that they are interchangeable in so much as hours, minutes, and seconds values will always be identical
+        /// between them at the same elapsed real time, but only frames value may differ.
         ///
         /// For example, at the same point of elapsed real time, 30 and 60 fps are compatible with each other, but 29.97 is not:
         ///

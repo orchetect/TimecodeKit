@@ -1,7 +1,7 @@
 //
 //  Timecode Conversion.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -11,7 +11,8 @@ extension Timecode {
     ///
     /// - If `preservingValues` is `false` (default): entire timecode is converted based on the equivalent real time value.
     ///
-    /// - If `preservingValues` is `true`: Return a new `Timecode` instance at the new frame rate preserving literal timecode values if possible.
+    /// - If `preservingValues` is `true`: Return a new `Timecode` instance at the new frame rate preserving literal timecode values if
+    ///   possible.
     ///   If any value is not expressible at the new frame rate, the entire timecode will be converted.
     ///
     /// - Note: this process may be lossy.

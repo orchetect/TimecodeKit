@@ -1,14 +1,14 @@
 //
-//  Fraction CMTime Tests.swift
+//  Fraction Tests CMTime.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
-@testable import TimecodeKit
 import CoreMedia
+@testable import TimecodeKit
+import XCTest
 
 class Fraction_CMTime_Tests: XCTestCase {
     override func setUp() { }

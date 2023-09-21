@@ -1,7 +1,7 @@
 //
 //  Timecode FrameCount Value.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -43,7 +43,8 @@ extension TimecodeSourceValue {
         }
     }
     
-    /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes unit interval.
+    /// Total elapsed frames, expressed as a `Double` where the integer portion is whole frames and the fractional portion is the subframes
+    /// unit interval.
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/combined(frames:)``.)
     public static func frames(_ frames: Double) -> Self {
         .init(value: Timecode.FrameCount.Value.combined(frames: frames))
@@ -69,7 +70,7 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(exactly frameCountValue: FrameCount.Value) throws {
+    mutating func _setTimecode(exactly frameCountValue: FrameCount.Value) throws {
         components = try components(exactly: frameCountValue)
     }
     
@@ -78,7 +79,7 @@ extension Timecode {
     /// Clamps to valid timecode.
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func _setTimecode(clamping source: FrameCount.Value) {
+    mutating func _setTimecode(clamping source: FrameCount.Value) {
         let convertedComponents = components(rawValues: source)
         _setTimecode(clamping: convertedComponents)
     }
@@ -88,7 +89,7 @@ extension Timecode {
     /// Timecode will be wrapped around the timecode clock if out-of-bounds.
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func _setTimecode(wrapping source: FrameCount.Value) {
+    mutating func _setTimecode(wrapping source: FrameCount.Value) {
         let convertedComponents = components(rawValues: source)
         _setTimecode(wrapping: convertedComponents)
     }
@@ -98,7 +99,7 @@ extension Timecode {
     /// Allows for invalid raw values (in this case, unbounded Days component).
     ///
     /// Subframes are represented by the fractional portion of the number.
-    internal mutating func _setTimecode(rawValues source: FrameCount.Value) {
+    mutating func _setTimecode(rawValues source: FrameCount.Value) {
         let convertedComponents = components(rawValues: source)
         _setTimecode(rawValues: convertedComponents)
     }
@@ -110,7 +111,7 @@ extension Timecode {
     /// frame rate and subframes base.
     ///
     /// - Throws: ``ValidationError``
-    internal func components(exactly source: FrameCount.Value) throws -> Components {
+    func components(exactly source: FrameCount.Value) throws -> Components {
         let fc = FrameCount(source, base: subFramesBase)
         
         guard fc.subFrameCount >= 0,
@@ -126,7 +127,7 @@ extension Timecode {
     /// Internal:
     /// Returns frame count value converted to components using the instance's
     /// frame rate and subframes base.
-    internal func components(rawValues source: FrameCount.Value) -> Components {
+    func components(rawValues source: FrameCount.Value) -> Components {
         let fc = FrameCount(source, base: subFramesBase)
         
         return Self.components(

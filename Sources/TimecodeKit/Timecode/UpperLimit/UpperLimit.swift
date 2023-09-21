@@ -1,7 +1,7 @@
 //
 //  UpperLimit.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -14,7 +14,7 @@ extension Timecode {
         case _100days = "100 days"
         
         /// Internal use.
-        internal var maxDays: Int {
+        var maxDays: Int {
             switch self {
             case ._24hours: return 1
             case ._100days: return 100
@@ -22,7 +22,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        internal var maxDaysExpressible: Int {
+        var maxDaysExpressible: Int {
             switch self {
             case ._24hours: return maxDays - 1
             case ._100days: return maxDays - 1
@@ -30,7 +30,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        internal var maxHours: Int {
+        var maxHours: Int {
             switch self {
             case ._24hours: return 24
             case ._100days: return 24
@@ -38,7 +38,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        internal var maxHoursExpressible: Int {
+        var maxHoursExpressible: Int {
             switch self {
             case ._24hours: return maxHours - 1
             case ._100days: return maxHours - 1
@@ -46,7 +46,7 @@ extension Timecode {
         }
         
         /// Internal use.
-        internal var maxHoursTotal: Int {
+        var maxHoursTotal: Int {
             switch self {
             case ._24hours: return maxHours - 1
             case ._100days: return (maxHours * maxDays) - 1

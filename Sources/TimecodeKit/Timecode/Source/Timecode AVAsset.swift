@@ -1,14 +1,14 @@
 //
-//  Timecode Rational.swift
+//  Timecode AVAsset.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 // MARK: - TimecodeSource
 

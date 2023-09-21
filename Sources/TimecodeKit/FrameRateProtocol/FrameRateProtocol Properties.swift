@@ -1,7 +1,7 @@
 //
 //  FrameRateProtocol Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: Sorted
@@ -25,14 +25,14 @@ extension Collection where Element: FrameRateProtocol {
 extension Collection where Element: FrameRateProtocol {
     /// Internal:
     /// Filters collection to rates that match the given rational rate fraction.
-    internal func filter(
+    func filter(
         rate: Fraction
     ) -> [Element] {
         filter {
             let lhsFrac = $0.rate
             
             let isLiteralMatch = lhsFrac.numerator == rate.numerator
-            && lhsFrac.denominator == rate.denominator
+                && lhsFrac.denominator == rate.denominator
             
             let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
             let rhsFPS = Double(rate.numerator) / Double(rate.denominator)
@@ -44,19 +44,19 @@ extension Collection where Element: FrameRateProtocol {
     
     /// Internal:
     /// Filters collection to rates that match the given rational frame duration fraction.
-    internal func filter(
+    func filter(
         frameDuration: Fraction
     ) -> [Element] {
         filter {
             func compare(lhsFrac: Fraction, result: inout Bool) {
                 let isLiteralMatch = lhsFrac.numerator == frameDuration.numerator
-                && lhsFrac.denominator == frameDuration.denominator
-                if isLiteralMatch { result = true ; return }
+                    && lhsFrac.denominator == frameDuration.denominator
+                if isLiteralMatch { result = true; return }
                 
                 let lhsFPS = Double(lhsFrac.numerator) / Double(lhsFrac.denominator)
                 let rhsFPS = Double(frameDuration.numerator) / Double(frameDuration.denominator)
                 let isFPSMatch = lhsFPS == rhsFPS
-                if isFPSMatch { result = true ; return }
+                if isFPSMatch { result = true; return }
             }
             
             var result: Bool = false

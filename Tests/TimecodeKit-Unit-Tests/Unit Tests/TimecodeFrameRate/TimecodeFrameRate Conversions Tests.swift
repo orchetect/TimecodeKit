@@ -1,14 +1,14 @@
 //
 //  TimecodeFrameRate Conversions Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
-@testable import TimecodeKit
 import CoreMedia
+@testable import TimecodeKit
+import XCTest
 
 class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
@@ -186,8 +186,10 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
     
     func testframeDurationCMTime() throws {
         // spot-check
-        XCTAssertEqual(TimecodeFrameRate._29_97.frameDurationCMTime,
-                       CMTime(value: 1001, timescale: 30000))
+        XCTAssertEqual(
+            TimecodeFrameRate._29_97.frameDurationCMTime,
+            CMTime(value: 1001, timescale: 30000)
+        )
         
         // ensure the CMTime instance returns correct 1 frame duration in seconds.
         // due to floating-point dithering, it tends to be accurate up to

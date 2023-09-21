@@ -97,7 +97,8 @@ extension Decimal {
     
     /// Returns both integral part and fractional part.
     ///
-    /// - Note: This method is more computationally efficient than calling both `.integral` and .`fraction` properties separately unless you only require one or the other.
+    /// - Note: This method is more computationally efficient than calling both `.integral` and .`fraction` properties separately unless you
+    ///   only require one or the other.
     @_disfavoredOverload
     var integralAndFraction: (integral: Self, fraction: Self) {
         let integral = truncated(decimalPlaces: 0)

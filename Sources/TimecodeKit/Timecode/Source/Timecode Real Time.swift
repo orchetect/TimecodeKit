@@ -1,7 +1,7 @@
 //
 //  Timecode Real Time.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -54,7 +54,7 @@ extension Timecode {
     /// (Validation is based on the frame rate and `upperLimit` property.)
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(exactlyRealTime: TimeInterval) throws {
+    mutating func _setTimecode(exactlyRealTime: TimeInterval) throws {
         let convertedComponents = components(realTime: exactlyRealTime)
         try _setTimecode(exactly: convertedComponents)
     }
@@ -63,7 +63,7 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Clamps to valid timecode.
-    internal mutating func _setTimecode(clampingRealTime: TimeInterval) {
+    mutating func _setTimecode(clampingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: clampingRealTime)
         _setTimecode(clamping: convertedComponents)
     }
@@ -72,7 +72,7 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Wraps timecode if necessary.
-    internal mutating func _setTimecode(wrappingRealTime: TimeInterval) {
+    mutating func _setTimecode(wrappingRealTime: TimeInterval) {
         let convertedComponents = components(realTime: wrappingRealTime)
         _setTimecode(wrapping: convertedComponents)
     }
@@ -81,7 +81,7 @@ extension Timecode {
     /// from real-time (wall-clock time).
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
-    internal mutating func _setTimecode(rawValuesRealTime: TimeInterval) {
+    mutating func _setTimecode(rawValuesRealTime: TimeInterval) {
         let convertedComponents = components(realTime: rawValuesRealTime)
         _setTimecode(rawValues: convertedComponents)
     }
@@ -91,7 +91,7 @@ extension Timecode {
     /// Internal:
     /// Converts a real-time value (wall-clock time) to components using the instance's
     /// frame rate and subframes base.
-    internal func components(realTime: TimeInterval) -> Components {
+    func components(realTime: TimeInterval) -> Components {
         let elapsedFrames = elapsedFrames(realTime: realTime)
         
         return Self.components(
@@ -102,11 +102,13 @@ extension Timecode {
     
     /// Internal:
     /// Calculates elapsed frames at current frame rate from real-time (wall-clock time).
-    internal func elapsedFrames(realTime: TimeInterval) -> Double {
+    func elapsedFrames(realTime: TimeInterval) -> Double {
         var calc = realTime / (1.0 / frameRate.frameRateForRealTimeCalculation)
         
         // over-estimate so real time is just past the equivalent timecode
-        // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value originated)
+        // since raw time values in practise can be a hair under the actual elapsed real time that would trigger the equivalent timecode
+        // (due to precision and rounding behaviors that may not be in our control, depending on where the passed real time value
+        // originated)
         
         let magicNumber = 0.000_010 // 10 microseconds
         

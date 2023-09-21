@@ -1,14 +1,14 @@
 //
 //  AVAsset Timecode Read.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 // MARK: - Start Timecode
 
@@ -50,7 +50,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode? {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         guard let start = try startTimecode(
             at: frameRate,
             base: base,
@@ -78,7 +78,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> Timecode {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         return try Timecode(
             .cmTime(duration),
             at: frameRate,
@@ -100,7 +100,7 @@ extension AVAsset {
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = ._24hours
     ) throws -> [[Timecode]] {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         
         let samples = try tracks(withMediaType: .timecode)
             .map { try $0.readTimecodeSamples(context: self) }
@@ -119,7 +119,7 @@ extension AVAsset {
     // MARK: - Helpers
     
     @_disfavoredOverload
-    internal func readTimecodeSamples() throws -> [[CMTimeCode]] {
+    func readTimecodeSamples() throws -> [[CMTimeCode]] {
         try tracks(withMediaType: .timecode)
             .map {
                 try $0.readTimecodeSamples(context: self)

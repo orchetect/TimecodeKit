@@ -1,7 +1,7 @@
 //
 //  Timecode Math Internal.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -9,7 +9,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Returns `nil` if it overflows possible timecode values.
-    internal func _add(
+    func _add(
         exactly duration: Components,
         to base: Components
     ) -> Components? {
@@ -42,7 +42,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Clamps to maximum timecode expressible.
-    internal func _add(
+    func _add(
         clamping duration: Components,
         to base: Components
     ) -> Components {
@@ -74,7 +74,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Wraps around the clock as set by the `upperLimit` property.
-    internal func _add(
+    func _add(
         wrapping duration: Components,
         to base: Components
     ) -> Components {
@@ -120,7 +120,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Invalid values are retained without validation.
-    internal func _add(
+    func _add(
         rawValues duration: Components,
         to base: Components
     ) -> Components {
@@ -152,7 +152,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Returns `nil` if overflows possible timecode values.
-    internal func _subtract(
+    func _subtract(
         exactly duration: Components,
         from base: Components
     ) -> Components? {
@@ -185,7 +185,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Clamps to valid timecode as set by the `upperLimit` property.
-    internal func _subtract(
+    func _subtract(
         clamping duration: Components,
         from base: Components
     ) -> Components {
@@ -217,7 +217,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Wraps around the clock as set by the `upperLimit` property.
-    internal func _subtract(
+    func _subtract(
         wrapping duration: Components,
         from base: Components
     ) -> Components {
@@ -263,7 +263,7 @@ extension Timecode {
     
     /// Utility function to add a duration to a base timecode.
     /// Invalid values are retained without validation.
-    internal func _subtract(
+    func _subtract(
         rawValues duration: Components,
         from base: Components
     ) -> Components {
@@ -295,7 +295,7 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a float.
     /// Returns `nil` if it overflows possible timecode values.
-    internal func _multiply(
+    func _multiply(
         exactly factor: Double,
         with: Components
     ) -> Components? {
@@ -323,7 +323,7 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a float.
     /// Clamps to maximum timecode expressible.
-    internal func _multiply(
+    func _multiply(
         clamping factor: Double,
         with: Components
     ) -> Components {
@@ -350,7 +350,7 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a float.
     /// Wraps around the clock as set by the `upperLimit` property.
-    internal func _multiply(
+    func _multiply(
         wrapping factor: Double,
         with: Components
     ) -> Components {
@@ -391,7 +391,7 @@ extension Timecode {
     
     /// Utility function to multiply a base timecode by a float.
     /// Invalid values are retained without validation.
-    internal func _multiply(
+    func _multiply(
         rawValues factor: Double,
         with: Components
     ) -> Components {
@@ -418,7 +418,7 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a float.
     /// Returns `nil` if it overflows possible timecode values.
-    internal func _divide(
+    func _divide(
         exactly divisor: Double,
         into: Components
     ) -> Components? {
@@ -446,7 +446,7 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a float.
     /// Clamps to valid timecode between 0 and `upperLimit`.
-    internal func _divide(
+    func _divide(
         clamping divisor: Double,
         into: Components
     ) -> Components {
@@ -473,7 +473,7 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a float.
     /// Wraps around the clock as set by the `upperLimit` property.
-    internal func _divide(
+    func _divide(
         wrapping divisor: Double,
         into: Components
     ) -> Components {
@@ -514,7 +514,7 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a float.
     /// Invalid values are retained without validation.
-    internal func _divide(
+    func _divide(
         rawValues divisor: Double,
         into: Components
     ) -> Components {
@@ -541,7 +541,7 @@ extension Timecode {
     
     /// Utility function to divide a base timecode by a duration.
     /// Returns `nil` if it overflows possible timecode values.
-    internal func _divide(
+    func _divide(
         exactly divisor: Components,
         into: Components
     ) -> Double? {
@@ -568,7 +568,7 @@ extension Timecode {
     // MARK: - Offset / TimecodeInterval
     
     /// Utility function to return a `TimecodeInterval` interval.
-    internal func _offset(to other: Components) -> TimecodeInterval {
+    func _offset(to other: Components) -> TimecodeInterval {
         if components == other {
             return TimecodeInterval(
                 Timecode.Components.zero.timecode(

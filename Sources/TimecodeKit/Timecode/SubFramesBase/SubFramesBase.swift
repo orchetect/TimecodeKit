@@ -1,7 +1,7 @@
 //
 //  SubFramesBase.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -29,7 +29,7 @@ extension Timecode.SubFramesBase {
 
 extension Timecode.SubFramesBase: CustomStringConvertible {
     public var description: String {
-        return "\(rawValue)"
+        "\(rawValue)"
     }
 }
 
@@ -47,7 +47,7 @@ extension Timecode.SubFramesBase {
     /// Converts a given number of subframes at this subframes base to a different subframes base.
     public func convert(subFrames: Int, to other: Self) -> Int {
         // early return if we don't need to scale subframes
-        guard self != other && subFrames != 0 else { return subFrames }
+        guard self != other, subFrames != 0 else { return subFrames }
         
         let calc = (Double(subFrames) / Double(rawValue)) * Double(other.rawValue)
         return Int(calc)

@@ -1,7 +1,7 @@
 //
 //  Timecode Rational.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -70,7 +70,7 @@ extension Timecode {
     /// - Note: A negative fraction will throw an error. Use ``TimecodeInterval`` init instead.
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(exactly rational: Fraction) throws {
+    mutating func _setTimecode(exactly rational: Fraction) throws {
         let frameCount = floatingFrameCount(of: rational)
         try _setTimecode(exactly: .combined(frames: frameCount))
     }
@@ -83,7 +83,7 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func _setTimecode(clamping rational: Fraction) {
+    mutating func _setTimecode(clamping rational: Fraction) {
         let frameCount = frameCount(of: rational)
         _setTimecode(clamping: .frames(frameCount))
     }
@@ -96,7 +96,7 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func _setTimecode(wrapping rational: Fraction) {
+    mutating func _setTimecode(wrapping rational: Fraction) {
         let frameCount = frameCount(of: rational)
         _setTimecode(wrapping: .frames(frameCount))
     }
@@ -109,7 +109,7 @@ extension Timecode {
     /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
     /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
     /// fractions.)
-    internal mutating func _setTimecode(rawValues rational: Fraction) {
+    mutating func _setTimecode(rawValues rational: Fraction) {
         let frameCount = frameCount(of: rational)
         _setTimecode(rawValues: .frames(frameCount))
     }
@@ -119,20 +119,20 @@ extension Timecode {
     /// Internal:
     /// Returns frame count of the rational fraction at current frame rate.
     /// Truncates subframes if present.
-    internal func frameCount(of rational: Fraction) -> Int {
+    func frameCount(of rational: Fraction) -> Int {
         let frFrac = frameRate.frameDuration
         let frameCount = (rational.numerator * frFrac.denominator) /
-        (rational.denominator * frFrac.numerator)
+            (rational.denominator * frFrac.numerator)
         return frameCount
     }
     
     /// Internal:
     /// Returns frame count of the rational fraction at current frame rate.
     /// Preserves subframes as floating-point potion of a frame.
-    internal func floatingFrameCount(of rational: Fraction) -> Double {
+    func floatingFrameCount(of rational: Fraction) -> Double {
         let frFrac = frameRate.frameDuration
         let frameCount = (Double(rational.numerator) * Double(frFrac.denominator)) /
-        (Double(rational.denominator) * Double(frFrac.numerator))
+            (Double(rational.denominator) * Double(frFrac.numerator))
         return frameCount
     }
 }

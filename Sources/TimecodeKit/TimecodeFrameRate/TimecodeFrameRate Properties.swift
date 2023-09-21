@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: stringValue
@@ -312,7 +312,7 @@ extension TimecodeFrameRate {
 extension TimecodeFrameRate {
     /// Internal use.
     /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
-    internal var maxFrames: Int {
+    var maxFrames: Int {
         switch self {
         case ._23_976:      return 24
         case ._24:          return 24
@@ -341,7 +341,7 @@ extension TimecodeFrameRate {
     
     /// Internal use.
     /// Constant used when calculating total frame count, audio samples, etc.
-    internal var frameRateForElapsedFramesCalculation: Double {
+    var frameRateForElapsedFramesCalculation: Double {
         switch self {
         case ._23_976:      return 24.0
         case ._24:          return 24.0
@@ -370,7 +370,7 @@ extension TimecodeFrameRate {
     
     /// Internal use.
     /// Constant used in real time conversion, SMF export, etc.
-    internal var frameRateForRealTimeCalculation: Double {
+    var frameRateForRealTimeCalculation: Double {
         switch self {
         case ._23_976:      return 24.0 / 1.001
         case ._24:          return 24.0
@@ -398,7 +398,7 @@ extension TimecodeFrameRate {
     }
     
     /// Internal use.
-    internal var framesDroppedPerMinute: Double {
+    var framesDroppedPerMinute: Double {
         switch self {
         case ._29_97_drop:  return 2.0
         case ._30_drop:     return 2.0
@@ -425,7 +425,8 @@ extension TimecodeFrameRate {
              ._120:
             
             // this value is not actually used
-            // this is only here so that when adding frame rates to the framework, the compiler will throw an error to remind you to add the enum case here
+            // this is only here so that when adding frame rates to the framework, the compiler will throw an error to remind you to add the
+            // enum case here
             return 0.0
         }
     }

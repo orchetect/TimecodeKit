@@ -1,15 +1,15 @@
 //
 //  Timecode AVAsset Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import XCTest
-@testable import TimecodeKit
 import AVFoundation
+@testable import TimecodeKit
+import XCTest
 
 class Timecode_AVAsset_Tests: XCTestCase {
     override func setUp() { }

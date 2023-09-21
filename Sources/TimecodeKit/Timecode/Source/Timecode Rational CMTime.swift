@@ -1,13 +1,13 @@
 //
 //  Timecode Rational CMTime.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if canImport(CoreMedia)
 
-import Foundation
 import CoreMedia
+import Foundation
 
 // MARK: - TimecodeSource
 
@@ -69,7 +69,7 @@ extension Timecode {
     /// times and durations.
     ///
     /// - Throws: ``ValidationError``
-    internal mutating func _setTimecode(exactly: CMTime) throws {
+    mutating func _setTimecode(exactly: CMTime) throws {
         let fraction = Fraction(Int(exactly.value), Int(exactly.timescale))
         try _setTimecode(exactly: fraction)
     }
@@ -80,7 +80,7 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func _setTimecode(clamping cmTime: CMTime) {
+    mutating func _setTimecode(clamping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
         _setTimecode(clamping: fraction)
     }
@@ -91,7 +91,7 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func _setTimecode(wrapping cmTime: CMTime) {
+    mutating func _setTimecode(wrapping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
         _setTimecode(wrapping: fraction)
     }
@@ -102,7 +102,7 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
     /// times and durations.
-    internal mutating func _setTimecode(rawValues cmTime: CMTime) {
+    mutating func _setTimecode(rawValues cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
         _setTimecode(rawValues: fraction)
     }

@@ -1,7 +1,7 @@
 //
 //  Timecode set.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -36,22 +36,22 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
-    internal mutating func set(_ source: TimecodeSource) throws {
+    mutating func set(_ source: TimecodeSource) throws {
         try source.set(timecode: &self)
     }
     
-    internal mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
+    mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
         source.set(timecode: &self, by: validation)
     }
     
     /// - Throws: ``ValidationError``
-    internal func setting(_ value: TimecodeSource) throws -> Timecode {
+    func setting(_ value: TimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(value)
         return copy
     }
     
-    internal func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
+    func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
         var copy = self
         copy.set(value, by: validation)
         return copy
@@ -88,22 +88,22 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
-    internal mutating func set(_ source: FormattedTimecodeSource) throws {
+    mutating func set(_ source: FormattedTimecodeSource) throws {
         try source.set(timecode: &self)
     }
     
-    internal mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
+    mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
         try source.set(timecode: &self, by: validation)
     }
     
     /// - Throws: ``ValidationError``
-    internal func setting(_ source: FormattedTimecodeSource) throws -> Timecode {
+    func setting(_ source: FormattedTimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(source)
         return copy
     }
     
-    internal func setting(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
+    func setting(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
         var copy = self
         try copy.set(source, by: validation)
         return copy
@@ -137,7 +137,7 @@ extension Timecode {
     public mutating func set(
         _ source: RichTimecodeSource
     ) throws {
-        self.properties = try source.set(timecode: &self)
+        properties = try source.set(timecode: &self)
     }
     
     /// - Throws: ``ValidationError``
