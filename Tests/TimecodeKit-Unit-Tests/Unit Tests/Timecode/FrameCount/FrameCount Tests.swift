@@ -171,7 +171,7 @@ class FrameCount_Tests: XCTestCase {
                 .frames(totalFramesin24Hr - 1),
                 at: ._29_97_drop,
                 base: ._80SubFrames,
-                limit: ._24hours
+                limit: ._24Hours
             ).components,
             Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 0)
         )
@@ -181,7 +181,7 @@ class FrameCount_Tests: XCTestCase {
                 .frames(totalFramesin24Hr - 1, subFrames: 79),
                 at: ._29_97_drop,
                 base: ._80SubFrames,
-                limit: ._24hours
+                limit: ._24Hours
             ).components,
             Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79)
         )
@@ -191,7 +191,7 @@ class FrameCount_Tests: XCTestCase {
                 .frames(totalFramesin24Hr - 1, subFrames: 79),
                 at: ._29_97_drop,
                 base: ._80SubFrames,
-                limit: ._24hours
+                limit: ._24Hours
             )
             .frameCount
             .subFrameCount,
@@ -206,7 +206,7 @@ class FrameCount_Tests: XCTestCase {
             try Timecode(
                 .frames(totalFramesin24Hr),
                 at: ._30_drop,
-                limit: ._100days
+                limit: ._100Days
             ).components,
             Timecode.Components(d: 1)
         )

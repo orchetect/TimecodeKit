@@ -108,7 +108,7 @@ class TimecodeIntegrationTests: XCTestCase {
                 Timecode(
                     .components(d: -1, h: -1, m: -1, s: -1, f: -1),
                     at: $0,
-                    limit: ._100days,
+                    limit: ._100Days,
                     by: .clampingComponents
                 )
                 .components,
@@ -121,7 +121,7 @@ class TimecodeIntegrationTests: XCTestCase {
             let clamped = Timecode(
                 .components(d: 99, h: 99, m: 99, s: 99, f: 10000),
                 at: $0,
-                limit: ._100days,
+                limit: ._100Days,
                 by: .clampingComponents
             )
             .components
@@ -184,7 +184,7 @@ class TimecodeIntegrationTests: XCTestCase {
             let wrapped = Timecode(
                 .components(d: -1),
                 at: $0,
-                limit: ._100days,
+                limit: ._100Days,
                 by: .wrapping
             )
             .components

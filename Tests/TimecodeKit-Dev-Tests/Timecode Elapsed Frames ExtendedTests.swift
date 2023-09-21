@@ -26,8 +26,8 @@ import XCTest
 //        // ======= parameters =======
 //
 //        let limit: Timecode.UpperLimit =
-//            ._24hours
-//        // ._100days
+//            ._24Hours
+//        // ._100Days
 //
 //        let frameRatesToTest: [TimecodeFrameRate] =
 //            TimecodeFrameRate.allCases
@@ -119,7 +119,7 @@ import XCTest
 // final class DevTests: XCTestCase {
 //    func testDummy() throws {
 //        var tc = try Timecode.Components(d: 1)
-//            .timecode(at: ._30_drop, limit: ._100days)
+//            .timecode(at: ._30_drop, limit: ._100Days)
 //        print(tc.realTimeValue)
 //        tc.set(.zero)
 //        try tc.set("")
@@ -129,7 +129,7 @@ import XCTest
 //    func testDummy2() throws {
 //        let tc = try Timecode(.frames(2_589_408),
 //                              at: ._30_drop,
-//                              limit: ._100days)
+//                              limit: ._100Days)
 //        print(tc)
 //        print(tc.realTimeValue)
 //    }

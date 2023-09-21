@@ -585,7 +585,7 @@ extension Timecode {
             .components(other),
             at: frameRate,
             base: subFramesBase,
-            limit: ._100days,
+            limit: ._100Days,
             by: .allowingInvalid
         )
         

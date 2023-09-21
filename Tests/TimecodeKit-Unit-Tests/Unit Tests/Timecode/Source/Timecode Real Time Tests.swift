@@ -88,7 +88,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         let accuracy = 0.000000001
         
         try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(d: 10), at: $0, limit: ._100days)
+            let tc = try Timecode(.components(d: 10), at: $0, limit: ._100Days)
             
             switch $0 {
             case ._23_976,
@@ -152,7 +152,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         let tcc = Timecode.Components(d: 10)
         
         try TimecodeFrameRate.allCases.forEach {
-            var tc = try Timecode(.components(tcc), at: $0, limit: ._100days)
+            var tc = try Timecode(.components(tcc), at: $0, limit: ._100Days)
             
             switch $0 {
             case ._23_976,
@@ -223,7 +223,7 @@ class Timecode_RealTime_Tests: XCTestCase {
                     .components(tcc),
                     at: $0,
                     base: subFramesBase,
-                    limit: ._100days
+                    limit: ._100Days
                 )
                 
                 // timecode to samples
@@ -403,7 +403,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         XCTAssertEqual(
             try TimeInterval(secInTC10Days_BaseFrameRates)
-                .timecode(at: ._24, limit: ._100days)
+                .timecode(at: ._24, limit: ._100Days)
                 .components,
             Timecode.Components(d: 10)
         )
@@ -411,7 +411,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // timecode(at:) with subframes
         
         let tcWithSubFrames = try TimeInterval(3600.0)
-            .timecode(at: ._24, limit: ._100days)
+            .timecode(at: ._24, limit: ._100Days)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(

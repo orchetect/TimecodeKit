@@ -100,7 +100,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
             }
             
             XCTAssertEqual(
-                $0.maxTotalFrames(in: ._24hours),
+                $0.maxTotalFrames(in: ._24Hours),
                 maxFramesIn24hours,
                 "for \($0)"
             )
@@ -139,7 +139,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
             }
             
             XCTAssertEqual(
-                $0.maxTotalFramesExpressible(in: ._24hours),
+                $0.maxTotalFramesExpressible(in: ._24Hours),
                 maxFramesExpressibleIn24hours,
                 "for \($0)"
             )

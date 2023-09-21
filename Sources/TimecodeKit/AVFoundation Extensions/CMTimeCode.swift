@@ -18,7 +18,7 @@ extension Collection where Element == CMTimeCode {
     func mapToTimecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> [Timecode] {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         return try mapToTimecode(using: properties)

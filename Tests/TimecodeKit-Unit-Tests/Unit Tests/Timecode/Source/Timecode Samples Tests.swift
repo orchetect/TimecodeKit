@@ -101,7 +101,7 @@ class Timecode_Samples_Tests: XCTestCase {
             fRate: TimecodeFrameRate,
             roundedForDropFrame: Bool
         ) throws {
-            var tc = Timecode(.zero, at: fRate, limit: ._100days)
+            var tc = Timecode(.zero, at: fRate, limit: ._100Days)
             
             // get
             try tc.set(.components(d: 1))
@@ -136,7 +136,7 @@ class Timecode_Samples_Tests: XCTestCase {
             sRate: Int,
             fRate: TimecodeFrameRate
         ) throws {
-            var tc = Timecode(.zero, at: fRate, limit: ._100days)
+            var tc = Timecode(.zero, at: fRate, limit: ._100Days)
             
             // get
             try tc.set(.components(d: 1))
@@ -258,7 +258,7 @@ class Timecode_Samples_Tests: XCTestCase {
                     .components(tcc),
                     at: $0,
                     base: subFramesBase,
-                    limit: ._100days
+                    limit: ._100Days
                 )
                 
                 let sRate = 48000

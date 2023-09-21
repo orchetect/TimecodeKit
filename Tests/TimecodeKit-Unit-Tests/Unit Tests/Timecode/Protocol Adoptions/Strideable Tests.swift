@@ -38,7 +38,7 @@ class Timecode_Strideable_Tests: XCTestCase {
             
             let delta = zero.distance(to: target)
             
-            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._24hours), "for \($0)")
+            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._24Hours), "for \($0)")
         }
     }
     
@@ -47,14 +47,14 @@ class Timecode_Strideable_Tests: XCTestCase {
         
         try TimecodeFrameRate.allCases.forEach {
             let zero = try Timecode.Components(h: 00, m: 00, s: 00, f: 00)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
             
             let target = try Timecode.Components(d: 99, h: 23, m: 59, s: 59, f: $0.maxFrameNumberDisplayable)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
             
             let delta = zero.distance(to: target)
             
-            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._100days), "for \($0)")
+            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: ._100Days), "for \($0)")
         }
     }
     

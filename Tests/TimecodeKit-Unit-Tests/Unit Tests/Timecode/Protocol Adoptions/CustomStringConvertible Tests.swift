@@ -17,7 +17,7 @@ class Timecode_CustomStringConvertible_Tests: XCTestCase {
         let tc = try Timecode(
             .components(d: 1, h: 2, m: 3, s: 4, f: 5, sf: 6),
             at: ._24,
-            limit: ._100days
+            limit: ._100Days
         )
         
         XCTAssertNotEqual(tc.description, "")

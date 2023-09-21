@@ -17,7 +17,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
         let tc = try Timecode(
             .frames(670_907),
             at: ._30,
-            limit: ._24hours
+            limit: ._24Hours
         )
         
         XCTAssertEqual(tc.days, 0)
@@ -32,7 +32,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
         let tc = Timecode(
             .frames(2073600 + 86400), // 25 hours @ 24fps
             at: ._24,
-            limit: ._24hours,
+            limit: ._24Hours,
             by: .clamping
         )
         
@@ -46,7 +46,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
         let tc = Timecode(
             .frames(2073600 + 86400), // 25 hours @ 24fps
             at: ._24,
-            limit: ._24hours,
+            limit: ._24Hours,
             by: .wrapping
         )
         
@@ -62,7 +62,7 @@ class Timecode_FrameCount_Value_Tests: XCTestCase {
         let tc = Timecode(
             .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
             at: ._24,
-            limit: ._24hours,
+            limit: ._24Hours,
             by: .allowingInvalid
         )
         

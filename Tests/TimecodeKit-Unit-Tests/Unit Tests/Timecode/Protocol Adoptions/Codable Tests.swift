@@ -25,7 +25,7 @@ class Timecode_Codable_Tests: XCTestCase {
             let tc = try "1 12:34:56:11.85".timecode(
                 at: $0,
                 base: ._100SubFrames,
-                limit: ._100days
+                limit: ._100Days
             )
             
             // encode

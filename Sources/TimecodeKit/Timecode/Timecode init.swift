@@ -16,7 +16,7 @@ extension Timecode {
         _ source: TimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        limit: UpperLimit = ._24hours
+        limit: UpperLimit = ._24Hours
     ) throws {
         properties = Properties(rate: frameRate, base: base, limit: limit)
         try set(source.value)
@@ -27,7 +27,7 @@ extension Timecode {
         _ source: TimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        limit: UpperLimit = ._24hours,
+        limit: UpperLimit = ._24Hours,
         by validation: ValidationRule
     ) {
         properties = Properties(rate: frameRate, base: base, limit: limit)
@@ -64,7 +64,7 @@ extension Timecode {
         _ source: FormattedTimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        limit: UpperLimit = ._24hours
+        limit: UpperLimit = ._24Hours
     ) throws {
         properties = Properties(rate: frameRate, base: base, limit: limit)
         try set(source.value)
@@ -77,7 +77,7 @@ extension Timecode {
         _ source: FormattedTimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        limit: UpperLimit = ._24hours,
+        limit: UpperLimit = ._24Hours,
         by validation: ValidationRule
     ) throws {
         properties = Properties(rate: frameRate, base: base, limit: limit)
@@ -126,7 +126,7 @@ extension Timecode {
         _ source: GuaranteedTimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        limit: UpperLimit = ._24hours
+        limit: UpperLimit = ._24Hours
     ) {
         properties = Properties(rate: frameRate, base: base, limit: limit)
         set(source.value)
@@ -161,7 +161,7 @@ extension TimecodeSource {
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> Timecode {
         let value = TimecodeSourceValue(value: self)
         return try Timecode(value, at: frameRate, base: base, limit: limit)
@@ -171,7 +171,7 @@ extension TimecodeSource {
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours,
+        limit: Timecode.UpperLimit = ._24Hours,
         by validation: Timecode.ValidationRule
     ) -> Timecode {
         let value = TimecodeSourceValue(value: self)
@@ -207,7 +207,7 @@ extension FormattedTimecodeSource {
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> Timecode {
         let value = FormattedTimecodeSourceValue(value: self)
         return try Timecode(value, at: frameRate, base: base, limit: limit)
@@ -219,7 +219,7 @@ extension FormattedTimecodeSource {
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours,
+        limit: Timecode.UpperLimit = ._24Hours,
         by validation: Timecode.ValidationRule
     ) throws -> Timecode {
         let value = FormattedTimecodeSourceValue(value: self)
@@ -267,7 +267,7 @@ extension GuaranteedTimecodeSource {
     public func timecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) -> Timecode {
         let value = GuaranteedTimecodeSourceValue(value: self)
         return Timecode(value, at: frameRate, base: base, limit: limit)

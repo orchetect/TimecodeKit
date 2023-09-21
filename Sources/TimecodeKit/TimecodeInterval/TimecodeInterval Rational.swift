@@ -18,7 +18,7 @@ extension TimecodeInterval {
         _ rational: Fraction,
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws {
         let neg = rational.isNegative
         let absRational = rational.abs()
@@ -67,7 +67,7 @@ extension Fraction {
     public func timecodeInterval(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> TimecodeInterval {
         try TimecodeInterval(self, at: frameRate, base: base, limit: limit)
     }

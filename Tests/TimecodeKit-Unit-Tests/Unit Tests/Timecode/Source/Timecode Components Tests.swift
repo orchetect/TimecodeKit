@@ -91,7 +91,7 @@ class Timecode_Components_Tests: XCTestCase {
         }
     }
     
-    func testTimecode_components_24hours() {
+    func testTimecode_components_24Hours() {
         // default
         
         var tc = Timecode(.zero, at: ._30)
@@ -105,10 +105,10 @@ class Timecode_Components_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 1, m: 2, s: 3, f: 4, sf: 5))
     }
     
-    func testTimecode_components_100days() {
+    func testTimecode_components_100Days() {
         // default
         
-        var tc = Timecode(.zero, at: ._30, limit: ._100days)
+        var tc = Timecode(.zero, at: ._30, limit: ._100Days)
         
         XCTAssertEqual(tc.components, Timecode.Components.zero)
         

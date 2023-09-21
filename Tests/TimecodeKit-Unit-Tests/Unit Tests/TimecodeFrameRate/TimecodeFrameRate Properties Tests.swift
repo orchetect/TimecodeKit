@@ -26,28 +26,28 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(frameRate.maxFrameNumberDisplayable, 29)
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._24hours),
+            frameRate.maxTotalFrames(in: ._24Hours),
             2_592_000
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._100days),
+            frameRate.maxTotalFrames(in: ._100Days),
             2_592_000 * 100
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._24hours),
+            frameRate.maxTotalFramesExpressible(in: ._24Hours),
             2_592_000 - 1
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._100days),
+            frameRate.maxTotalFramesExpressible(in: ._100Days),
             (2_592_000 * 100) - 1
         )
         
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._24hours,
+                in: ._24Hours,
                 base: ._80SubFrames
             ),
             2_592_000 * 80
@@ -57,7 +57,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         #if !(arch(arm) || arch(i386))
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._100days,
+                in: ._100Days,
                 base: ._80SubFrames
             ),
             2_592_000 * 100 * 80
@@ -65,7 +65,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._100days,
+                in: ._100Days,
                 base: ._80SubFrames
             ),
             (2_592_000 * 100 * 80) - 1
@@ -74,7 +74,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._24hours,
+                in: ._24Hours,
                 base: ._80SubFrames
             ),
             (2_592_000 * 80) - 1

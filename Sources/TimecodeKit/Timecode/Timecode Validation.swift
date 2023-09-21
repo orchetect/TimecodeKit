@@ -40,7 +40,7 @@ extension Timecode.Components {
     public func invalidComponents(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) -> Set<Timecode.Component> {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         return invalidComponents(using: properties)
@@ -65,7 +65,7 @@ extension Timecode {
         in components: Components,
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) -> Set<Component> {
         let properties = Properties(rate: frameRate, base: base, limit: limit)
         return invalidComponents(in: components, using: properties)
@@ -120,7 +120,7 @@ extension Timecode.Components {
         of component: Timecode.Component,
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) -> ClosedRange<Int> {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         return validRange(of: component, using: properties)

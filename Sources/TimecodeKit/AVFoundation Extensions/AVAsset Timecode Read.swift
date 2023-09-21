@@ -25,7 +25,7 @@ extension AVAsset {
     public func startTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> Timecode? {
         try timecodes(
             at: frameRate,
@@ -48,7 +48,7 @@ extension AVAsset {
     public func endTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> Timecode? {
         let frameRate = try frameRate ?? timecodeFrameRate()
         guard let start = try startTimecode(
@@ -76,7 +76,7 @@ extension AVAsset {
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> Timecode {
         let frameRate = try frameRate ?? timecodeFrameRate()
         return try Timecode(
@@ -98,7 +98,7 @@ extension AVAsset {
     public func timecodes(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> [[Timecode]] {
         let frameRate = try frameRate ?? timecodeFrameRate()
         

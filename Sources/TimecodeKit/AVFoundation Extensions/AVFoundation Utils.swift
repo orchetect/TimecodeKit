@@ -43,7 +43,7 @@ extension CMTimeRange {
     public func timecodeRange(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24hours
+        limit: Timecode.UpperLimit = ._24Hours
     ) throws -> ClosedRange<Timecode> {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         return try timecodeRange(using: properties)

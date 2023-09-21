@@ -133,7 +133,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -145,7 +145,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let sv = try Timecode.Components(h: 1, m: 02, s: 03, f: 04)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -202,7 +202,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let sv = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -214,7 +214,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let sv = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
                 .stringValue()
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
@@ -271,7 +271,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allNonDrop.forEach {
             let tc = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
@@ -283,7 +283,7 @@ class Timecode_String_Tests: XCTestCase {
         
         try TimecodeFrameRate.allDrop.forEach {
             let tc = try Timecode.Components(d: 2, h: 1, m: 02, s: 03, f: 04, sf: 12)
-                .timecode(at: $0, limit: ._100days)
+                .timecode(at: $0, limit: ._100Days)
             
             let t = $0.numberOfDigits == 2 ? "" : "0"
             
