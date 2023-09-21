@@ -1,7 +1,7 @@
 //
-//  Timecode Feet+Frames.swift
+//  Timecode FeetAndFrames.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -75,19 +75,19 @@ extension Timecode {
 // MARK: - Set
 
 extension Timecode {
-    internal mutating func _setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
+    mutating func _setTimecode(exactly feetAndFrames: FeetAndFrames) throws {
         try _setTimecode(exactly: feetAndFrames.frameCount)
     }
     
-    internal mutating func _setTimecode(clamping feetAndFrames: FeetAndFrames) {
+    mutating func _setTimecode(clamping feetAndFrames: FeetAndFrames) {
         _setTimecode(clamping: feetAndFrames.frameCount)
     }
     
-    internal mutating func _setTimecode(wrapping feetAndFrames: FeetAndFrames) {
+    mutating func _setTimecode(wrapping feetAndFrames: FeetAndFrames) {
         _setTimecode(wrapping: feetAndFrames.frameCount)
     }
     
-    internal mutating func _setTimecode(rawValues feetAndFrames: FeetAndFrames) {
+    mutating func _setTimecode(rawValues feetAndFrames: FeetAndFrames) {
         _setTimecode(rawValues: feetAndFrames.frameCount)
     }
 }

@@ -1,7 +1,7 @@
 //
 //  API-2.0.0.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if ENABLE_API_DEPRECATIONS
@@ -12,7 +12,11 @@ import Foundation
 
 // MARK: - TCC
 
-@available(*, deprecated, message: "TCC() is removed in TimecodeKit 2.x. Use Timecode(.components(), at:) instead.")
+@available(
+    *,
+    deprecated,
+    message: "TCC() is removed in TimecodeKit 2.x. Use Timecode(.components(), at:) instead."
+)
 public typealias TCC = Timecode.Components
 
 // MARK: - Inits
@@ -134,8 +138,8 @@ extension Timecode {
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 extension AVAsset {
     @available(*, deprecated, renamed: "startTimecode(at:base:limit:)")
@@ -229,8 +233,8 @@ extension Timecode {
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 extension AVAssetTrack {
     @available(*, deprecated, renamed: "durationTimecode(at:limit:base:)")
@@ -263,7 +267,11 @@ extension Timecode {
         try self.init(.components(exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping rawValues: Components,
         at rate: TimecodeFrameRate,
@@ -275,7 +283,11 @@ extension Timecode {
         self.init(.components(rawValues), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clampingComponents)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .clampingComponents)"
+    )
     public init(
         clampingEach rawValues: Components,
         at rate: TimecodeFrameRate,
@@ -287,7 +299,11 @@ extension Timecode {
         self.init(.components(rawValues), using: properties, by: .clampingComponents)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrapping rawValues: Components,
         at rate: TimecodeFrameRate,
@@ -299,7 +315,11 @@ extension Timecode {
         self.init(.components(rawValues), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.components(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValues: Components,
         at rate: TimecodeFrameRate,
@@ -413,7 +433,11 @@ extension Timecode {
         try self.init(.frames(exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
@@ -425,7 +449,11 @@ extension Timecode {
         self.init(.frames(source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrapping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
@@ -437,7 +465,11 @@ extension Timecode {
         self.init(.frames(source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValues source: FrameCount.Value,
         at rate: TimecodeFrameRate,
@@ -487,7 +519,11 @@ extension Timecode {
         try self.init(.frames(exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -498,7 +534,11 @@ extension Timecode {
         self.init(.frames(source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrapping source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -509,7 +549,11 @@ extension Timecode {
         self.init(.frames(source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.frames(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValues source: FrameCount,
         at rate: TimecodeFrameRate,
@@ -547,8 +591,8 @@ extension Timecode {
 
 #if canImport(CoreMedia)
 
-import Foundation
 import CoreMedia
+import Foundation
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension Timecode {
@@ -565,7 +609,11 @@ extension Timecode {
         try self.init(.cmTime(source), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping source: CMTime,
         at rate: TimecodeFrameRate,
@@ -577,7 +625,11 @@ extension Timecode {
         self.init(.cmTime(source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrapping source: CMTime,
         at rate: TimecodeFrameRate,
@@ -589,7 +641,11 @@ extension Timecode {
         self.init(.cmTime(source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.cmTime(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValues source: CMTime,
         at rate: TimecodeFrameRate,
@@ -657,7 +713,11 @@ extension Timecode {
         try self.init(.rational(exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping source: Fraction,
         at rate: TimecodeFrameRate,
@@ -669,7 +729,11 @@ extension Timecode {
         self.init(.rational(source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.rational(), at:, base:, limit:, by: .wrapping)"
+    )
     /// fractions.)
     public init(
         wrapping source: Fraction,
@@ -682,7 +746,11 @@ extension Timecode {
         self.init(.rational(source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.rational(), at:, base:, limit::, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.rational(), at:, base:, limit::, by: .allowingInvalid)"
+    )
     public init(
         rawValues source: Fraction,
         at rate: TimecodeFrameRate,
@@ -756,7 +824,11 @@ extension Timecode {
         try self.init(.realTime(seconds: exactly), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clampingRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
@@ -768,7 +840,11 @@ extension Timecode {
         self.init(.realTime(seconds: source), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrappingRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
@@ -780,7 +856,11 @@ extension Timecode {
         self.init(.realTime(seconds: source), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.realTime(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValuesRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
@@ -833,7 +913,11 @@ extension TimeInterval {
 extension Timecode {
     // MARK: Int
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:)"
+    )
     public init(
         samples exactly: Int,
         sampleRate: Int,
@@ -846,7 +930,11 @@ extension Timecode {
         try self.init(.samples(exactly, sampleRate: sampleRate), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clampingSamples source: Int,
         sampleRate: Int,
@@ -859,7 +947,11 @@ extension Timecode {
         self.init(.samples(source, sampleRate: sampleRate), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrappingSamples source: Int,
         sampleRate: Int,
@@ -872,7 +964,11 @@ extension Timecode {
         self.init(.samples(source, sampleRate: sampleRate), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValuesSamples source: Int,
         sampleRate: Int,
@@ -887,7 +983,11 @@ extension Timecode {
     
     // MARK: Double
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:)"
+    )
     public init(
         samples exactly: Double,
         sampleRate: Int,
@@ -900,7 +1000,11 @@ extension Timecode {
         try self.init(.samples(exactly, sampleRate: sampleRate), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clampingSamples source: Double,
         sampleRate: Int,
@@ -913,7 +1017,11 @@ extension Timecode {
         self.init(.samples(source, sampleRate: sampleRate), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrappingSamples source: Double,
         sampleRate: Int,
@@ -926,7 +1034,11 @@ extension Timecode {
         self.init(.samples(source, sampleRate: sampleRate), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.samples(_:sampleRate:), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValuesSamples source: Double,
         sampleRate: Int,
@@ -958,7 +1070,11 @@ extension Timecode {
         set(.samples(wrappingSamples, sampleRate: sampleRate), by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to set(.samples(_:sampleRate:), by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to set(.samples(_:sampleRate:), by: .allowingInvalid)"
+    )
     public mutating func setTimecode(rawValuesSamples: Int, sampleRate: Int) {
         set(.samples(rawValuesSamples, sampleRate: sampleRate), by: .allowingInvalid)
     }
@@ -980,7 +1096,11 @@ extension Timecode {
         set(.samples(wrappingSamples, sampleRate: sampleRate), by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to set(.samples(_:sampleRate:), by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to set(.samples(_:sampleRate:), by: .allowingInvalid)"
+    )
     public mutating func setTimecode(rawValuesSamples: Double, sampleRate: Int) {
         set(.samples(rawValuesSamples, sampleRate: sampleRate), by: .allowingInvalid)
     }
@@ -1002,7 +1122,11 @@ extension Timecode {
         try self.init(.string(exactlyTimecodeString), using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clamping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clamping)"
+    )
     public init(
         clamping timecodeString: String,
         at rate: TimecodeFrameRate,
@@ -1014,7 +1138,11 @@ extension Timecode {
         try self.init(.string(timecodeString), using: properties, by: .clamping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clampingComponents)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .clampingComponents)"
+    )
     public init(
         clampingEach timecodeString: String,
         at rate: TimecodeFrameRate,
@@ -1026,7 +1154,11 @@ extension Timecode {
         try self.init(.string(timecodeString), using: properties, by: .clampingComponents)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .wrapping)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .wrapping)"
+    )
     public init(
         wrapping timecodeString: String,
         at rate: TimecodeFrameRate,
@@ -1038,7 +1170,11 @@ extension Timecode {
         try self.init(.string(timecodeString), using: properties, by: .wrapping)
     }
     
-    @available(*, deprecated, message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to Timecode(.string(), at:, base:, limit:, by: .allowingInvalid)"
+    )
     public init(
         rawValues timecodeString: String,
         at rate: TimecodeFrameRate,
@@ -1100,7 +1236,11 @@ extension String {
         return try timecode(using: properties)
     }
     
-    @available(*, deprecated, message: "Renamed to timecode(at:, base:, limit:, by: .allowingInvalid)")
+    @available(
+        *,
+        deprecated,
+        message: "Renamed to timecode(at:, base:, limit:, by: .allowingInvalid)"
+    )
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
         limit: Timecode.UpperLimit = ._24hours,
@@ -1136,8 +1276,8 @@ extension String {
 
 #if canImport(CoreMedia)
 
-import Foundation
 import CoreMedia
+import Foundation
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension TimecodeInterval {

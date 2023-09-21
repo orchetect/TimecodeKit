@@ -1,14 +1,14 @@
 //
 //  AVAsset Frame Rate Read.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 // MARK: - Timecode Frame Rate
 
@@ -71,7 +71,7 @@ extension AVAsset {
     /// If drop-frame status is embedded, returns `true` (drop) or `false` (non-drop).
     /// Returns `nil` if drop-frame status is unknown.
     /// Best practise is to default to `false` if `nil` is returned.
-    internal var isTimecodeFrameRateDropFrame: Bool? {
+    var isTimecodeFrameRateDropFrame: Bool? {
         guard #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         else { return nil }
         
@@ -94,7 +94,8 @@ extension AVAsset {
     public func videoFrameRate(interlaced: Bool? = nil) throws -> VideoFrameRate {
         // only video tracks contain interlaced (field) info
         
-        // use supplied interlaced status, otherwise auto-detect and default to non-interlaced (progressive)
+        // use supplied interlaced status, otherwise auto-detect and default to non-interlaced
+        // (progressive)
         let interlaced = interlaced ?? isVideoInterlaced
         
         // first, frame rate can be determined from minimum frame duration
@@ -161,7 +162,7 @@ extension AVAsset {
     // MARK: - Helpers
     
     /// Returns the nominal frame rate as `Float` for each video track.
-    internal func readNominalVideoFrameRates() -> [Float] {
+    func readNominalVideoFrameRates() -> [Float] {
         tracks(withMediaType: .video)
             .map(\.nominalFrameRate)
     }
@@ -170,7 +171,7 @@ extension AVAsset {
 extension AVAssetTrack {
     /// Returns `true` if the video track is interlaced.
     /// Not applicable for non-video tracks.
-    internal var isVideoInterlaced: Bool {
+    var isVideoInterlaced: Bool {
         // progressive is 1 field, interlaced is 2 fields
         formatDescriptionsTyped
             .map(\.extensionsDictionary)

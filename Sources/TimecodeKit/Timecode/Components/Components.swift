@@ -1,7 +1,7 @@
 //
 //  Components.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -65,12 +65,12 @@ extension Timecode {
             f: Int = 0,
             sf: Int = 0
         ) {
-            self.days = d
-            self.hours = h
-            self.minutes = m
-            self.seconds = s
-            self.frames = f
-            self.subFrames = sf
+            days = d
+            hours = h
+            minutes = m
+            seconds = s
+            frames = f
+            subFrames = sf
         }
     }
 }

@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version: 5.5
 // (be sure to update the .swift-version file when this Swift version changes)
 
 import PackageDescription
@@ -28,7 +28,7 @@ let package = Package(
     ],
     
     dependencies: [
-        // used only for Dev tests, not part of regular unit test
+        // used only for Dev tests, not part of regular unit tests
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ],
     
@@ -56,7 +56,8 @@ let package = Package(
         ),
         
         // dev tests
-        // (not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the library, as these tests require modification to be meaningful)
+        // (not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the
+        // library, as these tests require modification to be meaningful)
         .testTarget(
             name: "TimecodeKit-Dev-Tests",
             dependencies: ["TimecodeKit"] // , "XCTestUtils"
