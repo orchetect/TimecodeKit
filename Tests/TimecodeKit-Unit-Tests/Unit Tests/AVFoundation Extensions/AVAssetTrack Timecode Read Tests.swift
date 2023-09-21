@@ -17,11 +17,12 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     
     // MARK: - Start/Duration/End Timecode
     
-    func testReadTimecodeRange_23_976fps() throws {
+    func testReadTimecodeRange_23_976fps() async throws {
         let frameRate: TimecodeFrameRate = ._23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try await getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
         let correctStart = Timecode(.zero, at: frameRate)
         let correctEnd = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), at: frameRate)
@@ -44,11 +45,12 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         }
     }
     
-    func testReadDurationTimecode_23_976fps() throws {
+    func testReadDurationTimecode_23_976fps() async throws {
         let frameRate: TimecodeFrameRate = ._23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try await getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
         // duration
         let correctDur = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), at: frameRate)
@@ -59,11 +61,12 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
     }
     
-    func testReadDurationTimecode_29_97fps() throws {
+    func testReadDurationTimecode_29_97fps() async throws {
         let frameRate: TimecodeFrameRate = ._29_97
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try await getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
         // duration
         let correctDur = try Timecode(.components(s: 10), at: frameRate)
@@ -75,4 +78,17 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
 }
 
+// MARK: - Utils
+
+extension AVAssetTrack_TimecodeRead_Tests {
+    /// Wrapper to load asset's first track depending on OS version.
+    func getFirstTrack(of asset: AVAsset) async throws -> AVAssetTrack? {
+        let maybeTrack = if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+            try await asset.load(.tracks).first
+        } else {
+            asset.tracks.first
+        }
+        return try XCTUnwrap(maybeTrack)
+    }
+}
 #endif
