@@ -8,7 +8,7 @@ import Foundation
 
 #if os(macOS)
 import AppKit
-#elseif os(iOS) || os(tvOS) || os(watchOS)
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
 import UIKit
 #endif
 
@@ -199,7 +199,7 @@ extension Timecode {
             ?? [.foregroundColor: UIColor.red]
         #else
         let invalidColor = invalidAttributes
-            ?? []
+            ?? [:]
         #endif
         
         let invalids = invalidComponents
