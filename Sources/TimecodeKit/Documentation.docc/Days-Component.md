@@ -15,4 +15,3 @@ The limit setting naturally affects internal timecode validation routines, as we
 // valid timecode range at 24 fps, with 100 days limit
 "00:00:00:00" ... "99 23:59:59:23"
 ```
-Î

@@ -43,17 +43,18 @@ The following video frame rates are supported. (Video rates)
   - timecode display string
   - total elapsed frame count
   - real wall-clock time
-  - elapsed audio samples at given audio sample-rate
+  - elapsed audio samples at any audio sample rate
   - rational time notation (such as `CMTime` or Final Cut Pro XML and AAF encoding)
   - feet + frames
 - Convert timecode and/or frame rate to a rational fraction, and vice-versa (including `CMTime`)
-- Support for Subframes
 - Support for Days as a timecode component (some DAWs including Cubase support > 24 hour timecode)
+- Support for Subframes
 - Math operations: add, subtract, multiply, divide
 - Granular timecode validation
 - Form a `Range` or `Stride` between two timecodes
 - Conforms to `Codable`
-- A `Formatter` object that can format timecode and also provide an `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
+- A `Formatter` object that can format timecode
+- A `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
 - A SwiftUI `Text` object showing invalid timecode components using alternate attributes (such as red text color)
 - `AVAsset` video file utilities to easily read/write timecode tracks and locate `AVPlayer` to timecode locations
 - Exhaustive unit tests ensuring accuracy

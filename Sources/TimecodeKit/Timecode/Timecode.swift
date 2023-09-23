@@ -11,6 +11,7 @@
 /// - Mathematical operators are available between two instances: `+`, `-`, `*`, `\`
 /// - Comparison operators are available between two instances: `==`, `!=`, `<`, `>`
 /// - `Range` and `Stride` can be formed between two instances
+/// - Many more features are detailed in the documentation
 public struct Timecode {
     // MARK: - Components
     
