@@ -25,23 +25,23 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         // methods basic spot-check
         
         // NTSC
-        XCTAssertEqual(TimecodeFrameRate._29_97.compatibleGroup, .NTSC)
-        XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .NTSC)
+        XCTAssertEqual(TimecodeFrameRate._29_97.compatibleGroup, .ntsc)
+        XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .ntsc)
         XCTAssertTrue(TimecodeFrameRate._29_97.isCompatible(with: ._59_94))
         
         // NTSC drop
-        XCTAssertEqual(TimecodeFrameRate._29_97_drop.compatibleGroup, .NTSC_drop)
-        XCTAssertEqual(TimecodeFrameRate._59_94_drop.compatibleGroup, .NTSC_drop)
+        XCTAssertEqual(TimecodeFrameRate._29_97_drop.compatibleGroup, .ntscDrop)
+        XCTAssertEqual(TimecodeFrameRate._59_94_drop.compatibleGroup, .ntscDrop)
         XCTAssertTrue(TimecodeFrameRate._29_97_drop.isCompatible(with: ._59_94_drop))
         
         // ATSC
-        XCTAssertEqual(TimecodeFrameRate._24.compatibleGroup, .ATSC)
-        XCTAssertEqual(TimecodeFrameRate._30.compatibleGroup, .ATSC)
+        XCTAssertEqual(TimecodeFrameRate._24.compatibleGroup, .atsc)
+        XCTAssertEqual(TimecodeFrameRate._30.compatibleGroup, .atsc)
         XCTAssertTrue(TimecodeFrameRate._24.isCompatible(with: ._30))
         
         // ATSC drop
-        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .ATSC_drop)
-        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .ATSC_drop)
+        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .atscDrop)
+        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .atscDrop)
         XCTAssertTrue(TimecodeFrameRate._30_drop.isCompatible(with: ._60_drop))
     }
     

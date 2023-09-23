@@ -28,3 +28,10 @@
 ### Frame Rate
 
 - ``FrameRateProtocol``
+
+### Deprecated (2.0.0)
+
+- ``TimecodeFrameRate/CompatibleGroup/ATSC-swift.type.property``
+- ``TimecodeFrameRate/CompatibleGroup/ATSC_drop-swift.type.property``
+- ``TimecodeFrameRate/CompatibleGroup/NTSC-swift.type.property``
+- ``TimecodeFrameRate/CompatibleGroup/NTSC_drop-swift.type.property``

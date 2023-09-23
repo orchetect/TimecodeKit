@@ -18,6 +18,22 @@ extension Timecode.UpperLimit {
     public static let _100days: Self = ._100Days
 }
 
+// MARK: - TimecodeFrameRate CompatibleGroup.swift
+
+extension TimecodeFrameRate.CompatibleGroup {
+    @available(*, deprecated, renamed: "ntsc", message: "Renamed to lower camel case.")
+    public static let NTSC: Self = .ntsc
+    
+    @available(*, deprecated, renamed: "ntscDrop", message: "Renamed to lower camel case.")
+    public static let NTSC_drop: Self = .ntscDrop
+    
+    @available(*, deprecated, renamed: "atsc", message: "Renamed to lower camel case.")
+    public static let ATSC: Self = .atsc
+    
+    @available(*, deprecated, renamed: "atscDrop", message: "Renamed to lower camel case.")
+    public static let ATSC_drop: Self = .atscDrop
+}
+
 // MARK: - Timecode String.swift
 
 #if os(macOS)

@@ -9,10 +9,10 @@ extension TimecodeFrameRate {
     ///
     /// - note: These are intended for internal logic and not for end-user user interface.
     public enum CompatibleGroup: Equatable, Hashable, CaseIterable {
-        case NTSC
-        case NTSC_drop
-        case ATSC
-        case ATSC_drop
+        case ntsc
+        case ntscDrop
+        case atsc
+        case atscDrop
         
         /// Constants table of `FrameRate` groups that share HH:MM:SS alignment between them, while only frames value may differ.
         ///
@@ -26,7 +26,7 @@ extension TimecodeFrameRate {
         /// - 00:59:56:12 @ 29.97 fps
         public static var table: [CompatibleGroup: [TimecodeFrameRate]] =
             [
-                .NTSC: [
+                .ntsc: [
                     ._23_976,
                     ._24_98,
                     ._29_97,
@@ -36,13 +36,13 @@ extension TimecodeFrameRate {
                     ._119_88
                 ],
                 
-                .NTSC_drop: [
+                .ntscDrop: [
                     ._29_97_drop,
                     ._59_94_drop,
                     ._119_88_drop
                 ],
                 
-                .ATSC: [
+                .atsc: [
                     ._24,
                     ._25,
                     ._30,
@@ -54,7 +54,7 @@ extension TimecodeFrameRate {
                     ._120
                 ],
                 
-                .ATSC_drop: [
+                .atscDrop: [
                     ._30_drop,
                     ._60_drop,
                     ._120_drop
@@ -71,16 +71,16 @@ extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
     /// Returns human-readable group string.
     public var stringValue: String {
         switch self {
-        case .NTSC:
+        case .ntsc:
             return "NTSC"
             
-        case .NTSC_drop:
+        case .ntscDrop:
             return "NTSC Drop-Frame"
             
-        case .ATSC:
+        case .atsc:
             return "ATSC"
             
-        case .ATSC_drop:
+        case .atscDrop:
             return "ATSC Drop-Frame"
         }
     }
