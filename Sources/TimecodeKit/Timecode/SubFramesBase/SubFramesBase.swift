@@ -12,8 +12,8 @@ extension Timecode {
     /// Some implementations refer to these as SMPTE frame "bits".
     ///
     /// There are no set industry standards regarding subframe divisors.
-    /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79);
-    /// - Pro Tools uses 100 subframes (0 ... 99).
+    /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79)
+    /// - Pro Tools uses 100 subframes (0 ... 99)
     public enum SubFramesBase: Int, CaseIterable {
         case _80SubFrames = 80
         case _100SubFrames = 100

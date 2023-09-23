@@ -46,13 +46,13 @@ extension Timecode {
         /// Setting this value directly does not trigger any validation.
         public var frames: Int
         
-        /// Timecode sub-frames component. Represents a partial division of a frame.
+        /// Timecode subframes component. Represents a partial division of a frame.
         ///
         /// Some implementations refer to these as SMPTE frame "bits".
         ///
         /// There are no set industry standards regarding subframe divisors.
-        /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79);
-        /// - Pro Tools uses 100 subframes (0 ... 99).
+        /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79)
+        /// - Pro Tools uses 100 subframes (0 ... 99)
         public var subFrames: Int
         
         // MARK: init
