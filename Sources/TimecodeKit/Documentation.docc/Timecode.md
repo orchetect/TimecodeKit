@@ -22,7 +22,9 @@
 - ``Properties-swift.struct``
 - ``properties-swift.property``
 - ``frameRate``
+- ``SubFramesBase-swift.enum``
 - ``subFramesBase-swift.property``
+- ``UpperLimit-swift.enum``
 - ``upperLimit-swift.property``
 
 ### Frame Count
@@ -93,6 +95,12 @@
 ### Formatter
 
 - ``TextFormatter``
+
+### Errors
+
+- ``StringParseError``
+- ``MediaParseError``
+- ``MediaWriteError``
 
 ### Internals
 

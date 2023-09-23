@@ -84,11 +84,13 @@ extension TimecodeFrameRate {
     /// rate (and not a video rate), its status as a drop or non-drop rate must be stored
     /// independently and recalled. (``isDrop``)
     ///
-    ///     // == frame rate
-    ///     Double(numerator) / Double(denominator)
+    /// ```swift
+    /// Double(numerator) / Double(denominator)
+    /// // == frame rate
     ///
-    ///     // == duration of 1 frame in seconds
-    ///     Double(denominator) / Double(numerator)
+    /// Double(denominator) / Double(numerator)
+    /// // == duration of 1 frame in seconds
+    /// ```
     public var rate: Fraction {
         switch self {
         case ._23_976:      return Fraction(24000,   1001)

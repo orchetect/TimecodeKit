@@ -54,11 +54,13 @@ extension VideoFrameRate {
     /// rate (and not a video rate), its status as a drop or non-drop rate must be stored
     /// independently and recalled.
     ///
-    ///     // == frame rate
-    ///     Double(numerator) / Double(denominator)
+    /// ```swift
+    /// // == frame rate
+    /// Double(numerator) / Double(denominator)
     ///
-    ///     // == duration of 1 frame in seconds
-    ///     Double(denominator) / Double(numerator)
+    /// // == duration of 1 frame in seconds
+    /// Double(denominator) / Double(numerator)
+    /// ```
     public var rate: Fraction {
         switch self {
         case ._23_98p:  return Fraction(24000,  1001)

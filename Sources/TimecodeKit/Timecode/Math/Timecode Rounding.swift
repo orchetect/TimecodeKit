@@ -16,7 +16,7 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
+    /// ```swift
     /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
@@ -46,7 +46,7 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
+    /// ```swift
     /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
@@ -115,7 +115,7 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
+    /// ```swift
     /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
@@ -143,7 +143,7 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
+    /// ```swift
     /// try Timecode(.string("01:02:03:04.00"), at: ._24)
     ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
