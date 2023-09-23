@@ -2,13 +2,13 @@
 
 # TimecodeKit
 
-[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.9](https://img.shields.io/badge/Swift-5.5–5.9-orange.svg?style=flat) [![Xcode 13-15](https://img.shields.io/badge/Xcode-13–15-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2 | visionOS 1](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202%20|%20visionOS%201-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.9](https://img.shields.io/badge/Swift-5.5–5.9-orange.svg?style=flat) [![Xcode 13-15](https://img.shields.io/badge/Xcode-13–15-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
 The most robust, precise and complete Swift library for working with SMPTE timecode. Supports 22 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
 Timecode is a broadcast and post-production standard for addressing video frames. It is used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
 
-> **Note**: See the TimecodeKit 1.x → 2.x [Migration Guide](https://orchetect.github.io/TimecodeKit/documentation/timecodekit/timecodekit-2-migration-guide) if you are upgrading a project that was using TimecodeKit 1.x.
+> **Note**: See the TimecodeKit 1.x → 2.x [Migration Guide](https://orchetect.github.io/TimecodeKit/documentation/timecodekit/timecodekit-2-migration-guide) if you are moving from TimecodeKit 1.x.
 
 ## Supported Timecode Frame Rates
 
