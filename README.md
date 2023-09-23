@@ -109,4 +109,4 @@ Please do not email maintainers for technical support. Several options are avail
 
 ## Contributions
 
-Contributions are welcome. Feel free to post an Issue to discuss.
+Contributions are welcome. Feel free to post in Discussions first before submitting a PR.
