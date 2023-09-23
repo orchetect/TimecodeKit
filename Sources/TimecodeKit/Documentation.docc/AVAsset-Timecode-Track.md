@@ -36,7 +36,7 @@ This is one way to make an `AVMovie` into a mutable `AVMutableMovie` if needed.
 
 ```swift
 let movie = AVMovie( ... )
-let mutableMovie = movie.mutableCopy() as! AVMutableMovie
+guard let mutableMovie = movie.mutableCopy() as? AVMutableMovie else { ... }
 ```
 
 Then add/replace the timecode track.
