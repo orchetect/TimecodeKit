@@ -83,11 +83,13 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
 extension AVAssetTrack_TimecodeRead_Tests {
     /// Wrapper to load asset's first track depending on OS version.
     func getFirstTrack(of asset: AVAsset) async throws -> AVAssetTrack? {
-        let maybeTrack = if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
-            try await asset.load(.tracks).first
-        } else {
-            asset.tracks.first
-        }
+        let maybeTrack = try await {
+            if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+                return try await asset.load(.tracks).first
+            } else {
+                return asset.tracks.first
+            }
+        }()
         return try XCTUnwrap(maybeTrack)
     }
 }

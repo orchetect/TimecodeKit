@@ -92,11 +92,13 @@ class Timecode_Validation_Tests: XCTestCase {
         for base in Timecode.SubFramesBase.allCases {
             let tc = Timecode(.zero, at: fr, base: base, limit: limit)
             
-            let range = switch base {
-            case .quarterFrames: 0 ... 3
-            case ._80SubFrames: 0 ... 79
-            case ._100SubFrames: 0 ... 99
-            }
+            let range = {
+                switch base {
+                case .quarterFrames: return 0 ... 3
+                case ._80SubFrames: return 0 ... 79
+                case ._100SubFrames: return 0 ... 99
+                }
+            }()
             
             XCTAssertEqual(tc.validRange(of: .subFrames), range)
         }
