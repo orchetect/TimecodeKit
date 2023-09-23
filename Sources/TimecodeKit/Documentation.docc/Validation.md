@@ -52,26 +52,28 @@ let defaultAttr: [NSAttributedString.Key: Any] = [
 
 Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidated(invalidAttributes: invalidAttr,
-                          withDefaultAttributes: defaultAttr)
+                          defaultAttributes: defaultAttr)
 ```
 
 ## Formatted SwiftUI Text
 
 This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
 
+The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
+
 ```swift
 Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidatedText()
 ```
 
-The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components. You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
 
 ```swift
 Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
     .stringValueValidatedText(
         invalidModifiers: {
             $0.foregroundColor(.blue)
-        }, withDefaultModifiers: {
+        }, defaultModifiers: {
             $0.foregroundColor(.black)
         }
     )

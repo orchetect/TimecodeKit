@@ -13,16 +13,38 @@ import TimecodeKit
 extension Timecode {
     // MARK: textViewValidated
     
-    /// Returns `stringValue(format:)` as SwiftUI `Text`, highlighting invalid values.
+    /// Returns the same output of ``stringValue(format:)`` as SwiftUI `Text`, formatting invalid values differently.
     ///
     /// `invalidModifiers` are the view modifiers applied to invalid values.
     /// If `invalidModifiers` are not passed, the default of red foreground color is used.
+    ///
+    /// This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
+    ///
+    /// The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
+    ///
+    /// ```swift
+    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    ///     .stringValueValidatedText()
+    /// ```
+    ///
+    /// You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+    ///
+    /// ```swift
+    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    ///     .stringValueValidatedText(
+    ///         invalidModifiers: {
+    ///             $0.foregroundColor(.blue)
+    ///         }, defaultModifiers: {
+    ///             $0.foregroundColor(.black)
+    ///         }
+    ///     )
+    /// ```
     public func stringValueValidatedText(
         format: StringFormat = .default(),
         invalidModifiers: ((Text) -> Text)? = nil,
-        withDefaultModifiers: ((Text) -> Text)? = nil
+        defaultModifiers: ((Text) -> Text)? = nil
     ) -> Text {
-        let withDefaultModifiers = withDefaultModifiers ?? {
+        let defaultModifiers = defaultModifiers ?? {
             $0
         }
         
@@ -30,23 +52,23 @@ extension Timecode {
             $0.foregroundColor(Color.red)
         }
         
-        let sepDays = withDefaultModifiers(Text(" "))
+        let sepDays = defaultModifiers(Text(" "))
         let sepMain = format.filenameCompatible
-            ? withDefaultModifiers(Text("-"))
-            : withDefaultModifiers(Text(":"))
+            ? defaultModifiers(Text("-"))
+            : defaultModifiers(Text(":"))
         let sepFrames = format.filenameCompatible
-            ? withDefaultModifiers(Text("-"))
-            : withDefaultModifiers(Text(frameRate.isDrop ? ";" : ":"))
-        let sepSubFrames = withDefaultModifiers(Text("."))
+            ? defaultModifiers(Text("-"))
+            : defaultModifiers(Text(frameRate.isDrop ? ";" : ":"))
+        let sepSubFrames = defaultModifiers(Text("."))
         
         let invalids = invalidComponents
         
         // early return logic
         if invalids.isEmpty {
-            return withDefaultModifiers(Text(stringValue(format: format)))
+            return defaultModifiers(Text(stringValue(format: format)))
         }
         
-        var output = withDefaultModifiers(Text(""))
+        var output = defaultModifiers(Text(""))
         
         // days
         if days != 0 {
@@ -54,7 +76,7 @@ extension Timecode {
             if invalids.contains(.days) {
                 output = output + invalidModifiers(daysText)
             } else {
-                output = output + withDefaultModifiers(daysText)
+                output = output + defaultModifiers(daysText)
             }
             
             output = output + sepDays
@@ -66,7 +88,7 @@ extension Timecode {
         if invalids.contains(.hours) {
             output = output + invalidModifiers(hoursText)
         } else {
-            output = output + withDefaultModifiers(hoursText)
+            output = output + defaultModifiers(hoursText)
         }
         
         output = output + sepMain
@@ -77,7 +99,7 @@ extension Timecode {
         if invalids.contains(.minutes) {
             output = output + invalidModifiers(minutesText)
         } else {
-            output = output + withDefaultModifiers(minutesText)
+            output = output + defaultModifiers(minutesText)
         }
         
         output = output + sepMain
@@ -88,7 +110,7 @@ extension Timecode {
         if invalids.contains(.seconds) {
             output = output + invalidModifiers(secondsText)
         } else {
-            output = output + withDefaultModifiers(secondsText)
+            output = output + defaultModifiers(secondsText)
         }
         
         output = output + sepFrames
@@ -99,7 +121,7 @@ extension Timecode {
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
-            output = output + withDefaultModifiers(framesText)
+            output = output + defaultModifiers(framesText)
         }
         
         // subframes
@@ -113,7 +135,7 @@ extension Timecode {
             if invalids.contains(.subFrames) {
                 output = output + invalidModifiers(subframesText)
             } else {
-                output = output + withDefaultModifiers(subframesText)
+                output = output + defaultModifiers(subframesText)
             }
         }
         
