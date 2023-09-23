@@ -11,7 +11,16 @@ let package = Package(
     // certain features of the library are marked @available only on newer versions of OSes,
     // but a platforms spec here determines what base platforms
     // the library is currently supported on
-    platforms: [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)],
+    
+    // Add visionOS platform in supported Swift toolchain / Xcode versions
+    // TODO: Not yet implemented in Xcode 15.0 but can be added later
+    platforms: {
+        // #if swift(>=5.9.1)
+        // [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2), .visionOS(.v1)]
+        // #else
+        [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)]
+        // #endif
+    }(),
     
     products: [
         .library(
@@ -44,10 +53,20 @@ let package = Package(
             name: "TimecodeKitUI",
             dependencies: ["TimecodeKit"],
             linkerSettings: [
-                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS]))
+                .linkedFramework(
+                    "SwiftUI",
+                    .when(platforms: {
+                        // Xcode 15 beta 8 (Swift 5.9) introduced visionOS
+                        #if swift(>=5.9)
+                        [.macOS, .iOS, .tvOS, .watchOS, .visionOS]
+                        #else
+                        [.macOS, .iOS, .tvOS, .watchOS]
+                        #endif
+                    }())
+                )
             ]
         ),
-        
+            
         // unit tests
         .testTarget(
             name: "TimecodeKit-Unit-Tests",
@@ -64,6 +83,8 @@ let package = Package(
         )
     ]
 )
+
+// MARK: - Conditional Unit Testing
 
 func addShouldTestFlag() {
     package.targets.filter { $0.isTest }.forEach { target in
