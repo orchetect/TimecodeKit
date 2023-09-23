@@ -5,7 +5,7 @@
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
-#if canImport(AVFoundation) && !os(watchOS) && !os(xrOS)
+#if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
 import AVFoundation
 import Foundation

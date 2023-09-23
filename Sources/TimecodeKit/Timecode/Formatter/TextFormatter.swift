@@ -6,7 +6,7 @@
 
 #if os(macOS)
 import AppKit
-#elseif os(iOS) || os(tvOS) || os(watchOS)
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
 import UIKit
 #else
 import Foundation
@@ -40,10 +40,10 @@ extension Timecode {
         public var validationAttributes: [NSAttributedString.Key: Any] = {
             #if os(macOS)
             return [.foregroundColor: NSColor.red]
-            #elseif os(iOS) || os(tvOS) || os(watchOS)
+            #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
             return [.foregroundColor: UIColor.red]
             #else
-            return []
+            return [:]
             #endif
         }()
         
