@@ -1,6 +1,6 @@
 # TimecodeKit 2 Migration Guide
 
-This document details the major API changes from TimecodeKit version 1 to version 2.
+Major API changes from TimecodeKit version 1 to version 2.
 
 ## Timecode Time Value Types
 
@@ -134,7 +134,7 @@ validation rule.
 For example:
 
 ```swift
-var timecode = Timecode(.components(h: 0, m: 0, s: 0, f: 0), at: ._24)
+var timecode = Timecode(.zero, at: ._24)
 try timecode.set(.realTime(seconds: 123.0))
 timecode.set(.frames(1234), by: .wrapping)
 ```
@@ -162,5 +162,3 @@ Some enum cases have been renamed to conform to lowerCamelCase.
 
 - ``Timecode/UpperLimit-swift.enum`` cases have been renamed to `_24Hours` and `_100Days`.
 - ``TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed to `atsc`, `atscDrop`, `ntcs` and `ntscDrop`.
-
-
