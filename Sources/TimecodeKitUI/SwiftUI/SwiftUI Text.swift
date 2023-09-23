@@ -11,9 +11,7 @@ import TimecodeKit
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    // MARK: textViewValidated
-    
-    /// Returns the same output of ``stringValue(format:)`` as SwiftUI `Text`, formatting invalid values differently.
+    /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, formatting invalid values differently.
     ///
     /// `invalidModifiers` are the view modifiers applied to invalid values.
     /// If `invalidModifiers` are not passed, the default of red foreground color is used.

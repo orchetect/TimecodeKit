@@ -11,13 +11,19 @@ import TimecodeKit
 
 // MARK: API Changes in TimecodeKit 2.0.0 UI
 
-@available(*, renamed: "stringValueValidatedText(format:invalidModifiers:defaultModifiers:)")
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
+    @_disfavoredOverload
+    @available(
+        *,
+        deprecated,
+        renamed: "stringValueValidatedText(format:invalidModifiers:defaultModifiers:)",
+        message: "`withDefaultModifiers` parameter has been renamed to `defaultModifiers`."
+    )
     public func stringValueValidatedText(
         format: StringFormat = .default(),
         invalidModifiers: ((Text) -> Text)? = nil,
-        withDefaultModifiers: ((Text) -> Text)?
+        withDefaultModifiers: ((Text) -> Text)? = nil
     ) -> Text {
         stringValueValidatedText(
             format: format,
