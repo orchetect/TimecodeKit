@@ -137,3 +137,10 @@ try "01:00:00:00".toTimecode(at: ._24)
 // 2.x API
 try "01:00:00:00".timecode(at: ._24)
 ```
+
+## Enum Case Respellings
+
+Some enum cases have been renamed to conform to lowerCamelCase.
+
+- ``Timecode/UpperLimit-swift.enum`` cases have been renamed to `_24Hours` and `_100Days`.
+- ``TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed to `atsc`, `atscDrop`, `ntcs` and `ntscDrop`.
