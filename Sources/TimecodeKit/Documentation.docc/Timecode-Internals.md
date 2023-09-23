@@ -13,3 +13,7 @@
 ### AVFoundation Utilities
 
 - ``Timecode/cmFormatDescription(extensions:)``
+
+### Deprecated (2.0.0)
+
+- ``Timecode/stringValueValidated(format:invalidAttributes:withDefaultAttributes:)``

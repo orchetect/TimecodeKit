@@ -185,6 +185,9 @@ extension Timecode {
 extension Timecode {
     /// Validates and clamps all timecode components to valid values at the current `frameRate` and
     /// `upperLimit` bound.
+    ///
+    /// This is not necessary to be run manually if the instance was initialized using the ``ValidationRule/clamping`` or
+    /// ``ValidationRule/clampingComponents`` validation rule.
     public mutating func clampComponents() {
         _clamp(component: .days)
         _clamp(component: .hours)

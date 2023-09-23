@@ -35,7 +35,7 @@ extension CMTime: TimecodeSource {
 extension TimecodeSourceValue {
     /// `CMTime` value.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     public static func cmTime(_ source: CMTime) -> Self {
         .init(value: source)
@@ -48,7 +48,7 @@ extension TimecodeSourceValue {
 extension Timecode {
     /// Returns the time location as a `CMTime` instance.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     public var cmTime: CMTime {
         let fraction = rationalValue
@@ -65,7 +65,7 @@ extension Timecode {
 extension Timecode {
     /// Instance from elapsed time `CMTime`.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     ///
     /// - Throws: ``ValidationError``
@@ -78,7 +78,7 @@ extension Timecode {
     ///
     /// Clamps to valid timecode.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     mutating func _setTimecode(clamping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
@@ -89,7 +89,7 @@ extension Timecode {
     ///
     /// Wraps timecode if necessary.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     mutating func _setTimecode(wrapping cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))
@@ -100,7 +100,7 @@ extension Timecode {
     ///
     /// Allows for invalid raw values (in this case, unbounded Days component).
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     mutating func _setTimecode(rawValues cmTime: CMTime) {
         let fraction = Fraction(Int(cmTime.value), Int(cmTime.timescale))

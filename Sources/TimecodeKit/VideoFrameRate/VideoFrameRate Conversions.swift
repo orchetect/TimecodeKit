@@ -135,7 +135,7 @@ import CoreMedia
 extension VideoFrameRate {
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     ///
     /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
@@ -154,7 +154,7 @@ extension VideoFrameRate {
     
     /// Initialize from a frame rate's frame duration expressed as a rational number (fraction).
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     ///
     /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
@@ -174,7 +174,7 @@ extension VideoFrameRate {
     /// Returns the frame rate (fps) as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     ///
     /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
@@ -191,7 +191,7 @@ extension VideoFrameRate {
     /// Returns the duration of 1 frame as a rational number (fraction)
     /// as a CoreMedia `CMTime` instance.
     ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to communicate
+    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
     ///
     /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in

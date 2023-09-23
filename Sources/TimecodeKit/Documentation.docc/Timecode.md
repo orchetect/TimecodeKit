@@ -35,9 +35,9 @@
 
 ### Timecode String
 
+- ``StringFormat``
 - ``stringValue(format:)``
 - ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
-- ``StringFormat``
 
 ### Conversion
 
