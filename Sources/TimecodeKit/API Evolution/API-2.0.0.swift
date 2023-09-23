@@ -8,6 +8,8 @@ import Foundation
 
 // MARK: API Changes in TimecodeKit 2.0.0
 
+// MARK: - UpperLimit.swift
+
 extension Timecode.UpperLimit {
     @available(*, renamed: "_24Hours")
     public static let _24hours: Self = ._24Hours
@@ -16,6 +18,34 @@ extension Timecode.UpperLimit {
     public static let _100days: Self = ._100Days
 }
 
+// MARK: - Timecode String.swift
+
+#if os(macOS)
+import AppKit
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+import UIKit
+#endif
+
+extension Timecode {
+    @_disfavoredOverload
+    @available(
+        *,
+        deprecated,
+        renamed: "stringValueValidated(format:invalidAttributes:defaultAttributes:)",
+        message: "`withDefaultAttributes` parameter has been renamed to `defaultAttributes`."
+    )
+    public func stringValueValidated(
+        format: StringFormat = .default(),
+        invalidAttributes: [NSAttributedString.Key: Any]? = nil,
+        withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
+    ) -> NSAttributedString {
+        stringValueValidated(
+            format: format,
+            invalidAttributes: invalidAttributes,
+            defaultAttributes: attrs
+        )
+    }
+}
 
 // MARK: - Additional Deprecations
 
@@ -25,7 +55,7 @@ extension Timecode.UpperLimit {
 // in the IDE's code editor.
 // So instead, a 1.x -> 2.x Migration Guide was written and included in TimecodeKit 2's documentation.
 
-#if ENABLE_API_DEPRECATIONS
+#if ENABLE_EXTENDED_API_DEPRECATIONS
 
 // MARK: - TCC
 

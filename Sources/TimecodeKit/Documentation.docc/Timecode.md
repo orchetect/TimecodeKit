@@ -36,7 +36,7 @@
 ### Timecode String
 
 - ``stringValue(format:)``
-- ``stringValueValidated(format:invalidAttributes:withDefaultAttributes:)``
+- ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 - ``StringFormat``
 
 ### Conversion
@@ -82,7 +82,7 @@
 - ``ValidationRule``
 - ``ValidationError``
 - ``invalidComponents``
-- ``stringValueValidated(format:invalidAttributes:withDefaultAttributes:)``
+- ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 - ``validRange(of:)``
 
 ### Transformer

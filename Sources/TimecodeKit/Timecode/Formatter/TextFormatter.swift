@@ -159,7 +159,7 @@ extension Timecode {
                 showsValidation
                     ? tc.stringValueValidated(
                         invalidAttributes: validationAttributes,
-                        withDefaultAttributes: attrs
+                        defaultAttributes: attrs
                     )
                     : NSAttributedString(string: stringForObj, attributes: attrs)
             )

@@ -109,7 +109,7 @@ extension Timecode {
     public func stringValueValidated(
         format: StringFormat = .default(),
         invalidAttributes: [NSAttributedString.Key: Any]? = nil,
-        withDefaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
+        defaultAttributes attrs: [NSAttributedString.Key: Any]? = nil
     ) -> NSAttributedString {
         let sepDays = NSAttributedString(string: " ", attributes: attrs)
         let sepMain = NSAttributedString(string: ":", attributes: attrs)
