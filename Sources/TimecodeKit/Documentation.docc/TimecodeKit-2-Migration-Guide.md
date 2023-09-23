@@ -125,6 +125,24 @@ let timecode = try Timecode(
 )
 ```
 
+## Set Timecode on Existing Timecode Instance
+
+Previous `Timecode` `setTimecode()` methods have been refactored to use a more consistent `set()` methods, with overloads
+similar to the new `Timecode` initializers. This also allows set methods to take nearly any value source and apply any
+validation rule.
+
+For example:
+
+```swift
+var timecode = Timecode(.components(h: 0, m: 0, s: 0, f: 0), at: ._24)
+try timecode.set(.realTime(seconds: 123.0))
+timecode.set(.frames(1234), by: .wrapping)
+```
+
+For value type reference, see the [Timecode Time Value Types](#Timecode-Time-Value-Types) section above.
+
+For timecode validation rules reference, see the [Timecode Validation](#Timecode-Validation) section above.
+
 ## Functional Shorthand
 
 The time value category method `toTimecode(...)` has been renamed to `timecode(...)`.
@@ -144,3 +162,5 @@ Some enum cases have been renamed to conform to lowerCamelCase.
 
 - ``Timecode/UpperLimit-swift.enum`` cases have been renamed to `_24Hours` and `_100Days`.
 - ``TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed to `atsc`, `atscDrop`, `ntcs` and `ntscDrop`.
+
+
