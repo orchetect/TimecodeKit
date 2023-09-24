@@ -54,7 +54,7 @@ protocol GuaranteedRichTimecodeSource {
 
 // MARK: - Type Erasure
 
-/// Box containing a concrete ``TimecodeSource`` instance.
+/// Box containing a concrete `TimecodeSource` instance.
 public struct TimecodeSourceValue {
     var value: TimecodeSource
     
@@ -63,7 +63,7 @@ public struct TimecodeSourceValue {
     }
 }
 
-/// Box containing a concrete ``FormattedTimecodeSource`` instance.
+/// Box containing a concrete `FormattedTimecodeSource` instance.
 public struct FormattedTimecodeSourceValue {
     var value: FormattedTimecodeSource
     
@@ -72,7 +72,7 @@ public struct FormattedTimecodeSourceValue {
     }
 }
 
-/// Box containing a concrete ``RichTimecodeSource`` instance.
+/// Box containing a concrete `RichTimecodeSource` instance.
 public struct RichTimecodeSourceValue {
     var value: RichTimecodeSource
     
@@ -81,7 +81,7 @@ public struct RichTimecodeSourceValue {
     }
 }
 
-/// Box containing a concrete ``GuaranteedTimecodeSource`` instance.
+/// Box containing a concrete `GuaranteedTimecodeSource` instance.
 public struct GuaranteedTimecodeSourceValue {
     var value: GuaranteedTimecodeSource
     
@@ -90,7 +90,7 @@ public struct GuaranteedTimecodeSourceValue {
     }
 }
 
-/// Box containing a concrete ``GuaranteedRichTimecodeSource`` instance.
+/// Box containing a concrete `GuaranteedRichTimecodeSource` instance.
 public struct GuaranteedRichTimecodeSourceValue {
     var value: GuaranteedRichTimecodeSource
     

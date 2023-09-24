@@ -18,6 +18,22 @@ extension Timecode.UpperLimit {
     public static let _100days: Self = ._100Days
 }
 
+// MARK: - Additional Deprecations
+
+// NOTE:
+// These are disabled because the API changes from 1.x to 2.x were too extensive to fully/properly
+// implement using @available() attributes and was actually causing issues with Xcode's autocomplete
+// in the IDE's code editor.
+// So instead, a 1.x -> 2.x Migration Guide was written and included in TimecodeKit 2's documentation.
+
+#if ENABLE_EXTENDED_API_DEPRECATIONS
+
+#if os(macOS)
+import AppKit
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+import UIKit
+#endif
+
 // MARK: - TimecodeFrameRate CompatibleGroup.swift
 
 extension TimecodeFrameRate.CompatibleGroup {
@@ -35,12 +51,6 @@ extension TimecodeFrameRate.CompatibleGroup {
 }
 
 // MARK: - Timecode String.swift
-
-#if os(macOS)
-import AppKit
-#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
-import UIKit
-#endif
 
 extension Timecode {
     @_disfavoredOverload
@@ -62,16 +72,6 @@ extension Timecode {
         )
     }
 }
-
-// MARK: - Additional Deprecations
-
-// NOTE:
-// These are disabled because the API changes from 1.x to 2.x were too extensive to fully/properly
-// implement using @available() attributes and was actually causing issues with Xcode's autocomplete
-// in the IDE's code editor.
-// So instead, a 1.x -> 2.x Migration Guide was written and included in TimecodeKit 2's documentation.
-
-#if ENABLE_EXTENDED_API_DEPRECATIONS
 
 // MARK: - TCC
 
