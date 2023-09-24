@@ -9,12 +9,12 @@ import Foundation
 // MARK: - TimecodeSource
 
 extension Timecode.FrameCount: TimecodeSource {
-    public func set(timecode: inout Timecode) throws {
+    func set(timecode: inout Timecode) throws {
         timecode.subFramesBase = subFramesBase
         try timecode._setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingComponents:
             timecode._setTimecode(clamping: self)

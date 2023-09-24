@@ -9,11 +9,11 @@ import Foundation
 // MARK: - TimecodeSource
 
 extension TimeInterval: TimecodeSource {
-    public func set(timecode: inout Timecode) throws {
+    func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactlyRealTime: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingComponents:
             timecode._setTimecode(clampingRealTime: self)

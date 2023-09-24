@@ -18,7 +18,7 @@ public struct AVAssetTimecodeSource {
 }
 
 extension AVAssetTimecodeSource: TimecodeSource {
-    public func set(timecode: inout Timecode) throws {
+    func set(timecode: inout Timecode) throws {
         let rate: TimecodeFrameRate = timecode.frameRate
         let base: Timecode.SubFramesBase = timecode.subFramesBase
         let limit: Timecode.UpperLimit = timecode.upperLimit
@@ -53,7 +53,7 @@ extension AVAssetTimecodeSource: TimecodeSource {
         }
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         let rate: TimecodeFrameRate = timecode.frameRate
         let base: Timecode.SubFramesBase = timecode.subFramesBase
         let limit: Timecode.UpperLimit = timecode.upperLimit

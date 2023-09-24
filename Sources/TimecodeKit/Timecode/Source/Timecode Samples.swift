@@ -14,11 +14,11 @@ public struct SamplesPayload {
 // MARK: - TimecodeSource
 
 extension SamplesPayload: TimecodeSource {
-    public func set(timecode: inout Timecode) throws {
+    func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(samples: samples, sampleRate: sampleRate)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingComponents:
             timecode._setTimecode(clampingSamples: samples, sampleRate: sampleRate)

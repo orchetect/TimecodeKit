@@ -7,11 +7,11 @@
 // MARK: - TimecodeSource
 
 extension Timecode.Components: TimecodeSource {
-    public func set(timecode: inout Timecode) throws {
+    func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }
     
-    public func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping:
             timecode._setTimecode(clamping: self)
