@@ -33,7 +33,7 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
             Timecode(.components(s: 2), at: ._24)
         )
         
-        let cmTime = ti.cmTime
+        let cmTime = ti.cmTimeValue
         
         XCTAssertEqual(cmTime.seconds.sign, .plus)
         XCTAssertEqual(cmTime.value, 2)

@@ -26,7 +26,7 @@ extension TimecodeInterval {
     }
     
     /// Returns the rational fraction for the timecode interval as `CMTime`.
-    public var cmTime: CMTime {
+    public var cmTimeValue: CMTime {
         CMTime(rationalValue)
     }
     
