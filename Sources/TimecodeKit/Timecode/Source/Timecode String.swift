@@ -310,7 +310,7 @@ extension Timecode {
 }
 
 extension Timecode {
-    /// Decodes a Timecode string into its component values, without validating.
+    /// Utility to decode a Timecode string into its component values, without validating.
     ///
     /// An error is thrown if the string is malformed and cannot be reasonably parsed. Raw values themselves will be passed as-is and not
     /// validated based on a frame rate or upper limit.
@@ -334,7 +334,7 @@ extension Timecode {
     ///     "0;00;00;00;00.00" "0;00;00;00;00.00"
     ///
     /// - Throws: ``StringParseError``
-    public static func decode(timecode string: String) throws -> Components {
+    static func decode(timecode string: String) throws -> Components {
         let pattern = #"^(\d+)??[\:;\s]??(\d+)[\:;](\d+)[\:;](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
         
         let matches = string
