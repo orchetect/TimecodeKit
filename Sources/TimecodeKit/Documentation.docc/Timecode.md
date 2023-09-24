@@ -21,9 +21,18 @@
 
 - ``Properties-swift.struct``
 - ``properties-swift.property``
+
+### Frame Rate
+
 - ``frameRate``
+
+### Subframes Base
+
 - ``SubFramesBase-swift.enum``
 - ``subFramesBase-swift.property``
+
+### Upper Limit
+
 - ``UpperLimit-swift.enum``
 - ``upperLimit-swift.property``
 
@@ -38,6 +47,7 @@
 ### Timecode String
 
 - ``StringFormat``
+- ``StringFormatParameter``
 - ``stringValue(format:)``
 - ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 
@@ -85,6 +95,7 @@
 - ``ValidationError``
 - ``invalidComponents``
 - ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
+- ``Component``
 - ``validRange(of:)``
 
 ### Transformer
