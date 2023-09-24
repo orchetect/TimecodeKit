@@ -8,7 +8,7 @@
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information.
-public protocol TimecodeSource {
+protocol TimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -20,7 +20,7 @@ public protocol TimecodeSource {
 
 /// A protocol for formatted timecode time value sources that do not supply their own frame
 /// rate information.
-public protocol FormattedTimecodeSource {
+protocol FormattedTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -31,14 +31,14 @@ public protocol FormattedTimecodeSource {
 }
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
-public protocol RichTimecodeSource {
+protocol RichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
 }
 
 /// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
-public protocol GuaranteedTimecodeSource {
+protocol GuaranteedTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode)
@@ -46,7 +46,7 @@ public protocol GuaranteedTimecodeSource {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information and
 /// are guaranteed to be valid regardless of properties.
-public protocol GuaranteedRichTimecodeSource {
+protocol GuaranteedRichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
