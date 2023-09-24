@@ -33,7 +33,7 @@ public struct TimecodeInterval: Equatable, Hashable {
         sign == .minus
     }
         
-    /// Returns real-time (wall-clock time) equivalent of the interval time.
+    /// Returns the interval time as real-time (wall-clock time) in seconds.
     /// Expressed as either a positive or negative number.
     public var realTimeValue: TimeInterval {
         switch sign {
@@ -55,7 +55,8 @@ public struct TimecodeInterval: Equatable, Hashable {
         
         switch sign {
         case .plus:
-            return absoluteInterval.adding(Timecode.Components(), by: .wrapping)
+            return absoluteInterval
+                .adding(Timecode.Components(), by: .wrapping)
             
         case .minus:
             return Timecode(
