@@ -162,7 +162,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         XCTAssertEqual(tc.subFrames, 0)
     }
     
-    func testTimecode_cmTime() throws {
+    func testTimecode_cmTimeValue() throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
         try TimecodeFrameRate.allCases.forEach { fRate in
@@ -170,17 +170,17 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
             let e = try Timecode.Components(m: 10, f: 5).timecode(at: fRate)
 
             try (s ... e).forEach { tc in
-                let f = tc.cmTime
+                let f = tc.cmTimeValue
                 let reformedTC = try Timecode(.cmTime(f), at: fRate)
                 XCTAssertEqual(tc, reformedTC)
             }
         }
     }
     
-    func testTimecode_cmTime_SpotCheck() throws {
+    func testTimecode_cmTimeValue_SpotCheck() throws {
         let tc = try Timecode.Components(h: 00, m: 00, s: 13, f: 29).timecode(at: ._29_97_drop)
-        XCTAssertEqual(tc.cmTime.value, 419419)
-        XCTAssertEqual(tc.cmTime.timescale, 30000)
+        XCTAssertEqual(tc.cmTimeValue.value, 419419)
+        XCTAssertEqual(tc.cmTimeValue.timescale, 30000)
     }
     
     func testCMTime_toTimecode() throws {

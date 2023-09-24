@@ -127,7 +127,7 @@ extension AVMutableMovie {
             dataBuffer: blockBuffer,
             formatDescription: timecodeTrackStart.cmFormatDescription(extensions: extensions),
             numSamples: 1,
-            sampleTimings: [CMSampleTimingInfo(duration: duration.cmTime, presentationTimeStamp: .zero, decodeTimeStamp: .invalid)],
+            sampleTimings: [CMSampleTimingInfo(duration: duration.cmTimeValue, presentationTimeStamp: .zero, decodeTimeStamp: .invalid)],
             sampleSizes: [4]
         )
         try sampleBuffer.makeDataReady() // needed? doesn't seem to hurt
@@ -135,7 +135,7 @@ extension AVMutableMovie {
         input.markAsFinished()
         
         // finish
-        writer.endSession(atSourceTime: duration.cmTime)
+        writer.endSession(atSourceTime: duration.cmTimeValue)
         let g = DispatchGroup()
         g.enter()
         writer.finishWriting {

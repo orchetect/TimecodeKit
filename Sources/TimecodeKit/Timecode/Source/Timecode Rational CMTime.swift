@@ -50,11 +50,11 @@ extension Timecode {
     ///
     /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
     /// times and durations.
-    public var cmTime: CMTime {
+    public var cmTimeValue: CMTime {
         let fraction = rationalValue
         return CMTime(
-            value: CMTimeValue(fraction.numerator),
-            timescale: CMTimeScale(fraction.denominator)
+            value: CMTimeValue(fraction.numerator), // aka Int64
+            timescale: CMTimeScale(fraction.denominator) // aka Int32
         )
     }
 }
