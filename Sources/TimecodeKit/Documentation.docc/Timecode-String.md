@@ -35,3 +35,18 @@ try Timecode(.components(h: 01, m: 05, s: 20, f: 10), at: ._29_97_drop)
 
 - ``Timecode/stringValue(format:)``
 - ``Timecode/stringValueValidated(format:invalidAttributes:defaultAttributes:)``
+
+### StringFormat Options
+
+- ``Timecode/StringFormatParameter/showSubFrames``
+- ``Timecode/StringFormatParameter/filenameCompatible``
+
+### StringFormat Static Constructors
+
+- ``Swift/Set/default()``
+- ``Swift/Set/showSubFrames-type.property``
+
+### StringFormat Extensions
+
+- ``Swift/Set/showSubFrames-property``
+- ``Swift/Set/filenameCompatible-property``
