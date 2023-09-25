@@ -46,8 +46,9 @@ Timecode can be formed by converting from a variety of common time values.
 .rational(1920919, 30000)
 .rational(Fraction(1920919, 30000)) // also accepts struct instance
 
-// legacy Feet+Frames designation
+// traditional Feet+Frames reference
 .feetAndFrames(feet: 60, frames: 10)
+.feetAndFrames("60+10")
 .feetAndFrames(FeetAndFrames(feet: 60, frames: 10)) // also accepts struct instance
 ```
 

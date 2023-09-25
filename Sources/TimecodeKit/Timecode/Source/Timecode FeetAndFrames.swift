@@ -47,6 +47,17 @@ extension TimecodeSourceValue {
             subFramesBase: subFramesBase
         ))
     }
+    
+    /// Feet and Frames time value.
+    public static func feetAndFrames<S: StringProtocol>(
+        _ string: S,
+        subFramesBase: Timecode.SubFramesBase = .default()
+    ) throws -> Self {
+        try .init(value: FeetAndFrames(
+            string,
+            subFramesBase: subFramesBase
+        ))
+    }
 }
 
 // MARK: - Get
@@ -89,5 +100,47 @@ extension Timecode {
     
     mutating func _setTimecode(rawValues feetAndFrames: FeetAndFrames) {
         _setTimecode(rawValues: feetAndFrames.frameCount)
+    }
+}
+
+extension FeetAndFrames {
+    /// Utility to decode a Feet+Frames string into its component values, without validating component values.
+    ///
+    /// An error is thrown if the string is malformed and cannot be reasonably parsed. 
+    /// Raw values themselves will be passed as-is and not validated.
+    ///
+    /// - Throws: ``Timecode/StringParseError``
+    static func decode<S: StringProtocol>(feetAndFrames string: S) throws -> (feet: Int, frames: Int, subFrames: Int) {
+        let pattern = #"^([\d]+)\+([\d]+)(?:\.([\d]+))?$"#
+        
+        let matches = string.regexMatches(captureGroupsFromPattern: pattern)
+        
+        guard matches.count == 4 else { 
+            throw Timecode.StringParseError.malformed
+        }
+        
+        guard let ftString = matches[1],
+              let ft = Int(ftString),
+              let frString = matches[2],
+              let fr = Int(frString)
+        else {
+            throw Timecode.StringParseError.malformed
+        }
+        
+        let feet = ft
+        let frames = fr
+        
+        // subframes are optional and may not be present
+        let subFrames: Int
+        if let sfrString = matches[3] {
+            guard let sfr = Int(sfrString) else {
+                throw Timecode.StringParseError.malformed
+            }
+            subFrames = sfr
+        } else {
+            subFrames = 0
+        }
+        
+        return (feet: feet, frames: frames, subFrames: subFrames)
     }
 }
