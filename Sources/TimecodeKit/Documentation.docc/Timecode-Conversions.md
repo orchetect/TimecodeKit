@@ -8,9 +8,7 @@ Converting various time values to/from timecode.
 // convert between frame rates
 let tc = try "01:00:00;00"
     .timecode(at: ._29_97_drop)
-    .converted(to: ._29_97)
-
-tc.stringValue() // == "00:59:56:12"
+    .converted(to: ._29_97) // == 00:59:56:12
 ```
 
 ## Total Frame Count
@@ -24,7 +22,14 @@ try Timecode(.components(h: 1), at: ._23_976)
 try Timecode(.frames(86400), at: ._23_976)
 ``` 
 
-Additional constructors and properties are available. See ``Timecode/FrameCount-swift.struct`` and ``Timecode/FrameCount-swift.struct/Value-swift.enum`` for more details.
+The following static constructors are available:
+
+- term `.frames(Int)`: Whole frame count as `Int` (as seen in the example)
+- term `.frames(Int, subFrames: Int)`: Whole frame count and subframes as `Int`
+- term `.frames(Double)`: Frame count, combining subframes unit interval, as `Double`
+- term `.frames(Int, subFramesUnitInterval: Double)`: Whole frame count and subframes as a unit interval.
+
+Useful `.frameCount` properties are also available. See ``Timecode/FrameCount-swift.struct`` for more details.
 
 ## String
 
@@ -63,6 +68,6 @@ try "01:00:00:00"
 try Timecode(.samples(172800000, sampleRate: 48000), at: ._24)
 ```
 
-## Fraction / CMTime
+## Rational Fraction / CMTime
 
 See <doc:Rational-Numbers-and-CMTime> for more details.
