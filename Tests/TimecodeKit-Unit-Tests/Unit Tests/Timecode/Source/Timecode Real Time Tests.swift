@@ -368,7 +368,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     
     // MARK: - .timecode()
     
-    func testTimecode_Components_toTimecode() throws {
+    func testTimecode_Components_timecode() throws {
         // timecode(rawValuesAt:)
         
         XCTAssertEqual(

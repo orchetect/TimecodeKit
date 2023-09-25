@@ -46,6 +46,12 @@
 /// >
 /// > Due to a limitation of how DocC documentation renders, symbols prefixed with an underscore (`_`) will not show up in documentation as they are assumed to be private by the doc generator.
 /// > This limitation may change in future DocC rendering. Therefore documentation may be limited. See inline documentation for these enum cases for more info.
+///
+/// ## Topics
+///
+/// ### String Extensions
+///
+/// - ``Swift/String/timecodeFrameRate``
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)
     ///

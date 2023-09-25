@@ -59,3 +59,8 @@ interval.flattened() // 23:00:00:00
 ## Topics
 
 - ``TimecodeInterval``
+
+### CMTime Extensions
+
+- ``CoreMedia/CMTime/timecodeInterval(at:base:limit:)``
+- ``CoreMedia/CMTime/timecodeInterval(using:)``

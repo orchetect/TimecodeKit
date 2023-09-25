@@ -214,7 +214,7 @@ class Timecode_Rational_Tests: XCTestCase {
         XCTAssertEqual(tc.rationalValue.denominator, 30000)
     }
     
-    func testFraction_toTimecode() throws {
+    func testFraction_timecode() throws {
         XCTAssertEqual(
             try Fraction(3600, 1).timecode(at: ._24).components,
             Timecode.Components(h: 1)

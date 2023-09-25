@@ -183,7 +183,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         XCTAssertEqual(tc.cmTimeValue.timescale, 30000)
     }
     
-    func testCMTime_toTimecode() throws {
+    func testCMTime_timecode() throws {
         XCTAssertEqual(
             try CMTime(value: 3600, timescale: 1).timecode(at: ._24).components,
             Timecode.Components(h: 1)

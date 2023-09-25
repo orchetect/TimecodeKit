@@ -1,6 +1,6 @@
-# Range and Strideable
+# Range & Strideable
 
-A `Range` or `Stride` can be formed between two ``Timecode`` instances.
+Forming a `Range` or `Stride` between two ``Timecode`` instances.
 
 For simplicity, we will define the start and end timecodes beforehand.
 
@@ -59,3 +59,10 @@ Prints:
 01:00:00:05
 01:00:00:10
 ```
+
+## Topics
+
+### CMTimeRange Extensions
+
+- ``CoreMedia/CMTimeRange/timecodeRange(at:base:limit:)``
+- ``CoreMedia/CMTimeRange/timecodeRange(using:)``

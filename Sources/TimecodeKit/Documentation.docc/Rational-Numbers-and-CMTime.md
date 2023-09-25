@@ -39,3 +39,12 @@ VideoFrameRate(rate: Fraction(30000, 1001), interlaced: false) // == ._29_97p
 ``Timecode`` and ``TimecodeInterval``, as well as ``TimecodeFrameRate`` and ``VideoFrameRate`` can convert to/from `CMTime` using the respective inits and properties.
 
 `CMTime` and ``Fraction`` can convert between themselves as well with respective inits and properties.
+
+## Topics
+
+- ``Fraction``
+
+### CMTime Extensions
+
+- ``CoreMedia/CMTime/init(_:)``
+- ``CoreMedia/CMTime/fractionValue``

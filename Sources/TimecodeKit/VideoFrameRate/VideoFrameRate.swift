@@ -48,6 +48,12 @@ import Foundation
 /// >
 /// > Due to a limitation of how DocC documentation renders, symbols prefixed with an underscore (`_`) will not show up in documentation as they are assumed to be private by the doc generator.
 /// > This limitation may change in future DocC rendering. Therefore documentation may be limited. See inline documentation for these enum cases for more info.
+///
+/// ## Topics
+///
+/// ### String Extensions
+///
+/// - ``Swift/String/videoFrameRate``
 public enum VideoFrameRate: String, FrameRateProtocol {
     // TODO: Seen in professional gear: 1, 2, 3, 4, 5, 6, 8, 10, 12, 12.5, 14.98, 15, 20
     // TODO: Triple rates seen in professional gear: 71.9928, 72, 75, 89.91, 90

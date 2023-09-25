@@ -7,6 +7,8 @@
 import Foundation
 
 /// Numerical fraction containing a numerator and a denominator.
+///
+/// Used to convert to/from ``Timecode``, Core Media `CMTime`, or metadata encoding such as Final Cut Pro XML or AAF.
 public struct Fraction {
     public let numerator: Int
     public let denominator: Int

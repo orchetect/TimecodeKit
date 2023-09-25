@@ -55,30 +55,6 @@ Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInva
                           defaultAttributes: defaultAttr)
 ```
 
-## Formatted SwiftUI Text
-
-This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
-
-The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
-
-```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
-    .stringValueValidatedText()
-```
-
-You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
-
-```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
-    .stringValueValidatedText(
-        invalidModifiers: {
-            $0.foregroundColor(.blue)
-        }, defaultModifiers: {
-            $0.foregroundColor(.black)
-        }
-    )
-```
-
 ## NSFormatter
 
 A special string `Formatter` (`NSFormatter`) subclass can
@@ -105,3 +81,45 @@ let formatter = Timecode.TextFormatter(
 let textField = NSTextField()
 textField.formatter = formatter
 ```
+
+## Formatted SwiftUI Text
+
+When importing `TimecodeKitUI`, a SwiftUI `Text` view is available which highlights individual invalid timecode components with a specified set of modifiers.
+
+The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
+
+```swift
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    .stringValueValidatedText()
+```
+
+You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+
+```swift
+import TimecodeKitUI
+
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    .stringValueValidatedText(
+        invalidModifiers: {
+            $0.foregroundColor(.blue)
+        }, defaultModifiers: {
+            $0.foregroundColor(.black)
+        }
+    )
+```
+
+## Topics
+
+### Invalid Components
+
+- ``Timecode/invalidComponents``
+- ``Timecode/invalidComponents(in:at:base:limit:)``
+- ``Timecode/invalidComponents(in:using:)``
+
+### Formatted Attributed String
+
+- ``Timecode/stringValueValidated(format:invalidAttributes:defaultAttributes:)``
+
+### Formatter
+
+- ``Timecode/TextFormatter``

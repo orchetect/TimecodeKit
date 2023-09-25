@@ -8,7 +8,7 @@ import Foundation
 
 /// Feet+Frames value.
 ///
-/// Feet+Frames is a time domain that is seldomly used in video editing.
+/// Feet+Frames is a time encoding used seldomly in video editing.
 ///
 /// Initializers and properties on ``Timecode`` are available to convert to or from Feet+Frames.
 ///

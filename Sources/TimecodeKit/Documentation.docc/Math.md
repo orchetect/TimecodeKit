@@ -18,6 +18,21 @@ Multiplying timecode against timecode in order to produce a timecode result is n
 - `Timecode` / `Double` = `Timecode`
 - `Timecode` / `Timecode` = `Double`
 
+## Arithmetic Operators
+
+Arithmetic operators are provided for convenience. These operators employ the ``Timecode/ValidationRule/wrapping`` validation rule in the event of underflows or overflows.
+
+```swift
+let tc1 = try "01:00:00:00".timecode(at: ._23_976)
+let tc2 = try "00:02:00:00".timecode(at: ._23_976)
+
+(tc1 + tc2).stringValue() // == "01:02:00:00"
+(tc1 - tc2).stringValue() // == "00:58:00:00"
+(tc1 * 2.0).stringValue() // == "02:00:00:00"
+(tc1 / 2.0).stringValue() // == "00:30:00:00"
+tc1 / tc2 // == 30.0
+```
+
 ## Arithmetic Methods
 
 Arithmetic methods follow the same behavior as ``Timecode`` initializers whereby the operation can be completed either using validation with a throwing call, or by using validation rules to constrain the result (See ``Timecode/ValidationRule``).
@@ -40,19 +55,4 @@ try tc1.add(tc2, by: wrapping) // using result validation rule
 // return a new instance
 let tc3 = try tc1.adding(tc2)
 let tc3 = try tc1.adding(tc2, by: wrapping) // using result validation rule
-```
-
-## Arithmetic Operators
-
-Arithmetic operators are provided for convenience. These operators employ the ``Timecode/ValidationRule/wrapping`` validation rule in the event of underflows or overflows.
-
-```swift
-let tc1 = try "01:00:00:00".timecode(at: ._23_976)
-let tc2 = try "00:02:00:00".timecode(at: ._23_976)
-
-(tc1 + tc2).stringValue() // == "01:02:00:00"
-(tc1 - tc2).stringValue() // == "00:58:00:00"
-(tc1 * 2.0).stringValue() // == "02:00:00:00"
-(tc1 / 2.0).stringValue() // == "00:30:00:00"
-tc1 / tc2 // == 30.0
 ```

@@ -35,7 +35,6 @@ Value types for representing and working with SMPTE timecode.
 ### Additional Value Types
 
 - ``FeetAndFrames``
-- ``Fraction``
 
 ### Math & Conversions
 
@@ -44,11 +43,6 @@ Value types for representing and working with SMPTE timecode.
 - <doc:Rational-Numbers-and-CMTime>
 - <doc:Timecode-Interval>
 - <doc:Timecode-Transformer>
-
-### Sorting
-
-- <doc:Timecode-Sorting>
-- ``TimecodeSortComparator``
 
 ### Core Media / AVFoundation
 
