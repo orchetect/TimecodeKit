@@ -7,7 +7,7 @@
 extension String {
     /// Convenience method to call ``TimecodeFrameRate/init(stringValue:)``.
     @_disfavoredOverload
-    public func timecodeFrameRate() -> TimecodeFrameRate? {
+    public var timecodeFrameRate: TimecodeFrameRate? {
         TimecodeFrameRate(stringValue: self)
     }
 }
