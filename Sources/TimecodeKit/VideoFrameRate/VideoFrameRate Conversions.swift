@@ -8,6 +8,7 @@ import Foundation
 
 extension VideoFrameRate {
     /// Returns the corresponding ``TimecodeFrameRate`` case.
+    /// Returns `nil` if there is no corresponding timecode rate.
     ///
     /// - Parameters:
     ///   - drop: Whether timecode frame rate is drop or non-drop.

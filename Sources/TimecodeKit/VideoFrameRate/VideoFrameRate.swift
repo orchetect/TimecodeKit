@@ -7,6 +7,47 @@
 import Foundation
 
 /// Industry-standard video frame rates.
+/// Certain rates may be progressive or interleaved.
+///
+/// Timecode is way of encoding a frame number, therefore _timecode frame rate_ may be independent of _video frame rate_.
+///
+/// For example, 24p video typically uses 24 fps timecode rate.
+/// However, 29.97p video (30/1.001) may use 29.97 or 29.97-drop fps timecode rate depending on post-production facility requirements.
+///
+/// Some video rates may correspond (or generally be compatible with) certain timecode rates and vice-versa.
+/// To return a video rate's corresponding timecode rate, see ``timecodeFrameRate(drop:)``.
+///
+/// ## Supported Timecode (Display) Frame Rates
+///
+/// - `_23_976`
+/// - `_24`
+/// - `_24_98`
+/// - `_25`
+/// - `_29_97`
+/// - `_29_97_drop`
+/// - `_30`
+/// - `_30_drop`
+/// - `_47_952`
+/// - `_48`
+/// - `_50`
+/// - `_59_94`
+/// - `_59_94_drop`
+/// - `_60`
+/// - `_60_drop`
+/// - `_95_904`
+/// - `_96`
+/// - `_100`
+/// - `_119_88`
+/// - `_119_88_drop`
+/// - `_120`
+/// - `_120_drop`
+///
+/// > Note:
+/// >
+/// > `TimecodeFrameRate` enum cases all begin with an underscore.
+/// >
+/// > Due to a limitation of how DocC documentation renders, symbols prefixed with an underscore (`_`) will not show up in documentation as they are assumed to be private by the doc generator.
+/// > This limitation may change in future DocC rendering. Therefore documentation may be limited. See inline documentation for these enum cases for more info.
 public enum VideoFrameRate: String, FrameRateProtocol {
     // TODO: Seen in professional gear: 1, 2, 3, 4, 5, 6, 8, 10, 12, 12.5, 14.98, 15, 20
     // TODO: Triple rates seen in professional gear: 71.9928, 72, 75, 89.91, 90

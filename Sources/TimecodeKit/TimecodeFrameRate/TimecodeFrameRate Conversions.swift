@@ -8,6 +8,7 @@ import Foundation
 
 extension TimecodeFrameRate {
     /// Returns the corresponding ``VideoFrameRate`` case.
+    /// Returns `nil` if there is no corresponding video rate.
     ///
     /// - Parameters:
     ///   - interlaced: Whether video frame rate is interlaced (`true`) or progressive (`false`).
