@@ -1,6 +1,6 @@
 # Validation
 
-Timecode valdation.
+Timecode validation based on frame rate and upper limit.
 
 ## Timecode Component Validation
 
@@ -8,7 +8,7 @@ Timecode validation can be helpful and powerful, for example, when parsing timec
 
 Timecode can be tested as:
 
-- valid or invalid as a whole, by catching an error when using the default throwing initializers or `set()` methods, or
+- valid or invalid as a whole, by catching a throwing error when using the default throwing initializers or `set()` methods, or
 - granularly to test validity of individual timecode components
 
 ```swift

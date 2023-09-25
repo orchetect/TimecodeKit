@@ -85,9 +85,15 @@ timecode.stringValue() // "01:00:00:00"
 timecode.stringValue(format: [.showSubFrames]) // "01:00:00:00.50"
 ```
 
+- The `stringValueFileNameCompatible` property has been removed and is now a format option.
+
+```swift
+timecode.stringValue(format: [.filenameCompatible])
+```
+
 ## Timecode Properties
 
-Timecode metadata can now be constructed and passed around using a new ``Timecode/Properties`` struct. It contains:
+Timecode metadata can now be constructed and passed around using a new ``Timecode/Properties-swift.struct`` struct. It contains:
 
 - `frameRate`
 - `subFramesBase`
@@ -125,11 +131,9 @@ let timecode = try Timecode(
 )
 ```
 
-## Set Timecode on Existing Timecode Instance
+## Set Timecode on an Existing Timecode Instance
 
-Previous `Timecode` `setTimecode()` methods have been refactored to use a more consistent `set()` methods, with overloads
-similar to the new `Timecode` initializers. This also allows set methods to take nearly any value source and apply any
-validation rule.
+Previous `Timecode` `setTimecode()` methods have been refactored to use a more consistent `set()` methods, with overloads similar to the new `Timecode` initializers. This allows set methods to take the same value sources and validation rules by using the same API as the initializers.
 
 For example:
 

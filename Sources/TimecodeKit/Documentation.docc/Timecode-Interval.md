@@ -1,4 +1,4 @@
-# Timecode Intervals
+# Timecode Interval
 
 Working with intervals between two timecodes.
 
@@ -55,3 +55,7 @@ interval.flattened() // 01:00:00:00
 let interval = TimecodeInterval(tc, .negative) // -01:00:00:00
 interval.flattened() // 23:00:00:00
 ```
+
+## Topics
+
+- ``TimecodeInterval``

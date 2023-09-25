@@ -8,6 +8,10 @@ import Foundation
 
 /// Feet+Frames value.
 ///
+/// Feet+Frames is a time domain that is seldomly used in video editing.
+///
+/// Initializers and properties on ``Timecode`` are available to convert to or from Feet+Frames.
+///
 /// When used as a counter in the audio-world the footage count refers to 35mm 4-perf. Detailed
 /// discussion can be found [in this thread.](
 /// https://gearspace.com/board/post-production-forum/898755-timecode-feet-frames.html

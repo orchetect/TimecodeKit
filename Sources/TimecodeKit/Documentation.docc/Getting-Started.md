@@ -2,36 +2,6 @@
 
 Documentation and guides to get the most out of TimecodeKit.
 
-## Topics
+The documentation page for ``Timecode`` gives a brief introduction and overview of how to form timecode and convert from various time values.
 
-### Basics
-
-- <doc:Initialization>
-- <doc:Properties>
-- <doc:Components>
-- <doc:Display-String>
-- <doc:Validation>
-
-### Additional Components
-
-- <doc:Days-Component>
-- <doc:SubFrames-Component>
-
-### Math & Conversions
-
-- <doc:Math>
-- <doc:Conversions>
-- <doc:Rational-Numbers-and-CMTime>
-- <doc:Timecode-Intervals>
-- <doc:Timecode-Transformer>
-
-### Working with Timecode
-
-- <doc:Comparison>
-- <doc:Sorting>
-- <doc:Range-and-Strideable>
-- <doc:Feet+Frames>
-
-### Timecode Tracks in Video Files
-
-- <doc:AVAsset-Timecode-Track>
+The topics list in the sidebar give overviews of specific areas of concern.

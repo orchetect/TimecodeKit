@@ -1,5 +1,7 @@
 # Internals
 
+Internal types and protocols.
+
 ## Topics
 
 ### Timecode Source Values

@@ -7,7 +7,89 @@
 extension Timecode {
     /// Primitive struct describing timecode values, agnostic of frame rate.
     ///
-    /// Raw values are stored and are not implicitly validated or clamped.
+    /// In order to help facilitate defining a set of timecode component values, a simple ``Timecode/Components`` struct is implemented. This struct can be passed into many methods and initializers.
+    ///
+    /// ```swift
+    /// let tcc = Timecode.Components(h: 1)
+    /// Timecode(.components(tcc), at: ._23_976)
+    ///
+    /// // is the same as using the shorthand:
+    /// Timecode(.components(h: 1), at: ._23_976)
+    /// ```
+    ///
+    /// ```swift
+    /// let cmp = try "01:12:20:05"
+    ///     .timecode(at: ._23_976)
+    ///     .components // Timecode.Components
+    ///
+    /// cmp.days      // == 0
+    /// cmp.hours     // == 1
+    /// cmp.minutes   // == 12
+    /// cmp.seconds   // == 20
+    /// cmp.frames    // == 5
+    /// cmp.subFrames // == 0
+    /// ```
+    ///
+    /// Raw values are stored verbatim and are not implicitly validated or clamped.
+    ///
+    /// ## Days Component
+    ///
+    /// Using the Days timecode component.
+    ///
+    /// Although not covered by SMPTE spec, some DAWs (digital audio workstation) such as Cubase support the use of the Days timecode component for timelines longer than (or outside of) 24 hours.
+    ///
+    /// By default, ``Timecode`` is constructed with an ``Timecode/upperLimit`` of 24-hour maximum expression (`._24Hours`) which suppresses the ability to use Days. To enable Days, set the limit to `._100Days`.
+    ///
+    /// The limit setting naturally affects internal timecode validation routines, as well as clamping and wrapping.
+    ///
+    /// ```swift
+    /// // valid timecode range at 24 fps, with 24 hours limit
+    /// "00:00:00:00" ... "23:59:59:23"
+    ///
+    /// // valid timecode range at 24 fps, with 100 days limit
+    /// "00:00:00:00" ... "99 23:59:59:23"
+    /// ```
+    ///
+    /// ## SubFrames Component
+    ///
+    /// Using the SubFrames timecode component.
+    ///
+    /// Subframes represent a fraction (subdivision) of a single frame.
+    ///
+    /// Subframes are only used by some software and hardware, and since there are no industry standards, each manufacturer can decide how they want to implement subframes. Subframes are frame rate agnostic, meaning the subframe base (divisor) is mutually exclusive of frame rate.
+    ///
+    /// For example:
+    ///
+    /// - *Cubase/Nuendo* and *Logic Pro* globally use 80 subframes per frame (0 ... 79) regardless of frame rate
+    /// - *Pro Tools* uses 100 subframes (0 ... 99) globally regardless of frame rate
+    ///
+    /// Timecode supports subframes throughout. However, by default subframes are not displayed in ``Timecode/stringValue(format:)``. You can enable them:
+    ///
+    /// ```swift
+    /// var tc = try "01:12:20:05.62"
+    ///     .timecode(at: ._24, base: ._80SubFrames)
+    ///
+    /// // string with default formatting
+    /// tc.stringValue() // == "01:12:20:05"
+    /// tc.subFrames     // == 62 (subframes are preserved even though not displayed in stringValue)
+    ///
+    /// // string with subframes shown
+    /// tc.stringValue(format: .showSubFrames) // == "01:12:20:05.62"
+    /// ```
+    ///
+    /// Subframes are always calculated when performing operations on the ``Timecode`` instance, even if they are not expressed in the timecode string when not displaying subframes.
+    ///
+    /// ```swift
+    /// var tc = try "00:00:00:00.40"
+    ///     .timecode(at: ._24, base: ._80SubFrames)
+    ///
+    /// tc.stringValue() // == "00:00:00:00"
+    /// tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"
+    ///
+    /// // multiply timecode by 2.
+    /// // 40 subframes is half of a frame at 80 subframes per frame
+    /// (tc * 2).stringValue(format: .showSubFrames) // == "00:00:00:01.00"
+    /// ```
     public struct Components {
         // MARK: Contents
         

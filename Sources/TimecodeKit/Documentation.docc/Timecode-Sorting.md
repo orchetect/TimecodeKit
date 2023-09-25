@@ -32,7 +32,7 @@ let sorted = timeline.sorted(using: comparator)
 
 ## Sorting using Timeline Context
 
-For an explanation of timeline context, see <doc:Comparison#Comparing-using-Timeline-Context>.
+For an explanation of timeline context, see <doc:Timecode-Comparison#Comparing-using-Timeline-Context>.
 
 Collections of ``Timecode`` can be sorted ascending or descending.
 
