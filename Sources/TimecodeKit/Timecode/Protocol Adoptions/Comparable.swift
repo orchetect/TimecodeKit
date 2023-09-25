@@ -10,8 +10,7 @@ import Foundation
 extension Timecode: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.realTimeValue.rounded(decimalPlaces: 9)
-            ==
-            rhs.realTimeValue.rounded(decimalPlaces: 9)
+            == rhs.realTimeValue.rounded(decimalPlaces: 9)
     }
 }
 
@@ -29,8 +28,7 @@ extension Timecode: Comparable {
     /// For comparison based on a timeline that does not start at 00:00:00:00, see ``compare(to:timelineStart:)``.
     public static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.realTimeValue.rounded(decimalPlaces: 9)
-            <
-            rhs.realTimeValue.rounded(decimalPlaces: 9)
+            < rhs.realTimeValue.rounded(decimalPlaces: 9)
     }
 }
 
@@ -39,6 +37,8 @@ extension Timecode {
     /// 00:00:00:00. Timeline length and wrap point is determined by the
     /// ``upperLimit-swift.property`` property. The timeline is considered linear for 24 hours (or
     /// 100 days) from this start time, wrapping around the upper limit.
+    ///
+    /// ## Working with a Non-Zero Timeline Start
     ///
     /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
     /// software applications such as Pro Tools allows a project start time to be set to any
@@ -64,13 +64,19 @@ extension Timecode {
     /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
     /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
-    /// See also: ``TimecodeSortComparator``.
+    /// ## See Also
+    ///
+    /// - ``TimecodeSortComparator``
     public func compare(to other: Timecode, timelineStart: Timecode? = nil) -> ComparisonResult {
         // identical timecodes can early-return
         if self == other { return .orderedSame }
         
+        // zero timeline start
+        
         guard let timelineStart = timelineStart, !timelineStart.isZero else {
             // standard operator compare will work if timeline start is nil or zero (both mean zero)
+            
+            // (no need to check for equality, we already checked for .orderedSame early in the func)
             if self < other { return .orderedAscending }
             else { return .orderedDescending }
         }
@@ -104,6 +110,7 @@ extension Timecode {
             rhsFrameCount -= rhsOneDay
         }
         
+        // (no need to check for equality, we already checked for .orderedSame early in the func)
         if lhsFrameCount < rhsFrameCount {
             return .orderedAscending
         } else {
@@ -117,10 +124,13 @@ extension Timecode {
 extension Collection where Element == Timecode {
     /// Returns `true` if all ``Timecode`` instances are ordered chronologically, either ascending
     /// or descending according to the `ascending` parameter.
-    /// Contiguous subsequences of identical timecode are allowed.
+    ///
+    /// Neighboring instances of identical timecode are considered sorted.
     /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
     /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
     /// wrapping around the upper limit.
+    ///
+    /// ## Working with a Non-Zero Timeline Start
     ///
     /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
     /// software applications such as Pro Tools allows a project start time to be set to any
@@ -146,7 +156,9 @@ extension Collection where Element == Timecode {
     /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
     /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
-    /// See also: ``TimecodeSortComparator``.
+    /// ## See Also
+    ///
+    /// - ``TimecodeSortComparator``
     public func isSorted(
         ascending: Bool = true,
         timelineStart: Timecode? = nil
@@ -176,10 +188,13 @@ extension Collection where Element == Timecode {
 extension Collection where Element == Timecode {
     /// Returns a collection sorting all ``Timecode`` instances chronologically, either ascending
     /// or descending.
-    /// Contiguous subsequences of identical timecode are allowed.
+    ///
+    /// Neighboring instances of identical timecode are considered sorted.
     /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
     /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
     /// wrapping around the upper limit.
+    ///
+    /// ## Working with a Non-Zero Timeline Start
     ///
     /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
     /// software applications such as Pro Tools allows a project start time to be set to any
@@ -205,7 +220,9 @@ extension Collection where Element == Timecode {
     /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
     /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
-    /// See also: ``TimecodeSortComparator``.
+    /// ## See Also
+    ///
+    /// - ``TimecodeSortComparator``
     public func sorted(
         ascending: Bool = true,
         timelineStart: Timecode
@@ -224,10 +241,13 @@ extension MutableCollection
 {
     /// Sorts the collection in place by sorting all ``Timecode`` instances chronologically, either
     /// ascending or descending.
-    /// Contiguous subsequences of identical timecode are allowed.
+    ///
+    /// Neighboring instances of identical timecode are considered sorted.
     /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
     /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
     /// wrapping around the upper limit.
+    ///
+    /// ## Working with a Non-Zero Timeline Start
     ///
     /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
     /// software applications such as Pro Tools allows a project start time to be set to any
@@ -253,7 +273,9 @@ extension MutableCollection
     /// Note that passing ``TimecodeSortComparator/timelineStart`` of `nil` or zero (00:00:00:00) is
     /// the same as using the standard  `<`, `==`, or  `>` operators as a sort comparator.
     ///
-    /// See also: ``TimecodeSortComparator``.
+    /// ## See Also
+    ///
+    /// - ``TimecodeSortComparator``
     public mutating func sort(
         ascending: Bool = true,
         timelineStart: Timecode
@@ -265,12 +287,16 @@ extension MutableCollection
     }
 }
 
-/// Sort comparator for ``Timecode``, optionally supplying a timeline start time.
+/// Sort comparator for ``Timecode`` with optional timeline start time support.
 ///
-/// Contiguous subsequences of identical timecode are allowed.
+/// This custom `SortComparator` is provided to aid in comparing or sorting ``Timecode`` instances.
+///
+/// Neighboring instances of identical timecode are considered sorted.
 /// Timeline length and wrap point is determined by the ``Timecode/upperLimit-swift.property``
 /// property. The timeline is considered linear for 24 hours (or 100 days) from this start time,
 /// wrapping around the upper limit.
+///
+/// ## Working with a Non-Zero Timeline Start
 ///
 /// Sometimes a timeline does not have a zero start time (00:00:00:00). For example, many DAW
 /// software applications such as Pro Tools allows a project start time to be set to any

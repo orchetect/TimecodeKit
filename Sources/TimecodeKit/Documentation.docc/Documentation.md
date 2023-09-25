@@ -23,7 +23,7 @@ Value types for representing and working with SMPTE timecode.
 - ``Timecode/Properties-swift.struct``
 - ``Timecode/Components-swift.struct``
 - <doc:Timecode-String>
-- <doc:Timecode-Comparison>
+- <doc:Timecode-Comparison-and-Sort>
 - <doc:Timecode-Range-and-Strideable>
 - <doc:Timecode-Validation>
 
