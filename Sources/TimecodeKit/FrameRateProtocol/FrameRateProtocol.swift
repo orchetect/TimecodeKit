@@ -6,17 +6,12 @@
 
 import Foundation
 
-#if canImport(CoreMedia)
-import CoreMedia
-#endif
-
+/// Protocol used in TimecodeKit to provide shared properties and methods for frame rate types.
 public protocol FrameRateProtocol where
     Self: CaseIterable,
     AllCases.Index == Int,
     Self: Equatable
 {
-    // MARK: Properties
-    
     /// Returns human-readable frame rate string.
     var stringValue: String { get }
     

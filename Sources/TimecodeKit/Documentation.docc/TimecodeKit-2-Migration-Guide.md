@@ -1,6 +1,8 @@
 # TimecodeKit 2 Migration Guide
 
-Major API changes from TimecodeKit version 1 to version 2.
+API changes from TimecodeKit version 1 to version 2.
+
+This guide is designed to assist in migrating projects currently using TimecodeKit 1.x to version 2.x. While not exhaustive, this guide covers the major API and workflow changes. 
 
 ## Timecode Time Value Types
 

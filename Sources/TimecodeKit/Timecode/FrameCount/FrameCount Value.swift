@@ -17,7 +17,7 @@ extension Timecode.FrameCount {
         /// subframes unit interval.
         case combined(frames: Double)
         
-        /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0..<1.0`).
+        /// Total elapsed whole frames, and subframes expressed as a floating-point unit interval (`0.0 ..< 1.0`).
         case splitUnitInterval(frames: Int, subFramesUnitInterval: Double)
     }
 }

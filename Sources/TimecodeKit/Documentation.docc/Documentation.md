@@ -39,7 +39,7 @@ Value types for representing and working with SMPTE timecode.
 ### Math & Conversions
 
 - <doc:Math>
-- <doc:Conversions>
+- <doc:Timecode-Conversions>
 - <doc:Rational-Numbers-and-CMTime>
 - <doc:Timecode-Interval>
 - <doc:Timecode-Transformer>

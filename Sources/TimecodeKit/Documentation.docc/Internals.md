@@ -14,9 +14,6 @@ Internal types and protocols.
 
 ### Supporting Types
 
-- ``AVAssetTimecodeSource``
-- ``AVAssetRichTimecodeSource``
-- ``SamplesPayload``
 - ``RangeAttribute``
 
 ### Frame Rate

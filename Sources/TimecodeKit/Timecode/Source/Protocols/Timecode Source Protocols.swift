@@ -55,6 +55,10 @@ protocol GuaranteedRichTimecodeSource {
 // MARK: - Type Erasure
 
 /// Box containing a concrete `TimecodeSource` instance.
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
 public struct TimecodeSourceValue {
     var value: TimecodeSource
     
@@ -64,6 +68,10 @@ public struct TimecodeSourceValue {
 }
 
 /// Box containing a concrete `FormattedTimecodeSource` instance.
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
 public struct FormattedTimecodeSourceValue {
     var value: FormattedTimecodeSource
     
@@ -73,6 +81,10 @@ public struct FormattedTimecodeSourceValue {
 }
 
 /// Box containing a concrete `RichTimecodeSource` instance.
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
 public struct RichTimecodeSourceValue {
     var value: RichTimecodeSource
     
@@ -82,6 +94,10 @@ public struct RichTimecodeSourceValue {
 }
 
 /// Box containing a concrete `GuaranteedTimecodeSource` instance.
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
 public struct GuaranteedTimecodeSourceValue {
     var value: GuaranteedTimecodeSource
     
@@ -91,6 +107,10 @@ public struct GuaranteedTimecodeSourceValue {
 }
 
 /// Box containing a concrete `GuaranteedRichTimecodeSource` instance.
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
 public struct GuaranteedRichTimecodeSourceValue {
     var value: GuaranteedRichTimecodeSource
     
