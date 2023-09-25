@@ -43,9 +43,4 @@ public protocol FrameRateProtocol where
     /// rate (and not a video rate), its status as a drop or non-drop rate must be stored
     /// independently and recalled.
     var alternateFrameDuration: Fraction? { get }
-    
-    #if canImport(CoreMedia)
-    @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-    var frameDurationCMTime: CMTime { get }
-    #endif
 }

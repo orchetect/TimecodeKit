@@ -152,7 +152,7 @@ extension AVMutableMovie {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    /// Returns a new CoreMedia format description based on the timecode `frameRate`.
+    /// Returns a new Core Media format description based on the timecode `frameRate`.
     ///
     /// - Throws: Core Media error.
     public func cmFormatDescription(

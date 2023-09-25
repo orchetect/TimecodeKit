@@ -6,7 +6,6 @@
 
 // MARK: - FrameRate
 
-/// Timecode frame rate.
 /// Industry-standard BITC (burn-in timecode) display rates.
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)

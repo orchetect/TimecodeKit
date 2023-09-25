@@ -171,39 +171,7 @@ extension VideoFrameRate {
         )
     }
     
-    /// Returns the frame rate (fps) as a rational number (fraction)
-    /// as a CoreMedia `CMTime` instance.
-    ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
-    /// times and durations.
-    ///
-    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
-    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
-    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
-    /// fractions.)
-    public var rateCMTime: CMTime {
-        CMTime(
-            value: CMTimeValue(rate.numerator),
-            timescale: CMTimeScale(rate.denominator)
-        )
-    }
-    
-    /// Returns the duration of 1 frame as a rational number (fraction)
-    /// as a CoreMedia `CMTime` instance.
-    ///
-    /// - Note: Many AVFoundation and Core Media objects utilize `CMTime` as a way to represent
-    /// times and durations.
-    ///
-    /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
-    /// rational number notation: a fraction of two whole number integers. (AAF encodes video rate
-    /// this way, whereas FCPXML (Final Cut Pro) encodes both video rate and time locations as
-    /// fractions.)
-    public var frameDurationCMTime: CMTime {
-        CMTime(
-            value: CMTimeValue(frameDuration.numerator),
-            timescale: CMTimeScale(frameDuration.denominator)
-        )
-    }
+    // NOTE: `rateCMTime` and `frameDurationCMTime` properties are implemented on `FrameRateProtocol`
 }
 #endif
 
