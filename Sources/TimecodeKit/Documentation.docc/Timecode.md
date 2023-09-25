@@ -54,7 +54,7 @@
 ### Conversion
 
 - ``converted(to:preservingValues:)``
-- ``cmTime``
+- ``cmTimeValue``
 - ``feetAndFramesValue``
 - ``rationalValue``
 - ``realTimeValue``
