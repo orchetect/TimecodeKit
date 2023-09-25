@@ -29,7 +29,7 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .ntscColor)
         XCTAssertTrue(TimecodeFrameRate._29_97.isCompatible(with: ._59_94))
         
-        // NTSC drop
+        // NTSC Drop
         XCTAssertEqual(TimecodeFrameRate._29_97_drop.compatibleGroup, .ntscDrop)
         XCTAssertEqual(TimecodeFrameRate._59_94_drop.compatibleGroup, .ntscDrop)
         XCTAssertTrue(TimecodeFrameRate._29_97_drop.isCompatible(with: ._59_94_drop))
@@ -40,8 +40,8 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         XCTAssertTrue(TimecodeFrameRate._24.isCompatible(with: ._30))
         
         // NTSC Color Wall Time
-        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .ntscColorWalltime)
-        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .ntscColorWalltime)
+        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .ntscColorWallTime)
+        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .ntscColorWallTime)
         XCTAssertTrue(TimecodeFrameRate._30_drop.isCompatible(with: ._60_drop))
     }
     

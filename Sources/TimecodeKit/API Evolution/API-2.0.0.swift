@@ -46,8 +46,8 @@ extension TimecodeFrameRate.CompatibleGroup {
     @available(*, deprecated, renamed: "whole", message: "Renamed to lower camel case.")
     public static let ATSC: Self = .whole
     
-    @available(*, deprecated, renamed: "ntscColorWalltime", message: "Renamed to lower camel case.")
-    public static let ATSC_drop: Self = .ntscColorWalltime
+    @available(*, deprecated, renamed: "ntscColorWallTime", message: "Renamed to lower camel case.")
+    public static let ATSC_drop: Self = .ntscColorWallTime
 }
 
 // MARK: - Timecode String.swift

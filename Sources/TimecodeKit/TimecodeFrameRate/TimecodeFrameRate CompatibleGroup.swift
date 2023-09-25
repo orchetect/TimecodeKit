@@ -25,7 +25,7 @@ extension TimecodeFrameRate {
         case ntscColor
         case ntscDrop
         case whole
-        case ntscColorWalltime
+        case ntscColorWallTime
         
         /// Constants table of ``TimecodeFrameRate`` groups that share HH:MM:SS alignment between them.
         ///
@@ -73,7 +73,7 @@ extension TimecodeFrameRate {
                     ._120
                 ],
                 
-                .ntscColorWalltime: [
+                .ntscColorWallTime: [
                     ._30_drop,
                     ._60_drop,
                     ._120_drop
@@ -99,7 +99,7 @@ extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
         case .whole:
             return "Whole"
             
-        case .ntscColorWalltime:
+        case .ntscColorWallTime:
             return "NTSC Color Wall Time"
         }
     }
