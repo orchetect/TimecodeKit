@@ -25,8 +25,8 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         // methods basic spot-check
         
         // NTSC
-        XCTAssertEqual(TimecodeFrameRate._29_97.compatibleGroup, .ntsc)
-        XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .ntsc)
+        XCTAssertEqual(TimecodeFrameRate._29_97.compatibleGroup, .ntscColor)
+        XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .ntscColor)
         XCTAssertTrue(TimecodeFrameRate._29_97.isCompatible(with: ._59_94))
         
         // NTSC drop
@@ -34,14 +34,14 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         XCTAssertEqual(TimecodeFrameRate._59_94_drop.compatibleGroup, .ntscDrop)
         XCTAssertTrue(TimecodeFrameRate._29_97_drop.isCompatible(with: ._59_94_drop))
         
-        // ATSC
-        XCTAssertEqual(TimecodeFrameRate._24.compatibleGroup, .atsc)
-        XCTAssertEqual(TimecodeFrameRate._30.compatibleGroup, .atsc)
+        // Whole
+        XCTAssertEqual(TimecodeFrameRate._24.compatibleGroup, .whole)
+        XCTAssertEqual(TimecodeFrameRate._30.compatibleGroup, .whole)
         XCTAssertTrue(TimecodeFrameRate._24.isCompatible(with: ._30))
         
-        // ATSC drop
-        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .atscDrop)
-        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .atscDrop)
+        // NTSC Color Wall Time
+        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .ntscColorWalltime)
+        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .ntscColorWalltime)
         XCTAssertTrue(TimecodeFrameRate._30_drop.isCompatible(with: ._60_drop))
     }
     

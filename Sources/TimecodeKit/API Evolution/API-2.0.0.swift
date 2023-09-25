@@ -37,17 +37,17 @@ import UIKit
 // MARK: - TimecodeFrameRate CompatibleGroup.swift
 
 extension TimecodeFrameRate.CompatibleGroup {
-    @available(*, deprecated, renamed: "ntsc", message: "Renamed to lower camel case.")
-    public static let NTSC: Self = .ntsc
+    @available(*, deprecated, renamed: "ntscColor", message: "Renamed to lower camel case.")
+    public static let NTSC: Self = .ntscColor
     
     @available(*, deprecated, renamed: "ntscDrop", message: "Renamed to lower camel case.")
     public static let NTSC_drop: Self = .ntscDrop
     
-    @available(*, deprecated, renamed: "atsc", message: "Renamed to lower camel case.")
-    public static let ATSC: Self = .atsc
+    @available(*, deprecated, renamed: "whole", message: "Renamed to lower camel case.")
+    public static let ATSC: Self = .whole
     
-    @available(*, deprecated, renamed: "atscDrop", message: "Renamed to lower camel case.")
-    public static let ATSC_drop: Self = .atscDrop
+    @available(*, deprecated, renamed: "ntscColorWalltime", message: "Renamed to lower camel case.")
+    public static let ATSC_drop: Self = .ntscColorWalltime
 }
 
 // MARK: - Timecode String.swift

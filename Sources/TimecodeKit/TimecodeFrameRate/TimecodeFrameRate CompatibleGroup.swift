@@ -13,19 +13,19 @@ extension TimecodeFrameRate {
     /// For example:
     ///
     /// At 1 hour of elapsed real (wall-clock) time, 30 and 60 fps are compatible with each other, but 29.97 is not:
-    /// - `01:00:00:00 @ 30 fps // NTSC Non-Drop`
-    /// - `01:00:00:00 @ 60 fps // NTSC Non-Drop`
-    /// - `00:59:56:12 @ 29.97 fps // NTSC Drop`
+    /// - `01:00:00:00 @ 30 fps // group A`
+    /// - `01:00:00:00 @ 60 fps // group A`
+    /// - `00:59:56:12 @ 29.97 fps // group B`
     ///
     /// 30 and 60 fps both reach `01:00:00:00` at exactly the same time, then until the next timecode-second only the
     /// frame number will differ. They will then both reach `01:00:01:00` at exactly the same time, and so on.
     ///
     /// - note: These are intended for internal logic and not for end-user user interface.
     public enum CompatibleGroup: Equatable, Hashable, CaseIterable {
-        case ntsc
+        case ntscColor
         case ntscDrop
-        case atsc
-        case atscDrop
+        case whole
+        case ntscColorWalltime
         
         /// Constants table of ``TimecodeFrameRate`` groups that share HH:MM:SS alignment between them.
         ///
@@ -35,9 +35,9 @@ extension TimecodeFrameRate {
         /// For example:
         ///
         /// At 1 hour of elapsed real (wall-clock) time, 30 and 60 fps are compatible with each other, but 29.97 is not:
-        /// - `01:00:00:00 @ 30 fps // NTSC Non-Drop`
-        /// - `01:00:00:00 @ 60 fps // NTSC Non-Drop`
-        /// - `00:59:56:12 @ 29.97 fps // NTSC Drop`
+        /// - `01:00:00:00 @ 30 fps // group A`
+        /// - `01:00:00:00 @ 60 fps // group A`
+        /// - `00:59:56:12 @ 29.97 fps // group B`
         ///
         /// 30 and 60 fps both reach `01:00:00:00` at exactly the same time, then until the next timecode-second only the
         /// frame number will differ. They will then both reach `01:00:01:00` at exactly the same time, and so on.
@@ -45,7 +45,7 @@ extension TimecodeFrameRate {
         /// - note: These are intended for internal logic and not for end-user user interface.
         public static var table: [CompatibleGroup: [TimecodeFrameRate]] =
             [
-                .ntsc: [
+                .ntscColor: [
                     ._23_976,
                     ._24_98,
                     ._29_97,
@@ -61,7 +61,7 @@ extension TimecodeFrameRate {
                     ._119_88_drop
                 ],
                 
-                .atsc: [
+                .whole: [
                     ._24,
                     ._25,
                     ._30,
@@ -73,7 +73,7 @@ extension TimecodeFrameRate {
                     ._120
                 ],
                 
-                .atscDrop: [
+                .ntscColorWalltime: [
                     ._30_drop,
                     ._60_drop,
                     ._120_drop
@@ -90,17 +90,17 @@ extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
     /// Returns human-readable group string.
     public var stringValue: String {
         switch self {
-        case .ntsc:
-            return "NTSC"
+        case .ntscColor:
+            return "NTSC Color"
             
         case .ntscDrop:
             return "NTSC Drop-Frame"
             
-        case .atsc:
-            return "ATSC"
+        case .whole:
+            return "Whole"
             
-        case .atscDrop:
-            return "ATSC Drop-Frame"
+        case .ntscColorWalltime:
+            return "NTSC Color Wall Time"
         }
     }
 }
@@ -134,9 +134,9 @@ extension TimecodeFrameRate {
     /// For example:
     ///
     /// At 1 hour of elapsed real (wall-clock) time, 30 and 60 fps are compatible with each other, but 29.97 is not:
-    /// - `01:00:00:00 @ 30 fps // NTSC Non-Drop`
-    /// - `01:00:00:00 @ 60 fps // NTSC Non-Drop`
-    /// - `00:59:56:12 @ 29.97 fps // NTSC Drop`
+    /// - `01:00:00:00 @ 30 fps // group A`
+    /// - `01:00:00:00 @ 60 fps // group A`
+    /// - `00:59:56:12 @ 29.97 fps // group B`
     ///
     /// 30 and 60 fps both reach `01:00:00:00` at exactly the same time, then until the next timecode-second only the
     /// frame number will differ. They will then both reach `01:00:01:00` at exactly the same time, and so on.
