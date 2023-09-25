@@ -67,14 +67,14 @@ class Fraction_CMTime_Tests: XCTestCase {
         )
     }
     
-    func testCMTime_toFraction() {
+    func testCMTime_fractionValue() {
         XCTAssertEqual(
-            CMTime(value: 3600, timescale: 1).toFraction(),
+            CMTime(value: 3600, timescale: 1).fractionValue,
             Fraction(3600, 1)
         )
         
         XCTAssertEqual(
-            CMTime(value: -3600, timescale: 1).toFraction(),
+            CMTime(value: -3600, timescale: 1).fractionValue,
             Fraction(-3600, 1)
         )
     }

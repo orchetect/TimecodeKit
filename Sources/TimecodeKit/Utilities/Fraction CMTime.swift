@@ -40,7 +40,8 @@ extension CMTime {
     }
     
     /// Returns the fraction as a new ``Fraction`` instance.
-    public func toFraction() -> Fraction {
+    @_disfavoredOverload
+    public var fractionValue: Fraction {
         Fraction(self)
     }
 }
