@@ -15,7 +15,7 @@ Additionally, formatting options may be provided. These options may by combined.
 
 ### Show Subframes
 
-By default, subframes are not expressed in the string value. They can be enabled by passing the ``Timecode/StringFormatParameter/showSubFrames`` option.
+By default, subframes are not expressed in the string value. They can be enabled by passing the ``Timecode/StringFormatOption/showSubFrames`` option.
 
 ```swift
 try Timecode(.components(h: 01, m: 00, s: 00, f: 05), at: ._29_97_drop)
@@ -24,7 +24,7 @@ try Timecode(.components(h: 01, m: 00, s: 00, f: 05), at: ._29_97_drop)
 
 ### Filename Compatible
 
-The string value can be formatted to be filename-friendly by passing the ``Timecode/StringFormatParameter/filenameCompatible`` option.
+The string value can be formatted to be filename-friendly by passing the ``Timecode/StringFormatOption/filenameCompatible`` option.
 
 ```swift
 try Timecode(.components(h: 01, m: 05, s: 20, f: 10), at: ._29_97_drop)
@@ -38,8 +38,8 @@ try Timecode(.components(h: 01, m: 05, s: 20, f: 10), at: ._29_97_drop)
 
 ### StringFormat Options
 
-- ``Timecode/StringFormatParameter/showSubFrames``
-- ``Timecode/StringFormatParameter/filenameCompatible``
+- ``Timecode/StringFormatOption/showSubFrames``
+- ``Timecode/StringFormatOption/filenameCompatible``
 
 ### StringFormat Static Constructors
 

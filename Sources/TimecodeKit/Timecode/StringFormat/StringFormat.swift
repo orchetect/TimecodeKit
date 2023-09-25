@@ -6,7 +6,7 @@
 
 extension Timecode {
     /// `Timecode` string output format configuration.
-    public typealias StringFormat = Set<StringFormatParameter>
+    public typealias StringFormat = Set<StringFormatOption>
 }
 
 extension Timecode.StringFormat {
@@ -20,7 +20,7 @@ extension Timecode.StringFormat {
 }
 
 extension Timecode.StringFormat {
-    /// Get or set ``Timecode/StringFormatParameter/showSubFrames`` state.
+    /// Get or set ``Timecode/StringFormatOption/showSubFrames`` state.
     public var showSubFrames: Bool {
         get {
             contains(.showSubFrames)
@@ -31,7 +31,7 @@ extension Timecode.StringFormat {
         }
     }
     
-    /// Get or set ``Timecode/StringFormatParameter/filenameCompatible`` state.
+    /// Get or set ``Timecode/StringFormatOption/filenameCompatible`` state.
     public var filenameCompatible: Bool {
         get {
             contains(.filenameCompatible)
@@ -44,11 +44,11 @@ extension Timecode.StringFormat {
 }
 
 extension Timecode {
-    /// `Timecode` string output format configuration parameter.
-    public enum StringFormatParameter: Equatable, Hashable, CaseIterable {
+    /// `Timecode` string output format option.
+    public enum StringFormatOption: Equatable, Hashable, CaseIterable {
         /// Determines whether subframes are included.
         ///
-        /// This does not disable subframes from being stored or calculated, only whether they are output in the string.
+        /// This does not disable subframes from being stored or calculated, only whether it is present in the string.
         case showSubFrames
         
         /// Substitutes illegal characters for filename-compatible characters.
@@ -56,7 +56,7 @@ extension Timecode {
     }
 }
 
-extension Timecode.StringFormatParameter: Codable {
+extension Timecode.StringFormatOption: Codable {
     private enum CodingKeys: String, CodingKey {
         case showSubFrames
         case filenameCompatible
