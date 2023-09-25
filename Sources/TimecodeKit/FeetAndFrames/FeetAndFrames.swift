@@ -6,9 +6,8 @@
 
 import Foundation
 
-/// Feet+Frames value.
-///
-/// Feet+Frames is a time encoding used seldomly in video editing.
+/// Feet+Frames is a time reference traditionally used when measuring and splicing physical film, but its use in modern day is uncommon.
+/// Some digital video editors and DAWs support this time format.
 ///
 /// Initializers and properties on ``Timecode`` are available to convert to or from Feet+Frames.
 ///

@@ -71,3 +71,15 @@ try Timecode(.samples(172800000, sampleRate: 48000), at: ._24)
 ## Rational Fraction / CMTime
 
 See <doc:Rational-Numbers-and-CMTime> for more details.
+
+## Feet+Frames
+
+```swift
+// timecode → feet+frames
+try "01:00:00:00"
+    .timecode(at: ._23_976)
+    .feetAndFramesValue // 5400+00
+
+// feet+frames → timecode
+try Timecode(.feetAndFrames(feet: 5400, frames: 0), at: ._23_976)
+```

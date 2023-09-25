@@ -32,10 +32,6 @@ Value types for representing and working with SMPTE timecode.
 - ``TimecodeFrameRate``
 - ``VideoFrameRate``
 
-### Additional Value Types
-
-- ``FeetAndFrames``
-
 ### Math & Conversions
 
 - <doc:Math>
@@ -47,6 +43,10 @@ Value types for representing and working with SMPTE timecode.
 ### Core Media / AVFoundation
 
 - <doc:AVAsset-Timecode-Track>
+
+### Additional Value Types
+
+- ``FeetAndFrames``
 
 ### Internals
 
