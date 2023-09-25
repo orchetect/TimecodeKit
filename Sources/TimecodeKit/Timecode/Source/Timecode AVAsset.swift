@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - TimecodeSource
 
-public struct AVAssetTimecodeSource {
-    public var asset: AVAsset
-    public var attribute: RangeAttribute
+struct AVAssetTimecodeSource {
+    var asset: AVAsset
+    var attribute: RangeAttribute
 }
 
 extension AVAssetTimecodeSource: TimecodeSource {
@@ -106,13 +106,13 @@ extension TimecodeSourceValue {
 
 // MARK: - RichTimecodeSource
 
-public struct AVAssetRichTimecodeSource {
-    public var asset: AVAsset
-    public var attribute: RangeAttribute
+struct AVAssetRichTimecodeSource {
+    var asset: AVAsset
+    var attribute: RangeAttribute
 }
 
 extension AVAssetRichTimecodeSource: RichTimecodeSource {
-    public func set(
+    func set(
         timecode: inout Timecode
     ) throws -> Timecode.Properties {
         let base: Timecode.SubFramesBase = timecode.subFramesBase

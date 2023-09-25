@@ -6,7 +6,7 @@
 
 // MARK: - Payload
 
-public struct SamplesPayload {
+struct SamplesPayload {
     public var samples: Double
     public var sampleRate: Int
 }
