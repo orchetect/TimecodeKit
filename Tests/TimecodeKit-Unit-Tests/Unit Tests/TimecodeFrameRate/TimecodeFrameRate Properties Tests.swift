@@ -48,7 +48,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
                 in: .max24Hours,
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             2_592_000 * 80
         )
@@ -58,7 +58,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
                 in: .max100Days,
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             2_592_000 * 100 * 80
         )
@@ -66,7 +66,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
                 in: .max100Days,
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             (2_592_000 * 100 * 80) - 1
         )
@@ -75,7 +75,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
                 in: .max24Hours,
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             (2_592_000 * 80) - 1
         )

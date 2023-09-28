@@ -35,7 +35,7 @@ class Timecode_init_Tests: XCTestCase {
             let tc = try Timecode(
                 .string("00:00:00:00"),
                 at: $0,
-                base: ._100SubFrames,
+                base: .max100SubFrames,
                 limit: .max24Hours
             )
             

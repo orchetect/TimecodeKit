@@ -15,7 +15,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
-            .frames(Timecode.FrameCount(.frames(670_907), base: ._80SubFrames)),
+            .frames(Timecode.FrameCount(.frames(670_907), base: .max80SubFrames)),
             at: .fps30
         )
         
@@ -26,7 +26,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
         let tc = Timecode(
             .frames(Timecode.FrameCount(
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             )),
             at: .fps24,
             by: .clamping
@@ -42,7 +42,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
         let tc = Timecode(
             .frames(Timecode.FrameCount(
                 .frames(2073600 + 86400), // 25 hours @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             )),
             at: .fps24,
             by: .wrapping
@@ -55,7 +55,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
         let tc = Timecode(
             .frames(Timecode.FrameCount(
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             )),
             at: .fps24,
             by: .allowingInvalid
@@ -149,23 +149,23 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testSetTimecodeExactly() throws {
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
-        var tc = Timecode(.zero, at: .fps30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps30, base: .max80SubFrames)
         
         try tc.set(Timecode.FrameCount(
             .frames(670_907),
-            base: ._80SubFrames
+            base: .max80SubFrames
         ))
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
     }
     
     func testSetTimecodeFrameCount_Clamping() {
-        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             by: .clamping
         )
@@ -177,12 +177,12 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_Wrapping() {
-        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
                 .frames(2073600 + 86400), // 25 hours @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             by: .wrapping
         )
@@ -191,12 +191,12 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_RawValues() {
-        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             by: .allowingInvalid
         )
@@ -213,7 +213,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
         let tcc = Timecode.components(
             of: Timecode.FrameCount(
                 .split(frames: totalFramesIn24Hr - 1, subFrames: 79),
-                base: ._80SubFrames
+                base: .max80SubFrames
             ),
             at: .fps29_97d
         )
@@ -225,38 +225,38 @@ class Timecode_FrameCount_Tests: XCTestCase {
         // true
         
         // frames
-        XCTAssertTrue(Timecode.FrameCount(.frames(0), base: ._80SubFrames).isZero)
+        XCTAssertTrue(Timecode.FrameCount(.frames(0), base: .max80SubFrames).isZero)
         // split
-        XCTAssertTrue(Timecode.FrameCount(.split(frames: 0, subFrames: 0), base: ._80SubFrames).isZero)
+        XCTAssertTrue(Timecode.FrameCount(.split(frames: 0, subFrames: 0), base: .max80SubFrames).isZero)
         // combined
-        XCTAssertTrue(Timecode.FrameCount(.combined(frames: 0.0), base: ._80SubFrames).isZero)
+        XCTAssertTrue(Timecode.FrameCount(.combined(frames: 0.0), base: .max80SubFrames).isZero)
         // split unitinterval
-        XCTAssertTrue(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: 0.0), base: ._80SubFrames).isZero)
+        XCTAssertTrue(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: 0.0), base: .max80SubFrames).isZero)
         
         // false
         
         // frames
-        XCTAssertFalse(Timecode.FrameCount(.frames(1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.frames(-1), base: ._80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.frames(1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.frames(-1), base: .max80SubFrames).isZero)
         // split
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: 0, subFrames: 1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: 1, subFrames: 0), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: 1, subFrames: 1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: 0, subFrames: -1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: -1, subFrames: 0), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.split(frames: -1, subFrames: -1), base: ._80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: 0, subFrames: 1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: 1, subFrames: 0), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: 1, subFrames: 1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: 0, subFrames: -1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: -1, subFrames: 0), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.split(frames: -1, subFrames: -1), base: .max80SubFrames).isZero)
         // combined
-        XCTAssertFalse(Timecode.FrameCount(.combined(frames: 0.1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.combined(frames: 1.0), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.combined(frames: -0.1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.combined(frames: -1.0), base: ._80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.combined(frames: 0.1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.combined(frames: 1.0), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.combined(frames: -0.1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.combined(frames: -1.0), base: .max80SubFrames).isZero)
         // split unitinterval
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: 0.1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 1, subFramesUnitInterval: 0.0), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 1, subFramesUnitInterval: 0.1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: -0.1), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: 0.0), base: ._80SubFrames).isZero)
-        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: -0.1), base: ._80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: 0.1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 1, subFramesUnitInterval: 0.0), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 1, subFramesUnitInterval: 0.1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: 0, subFramesUnitInterval: -0.1), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: 0.0), base: .max80SubFrames).isZero)
+        XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: -0.1), base: .max80SubFrames).isZero)
     }
 }
 

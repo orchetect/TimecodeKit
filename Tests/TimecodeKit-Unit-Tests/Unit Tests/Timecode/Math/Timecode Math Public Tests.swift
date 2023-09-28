@@ -483,7 +483,7 @@ class Timecode_Math_Public_Tests: XCTestCase {
         tc = try Timecode(
             .components(h: 00, m: 00, s: 00, f: 00),
             at: .fps23_976,
-            base: ._80SubFrames,
+            base: .max80SubFrames,
             limit: .max24Hours
         )
         

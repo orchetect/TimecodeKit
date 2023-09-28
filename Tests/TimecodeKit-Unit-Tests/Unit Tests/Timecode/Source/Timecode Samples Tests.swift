@@ -243,7 +243,7 @@ class Timecode_Samples_Tests: XCTestCase {
         
         let logErrors = true
         
-        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
+        let subFramesBase: Timecode.SubFramesBase = .max80SubFrames
         
         var frameRatesWithSetTimecodeErrors: Set<TimecodeFrameRate> = []
         var frameRatesWithSetTimecodeErrorsCount = 0

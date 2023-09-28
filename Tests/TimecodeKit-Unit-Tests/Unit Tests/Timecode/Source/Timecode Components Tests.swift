@@ -132,7 +132,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClamping() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, at: .fps30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps30, base: .max80SubFrames)
         
         tc.set(.components(d: 1, h: 70, m: 70, s: 70, f: 70, sf: 500), by: .clamping)
         
@@ -142,7 +142,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testSetTimecodeClampingEach() {
         // this is not meant to test the underlying logic, simply that set() produces the intended outcome
         
-        var tc = Timecode(.zero, at: .fps30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps30, base: .max80SubFrames)
         
         tc.set(.components(h: 70, m: 00, s: 70, f: 00, sf: 500), by: .clampingComponents)
         
@@ -176,13 +176,13 @@ class Timecode_Components_Tests: XCTestCase {
         // timecode(rawValuesAt:) with subframes
         
         let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(at: .fps23_976, base: ._100SubFrames)
+            .timecode(at: .fps23_976, base: .max100SubFrames)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
                 at: .fps23_976,
-                base: ._100SubFrames
+                base: .max100SubFrames
             )
         )
         XCTAssertEqual(
@@ -209,7 +209,7 @@ class Timecode_Components_Tests: XCTestCase {
         let tcWithSubFrames = Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
             .timecode(
                 at: .fps23_976,
-                base: ._100SubFrames,
+                base: .max100SubFrames,
                 by: .allowingInvalid
             )
         XCTAssertEqual(
@@ -217,7 +217,7 @@ class Timecode_Components_Tests: XCTestCase {
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
                 at: .fps23_976,
-                base: ._100SubFrames
+                base: .max100SubFrames
             )
         )
         XCTAssertEqual(

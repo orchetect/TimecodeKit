@@ -19,11 +19,11 @@ class Timecode_Validation_Tests: XCTestCase {
         let fr = TimecodeFrameRate.fps24
         let limit = Timecode.UpperLimit.max24Hours
         
-        let tc = Timecode(.zero, at: fr, base: ._80SubFrames, limit: limit)
+        let tc = Timecode(.zero, at: fr, base: .max80SubFrames, limit: limit)
         
         XCTAssertEqual(tc.invalidComponents, [])
         XCTAssertEqual(
-            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: .max80SubFrames, limit: limit),
             []
         )
         
@@ -54,7 +54,7 @@ class Timecode_Validation_Tests: XCTestCase {
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
         XCTAssertEqual(
-            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: .max80SubFrames, limit: limit),
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
     }
@@ -78,7 +78,7 @@ class Timecode_Validation_Tests: XCTestCase {
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
         XCTAssertEqual(
-            tc.components.invalidComponents(at: fr, base: ._80SubFrames, limit: limit),
+            tc.components.invalidComponents(at: fr, base: .max80SubFrames, limit: limit),
             [.days, .hours, .minutes, .seconds, .frames, .subFrames]
         )
     }
@@ -95,8 +95,8 @@ class Timecode_Validation_Tests: XCTestCase {
             let range = {
                 switch base {
                 case .quarterFrames: return 0 ... 3
-                case ._80SubFrames: return 0 ... 79
-                case ._100SubFrames: return 0 ... 99
+                case .max80SubFrames: return 0 ... 79
+                case .max100SubFrames: return 0 ... 99
                 }
             }()
             
@@ -125,7 +125,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 XCTAssertEqual(
                     tc.components.invalidComponents(
                         at: $0,
-                        base: ._80SubFrames,
+                        base: .max80SubFrames,
                         limit: limit
                     ),
                     [],
@@ -148,7 +148,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 XCTAssertEqual(
                     tc.components.invalidComponents(
                         at: $0,
-                        base: ._80SubFrames,
+                        base: .max80SubFrames,
                         limit: limit
                     ),
                     [.frames],
@@ -167,7 +167,7 @@ class Timecode_Validation_Tests: XCTestCase {
                 XCTAssertEqual(
                     tc.components.invalidComponents(
                         at: $0,
-                        base: ._80SubFrames,
+                        base: .max80SubFrames,
                         limit: limit
                     ),
                     [.frames],
@@ -183,7 +183,7 @@ class Timecode_Validation_Tests: XCTestCase {
         let tc = try Timecode(
             .components(comps),
             at: .fps29_97d,
-            base: ._80SubFrames,
+            base: .max80SubFrames,
             limit: .max24Hours
         )
         
@@ -192,7 +192,7 @@ class Timecode_Validation_Tests: XCTestCase {
     }
     
     func testMaxFrames() {
-        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
+        let subFramesBase: Timecode.SubFramesBase = .max80SubFrames
         
         let tc = Timecode(
             .zero,

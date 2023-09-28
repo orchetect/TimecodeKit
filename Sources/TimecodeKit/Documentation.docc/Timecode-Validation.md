@@ -69,7 +69,7 @@ The invalid formatting attributes defaults to applying `[.foregroundColor: NSCol
 let formatter = Timecode.TextFormatter(
     using: .init(
         rate: .fps23_976,
-        base: ._80SubFrames,
+        base: .max80SubFrames,
         limit: .max24Hours
     )
     stringFormat: [.showSubFrames],

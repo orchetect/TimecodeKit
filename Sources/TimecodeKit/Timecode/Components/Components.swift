@@ -67,7 +67,7 @@ extension Timecode {
     ///
     /// ```swift
     /// var tc = try "01:12:20:05.62"
-    ///     .timecode(at: .fps24, base: ._80SubFrames)
+    ///     .timecode(at: .fps24, base: .max80SubFrames)
     ///
     /// // string with default formatting
     /// tc.stringValue() // == "01:12:20:05"
@@ -81,7 +81,7 @@ extension Timecode {
     ///
     /// ```swift
     /// var tc = try "00:00:00:00.40"
-    ///     .timecode(at: .fps24, base: ._80SubFrames)
+    ///     .timecode(at: .fps24, base: .max80SubFrames)
     ///
     /// tc.stringValue() // == "00:00:00:00"
     /// tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"

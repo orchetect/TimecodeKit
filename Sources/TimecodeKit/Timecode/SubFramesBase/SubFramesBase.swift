@@ -15,15 +15,15 @@ extension Timecode {
     /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79)
     /// - Pro Tools uses 100 subframes (0 ... 99)
     public enum SubFramesBase: Int, CaseIterable {
-        case _80SubFrames = 80
-        case _100SubFrames = 100
+        case max80SubFrames = 80
+        case max100SubFrames = 100
         case quarterFrames = 4
     }
 }
 
 extension Timecode.SubFramesBase {
     public static func `default`() -> Self {
-        ._100SubFrames
+        .max100SubFrames
     }
 }
 

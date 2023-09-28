@@ -106,7 +106,7 @@ Timecode metadata can now be constructed and passed around using a new ``Timecod
 // and pass it to a new Timecode instance
 let properties = Timecode.Properties(
     rate: .fps24,
-    base: ._80SubFrames,
+    base: .max80SubFrames,
     limit: .max24Hours
 )
 let timecode = Timecode(
@@ -128,7 +128,7 @@ It is still possible to pass properties directly as initializer parameters if de
 let timecode = try Timecode(
     .components(h: 1, m: 0, s: 0, f: 0), 
     at: .fps24,
-    base: ._80SubFrames,
+    base: .max80SubFrames,
     limit: .max24Hours
 )
 ```
@@ -167,6 +167,18 @@ try "01:00:00:00".timecode(at: .fps24)
 
 Some enum cases have been renamed to conform to lowerCamelCase.
 
-- ``TimecodeFrameRate`` cases have been renamed. (ie: `._24` is now `.fps24`)
-- ``Timecode/UpperLimit-swift.enum`` cases have been renamed. (ie: `._24hours` is now `.max24Hours`)
+- ``TimecodeFrameRate`` cases have been renamed.
+  - `._24` is now `.fps24` and so on
+- ``VideoFrameRate`` cases have been renamed.
+  - `._24p` is now `.fps24p` and so on
+- ``Timecode/UpperLimit-swift.enum`` cases have been renamed.
+  - `._24hours` is now `.max24Hours`
+  - `._100days` is now `.max100Days`
+- ``Timecode/SubFramesBase-swift.enum`` cases have been renamed.
+  - `._80SubFrames` is now `.max80SubFrames`
+  - `._100SubFrames` is now `.max100SubFrames`
 - ``TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed.
+  - `.NTSC` is now `.ntscColor`
+  - `.NTSC_drop` is now `.ntscDrop`
+  - `.ATSC` is now `.whole`
+  - `.ATSC_drop` is now `.ntscColorWallTime`

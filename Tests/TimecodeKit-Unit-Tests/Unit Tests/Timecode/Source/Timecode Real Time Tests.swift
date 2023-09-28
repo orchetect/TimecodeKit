@@ -213,7 +213,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         // test for precision and rounding issues by iterating every subframe for each frame rate
         
-        let subFramesBase: Timecode.SubFramesBase = ._80SubFrames
+        let subFramesBase: Timecode.SubFramesBase = .max80SubFrames
         
         for subFrame in 0 ..< subFramesBase.rawValue {
             let tcc = Timecode.Components(d: 99, h: 23, sf: subFrame)
@@ -302,7 +302,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         let event3 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_33_21_79_delta),
             at: .fps23_976,
-            base: ._80SubFrames
+            base: .max80SubFrames
         )
         XCTAssertEqual(
             event3.components,
@@ -312,7 +312,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         let event4 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_38_01_79_delta),
             at: .fps23_976,
-            base: ._80SubFrames
+            base: .max80SubFrames
         )
         XCTAssertEqual(
             event4.components,
@@ -350,7 +350,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event3
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 33, f: 21, sf: 79)
-                .timecode(at: .fps23_976, base: ._80SubFrames)
+                .timecode(at: .fps23_976, base: .max80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_33_21_79_delta,
             accuracy: 0.0000005
@@ -359,7 +359,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event4
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 38, f: 01, sf: 79)
-                .timecode(at: .fps23_976, base: ._80SubFrames)
+                .timecode(at: .fps23_976, base: .max80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_38_01_79_delta,
             accuracy: 0.0000005
@@ -383,13 +383,13 @@ class Timecode_RealTime_Tests: XCTestCase {
         // timecode(rawValuesAt:) with subframes
         
         let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(at: .fps23_976, base: ._100SubFrames)
+            .timecode(at: .fps23_976, base: .max100SubFrames)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
                 at: .fps23_976,
-                base: ._100SubFrames
+                base: .max100SubFrames
             )
         )
         XCTAssertEqual(
@@ -417,7 +417,7 @@ class Timecode_RealTime_Tests: XCTestCase {
             try Timecode(
                 .components(h: 1),
                 at: .fps24,
-                base: ._100SubFrames
+                base: .max100SubFrames
             )
         )
         XCTAssertEqual(
