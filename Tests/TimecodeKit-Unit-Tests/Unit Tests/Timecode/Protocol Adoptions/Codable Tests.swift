@@ -1,13 +1,13 @@
 //
 //  Codable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Codable_Tests: XCTestCase {
     override func setUp() { }
@@ -22,13 +22,11 @@ class Timecode_Codable_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             // set up a timecode object that has all non-defaults
             
-            let tc = try "1 12:34:56:11.85"
-                .toTimecode(
-                    at: $0,
-                    limit: ._100days,
-                    base: ._100SubFrames,
-                    format: [.showSubFrames]
-                )
+            let tc = try "1 12:34:56:11.85".timecode(
+                at: $0,
+                base: .max100SubFrames,
+                limit: .max100Days
+            )
             
             // encode
             
@@ -42,15 +40,9 @@ class Timecode_Codable_Tests: XCTestCase {
             
             XCTAssertEqual(tc, decoded)
             
-            XCTAssertEqual(tc.days, decoded.days)
-            XCTAssertEqual(tc.hours, decoded.hours)
-            XCTAssertEqual(tc.minutes, decoded.minutes)
-            XCTAssertEqual(tc.seconds, decoded.seconds)
-            XCTAssertEqual(tc.frames, decoded.frames)
-            XCTAssertEqual(tc.frameRate, decoded.frameRate)
-            XCTAssertEqual(tc.upperLimit, decoded.upperLimit)
-            XCTAssertEqual(tc.subFramesBase, decoded.subFramesBase)
-            XCTAssertEqual(tc.stringFormat, decoded.stringFormat)
+            XCTAssertEqual(tc.components, decoded.components)
+            XCTAssertEqual(tc.properties, decoded.properties)
+            // XCTAssertEqual(tc.stringFormat, decoded.stringFormat) // deprecated in TimecodeKit 2.0
         }
     }
 }

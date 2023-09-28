@@ -1,37 +1,37 @@
 //
 //  Hashable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Hashable_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testHashValue() {
+    func testHashValue() throws {
         // hashValues should be equal
         
         XCTAssertEqual(
-            try "01:00:00:00".toTimecode(at: ._23_976).hashValue,
-            try "01:00:00:00".toTimecode(at: ._23_976).hashValue
+            try "01:00:00:00".timecode(at: .fps23_976).hashValue,
+            try "01:00:00:00".timecode(at: .fps23_976).hashValue
         )
         XCTAssertNotEqual(
-            try "01:00:00:01".toTimecode(at: ._23_976).hashValue,
-            try "01:00:00:00".toTimecode(at: ._23_976).hashValue
+            try "01:00:00:01".timecode(at: .fps23_976).hashValue,
+            try "01:00:00:00".timecode(at: .fps23_976).hashValue
         )
         
         XCTAssertNotEqual(
-            try "01:00:00:00".toTimecode(at: ._23_976).hashValue,
-            try "01:00:00:00".toTimecode(at: ._24).hashValue
+            try "01:00:00:00".timecode(at: .fps23_976).hashValue,
+            try "01:00:00:00".timecode(at: .fps24).hashValue
         )
         XCTAssertNotEqual(
-            try "01:00:00:00".toTimecode(at: ._23_976).hashValue,
-            try "01:00:00:00".toTimecode(at: ._29_97).hashValue
+            try "01:00:00:00".timecode(at: .fps23_976).hashValue,
+            try "01:00:00:00".timecode(at: .fps29_97).hashValue
         )
     }
     
@@ -39,29 +39,29 @@ class Timecode_Hashable_Tests: XCTestCase {
         // Dictionary / Set
         
         var dict: [Timecode: String] = [:]
-        dict[try "01:00:00:00".toTimecode(at: ._23_976)] = "A Spot Note Here"
-        dict[try "01:00:00:06".toTimecode(at: ._23_976)] = "A Spot Note Also Here"
+        try dict["01:00:00:00".timecode(at: .fps23_976)] = "A Spot Note Here"
+        try dict["01:00:00:06".timecode(at: .fps23_976)] = "A Spot Note Also Here"
         XCTAssertEqual(dict.count, 2)
-        dict[try "01:00:00:00".toTimecode(at: ._24)] = "This should not replace"
+        try dict["01:00:00:00".timecode(at: .fps24)] = "This should not replace"
         XCTAssertEqual(dict.count, 3)
         
-        XCTAssertEqual(dict[try "01:00:00:00".toTimecode(at: ._23_976)], "A Spot Note Here")
-        XCTAssertEqual(dict[try "01:00:00:00".toTimecode(at: ._24)], "This should not replace")
+        XCTAssertEqual(try dict["01:00:00:00".timecode(at: .fps23_976)], "A Spot Note Here")
+        XCTAssertEqual(try dict["01:00:00:00".timecode(at: .fps24)], "This should not replace")
     }
     
     func testSet() throws {
         // unique timecodes are based on frame counts, irrespective of frame rate
         
         let tcSet: Set<Timecode> = try [
-            "01:00:00:00".toTimecode(at: ._23_976),
-            "01:00:00:00".toTimecode(at: ._24),
-            "01:00:00:00".toTimecode(at: ._25),
-            "01:00:00:00".toTimecode(at: ._29_97),
-            "01:00:00:00".toTimecode(at: ._29_97_drop),
-            "01:00:00:00".toTimecode(at: ._30),
-            "01:00:00:00".toTimecode(at: ._59_94),
-            "01:00:00:00".toTimecode(at: ._59_94_drop),
-            "01:00:00:00".toTimecode(at: ._60)
+            "01:00:00:00".timecode(at: .fps23_976),
+            "01:00:00:00".timecode(at: .fps24),
+            "01:00:00:00".timecode(at: .fps25),
+            "01:00:00:00".timecode(at: .fps29_97),
+            "01:00:00:00".timecode(at: .fps29_97d),
+            "01:00:00:00".timecode(at: .fps30),
+            "01:00:00:00".timecode(at: .fps59_94),
+            "01:00:00:00".timecode(at: .fps59_94d),
+            "01:00:00:00".timecode(at: .fps60)
         ]
         
         XCTAssertNotEqual(

@@ -1,12 +1,13 @@
 //
 //  TimecodeInterval.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 
 /// Represents an interval duration of timecode, either positive or negative.
+/// See the <doc:Timecode-Interval> topic for details.
 public struct TimecodeInterval: Equatable, Hashable {
     /// The interval's absolute distance, stripping sign negation if present.
     /// The ``isNegative`` property determines the delta direction of the interval.
@@ -32,7 +33,7 @@ public struct TimecodeInterval: Equatable, Hashable {
         sign == .minus
     }
         
-    /// Returns real-time (wall-clock time) equivalent of the interval time.
+    /// Returns the interval time as real-time (wall-clock time) in seconds.
     /// Expressed as either a positive or negative number.
     public var realTimeValue: TimeInterval {
         switch sign {
@@ -44,7 +45,8 @@ public struct TimecodeInterval: Equatable, Hashable {
         }
     }
     
-    /// Flattens the interval and returns it expressed as valid timecode, wrapping as necessary based on the ``Timecode/upperLimit-swift.property`` of the interval.
+    /// Flattens the interval and returns it expressed as valid timecode, wrapping as necessary based on the
+    /// ``Timecode/upperLimit-swift.property`` of the interval.
     ///
     /// If the interval is already valid timecode and the sign is positive, the interval is returned as-is.
     public func flattened() -> Timecode {
@@ -53,17 +55,18 @@ public struct TimecodeInterval: Equatable, Hashable {
         
         switch sign {
         case .plus:
-            return absoluteInterval.adding(wrapping: TCC())
+            return absoluteInterval
+                .adding(Timecode.Components(), by: .wrapping)
             
         case .minus:
             return Timecode(
-                rawValues: TCC(f: 0),
+                .components(.zero),
                 at: absoluteInterval.frameRate,
-                limit: absoluteInterval.upperLimit,
                 base: absoluteInterval.subFramesBase,
-                format: absoluteInterval.stringFormat
+                limit: absoluteInterval.upperLimit,
+                by: .allowingInvalid
             )
-            .subtracting(wrapping: absoluteInterval.components)
+            .subtracting(absoluteInterval.components, by: .wrapping)
         }
     }
     
@@ -71,7 +74,7 @@ public struct TimecodeInterval: Equatable, Hashable {
     
     /// Internal:
     /// Returns a `Timecode` value offsetting it by the interval, wrapping around lower/upper timecode limit bounds if necessary.
-    internal func timecode(offsetting base: Timecode) -> Timecode {
+    func timecode(offsetting base: Timecode) -> Timecode {
         switch sign {
         case .plus:
             return base + absoluteInterval
@@ -96,7 +99,7 @@ extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertibl
     }
     
     public var verboseDescription: String {
-        "TimecodeInterval \(description) @ \(absoluteInterval.frameRate.stringValue)"
+        "TimecodeInterval \(description) @ \(absoluteInterval.frameRate.stringValueVerbose)"
     }
 }
 

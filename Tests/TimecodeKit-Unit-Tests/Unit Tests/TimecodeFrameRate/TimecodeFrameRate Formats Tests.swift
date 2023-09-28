@@ -1,13 +1,13 @@
 //
 //  TimecodeFrameRate Formats Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class TimecodeFrameRate_Formats_Tests: XCTestCase {
     override func setUp() { }
@@ -30,8 +30,7 @@ class TimecodeFrameRate_Formats_Tests: XCTestCase {
             
             let editRateSeconds = Double(editRateComponents[1]) / Double(editRateComponents[0])
             
-            let oneFrameDuration = try TCC(f: 1)
-                .toTimecode(at: $0)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: $0)
                 .realTimeValue
             
             XCTAssertEqual(

@@ -1,17 +1,17 @@
 //
 //  UpperLimit Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_UpperLimit: XCTestCase {
     func test24Hours() {
-        let upperLimit: Timecode.UpperLimit = ._24hours
+        let upperLimit: Timecode.UpperLimit = .max24Hours
         
         XCTAssertEqual(upperLimit.maxDays, 1)
         XCTAssertEqual(upperLimit.maxDaysExpressible, 0)
@@ -22,7 +22,7 @@ class Timecode_UpperLimit: XCTestCase {
     }
     
     func test100Days() {
-        let upperLimit: Timecode.UpperLimit = ._100days
+        let upperLimit: Timecode.UpperLimit = .max100Days
         
         XCTAssertEqual(upperLimit.maxDays, 100)
         XCTAssertEqual(upperLimit.maxDaysExpressible, 99)

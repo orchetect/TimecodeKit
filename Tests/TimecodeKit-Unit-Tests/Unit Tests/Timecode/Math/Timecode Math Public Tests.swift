@@ -1,316 +1,646 @@
 //
 //  Timecode Math Public Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_Math_Public_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testAdd_and_Subtract_Methods() throws {
+    func testAddTimecode() throws {
+        var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
+        
+        let tc1 = try Timecode(
+            .components(h: 01, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.add(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 02, s: 03, f: 04))
+        
+        try tc.add(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 04, s: 06, f: 08))
+    }
+    
+    func testAddTimecodeByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 15, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.add(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 99))
+    }
+    
+    func testAddTimecodeByWrapping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 15, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.add(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 02, s: 03, f: 04))
+        
+        try tc.add(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 16, m: 04, s: 06, f: 08))
+    }
+    
+    func testAddingTimecode() throws {
+        var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
+        
+        let tc1 = try Timecode(
+            .components(h: 01, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.adding(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 02, s: 03, f: 04))
+        
+        tc = try tc.adding(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 04, s: 06, f: 08))
+    }
+    
+    func testAddingTimecodeByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 15, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.adding(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 99))
+    }
+    
+    func testAddingTimecodeByWrapping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 15, m: 02, s: 03, f: 04),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.adding(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 02, s: 03, f: 04))
+        
+        tc = try tc.adding(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 16, m: 04, s: 06, f: 08))
+    }
+    
+    func testSubtractTimecode() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 00, m: 00, s: 00, f: 01),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.subtract(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        try tc.subtract(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    func testSubtractTimecodeByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 06, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.subtract(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        try tc.subtract(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractTimecodeByWrapping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 06, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.subtract(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        try tc.subtract(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 22, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractingTimecode() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 00, m: 00, s: 00, f: 01),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.subtracting(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        tc = try tc.subtracting(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    func testSubtractingTimecodeByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 06, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.subtracting(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        tc = try tc.subtracting(tc1, by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractingTimecodeByWrapping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 06, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.subtracting(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        tc = try tc.subtracting(tc1, by: .wrapping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 22, m: 00, s: 00, f: 00))
+    }
+    
+    func testAddTimecodeSourceValue() throws {
+        var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
+        
+        try tc.add(.components(h: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
+        
+        try tc.add(.string("01:00:00:00"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testAddTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.add(.components(h: 10), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 20, m: 00, s: 00, f: 00))
+        
+        try tc.add(.string("10:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 99))
+    }
+    
+    func testAddingTimecodeSourceValue() throws {
+        var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
+        
+        tc = try tc.adding(.components(h: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
+        
+        tc = try tc.adding(.string("01:00:00:00"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testAddingTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.adding(.components(h: 10), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 20, m: 00, s: 00, f: 00))
+        
+        tc = try tc.adding(.string("10:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 99))
+    }
+    
+    func testSubtractTimecodeSourceValue() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.subtract(.components(f: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        try tc.subtract(.string("00:00:00:01"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testSubtractTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        try tc.subtract(.components(h: 6), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        try tc.subtract(.string("06:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractingTimecodeSourceValue() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.subtracting(.components(f: 1))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 23))
+        
+        tc = try tc.subtracting(.string("00:00:00:01"))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 09, m: 59, s: 59, f: 22))
+    }
+    
+    /// Just test one of the validation rules to make sure they work.
+    func testSubtractingTimecodeSourceValueByClamping() throws {
+        var tc = try Timecode(
+            .components(h: 10, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
+        )
+        
+        tc = try tc.subtracting(.components(h: 06), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
+        
+        tc = try tc.subtracting(.string("06:00:00:00"), by: .clamping)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
+    }
+    
+    func testAdd_and_Subtract_Components_Methods() throws {
         // .add / .subtract methods
         
-        var tc = Timecode(at: ._23_976, limit: ._24hours)
+        var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 23))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 23))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 23))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 23))
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 01))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 01, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(h: 01, m: 15, s: 30, f: 10))
+        try tc.add(Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 15, s: 30, f: 10))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
-        try tc.add(TCC(h: 01, m: 15, s: 30, f: 10))
+        try tc.add(Timecode.Components(h: 01, m: 15, s: 30, f: 10))
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 31, s: 00, f: 20))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 31, s: 00, f: 20))
         
-        XCTAssertThrowsError(try tc.add(TCC(h: 23, m: 15, s: 30, f: 10)))
+        XCTAssertThrowsError(try tc.add(Timecode.Components(h: 23, m: 15, s: 30, f: 10)))
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 31, s: 00, f: 20)) // unchanged value
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 31, s: 00, f: 20)) // unchanged value
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        XCTAssertThrowsError(try tc.subtract(TCC(h: 02, m: 31, s: 00, f: 20)))
+        XCTAssertThrowsError(try tc.subtract(Timecode.Components(h: 02, m: 31, s: 00, f: 20)))
         
         tc = try Timecode(
-            TCC(h: 23, m: 59, s: 59, f: 23),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 23, m: 59, s: 59, f: 23),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.subtract(TCC(h: 23, m: 59, s: 59, f: 23))
+        try tc.subtract(Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 23, m: 59, s: 59, f: 23),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 23, m: 59, s: 59, f: 23),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        XCTAssertThrowsError(try tc.subtract(TCC(h: 23, m: 59, s: 59, f: 24))) // 1 frame too many
+        XCTAssertThrowsError(try tc.subtract(Timecode.Components(h: 23, m: 59, s: 59, f: 24))) // 1 frame too many
         
-        XCTAssertEqual(tc.components, TCC(h: 23, m: 59, s: 59, f: 23)) // unchanged value
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23)) // unchanged value
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(f: 24)) // roll up to 1 sec
+        try tc.add(Timecode.Components(f: 24)) // roll up to 1 sec
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 01, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(s: 60)) // roll up to 1 min
+        try tc.add(Timecode.Components(s: 60)) // roll up to 1 min
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 01, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 01, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(m: 60)) // roll up to 1 hr
+        try tc.add(Timecode.Components(m: 60)) // roll up to 1 hr
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(d: 0, h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._100days
+            .components(d: 0, h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max100Days
         )
         
-        try tc.add(TCC(h: 24)) // roll up to 1 day
+        try tc.add(Timecode.Components(h: 24)) // roll up to 1 day
         
-        XCTAssertEqual(tc.components, TCC(d: 01, h: 00, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(d: 01, h: 00, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 2_073_599))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 2_073_599))
         
-        XCTAssertEqual(tc.components, TCC(h: 23, m: 59, s: 59, f: 23))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
         tc = try Timecode(
-            TCC(h: 23, m: 59, s: 59, f: 23),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 23, m: 59, s: 59, f: 23),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        try tc.subtract(TCC(h: 00, m: 00, s: 00, f: 2_073_599))
+        try tc.subtract(Timecode.Components(h: 00, m: 00, s: 00, f: 2_073_599))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 200))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 200))
         
-        try tc.subtract(TCC(h: 00, m: 00, s: 00, f: 199))
+        try tc.subtract(Timecode.Components(h: 00, m: 00, s: 00, f: 199))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 01))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
         // clamping
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours,
-            base: ._80SubFrames
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            base: .max80SubFrames,
+            limit: .max24Hours
         )
         
-        tc.add(clamping: TCC(h: 25))
+        tc.add(Timecode.Components(h: 25), by: .clamping)
         
-        XCTAssertEqual(tc.components, TCC(h: 23, m: 59, s: 59, f: 23, sf: 79))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: 79))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.subtract(clamping: TCC(h: 4))
+        tc.subtract(Timecode.Components(h: 4), by: .clamping)
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
         // wrapping
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.add(wrapping: TCC(h: 25))
+        tc.add(Timecode.Components(h: 25), by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.add(wrapping: TCC(f: -1)) // add negative number
+        tc.add(Timecode.Components(f: -1), by: .wrapping) // add negative number
         
-        XCTAssertEqual(tc.components, TCC(h: 23, m: 59, s: 59, f: 23))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 23))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.subtract(wrapping: TCC(h: 4))
+        tc.subtract(Timecode.Components(h: 4), by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 20, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 20, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.subtract(wrapping: TCC(h: -4)) // subtract negative number
+        tc.subtract(Timecode.Components(h: -4), by: .wrapping) // subtract negative number
         
-        XCTAssertEqual(tc.components, TCC(h: 04, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 04, m: 00, s: 00, f: 00))
         
         // drop rates
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 29))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 29))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 29))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 29))
         
-        try tc.add(TCC(h: 00, m: 00, s: 00, f: 01))
+        try tc.add(Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 01, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(m: 60)) // roll up to 1 hr
+        try tc.add(Timecode.Components(m: 60)) // roll up to 1 hr
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
         try tc = Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
-        try tc.add(TCC(f: 30)) // roll up to 1 sec
+        try tc.add(Timecode.Components(f: 30)) // roll up to 1 sec
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 01, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 00))
         
         try tc = Timecode(
-            TCC(h: 00, m: 00, s: 59, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 59, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
-        try tc
-            .add(TCC(
-                f: 30
-            )) // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
+        // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
+        try tc.add(Timecode.Components(f: 30))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 01, s: 00, f: 02))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 01, s: 00, f: 02))
         
         tc = try Timecode(
-            TCC(h: 00, m: 01, s: 00, f: 02),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 01, s: 00, f: 02),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
-        try tc
-            .add(TCC(
-                m: 01
-            )) // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
+        // roll up to 1 sec and 2 frames (2 dropped frames every minute except every 10th minute)
+        try tc.add(Timecode.Components(m: 01))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 02, s: 00, f: 02))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 02, s: 00, f: 02))
         
-        try tc.add(TCC(m: 08))
+        try tc.add(Timecode.Components(m: 08))
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 10, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 10, s: 00, f: 00))
         
         // .adding()
         
         tc = try Timecode(
-            TCC(h: 00, m: 10, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 10, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
         // exactly
         XCTAssertEqual(
-            try tc.adding(TCC(h: 1)).components,
-            TCC(h: 1, m: 10, s: 00, f: 00)
+            try tc.adding(Timecode.Components(h: 1)).components,
+            Timecode.Components(h: 1, m: 10, s: 00, f: 00)
         )
         
         XCTAssertEqual(
-            tc.adding(wrapping: TCC(h: 26)).components,
-            TCC(h: 2, m: 10, s: 00, f: 00)
+            tc.adding(Timecode.Components(h: 26), by: .wrapping).components,
+            Timecode.Components(h: 2, m: 10, s: 00, f: 00)
         )
         
         XCTAssertEqual(
-            tc.adding(clamping: TCC(h: 26)).components,
-            TCC(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesBase.rawValue - 1)
+            tc.adding(Timecode.Components(h: 26), by: .clamping).components,
+            Timecode.Components(h: 23, m: 59, s: 59, f: 29, sf: tc.subFramesBase.rawValue - 1)
         )
         
         // .subtracting()
         
         tc = try Timecode(
-            TCC(h: 00, m: 10, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 00, m: 10, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
         // exactly
         XCTAssertEqual(
-            try tc.subtracting(TCC(m: 5)).components,
-            TCC(h: 0, m: 05, s: 00, f: 02)
+            try tc.subtracting(Timecode.Components(m: 5)).components,
+            Timecode.Components(h: 0, m: 05, s: 00, f: 02)
         ) // remember, we're using drop rate!
     }
     
@@ -318,169 +648,169 @@ class Timecode_Math_Public_Tests: XCTestCase {
         // .multiply / .divide methods
         
         var tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         try tc.multiply(2)
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         try tc.multiply(2.5)
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 30, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 30, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
         try tc.multiply(2)
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
         try tc.multiply(2.5)
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 30, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 30, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._29_97_drop,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps29_97d,
+            limit: .max24Hours
         )
         
         XCTAssertThrowsError(try tc.multiply(25))
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00)) // unchanged
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00)) // unchanged
         
         // clamping
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.multiply(clamping: 25.0)
+        tc.multiply(25.0, by: .clamping)
         
         XCTAssertEqual(
             tc.components,
-            TCC(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
+            Timecode.Components(h: 23, m: 59, s: 59, f: 23, sf: tc.subFramesBase.rawValue - 1)
         )
         
         tc = try Timecode(
-            TCC(h: 00, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.divide(clamping: 4)
+        tc.divide(4, by: .clamping)
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 00))
         
         // wrapping - multiply
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.multiply(wrapping: 25.0)
+        tc.multiply(25.0, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.multiply(wrapping: 2)
+        tc.multiply(2, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 02, m: 00, s: 00, f: 00)) // normal, no wrap
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 00, f: 00)) // normal, no wrap
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.multiply(wrapping: 25)
+        tc.multiply(25, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 00, s: 00, f: 00)) // wraps
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 00, s: 00, f: 00)) // wraps
         
         // wrapping - divide
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.divide(wrapping: -2)
+        tc.divide(-2, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 23, m: 30, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 30, s: 00, f: 00))
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.divide(wrapping: 2)
+        tc.divide(2, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 00, m: 30, s: 00, f: 00)) // normal, no wrap
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 30, s: 00, f: 00)) // normal, no wrap
         
         tc = try Timecode(
-            TCC(h: 12, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 12, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
-        tc.divide(wrapping: -2)
+        tc.divide(-2, by: .wrapping)
         
-        XCTAssertEqual(tc.components, TCC(h: 18, m: 00, s: 00, f: 00)) // wraps
+        XCTAssertEqual(tc.components, Timecode.Components(h: 18, m: 00, s: 00, f: 00)) // wraps
         
         // .multiplying()
         
         tc = try Timecode(
-            TCC(h: 04, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 04, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         // exactly
         XCTAssertEqual(
             try tc.multiplying(2).components,
-            TCC(h: 08, m: 00, s: 00, f: 00)
+            Timecode.Components(h: 08, m: 00, s: 00, f: 00)
         )
         
         // .dividing()
         
         tc = try Timecode(
-            TCC(h: 04, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 04, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         // exactly
         XCTAssertEqual(
             try tc.dividing(2).components,
-            TCC(h: 02, m: 00, s: 00, f: 00)
+            Timecode.Components(h: 02, m: 00, s: 00, f: 00)
         )
     }
     
@@ -488,56 +818,56 @@ class Timecode_Math_Public_Tests: XCTestCase {
         // mutating
         
         var tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         let intervalTC = try Timecode(
-            TCC(h: 00, m: 01, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 00, m: 01, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         tc.offset(by: .init(intervalTC, .plus))
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 01, s: 00, f: 00))
         
         tc.offset(by: .init(intervalTC, .plus))
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 02, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 02, s: 00, f: 00))
         
         tc.offset(by: .init(intervalTC, .minus))
         
-        XCTAssertEqual(tc.components, TCC(h: 01, m: 01, s: 00, f: 00))
+        XCTAssertEqual(tc.components, Timecode.Components(h: 01, m: 01, s: 00, f: 00))
         
         // non-mutating
         
         tc = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         XCTAssertEqual(
             tc
                 .offsetting(by: .init(intervalTC, .plus))
                 .components,
-            TCC(h: 01, m: 01, s: 00, f: 00)
+            Timecode.Components(h: 01, m: 01, s: 00, f: 00)
         )
     }
     
     func testIntervalTo() throws {
         let tc1 = try Timecode(
-            TCC(h: 01, m: 00, s: 00, f: 00),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 00, s: 00, f: 00),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         let tc2 = try Timecode(
-            TCC(h: 01, m: 04, s: 37, f: 15),
-            at: ._23_976,
-            limit: ._24hours
+            .components(h: 01, m: 04, s: 37, f: 15),
+            at: .fps23_976,
+            limit: .max24Hours
         )
         
         // positive
@@ -548,9 +878,9 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(
             interval.flattened(),
             try Timecode(
-                TCC(h: 00, m: 04, s: 37, f: 15),
-                at: ._23_976,
-                limit: ._24hours
+                .components(h: 00, m: 04, s: 37, f: 15),
+                at: .fps23_976,
+                limit: .max24Hours
             )
         )
         
@@ -562,26 +892,26 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(
             interval.absoluteInterval,
             try Timecode(
-                TCC(h: 00, m: 04, s: 37, f: 15),
-                at: ._23_976,
-                limit: ._24hours
+                .components(h: 00, m: 04, s: 37, f: 15),
+                at: .fps23_976,
+                limit: .max24Hours
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             try Timecode(
-                TCC(h: 23, m: 55, s: 22, f: 09),
-                at: ._23_976,
-                limit: ._24hours
+                .components(h: 23, m: 55, s: 22, f: 09),
+                at: .fps23_976,
+                limit: .max24Hours
             )
         )
         
         // edge cases
         
         let tc3 = try Timecode(
-            TCC(d: 1, h: 03, m: 04, s: 37, f: 15),
-            at: ._23_976,
-            limit: ._100days
+            .components(d: 1, h: 03, m: 04, s: 37, f: 15),
+            at: .fps23_976,
+            limit: .max100Days
         )
         
         // positive, > 24 hours delta
@@ -592,17 +922,17 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(
             interval.absoluteInterval,
             try Timecode(
-                TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
-                at: ._23_976,
-                limit: ._100days
+                .components(d: 1, h: 02, m: 04, s: 37, f: 15),
+                at: .fps23_976,
+                limit: .max100Days
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             try Timecode(
-                TCC(h: 02, m: 04, s: 37, f: 15),
-                at: ._23_976,
-                limit: ._24hours
+                .components(h: 02, m: 04, s: 37, f: 15),
+                at: .fps23_976,
+                limit: .max24Hours
             )
         )
         
@@ -614,32 +944,33 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(
             interval.absoluteInterval,
             try Timecode(
-                TCC(d: 1, h: 02, m: 04, s: 37, f: 15),
-                at: ._23_976,
-                limit: ._100days
+                .components(d: 1, h: 02, m: 04, s: 37, f: 15),
+                at: .fps23_976,
+                limit: .max100Days
             )
         )
         XCTAssertEqual(
             interval.flattened(),
             Timecode(
-                rawValues: TCC(d: 98, h: 21, m: 55, s: 22, f: 09),
-                at: ._23_976,
-                limit: ._100days
+                .components(d: 98, h: 21, m: 55, s: 22, f: 09),
+                at: .fps23_976,
+                limit: .max100Days,
+                by: .allowingInvalid
             )
         )
     }
     
     func testTimecodeInterval() throws {
         let interval = try Timecode(
-            TCC(h: 02, m: 04, s: 37, f: 15),
-            at: ._24
+            .components(h: 02, m: 04, s: 37, f: 15),
+            at: .fps24
         ).asInterval(.minus)
         
         XCTAssertEqual(
             interval.flattened().components,
-            TCC(h: 21, m: 55, s: 22, f: 9)
+            Timecode.Components(h: 21, m: 55, s: 22, f: 9)
         )
-        XCTAssertEqual(interval.flattened().frameRate, ._24)
+        XCTAssertEqual(interval.flattened().frameRate, .fps24)
         XCTAssertTrue(interval.isNegative)
     }
 }

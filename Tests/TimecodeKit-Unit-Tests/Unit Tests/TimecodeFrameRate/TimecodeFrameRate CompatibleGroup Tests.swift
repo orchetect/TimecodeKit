@@ -1,13 +1,13 @@
 //
 //  TimecodeFrameRate CompatibleGroup Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
     override func setUp() { }
@@ -25,24 +25,24 @@ class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
         // methods basic spot-check
         
         // NTSC
-        XCTAssertEqual(TimecodeFrameRate._29_97.compatibleGroup, .NTSC)
-        XCTAssertEqual(TimecodeFrameRate._59_94.compatibleGroup, .NTSC)
-        XCTAssertTrue(TimecodeFrameRate._29_97.isCompatible(with: ._59_94))
+        XCTAssertEqual(TimecodeFrameRate.fps29_97.compatibleGroup, .ntscColor)
+        XCTAssertEqual(TimecodeFrameRate.fps59_94.compatibleGroup, .ntscColor)
+        XCTAssertTrue(TimecodeFrameRate.fps29_97.isCompatible(with: .fps59_94))
         
-        // NTSC drop
-        XCTAssertEqual(TimecodeFrameRate._29_97_drop.compatibleGroup, .NTSC_drop)
-        XCTAssertEqual(TimecodeFrameRate._59_94_drop.compatibleGroup, .NTSC_drop)
-        XCTAssertTrue(TimecodeFrameRate._29_97_drop.isCompatible(with: ._59_94_drop))
+        // NTSC Drop
+        XCTAssertEqual(TimecodeFrameRate.fps29_97d.compatibleGroup, .ntscDrop)
+        XCTAssertEqual(TimecodeFrameRate.fps59_94d.compatibleGroup, .ntscDrop)
+        XCTAssertTrue(TimecodeFrameRate.fps29_97d.isCompatible(with: .fps59_94d))
         
-        // ATSC
-        XCTAssertEqual(TimecodeFrameRate._24.compatibleGroup, .ATSC)
-        XCTAssertEqual(TimecodeFrameRate._30.compatibleGroup, .ATSC)
-        XCTAssertTrue(TimecodeFrameRate._24.isCompatible(with: ._30))
+        // Whole
+        XCTAssertEqual(TimecodeFrameRate.fps24.compatibleGroup, .whole)
+        XCTAssertEqual(TimecodeFrameRate.fps30.compatibleGroup, .whole)
+        XCTAssertTrue(TimecodeFrameRate.fps24.isCompatible(with: .fps30))
         
-        // ATSC drop
-        XCTAssertEqual(TimecodeFrameRate._30_drop.compatibleGroup, .ATSC_drop)
-        XCTAssertEqual(TimecodeFrameRate._60_drop.compatibleGroup, .ATSC_drop)
-        XCTAssertTrue(TimecodeFrameRate._30_drop.isCompatible(with: ._60_drop))
+        // NTSC Color Wall Time
+        XCTAssertEqual(TimecodeFrameRate.fps30d.compatibleGroup, .ntscColorWallTime)
+        XCTAssertEqual(TimecodeFrameRate.fps60d.compatibleGroup, .ntscColorWallTime)
+        XCTAssertTrue(TimecodeFrameRate.fps30d.isCompatible(with: .fps60d))
     }
     
     func testCompatibleGroup_compatibleGroupRates() {

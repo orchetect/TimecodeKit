@@ -1,278 +1,664 @@
 //
 //  Timecode Math Public.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
-    // MARK: - Add
+    // MARK: - Add Timecode
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: Timecode) throws {
+        try add(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: Timecode, by validation: ValidationRule) throws {
+        try add(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    // MARK: - Add Time Source Value
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: TimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: FormattedTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: RichTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedTimecodeSourceValue) throws {
+        let otherTC = Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedRichTimecodeSourceValue) throws {
+        let otherTC = Timecode(other)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: TimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func add(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other)
+        try add(otherTC, by: validation)
+    }
+    
+    // MARK: - Add Components
     
     /// Add a duration to the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public mutating func add(_ exactly: Components) throws {
-        guard let newTC = __add(exactly: exactly, to: components)
+    public mutating func add(_ source: Components) throws {
+        guard let newTC = _add(exactly: source, to: components)
         else { throw ValidationError.outOfBounds }
         
-        try setTimecode(exactly: newTC)
+        try _setTimecode(exactly: newTC)
     }
     
     /// Add a duration to the current timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func add(clamping values: Components) {
-        let newTC = __add(clamping: values, to: components)
+    public mutating func add(_ source: Components, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        setTimecode(rawValues: newTC)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _add(clamping: source, to: components)
+            
+        case .wrapping:
+            newTC = _add(wrapping: source, to: components)
+            
+        case .allowingInvalid:
+            newTC = _add(rawValues: source, to: components)
+        }
+        
+        _setTimecode(rawValues: newTC)
     }
     
-    /// Add a duration to the current timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func add(wrapping values: Components) {
-        let newTC = __add(wrapping: values, to: components)
-        
-        setTimecode(rawValues: newTC)
+    // MARK: - Adding Timecode
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public func adding(_ other: Timecode) throws -> Timecode {
+        try adding(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public func adding(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
+        try adding(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    // MARK: - Adding Time Source Value
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: TimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: RichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try adding(otherTC, by: validation)
+    }
+    
+    // MARK: - Adding Components
+    
+    /// Add a duration to the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func adding(_ exactly: Components) throws -> Timecode {
-        guard let newTC = __add(exactly: exactly, to: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func adding(_ source: Components) throws -> Timecode {
         var newTimecode = self
-        try newTimecode.setTimecode(exactly: newTC)
-        
+        try newTimecode.add(source)
         return newTimecode
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
+    /// Add a duration to the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func adding(clamping values: Components) -> Timecode {
-        let newTC = __add(clamping: values, to: components)
-        
+    public func adding(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
+        newTimecode.add(source, by: validation)
         return newTimecode
     }
     
-    /// Add a duration to the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func adding(wrapping values: Components) -> Timecode {
-        let newTC = __add(wrapping: values, to: components)
-        
-        var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
-        return newTimecode
+    // MARK: - Subtract Timecode
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: Timecode) throws {
+        try subtract(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
     }
     
-    // MARK: - Subtract
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: Timecode, by validation: ValidationRule) throws {
+        try subtract(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    // MARK: - Subtract Time Source Value
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: TimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: FormattedTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: RichTimecodeSourceValue) throws {
+        let otherTC = try Timecode(other)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedTimecodeSourceValue) throws {
+        let otherTC = Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedRichTimecodeSourceValue) throws {
+        let otherTC = Timecode(other)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: TimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = try Timecode(other)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtract(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws {
+        let otherTC = Timecode(other)
+        try subtract(otherTC, by: validation)
+    }
+    
+    // MARK: - Subtract Components
     
     /// Subtract a duration from the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
     public mutating func subtract(_ exactly: Components) throws {
-        guard let newTC = __subtract(exactly: exactly, from: components)
+        guard let newTC = _subtract(exactly: exactly, from: components)
         else { throw ValidationError.outOfBounds }
         
-        try setTimecode(exactly: newTC)
+        try _setTimecode(exactly: newTC)
     }
     
     /// Subtract a duration from the current timecode.
-    /// Clamps to valid timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func subtract(clamping: Components) {
-        let newTC = __subtract(clamping: clamping, from: components)
+    public mutating func subtract(_ source: Components, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        setTimecode(rawValues: newTC)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _subtract(clamping: source, from: components)
+            
+        case .wrapping:
+            newTC = _subtract(wrapping: source, from: components)
+            
+        case .allowingInvalid:
+            newTC = _subtract(rawValues: source, from: components)
+        }
+        
+        _setTimecode(rawValues: newTC)
     }
     
-    /// Subtract a duration from the current timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public mutating func subtract(wrapping: Components) {
-        let newTC = __subtract(wrapping: wrapping, from: components)
-        
-        setTimecode(rawValues: newTC)
-    }
+    // MARK: - Subtracting Timecode
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
+    /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public func subtracting(_ exactly: Components) throws -> Timecode {
-        guard let newTC = __subtract(exactly: exactly, from: components)
-        else { throw ValidationError.outOfBounds }
-        
-        var newTimecode = self
-        try newTimecode.setTimecode(exactly: newTC)
-        
-        return newTimecode
+    public func subtracting(_ other: Timecode) throws -> Timecode {
+        try subtracting(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public func subtracting(_ other: Timecode, by validation: ValidationRule) throws -> Timecode {
+        try subtracting(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components,
+            by: validation
+        )
+    }
+    
+    // MARK: - Subtracting Time Source Value
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: TimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: RichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = try Timecode(other)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+        let otherTC = Timecode(other)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    // MARK: - Subtracting Components
+    
+    /// Subtract a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func subtracting(clamping values: Components) -> Timecode {
-        let newTC = __subtract(clamping: values, from: components)
-        
+    public func subtracting(_ source: Components) throws -> Timecode {
         var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
+        try newTimecode.subtract(source)
         return newTimecode
     }
     
-    /// Subtract a duration from the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
+    /// Subtract a duration from the current timecode and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func subtracting(wrapping values: Components) -> Timecode {
-        let newTC = __subtract(wrapping: values, from: components)
-        
+    public func subtracting(_ source: Components, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
+        newTimecode.subtract(source, by: validation)
         return newTimecode
     }
     
-    // MARK: - Multiply
+    // MARK: - Multiply Double
     
-    /// Multiply the current timecode by an amount.
+    /// Multiply the current timecode by floating-point number.
     ///
     /// - Throws: ``ValidationError``
     public mutating func multiply(_ exactly: Double) throws {
-        guard let newTC = __multiply(exactly: exactly, with: components)
+        guard let newTC = _multiply(exactly: exactly, with: components)
         else { throw ValidationError.outOfBounds }
         
-        try setTimecode(exactly: newTC)
+        try _setTimecode(exactly: newTC)
     }
     
-    /// Multiply the current timecode by an amount.
-    /// Clamps to valid timecodes as set by the `upperLimit` property.
-    public mutating func multiply(clamping value: Double) {
-        let newTC = __multiply(clamping: value, with: components)
+    /// Multiply the current timecode by floating-point number.
+    public mutating func multiply(_ source: Double, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        setTimecode(rawValues: newTC)
-    }
-    
-    /// Multiply the current timecode by an amount.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public mutating func multiply(wrapping value: Double) {
-        let newTC = __multiply(wrapping: value, with: components)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _multiply(clamping: source, with: components)
+            
+        case .wrapping:
+            newTC = _multiply(wrapping: source, with: components)
+            
+        case .allowingInvalid:
+            newTC = _multiply(rawValues: source, with: components)
+        }
         
-        setTimecode(rawValues: newTC)
+        _setTimecode(rawValues: newTC)
     }
     
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
+    /// Multiply the current timecode by floating-point number and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func multiplying(_ exactly: Double) throws -> Timecode {
-        guard let newTC = __multiply(exactly: exactly, with: components)
-        else { throw ValidationError.outOfBounds }
-        
+    public func multiplying(_ source: Double) throws -> Timecode {
         var newTimecode = self
-        try newTimecode.setTimecode(exactly: newTC)
-        
+        try newTimecode.multiply(source)
         return newTimecode
     }
     
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Clamps to valid timecode.
+    /// Multiply the current timecode by floating-point number and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func multiplying(clamping value: Double) -> Timecode {
-        let newTC = __multiply(clamping: value, with: components)
-        
+    public func multiplying(_ source: Double, by validation: ValidationRule) -> Timecode {
         var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
+        newTimecode.multiply(source, by: validation)
         return newTimecode
     }
     
-    /// Multiply a duration from the current timecode and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func multiplying(wrapping value: Double) -> Timecode {
-        let newTC = __multiply(wrapping: value, with: components)
-        
-        var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
+    // MARK: - Divide Double
     
-    // MARK: - Divide
-    
-    /// Divide the current timecode by a duration.
+    /// Divide the current timecode by floating-point number.
     ///
     /// - Throws: ``ValidationError``
     public mutating func divide(_ exactly: Double) throws {
-        guard let newTC = __divide(exactly: exactly, into: components)
+        guard let newTC = _divide(exactly: exactly, into: components)
         else { throw ValidationError.outOfBounds }
         
-        try setTimecode(exactly: newTC)
+        try _setTimecode(exactly: newTC)
     }
     
-    /// Divide the current timecode by a duration.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
-    public mutating func divide(clamping value: Double) {
-        let newTC = __divide(clamping: value, into: components)
+    /// Divide the current timecode by floating-point number.
+    public mutating func divide(_ source: Double, by validation: ValidationRule) {
+        let newTC: Timecode.Components
         
-        setTimecode(rawValues: newTC)
-    }
-    
-    /// Divide the current timecode by a duration.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    public mutating func divide(wrapping value: Double) {
-        let newTC = __divide(wrapping: value, into: components)
+        switch validation {
+        case .clamping, .clampingComponents:
+            newTC = _divide(clamping: source, into: components)
+            
+        case .wrapping:
+            newTC = _divide(wrapping: source, into: components)
+            
+        case .allowingInvalid:
+            newTC = _divide(rawValues: source, into: components)
+        }
         
-        setTimecode(rawValues: newTC)
+        _setTimecode(rawValues: newTC)
     }
     
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
+    // MARK: - Dividing Double -> Timecode
+    
+    /// Divide the current timecode by floating-point number and return a new instance.
+    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000)
+    /// or (0,0,500,0)
+    ///
+    /// - Throws: ``ValidationError``
+    public func dividing(_ source: Double) throws -> Timecode {
+        var newTimecode = self
+        try newTimecode.divide(source)
+        return newTimecode
+    }
+    
+    /// Divide the current timecode by floating-point number and return a new instance.
+    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000)
+    /// or (0,0,500,0)
+    public func dividing(_ source: Double, by validation: ValidationRule) -> Timecode {
+        var newTimecode = self
+        newTimecode.divide(source, by: validation)
+        return newTimecode
+    }
+    
+    // MARK: - Dividing Timecode -> Double
+    
+    /// Divide the current timecode by floating-point number and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    public func dividing(_ other: Timecode) throws -> Double {
+        try dividing(
+            frameRate == other.frameRate
+                ? other.components
+                : converted(to: other.frameRate).components
+        )
+    }
+    
+    // MARK: - Dividing Components
+    
+    /// Divide the current timecode by a duration and return a new instance.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     ///
     /// - Throws: ``ValidationError``
-    public func dividing(_ exactly: Double) throws -> Timecode {
-        guard let newTC = __divide(exactly: exactly, into: components)
+    public func dividing(_ source: Components) throws -> Double {
+        guard let dbl = _divide(exactly: source, into: components)
         else { throw ValidationError.outOfBounds }
         
-        var newTimecode = self
-        try newTimecode.setTimecode(exactly: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Clamps to valid timecode as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func dividing(clamping value: Double) -> Timecode {
-        let newTC = __divide(clamping: value, into: components)
-        
-        var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
-        return newTimecode
-    }
-    
-    /// Divide the current timecode by a duration and return a new instance with the new timecode.
-    /// Wraps around the clock as set by the `upperLimit` property.
-    /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
-    public func dividing(wrapping value: Double) -> Timecode {
-        let newTC = __divide(wrapping: value, into: components)
-        
-        var newTimecode = self
-        newTimecode.setTimecode(rawValues: newTC)
-        
-        return newTimecode
+        return dbl
     }
     
     // MARK: - Offset / TimecodeInterval
@@ -292,14 +678,17 @@ extension Timecode {
     /// Returns a ``TimecodeInterval`` distance between the current timecode and another timecode.
     public func interval(to other: Timecode) -> TimecodeInterval {
         if frameRate == other.frameRate {
-            return __offset(to: other.components)
+            return _offset(to: other.components)
         } else {
             guard let otherConverted = try? other.converted(to: frameRate) else {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
-                return .init(TCC().toTimecode(rawValuesAt: frameRate))
+                return .init(
+                    Timecode.Components.zero
+                        .timecode(using: properties, by: .allowingInvalid)
+                )
             }
             
-            return __offset(to: otherConverted.components)
+            return _offset(to: otherConverted.components)
         }
     }
     

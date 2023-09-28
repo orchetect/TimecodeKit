@@ -1,13 +1,13 @@
 //
 //  Timecode init Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Timecode_init_Tests: XCTestCase {
     override func setUp() { }
@@ -20,24 +20,12 @@ class Timecode_init_Tests: XCTestCase {
         
         // defaults
         
-        var tc = Timecode(at: ._24)
-        XCTAssertEqual(tc.frameRate, ._24)
-        XCTAssertEqual(tc.upperLimit, ._24hours)
+        let tc = Timecode(.zero, at: .fps24)
+        XCTAssertEqual(tc.frameRate, .fps24)
+        XCTAssertEqual(tc.upperLimit, .max24Hours)
         XCTAssertEqual(tc.frameCount.subFrameCount, 0)
-        XCTAssertEqual(tc.components, TCC(d: 0, h: 0, m: 0, s: 0, f: 0))
-        XCTAssertEqual(tc.stringValue, "00:00:00:00")
-        
-        // expected initializers
-        
-        tc = Timecode(at: ._24)
-        tc = Timecode(at: ._24, limit: ._24hours)
-        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames)
-        tc = Timecode(at: ._24, limit: ._24hours, base: ._100SubFrames, format: [.showSubFrames])
-        
-        tc = Timecode(at: ._24, base: ._100SubFrames)
-        tc = Timecode(at: ._24, base: ._100SubFrames, format: [.showSubFrames])
-        
-        tc = Timecode(at: ._24, format: [.showSubFrames])
+        XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0))
+        XCTAssertEqual(tc.stringValue(), "00:00:00:00")
     }
     
     // MARK: - Misc
@@ -45,11 +33,10 @@ class Timecode_init_Tests: XCTestCase {
     func testTimecode_init_All_DisplaySubFrames() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
-                "00:00:00:00",
+                .string("00:00:00:00"),
                 at: $0,
-                limit: ._24hours,
-                base: ._100SubFrames,
-                format: [.showSubFrames]
+                base: .max100SubFrames,
+                limit: .max24Hours
             )
             
             var frm: String
@@ -63,7 +50,7 @@ class Timecode_init_Tests: XCTestCase {
             
             let frSep = $0.isDrop ? ";" : ":"
             
-            XCTAssertEqual(tc.stringValue, "00:00:00\(frSep)\(frm).00")
+            XCTAssertEqual(tc.stringValue(format: .showSubFrames), "00:00:00\(frSep)\(frm).00")
         }
     }
 }

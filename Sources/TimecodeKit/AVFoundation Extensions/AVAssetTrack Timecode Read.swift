@@ -1,14 +1,14 @@
 //
 //  AVAssetTrack Timecode Read.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 // MARK: - Helper methods
 
@@ -22,11 +22,10 @@ extension AVAssetTrack {
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours,
+        base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
-        guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
+        guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()
         else {
             throw Timecode.MediaParseError.missingOrNonStandardFrameRate
         }
@@ -34,8 +33,7 @@ extension AVAssetTrack {
         let range = try timecodeRange(
             at: frameRate,
             limit: limit,
-            base: base,
-            format: format
+            base: base
         )
         
         return range.upperBound - range.lowerBound
@@ -56,28 +54,26 @@ extension AVAssetTrack {
     ///
     /// - Throws: ``Timecode/MediaParseError``
     @_disfavoredOverload
-    internal func timecodeRange(
+    func timecodeRange(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours,
+        base: Timecode.SubFramesBase = .default()
     ) throws -> ClosedRange<Timecode> {
-        guard let frameRate = try frameRate ?? self.asset?.timecodeFrameRate()
+        guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()
         else {
             throw Timecode.MediaParseError.missingOrNonStandardFrameRate
         }
         
         return try timeRange.timecodeRange(
             at: frameRate,
-            limit: limit,
             base: base,
-            format: format
+            limit: limit
         )
     }
     
     /// Returns the start frame number from a timecode track.
     /// Returns `nil` if the track is not a timecode track.
-    internal func readTimecodeSamples(
+    func readTimecodeSamples(
         context: AVAsset
     ) throws -> [CMTimeCode] {
         let assetReader = try AVAssetReader(asset: context)
@@ -119,7 +115,7 @@ extension AVAssetTrack {
         // formatDescription.mediaSubType instead of CMFormatDescriptionGetMediaSubType
         let type = CMFormatDescriptionGetMediaSubType(formatDescription)
         
-        var offset: Int = 0
+        var offset = 0
         
         switch type {
         case kCMTimeCodeFormatType_TimeCode32:
@@ -150,7 +146,7 @@ extension AVAssetTrack {
         offset: Int
     ) -> CMTimeCode32? {
         var rawData: UnsafeMutablePointer<CChar>? // CChar == Int8
-        var length: Int = 0
+        var length = 0
         
         let status = CMBlockBufferGetDataPointer(
             blockBuffer,
@@ -164,9 +160,9 @@ extension AVAssetTrack {
         
         guard length >= MemoryLayout<UInt32>.size,
               let frame = rawData?.withMemoryRebound(
-                to: UInt32.self,
-                capacity: 1,
-                { CFSwapInt32BigToHost($0.pointee) }
+                  to: UInt32.self,
+                  capacity: 1,
+                  { CFSwapInt32BigToHost($0.pointee) }
               )
         else { return nil }
         
@@ -179,7 +175,7 @@ extension AVAssetTrack {
         offset: Int
     ) -> CMTimeCode64? {
         var rawData: UnsafeMutablePointer<CChar>? // CChar == Int8
-        var length: Int = 0
+        var length = 0
         
         let status = CMBlockBufferGetDataPointer(
             blockBuffer,
@@ -193,9 +189,9 @@ extension AVAssetTrack {
         
         guard length >= MemoryLayout<UInt64>.size,
               let rawValue = rawData?.withMemoryRebound(
-                to: UInt64.self,
-                capacity: 1,
-                { CFSwapInt64BigToHost($0.pointee) }
+                  to: UInt64.self,
+                  capacity: 1,
+                  { CFSwapInt64BigToHost($0.pointee) }
               )
         else { return nil }
         

@@ -1,12 +1,12 @@
 //
 //  StringFormat.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
     /// `Timecode` string output format configuration.
-    public typealias StringFormat = Set<StringFormatParameter>
+    public typealias StringFormat = Set<StringFormatOption>
 }
 
 extension Timecode.StringFormat {
@@ -14,9 +14,13 @@ extension Timecode.StringFormat {
     public static func `default`() -> Self {
         []
     }
+    
+    /// Initialize with Show Subframes option enabled.
+    public static let showSubFrames: Self = [.showSubFrames]
 }
 
 extension Timecode.StringFormat {
+    /// Get or set ``Timecode/StringFormatOption/showSubFrames`` state.
     public var showSubFrames: Bool {
         get {
             contains(.showSubFrames)
@@ -26,21 +30,36 @@ extension Timecode.StringFormat {
             else { remove(.showSubFrames) }
         }
     }
-}
-
-extension Timecode {
-    /// `Timecode` string output format configuration parameter.
-    public enum StringFormatParameter: Equatable, Hashable, CaseIterable {
-        /// Determines whether subframes are included.
-        ///
-        /// This does not disable subframes from being stored or calculated, only whether they are output in the string.
-        case showSubFrames
+    
+    /// Get or set ``Timecode/StringFormatOption/filenameCompatible`` state.
+    public var filenameCompatible: Bool {
+        get {
+            contains(.filenameCompatible)
+        }
+        set {
+            if newValue { insert(.filenameCompatible) }
+            else { remove(.filenameCompatible) }
+        }
     }
 }
 
-extension Timecode.StringFormatParameter: Codable {
+extension Timecode {
+    /// `Timecode` string output format option.
+    public enum StringFormatOption: Equatable, Hashable, CaseIterable {
+        /// Determines whether subframes are included.
+        ///
+        /// This does not disable subframes from being stored or calculated, only whether it is present in the string.
+        case showSubFrames
+        
+        /// Substitutes illegal characters for filename-compatible characters.
+        case filenameCompatible
+    }
+}
+
+extension Timecode.StringFormatOption: Codable {
     private enum CodingKeys: String, CodingKey {
         case showSubFrames
+        case filenameCompatible
     }
     
     public init(from decoder: Decoder) throws {
@@ -59,6 +78,8 @@ extension Timecode.StringFormatParameter: Codable {
         switch keyFromString {
         case .showSubFrames:
             self = .showSubFrames
+        case .filenameCompatible:
+            self = .filenameCompatible
         }
     }
     
@@ -68,6 +89,8 @@ extension Timecode.StringFormatParameter: Codable {
         switch self {
         case .showSubFrames:
             try container.encode(CodingKeys.showSubFrames.rawValue)
+        case .filenameCompatible:
+            try container.encode(CodingKeys.filenameCompatible.rawValue)
         }
     }
 }

@@ -77,7 +77,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     
     /// Truncates decimal places to `decimalPlaces` number of decimal places.
     ///
-    /// If `decimalPlaces` <= 0, then `trunc(self)` is returned.
+    /// If `decimalPlaces <= 0`, then `trunc(self)` is returned.
     @_disfavoredOverload
     func truncated(decimalPlaces: Int) -> Self {
         if decimalPlaces < 1 {
@@ -101,7 +101,8 @@ extension FloatingPoint {
     
     /// Returns both integral part and fractional part.
     ///
-    /// - Note: This method is more computationally efficient than calling both `.integral` and .`fraction` properties separately unless you only require one or the other.
+    /// - Note: This method is more computationally efficient than calling both `.integral` and .`fraction` properties separately unless you
+    ///   only require one or the other.
     ///
     /// This method can result in a non-trivial loss of precision for the fractional part.
     @_disfavoredOverload

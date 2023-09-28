@@ -1,14 +1,14 @@
 //
 //  TimecodeFrameRate Conversions Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
-@testable import TimecodeKit
 import CoreMedia
+@testable import TimecodeKit
+import XCTest
 
 class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
@@ -31,11 +31,11 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // 24
         XCTAssertEqual(
             TimecodeFrameRate(rate: Fraction(24, 1), drop: false),
-            ._24
+            .fps24
         )
         XCTAssertEqual(
             TimecodeFrameRate(rate: Fraction(240, 10), drop: false),
-            ._24
+            .fps24
         )
         
         // 24d is not a valid frame rate
@@ -44,17 +44,17 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // 30
         XCTAssertEqual(
             TimecodeFrameRate(rate: Fraction(30, 1), drop: false),
-            ._30
+            .fps30
         )
         XCTAssertEqual(
             TimecodeFrameRate(rate: Fraction(300, 10), drop: false),
-            ._30
+            .fps30
         )
         
         // 30d
         XCTAssertEqual(
             TimecodeFrameRate(rate: Fraction(30, 1), drop: true),
-            ._30_drop
+            .fps30d
         )
         
         // edge cases
@@ -68,7 +68,7 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(TimecodeFrameRate(rate: Fraction(0, -1), drop: false))
         XCTAssertNil(TimecodeFrameRate(rate: Fraction(-1, 0), drop: false))
         XCTAssertNil(TimecodeFrameRate(rate: Fraction(-1, -1), drop: false))
-        XCTAssertEqual(TimecodeFrameRate(rate: Fraction(-30, -1), drop: false), ._30)
+        XCTAssertEqual(TimecodeFrameRate(rate: Fraction(-30, -1), drop: false), .fps30)
         XCTAssertNil(TimecodeFrameRate(rate: Fraction(-30, 1), drop: false))
         XCTAssertNil(TimecodeFrameRate(rate: Fraction(30, -1), drop: false))
         
@@ -93,11 +93,11 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // 24
         XCTAssertEqual(
             TimecodeFrameRate(frameDuration: Fraction(1, 24), drop: false),
-            ._24
+            .fps24
         )
         XCTAssertEqual(
             TimecodeFrameRate(frameDuration: Fraction(10, 240), drop: false),
-            ._24
+            .fps24
         )
         
         // 24d is not a valid frame rate
@@ -106,17 +106,17 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         // 30
         XCTAssertEqual(
             TimecodeFrameRate(frameDuration: Fraction(1, 30), drop: false),
-            ._30
+            .fps30
         )
         XCTAssertEqual(
             TimecodeFrameRate(frameDuration: Fraction(10, 300), drop: false),
-            ._30
+            .fps30
         )
         
         // 30d
         XCTAssertEqual(
             TimecodeFrameRate(frameDuration: Fraction(1, 30), drop: true),
-            ._30_drop
+            .fps30d
         )
         
         // edge cases
@@ -130,7 +130,7 @@ class TimecodeFrameRate_Conversions_Tests: XCTestCase {
         XCTAssertNil(TimecodeFrameRate(frameDuration: Fraction(-1, 0), drop: false))
         XCTAssertNil(TimecodeFrameRate(frameDuration: Fraction(0, -1), drop: false))
         XCTAssertNil(TimecodeFrameRate(frameDuration: Fraction(-1, -1), drop: false))
-        XCTAssertEqual(TimecodeFrameRate(frameDuration: Fraction(-1, -30), drop: false), ._30)
+        XCTAssertEqual(TimecodeFrameRate(frameDuration: Fraction(-1, -30), drop: false), .fps30)
         XCTAssertNil(TimecodeFrameRate(frameDuration: Fraction(1, -30), drop: false))
         XCTAssertNil(TimecodeFrameRate(frameDuration: Fraction(-1, 30), drop: false))
         
@@ -149,14 +149,14 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
                 rate: CMTime(value: 30000, timescale: 1001),
                 drop: false
             ),
-            ._29_97
+            .fps29_97
         )
         XCTAssertEqual(
             TimecodeFrameRate(
                 rate: CMTime(value: 30000, timescale: 1001),
                 drop: true
             ),
-            ._29_97_drop
+            .fps29_97d
         )
     }
     
@@ -166,28 +166,30 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
                 frameDuration: CMTime(value: 1001, timescale: 30000),
                 drop: false
             ),
-            ._29_97
+            .fps29_97
         )
         XCTAssertEqual(
             TimecodeFrameRate(
                 frameDuration: CMTime(value: 1001, timescale: 30000),
                 drop: true
             ),
-            ._29_97_drop
+            .fps29_97d
         )
     }
     
     func testrateCMTime() throws {
         XCTAssertEqual(
-            TimecodeFrameRate._29_97.rateCMTime,
+            TimecodeFrameRate.fps29_97.rateCMTime,
             CMTime(value: 30000, timescale: 1001)
         )
     }
     
     func testframeDurationCMTime() throws {
         // spot-check
-        XCTAssertEqual(TimecodeFrameRate._29_97.frameDurationCMTime,
-                       CMTime(value: 1001, timescale: 30000))
+        XCTAssertEqual(
+            TimecodeFrameRate.fps29_97.frameDurationCMTime,
+            CMTime(value: 1001, timescale: 30000)
+        )
         
         // ensure the CMTime instance returns correct 1 frame duration in seconds.
         // due to floating-point dithering, it tends to be accurate up to
@@ -196,8 +198,7 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
         try TimecodeFrameRate.allCases.forEach {
             let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
-            let oneFrameDuration = try TCC(f: 1)
-                .toTimecode(at: $0)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: $0)
                 .realTimeValue
             
             XCTAssertEqual(

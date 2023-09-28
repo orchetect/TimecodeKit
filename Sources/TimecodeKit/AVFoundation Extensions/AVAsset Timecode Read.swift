@@ -1,14 +1,14 @@
 //
 //  AVAsset Timecode Read.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 // MARK: - Start Timecode
 
@@ -24,15 +24,13 @@ extension AVAsset {
     @_disfavoredOverload
     public func startTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws -> Timecode? {
         try timecodes(
             at: frameRate,
-            limit: limit,
             base: base,
-            format: format
+            limit: limit
         )
         .compactMap(\.first) // first element of each track
         .first // first track
@@ -49,23 +47,20 @@ extension AVAsset {
     @_disfavoredOverload
     public func endTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws -> Timecode? {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         guard let start = try startTimecode(
             at: frameRate,
-            limit: limit,
             base: base,
-            format: format
+            limit: limit
         ) else { return nil }
         
         return try start + durationTimecode(
             at: frameRate,
-            limit: limit,
             base: base,
-            format: format
+            limit: limit
         )
     }
     
@@ -80,17 +75,15 @@ extension AVAsset {
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws -> Timecode {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         return try Timecode(
-            duration,
+            .cmTime(duration),
             at: frameRate,
-            limit: limit,
             base: base,
-            format: format
+            limit: limit
         )
     }
     
@@ -104,11 +97,10 @@ extension AVAsset {
     @_disfavoredOverload
     public func timecodes(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws -> [[Timecode]] {
-        let frameRate = try frameRate ?? self.timecodeFrameRate()
+        let frameRate = try frameRate ?? timecodeFrameRate()
         
         let samples = try tracks(withMediaType: .timecode)
             .map { try $0.readTimecodeSamples(context: self) }
@@ -116,9 +108,8 @@ extension AVAsset {
         let timecodes = try samples.map {
             try $0.mapToTimecode(
                 at: frameRate,
-                limit: limit,
                 base: base,
-                format: format
+                limit: limit
             )
         }
         
@@ -128,7 +119,7 @@ extension AVAsset {
     // MARK: - Helpers
     
     @_disfavoredOverload
-    internal func readTimecodeSamples() throws -> [[CMTimeCode]] {
+    func readTimecodeSamples() throws -> [[CMTimeCode]] {
         try tracks(withMediaType: .timecode)
             .map {
                 try $0.readTimecodeSamples(context: self)

@@ -1,14 +1,14 @@
 //
 //  CMTimeCode.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
-#if canImport(AVFoundation) && !os(watchOS)
+#if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 protocol CMTimeCode {
     static var byteLength: Int { get }
@@ -17,33 +17,33 @@ protocol CMTimeCode {
 extension Collection where Element == CMTimeCode {
     func mapToTimecode(
         at frameRate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24hours,
         base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
+        limit: Timecode.UpperLimit = .max24Hours
+    ) throws -> [Timecode] {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return try mapToTimecode(using: properties)
+    }
+    
+    func mapToTimecode(
+        using properties: Timecode.Properties
     ) throws -> [Timecode] {
         try compactMap { sample in
             switch sample {
             case let timecode32 as CMTimeCode32:
                 return try Timecode(
                     .frames(Int(timecode32.frameNumber)),
-                    at: frameRate,
-                    limit: limit,
-                    base: base,
-                    format: format
+                    using: properties
                 )
             case let timecode64 as CMTimeCode64:
-                let tcc = TCC(
+                let tcc = Timecode.Components(
                     h: Int(timecode64.h),
                     m: Int(timecode64.m),
                     s: Int(timecode64.s),
                     f: Int(timecode64.f)
                 )
                 return try Timecode(
-                    tcc,
-                    at: frameRate,
-                    limit: limit,
-                    base: base,
-                    format: format
+                    .components(tcc),
+                    using: properties
                 )
             default:
                 return nil
@@ -79,7 +79,7 @@ struct CMTimeCode32: CMTimeCode, Equatable, Hashable {
 /// > frame number that is typically converted to and from SMPTE timecodes representing hours,
 /// > minutes, seconds, and frames, according to information carried in the format description.
 /// >
-/// > Converting to and from the frame number stored as media sample data and a CVSMPTETime
+/// > Converting to and from the frame number stored as media sample data and a `CVSMPTETime`
 /// > structure is performed using simple modular arithmetic with the expected adjustments for drop
 /// > frame timecode performed using information in the format description such as the frame quanta
 /// > and the drop frame flag.
@@ -109,9 +109,9 @@ struct CMTimeCode64: CMTimeCode, Equatable, Hashable {
     
     init(h: UInt16, m: UInt16, s: UInt16, f: UInt16) {
         uInt64 = ((UInt64(h) & 0xFFFF) << 48)
-        + ((UInt64(m) & 0xFFFF) << 32)
-        + ((UInt64(s) & 0xFFFF) << 16)
-        + (UInt64(f) & 0xFFFF)
+            + ((UInt64(m) & 0xFFFF) << 32)
+            + ((UInt64(s) & 0xFFFF) << 16)
+            + (UInt64(f) & 0xFFFF)
     }
     
     var h: UInt16 { UInt16((uInt64 >> 48) & 0xFFFF) }

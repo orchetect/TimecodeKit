@@ -1,13 +1,13 @@
 //
 //  Fraction CMTime.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if canImport(CoreMedia)
 
-import Foundation
 import CoreMedia
+import Foundation
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension Fraction {
@@ -24,7 +24,8 @@ extension Fraction {
     }
     
     /// Returns the fraction as a new `CMTime` instance.
-    public func toCMTime() -> CMTime {
+    @_disfavoredOverload
+    public var cmTimeValue: CMTime {
         CMTime(self)
     }
 }
@@ -39,7 +40,8 @@ extension CMTime {
     }
     
     /// Returns the fraction as a new ``Fraction`` instance.
-    public func toFraction() -> Fraction {
+    @_disfavoredOverload
+    public var fractionValue: Fraction {
         Fraction(self)
     }
 }

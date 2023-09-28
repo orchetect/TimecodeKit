@@ -1,7 +1,7 @@
 //
 //  TextField.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if os(macOS)
@@ -10,9 +10,10 @@ import AppKit
 import TimecodeKit
 
 extension Timecode {
-    /// NSTextField subclass with timecode formatting
+    /// `NSTextField` subclass with timecode formatting.
     ///
-    /// Formatter is in effect bypassed until all its properties are set (`frameRate`, `upperLimit`, `displaySubFrames`, `subFramesBase`). These can be set after the class has initialized.
+    /// Formatter is in effect bypassed until all its properties are set (`frameRate`, `upperLimit`, `displaySubFrames`, `subFramesBase`).
+    /// These can also be set after the class has initialized.
     ///
     /// See `.formatter` property to access these.
     @objc(TimecodeTextField)
@@ -40,7 +41,7 @@ extension Timecode {
 }
 
 extension Timecode {
-    /// NSTextFieldCell subclass with timecode formatting
+    /// `NSTextFieldCell` subclass with timecode formatting.
     @objc(TimecodeTextFieldCell)
     public class TextFieldCell: NSTextFieldCell {
         public required init(coder: NSCoder) {

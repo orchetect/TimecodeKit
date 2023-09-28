@@ -1,7 +1,7 @@
 //
 //  Timecode Rounding.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -16,14 +16,17 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundedUp(toNearest: .frames)
+    /// ```swift
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
+    ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedUp(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundedUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
     ///
@@ -43,14 +46,17 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundUp(toNearest: .frames)
+    /// ```swift
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
+    ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundUp(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundUp(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
     ///
@@ -59,7 +65,7 @@ extension Timecode {
         switch component {
         case .days:
             if hours > 0 || minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(d: 1))
+                try add(Components(d: 1))
                 hours = 0
                 minutes = 0
                 seconds = 0
@@ -68,7 +74,7 @@ extension Timecode {
             }
         case .hours:
             if minutes > 0 || seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(h: 1))
+                try add(Components(h: 1))
                 minutes = 0
                 seconds = 0
                 frames = 0
@@ -76,20 +82,20 @@ extension Timecode {
             }
         case .minutes:
             if seconds > 0 || frames > 0 || subFrames > 0 {
-                try add(TCC(m: 1))
+                try add(Components(m: 1))
                 seconds = 0
                 frames = 0
                 subFrames = 0
             }
         case .seconds:
             if frames > 0 || subFrames > 0 {
-                try add(TCC(s: 1))
+                try add(Components(s: 1))
                 frames = 0
                 subFrames = 0
             }
         case .frames:
             if subFrames > 0 {
-                try add(TCC(f: 1))
+                try add(Components(f: 1))
                 subFrames = 0
             }
         case .subFrames:
@@ -109,14 +115,17 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundedDown(toNearest: .frames)
+    /// ```swift
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
+    ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundedDown(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundedDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
     public func roundedDown(toNearest component: Component) -> Self {
@@ -134,14 +143,17 @@ extension Timecode {
     ///
     /// ie:
     ///
-    /// ```
-    /// try Timecode("01:02:03:04.00", at: ._24).roundDown(toNearest: .frames)
+    /// ```swift
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
+    ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundDown(toNearest: .frames)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode("01:02:03:04.05", at: ._24).roundDown(toNearest: .seconds)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
+    ///     .roundDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
     public mutating func roundDown(toNearest component: Component) {

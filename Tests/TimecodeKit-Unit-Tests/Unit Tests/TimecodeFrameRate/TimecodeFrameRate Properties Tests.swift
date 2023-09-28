@@ -1,19 +1,19 @@
 //
 //  TimecodeFrameRate Properties Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class TimecodeFrameRate_Properties_Tests: XCTestCase {
     func testProperties() {
         // spot-check that properties behave as expected
         
-        let frameRate: TimecodeFrameRate = ._30
+        let frameRate: TimecodeFrameRate = .fps30
         
         XCTAssertEqual(frameRate.stringValue, "30")
         
@@ -26,29 +26,29 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(frameRate.maxFrameNumberDisplayable, 29)
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._24hours),
+            frameRate.maxTotalFrames(in: .max24Hours),
             2_592_000
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._100days),
+            frameRate.maxTotalFrames(in: .max100Days),
             2_592_000 * 100
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._24hours),
+            frameRate.maxTotalFramesExpressible(in: .max24Hours),
             2_592_000 - 1
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._100days),
+            frameRate.maxTotalFramesExpressible(in: .max100Days),
             (2_592_000 * 100) - 1
         )
         
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._24hours,
-                base: ._80SubFrames
+                in: .max24Hours,
+                base: .max80SubFrames
             ),
             2_592_000 * 80
         )
@@ -57,16 +57,16 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         #if !(arch(arm) || arch(i386))
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._100days,
-                base: ._80SubFrames
+                in: .max100Days,
+                base: .max80SubFrames
             ),
             2_592_000 * 100 * 80
         )
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._100days,
-                base: ._80SubFrames
+                in: .max100Days,
+                base: .max80SubFrames
             ),
             (2_592_000 * 100 * 80) - 1
         )
@@ -74,8 +74,8 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._24hours,
-                base: ._80SubFrames
+                in: .max24Hours,
+                base: .max80SubFrames
             ),
             (2_592_000 * 80) - 1
         )

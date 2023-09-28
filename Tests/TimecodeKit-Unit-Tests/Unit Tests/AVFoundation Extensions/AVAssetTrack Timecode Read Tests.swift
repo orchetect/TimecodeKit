@@ -1,15 +1,15 @@
 //
 //  AVAssetTrack Timecode Read Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import XCTest
-@testable import TimecodeKit
 import AVFoundation
+@testable import TimecodeKit
+import XCTest
 
 class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     override func setUp() { }
@@ -18,14 +18,14 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     // MARK: - Start/Duration/End Timecode
     
     func testReadTimecodeRange_23_976fps() throws {
-        let frameRate: TimecodeFrameRate = ._23_976
+        let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
-        let correctStart = try TCC().toTimecode(at: frameRate)
-        let correctEnd = try TCC(m: 24, s: 10, f: 19, sf: 03)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctStart = Timecode(.zero, at: frameRate)
+        let correctEnd = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), at: frameRate)
         
         // even though it's a timecode track, its timeRange property relates to overall timeline of the asset,
         // so its start is 0.
@@ -46,14 +46,14 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
     
     func testReadDurationTimecode_23_976fps() throws {
-        let frameRate: TimecodeFrameRate = ._23_976
+        let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
         // duration
-        let correctDur = try TCC(m: 24, s: 10, f: 19, sf: 03)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctDur = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), at: frameRate)
         
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)
@@ -62,14 +62,14 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
     
     func testReadDurationTimecode_29_97fps() throws {
-        let frameRate: TimecodeFrameRate = ._29_97
+        let frameRate: TimecodeFrameRate = .fps29_97
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let track = try XCTUnwrap(asset.tracks.first)
+        let loadTrack = try getFirstTrack(of: asset)
+        let track = try XCTUnwrap(loadTrack)
         
         // duration
-        let correctDur = try TCC(s: 10)
-            .toTimecode(at: frameRate, format: [.showSubFrames])
+        let correctDur = try Timecode(.components(s: 10), at: frameRate)
         
         // auto-detect frame rate
         XCTAssertEqual(try track.durationTimecode(), correctDur)
@@ -78,4 +78,25 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
 }
 
+// MARK: - Utils
+
+extension AVAssetTrack_TimecodeRead_Tests {
+    // /// Wrapper to load asset's first track depending on OS version.
+    // @available(macOS 10.15, iOS 13, *)
+    // func getFirstTrack(of asset: AVAsset) async throws -> AVAssetTrack {
+    //     let maybeTrack = try await {
+    //         if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+    //             return try await asset.load(.tracks).first
+    //         } else {
+    //             return asset.tracks.first
+    //         }
+    //     }()
+    //     return try XCTUnwrap(maybeTrack)
+    // }
+    
+    /// Wrapper to load asset's first track depending on OS version.
+    func getFirstTrack(of asset: AVAsset) throws -> AVAssetTrack {
+        try XCTUnwrap(asset.tracks.first)
+    }
+}
 #endif

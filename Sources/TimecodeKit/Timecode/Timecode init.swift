@@ -1,37 +1,293 @@
 //
 //  Timecode init.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 
 extension Timecode {
-    // MARK: - Basic
+    // MARK: - TimecodeSource
     
-    /// Instance with default timecode (00:00:00:00) at a given frame rate.
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    ///
+    /// - Throws: ``ValidationError``
     public init(
-        at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24hours,
+        _ source: TimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
         base: SubFramesBase = .default(),
-        format: StringFormat = .default()
-    ) {
-        frameRate = rate
-        upperLimit = limit
-        subFramesBase = base
-        stringFormat = format
+        limit: UpperLimit = .max24Hours
+    ) throws {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        try set(source.value)
     }
     
-    // MARK: - TimecodeInterval
-    
-    /// Instance by flattening a `TimecodeInterval`, wrapping as necessary based on the ``upperLimit-swift.property`` and ``frameRate-swift.property`` of the interval.
+    /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
     public init(
-        flattening interval: TimecodeInterval
+        _ source: TimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours,
+        by validation: ValidationRule
     ) {
-        self = interval.flattened()
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        set(source.value, by: validation)
     }
     
-    // ------------------------------------------------------
-    // For additional inits, see the Data Interchange folder.
-    // ------------------------------------------------------
+    /// Initialize by converting a time source to timecode using the given properties.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: TimecodeSourceValue,
+        using properties: Properties
+    ) throws {
+        self.properties = properties
+        try set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    public init(
+        _ source: TimecodeSourceValue,
+        using properties: Properties,
+        by validation: ValidationRule
+    ) {
+        self.properties = properties
+        set(source.value, by: validation)
+    }
+    
+    // MARK: - FormattedTimecodeSource
+    
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: FormattedTimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours
+    ) throws {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        try set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: FormattedTimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours,
+        by validation: ValidationRule
+    ) throws {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        try set(source.value, by: validation)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: FormattedTimecodeSourceValue,
+        using properties: Properties
+    ) throws {
+        self.properties = properties
+        try set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: FormattedTimecodeSourceValue,
+        using properties: Properties,
+        by validation: ValidationRule
+    ) throws {
+        self.properties = properties
+        try set(source.value, by: validation)
+    }
+    
+    // MARK: - RichTimecodeSource
+    
+    /// Initialize by converting a rich time source to timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: RichTimecodeSourceValue
+    ) throws {
+        properties = Properties(rate: .fps24) // must init to a default first
+        try set(source.value)
+    }
+    
+    // MARK: - GuaranteedTimecodeSource
+    
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    public init(
+        _ source: GuaranteedTimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours
+    ) {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    public init(
+        _ source: GuaranteedTimecodeSourceValue,
+        using properties: Properties
+    ) {
+        self.properties = properties
+        set(source.value)
+    }
+    
+    // MARK: - GuaranteedRichTimecodeSource
+    
+    /// Initialize by converting a rich time source to timecode.
+    public init(
+        _ source: GuaranteedRichTimecodeSourceValue
+    ) {
+        properties = Properties(rate: .fps24) // needs to be initialized with something first
+        properties = set(source.value)
+    }
+}
+
+// MARK: - TimecodeSource Category Methods
+
+extension TimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours
+    ) throws -> Timecode {
+        let value = TimecodeSourceValue(value: self)
+        return try Timecode(value, at: frameRate, base: base, limit: limit)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    public func timecode(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours,
+        by validation: Timecode.ValidationRule
+    ) -> Timecode {
+        let value = TimecodeSourceValue(value: self)
+        return Timecode(value, at: frameRate, base: base, limit: limit, by: validation)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        using properties: Timecode.Properties
+    ) throws -> Timecode {
+        let value = TimecodeSourceValue(value: self)
+        return try Timecode(value, using: properties)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func timecode(
+        using properties: Timecode.Properties,
+        by validation: Timecode.ValidationRule
+    ) -> Timecode {
+        let value = TimecodeSourceValue(value: self)
+        return Timecode(value, using: properties, by: validation)
+    }
+}
+
+// MARK: - FormattedTimecodeSource Category Methods
+
+extension FormattedTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours
+    ) throws -> Timecode {
+        let value = FormattedTimecodeSourceValue(value: self)
+        return try Timecode(value, at: frameRate, base: base, limit: limit)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source at the given frame rate.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours,
+        by validation: Timecode.ValidationRule
+    ) throws -> Timecode {
+        let value = FormattedTimecodeSourceValue(value: self)
+        return try Timecode(value, at: frameRate, base: base, limit: limit, by: validation)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        using properties: Timecode.Properties
+    ) throws -> Timecode {
+        let value = FormattedTimecodeSourceValue(value: self)
+        return try Timecode(value, using: properties)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode(
+        using properties: Timecode.Properties,
+        by validation: Timecode.ValidationRule
+    ) throws -> Timecode {
+        let value = FormattedTimecodeSourceValue(value: self)
+        return try Timecode(value, using: properties, by: validation)
+    }
+}
+
+// MARK: - RichTimecodeSource Category Methods
+
+extension RichTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    ///
+    /// - Throws: ``Timecode/ValidationError``
+    public func timecode() throws -> Timecode {
+        let value = RichTimecodeSourceValue(value: self)
+        return try Timecode(value)
+    }
+}
+
+// MARK: - GuaranteedTimecodeSource Category Methods
+
+extension GuaranteedTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source at a given frame rate.
+    public func timecode(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours
+    ) -> Timecode {
+        let value = GuaranteedTimecodeSourceValue(value: self)
+        return Timecode(value, at: frameRate, base: base, limit: limit)
+    }
+    
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func timecode(
+        using properties: Timecode.Properties
+    ) -> Timecode {
+        let value = GuaranteedTimecodeSourceValue(value: self)
+        return Timecode(value, using: properties)
+    }
+}
+
+// MARK: - GuaranteedRichTimecodeSource Category Methods
+
+extension GuaranteedRichTimecodeSource {
+    /// Returns a new ``Timecode`` instance by converting a time source.
+    public func timecode() -> Timecode {
+        let value = GuaranteedRichTimecodeSourceValue(value: self)
+        return Timecode(value)
+    }
 }

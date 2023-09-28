@@ -1,10 +1,11 @@
 //
 //  TimecodeTransformer.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 /// A timecode transformer containing one or more transform rules in series.
+/// See the <doc:Timecode-Transformer> topic for details.
 public struct TimecodeTransformer {
     public var transforms: [Transform]
         

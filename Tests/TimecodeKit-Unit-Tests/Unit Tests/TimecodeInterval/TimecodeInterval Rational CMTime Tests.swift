@@ -1,14 +1,14 @@
 //
 //  TimecodeInterval Rational CMTime Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
-@testable import TimecodeKit
 import CoreMedia
+@testable import TimecodeKit
+import XCTest
 
 class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     override func setUp() { }
@@ -17,38 +17,37 @@ class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {
     func testTimecodeInterval_init_cmTime() throws {
         let ti = try TimecodeInterval(
             CMTime(value: 60, timescale: 30),
-            at: ._24
+            at: .fps24
         )
         
         XCTAssertEqual(ti.sign, .plus)
         
         XCTAssertEqual(
             ti.absoluteInterval,
-            try TCC(s: 2).toTimecode(at: ._24)
+            try Timecode(.components(s: 2), at: .fps24)
         )
     }
     
     func testCMTime() throws {
         let ti = try TimecodeInterval(
-            TCC(s: 2).toTimecode(at: ._24)
+            Timecode(.components(s: 2), at: .fps24)
         )
         
-        let cmTime = ti.cmTime
+        let cmTime = ti.cmTimeValue
         
         XCTAssertEqual(cmTime.seconds.sign, .plus)
         XCTAssertEqual(cmTime.value, 2)
         XCTAssertEqual(cmTime.timescale, 1)
     }
     
-    func testCMTime_toTimecodeInterval() throws {
-        let ti = try CMTime(value: 60, timescale: 30)
-            .toTimecodeInterval(at: ._24)
+    func testCMTime_timecodeInterval() throws {
+        let ti = try CMTime(value: 60, timescale: 30).timecodeInterval(at: .fps24)
         
         XCTAssertEqual(ti.sign, .plus)
         
         XCTAssertEqual(
             ti.absoluteInterval,
-            try TCC(s: 2).toTimecode(at: ._24)
+            try Timecode(.components(s: 2), at: .fps24)
         )
     }
 }

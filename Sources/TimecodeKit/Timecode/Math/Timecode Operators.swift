@@ -1,121 +1,121 @@
 //
 //  Timecode Operators.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - Math operators: Self, Self
 
 extension Timecode {
-    /// a.k.a. `lhs.adding(wrapping: rhs)`
+    /// a.k.a. `lhs.adding(rhs, by: wrapping)`
     public static func + (lhs: Self, rhs: Self) -> Timecode {
-        if lhs.frameRate == rhs.frameRate {
-            return lhs.adding(wrapping: rhs.components)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return lhs
-            }
-            
-            return lhs.adding(wrapping: rhsConverted.components)
+        do {
+            return try lhs.adding(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return lhs
         }
     }
     
-    /// a.k.a. `lhs.add(wrapping: rhs)`
+    /// a.k.a. `lhs.add(rhs, by: wrapping)`
     public static func += (lhs: inout Self, rhs: Self) {
-        if lhs.frameRate == rhs.frameRate {
-            lhs.add(wrapping: rhs.components)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return
-            }
-            
-            return lhs.add(wrapping: rhsConverted.components)
+        do {
+            try lhs.add(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return
         }
     }
     
-    /// a.k.a. `lhs.subtracting(wrapping: rhs)`
+    /// a.k.a. `lhs.subtracting(rhs, by: wrapping)`
     public static func - (lhs: Self, rhs: Self) -> Timecode {
-        if lhs.frameRate == rhs.frameRate {
-            return lhs.subtracting(wrapping: rhs.components)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return lhs
-            }
-            
-            return lhs.subtracting(wrapping: rhsConverted.components)
+        do {
+            return try lhs.subtracting(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return lhs
         }
     }
     
-    /// a.k.a. `lhs.subtract(wrapping: rhs)`
+    /// a.k.a. `lhs.subtract(rhs, by: wrapping)`
     public static func -= (lhs: inout Self, rhs: Self) {
-        if lhs.frameRate == rhs.frameRate {
-            lhs.subtract(wrapping: rhs.components)
-        } else {
-            guard let rhsConverted = try? rhs.converted(to: lhs.frameRate) else {
-                assertionFailure(
-                    "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
-                )
-                return
-            }
-            
-            return lhs.subtract(wrapping: rhsConverted.components)
+        do {
+            try lhs.subtract(rhs, by: .wrapping)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return
+        }
+    }
+    
+    /// a.k.a. `lhs.dividing(rhs)`
+    public static func / (lhs: Self, rhs: Self) -> Double {
+        do {
+            return try lhs.dividing(rhs)
+        } catch {
+            assertionFailure(
+                "Could not convert right-hand Timecode operand to left-hand Timecode frameRate."
+            )
+            return 1.0
         }
     }
 }
 
-// MARK: - Math operators: Self, BinaryInteger
+// MARK: - Math Operators
 
 extension Timecode {
-    /// a.k.a. `lhs.multiplying(wrapping: rhs)`
-    public static func * <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-        lhs.multiplying(wrapping: Double(rhs))
-    }
+    // MARK: - *
     
-    /// a.k.a. `lhs.multiply(wrapping: rhs)`
-    public static func *= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
-        lhs.multiply(wrapping: Double(rhs))
-    }
-    
-    /// a.k.a. `lhs.dividing(wrapping: rhs)`
-    public static func / <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
-        lhs.dividing(wrapping: Double(rhs))
-    }
-    
-    /// a.k.a. `lhs.divide(wrapping: rhs)`
-    public static func /= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
-        lhs.divide(wrapping: Double(rhs))
-    }
-}
-
-// MARK: - Math operators: Self, Double
-
-extension Timecode {
-    /// a.k.a. `lhs.multiplying(wrapping: rhs)`
+    /// a.k.a. `lhs.multiplying(rhs, by: wrapping)`
     public static func * (lhs: Self, rhs: Double) -> Self {
-        lhs.multiplying(wrapping: rhs)
+        lhs.multiplying(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.multiply(wrapping: rhs)`
+    /// a.k.a. `lhs.multiplying(rhs, by: wrapping)`
+    public static func * <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
+        lhs.multiplying(Double(rhs), by: .wrapping)
+    }
+    
+    // MARK: - *=
+    
+    /// a.k.a. `lhs.multiply(rhs, by: wrapping)`
     public static func *= (lhs: inout Self, rhs: Double) {
-        lhs.multiply(wrapping: rhs)
+        lhs.multiply(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.dividing(wrapping: rhs)`
+    /// a.k.a. `lhs.multiply(rhs, by: wrapping)`
+    public static func *= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
+        lhs.multiply(Double(rhs), by: .wrapping)
+    }
+    
+    // MARK: - /
+    
+    /// a.k.a. `lhs.dividing(rhs, by: wrapping)`
     public static func / (lhs: Self, rhs: Double) -> Self {
-        lhs.dividing(wrapping: rhs)
+        lhs.dividing(rhs, by: .wrapping)
     }
     
-    /// a.k.a. `lhs.divide(wrapping: rhs)`
+    /// a.k.a. `lhs.dividing(rhs, by: wrapping)`
+    public static func / <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
+        lhs.dividing(Double(rhs), by: .wrapping)
+    }
+    
+    // MARK: - /=
+    
+    /// a.k.a. `lhs.divide(rhs, by: wrapping)`
     public static func /= (lhs: inout Self, rhs: Double) {
-        lhs.divide(wrapping: rhs)
+        lhs.divide(rhs, by: .wrapping)
+    }
+    
+    /// a.k.a. `lhs.divide(rhs, by: wrapping)`
+    public static func /= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
+        lhs.divide(Double(rhs), by: .wrapping)
     }
 }

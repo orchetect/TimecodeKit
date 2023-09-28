@@ -1,12 +1,14 @@
 //
 //  Fraction.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 
 /// Numerical fraction containing a numerator and a denominator.
+///
+/// Used to convert to/from ``Timecode``, Core Media `CMTime`, or metadata encoding such as Final Cut Pro XML or AAF.
 public struct Fraction {
     public let numerator: Int
     public let denominator: Int
@@ -60,12 +62,12 @@ extension Fraction: Equatable {
     /// Performs a comparison against literal values.
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.numerator == rhs.numerator
-        && lhs.denominator == rhs.denominator
+            && lhs.denominator == rhs.denominator
     }
     
     /// Returns `true` if both fractions are mathematically equal (can reduce to the same values).
     public func isEqual(to other: Self) -> Bool {
-        let lhsReduced = self.reduced().normalized()
+        let lhsReduced = reduced().normalized()
         let rhsReduced = other.reduced().normalized()
         
         return lhsReduced == rhsReduced
@@ -92,14 +94,14 @@ extension Fraction {
     /// (Returns unmodified if positive, negates if negative.)
     /// The fraction is also normalized.
     public func abs() -> Self {
-        let norm = self.normalized()
+        let norm = normalized()
         return isNegative ? norm.negated() : norm
     }
     
     /// Internal:
     /// Reduce a fraction to its simplest form.
     /// This also normalizes signs.
-    internal static func reduce(n: Int, d: Int) -> (n: Int, d: Int) {
+    static func reduce(n: Int, d: Int) -> (n: Int, d: Int) {
         let (absN, signN) = n < 0 ? (-n, -1) : (n, 1)
         let (absD, signD) = d < 0 ? (-d, -1) : (d, 1)
         var v = n
@@ -124,7 +126,7 @@ extension Fraction {
     /// Normalize a fraction.
     /// Fractions with two negative signs are normalized to two positive signs.
     /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
-    internal static func normalize(n: Int, d: Int) -> (n: Int, d: Int) {
+    static func normalize(n: Int, d: Int) -> (n: Int, d: Int) {
         var n = n
         var d = d
         if n >= 0 && d >= 0 { return (n: n, d: d) }
@@ -167,7 +169,7 @@ extension Double {
     /// - Parameters:
     ///   - precision: Number of places after the decimal to preserve.
     /// - Returns: Numerator and denominator.
-    internal func rational(
+    func rational(
         precision: Int = 10
     ) -> Fraction {
         let pad = Int(truncating: pow(10, precision) as NSNumber)

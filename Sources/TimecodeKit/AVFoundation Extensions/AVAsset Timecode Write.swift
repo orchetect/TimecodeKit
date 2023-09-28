@@ -1,14 +1,14 @@
 //
 //  AVAsset Timecode Write.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import Foundation
 import AVFoundation
+import Foundation
 
 #if !os(tvOS) // AVMutableMovie not available on tvOS
 
@@ -31,7 +31,7 @@ extension AVMutableMovie {
         // of a timecode track.
         let newAsset = try AVMutableMovie(
             timecodeTrackStart: startTimecode,
-            duration: duration ?? (try durationTimecode()),
+            duration: duration ?? durationTimecode(),
             extensions: extensions,
             fileType: outputFileType
         )
@@ -78,7 +78,7 @@ extension AVMutableMovie {
         
         return try addTimecodeTrack(
             startTimecode: startTimecode,
-            duration: duration ?? (try durationTimecode()),
+            duration: duration ?? durationTimecode(),
             extensions: extensions,
             fileType: outputFileType
         )
@@ -95,7 +95,7 @@ extension AVMutableMovie {
     
     /// Internal helper:
     /// Creates a new asset with a timecode track containing one sample (start timecode).
-    internal convenience init(
+    convenience init(
         timecodeTrackStart: Timecode,
         duration: Timecode,
         extensions: CMFormatDescription.Extensions? = nil,
@@ -119,7 +119,7 @@ extension AVMutableMovie {
         // otherwise we have to use append(buffer:) which is all kinds of scary
         try blockBuffer.fillDataBytes(with: 0x00)
         try withUnsafeBytes(of: &frames) { framesPtr in
-            //try blockBuffer.append(buffer: framesPtr) // dealloc crash
+            // try blockBuffer.append(buffer: framesPtr) // dealloc crash
             try blockBuffer.replaceDataBytes(with: framesPtr)
         }
         
@@ -127,7 +127,7 @@ extension AVMutableMovie {
             dataBuffer: blockBuffer,
             formatDescription: timecodeTrackStart.cmFormatDescription(extensions: extensions),
             numSamples: 1,
-            sampleTimings: [CMSampleTimingInfo(duration: duration.cmTime, presentationTimeStamp: .zero, decodeTimeStamp: .invalid)],
+            sampleTimings: [CMSampleTimingInfo(duration: duration.cmTimeValue, presentationTimeStamp: .zero, decodeTimeStamp: .invalid)],
             sampleSizes: [4]
         )
         try sampleBuffer.makeDataReady() // needed? doesn't seem to hurt
@@ -135,7 +135,7 @@ extension AVMutableMovie {
         input.markAsFinished()
         
         // finish
-        writer.endSession(atSourceTime: duration.cmTime)
+        writer.endSession(atSourceTime: duration.cmTimeValue)
         let g = DispatchGroup()
         g.enter()
         writer.finishWriting {
@@ -152,7 +152,7 @@ extension AVMutableMovie {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    /// Returns a new CoreMedia format description based on the timecode `frameRate`.
+    /// Returns a new Core Media format description based on the timecode `frameRate`.
     ///
     /// - Throws: Core Media error.
     public func cmFormatDescription(
@@ -161,7 +161,7 @@ extension Timecode {
         // this method essentially wraps CMTimeCodeFormatDescriptionCreate,
         // an old crusty Obj-C method. it returned OSStatus so we assume the new
         // 'throws' method might return something related if an error occurs.
-        return try CMTimeCodeFormatDescription( // typealias of CMFormatDescription
+        try CMTimeCodeFormatDescription( // typealias of CMFormatDescription
             timeCodeFormatType: .timeCode32, // one that exists in CMTimeCodeFormatType
             frameDuration: frameRate.frameDurationCMTime,
             frameQuanta: frameRate.maxFrames,
@@ -174,7 +174,7 @@ extension Timecode {
     /// Assembles timecode flags for use in `CMFormatDescription`
     private var cmFormatDescriptionTimeCodeFlags: CMFormatDescription.TimeCode.Flag {
         var flags: CMFormatDescription.TimeCode.Flag = []
-        if upperLimit == ._24hours { flags.insert(.twentyFourHourMax) }
+        if upperLimit == .max24Hours { flags.insert(.twentyFourHourMax) }
         if frameRate.isDrop { flags.insert(.dropFrame) }
         return flags
     }

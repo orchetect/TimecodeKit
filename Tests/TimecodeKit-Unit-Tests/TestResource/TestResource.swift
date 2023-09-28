@@ -1,3 +1,9 @@
+//
+//  TestResource.swift
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//
+
 import Foundation
 import XCTest
 
@@ -25,6 +31,14 @@ enum TestResource: CaseIterable {
     
     static let videoAndTimecodeTrack_29_97i_Start_00_00_00_00 = TestResource.File(
         name: "VideoAndTimecodeTrack_29_97i_Start-00-00-00-00", ext: "mov", subFolder: "Media Files"
+    )
+    
+    static let videoTrack_25_VFR_1sec = TestResource.File(
+        name: "VideoTrack_25_VFR_1sec", ext: "mov", subFolder: "Media Files"
+    )
+    
+    static let videoTrack_25_VFR_2sec = TestResource.File(
+        name: "VideoTrack_25_VFR_2sec", ext: "mov", subFolder: "Media Files"
     )
     
     static let videoTrack_29_97_Start_00_00_00_00 = TestResource.File(

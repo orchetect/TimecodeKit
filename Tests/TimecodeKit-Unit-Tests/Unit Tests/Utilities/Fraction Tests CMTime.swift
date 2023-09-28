@@ -1,14 +1,14 @@
 //
-//  Fraction CMTime Tests.swift
+//  Fraction Tests CMTime.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
-@testable import TimecodeKit
 import CoreMedia
+@testable import TimecodeKit
+import XCTest
 
 class Fraction_CMTime_Tests: XCTestCase {
     override func setUp() { }
@@ -43,14 +43,14 @@ class Fraction_CMTime_Tests: XCTestCase {
         )
     }
     
-    func testFraction_toCMTime() {
+    func testFraction_cmTimeValue() {
         XCTAssertEqual(
-            Fraction(3600, 1).toCMTime(),
+            Fraction(3600, 1).cmTimeValue,
             CMTime(value: 3600, timescale: 1)
         )
         
         XCTAssertEqual(
-            Fraction(-3600, 1).toCMTime(),
+            Fraction(-3600, 1).cmTimeValue,
             CMTime(value: -3600, timescale: 1)
         )
     }
@@ -67,14 +67,14 @@ class Fraction_CMTime_Tests: XCTestCase {
         )
     }
     
-    func testCMTime_toFraction() {
+    func testCMTime_fractionValue() {
         XCTAssertEqual(
-            CMTime(value: 3600, timescale: 1).toFraction(),
+            CMTime(value: 3600, timescale: 1).fractionValue,
             Fraction(3600, 1)
         )
         
         XCTAssertEqual(
-            CMTime(value: -3600, timescale: 1).toFraction(),
+            CMTime(value: -3600, timescale: 1).fractionValue,
             Fraction(-3600, 1)
         )
     }

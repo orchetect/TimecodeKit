@@ -1,13 +1,13 @@
 //
 //  Fraction Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class Fraction_Tests: XCTestCase {
     override func setUp() { }
@@ -101,27 +101,27 @@ class Fraction_Tests: XCTestCase {
     }
     
     func testNegativeValues() {
-        XCTAssertEqual(Fraction(-1,5).doubleValue, -0.2)
-        XCTAssertEqual(Fraction(1,-5).doubleValue, -0.2)
-        XCTAssertEqual(Fraction(-1,-5).doubleValue, 0.2)
+        XCTAssertEqual(Fraction(-1, 5).doubleValue, -0.2)
+        XCTAssertEqual(Fraction(1, -5).doubleValue, -0.2)
+        XCTAssertEqual(Fraction(-1, -5).doubleValue, 0.2)
     }
     
     func testNormalized() {
-        XCTAssertEqual(Fraction(-1,5).normalized(), Fraction(-1,5))
-        XCTAssertEqual(Fraction(1,-5).normalized(), Fraction(-1,5))
-        XCTAssertEqual(Fraction(-1,-5).normalized(), Fraction(1,5))
+        XCTAssertEqual(Fraction(-1, 5).normalized(), Fraction(-1, 5))
+        XCTAssertEqual(Fraction(1, -5).normalized(), Fraction(-1, 5))
+        XCTAssertEqual(Fraction(-1, -5).normalized(), Fraction(1, 5))
     }
     
     func testEdgeCases() {
         // test that division by zero crashes don't occur etc.
         
-        XCTAssertEqual(Fraction(1,0).doubleValue, .infinity)
-        XCTAssertEqual(Fraction(0,0).doubleValue.isNaN, true)
-        XCTAssertEqual(Fraction(0,1).doubleValue, 0.0)
+        XCTAssertEqual(Fraction(1, 0).doubleValue, .infinity)
+        XCTAssertEqual(Fraction(0, 0).doubleValue.isNaN, true)
+        XCTAssertEqual(Fraction(0, 1).doubleValue, 0.0)
         
-        XCTAssertEqual(Fraction(-1,0).doubleValue, -.infinity)
-        XCTAssertEqual(Fraction(0,0).doubleValue.isNaN, true)
-        XCTAssertEqual(Fraction(0,-1).doubleValue, 0.0)
+        XCTAssertEqual(Fraction(-1, 0).doubleValue, -.infinity)
+        XCTAssertEqual(Fraction(0, 0).doubleValue.isNaN, true)
+        XCTAssertEqual(Fraction(0, -1).doubleValue, 0.0)
     }
 }
 

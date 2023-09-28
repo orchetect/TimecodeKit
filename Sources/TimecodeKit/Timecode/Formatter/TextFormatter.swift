@@ -1,7 +1,7 @@
 //
 //  TextFormatter.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if os(macOS)
@@ -23,8 +23,8 @@ extension Timecode {
         
         public var frameRate: TimecodeFrameRate?
         public var upperLimit: Timecode.UpperLimit?
-        public var stringFormat: Timecode.StringFormat?
         public var subFramesBase: SubFramesBase?
+        public var stringFormat: Timecode.StringFormat = .default()
         
         /// The formatter's `attributedString(...) -> NSAttributedString` output will override a control's alignment (ie: `NSTextField`).
         /// Setting alignment here will add the appropriate paragraph alignment attribute to the output `NSAttributedString`.
@@ -54,19 +54,17 @@ extension Timecode {
         }
         
         public init(
-            frameRate: TimecodeFrameRate? = nil,
-            limit: Timecode.UpperLimit? = nil,
+            using properties: Timecode.Properties? = nil,
             stringFormat: StringFormat? = nil,
-            subFramesBase: SubFramesBase? = nil,
             showsValidation: Bool = false,
             validationAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             super.init()
             
-            self.frameRate = frameRate
-            upperLimit = limit
-            self.subFramesBase = subFramesBase
-            self.stringFormat = stringFormat
+            frameRate = properties?.frameRate
+            upperLimit = properties?.upperLimit
+            subFramesBase = properties?.subFramesBase
+            self.stringFormat = stringFormat ?? .default()
             
             self.showsValidation = showsValidation
             
@@ -78,14 +76,13 @@ extension Timecode {
         /// Initializes with properties from an `Timecode` object.
         public convenience init(
             using timecode: Timecode,
+            stringFormat: StringFormat? = nil,
             showsValidation: Bool = false,
             validationAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             self.init(
-                frameRate: timecode.frameRate,
-                limit: timecode.upperLimit,
-                stringFormat: timecode.stringFormat,
-                subFramesBase: timecode.subFramesBase,
+                using: timecode.properties,
+                stringFormat: stringFormat,
                 showsValidation: showsValidation,
                 validationAttributes: validationAttributes
             )
@@ -110,7 +107,7 @@ extension Timecode {
             guard let string = obj as? String
             else { return nil }
             
-            guard var tc = timecodeTemplate
+            guard let tcProps = timecodeProperties
             else { return string }
             
             // form timecode components without validating
@@ -118,9 +115,9 @@ extension Timecode {
             else { return string }
             
             // set values without validating
-            tc.setTimecode(rawValues: tcc)
+            let tc = Timecode(.components(tcc), using: tcProps, by: .allowingInvalid)
             
-            return tc.stringValue
+            return tc.stringValue(format: stringFormat)
         }
         
         // MARK: attributedString
@@ -133,35 +130,36 @@ extension Timecode {
             else { return nil }
             
             func entirelyInvalid() -> NSAttributedString {
-                showsValidation
-                    ? NSAttributedString(
-                        string: stringForObj,
-                        attributes: validationAttributes
-                            .merging(
-                                attrs ?? [:],
-                                uniquingKeysWith: { current, _ in current }
-                            )
-                    )
-                    .addingAttribute(alignment: alignment)
-                    : NSAttributedString(string: stringForObj, attributes: attrs)
-                        .addingAttribute(alignment: alignment)
+                (
+                    showsValidation
+                        ? NSAttributedString(
+                            string: stringForObj,
+                            attributes: validationAttributes
+                                .merging(
+                                    attrs ?? [:],
+                                    uniquingKeysWith: { current, _ in current }
+                                )
+                        )
+                        : NSAttributedString(string: stringForObj, attributes: attrs)
+                )
+                .addingAttribute(alignment: alignment)
             }
             
             // grab properties from the formatter
-            guard var tc = timecodeTemplate else { return entirelyInvalid() }
+            guard let tcProps = timecodeProperties else { return entirelyInvalid() }
             
             // form timecode components without validating
             guard let tcc = try? Timecode.decode(timecode: stringForObj)
             else { return entirelyInvalid() }
             
             // set values without validating
-            tc.setTimecode(rawValues: tcc)
+            let tc = Timecode(.components(tcc), using: tcProps, by: .allowingInvalid)
             
             return (
                 showsValidation
                     ? tc.stringValueValidated(
                         invalidAttributes: validationAttributes,
-                        withDefaultAttributes: attrs
+                        defaultAttributes: attrs
                     )
                     : NSAttributedString(string: stringForObj, attributes: attrs)
             )
@@ -187,9 +185,9 @@ extension Timecode {
             errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?
         ) -> Bool {
             guard let unwrappedFrameRate = frameRate,
-                  let unwrappedUpperLimit = upperLimit,
-                  // let unwrappedSubFramesBase = subFramesBase,
-                  let unwrappedStringFormat = stringFormat else { return true }
+                  let unwrappedUpperLimit = upperLimit
+            // let unwrappedSubFramesBase = subFramesBase,
+            else { return true }
             
             let partialString = partialStringPtr.pointee as String
             
@@ -261,7 +259,7 @@ extension Timecode {
                 }
                 
                 if char == " " {
-                    if unwrappedUpperLimit == ._24hours
+                    if unwrappedUpperLimit == .max24Hours
                     { return false }
                     
                     if !(
@@ -291,7 +289,7 @@ extension Timecode {
                 if char == ".", periodCount > 1
                 { return false }
                 
-                if char == ".", !unwrappedStringFormat.showSubFrames
+                if char == ".", !stringFormat.showSubFrames
                 { return false }
                 
                 // number validation (?)
@@ -329,20 +327,18 @@ extension Timecode {
 // MARK: timecodeTemplate
 
 extension Timecode.TextFormatter {
-    public var timecodeTemplate: Timecode? {
+    public var timecodeProperties: Timecode.Properties? {
         guard let unwrappedFrameRate = frameRate,
               let unwrappedUpperLimit = upperLimit,
-              let unwrappedSubFramesBase = subFramesBase,
-              let unwrappedStringFormat = stringFormat
+              let unwrappedSubFramesBase = subFramesBase
         else {
             return nil
         }
         
-        return Timecode(
-            at: unwrappedFrameRate,
-            limit: unwrappedUpperLimit,
+        return Timecode.Properties(
+            rate: unwrappedFrameRate,
             base: unwrappedSubFramesBase,
-            format: unwrappedStringFormat
+            limit: unwrappedUpperLimit
         )
     }
 }

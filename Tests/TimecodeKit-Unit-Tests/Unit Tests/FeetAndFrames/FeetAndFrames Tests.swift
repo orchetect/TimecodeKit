@@ -1,17 +1,65 @@
 //
 //  FeetAndFrames Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2022 Steffan Andrews • Licensed under MIT License
+//  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
 #if shouldTestCurrentPlatform
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 class FeetAndFrames_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
+    
+    func testInitString() throws {
+        // expected formatting
+        
+        XCTAssertEqual(try FeetAndFrames("0+00").stringValue, "0+00")
+        XCTAssertEqual(try FeetAndFrames("0+01").stringValue, "0+01")
+        XCTAssertEqual(try FeetAndFrames("1+00").stringValue, "1+00")
+        XCTAssertEqual(try FeetAndFrames("10+00").stringValue, "10+00")
+        XCTAssertEqual(try FeetAndFrames("100+14").stringValue, "100+14")
+        XCTAssertEqual(try FeetAndFrames("100+150").stringValue, "100+150")
+        
+        XCTAssertEqual(try FeetAndFrames("0+00.00").stringValueVerbose, "0+00.00")
+        XCTAssertEqual(try FeetAndFrames("0+01.00").stringValueVerbose, "0+01.00")
+        XCTAssertEqual(try FeetAndFrames("1+00.00").stringValueVerbose, "1+00.00")
+        XCTAssertEqual(try FeetAndFrames("10+00.00").stringValueVerbose, "10+00.00")
+        XCTAssertEqual(try FeetAndFrames("100+14.00").stringValueVerbose, "100+14.00")
+        XCTAssertEqual(try FeetAndFrames("0+00.01").stringValueVerbose, "0+00.01")
+        XCTAssertEqual(try FeetAndFrames("0+01.01").stringValueVerbose, "0+01.01")
+        XCTAssertEqual(try FeetAndFrames("1+00.01").stringValueVerbose, "1+00.01")
+        XCTAssertEqual(try FeetAndFrames("10+00.24").stringValueVerbose, "10+00.24")
+        XCTAssertEqual(try FeetAndFrames("100+14.150").stringValueVerbose, "100+14.150")
+        
+        // loose formatting
+        
+        XCTAssertEqual(try FeetAndFrames("1+2").stringValue, "1+02")
+        XCTAssertEqual(try FeetAndFrames("01+2").stringValue, "1+02")
+        XCTAssertEqual(try FeetAndFrames("1+02").stringValue, "1+02")
+        XCTAssertEqual(try FeetAndFrames("01+02").stringValue, "1+02")
+        XCTAssertEqual(try FeetAndFrames("001+002").stringValue, "1+02")
+        
+        // edge cases
+        
+        XCTAssertThrowsError(try FeetAndFrames("+"))
+        XCTAssertThrowsError(try FeetAndFrames("0+"))
+        XCTAssertThrowsError(try FeetAndFrames("+0"))
+        XCTAssertThrowsError(try FeetAndFrames("0++0"))
+        XCTAssertThrowsError(try FeetAndFrames("0++00"))
+        XCTAssertThrowsError(try FeetAndFrames("0+00."))
+        XCTAssertThrowsError(try FeetAndFrames("0+."))
+        XCTAssertThrowsError(try FeetAndFrames("0+.0"))
+        XCTAssertThrowsError(try FeetAndFrames("+.0"))
+        XCTAssertThrowsError(try FeetAndFrames("Z+ZZ"))
+        XCTAssertThrowsError(try FeetAndFrames("Z+ZZ.ZZ"))
+        XCTAssertThrowsError(try FeetAndFrames("1+ZZ"))
+        XCTAssertThrowsError(try FeetAndFrames("Z+02"))
+        XCTAssertThrowsError(try FeetAndFrames("1+ZZ.ZZ"))
+        XCTAssertThrowsError(try FeetAndFrames("Z+02.ZZ"))
+    }
     
     func testStringValue() {
         XCTAssertEqual(FeetAndFrames(feet: 0, frames: 0).stringValue, "0+00")
@@ -42,7 +90,7 @@ class FeetAndFrames_Tests: XCTestCase {
     
     func testFrameCount() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let tc10Hours = try TCC(h: 10).toTimecode(at: frate)
+            let tc10Hours = try Timecode(.components(h: 10), at: frate)
             let ff = tc10Hours.feetAndFramesValue
             XCTAssertEqual(ff.frameCount, tc10Hours.frameCount)
         }
