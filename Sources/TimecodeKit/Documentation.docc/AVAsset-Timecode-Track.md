@@ -2,16 +2,30 @@
 
 Manipulating timecode track(s) for movie assets in AVFoundation.
 
+TimecodeKit provides a full suite of methods to read and write timecode track(s) in a QuickTime movie file when working with AVFoundation.
+
 ## Read Timecode from QuickTime Movie
 
-Simple methods to read start timecode and duration from `AVAsset` and its subclasses (`AVMovie`) as well as `AVAssetTrack` are provided by TimecodeKit. The methods are throwing since timecode information is not guaranteed to be present inside movie files.
+Simple methods to read start timecode and duration from `AVAsset` and its subclasses (`AVMovie`) as well as `AVAssetTrack` are provided by TimecodeKit.
+The methods are throwing since timecode information is not guaranteed to be present inside movie files.
 
 ```swift
 let asset = AVAsset( ... )
+```
 
-// auto-detect frame rate if it's embedded in the file
+Auto-detect the movie's frame rate (if it's embedded in the file) and return it if desired.
+If frame rate information is not available in the video file, this method will throw an error.
+
+```swift
 let frameRate = try asset.timecodeFrameRate() // ie: ._29_97
+```
 
+Read the start timecode, duration expressed as elapsed timecode, and end timecode.
+
+If a known frame rate is not passed to the methods, the frame rate will be auto-detected.
+If frame rate information is not available in the video file, these methods will throw an error.
+
+```swift
 // read start timecode, auto-detecting frame rate
 let startTimecode = try asset.startTimecode()
 // read start timecode, forcing a known frame rate
@@ -65,7 +79,10 @@ export.exportAsynchronously {
 
 > Warning:
 >
-> As of iOS 17, Apple appears to have introduced a regression when using `AVAssetExportSession` to save a QuickTime movie file when using a physical iOS device (simulator works fine). A radar has been filed with Apple (FB12986599). This is not an issue with TimecodeKit itself. However, until Apple fixes this bug it will affect saving a movie file after performing timecode track modifications. See [this thread](https://github.com/orchetect/TimecodeKit/discussions/63) for details.
+> As of iOS 17, Apple appears to have introduced a regression when using `AVAssetExportSession` to save a QuickTime movie file when using a physical iOS device (simulator works fine).
+> A radar has been filed with Apple (FB12986599). This is not an issue with TimecodeKit itself.
+> However, until Apple fixes this bug it will affect saving a movie file after performing timecode track modifications.
+> See [this thread](https://github.com/orchetect/TimecodeKit/discussions/63) for details.
 
 ## Topics
 
