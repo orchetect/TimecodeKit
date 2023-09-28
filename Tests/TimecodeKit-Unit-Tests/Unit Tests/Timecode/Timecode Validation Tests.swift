@@ -92,7 +92,7 @@ class Timecode_Validation_Tests: XCTestCase {
         for base in Timecode.SubFramesBase.allCases {
             let tc = Timecode(.zero, at: fr, base: base, limit: limit)
             
-            let range = {
+            let range: ClosedRange<Int> = {
                 switch base {
                 case .quarterFrames: return 0 ... 3
                 case .max80SubFrames: return 0 ... 79
