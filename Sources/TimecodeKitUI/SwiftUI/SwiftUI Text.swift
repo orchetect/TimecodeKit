@@ -11,21 +11,19 @@ import SwiftUI
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, formatting invalid values differently.
+    /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, formatting invalid values .
     ///
-    /// `invalidModifiers` are the view modifiers applied to invalid values.
-    /// If `invalidModifiers` are not passed, the default of red foreground color is used.
+    /// This method will produce a SwiftUI `Text` view colorizing individual invalid timecode components
+    /// to indicate to the user that they are not valid.
     ///
-    /// This method can produce a SwiftUI `Text` view highlighting individual invalid timecode components with a specified set of modifiers.
-    ///
-    /// The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
+    /// The `Timecode` instance must be initialized using the `.allowingInvalid` validation rule.
     ///
     /// ```swift
     /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     ///     .stringValueValidatedText()
     /// ```
     ///
-    /// You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+    /// You can alternatively supply your own invalid component modifiers by setting the `invalidModifiers` argument.
     ///
     /// ```swift
     /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
@@ -37,6 +35,12 @@ extension Timecode {
     ///         }
     ///     )
     /// ```
+    ///
+    /// - Parameters:
+    ///   - format: Raw string format options.
+    ///   - invalidModifiers: View modifiers to apply to invalid timecode components. Defaults to `.red` foreground color.
+    ///   - defaultModifiers: Default view modifiers to apply to valid timecode components.
+    /// - Returns: SwiftUI `Text` view.
     public func stringValueValidatedText(
         format: StringFormat = .default(),
         invalidModifiers: ((Text) -> Text)? = nil,

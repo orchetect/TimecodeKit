@@ -11,5 +11,5 @@ It imports TimecodeKit as a dependency and uses ``Timecode`` and ``TimecodeFrame
 
 ## References
 
-- [MIDI Timecode Specification on midi.org](https://www.midi.org) (requires a free account to access)
+- [MIDI Timecode Specification on midi.org](https://www.midi.org/specifications/midi1-specifications/midi-time-code) (requires a free account to access)
 - [MIDI Timecode](https://en.wikipedia.org/wiki/MIDI_timecode) on Wikipedia
