@@ -11,7 +11,7 @@ import SwiftUI
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Timecode {
-    /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, formatting invalid values .
+    /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, colorizing invalid values.
     ///
     /// This method will produce a SwiftUI `Text` view colorizing individual invalid timecode components
     /// to indicate to the user that they are not valid.
