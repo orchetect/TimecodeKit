@@ -4,7 +4,7 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-/// Value type representing SMPTE timecode.
+/// Value type representing SMPTE/EBU timecode.
 ///
 /// - A variety of initializers and methods are available for string and numeric representation,
 ///   validation, and conversion

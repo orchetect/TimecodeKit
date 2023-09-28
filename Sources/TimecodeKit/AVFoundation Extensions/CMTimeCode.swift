@@ -79,7 +79,7 @@ struct CMTimeCode32: CMTimeCode, Equatable, Hashable {
 /// > frame number that is typically converted to and from SMPTE timecodes representing hours,
 /// > minutes, seconds, and frames, according to information carried in the format description.
 /// >
-/// > Converting to and from the frame number stored as media sample data and a CVSMPTETime
+/// > Converting to and from the frame number stored as media sample data and a `CVSMPTETime`
 /// > structure is performed using simple modular arithmetic with the expected adjustments for drop
 /// > frame timecode performed using information in the format description such as the frame quanta
 /// > and the drop frame flag.

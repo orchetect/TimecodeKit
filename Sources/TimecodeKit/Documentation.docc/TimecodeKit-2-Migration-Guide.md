@@ -4,7 +4,7 @@ API changes from TimecodeKit version 1 to version 2.
 
 This guide is designed to assist in migrating projects currently using TimecodeKit 1.x to version 2.x. While not exhaustive, this guide covers the major API and workflow changes. 
 
-## Timecode Time Value Types
+## Time Value Types
 
 In order to simplify initialization API and make time value types more easily discoverable, time values are now passed in as static wrappers to Timecode inits.
 
@@ -21,24 +21,24 @@ Timecode(.string("01:00:00:00"), at: .fps24)
 
 Full list of corresponding time value enum cases:
 
-| 1.x API                                                      | 2.x API                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `Timecode(TCC(), at: ._24)`                                  | `Timecode(.zero, at: .fps24)`                                  |
-| `Timecode(TCC(h: 1, m: 0, s: 0, f: 0), at: ._24)`            | `Timecode(.components(h: 1, m: 0, s: 0, f: 0), at: .fps24)`    |
-| `Timecode(.frames(1234), at: ._24)`                          | `Timecode(.frames(1234), at: .fps24)`                          |
-| `Timecode(.combined(frames: 123.5), at: ._24)`               | `Timecode(.frames(123.5), at: .fps24)`                         |
-| `Timecode(.split(frames: 123, subFrames: 50), at: ._24)`     | `Timecode(.frames(123, subFrames: 50), at: .fps24)`            |
+| 1.x API                                                   | 2.x API                                                      |
+| --------------------------------------------------------- | ------------------------------------------------------------ |
+| `Timecode(TCC(), at: ._24)`                               | `Timecode(.zero, at: .fps24)`                                |
+| `Timecode(TCC(h: 1, m: 0, s: 0, f: 0), at: ._24)`         | `Timecode(.components(h: 1, m: 0, s: 0, f: 0), at: .fps24)`  |
+| `Timecode(.frames(1234), at: ._24)`                       | `Timecode(.frames(1234), at: .fps24)`                        |
+| `Timecode(.combined(frames: 123.5), at: ._24)`            | `Timecode(.frames(123.5), at: .fps24)`                       |
+| `Timecode(.split(frames: 123, subFrames: 50), at: ._24)`  | `Timecode(.frames(123, subFrames: 50), at: .fps24)`          |
 | `Timecode(.splitUnitInterval(frames: 123, subFramesUnitInterval: 0.5), at: ._24)` | `Timecode(.frames(123, subFramesUnitInterval: 0.5), at: .fps24)` |
-| `Timecode("01:00:00:00", at: ._24)`                          | `Timecode(.string("01:00:00:00"), at: .fps24)`                 |
-| `Timecode(realTime: 123.0, at: ._24)`                        | `Timecode(.realTime(seconds: 123.0), at: .fps24)`              |
-| `Timecode(samples: 123.0, sampleRate: 48000, at: ._24)`      | `Timecode(.samples(123.0, sampleRate: 48000), at: .fps24)`     |
-| `Timecode(startOf: AVAsset(), at: ._24)`                     | `Timecode(.avAsset(AVAsset(), .start), at: .fps24)`            |
-| `Timecode(durationOf: AVAsset(), at: ._24)`                  | `Timecode(.avAsset(AVAsset(), .duration), at: .fps24)`         |
-| `Timecode(endOf: AVAsset(), at: ._24)`                       | `Timecode(.avAsset(AVAsset(), .end), at: .fps24)`              |
-| `Timecode(CMTime(), at: ._24)`                               | `Timecode(.cmTime(CMTime()), at: .fps24)`                      |
-| `Timecode(Fraction(60, 1), at: ._24)`                        | `Timecode(.rational(60, 1), at: .fps24)`                       |
-| `Timecode(FeetAndFrames(feet: 60, frames: 10), at: ._24)`    | `Timecode(.feetAndFrames(feet: 60, frames: 10), at: .fps24)`   |
-| `Timecode(flattening: TimecodeInterval())`                   | `Timecode(.interval(flattening: TimecodeInterval()))`        |
+| `Timecode("01:00:00:00", at: ._24)`                       | `Timecode(.string("01:00:00:00"), at: .fps24)`               |
+| `Timecode(realTime: 123.0, at: ._24)`                     | `Timecode(.realTime(seconds: 123.0), at: .fps24)`            |
+| `Timecode(samples: 123.0, sampleRate: 48000, at: ._24)`   | `Timecode(.samples(123.0, sampleRate: 48000), at: .fps24)`   |
+| `Timecode(startOf: AVAsset(), at: ._24)`                  | `Timecode(.avAsset(AVAsset(), .start), at: .fps24)`          |
+| `Timecode(durationOf: AVAsset(), at: ._24)`               | `Timecode(.avAsset(AVAsset(), .duration), at: .fps24)`       |
+| `Timecode(endOf: AVAsset(), at: ._24)`                    | `Timecode(.avAsset(AVAsset(), .end), at: .fps24)`            |
+| `Timecode(CMTime(), at: ._24)`                            | `Timecode(.cmTime(CMTime()), at: .fps24)`                    |
+| `Timecode(Fraction(60, 1), at: ._24)`                     | `Timecode(.rational(60, 1), at: .fps24)`                     |
+| `Timecode(FeetAndFrames(feet: 60, frames: 10), at: ._24)` | `Timecode(.feetAndFrames(feet: 60, frames: 10), at: .fps24)` |
+| `Timecode(flattening: TimecodeInterval)`                  | `Timecode(.interval(flattening: TimecodeInterval)`           |
 
 ## Timecode Validation
 
@@ -95,7 +95,18 @@ timecode.stringValue(format: [.filenameCompatible])
 
 ## Timecode Properties
 
-Timecode metadata can now be constructed and passed around using a new ``Timecode/Properties-swift.struct`` struct. It contains:
+As in TimecodeKit 1.x, it is still possible to pass properties directly to the initializer as parameters:
+
+```swift
+let timecode = try Timecode(
+    .components(h: 1, m: 0, s: 0, f: 0), 
+    at: .fps24,
+    base: .max80SubFrames,
+    limit: .max24Hours
+)
+```
+
+Timecode metadata can now also be constructed and passed using a new ``Timecode/Properties-swift.struct`` struct. It contains:
 
 - `frameRate`
 - `subFramesBase`
@@ -122,17 +133,6 @@ let newTimecode = Timecode(
 )
 ```
 
-It is still possible to pass properties directly as initializer parameters if desired:
-
-```swift
-let timecode = try Timecode(
-    .components(h: 1, m: 0, s: 0, f: 0), 
-    at: .fps24,
-    base: .max80SubFrames,
-    limit: .max24Hours
-)
-```
-
 ## Set Timecode on an Existing Timecode Instance
 
 Previous `Timecode` `setTimecode()` methods have been refactored to use a more consistent `set()` methods, with overloads similar to the new `Timecode` initializers.
@@ -146,7 +146,7 @@ try timecode.set(.realTime(seconds: 123.0))
 timecode.set(.frames(1234), by: .wrapping)
 ```
 
-For value type reference, see the [Timecode Time Value Types](#Timecode-Time-Value-Types) section above.
+For value type reference, see the [Time Value Types](#Time-Value-Types) section above.
 
 For timecode validation rules reference, see the [Timecode Validation](#Timecode-Validation) section above.
 
