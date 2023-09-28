@@ -60,11 +60,10 @@ public struct TimecodeInterval: Equatable, Hashable {
             
         case .minus:
             return Timecode(
-                .components(.zero),
+                .zero,
                 at: absoluteInterval.frameRate,
                 base: absoluteInterval.subFramesBase,
-                limit: absoluteInterval.upperLimit,
-                by: .allowingInvalid
+                limit: absoluteInterval.upperLimit
             )
             .subtracting(absoluteInterval.components, by: .wrapping)
         }
