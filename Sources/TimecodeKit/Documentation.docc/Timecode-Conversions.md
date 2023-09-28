@@ -19,6 +19,8 @@ try Timecode(.components(h: 1), at: ._23_976)
     .frameCount // == 86400
 ```
 
+Useful `.frameCount` properties are also available. See ``Timecode/FrameCount-swift.struct`` for more details.
+
 ```swift
 // frame number → timecode
 try Timecode(.frames(86400), at: ._23_976)
@@ -28,8 +30,7 @@ try Timecode(.frames(86400, subFrames: 25), at: ._23_976)
 try Timecode(.frames(86400.25), at: ._23_976)
 // frame number + subframes unit interval → timecode
 try Timecode(.frames(86400, subFramesUnitInterval: 0.25), at: ._23_976)
-``` 
-Useful `.frameCount` properties are also available. See ``Timecode/FrameCount-swift.struct`` for more details.
+```
 
 ## String
 
