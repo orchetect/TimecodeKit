@@ -64,7 +64,7 @@ If additional properties need to be specified, supply a ``Timecode/Properties`` 
 let properties = Timecode.Properties(
     rate: .fps23_976,
     base: ._100SubFrames,
-    limit: ._100Days
+    limit: .max100Days
 )
 let tc = try Timecode(.string("01:00:00:00"), using: properties)
 ```

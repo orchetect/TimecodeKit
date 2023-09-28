@@ -26,28 +26,28 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(frameRate.maxFrameNumberDisplayable, 29)
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._24Hours),
+            frameRate.maxTotalFrames(in: .max24Hours),
             2_592_000
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFrames(in: ._100Days),
+            frameRate.maxTotalFrames(in: .max100Days),
             2_592_000 * 100
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._24Hours),
+            frameRate.maxTotalFramesExpressible(in: .max24Hours),
             2_592_000 - 1
         )
         
         XCTAssertEqual(
-            frameRate.maxTotalFramesExpressible(in: ._100Days),
+            frameRate.maxTotalFramesExpressible(in: .max100Days),
             (2_592_000 * 100) - 1
         )
         
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._24Hours,
+                in: .max24Hours,
                 base: ._80SubFrames
             ),
             2_592_000 * 80
@@ -57,7 +57,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         #if !(arch(arm) || arch(i386))
         XCTAssertEqual(
             frameRate.maxTotalSubFrames(
-                in: ._100Days,
+                in: .max100Days,
                 base: ._80SubFrames
             ),
             2_592_000 * 100 * 80
@@ -65,7 +65,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._100Days,
+                in: .max100Days,
                 base: ._80SubFrames
             ),
             (2_592_000 * 100 * 80) - 1
@@ -74,7 +74,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(
             frameRate.maxSubFrameCountExpressible(
-                in: ._24Hours,
+                in: .max24Hours,
                 base: ._80SubFrames
             ),
             (2_592_000 * 80) - 1

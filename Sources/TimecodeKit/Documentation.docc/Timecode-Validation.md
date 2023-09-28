@@ -70,7 +70,7 @@ let formatter = Timecode.TextFormatter(
     using: .init(
         rate: .fps23_976,
         base: ._80SubFrames,
-        limit: ._24Hours
+        limit: .max24Hours
     )
     stringFormat: [.showSubFrames],
     showsValidation: true,    // enable invalid component highlighting

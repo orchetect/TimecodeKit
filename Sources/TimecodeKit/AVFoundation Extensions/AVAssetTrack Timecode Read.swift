@@ -22,7 +22,7 @@ extension AVAssetTrack {
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default()
     ) throws -> Timecode {
         guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()
@@ -56,7 +56,7 @@ extension AVAssetTrack {
     @_disfavoredOverload
     func timecodeRange(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default()
     ) throws -> ClosedRange<Timecode> {
         guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()

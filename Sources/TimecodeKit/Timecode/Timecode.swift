@@ -22,7 +22,7 @@ public struct Timecode {
     
     /// Timecode days component.
     ///
-    /// Valid only if ``upperLimit-swift.property`` is set to `._100Days`.
+    /// Valid only if ``upperLimit-swift.property`` is set to `.max100Days`.
     ///
     /// Setting this value directly does not trigger any validation.
     public var days: Int {

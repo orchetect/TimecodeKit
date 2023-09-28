@@ -11,7 +11,7 @@ import XCTest
 
 class Timecode_UpperLimit: XCTestCase {
     func test24Hours() {
-        let upperLimit: Timecode.UpperLimit = ._24Hours
+        let upperLimit: Timecode.UpperLimit = .max24Hours
         
         XCTAssertEqual(upperLimit.maxDays, 1)
         XCTAssertEqual(upperLimit.maxDaysExpressible, 0)
@@ -22,7 +22,7 @@ class Timecode_UpperLimit: XCTestCase {
     }
     
     func test100Days() {
-        let upperLimit: Timecode.UpperLimit = ._100Days
+        let upperLimit: Timecode.UpperLimit = .max100Days
         
         XCTAssertEqual(upperLimit.maxDays, 100)
         XCTAssertEqual(upperLimit.maxDaysExpressible, 99)

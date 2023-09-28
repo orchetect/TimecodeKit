@@ -12,10 +12,10 @@ import Foundation
 
 extension Timecode.UpperLimit {
     @available(*, renamed: "_24Hours")
-    public static let _24hours: Self = ._24Hours
+    public static let _24hours: Self = .max24Hours
     
     @available(*, renamed: "_100Days")
-    public static let _100days: Self = ._100Days
+    public static let _100days: Self = .max100Days
 }
 
 // MARK: - Additional Deprecations
@@ -88,7 +88,7 @@ extension Timecode {
     @available(*, deprecated, message: "Renamed to Timecode(.zero, using:)")
     public init(
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -210,7 +210,7 @@ extension AVAsset {
     public func startTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         format: Timecode.StringFormat
     ) throws -> Timecode? {
         try startTimecode(at: frameRate, base: base, limit: limit)
@@ -221,7 +221,7 @@ extension AVAsset {
     public func endTimecode(
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         format: Timecode.StringFormat
     ) throws -> Timecode? {
         try endTimecode(at: frameRate, base: base, limit: limit)
@@ -231,7 +231,7 @@ extension AVAsset {
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -244,7 +244,7 @@ extension Timecode {
     public init(
         startOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -260,7 +260,7 @@ extension Timecode {
     public init(
         endOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -276,7 +276,7 @@ extension Timecode {
     public init(
         durationOf asset: AVAsset,
         at rate: TimecodeFrameRate? = nil,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -304,7 +304,7 @@ extension AVAssetTrack {
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -322,7 +322,7 @@ extension Timecode {
     public init(
         _ exactly: Components,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -338,7 +338,7 @@ extension Timecode {
     public init(
         clamping rawValues: Components,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -354,7 +354,7 @@ extension Timecode {
     public init(
         clampingEach rawValues: Components,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -370,7 +370,7 @@ extension Timecode {
     public init(
         wrapping rawValues: Components,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -386,7 +386,7 @@ extension Timecode {
     public init(
         rawValues: Components,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -426,7 +426,7 @@ extension Timecode.Components {
     @available(*, deprecated, renamed: "timecode(at:base:limit:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -437,7 +437,7 @@ extension Timecode.Components {
     @available(*, deprecated, message: "Renamed to timecode(at:base:limit: by: .allowingInvalid)")
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) -> Timecode {
@@ -464,7 +464,7 @@ extension Timecode {
     public init(
         _ exactly: FeetAndFrames,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -488,7 +488,7 @@ extension Timecode {
     public init(
         _ exactly: FrameCount.Value,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -504,7 +504,7 @@ extension Timecode {
     public init(
         clamping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -520,7 +520,7 @@ extension Timecode {
     public init(
         wrapping source: FrameCount.Value,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -536,7 +536,7 @@ extension Timecode {
     public init(
         rawValues source: FrameCount.Value,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -575,7 +575,7 @@ extension Timecode {
     public init(
         _ exactly: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         format: StringFormat = .default()
     ) throws {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
@@ -590,7 +590,7 @@ extension Timecode {
     public init(
         clamping source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
@@ -605,7 +605,7 @@ extension Timecode {
     public init(
         wrapping source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
@@ -620,7 +620,7 @@ extension Timecode {
     public init(
         rawValues source: FrameCount,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         format: StringFormat = .default()
     ) {
         let properties = Properties(rate: rate, base: .default(), limit: limit)
@@ -664,7 +664,7 @@ extension Timecode {
     public init(
         _ source: CMTime,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -680,7 +680,7 @@ extension Timecode {
     public init(
         clamping source: CMTime,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -696,7 +696,7 @@ extension Timecode {
     public init(
         wrapping source: CMTime,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -712,7 +712,7 @@ extension Timecode {
     public init(
         rawValues source: CMTime,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -749,7 +749,7 @@ extension CMTime {
     @available(*, deprecated, renamed: "timecode(at:base:limit:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -768,7 +768,7 @@ extension Timecode {
     public init(
         _ exactly: Fraction,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -784,7 +784,7 @@ extension Timecode {
     public init(
         clamping source: Fraction,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -801,7 +801,7 @@ extension Timecode {
     public init(
         wrapping source: Fraction,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -817,7 +817,7 @@ extension Timecode {
     public init(
         rawValues source: Fraction,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -852,7 +852,7 @@ extension Fraction {
     @available(*, deprecated, renamed: "timecode(at:base:limit:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -863,7 +863,7 @@ extension Fraction {
     @available(*, deprecated, renamed: "timecodeInterval(at:base:limit:)")
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> TimecodeInterval {
@@ -879,7 +879,7 @@ extension Timecode {
     public init(
         realTime exactly: TimeInterval,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -895,7 +895,7 @@ extension Timecode {
     public init(
         clampingRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -911,7 +911,7 @@ extension Timecode {
     public init(
         wrappingRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -927,7 +927,7 @@ extension Timecode {
     public init(
         rawValuesRealTime source: TimeInterval,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -962,7 +962,7 @@ extension TimeInterval {
     @available(*, deprecated, renamed: "timecode(at:base:limit:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -985,7 +985,7 @@ extension Timecode {
         samples exactly: Int,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1002,7 +1002,7 @@ extension Timecode {
         clampingSamples source: Int,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1019,7 +1019,7 @@ extension Timecode {
         wrappingSamples source: Int,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1036,7 +1036,7 @@ extension Timecode {
         rawValuesSamples source: Int,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1055,7 +1055,7 @@ extension Timecode {
         samples exactly: Double,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1072,7 +1072,7 @@ extension Timecode {
         clampingSamples source: Double,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1089,7 +1089,7 @@ extension Timecode {
         wrappingSamples source: Double,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1106,7 +1106,7 @@ extension Timecode {
         rawValuesSamples source: Double,
         sampleRate: Int,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) {
@@ -1177,7 +1177,7 @@ extension Timecode {
     public init(
         _ exactlyTimecodeString: String,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1193,7 +1193,7 @@ extension Timecode {
     public init(
         clamping timecodeString: String,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1209,7 +1209,7 @@ extension Timecode {
     public init(
         clampingEach timecodeString: String,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1225,7 +1225,7 @@ extension Timecode {
     public init(
         wrapping timecodeString: String,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1241,7 +1241,7 @@ extension Timecode {
     public init(
         rawValues timecodeString: String,
         at rate: TimecodeFrameRate,
-        limit: UpperLimit = ._24Hours,
+        limit: UpperLimit = .max24Hours,
         base: SubFramesBase = .default(),
         format: StringFormat = .default()
     ) throws {
@@ -1291,7 +1291,7 @@ extension String {
     @available(*, deprecated, renamed: "timecode(at:base:limit:)")
     public func toTimecode(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -1306,7 +1306,7 @@ extension String {
     )
     public func toTimecode(
         rawValuesAt rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> Timecode {
@@ -1349,7 +1349,7 @@ extension TimecodeInterval {
     public init(
         _ cmTime: CMTime,
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws {
@@ -1363,7 +1363,7 @@ extension CMTime {
     @available(*, deprecated, renamed: "timecodeInterval(at:base:limit:)")
     public func toTimecodeInterval(
         at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = ._24Hours,
+        limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default(),
         format: Timecode.StringFormat = .default()
     ) throws -> TimecodeInterval {

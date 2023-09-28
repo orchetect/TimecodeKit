@@ -24,56 +24,56 @@ class Timecode_Rounding_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            try Timecode(.components(sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(sf: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(f: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(f: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(s: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(s: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(m: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(m: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(h: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(h: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .days)
                 .components,
             Timecode.Components(d: 2)
@@ -125,7 +125,7 @@ class Timecode_Rounding_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedUp(toNearest: .hours)
                 .components,
             Timecode.Components(d: 1, h: 1)
@@ -354,63 +354,63 @@ class Timecode_Rounding_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            try Timecode(.components(sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(sf: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(f: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(f: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(s: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(s: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(m: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(m: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(h: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(h: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(h: 1, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 0)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(d: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(d: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
         )
         
         XCTAssertEqual(
-            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .days)
                 .components,
             Timecode.Components(d: 1)
@@ -461,7 +461,7 @@ class Timecode_Rounding_Tests: XCTestCase {
         )
         
         XCTAssertEqual(
-            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: ._100Days)
+            try Timecode(.components(d: 1, h: 0, m: 1, s: 1, f: 1, sf: 1), at: .fps24, limit: .max100Days)
                 .roundedDown(toNearest: .hours)
                 .components,
             Timecode.Components(d: 1, h: 0)

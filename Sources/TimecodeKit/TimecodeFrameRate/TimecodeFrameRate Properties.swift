@@ -254,7 +254,7 @@ extension TimecodeFrameRate {
     /// Returns max total frames from 0 to and including rolling over to `extent`.
     public func maxTotalFrames(in extent: Timecode.UpperLimit) -> Int {
         switch extent {
-        case ._24Hours:
+        case .max24Hours:
             switch self {
             case .fps23_976:      return 2_073_600  // @ 24hours
             case .fps24:          return 2_073_600  // @ 24hours
@@ -280,8 +280,8 @@ extension TimecodeFrameRate {
             case .fps120d:    return 10_357_632 // @ 24hours
             }
             
-        case ._100Days:
-            return maxTotalFrames(in: ._24Hours) * extent.maxDays
+        case .max100Days:
+            return maxTotalFrames(in: .max24Hours) * extent.maxDays
         }
     }
     

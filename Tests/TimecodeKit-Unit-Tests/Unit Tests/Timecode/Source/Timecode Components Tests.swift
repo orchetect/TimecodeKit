@@ -108,7 +108,7 @@ class Timecode_Components_Tests: XCTestCase {
     func testTimecode_components_100Days() {
         // default
         
-        var tc = Timecode(.zero, at: .fps30, limit: ._100Days)
+        var tc = Timecode(.zero, at: .fps30, limit: .max100Days)
         
         XCTAssertEqual(tc.components, Timecode.Components.zero)
         

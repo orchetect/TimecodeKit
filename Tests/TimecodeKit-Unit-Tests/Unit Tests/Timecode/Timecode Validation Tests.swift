@@ -17,7 +17,7 @@ class Timecode_Validation_Tests: XCTestCase {
         // typical valid values
         
         let fr = TimecodeFrameRate.fps24
-        let limit = Timecode.UpperLimit._24Hours
+        let limit = Timecode.UpperLimit.max24Hours
         
         let tc = Timecode(.zero, at: fr, base: ._80SubFrames, limit: limit)
         
@@ -39,7 +39,7 @@ class Timecode_Validation_Tests: XCTestCase {
         // invalid - over ranges
         
         let fr = TimecodeFrameRate.fps24
-        let limit = Timecode.UpperLimit._24Hours
+        let limit = Timecode.UpperLimit.max24Hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
         tc.days = 5
@@ -63,7 +63,7 @@ class Timecode_Validation_Tests: XCTestCase {
         // invalid - under ranges
         
         let fr = TimecodeFrameRate.fps24
-        let limit = Timecode.UpperLimit._24Hours
+        let limit = Timecode.UpperLimit.max24Hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
         tc.days = -1
@@ -87,7 +87,7 @@ class Timecode_Validation_Tests: XCTestCase {
         // test each subframes base range
         
         let fr = TimecodeFrameRate.fps24
-        let limit = Timecode.UpperLimit._24Hours
+        let limit = Timecode.UpperLimit.max24Hours
         
         for base in Timecode.SubFramesBase.allCases {
             let tc = Timecode(.zero, at: fr, base: base, limit: limit)
@@ -108,7 +108,7 @@ class Timecode_Validation_Tests: XCTestCase {
         // perform a spot-check to ensure drop rate timecode validation works as expected
         
         TimecodeFrameRate.allDrop.forEach {
-            let limit = Timecode.UpperLimit._24Hours
+            let limit = Timecode.UpperLimit.max24Hours
             
             // every 10 minutes, no frames are skipped
             
@@ -184,7 +184,7 @@ class Timecode_Validation_Tests: XCTestCase {
             .components(comps),
             at: .fps29_97d,
             base: ._80SubFrames,
-            limit: ._24Hours
+            limit: .max24Hours
         )
         
         XCTAssertEqual(tc.components, comps)
@@ -198,7 +198,7 @@ class Timecode_Validation_Tests: XCTestCase {
             .zero,
             at: .fps24,
             base: subFramesBase,
-            limit: ._24Hours
+            limit: .max24Hours
         )
         
         XCTAssertEqual(tc.validRange(of: .subFrames), 0 ... (subFramesBase.rawValue - 1))

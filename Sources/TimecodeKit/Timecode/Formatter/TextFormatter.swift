@@ -259,7 +259,7 @@ extension Timecode {
                 }
                 
                 if char == " " {
-                    if unwrappedUpperLimit == ._24Hours
+                    if unwrappedUpperLimit == .max24Hours
                     { return false }
                     
                     if !(

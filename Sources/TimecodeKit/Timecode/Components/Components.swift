@@ -38,7 +38,7 @@ extension Timecode {
     ///
     /// Although not covered by SMPTE spec, some DAWs (digital audio workstation) such as Cubase support the use of the Days timecode component for timelines longer than (or outside of) 24 hours.
     ///
-    /// By default, ``Timecode`` is constructed with an ``Timecode/upperLimit`` of 24-hour maximum expression (`._24Hours`) which suppresses the ability to use Days. To enable Days, set the limit to `._100Days`.
+    /// By default, ``Timecode`` is constructed with an ``Timecode/upperLimit`` of 24-hour maximum expression (`.max24Hours`) which suppresses the ability to use Days. To enable Days, set the limit to `.max100Days`.
     ///
     /// The limit setting naturally affects internal timecode validation routines, as well as clamping and wrapping.
     ///
@@ -95,7 +95,7 @@ extension Timecode {
         
         /// Timecode days component.
         ///
-        /// Valid only if ``Timecode/upperLimit-swift.property`` is set to `._100Days`.
+        /// Valid only if ``Timecode/upperLimit-swift.property`` is set to `.max100Days`.
         ///
         /// Setting this value directly does not trigger any validation.
         public var days: Int

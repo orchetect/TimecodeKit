@@ -107,7 +107,7 @@ Timecode metadata can now be constructed and passed around using a new ``Timecod
 let properties = Timecode.Properties(
     rate: .fps24,
     base: ._80SubFrames,
-    limit: ._100Days
+    limit: .max24Hours
 )
 let timecode = Timecode(
     .components(h: 1, m: 0, s: 0, f: 0),
@@ -129,7 +129,7 @@ let timecode = try Timecode(
     .components(h: 1, m: 0, s: 0, f: 0), 
     at: .fps24,
     base: ._80SubFrames,
-    limit: ._100Days
+    limit: .max24Hours
 )
 ```
 
@@ -168,5 +168,5 @@ try "01:00:00:00".timecode(at: .fps24)
 Some enum cases have been renamed to conform to lowerCamelCase.
 
 - ``TimecodeFrameRate`` cases have been renamed. (ie: `._24` is now `.fps24`)
-- ``Timecode/UpperLimit-swift.enum`` cases have been renamed.
+- ``Timecode/UpperLimit-swift.enum`` cases have been renamed. (ie: `._24hours` is now `.max24Hours`)
 - ``TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed.

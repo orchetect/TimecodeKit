@@ -65,7 +65,7 @@ extension Timecode {
         public init(
             rate: TimecodeFrameRate,
             base: SubFramesBase = .default(),
-            limit: UpperLimit = ._24Hours
+            limit: UpperLimit = .max24Hours
         ) {
             frameRate = rate
             subFramesBase = base

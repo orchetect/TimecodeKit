@@ -19,7 +19,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
             let tc = try Timecode(
                 .cmTime(CMTime(value: 10, timescale: 1)),
                 at: $0,
-                limit: ._24Hours
+                limit: .max24Hours
             )
             
             // don't imperatively check each result, just make sure that a value was set;
@@ -120,7 +120,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         let tc = Timecode(
             .cmTime(CMTime(value: 86400 + 3600, timescale: 1)), // 25 hours @ 24fps
             at: .fps24,
-            limit: ._24Hours,
+            limit: .max24Hours,
             by: .clamping
         )
         
@@ -134,7 +134,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         let tc = Timecode(
             .cmTime(CMTime(value: 86400 + 3600, timescale: 1)), // 25 hours @ 24fps
             at: .fps24,
-            limit: ._24Hours,
+            limit: .max24Hours,
             by: .wrapping
         )
         
@@ -150,7 +150,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         let tc = Timecode(
             .cmTime(CMTime(value: (86400 * 2) + 3600, timescale: 1)), // 2 days + 1 hour @ 24fps
             at: .fps24,
-            limit: ._24Hours,
+            limit: .max24Hours,
             by: .allowingInvalid
         )
         

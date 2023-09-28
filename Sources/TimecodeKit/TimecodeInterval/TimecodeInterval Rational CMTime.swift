@@ -19,7 +19,7 @@ extension TimecodeInterval {
         _ cmTime: CMTime,
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24Hours
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws {
         let fraction = Fraction(cmTime)
         try self.init(fraction, at: frameRate, base: base, limit: limit)
@@ -53,7 +53,7 @@ extension CMTime {
     public func timecodeInterval(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = ._24Hours
+        limit: Timecode.UpperLimit = .max24Hours
     ) throws -> TimecodeInterval {
         try TimecodeInterval(self, at: frameRate, base: base, limit: limit)
     }

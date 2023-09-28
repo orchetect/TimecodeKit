@@ -22,7 +22,7 @@ class Timecode_init_Tests: XCTestCase {
         
         let tc = Timecode(.zero, at: .fps24)
         XCTAssertEqual(tc.frameRate, .fps24)
-        XCTAssertEqual(tc.upperLimit, ._24Hours)
+        XCTAssertEqual(tc.upperLimit, .max24Hours)
         XCTAssertEqual(tc.frameCount.subFrameCount, 0)
         XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0))
         XCTAssertEqual(tc.stringValue(), "00:00:00:00")
@@ -36,7 +36,7 @@ class Timecode_init_Tests: XCTestCase {
                 .string("00:00:00:00"),
                 at: $0,
                 base: ._100SubFrames,
-                limit: ._24Hours
+                limit: .max24Hours
             )
             
             var frm: String

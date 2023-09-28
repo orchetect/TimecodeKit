@@ -92,7 +92,7 @@ extension Timecode {
                 .components(d: 1),
                 at: frameRate,
                 base: subFramesBase,
-                limit: ._100Days,
+                limit: .max100Days,
                 by: .allowingInvalid
             )
             .frameCount.decimalValue
@@ -103,7 +103,7 @@ extension Timecode {
                 .components(d: 1),
                 at: other.frameRate,
                 base: other.subFramesBase,
-                limit: ._100Days,
+                limit: .max100Days,
                 by: .allowingInvalid
             )
             .frameCount.decimalValue
