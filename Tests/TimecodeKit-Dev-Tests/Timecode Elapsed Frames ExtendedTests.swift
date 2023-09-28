@@ -128,7 +128,7 @@ import XCTest
 //
 //    func testDummy2() throws {
 //        let tc = try Timecode(.frames(2_589_408),
-//                              at: ._30_drop,
+//                              at: .fps30d,
 //                              limit: .max100Days)
 //        print(tc)
 //        print(tc.realTimeValue)

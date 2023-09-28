@@ -70,13 +70,16 @@ public struct Timecode {
         set { components.frames = newValue }
     }
     
-    /// Timecode subframes component. Represents a partial division of a frame.
+    /// Timecode subframes component.
+    /// Represents a subdivision of the current frame.
     ///
     /// Some implementations refer to these as SMPTE frame "bits".
     ///
-    /// There are no set industry standards regarding subframe divisors.
-    /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79)
-    /// - Pro Tools uses 100 subframes (0 ... 99)
+    /// Industry standards vary regarding subframe divisors depending on manufacturers and formats,
+    /// and not all manufacturers support the usage of subframes.
+    /// - DAWs such as Cubase, Nuendo, Logic Pro, and Final Cut Pro use 80 subframes per frame (0 ... 79).
+    /// - DAWs such as Pro Tools use 100 subframes per frame (0 ... 99).
+    /// - MIDI Timecode (MTC) uses 4 subframes per frame, also known as quarter-frames (0 ... 3).
     public var subFrames: Int {
         get { components.subFrames }
         set { components.subFrames = newValue }

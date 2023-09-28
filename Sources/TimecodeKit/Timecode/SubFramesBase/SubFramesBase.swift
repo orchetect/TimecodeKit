@@ -7,16 +7,28 @@
 import Foundation
 
 extension Timecode {
-    /// Represents the base (denominator) a partial division of a frame.
+    /// Represents the base (denominator) used when dealing with subframes.
+    /// This defines how many equal parts a single frame may be divided up into.
     ///
     /// Some implementations refer to these as SMPTE frame "bits".
     ///
-    /// There are no set industry standards regarding subframe divisors.
-    /// - Cubase/Nuendo, Logic Pro/Final Cut Pro use 80 subframes per frame (0 ... 79)
-    /// - Pro Tools uses 100 subframes (0 ... 99)
+    /// Industry standards vary regarding subframe divisors depending on manufacturers and formats,
+    /// and not all manufacturers support the usage of subframes.
+    /// See documentation for individual cases for more details.
+    ///
+    /// Subframes base may be defined independently of frame rate, insomuch as it simply
+    /// defines the number of equal subdivisions of a frame at the current frame rate.
     public enum SubFramesBase: Int, CaseIterable {
+        /// 80 subframes per frame (0 ... 79).
+        /// DAWs such as Cubase, Nuendo, Logic Pro, and Final Cut Pro use this standard.
         case max80SubFrames = 80
+        
+        /// 100 subframes per frame (0 ... 99).
+        /// DAWs such as Pro Tools use this standard.
         case max100SubFrames = 100
+        
+        /// 4 subframes per frame (0 ... 3).
+        /// Typically used in a MIDI Timecode (MTC) context.
         case quarterFrames = 4
     }
 }

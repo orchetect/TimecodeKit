@@ -165,7 +165,7 @@ try "01:00:00:00".timecode(at: .fps24)
 
 ## Enum Case Respellings
 
-Some enum cases have been renamed to conform to lowerCamelCase.
+Some enum cases have been renamed to conform to lowerCamelCase and replace underscore prefixes.
 
 - ``TimecodeFrameRate`` cases have been renamed.
   - `._24` is now `.fps24` and so on
