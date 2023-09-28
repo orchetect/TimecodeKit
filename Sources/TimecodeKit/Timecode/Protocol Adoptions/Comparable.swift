@@ -236,8 +236,7 @@ extension Collection where Element == Timecode {
 
 extension MutableCollection
     where Element == Timecode,
-    Self: RandomAccessCollection,
-    Element: Comparable
+    Self: RandomAccessCollection
 {
     /// Sorts the collection in place by sorting all ``Timecode`` instances chronologically, either
     /// ascending or descending.
