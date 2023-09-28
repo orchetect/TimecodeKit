@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class VideoFrameRate_Conversions_Tests: XCTestCase {
@@ -411,8 +411,7 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
         try VideoFrameRate.allCases.forEach {
             let cmTimeSeconds = $0.frameDurationCMTime.seconds
             
-            let oneFrameDuration = try Timecode.Components(f: 1)
-                .timecode(at: $0.timecodeFrameRate(drop: false)!)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: $0.timecodeFrameRate(drop: false)!)
                 .realTimeValue
             
             XCTAssertEqual(

@@ -423,28 +423,6 @@ extension Timecode {
 }
 
 extension Timecode.Components {
-    @available(*, deprecated, renamed: "timecode(at:base:limit:)")
-    public func toTimecode(
-        at rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = .max24Hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
-    ) throws -> Timecode {
-        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return try timecode(using: properties)
-    }
-    
-    @available(*, deprecated, message: "Renamed to timecode(at:base:limit: by: .allowingInvalid)")
-    public func toTimecode(
-        rawValuesAt rate: TimecodeFrameRate,
-        limit: Timecode.UpperLimit = .max24Hours,
-        base: Timecode.SubFramesBase = .default(),
-        format: Timecode.StringFormat = .default()
-    ) -> Timecode {
-        let properties = Timecode.Properties(rate: rate, base: base, limit: limit)
-        return timecode(using: properties, by: .allowingInvalid)
-    }
-    
     @available(*, deprecated, renamed: "invalidComponents(at:base:limit:)")
     public func invalidComponents(
         at rate: TimecodeFrameRate,

@@ -17,7 +17,7 @@ struct AVAssetTimecodeSource {
     var attribute: RangeAttribute
 }
 
-extension AVAssetTimecodeSource: TimecodeSource {
+extension AVAssetTimecodeSource: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         let rate: TimecodeFrameRate = timecode.frameRate
         let base: Timecode.SubFramesBase = timecode.subFramesBase
@@ -111,7 +111,7 @@ struct AVAssetRichTimecodeSource {
     var attribute: RangeAttribute
 }
 
-extension AVAssetRichTimecodeSource: RichTimecodeSource {
+extension AVAssetRichTimecodeSource: _RichTimecodeSource {
     func set(
         timecode: inout Timecode
     ) throws -> Timecode.Properties {

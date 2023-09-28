@@ -13,7 +13,7 @@ struct SamplesPayload {
 
 // MARK: - TimecodeSource
 
-extension SamplesPayload: TimecodeSource {
+extension SamplesPayload: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(samples: samples, sampleRate: sampleRate)
     }

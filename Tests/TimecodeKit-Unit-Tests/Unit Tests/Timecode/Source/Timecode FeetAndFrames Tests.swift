@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class Timecode_FeetAndFrames_Tests: XCTestCase {
@@ -20,7 +20,7 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     }
     
     func testTimecode_23_976fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(at: .fps23_976).feetAndFramesValue
+        let ff = try Timecode(.components(m: 1), at: .fps23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
@@ -32,15 +32,18 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     }
     
     func testTimecode_24fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(at: .fps24).feetAndFramesValue
+        let ff = try Timecode(.components(m: 1), at: .fps24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_allRates_complex() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4)
-                .timecode(at: frate).feetAndFramesValue
+            let ff = try Timecode(
+                .components(h: 1, m: 2, s: 3, f: 4),
+                at: frate
+            )
+            .feetAndFramesValue
             
             // TimecodeFrameRate.maxTotalFrames is a good reference for groupings
             // which shows frame rates with the same frame counts over time
@@ -90,8 +93,8 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     /// Ensure subFrames are correct when set.
     func testTimecode_allRates_subFrames() throws {
         try TimecodeFrameRate.allCases.forEach { frate in
-            let ff = try Timecode.Components(h: 1, m: 2, s: 3, f: 4, sf: 24)
-                .timecode(at: frate).feetAndFramesValue
+            let ff = try Timecode(.components(h: 1, m: 2, s: 3, f: 4, sf: 24), at: frate)
+                .feetAndFramesValue
             
             XCTAssertEqual(ff.subFrames, 24, "\(frate)")
         }

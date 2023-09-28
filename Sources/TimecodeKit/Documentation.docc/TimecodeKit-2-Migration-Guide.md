@@ -150,9 +150,10 @@ For value type reference, see the [Time Value Types](#Time-Value-Types) section 
 
 For timecode validation rules reference, see the [Timecode Validation](#Timecode-Validation) section above.
 
-## Functional Shorthand
+## Removal Functional Shorthand
 
-The time value category method `toTimecode(...)` has been renamed to `timecode(...)`.
+For technical reasons and to avoid ambiguity for time value types that are common types (such as TimeInterval aka Double),
+the `toTimecode(...)` category methods have been removed.
 
 For example:
 
@@ -160,7 +161,7 @@ For example:
 // 1.x API
 try "01:00:00:00".toTimecode(at: ._24)
 // 2.x API
-try "01:00:00:00".timecode(at: .fps24)
+// (removed)
 ```
 
 ## Enum Case Respellings

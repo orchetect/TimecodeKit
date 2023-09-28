@@ -14,9 +14,7 @@ class Timecode_Tests: XCTestCase {
     override func tearDown() { }
     
     // no tests in this file
-    func testEmpty() throws {
-//        Timecode(
-    }
+    func testEmpty() throws { }
 }
 
 #endif

@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class Timecode_Components_Tests: XCTestCase {
@@ -157,73 +157,6 @@ class Timecode_Components_Tests: XCTestCase {
         tc.set(.components(f: -1), by: .wrapping)
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 00))
-    }
-    
-    // MARK: - .timecode()
-    
-    func testTimecode_Components_toTimecode() throws {
-        // timecode(rawValuesAt:)
-        
-        XCTAssertEqual(
-            try Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(at: .fps23_976),
-            try Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14),
-                at: .fps23_976
-            )
-        )
-        
-        // timecode(rawValuesAt:) with subframes
-        
-        let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(at: .fps23_976, base: .max100SubFrames)
-        XCTAssertEqual(
-            tcWithSubFrames,
-            try Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: .fps23_976,
-                base: .max100SubFrames
-            )
-        )
-        XCTAssertEqual(
-            tcWithSubFrames.stringValue(format: .showSubFrames),
-            "01:05:20:14.94"
-        )
-    }
-    
-    func testTimecode_Components_toTimecode_rawValuesAt() throws {
-        // timecode(rawValuesAt:)
-        
-        XCTAssertEqual(
-            Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(at: .fps23_976, by: .allowingInvalid),
-            Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14),
-                at: .fps23_976,
-                by: .allowingInvalid
-            )
-        )
-        
-        // toTimecode(rawValuesAt:) with subframes
-        
-        let tcWithSubFrames = Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(
-                at: .fps23_976,
-                base: .max100SubFrames,
-                by: .allowingInvalid
-            )
-        XCTAssertEqual(
-            tcWithSubFrames,
-            try Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: .fps23_976,
-                base: .max100SubFrames
-            )
-        )
-        XCTAssertEqual(
-            tcWithSubFrames.stringValue(format: .showSubFrames),
-            "01:05:20:14.94"
-        )
     }
 }
 

@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class Timecode_RealTime_Tests: XCTestCase {
@@ -323,16 +323,14 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         // start
         XCTAssertEqual(
-            try Timecode.Components(h: 00, m: 49, s: 27, f: 15, sf: 00)
-                .timecode(at: .fps23_976)
+            try Timecode(.components(h: 00, m: 49, s: 27, f: 15, sf: 00), at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00
         )
         
         // event1
         XCTAssertEqual(
-            try Timecode.Components(h: 00, m: 49, s: 29, f: 17, sf: 00)
-                .timecode(at: .fps23_976)
+            try Timecode(.components(h: 00, m: 49, s: 29, f: 17, sf: 00), at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_29_17_00_delta,
             accuracy: 0.0000005
@@ -340,8 +338,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         // event2
         XCTAssertEqual(
-            try Timecode.Components(h: 00, m: 49, s: 31, f: 09, sf: 00)
-                .timecode(at: .fps23_976)
+            try Timecode(.components(h: 00, m: 49, s: 31, f: 09, sf: 00), at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_31_09_00_delta,
             accuracy: 0.0000005
@@ -349,8 +346,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         // event3
         XCTAssertEqual(
-            try Timecode.Components(h: 00, m: 49, s: 33, f: 21, sf: 79)
-                .timecode(at: .fps23_976, base: .max80SubFrames)
+            try Timecode(.components(h: 00, m: 49, s: 33, f: 21, sf: 79), at: .fps23_976, base: .max80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_33_21_79_delta,
             accuracy: 0.0000005
@@ -358,71 +354,10 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         // event4
         XCTAssertEqual(
-            try Timecode.Components(h: 00, m: 49, s: 38, f: 01, sf: 79)
-                .timecode(at: .fps23_976, base: .max80SubFrames)
+            try Timecode(.components(h: 00, m: 49, s: 38, f: 01, sf: 79), at: .fps23_976, base: .max80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_38_01_79_delta,
             accuracy: 0.0000005
-        )
-    }
-    
-    // MARK: - .timecode()
-    
-    func testTimecode_Components_timecode() throws {
-        // timecode(rawValuesAt:)
-        
-        XCTAssertEqual(
-            try Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(at: .fps23_976),
-            try Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14),
-                at: .fps23_976
-            )
-        )
-        
-        // timecode(rawValuesAt:) with subframes
-        
-        let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(at: .fps23_976, base: .max100SubFrames)
-        XCTAssertEqual(
-            tcWithSubFrames,
-            try Timecode(
-                .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: .fps23_976,
-                base: .max100SubFrames
-            )
-        )
-        XCTAssertEqual(
-            tcWithSubFrames.stringValue(format: .showSubFrames),
-            "01:05:20:14.94"
-        )
-    }
-    
-    func testTimeInterval_timeCode() throws {
-        // timecode(at:)
-        
-        XCTAssertEqual(
-            try TimeInterval(secInTC10Days_BaseFrameRates)
-                .timecode(at: .fps24, limit: .max100Days)
-                .components,
-            Timecode.Components(d: 10)
-        )
-        
-        // timecode(at:) with subframes
-        
-        let tcWithSubFrames = try TimeInterval(3600.0)
-            .timecode(at: .fps24, limit: .max100Days)
-        XCTAssertEqual(
-            tcWithSubFrames,
-            try Timecode(
-                .components(h: 1),
-                at: .fps24,
-                base: .max100SubFrames
-            )
-        )
-        XCTAssertEqual(
-            tcWithSubFrames.stringValue(format: .showSubFrames),
-            "01:00:00:00.00"
         )
     }
 }

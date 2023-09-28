@@ -174,7 +174,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: TimecodeSourceValue) throws -> Timecode {
+    public func adding(_ other: TimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC)
     }
@@ -182,7 +182,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+    public func adding(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC)
     }
@@ -190,7 +190,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: RichTimecodeSourceValue) throws -> Timecode {
+    public func adding(_ other: RichTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other)
         return try adding(otherTC)
     }
@@ -198,7 +198,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+    public func adding(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
         let otherTC = Timecode(other, using: properties)
         return try adding(otherTC)
     }
@@ -206,7 +206,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+    public func adding(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
         let otherTC = Timecode(other)
         return try adding(otherTC)
     }
@@ -214,7 +214,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func adding(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC, by: validation)
     }
@@ -222,7 +222,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func adding(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC, by: validation)
     }
@@ -230,7 +230,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func adding(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other)
         return try adding(otherTC, by: validation)
     }
@@ -238,7 +238,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func adding(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = Timecode(other, using: properties)
         return try adding(otherTC, by: validation)
     }
@@ -246,7 +246,7 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func adding(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func adding(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = Timecode(other)
         return try adding(otherTC, by: validation)
     }
@@ -440,7 +440,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: TimecodeSourceValue) throws -> Timecode {
+    public func subtracting(_ other: TimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC)
     }
@@ -448,7 +448,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
+    public func subtracting(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC)
     }
@@ -456,7 +456,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: RichTimecodeSourceValue) throws -> Timecode {
+    public func subtracting(_ other: RichTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other)
         return try subtracting(otherTC)
     }
@@ -464,7 +464,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
+    public func subtracting(_ other: GuaranteedTimecodeSourceValue) throws -> Timecode {
         let otherTC = Timecode(other, using: properties)
         return try subtracting(otherTC)
     }
@@ -472,7 +472,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
+    public func subtracting(_ other: GuaranteedRichTimecodeSourceValue) throws -> Timecode {
         let otherTC = Timecode(other)
         return try subtracting(otherTC)
     }
@@ -480,7 +480,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func subtracting(_ other: TimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC, by: validation)
     }
@@ -488,7 +488,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func subtracting(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC, by: validation)
     }
@@ -496,7 +496,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func subtracting(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other)
         return try subtracting(otherTC, by: validation)
     }
@@ -504,7 +504,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func subtracting(_ other: GuaranteedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = Timecode(other, using: properties)
         return try subtracting(otherTC, by: validation)
     }
@@ -512,7 +512,7 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
-    public mutating func subtracting(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
+    public func subtracting(_ other: GuaranteedRichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = Timecode(other)
         return try subtracting(otherTC, by: validation)
     }
@@ -664,13 +664,13 @@ extension Timecode {
     // MARK: - Offset / TimecodeInterval
     
     /// Offsets the current timecode by a delta amount.
-    /// Wraps around the clock if needed, as set by the `upperLimit` property.
+    /// Wraps around the clock if needed, as set by the ``upperLimit`` property.
     public mutating func offset(by interval: TimecodeInterval) {
         self = interval.timecode(offsetting: self)
     }
     
     /// Returns the timecode offset by a delta amount.
-    /// Wraps around the clock if needed, as set by the `upperLimit` property.
+    /// Wraps around the clock if needed, as set by the ``upperLimit`` property.
     public func offsetting(by interval: TimecodeInterval) -> Timecode {
         interval.timecode(offsetting: self)
     }
@@ -682,24 +682,21 @@ extension Timecode {
         } else {
             guard let otherConverted = try? other.converted(to: frameRate) else {
                 assertionFailure("Could not convert other Timecode to self Timecode frameRate.")
-                return .init(
-                    Timecode.Components.zero
-                        .timecode(using: properties, by: .allowingInvalid)
-                )
+                return .init(Timecode(.zero, using: properties))
             }
             
             return _offset(to: otherConverted.components)
         }
     }
     
-    /// Constructs a new `TimecodeInterval` instance from `self`.
+    /// Constructs a new ``TimecodeInterval`` instance from `self`.
     public func asInterval(_ sign: FloatingPointSign = .plus) -> TimecodeInterval {
         TimecodeInterval(self, sign)
     }
     
     // MARK: - Convenience Attributes
     
-    /// Returns `true` if timecode including subframes is zero (00:00:00:00.00).
+    /// Returns `true` if timecode (including subframes) is zero (00:00:00:00.00).
     public var isZero: Bool {
         frameCount.isZero
     }

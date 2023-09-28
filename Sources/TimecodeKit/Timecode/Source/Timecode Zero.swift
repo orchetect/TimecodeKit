@@ -14,7 +14,7 @@ extension Timecode {
 
 // MARK: - TimecodeSource
 
-extension Timecode.Zero: GuaranteedTimecodeSource {
+extension Timecode.Zero: _GuaranteedTimecodeSource {
     func set(timecode: inout Timecode) {
         timecode.set(Timecode.Components.zero, by: .allowingInvalid)
     }

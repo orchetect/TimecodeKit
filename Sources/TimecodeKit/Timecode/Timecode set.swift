@@ -36,22 +36,22 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
-    mutating func set(_ source: TimecodeSource) throws {
+    mutating func set(_ source: _TimecodeSource) throws {
         try source.set(timecode: &self)
     }
     
-    mutating func set(_ source: TimecodeSource, by validation: ValidationRule) {
+    mutating func set(_ source: _TimecodeSource, by validation: ValidationRule) {
         source.set(timecode: &self, by: validation)
     }
     
     /// - Throws: ``ValidationError``
-    func setting(_ value: TimecodeSource) throws -> Timecode {
+    func setting(_ value: _TimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(value)
         return copy
     }
     
-    func setting(_ value: TimecodeSource, by validation: ValidationRule) -> Timecode {
+    func setting(_ value: _TimecodeSource, by validation: ValidationRule) -> Timecode {
         var copy = self
         copy.set(value, by: validation)
         return copy
@@ -88,22 +88,22 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
-    mutating func set(_ source: FormattedTimecodeSource) throws {
+    mutating func set(_ source: _FormattedTimecodeSource) throws {
         try source.set(timecode: &self)
     }
     
-    mutating func set(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws {
+    mutating func set(_ source: _FormattedTimecodeSource, by validation: ValidationRule) throws {
         try source.set(timecode: &self, by: validation)
     }
     
     /// - Throws: ``ValidationError``
-    func setting(_ source: FormattedTimecodeSource) throws -> Timecode {
+    func setting(_ source: _FormattedTimecodeSource) throws -> Timecode {
         var copy = self
         try copy.set(source)
         return copy
     }
     
-    func setting(_ source: FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
+    func setting(_ source: _FormattedTimecodeSource, by validation: ValidationRule) throws -> Timecode {
         var copy = self
         try copy.set(source, by: validation)
         return copy
@@ -135,14 +135,14 @@ extension Timecode {
 extension Timecode {
     /// - Throws: ``ValidationError``
     mutating func set(
-        _ source: RichTimecodeSource
+        _ source: _RichTimecodeSource
     ) throws {
         properties = try source.set(timecode: &self)
     }
     
     /// - Throws: ``ValidationError``
     func setting(
-        _ source: RichTimecodeSource
+        _ source: _RichTimecodeSource
     ) throws -> Timecode {
         var copy = self
         try copy.set(source)
@@ -170,13 +170,13 @@ extension Timecode {
 
 extension Timecode {
     mutating func set(
-        _ source: GuaranteedTimecodeSource
+        _ source: _GuaranteedTimecodeSource
     ) {
         source.set(timecode: &self)
     }
     
     func setting(
-        _ source: GuaranteedTimecodeSource
+        _ source: _GuaranteedTimecodeSource
     ) -> Timecode {
         var copy = self
         copy.set(source)
@@ -204,13 +204,13 @@ extension Timecode {
 
 extension Timecode {
     mutating func set(
-        _ source: GuaranteedRichTimecodeSource
+        _ source: _GuaranteedRichTimecodeSource
     ) -> Properties {
         source.set(timecode: &self)
     }
     
     func setting(
-        _ source: GuaranteedRichTimecodeSource
+        _ source: _GuaranteedRichTimecodeSource
     ) -> Timecode {
         var copy = self
         copy.properties = copy.set(source)

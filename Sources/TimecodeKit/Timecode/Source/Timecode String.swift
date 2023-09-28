@@ -14,7 +14,7 @@ import UIKit
 
 // MARK: - FormattedTimecodeSource
 
-extension String: FormattedTimecodeSource {
+extension String: _FormattedTimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }

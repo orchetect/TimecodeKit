@@ -8,7 +8,7 @@
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information.
-protocol TimecodeSource {
+protocol _TimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -20,7 +20,7 @@ protocol TimecodeSource {
 
 /// A protocol for formatted timecode time value sources that do not supply their own frame
 /// rate information.
-protocol FormattedTimecodeSource {
+protocol _FormattedTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -31,14 +31,14 @@ protocol FormattedTimecodeSource {
 }
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
-protocol RichTimecodeSource {
+protocol _RichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
 }
 
 /// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
-protocol GuaranteedTimecodeSource {
+protocol _GuaranteedTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode)
@@ -46,7 +46,7 @@ protocol GuaranteedTimecodeSource {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information and
 /// are guaranteed to be valid regardless of properties.
-protocol GuaranteedRichTimecodeSource {
+protocol _GuaranteedRichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
@@ -60,9 +60,9 @@ protocol GuaranteedRichTimecodeSource {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 public struct TimecodeSourceValue {
-    var value: TimecodeSource
+    var value: _TimecodeSource
     
-    init(value: TimecodeSource) {
+    init(value: _TimecodeSource) {
         self.value = value
     }
 }
@@ -73,9 +73,9 @@ public struct TimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 public struct FormattedTimecodeSourceValue {
-    var value: FormattedTimecodeSource
+    var value: _FormattedTimecodeSource
     
-    init(value: FormattedTimecodeSource) {
+    init(value: _FormattedTimecodeSource) {
         self.value = value
     }
 }
@@ -86,9 +86,9 @@ public struct FormattedTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 public struct RichTimecodeSourceValue {
-    var value: RichTimecodeSource
+    var value: _RichTimecodeSource
     
-    init(value: RichTimecodeSource) {
+    init(value: _RichTimecodeSource) {
         self.value = value
     }
 }
@@ -99,9 +99,9 @@ public struct RichTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 public struct GuaranteedTimecodeSourceValue {
-    var value: GuaranteedTimecodeSource
+    var value: _GuaranteedTimecodeSource
     
-    init(value: GuaranteedTimecodeSource) {
+    init(value: _GuaranteedTimecodeSource) {
         self.value = value
     }
 }
@@ -112,9 +112,9 @@ public struct GuaranteedTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 public struct GuaranteedRichTimecodeSourceValue {
-    var value: GuaranteedRichTimecodeSource
+    var value: _GuaranteedRichTimecodeSource
     
-    init(value: GuaranteedRichTimecodeSource) {
+    init(value: _GuaranteedRichTimecodeSource) {
         self.value = value
     }
 }

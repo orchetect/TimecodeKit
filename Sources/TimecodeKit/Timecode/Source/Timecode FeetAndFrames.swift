@@ -8,7 +8,7 @@ import Foundation
 
 // MARK: - TimecodeSource
 
-extension FeetAndFrames: TimecodeSource {
+extension FeetAndFrames: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }

@@ -7,7 +7,7 @@
 #if shouldTestCurrentPlatform
 
 import CoreMedia
-@testable import TimecodeKit
+import TimecodeKit
 import XCTest
 
 class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {

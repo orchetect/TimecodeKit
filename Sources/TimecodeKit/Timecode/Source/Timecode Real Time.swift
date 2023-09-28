@@ -8,7 +8,7 @@ import Foundation
 
 // MARK: - TimecodeSource
 
-extension TimeInterval: TimecodeSource {
+extension TimeInterval: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactlyRealTime: self)
     }

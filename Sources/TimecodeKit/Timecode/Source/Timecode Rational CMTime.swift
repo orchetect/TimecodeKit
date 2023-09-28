@@ -12,7 +12,7 @@ import Foundation
 // MARK: - TimecodeSource
 
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-extension CMTime: TimecodeSource {
+extension CMTime: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }

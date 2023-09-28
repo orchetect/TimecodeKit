@@ -571,11 +571,11 @@ extension Timecode {
     func _offset(to other: Components) -> TimecodeInterval {
         if components == other {
             return TimecodeInterval(
-                Timecode.Components.zero.timecode(
+                Timecode(
+                    .zero,
                     at: frameRate,
                     base: subFramesBase,
-                    limit: upperLimit,
-                    by: .allowingInvalid
+                    limit: upperLimit
                 ),
                 .plus
             )
@@ -595,7 +595,8 @@ extension Timecode {
                 from: otherTimecode.components
             )
             
-            let deltaTC = diff.timecode(
+            let deltaTC = Timecode(
+                .components(diff),
                 using: properties,
                 by: .allowingInvalid
             )
@@ -610,7 +611,8 @@ extension Timecode {
                 from: components
             )
             
-            let deltaTC = diff.timecode(
+            let deltaTC = Timecode(
+                .components(diff),
                 using: properties,
                 by: .allowingInvalid
             )

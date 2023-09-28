@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit
 import XCTest
 
 class Timecode_CustomStringConvertible_Tests: XCTestCase {

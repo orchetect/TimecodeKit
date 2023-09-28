@@ -7,7 +7,7 @@
 #if shouldTestCurrentPlatform
 
 import CoreMedia
-@testable import TimecodeKit
+import TimecodeKit
 import XCTest
 
 class Fraction_CMTime_Tests: XCTestCase {

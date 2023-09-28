@@ -197,8 +197,8 @@ class Timecode_Rational_Tests: XCTestCase {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
         try TimecodeFrameRate.allCases.forEach { fRate in
-            let s = try Timecode.Components(m: 8, f: 20).timecode(at: fRate)
-            let e = try Timecode.Components(m: 10, f: 5).timecode(at: fRate)
+            let s = try Timecode(.components(m: 8, f: 20), at: fRate)
+            let e = try Timecode(.components(m: 10, f: 5), at: fRate)
             
             try (s ... e).forEach { tc in
                 let f = tc.rationalValue
@@ -209,21 +209,17 @@ class Timecode_Rational_Tests: XCTestCase {
     }
     
     func testTimecode_RationalValue_SpotCheck() throws {
-        let tc = try Timecode.Components(h: 00, m: 00, s: 13, f: 29).timecode(at: .fps29_97d)
+        let tc = try Timecode(.components(h: 00, m: 00, s: 13, f: 29), at: .fps29_97d)
         XCTAssertEqual(tc.rationalValue.numerator, 419419)
         XCTAssertEqual(tc.rationalValue.denominator, 30000)
     }
     
-    func testFraction_timecode() throws {
-        XCTAssertEqual(
-            try Fraction(3600, 1).timecode(at: .fps24).components,
-            Timecode.Components(h: 1)
-        )
-    }
-    
     func testTimecode_RationalValue_Subframes() throws {
-        let tc = try Timecode.Components(h: 00, m: 00, s: 01, f: 11, sf: 56)
-            .timecode(at: .fps25, base: .max80SubFrames)
+        let tc = try Timecode(
+            .components(h: 00, m: 00, s: 01, f: 11, sf: 56),
+            at: .fps25,
+            base: .max80SubFrames
+        )
         XCTAssertEqual(tc.rationalValue, Fraction(367, 250))
     }
     
@@ -234,7 +230,7 @@ class Timecode_Rational_Tests: XCTestCase {
         // FYI: when we convert it back to a fraction from timecode,
         // the fraction ends up 367/250
         let frac = Fraction(11011, 7500)
-        let tc = try frac.timecode(at: .fps25, base: .max80SubFrames)
+        let tc = try Timecode(.rational(frac), at: .fps25, base: .max80SubFrames)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 01, f: 11, sf: 56))
         XCTAssertEqual(tc.rationalValue, Fraction(367, 250))
     }
@@ -246,7 +242,7 @@ class Timecode_Rational_Tests: XCTestCase {
         // FYI: when we convert it back to a fraction from timecode,
         // the fraction ends up 367/250
         let frac = Fraction(11011, 7500)
-        let tc = try frac.timecode(at: .fps25, base: .max80SubFrames)
+        let tc = try Timecode(.rational(frac), at: .fps25, base: .max80SubFrames)
         let int = tc.frameCount(of: frac)
         XCTAssertEqual(int, 36)
     }
@@ -258,7 +254,7 @@ class Timecode_Rational_Tests: XCTestCase {
         // FYI: when we convert it back to a fraction from timecode,
         // the fraction ends up 367/250
         let frac = Fraction(11011, 7500)
-        let tc = try frac.timecode(at: .fps25, base: .max80SubFrames)
+        let tc = try Timecode(.rational(frac), at: .fps25, base: .max80SubFrames)
         let float = tc.floatingFrameCount(of: frac)
         XCTAssertEqual(float, 36.70333333333333)
     }

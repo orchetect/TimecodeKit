@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class Timecode_FrameCount_Tests: XCTestCase {
@@ -151,10 +151,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
         
         var tc = Timecode(.zero, at: .fps30, base: .max80SubFrames)
         
-        try tc.set(Timecode.FrameCount(
+        try tc.set(.frames(Timecode.FrameCount(
             .frames(670_907),
             base: .max80SubFrames
-        ))
+        )))
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
     }
@@ -163,10 +163,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
         var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
                 base: .max80SubFrames
-            ),
+            )),
             by: .clamping
         )
 
@@ -180,10 +180,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
         var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames(2073600 + 86400), // 25 hours @ 24fps
                 base: .max80SubFrames
-            ),
+            )),
             by: .wrapping
         )
         
@@ -194,10 +194,10 @@ class Timecode_FrameCount_Tests: XCTestCase {
         var tc = Timecode(.zero, at: .fps24, base: .max80SubFrames)
         
         tc.set(
-            Timecode.FrameCount(
+            .frames(Timecode.FrameCount(
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
                 base: .max80SubFrames
-            ),
+            )),
             by: .allowingInvalid
         )
 

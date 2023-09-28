@@ -6,7 +6,7 @@
 
 #if shouldTestCurrentPlatform
 
-@testable import TimecodeKit
+import TimecodeKit
 import XCTest
 
 class TimecodeInterval_Rational_Tests: XCTestCase {

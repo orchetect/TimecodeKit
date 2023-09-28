@@ -7,7 +7,7 @@
 #if shouldTestCurrentPlatform
 
 import CoreMedia
-@testable import TimecodeKit
+import TimecodeKit
 import XCTest
 
 class TimecodeFrameRate_Conversions_Tests: XCTestCase {

@@ -8,7 +8,7 @@ import Foundation
 
 // MARK: - TimecodeSource
 
-extension Timecode.FrameCount.Value: TimecodeSource {
+extension Timecode.FrameCount.Value: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }

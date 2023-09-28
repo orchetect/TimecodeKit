@@ -7,7 +7,7 @@
 #if shouldTestCurrentPlatform
 
 import CoreMedia
-@testable import TimecodeKit
+import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
 class Timecode_Rational_CMTime_Tests: XCTestCase {
@@ -166,8 +166,8 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
         try TimecodeFrameRate.allCases.forEach { fRate in
-            let s = try Timecode.Components(m: 8, f: 20).timecode(at: fRate)
-            let e = try Timecode.Components(m: 10, f: 5).timecode(at: fRate)
+            let s = try Timecode(.components(m: 8, f: 20), at: fRate)
+            let e = try Timecode(.components(m: 10, f: 5), at: fRate)
 
             try (s ... e).forEach { tc in
                 let f = tc.cmTimeValue
@@ -178,16 +178,9 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
     }
     
     func testTimecode_cmTimeValue_SpotCheck() throws {
-        let tc = try Timecode.Components(h: 00, m: 00, s: 13, f: 29).timecode(at: .fps29_97d)
+        let tc = try Timecode(.components(h: 00, m: 00, s: 13, f: 29), at: .fps29_97d)
         XCTAssertEqual(tc.cmTimeValue.value, 419419)
         XCTAssertEqual(tc.cmTimeValue.timescale, 30000)
-    }
-    
-    func testCMTime_timecode() throws {
-        XCTAssertEqual(
-            try CMTime(value: 3600, timescale: 1).timecode(at: .fps24).components,
-            Timecode.Components(h: 1)
-        )
     }
 }
 

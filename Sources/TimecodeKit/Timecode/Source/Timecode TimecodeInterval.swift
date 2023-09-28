@@ -6,7 +6,7 @@
 
 // MARK: - TimecodeSource
 
-extension TimecodeInterval: GuaranteedRichTimecodeSource {
+extension TimecodeInterval: _GuaranteedRichTimecodeSource {
     func set(timecode: inout Timecode) -> Timecode.Properties {
         timecode.set(self)
     }

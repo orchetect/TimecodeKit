@@ -88,8 +88,7 @@ class AVAsset_TimecodeRead_Tests: XCTestCase {
         XCTAssertEqual(try asset.durationTimecode(at: frameRate), correctDur)
         
         // end
-        let correctEnd = try Timecode.Components(h: 1, m: 22, s: 52, f: 05, sf: 85)
-            .timecode(at: frameRate)
+        let correctEnd = try Timecode(.components(h: 1, m: 22, s: 52, f: 05, sf: 85), at: frameRate)
         // auto-detect frame rate
         XCTAssertEqual(
             try asset.endTimecode(),

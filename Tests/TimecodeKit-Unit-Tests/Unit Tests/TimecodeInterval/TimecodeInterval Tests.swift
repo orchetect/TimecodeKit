@@ -97,6 +97,7 @@ class TimecodeInterval_Tests: XCTestCase {
         )
     }
     
+    /// Requires @testable
     func testTimecodeOffsettingA() throws {
         // positive
         
@@ -110,6 +111,7 @@ class TimecodeInterval_Tests: XCTestCase {
         )
     }
     
+    /// Requires @testable
     func testTimecodeOffsettingB() throws {
         // negative
         

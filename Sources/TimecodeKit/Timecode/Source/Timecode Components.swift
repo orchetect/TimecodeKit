@@ -6,7 +6,7 @@
 
 // MARK: - TimecodeSource
 
-extension Timecode.Components: TimecodeSource {
+extension Timecode.Components: _TimecodeSource {
     func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }
