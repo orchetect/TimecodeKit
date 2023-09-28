@@ -40,8 +40,10 @@ Value types for representing and working with SMPTE timecode.
 - <doc:Timecode-Interval>
 - <doc:Timecode-Transformer>
 
-### Core Media / AVFoundation
+### Encoding Formats
 
+- <doc:LTC-Longitudinal-Timecode>
+- <doc:MTC-MIDI-Timecode>
 - <doc:AVAsset-Timecode-Track>
 
 ### Additional Value Types
