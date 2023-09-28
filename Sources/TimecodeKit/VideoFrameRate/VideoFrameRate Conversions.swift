@@ -14,26 +14,26 @@ extension VideoFrameRate {
     ///   - drop: Whether timecode frame rate is drop or non-drop.
     public func timecodeFrameRate(drop: Bool) -> TimecodeFrameRate? {
         switch self {
-        case .fps23_98p:  return drop ? nil           : .fps23_976
-        case .fps24p:     return drop ? nil           : .fps24
-        case .fps25p:     return drop ? nil           : .fps25
-        case .fps25i:     return drop ? nil           : .fps25
+        case .fps23_98p:  return drop ? nil         : .fps23_976
+        case .fps24p:     return drop ? nil         : .fps24
+        case .fps25p:     return drop ? nil         : .fps25
+        case .fps25i:     return drop ? nil         : .fps25
         case .fps29_97p:  return drop ? .fps29_97d  : .fps29_97
         case .fps29_97i:  return drop ? .fps29_97d  : .fps29_97
         case .fps30p:     return drop ? .fps30d     : .fps30
-        case .fps47_95p:  return drop ? nil           : .fps47_952
-        case .fps48p:     return drop ? nil           : .fps48
-        case .fps50p:     return drop ? nil           : .fps50
-        case .fps50i:     return drop ? nil           : .fps50
+        case .fps47_95p:  return drop ? nil         : .fps47_952
+        case .fps48p:     return drop ? nil         : .fps48
+        case .fps50p:     return drop ? nil         : .fps50
+        case .fps50i:     return drop ? nil         : .fps50
         case .fps59_94p:  return drop ? .fps59_94d  : .fps59_94
         case .fps59_94i:  return drop ? .fps59_94d  : .fps59_94
         case .fps60p:     return drop ? .fps60d     : .fps60
-        case .fps60i:     return drop ? nil           : .fps60
-        case .fps95_9p:   return drop ? nil           : .fps95_904
-        case .fps96p:     return drop ? nil           : .fps96
-        case .fps100p:    return drop ? nil           : .fps100
+        case .fps60i:     return drop ? nil         : .fps60
+        case .fps95_9p:   return drop ? nil         : .fps95_904
+        case .fps96p:     return drop ? nil         : .fps96
+        case .fps100p:    return drop ? nil         : .fps100
         case .fps119_88p: return drop ? .fps119_88d : .fps119_88
-        case .fps120p:    return drop ? nil           : .fps120
+        case .fps120p:    return drop ? nil         : .fps120
         }
     }
     

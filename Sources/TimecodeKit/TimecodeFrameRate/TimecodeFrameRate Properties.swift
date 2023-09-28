@@ -10,27 +10,27 @@ extension TimecodeFrameRate {
     /// Returns human-readable frame rate string.
     public var stringValue: String {
         switch self {
-        case .fps23_976:      return "23.976"
-        case .fps24:          return "24"
-        case .fps24_98:       return "24.98"
-        case .fps25:          return "25"
-        case .fps29_97:       return "29.97"
+        case .fps23_976:  return "23.976"
+        case .fps24:      return "24"
+        case .fps24_98:   return "24.98"
+        case .fps25:      return "25"
+        case .fps29_97:   return "29.97"
         case .fps29_97d:  return "29.97d"
-        case .fps30:          return "30"
+        case .fps30:      return "30"
         case .fps30d:     return "30d"
-        case .fps47_952:      return "47.952"
-        case .fps48:          return "48"
-        case .fps50:          return "50"
-        case .fps59_94:       return "59.94"
+        case .fps47_952:  return "47.952"
+        case .fps48:      return "48"
+        case .fps50:      return "50"
+        case .fps59_94:   return "59.94"
         case .fps59_94d:  return "59.94d"
-        case .fps60:          return "60"
+        case .fps60:      return "60"
         case .fps60d:     return "60d"
-        case .fps95_904:      return "95.904"
-        case .fps96:          return "96"
-        case .fps100:         return "100"
-        case .fps119_88:      return "119.88"
+        case .fps95_904:  return "95.904"
+        case .fps96:      return "96"
+        case .fps100:     return "100"
+        case .fps119_88:  return "119.88"
         case .fps119_88d: return "119.88d"
-        case .fps120:         return "120"
+        case .fps120:     return "120"
         case .fps120d:    return "120d"
         }
     }
@@ -38,27 +38,27 @@ extension TimecodeFrameRate {
     /// Returns human-readable frame rate string in long form.
     public var stringValueVerbose: String {
         switch self {
-        case .fps23_976:      return "23.976 fps"
-        case .fps24:          return "24 fps"
-        case .fps24_98:       return "24.98 fps"
-        case .fps25:          return "25 fps"
-        case .fps29_97:       return "29.97 fps"
+        case .fps23_976:  return "23.976 fps"
+        case .fps24:      return "24 fps"
+        case .fps24_98:   return "24.98 fps"
+        case .fps25:      return "25 fps"
+        case .fps29_97:   return "29.97 fps"
         case .fps29_97d:  return "29.97 fps drop"
-        case .fps30:          return "30 fps"
+        case .fps30:      return "30 fps"
         case .fps30d:     return "30 fps drop"
-        case .fps47_952:      return "47.952 fps"
-        case .fps48:          return "48 fps"
-        case .fps50:          return "50 fps"
-        case .fps59_94:       return "59.94 fps"
+        case .fps47_952:  return "47.952 fps"
+        case .fps48:      return "48 fps"
+        case .fps50:      return "50 fps"
+        case .fps59_94:   return "59.94 fps"
         case .fps59_94d:  return "59.94 fps drop"
-        case .fps60:          return "60 fps"
+        case .fps60:      return "60 fps"
         case .fps60d:     return "60 fps drop"
-        case .fps95_904:      return "95.904 fps"
-        case .fps96:          return "96 fps"
-        case .fps100:         return "100 fps"
-        case .fps119_88:      return "119.88 fps"
+        case .fps95_904:  return "95.904 fps"
+        case .fps96:      return "96 fps"
+        case .fps100:     return "100 fps"
+        case .fps119_88:  return "119.88 fps"
         case .fps119_88d: return "119.88 fps drop"
-        case .fps120:         return "120 fps"
+        case .fps120:     return "120 fps"
         case .fps120d:    return "120 fps drop"
         }
     }
@@ -93,27 +93,27 @@ extension TimecodeFrameRate {
     /// ```
     public var rate: Fraction {
         switch self {
-        case .fps23_976:      return Fraction(24000,   1001)
-        case .fps24:          return Fraction(24,      1)
-        case .fps24_98:       return Fraction(25000,   1001)
-        case .fps25:          return Fraction(25,      1)
-        case .fps29_97:       return Fraction(30000,   1001)
+        case .fps23_976:  return Fraction(24000,   1001)
+        case .fps24:      return Fraction(24,      1)
+        case .fps24_98:   return Fraction(25000,   1001)
+        case .fps25:      return Fraction(25,      1)
+        case .fps29_97:   return Fraction(30000,   1001)
         case .fps29_97d:  return Fraction(30000,   1001)
-        case .fps30:          return Fraction(30,      1)
+        case .fps30:      return Fraction(30,      1)
         case .fps30d:     return Fraction(30,      1)
-        case .fps47_952:      return Fraction(48000,   1001)
-        case .fps48:          return Fraction(48,      1)
-        case .fps50:          return Fraction(50,      1)
-        case .fps59_94:       return Fraction(60000,   1001)
+        case .fps47_952:  return Fraction(48000,   1001)
+        case .fps48:      return Fraction(48,      1)
+        case .fps50:      return Fraction(50,      1)
+        case .fps59_94:   return Fraction(60000,   1001)
         case .fps59_94d:  return Fraction(60000,   1001)
-        case .fps60:          return Fraction(60,      1)
+        case .fps60:      return Fraction(60,      1)
         case .fps60d:     return Fraction(60,      1)
-        case .fps95_904:      return Fraction(96000,   1001)
-        case .fps96:          return Fraction(96,      1)
-        case .fps100:         return Fraction(100,     1)
-        case .fps119_88:      return Fraction(120_000, 1001)
+        case .fps95_904:  return Fraction(96000,   1001)
+        case .fps96:      return Fraction(96,      1)
+        case .fps100:     return Fraction(100,     1)
+        case .fps119_88:  return Fraction(120_000, 1001)
         case .fps119_88d: return Fraction(120_000, 1001)
-        case .fps120:         return Fraction(120,     1)
+        case .fps120:     return Fraction(120,     1)
         case .fps120d:    return Fraction(120,     1)
         }
     }
@@ -128,27 +128,27 @@ extension TimecodeFrameRate {
     ///         Potentially compatible outside of that range but untested.
     public var frameDuration: Fraction {
         switch self {
-        case .fps23_976:      return Fraction(1001, 24000)
-        case .fps24:          return Fraction(100,  2400)
-        case .fps24_98:       return Fraction(1001, 25000) // TODO: inferred
-        case .fps25:          return Fraction(100,  2500)
-        case .fps29_97:       return Fraction(1001, 30000)
+        case .fps23_976:  return Fraction(1001, 24000)
+        case .fps24:      return Fraction(100,  2400)
+        case .fps24_98:   return Fraction(1001, 25000) // TODO: inferred
+        case .fps25:      return Fraction(100,  2500)
+        case .fps29_97:   return Fraction(1001, 30000)
         case .fps29_97d:  return Fraction(1001, 30000)
-        case .fps30:          return Fraction(100,  3000)
+        case .fps30:      return Fraction(100,  3000)
         case .fps30d:     return Fraction(100,  3000) // TODO: needs checking
-        case .fps47_952:      return Fraction(1001, 48000) // TODO: inferred
-        case .fps48:          return Fraction(100,  4800)
-        case .fps50:          return Fraction(100,  5000)
-        case .fps59_94:       return Fraction(1001, 60000) // TODO: inferred
+        case .fps47_952:  return Fraction(1001, 48000) // TODO: inferred
+        case .fps48:      return Fraction(100,  4800)
+        case .fps50:      return Fraction(100,  5000)
+        case .fps59_94:   return Fraction(1001, 60000) // TODO: inferred
         case .fps59_94d:  return Fraction(1001, 60000) // TODO: inferred
-        case .fps60:          return Fraction(100,  6000)
+        case .fps60:      return Fraction(100,  6000)
         case .fps60d:     return Fraction(100,  6000) // TODO: needs checking
-        case .fps95_904:      return Fraction(1001, 96000) // TODO: inferred
-        case .fps96:          return Fraction(100,  9600) // TODO: inferred
-        case .fps100:         return Fraction(100,  10000)
-        case .fps119_88:      return Fraction(1001, 120000) // TODO: inferred
+        case .fps95_904:  return Fraction(1001, 96000) // TODO: inferred
+        case .fps96:      return Fraction(100,  9600) // TODO: inferred
+        case .fps100:     return Fraction(100,  10000)
+        case .fps119_88:  return Fraction(1001, 120000) // TODO: inferred
         case .fps119_88d: return Fraction(1001, 120000) // TODO: inferred
-        case .fps120:         return Fraction(100,  12000)
+        case .fps120:     return Fraction(100,  12000)
         case .fps120d:    return Fraction(100,  12000) // TODO: needs checking
         }
     }
@@ -158,27 +158,27 @@ extension TimecodeFrameRate {
     /// so we can fall back to these values a secondary checks.
     public var alternateFrameDuration: Fraction? {
         switch self {
-        case .fps23_976:      return Fraction(1000, 23976) // seen in the wild
-        case .fps24:          return nil
-        case .fps24_98:       return Fraction(1000, 24980) // TODO: inferred
-        case .fps25:          return nil
-        case .fps29_97:       return Fraction(1000, 29970) // seen in the wild
+        case .fps23_976:  return Fraction(1000, 23976) // seen in the wild
+        case .fps24:      return nil
+        case .fps24_98:   return Fraction(1000, 24980) // TODO: inferred
+        case .fps25:      return nil
+        case .fps29_97:   return Fraction(1000, 29970) // seen in the wild
         case .fps29_97d:  return Fraction(1000, 29970) // seen in the wild
-        case .fps30:          return nil
+        case .fps30:      return nil
         case .fps30d:     return nil // TODO: needs checking
-        case .fps47_952:      return Fraction(1000, 47952) // TODO: inferred
-        case .fps48:          return nil
-        case .fps50:          return nil
-        case .fps59_94:       return Fraction(1000, 59940) // TODO: inferred
+        case .fps47_952:  return Fraction(1000, 47952) // TODO: inferred
+        case .fps48:      return nil
+        case .fps50:      return nil
+        case .fps59_94:   return Fraction(1000, 59940) // TODO: inferred
         case .fps59_94d:  return Fraction(1000, 59940) // TODO: inferred
-        case .fps60:          return nil
+        case .fps60:      return nil
         case .fps60d:     return nil // TODO: needs checking
-        case .fps95_904:      return Fraction(1000, 95904) // TODO: inferred
-        case .fps96:          return nil
-        case .fps100:         return nil
-        case .fps119_88:      return Fraction(1000, 119880) // TODO: inferred
+        case .fps95_904:  return Fraction(1000, 95904) // TODO: inferred
+        case .fps96:      return nil
+        case .fps100:     return nil
+        case .fps119_88:  return Fraction(1000, 119880) // TODO: inferred
         case .fps119_88d: return Fraction(1000, 119880) // TODO: inferred
-        case .fps120:         return nil
+        case .fps120:     return nil
         case .fps120d:    return nil // TODO: needs checking
         }
     }
@@ -186,27 +186,27 @@ extension TimecodeFrameRate {
     /// Returns `true` if frame rate is drop.
     public var isDrop: Bool {
         switch self {
-        case .fps23_976:      return false
-        case .fps24:          return false
-        case .fps24_98:       return false
-        case .fps25:          return false
-        case .fps29_97:       return false
+        case .fps23_976:  return false
+        case .fps24:      return false
+        case .fps24_98:   return false
+        case .fps25:      return false
+        case .fps29_97:   return false
         case .fps29_97d:  return true
-        case .fps30:          return false
+        case .fps30:      return false
         case .fps30d:     return true
-        case .fps47_952:      return false
-        case .fps48:          return false
-        case .fps50:          return false
-        case .fps59_94:       return false
+        case .fps47_952:  return false
+        case .fps48:      return false
+        case .fps50:      return false
+        case .fps59_94:   return false
         case .fps59_94d:  return true
-        case .fps60:          return false
+        case .fps60:      return false
         case .fps60d:     return true
-        case .fps95_904:      return false
-        case .fps96:          return false
-        case .fps100:         return false
-        case .fps119_88:      return false
+        case .fps95_904:  return false
+        case .fps96:      return false
+        case .fps100:     return false
+        case .fps119_88:  return false
         case .fps119_88d: return true
-        case .fps120:         return false
+        case .fps120:     return false
         case .fps120d:    return true
         }
     }
@@ -256,27 +256,27 @@ extension TimecodeFrameRate {
         switch extent {
         case .max24Hours:
             switch self {
-            case .fps23_976:      return 2_073_600  // @ 24hours
-            case .fps24:          return 2_073_600  // @ 24hours
-            case .fps24_98:       return 2_160_000  // @ 24hours
-            case .fps25:          return 2_160_000  // @ 24hours
-            case .fps29_97:       return 2_592_000  // @ 24hours
+            case .fps23_976:  return 2_073_600  // @ 24hours
+            case .fps24:      return 2_073_600  // @ 24hours
+            case .fps24_98:   return 2_160_000  // @ 24hours
+            case .fps25:      return 2_160_000  // @ 24hours
+            case .fps29_97:   return 2_592_000  // @ 24hours
             case .fps29_97d:  return 2_589_408  // @ 24hours
-            case .fps30:          return 2_592_000  // @ 24hours
+            case .fps30:      return 2_592_000  // @ 24hours
             case .fps30d:     return 2_589_408  // @ 24hours
-            case .fps47_952:      return 4_147_200  // @ 24hours
-            case .fps48:          return 4_147_200  // @ 24hours
-            case .fps50:          return 4_320_000  // @ 24hours
-            case .fps59_94:       return 5_184_000  // @ 24hours (.fps29_97 * 2 in theory)
+            case .fps47_952:  return 4_147_200  // @ 24hours
+            case .fps48:      return 4_147_200  // @ 24hours
+            case .fps50:      return 4_320_000  // @ 24hours
+            case .fps59_94:   return 5_184_000  // @ 24hours (.fps29_97 * 2 in theory)
             case .fps59_94d:  return 5_178_816  // @ 24hours (.fps29_97d * 2, in theory)
-            case .fps60:          return 5_184_000  // @ 24hours
+            case .fps60:      return 5_184_000  // @ 24hours
             case .fps60d:     return 5_178_816  // @ 24hours
-            case .fps95_904:      return 8_294_400  // @ 24hours
-            case .fps96:          return 8_294_400  // @ 24hours
-            case .fps100:         return 8_640_000  // @ 24hours
-            case .fps119_88:      return 10_368_000 // @ 24hours (.fps29_97 * 4 in theory)
+            case .fps95_904:  return 8_294_400  // @ 24hours
+            case .fps96:      return 8_294_400  // @ 24hours
+            case .fps100:     return 8_640_000  // @ 24hours
+            case .fps119_88:  return 10_368_000 // @ 24hours (.fps29_97 * 4 in theory)
             case .fps119_88d: return 10_357_632 // @ 24hours (.fps29_97d * 4, in theory)
-            case .fps120:         return 10_368_000 // @ 24hours
+            case .fps120:     return 10_368_000 // @ 24hours
             case .fps120d:    return 10_357_632 // @ 24hours
             }
             
@@ -316,27 +316,27 @@ extension TimecodeFrameRate {
     /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
     var maxFrames: Int {
         switch self {
-        case .fps23_976:      return 24
-        case .fps24:          return 24
-        case .fps24_98:       return 25
-        case .fps25:          return 25
-        case .fps29_97:       return 30
+        case .fps23_976:  return 24
+        case .fps24:      return 24
+        case .fps24_98:   return 25
+        case .fps25:      return 25
+        case .fps29_97:   return 30
         case .fps29_97d:  return 30
-        case .fps30:          return 30
+        case .fps30:      return 30
         case .fps30d:     return 30
-        case .fps47_952:      return 48
-        case .fps48:          return 48
-        case .fps50:          return 50
-        case .fps59_94:       return 60
+        case .fps47_952:  return 48
+        case .fps48:      return 48
+        case .fps50:      return 50
+        case .fps59_94:   return 60
         case .fps59_94d:  return 60
-        case .fps60:          return 60
+        case .fps60:      return 60
         case .fps60d:     return 60
-        case .fps95_904:      return 96
-        case .fps96:          return 96
-        case .fps100:         return 100
-        case .fps119_88:      return 120
+        case .fps95_904:  return 96
+        case .fps96:      return 96
+        case .fps100:     return 100
+        case .fps119_88:  return 120
         case .fps119_88d: return 120
-        case .fps120:         return 120
+        case .fps120:     return 120
         case .fps120d:    return 120
         }
     }
@@ -345,27 +345,27 @@ extension TimecodeFrameRate {
     /// Constant used when calculating total frame count, audio samples, etc.
     var frameRateForElapsedFramesCalculation: Double {
         switch self {
-        case .fps23_976:      return 24.0
-        case .fps24:          return 24.0
-        case .fps24_98:       return 25.0
-        case .fps25:          return 25.0
-        case .fps29_97:       return 30.0
+        case .fps23_976:  return 24.0
+        case .fps24:      return 24.0
+        case .fps24_98:   return 25.0
+        case .fps25:      return 25.0
+        case .fps29_97:   return 30.0
         case .fps29_97d:  return 29.97
-        case .fps30:          return 30.0
+        case .fps30:      return 30.0
         case .fps30d:     return 29.97
-        case .fps47_952:      return 48.0
-        case .fps48:          return 48.0
-        case .fps50:          return 50.0
-        case .fps59_94:       return 60.0
+        case .fps47_952:  return 48.0
+        case .fps48:      return 48.0
+        case .fps50:      return 50.0
+        case .fps59_94:   return 60.0
         case .fps59_94d:  return 59.94
-        case .fps60:          return 60.0
+        case .fps60:      return 60.0
         case .fps60d:     return 59.94
-        case .fps95_904:      return 96.0
-        case .fps96:          return 96.0
-        case .fps100:         return 100.0
-        case .fps119_88:      return 120.0
+        case .fps95_904:  return 96.0
+        case .fps96:      return 96.0
+        case .fps100:     return 100.0
+        case .fps119_88:  return 120.0
         case .fps119_88d: return 119.88
-        case .fps120:         return 120.0
+        case .fps120:     return 120.0
         case .fps120d:    return 119.88
         }
     }
@@ -374,27 +374,27 @@ extension TimecodeFrameRate {
     /// Constant used in real time conversion, SMF export, etc.
     var frameRateForRealTimeCalculation: Double {
         switch self {
-        case .fps23_976:      return 24.0 / 1.001
-        case .fps24:          return 24.0
-        case .fps24_98:       return 25.0 / 1.001
-        case .fps25:          return 25.0
-        case .fps29_97:       return 30.0 / 1.001
+        case .fps23_976:  return 24.0 / 1.001
+        case .fps24:      return 24.0
+        case .fps24_98:   return 25.0 / 1.001
+        case .fps25:      return 25.0
+        case .fps29_97:   return 30.0 / 1.001
         case .fps29_97d:  return 30.0 / 1.001
-        case .fps30:          return 30.0
+        case .fps30:      return 30.0
         case .fps30d:     return 30.0
-        case .fps47_952:      return 48.0 / 1.001
-        case .fps48:          return 48.0
-        case .fps50:          return 50.0
-        case .fps59_94:       return 60.0 / 1.001
+        case .fps47_952:  return 48.0 / 1.001
+        case .fps48:      return 48.0
+        case .fps50:      return 50.0
+        case .fps59_94:   return 60.0 / 1.001
         case .fps59_94d:  return 60.0 / 1.001
-        case .fps60:          return 60.0
+        case .fps60:      return 60.0
         case .fps60d:     return 60.0
-        case .fps95_904:      return 96.0 / 1.001
-        case .fps96:          return 96.0
-        case .fps100:         return 100.0
-        case .fps119_88:      return 120.0 / 1.001
+        case .fps95_904:  return 96.0 / 1.001
+        case .fps96:      return 96.0
+        case .fps100:     return 100.0
+        case .fps119_88:  return 120.0 / 1.001
         case .fps119_88d: return 120.0 / 1.001
-        case .fps120:         return 120.0
+        case .fps120:     return 120.0
         case .fps120d:    return 120.0
         }
     }
