@@ -77,13 +77,6 @@ export.exportAsynchronously {
 }
 ```
 
-> Warning:
->
-> As of iOS 17, Apple appears to have introduced a regression when using `AVAssetExportSession` to save a QuickTime movie file when using a physical iOS device (simulator works fine).
-> A radar has been filed with Apple (FB12986599). This is not an issue with TimecodeKit itself.
-> However, until Apple fixes this bug it will affect saving a movie file after performing timecode track modifications.
-> See [this thread](https://github.com/orchetect/TimecodeKit/discussions/63) for details.
-
 ## Topics
 
 ### AVAsset Extensions

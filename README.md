@@ -81,10 +81,6 @@ The following video frame rates are supported. (Video rates)
 
 See the [online documentation](https://orchetect.github.io/TimecodeKit) for library usage, getting started info, and 1.x → 2.x migration guide.
 
-## Known Issues
-
-- As of iOS 17, Apple appears to have introduced a regression when using `AVAssetExportSession` to save a QuickTime movie file when using a physical iOS device (simulator works fine). A radar has been filed with Apple (FB12986599). This is not an issue with TimecodeKit itself. However, until Apple fixes this bug it will affect saving a movie file after performing timecode track modifications. See [this thread](https://github.com/orchetect/TimecodeKit/discussions/63) for details.
-
 ## References
 
 - Wikipedia: [SMPTE Timecode](https://en.wikipedia.org/wiki/SMPTE_timecode)
