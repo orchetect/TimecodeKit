@@ -11,8 +11,14 @@ import Foundation
 ///
 /// Timecode is way of encoding a frame number, therefore _timecode frame rate_ may be independent of _video frame rate_.
 ///
+/// Part of common confusion with timecode can arise from the use of “frames per second” in both the timecode and the actual video frame
+/// rate. When used to describe timecode, frames per second represents how many frames of timecode are counted before one second of timecode
+/// increments. When describing video frame rates, frames per second represents how many literal video frames are played back during the
+/// span of one second of real wall-clock time.
+///
 /// For example, 24p video typically uses 24 fps timecode rate.
-/// However, 29.97p video (30/1.001) may use 29.97 or 29.97-drop fps timecode rate depending on post-production facility requirements.
+/// However, 29.97p video may use 29.97 fps or 29.97-drop fps timecode rate depending on post-production facility requirements, and
+/// timecode at these rates do not match wall-clock time exactly.
 ///
 /// Some video rates may correspond (or generally be compatible with) certain timecode rates and vice-versa.
 /// To return a video rate's corresponding timecode rate, see ``timecodeFrameRate(drop:)``.
@@ -119,17 +125,17 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     
     /// 100 fps progressive.
     ///
-    /// Supported by Avid. (Not qualified for smooth playback)
+    /// Supported by Avid. (Not qualified for smooth playback.)
     case _100p = "100p"
     
     /// 119.88 fps progressive.
     ///
-    /// Supported by Avid. (Not qualified for smooth playback)
+    /// Supported by Avid. (Not qualified for smooth playback.)
     case _119_88p = "119.88p"
     
     /// 120 fps progressive.
     ///
-    /// Supported by Avid. (Not qualified for smooth playback)
+    /// Supported by Avid. (Not qualified for smooth playback.)
     case _120p = "120p"
 }
 
