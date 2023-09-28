@@ -69,7 +69,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._23_98p)
+        XCTAssertEqual(frameRate, .fps23_98p)
     }
     
     /// Even though file has no video tracks, it infers video frame rate from the timecode track.
@@ -77,7 +77,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._23_98p)
+        XCTAssertEqual(frameRate, .fps23_98p)
     }
     
     /// Even though file has no video tracks, it infers video frame rate from the timecode track.
@@ -85,7 +85,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._24p)
+        XCTAssertEqual(frameRate, .fps24p)
     }
     
     /// Even though file has no video tracks, it infers video frame rate from the timecode track.
@@ -93,21 +93,21 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_29_97d_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97p)
+        XCTAssertEqual(frameRate, .fps29_97p)
     }
     
     func testVideoFrameRate_29_97i() throws {
         let url = try TestResource.videoAndTimecodeTrack_29_97i_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97i)
+        XCTAssertEqual(frameRate, .fps29_97i)
     }
     
     func testVideoFrameRate_29_97p() throws {
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._29_97p)
+        XCTAssertEqual(frameRate, .fps29_97p)
     }
     
     // MARK: - VideoFrameRate (VFR)
@@ -116,14 +116,14 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.videoTrack_25_VFR_1sec.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._25p)
+        XCTAssertEqual(frameRate, .fps25p)
     }
     
     func testVideoFrameRate_25p_VFR_B() throws {
         let url = try TestResource.videoTrack_25_VFR_2sec.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.videoFrameRate()
-        XCTAssertEqual(frameRate, ._25p)
+        XCTAssertEqual(frameRate, .fps25p)
     }
 }
 

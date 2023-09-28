@@ -27,9 +27,9 @@ TimecodeFrameRate(frameDuration: Fraction(1001, 30000), drop: false) // == .fps2
 TimecodeFrameRate(rate: Fraction(30000, 1001), drop: false) // == .fps29_97
 
 // fraction representing the duration of 1 frame
-VideoFrameRate(frameDuration: Fraction(1001, 30000), interlaced: false) // == ._29_97p
+VideoFrameRate(frameDuration: Fraction(1001, 30000), interlaced: false) // == .fps29_97p
 // fraction representing the fps
-VideoFrameRate(rate: Fraction(30000, 1001), interlaced: false) // == ._29_97p
+VideoFrameRate(rate: Fraction(30000, 1001), interlaced: false) // == .fps29_97p
 ```
 
 ## CMTime Conversion

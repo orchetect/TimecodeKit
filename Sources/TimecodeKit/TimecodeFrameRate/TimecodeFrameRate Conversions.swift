@@ -14,28 +14,28 @@ extension TimecodeFrameRate {
     ///   - interlaced: Whether video frame rate is interlaced (`true`) or progressive (`false`).
     public func videoFrameRate(interlaced: Bool) -> VideoFrameRate? {
         switch self {
-        case .fps23_976:      return interlaced ? nil      : ._23_98p
-        case .fps24:          return interlaced ? nil      : ._24p
-        case .fps24_98:       return interlaced ? nil      : ._25p // TODO: needs testing
-        case .fps25:          return interlaced ? ._25i    : ._25i
-        case .fps29_97:       return interlaced ? ._29_97i : ._29_97p
-        case .fps29_97d:  return interlaced ? ._29_97i : ._29_97p
-        case .fps30:          return interlaced ? nil      : ._30p     // 30i could exist?
-        case .fps30d:     return interlaced ? nil      : ._30p
-        case .fps47_952:      return interlaced ? nil      : ._47_95p
-        case .fps48:          return interlaced ? nil      : ._48p
-        case .fps50:          return interlaced ? ._50i    : ._50p
-        case .fps59_94:       return interlaced ? nil      : ._59_94p  // TODO: 59.94i exists
-        case .fps59_94d:  return interlaced ? nil      : ._59_94p  // TODO: 59.94i exists
-        case .fps60:          return interlaced ? ._60i    : ._60p
-        case .fps60d:     return interlaced ? nil      : ._60p
-        case .fps95_904:      return interlaced ? nil      : ._95_9p
-        case .fps96:          return interlaced ? nil      : ._96p
-        case .fps100:         return interlaced ? nil      : ._100p
-        case .fps119_88:      return interlaced ? nil      : ._119_88p // 119.88i could exist?
-        case .fps119_88d: return interlaced ? nil      : ._119_88p // 119.88i could exist?
-        case .fps120:         return interlaced ? nil      : ._120p    // 120i could exist?
-        case .fps120d:    return interlaced ? nil      : ._120p
+        case .fps23_976:      return interlaced ? nil      : .fps23_98p
+        case .fps24:          return interlaced ? nil      : .fps24p
+        case .fps24_98:       return interlaced ? nil      : .fps25p // TODO: needs testing
+        case .fps25:          return interlaced ? .fps25i    : .fps25i
+        case .fps29_97:       return interlaced ? .fps29_97i : .fps29_97p
+        case .fps29_97d:  return interlaced ? .fps29_97i : .fps29_97p
+        case .fps30:          return interlaced ? nil      : .fps30p     // 30i could exist?
+        case .fps30d:     return interlaced ? nil      : .fps30p
+        case .fps47_952:      return interlaced ? nil      : .fps47_95p
+        case .fps48:          return interlaced ? nil      : .fps48p
+        case .fps50:          return interlaced ? .fps50i    : .fps50p
+        case .fps59_94:       return interlaced ? nil      : .fps59_94p  // TODO: 59.94i exists
+        case .fps59_94d:  return interlaced ? nil      : .fps59_94p  // TODO: 59.94i exists
+        case .fps60:          return interlaced ? .fps60i    : .fps60p
+        case .fps60d:     return interlaced ? nil      : .fps60p
+        case .fps95_904:      return interlaced ? nil      : .fps95_9p
+        case .fps96:          return interlaced ? nil      : .fps96p
+        case .fps100:         return interlaced ? nil      : .fps100p
+        case .fps119_88:      return interlaced ? nil      : .fps119_88p // 119.88i could exist?
+        case .fps119_88d: return interlaced ? nil      : .fps119_88p // 119.88i could exist?
+        case .fps120:         return interlaced ? nil      : .fps120p    // 120i could exist?
+        case .fps120d:    return interlaced ? nil      : .fps120p
         }
     }
 }
