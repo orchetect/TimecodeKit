@@ -16,7 +16,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testTimecode_init_FrameCount_Exactly() throws {
         let tc = try Timecode(
             .frames(Timecode.FrameCount(.frames(670_907), base: ._80SubFrames)),
-            at: ._30
+            at: .fps30
         )
         
         XCTAssertEqual(tc.components, Timecode.Components(d: 00, h: 06, m: 12, s: 43, f: 17, sf: 00))
@@ -28,7 +28,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames(2_073_600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             )),
-            at: ._24,
+            at: .fps24,
             by: .clamping
         )
         
@@ -44,7 +44,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames(2073600 + 86400), // 25 hours @ 24fps
                 base: ._80SubFrames
             )),
-            at: ._24,
+            at: .fps24,
             by: .wrapping
         )
         
@@ -57,7 +57,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .frames((2073600 * 2) + 86400), // 2 days + 1 hour @ 24fps
                 base: ._80SubFrames
             )),
-            at: ._24,
+            at: .fps24,
             by: .allowingInvalid
         )
         
@@ -75,28 +75,28 @@ class Timecode_FrameCount_Tests: XCTestCase {
             var maxFramesIn24hours: Int
             
             switch $0 {
-            case ._23_976: maxFramesIn24hours = 2_073_600
-            case ._24: maxFramesIn24hours = 2_073_600
-            case ._24_98: maxFramesIn24hours = 2_160_000
-            case ._25: maxFramesIn24hours = 2_160_000
-            case ._29_97: maxFramesIn24hours = 2_592_000
-            case ._29_97_drop: maxFramesIn24hours = 2_589_408
-            case ._30: maxFramesIn24hours = 2_592_000
-            case ._30_drop: maxFramesIn24hours = 2_589_408
-            case ._47_952: maxFramesIn24hours = 4_147_200
-            case ._48: maxFramesIn24hours = 4_147_200
-            case ._50: maxFramesIn24hours = 4_320_000
-            case ._59_94: maxFramesIn24hours = 5_184_000
-            case ._59_94_drop: maxFramesIn24hours = 5_178_816
-            case ._60: maxFramesIn24hours = 5_184_000
-            case ._60_drop: maxFramesIn24hours = 5_178_816
-            case ._95_904: maxFramesIn24hours = 8_294_400
-            case ._96: maxFramesIn24hours = 8_294_400
-            case ._100: maxFramesIn24hours = 8_640_000
-            case ._119_88: maxFramesIn24hours = 10_368_000
-            case ._119_88_drop: maxFramesIn24hours = 10_357_632
-            case ._120: maxFramesIn24hours = 10_368_000
-            case ._120_drop: maxFramesIn24hours = 10_357_632
+            case .fps23_976: maxFramesIn24hours = 2_073_600
+            case .fps24: maxFramesIn24hours = 2_073_600
+            case .fps24_98: maxFramesIn24hours = 2_160_000
+            case .fps25: maxFramesIn24hours = 2_160_000
+            case .fps29_97: maxFramesIn24hours = 2_592_000
+            case .fps29_97d: maxFramesIn24hours = 2_589_408
+            case .fps30: maxFramesIn24hours = 2_592_000
+            case .fps30d: maxFramesIn24hours = 2_589_408
+            case .fps47_952: maxFramesIn24hours = 4_147_200
+            case .fps48: maxFramesIn24hours = 4_147_200
+            case .fps50: maxFramesIn24hours = 4_320_000
+            case .fps59_94: maxFramesIn24hours = 5_184_000
+            case .fps59_94d: maxFramesIn24hours = 5_178_816
+            case .fps60: maxFramesIn24hours = 5_184_000
+            case .fps60d: maxFramesIn24hours = 5_178_816
+            case .fps95_904: maxFramesIn24hours = 8_294_400
+            case .fps96: maxFramesIn24hours = 8_294_400
+            case .fps100: maxFramesIn24hours = 8_640_000
+            case .fps119_88: maxFramesIn24hours = 10_368_000
+            case .fps119_88d: maxFramesIn24hours = 10_357_632
+            case .fps120: maxFramesIn24hours = 10_368_000
+            case .fps120d: maxFramesIn24hours = 10_357_632
             }
             
             XCTAssertEqual(
@@ -114,28 +114,28 @@ class Timecode_FrameCount_Tests: XCTestCase {
             var maxFramesExpressibleIn24hours: Int
             
             switch $0 {
-            case ._23_976: maxFramesExpressibleIn24hours = 2_073_600 - 1
-            case ._24: maxFramesExpressibleIn24hours = 2_073_600 - 1
-            case ._24_98: maxFramesExpressibleIn24hours = 2_160_000 - 1
-            case ._25: maxFramesExpressibleIn24hours = 2_160_000 - 1
-            case ._29_97: maxFramesExpressibleIn24hours = 2_592_000 - 1
-            case ._29_97_drop: maxFramesExpressibleIn24hours = 2_589_408 - 1
-            case ._30: maxFramesExpressibleIn24hours = 2_592_000 - 1
-            case ._30_drop: maxFramesExpressibleIn24hours = 2_589_408 - 1
-            case ._47_952: maxFramesExpressibleIn24hours = 4_147_200 - 1
-            case ._48: maxFramesExpressibleIn24hours = 4_147_200 - 1
-            case ._50: maxFramesExpressibleIn24hours = 4_320_000 - 1
-            case ._59_94: maxFramesExpressibleIn24hours = 5_184_000 - 1
-            case ._59_94_drop: maxFramesExpressibleIn24hours = 5_178_816 - 1
-            case ._60: maxFramesExpressibleIn24hours = 5_184_000 - 1
-            case ._60_drop: maxFramesExpressibleIn24hours = 5_178_816 - 1
-            case ._95_904: maxFramesExpressibleIn24hours = 8_294_400 - 1
-            case ._96: maxFramesExpressibleIn24hours = 8_294_400 - 1
-            case ._100: maxFramesExpressibleIn24hours = 8_640_000 - 1
-            case ._119_88: maxFramesExpressibleIn24hours = 10_368_000 - 1
-            case ._119_88_drop: maxFramesExpressibleIn24hours = 10_357_632 - 1
-            case ._120: maxFramesExpressibleIn24hours = 10_368_000 - 1
-            case ._120_drop: maxFramesExpressibleIn24hours = 10_357_632 - 1
+            case .fps23_976: maxFramesExpressibleIn24hours = 2_073_600 - 1
+            case .fps24: maxFramesExpressibleIn24hours = 2_073_600 - 1
+            case .fps24_98: maxFramesExpressibleIn24hours = 2_160_000 - 1
+            case .fps25: maxFramesExpressibleIn24hours = 2_160_000 - 1
+            case .fps29_97: maxFramesExpressibleIn24hours = 2_592_000 - 1
+            case .fps29_97d: maxFramesExpressibleIn24hours = 2_589_408 - 1
+            case .fps30: maxFramesExpressibleIn24hours = 2_592_000 - 1
+            case .fps30d: maxFramesExpressibleIn24hours = 2_589_408 - 1
+            case .fps47_952: maxFramesExpressibleIn24hours = 4_147_200 - 1
+            case .fps48: maxFramesExpressibleIn24hours = 4_147_200 - 1
+            case .fps50: maxFramesExpressibleIn24hours = 4_320_000 - 1
+            case .fps59_94: maxFramesExpressibleIn24hours = 5_184_000 - 1
+            case .fps59_94d: maxFramesExpressibleIn24hours = 5_178_816 - 1
+            case .fps60: maxFramesExpressibleIn24hours = 5_184_000 - 1
+            case .fps60d: maxFramesExpressibleIn24hours = 5_178_816 - 1
+            case .fps95_904: maxFramesExpressibleIn24hours = 8_294_400 - 1
+            case .fps96: maxFramesExpressibleIn24hours = 8_294_400 - 1
+            case .fps100: maxFramesExpressibleIn24hours = 8_640_000 - 1
+            case .fps119_88: maxFramesExpressibleIn24hours = 10_368_000 - 1
+            case .fps119_88d: maxFramesExpressibleIn24hours = 10_357_632 - 1
+            case .fps120: maxFramesExpressibleIn24hours = 10_368_000 - 1
+            case .fps120d: maxFramesExpressibleIn24hours = 10_357_632 - 1
             }
             
             XCTAssertEqual(
@@ -149,7 +149,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     func testSetTimecodeExactly() throws {
         // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
         
-        var tc = Timecode(.zero, at: ._30, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps30, base: ._80SubFrames)
         
         try tc.set(Timecode.FrameCount(
             .frames(670_907),
@@ -160,7 +160,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
     
     func testSetTimecodeFrameCount_Clamping() {
-        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
@@ -177,7 +177,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_Wrapping() {
-        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
@@ -191,7 +191,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
     }
 
     func testSetTimecodeFrameCount_RawValues() {
-        var tc = Timecode(.zero, at: ._24, base: ._80SubFrames)
+        var tc = Timecode(.zero, at: .fps24, base: ._80SubFrames)
         
         tc.set(
             Timecode.FrameCount(
@@ -215,7 +215,7 @@ class Timecode_FrameCount_Tests: XCTestCase {
                 .split(frames: totalFramesIn24Hr - 1, subFrames: 79),
                 base: ._80SubFrames
             ),
-            at: ._29_97_drop
+            at: .fps29_97d
         )
         
         XCTAssertEqual(tcc, Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 79))

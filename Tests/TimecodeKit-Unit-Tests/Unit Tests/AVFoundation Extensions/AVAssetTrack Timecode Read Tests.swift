@@ -18,7 +18,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     // MARK: - Start/Duration/End Timecode
     
     func testReadTimecodeRange_23_976fps() async throws {
-        let frameRate: TimecodeFrameRate = ._23_976
+        let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let loadTrack = try await getFirstTrack(of: asset)
@@ -46,7 +46,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
     
     func testReadDurationTimecode_23_976fps() async throws {
-        let frameRate: TimecodeFrameRate = ._23_976
+        let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let loadTrack = try await getFirstTrack(of: asset)
@@ -62,7 +62,7 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     }
     
     func testReadDurationTimecode_29_97fps() async throws {
-        let frameRate: TimecodeFrameRate = ._29_97
+        let frameRate: TimecodeFrameRate = .fps29_97
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let loadTrack = try await getFirstTrack(of: asset)

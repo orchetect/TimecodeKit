@@ -126,6 +126,6 @@ public struct Timecode {
     
     // Just to disable synthesized init
     private init() {
-        properties = Properties(rate: ._24)
+        properties = Properties(rate: .fps24)
     }
 }

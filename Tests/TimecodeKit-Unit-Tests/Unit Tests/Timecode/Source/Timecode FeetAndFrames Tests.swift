@@ -14,25 +14,25 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_23_976fps_zero() throws {
-        let ff = Timecode(.zero, at: ._23_976).feetAndFramesValue
+        let ff = Timecode(.zero, at: .fps23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 0)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_23_976fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(at: ._23_976).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).timecode(at: .fps23_976).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_24fps_zero() throws {
-        let ff = Timecode(.zero, at: ._24).feetAndFramesValue
+        let ff = Timecode(.zero, at: .fps24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 0)
         XCTAssertEqual(ff.frames, 0)
     }
     
     func testTimecode_24fps_1min() throws {
-        let ff = try Timecode.Components(m: 1).timecode(at: ._24).feetAndFramesValue
+        let ff = try Timecode.Components(m: 1).timecode(at: .fps24).feetAndFramesValue
         XCTAssertEqual(ff.feet, 90)
         XCTAssertEqual(ff.frames, 0)
     }
@@ -45,40 +45,40 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
             // TimecodeFrameRate.maxTotalFrames is a good reference for groupings
             // which shows frame rates with the same frame counts over time
             switch frate {
-            case ._23_976, ._24:
+            case .fps23_976, .fps24:
                 XCTAssertEqual(ff.feet, 5584, "\(frate)")
                 XCTAssertEqual(ff.frames, 12, "\(frate)")
-            case ._24_98, ._25:
+            case .fps24_98, .fps25:
                 XCTAssertEqual(ff.feet, 5817, "\(frate)")
                 XCTAssertEqual(ff.frames, 07, "\(frate)")
-            case ._29_97, ._30:
+            case .fps29_97, .fps30:
                 XCTAssertEqual(ff.feet, 6980, "\(frate)")
                 XCTAssertEqual(ff.frames, 14, "\(frate)")
-            case ._29_97_drop, ._30_drop:
+            case .fps29_97d, .fps30d:
                 XCTAssertEqual(ff.feet, 6973, "\(frate)")
                 XCTAssertEqual(ff.frames, 14, "\(frate)")
-            case ._47_952, ._48:
+            case .fps47_952, .fps48:
                 XCTAssertEqual(ff.feet, 11169, "\(frate)")
                 XCTAssertEqual(ff.frames, 04, "\(frate)")
-            case ._50:
+            case .fps50:
                 XCTAssertEqual(ff.feet, 11634, "\(frate)")
                 XCTAssertEqual(ff.frames, 10, "\(frate)")
-            case ._59_94, ._60:
+            case .fps59_94, .fps60:
                 XCTAssertEqual(ff.feet, 13961, "\(frate)")
                 XCTAssertEqual(ff.frames, 08, "\(frate)")
-            case ._59_94_drop, ._60_drop:
+            case .fps59_94d, .fps60d:
                 XCTAssertEqual(ff.feet, 13947, "\(frate)")
                 XCTAssertEqual(ff.frames, 08, "\(frate)")
-            case ._95_904, ._96:
+            case .fps95_904, .fps96:
                 XCTAssertEqual(ff.feet, 22338, "\(frate)")
                 XCTAssertEqual(ff.frames, 04, "\(frate)")
-            case ._100:
+            case .fps100:
                 XCTAssertEqual(ff.feet, 23269, "\(frate)")
                 XCTAssertEqual(ff.frames, 00, "\(frate)")
-            case ._119_88, ._120:
+            case .fps119_88, .fps120:
                 XCTAssertEqual(ff.feet, 27922, "\(frate)")
                 XCTAssertEqual(ff.frames, 12, "\(frate)")
-            case ._119_88_drop, ._120_drop:
+            case .fps119_88d, .fps120d:
                 XCTAssertEqual(ff.feet, 27894, "\(frate)")
                 XCTAssertEqual(ff.frames, 12, "\(frate)")
             }

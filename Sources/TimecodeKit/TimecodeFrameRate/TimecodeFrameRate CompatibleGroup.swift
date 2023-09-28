@@ -46,37 +46,37 @@ extension TimecodeFrameRate {
         public static var table: [CompatibleGroup: [TimecodeFrameRate]] =
             [
                 .ntscColor: [
-                    ._23_976,
-                    ._24_98,
-                    ._29_97,
-                    ._47_952,
-                    ._59_94,
-                    ._95_904,
-                    ._119_88
+                    .fps23_976,
+                    .fps24_98,
+                    .fps29_97,
+                    .fps47_952,
+                    .fps59_94,
+                    .fps95_904,
+                    .fps119_88
                 ],
                 
                 .ntscDrop: [
-                    ._29_97_drop,
-                    ._59_94_drop,
-                    ._119_88_drop
+                    .fps29_97d,
+                    .fps59_94d,
+                    .fps119_88d
                 ],
                 
                 .whole: [
-                    ._24,
-                    ._25,
-                    ._30,
-                    ._48,
-                    ._50,
-                    ._60,
-                    ._96,
-                    ._100,
-                    ._120
+                    .fps24,
+                    .fps25,
+                    .fps30,
+                    .fps48,
+                    .fps50,
+                    .fps60,
+                    .fps96,
+                    .fps100,
+                    .fps120
                 ],
                 
                 .ntscColorWallTime: [
-                    ._30_drop,
-                    ._60_drop,
-                    ._120_drop
+                    .fps30d,
+                    .fps60d,
+                    .fps120d
                 ]
             ]
     }

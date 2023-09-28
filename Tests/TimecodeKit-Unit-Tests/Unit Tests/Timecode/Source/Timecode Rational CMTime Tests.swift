@@ -33,24 +33,24 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         
         try TimecodeFrameRate.allCases.forEach { fRate in
             switch fRate {
-            case ._23_976:
+            case .fps23_976:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 335335, timescale: 24000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 23)
                 )
-            case ._24:
+            case .fps24:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 167500, timescale: 12000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 23)
                 )
-            case ._24_98:
+            case .fps24_98:
                 break // TODO: finish this
-            case ._25: // same fraction is found in FCP XML for 25p and 25i video rates
+            case .fps25: // same fraction is found in FCP XML for 25p and 25i video rates
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 34900, timescale: 2500)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 24)
                 )
-            case ._29_97: // same fraction is found in FCP XML for 29.97p and 29.97i video rates
+            case .fps29_97: // same fraction is found in FCP XML for 29.97p and 29.97i video rates
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 838838, timescale: 60000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 29)
@@ -59,7 +59,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
                     try Timecode(.cmTime(CMTime(value: 1920919, timescale: 30000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 01, s: 03, f: 29)
                 )
-            case ._29_97_drop:
+            case .fps29_97d:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 419419, timescale: 30000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 29)
@@ -68,49 +68,49 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
                     try Timecode(.cmTime(CMTime(value: 1918917, timescale: 30000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 01, s: 03, f: 29)
                 )
-            case ._30:
+            case .fps30:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 83800, timescale: 6000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 29)
                 )
-            case ._30_drop:
+            case .fps30d:
                 break // TODO: finish this
-            case ._47_952:
+            case .fps47_952:
                 break // TODO: finish this
-            case ._48:
+            case .fps48:
                 break // TODO: finish this
-            case ._50:
+            case .fps50:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 69900, timescale: 5000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 49)
                 )
-            case ._59_94:
+            case .fps59_94:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 839839, timescale: 60000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 59)
                 )
-            case ._59_94_drop:
+            case .fps59_94d:
                 break // TODO: finish this
-            case ._60:
+            case .fps60:
                 XCTAssertEqual(
                     try Timecode(.cmTime(CMTime(value: 83900, timescale: 6000)), at: fRate).components,
                     Timecode.Components(h: 00, m: 00, s: 13, f: 59)
                 )
-            case ._60_drop:
+            case .fps60d:
                 break // TODO: finish this
-            case ._95_904:
+            case .fps95_904:
                 break // TODO: finish this
-            case ._96:
+            case .fps96:
                 break // TODO: finish this
-            case ._100:
+            case .fps100:
                 break // TODO: finish this
-            case ._119_88:
+            case .fps119_88:
                 break // TODO: finish this
-            case ._119_88_drop:
+            case .fps119_88d:
                 break // TODO: finish this
-            case ._120:
+            case .fps120:
                 break // TODO: finish this
-            case ._120_drop:
+            case .fps120d:
                 break // TODO: finish this
             }
         }
@@ -119,7 +119,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
     func testTimecode_init_CMTime_Clamping() {
         let tc = Timecode(
             .cmTime(CMTime(value: 86400 + 3600, timescale: 1)), // 25 hours @ 24fps
-            at: ._24,
+            at: .fps24,
             limit: ._24Hours,
             by: .clamping
         )
@@ -133,7 +133,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
     func testTimecode_init_CMTime_Wrapping() {
         let tc = Timecode(
             .cmTime(CMTime(value: 86400 + 3600, timescale: 1)), // 25 hours @ 24fps
-            at: ._24,
+            at: .fps24,
             limit: ._24Hours,
             by: .wrapping
         )
@@ -149,7 +149,7 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
     func testTimecode_init_CMTime_RawValues() {
         let tc = Timecode(
             .cmTime(CMTime(value: (86400 * 2) + 3600, timescale: 1)), // 2 days + 1 hour @ 24fps
-            at: ._24,
+            at: .fps24,
             limit: ._24Hours,
             by: .allowingInvalid
         )
@@ -178,14 +178,14 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
     }
     
     func testTimecode_cmTimeValue_SpotCheck() throws {
-        let tc = try Timecode.Components(h: 00, m: 00, s: 13, f: 29).timecode(at: ._29_97_drop)
+        let tc = try Timecode.Components(h: 00, m: 00, s: 13, f: 29).timecode(at: .fps29_97d)
         XCTAssertEqual(tc.cmTimeValue.value, 419419)
         XCTAssertEqual(tc.cmTimeValue.timescale, 30000)
     }
     
     func testCMTime_timecode() throws {
         XCTAssertEqual(
-            try CMTime(value: 3600, timescale: 1).timecode(at: ._24).components,
+            try CMTime(value: 3600, timescale: 1).timecode(at: .fps24).components,
             Timecode.Components(h: 1)
         )
     }

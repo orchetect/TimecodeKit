@@ -23,43 +23,37 @@
 /// Some video rates may correspond (or generally be compatible with) certain timecode rates and vice-versa.
 /// To return a timecode rate's corresponding video rate, see ``videoFrameRate(interlaced:)``.
 ///
-/// ## Supported Timecode (Display) Frame Rates
-///
-/// - `_23_976`
-/// - `_24`
-/// - `_24_98`
-/// - `_25`
-/// - `_29_97`
-/// - `_29_97_drop`
-/// - `_30`
-/// - `_30_drop`
-/// - `_47_952`
-/// - `_48`
-/// - `_50`
-/// - `_59_94`
-/// - `_59_94_drop`
-/// - `_60`
-/// - `_60_drop`
-/// - `_95_904`
-/// - `_96`
-/// - `_100`
-/// - `_119_88`
-/// - `_119_88_drop`
-/// - `_120`
-/// - `_120_drop`
-///
-/// > Note:
-/// >
-/// > `TimecodeFrameRate` enum cases all begin with an underscore.
-/// >
-/// > Due to a limitation of how DocC documentation renders, symbols prefixed with an underscore (`_`) will not show up in documentation as they are assumed to be private by the doc generator.
-/// > This limitation may change in future DocC rendering. Therefore documentation may be limited. See inline documentation for these enum cases for more info.
-///
 /// ## Topics
+///
+/// ### Rates
+///
+/// - ``fps23_976``
+/// - ``fps24``
+/// - ``fps24_98``
+/// - ``fps25``
+/// - ``fps29_97``
+/// - ``fps29_97d``
+/// - ``fps30``
+/// - ``fps30d``
+/// - ``fps47_952``
+/// - ``fps48``
+/// - ``fps50``
+/// - ``fps59_94``
+/// - ``fps59_94d``
+/// - ``fps60``
+/// - ``fps60d``
+/// - ``fps95_904``
+/// - ``fps96``
+/// - ``fps100``
+/// - ``fps119_88``
+/// - ``fps119_88d``
+/// - ``fps120``
+/// - ``fps120d``
 ///
 /// ### String Extensions
 ///
 /// - ``Swift/String/timecodeFrameRate``
+/// 
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)
     ///
@@ -68,33 +62,33 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     ///
     /// This frame rate is used for film that is being transferred to NTSC video and must be slowed down for a 2-3 pull-down telecine
     /// transfer.
-    case _23_976 = "23.976"
+    case fps23_976 = "23.976"
     
     /// 24 fps
     ///
     /// The true speed of standard film cameras. (Film, ATSC, 2k, 4k, 6k)
-    case _24 = "24"
+    case fps24 = "24"
     
     /// 24.98 fps (25/1.001)
     ///
     /// This frame rate is commonly used to facilitate transfers between PAL and NTSC video and film sources. It is mostly used to
     /// compensate for some error.
-    case _24_98 = "24.98"
+    case fps24_98 = "24.98"
     
     /// 25 fps
     ///
     /// PAL video used in Europe, Uruguay, Argentina, Australia. (SECAM, DVB, ATSC)
-    case _25 = "25"
+    case fps25 = "25"
     
     /// 29.97 fps (30/1.001)
     ///
     /// NTSC video used in the US, Canada, Mexico, Colombia, etc. (ATSC, PAL-M Brazil)
-    case _29_97 = "29.97"
+    case fps29_97 = "29.97"
     
     /// 29.97 fps drop
     ///
     /// NTSC video used in the US, Canada, Mexico, Colombia, etc. (ATSC, PAL-M Brazil)
-    case _29_97_drop = "29.97d"
+    case fps29_97d = "29.97d"
     
     /// 30 fps
     ///
@@ -103,40 +97,40 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     ///
     /// This timecode clock does not run in realtime. It is slightly slower by 0.1%.
     /// ie: 1:00:00:00:00 (1 day/24 hours) at 30 fps is approx 1:00:00;02 in 29.97df
-    case _30 = "30"
+    case fps30 = "30"
     
     /// 30 fps drop
     ///
     /// This is an adaptation that allows a timecode display running at 29.97 fps to actually show the wall-clock time of the timeline by
     /// “dropping” or skipping specific frame numbers in order to “catch the clock up” to realtime.
-    case _30_drop = "30d"
+    case fps30d = "30d"
     
     /// 47.952 (48/1.001)
     ///
     /// Double 23.976 fps
-    case _47_952 = "47.952"
+    case fps47_952 = "47.952"
     
     /// 48 fps
     ///
     /// Double 24 fps.
-    case _48 = "48"
+    case fps48 = "48"
     
     /// 50 fps
     ///
     /// Double 25 fps
-    case _50 = "50"
+    case fps50 = "50"
     
     /// 59.94 fps (60/1.001)
     ///
     /// Double 29.97 fps.
     ///
     /// This video frame rate is supported by high definition cameras and is compatible with NTSC (29.97 fps).
-    case _59_94 = "59.94"
+    case fps59_94 = "59.94"
     
     /// 59.94 fps drop
     ///
     /// Double 29.97 fps drop
-    case _59_94_drop = "59.94d"
+    case fps59_94d = "59.94d"
     
     /// 60 fps
     ///
@@ -144,51 +138,51 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     ///
     /// This video frame rate is supported by many high definition cameras. However, the NTSC compatible 59.94 fps frame rate is much more
     /// common.
-    case _60 = "60"
+    case fps60 = "60"
     
     /// 60 fps drop
     ///
     /// Double 30 fps.
     ///
     /// See the description for 30 drop for more info.
-    case _60_drop = "60d"
+    case fps60d = "60d"
     
     /// 95.904 fps (96/1.001)
     ///
     /// Double 47.952 fps / quadruple 23.976 fps
-    case _95_904 = "95.904"
+    case fps95_904 = "95.904"
     
     /// 96 fps
     ///
     /// Double 48 fps / quadruple 24 fps.
-    case _96 = "96"
+    case fps96 = "96"
     
     /// 100 fps
     ///
     /// Double 50 fps / quadruple 25 fps.
-    case _100 = "100"
+    case fps100 = "100"
     
     /// 119.88 fps (120/1.001)
     ///
     /// Double 59.94 fps / quadruple 29.97 fps.
-    case _119_88 = "119.88"
+    case fps119_88 = "119.88"
     
     /// 119.88 fps drop
     ///
     /// Double 59.94 fps drop / quadruple 29.97 fps drop.
-    case _119_88_drop = "119.88d"
+    case fps119_88d = "119.88d"
     
     /// 120 fps
     ///
     /// Double 60 fps / quadruple 30 fps.
-    case _120 = "120"
+    case fps120 = "120"
     
     /// 120 fps drop
     ///
     /// Double 60 fps drop / quadruple 30 fps drop.
     ///
     /// See the description for 30 drop for more info.
-    case _120_drop = "120d"
+    case fps120d = "120d"
 }
 
 extension TimecodeFrameRate: CaseIterable {

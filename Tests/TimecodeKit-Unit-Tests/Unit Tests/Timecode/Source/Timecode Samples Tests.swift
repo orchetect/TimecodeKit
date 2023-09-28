@@ -32,7 +32,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
                 sampleRate: 48000
             ),
-            at: ._24,
+            at: .fps24,
             by: .clamping
         )
         
@@ -48,7 +48,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 4_147_200_000 + 172_800_000, // 25 hours @ 24fps
                 sampleRate: 48000
             ),
-            at: ._24,
+            at: .fps24,
             by: .wrapping
         )
         
@@ -61,7 +61,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 (4_147_200_000 * 2) + 172_800_000, // 2 days + 1 hour @ 24fps
                 sampleRate: 48000
             ),
-            at: ._24,
+            at: .fps24,
             by: .allowingInvalid
         )
         
@@ -74,7 +74,7 @@ class Timecode_Samples_Tests: XCTestCase {
                 -((4_147_200_000 * 2) + 172_800_000), // 2 days + 1 hour @ 24fps
                 sampleRate: 48000
             ),
-            at: ._24,
+            at: .fps24,
             by: .allowingInvalid
         )
         
@@ -168,35 +168,35 @@ class Timecode_Samples_Tests: XCTestCase {
             var roundedForDropFrame = false
             
             switch fRate {
-            case ._23_976,
-                 ._24_98,
-                 ._29_97,
-                 ._47_952,
-                 ._59_94,
-                 ._95_904,
-                 ._119_88:
+            case .fps23_976,
+                 .fps24_98,
+                 .fps29_97,
+                 .fps47_952,
+                 .fps59_94,
+                 .fps95_904,
+                 .fps119_88:
                 
                 samplesIn1DayTCDouble = samplesIn1DayTC_ShrunkFrameRates
                 samplesIn1DayTCInt = Int(samplesIn1DayTCDouble)
                 roundedForDropFrame = false
                 
-            case ._24,
-                 ._25,
-                 ._30,
-                 ._48,
-                 ._50,
-                 ._60,
-                 ._96,
-                 ._100,
-                 ._120:
+            case .fps24,
+                 .fps25,
+                 .fps30,
+                 .fps48,
+                 .fps50,
+                 .fps60,
+                 .fps96,
+                 .fps100,
+                 .fps120:
                 
                 samplesIn1DayTCDouble = samplesIn1DayTC_BaseFrameRates
                 samplesIn1DayTCInt = Int(samplesIn1DayTCDouble)
                 roundedForDropFrame = false
                 
-            case ._29_97_drop,
-                 ._59_94_drop,
-                 ._119_88_drop:
+            case .fps29_97d,
+                 .fps59_94d,
+                 .fps119_88d:
                 
                 // Cubase:
                 // - reports 4147195853 @ 1 day
@@ -209,9 +209,9 @@ class Timecode_Samples_Tests: XCTestCase {
                 samplesIn1DayTCInt = Int(samplesIn1DayTCDouble)
                 roundedForDropFrame = true // DAWs seem to using standard rounding for DF (?)
                 
-            case ._30_drop,
-                 ._60_drop,
-                 ._120_drop:
+            case .fps30d,
+                 .fps60d,
+                 .fps120d:
                 
                 samplesIn1DayTCDouble = samplesIn1DayTC_30DF
                 samplesIn1DayTCInt = Int(samplesIn1DayTCDouble)

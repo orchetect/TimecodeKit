@@ -33,7 +33,7 @@ import XCTest
 //            TimecodeFrameRate.allCases
 //        // TimecodeFrameRate.allDrop
 //        // TimecodeFrameRate.allNonDrop
-//        // [._60_drop, ._120_drop]
+//        // [.fps60d, .fps120d]
 //
 //        // ======= run ==============
 //
@@ -119,7 +119,7 @@ import XCTest
 // final class DevTests: XCTestCase {
 //    func testDummy() throws {
 //        var tc = try Timecode.Components(d: 1)
-//            .timecode(at: ._30_drop, limit: ._100Days)
+//            .timecode(at: .fps30d, limit: ._100Days)
 //        print(tc.realTimeValue)
 //        tc.set(.zero)
 //        try tc.set("")

@@ -29,12 +29,12 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1),
-            at: ._23_976,
+            at: .fps23_976,
             base: ._100SubFrames
         )
-        .converted(to: ._30)
+        .converted(to: .fps30)
         
-        XCTAssertEqual(convertedTC.frameRate, ._30)
+        XCTAssertEqual(convertedTC.frameRate, .fps30)
         XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 03, f: 18, sf: 00))
     }
     
@@ -70,31 +70,31 @@ class Timecode_Conversion_Tests: XCTestCase {
         
         let convertedTC = try Timecode(
             .components(h: 1, m: 0, s: 0, f: 96),
-            at: ._100,
+            at: .fps100,
             base: ._100SubFrames
         )
-        .converted(to: ._50, preservingValues: true)
+        .converted(to: .fps50, preservingValues: true)
             
-        XCTAssertEqual(convertedTC.frameRate, ._50)
+        XCTAssertEqual(convertedTC.frameRate, .fps50)
         XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 00, f: 48, sf: 00))
     }
     
     func testTransform() throws {
-        var tc = try Timecode(.components(m: 1), at: ._24)
+        var tc = try Timecode(.components(m: 1), at: .fps24)
         
         let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
         tc.transform(using: transformer)
         
-        XCTAssertEqual(tc, try Timecode(.components(m: 2), at: ._24))
+        XCTAssertEqual(tc, try Timecode(.components(m: 2), at: .fps24))
     }
     
     func testTransformed() throws {
-        let tc = try Timecode(.components(m: 1), at: ._24)
+        let tc = try Timecode(.components(m: 1), at: .fps24)
         
         let transformer = TimecodeTransformer(.offset(by: .positive(tc)))
         let newTC = tc.transformed(using: transformer)
         
-        XCTAssertEqual(newTC, try Timecode(.components(m: 2), at: ._24))
+        XCTAssertEqual(newTC, try Timecode(.components(m: 2), at: .fps24))
     }
 }
 

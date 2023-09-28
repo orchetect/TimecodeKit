@@ -16,7 +16,7 @@ class Timecode_Validation_Tests: XCTestCase {
     func testValidWithinRanges() {
         // typical valid values
         
-        let fr = TimecodeFrameRate._24
+        let fr = TimecodeFrameRate.fps24
         let limit = Timecode.UpperLimit._24Hours
         
         let tc = Timecode(.zero, at: fr, base: ._80SubFrames, limit: limit)
@@ -38,7 +38,7 @@ class Timecode_Validation_Tests: XCTestCase {
     func testInvalidOverRanges() {
         // invalid - over ranges
         
-        let fr = TimecodeFrameRate._24
+        let fr = TimecodeFrameRate.fps24
         let limit = Timecode.UpperLimit._24Hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
@@ -62,7 +62,7 @@ class Timecode_Validation_Tests: XCTestCase {
     func testInvalidUnderRanges() {
         // invalid - under ranges
         
-        let fr = TimecodeFrameRate._24
+        let fr = TimecodeFrameRate.fps24
         let limit = Timecode.UpperLimit._24Hours
         
         var tc = Timecode(.zero, at: fr, limit: limit)
@@ -86,7 +86,7 @@ class Timecode_Validation_Tests: XCTestCase {
     func testSubFrames() {
         // test each subframes base range
         
-        let fr = TimecodeFrameRate._24
+        let fr = TimecodeFrameRate.fps24
         let limit = Timecode.UpperLimit._24Hours
         
         for base in Timecode.SubFramesBase.allCases {
@@ -182,7 +182,7 @@ class Timecode_Validation_Tests: XCTestCase {
         
         let tc = try Timecode(
             .components(comps),
-            at: ._29_97_drop,
+            at: .fps29_97d,
             base: ._80SubFrames,
             limit: ._24Hours
         )
@@ -196,7 +196,7 @@ class Timecode_Validation_Tests: XCTestCase {
         
         let tc = Timecode(
             .zero,
-            at: ._24,
+            at: .fps24,
             base: subFramesBase,
             limit: ._24Hours
         )

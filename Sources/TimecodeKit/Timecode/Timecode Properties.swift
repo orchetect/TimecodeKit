@@ -14,7 +14,7 @@ extension Timecode {
     /// Timecode components can be get or set directly as instance properties.
     ///
     /// ```swift
-    /// let tc = try "01:12:20:05".timecode(at: ._23_976)
+    /// let tc = try "01:12:20:05".timecode(at: .fps23_976)
     ///
     /// // get
     /// tc.days          // == 0

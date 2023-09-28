@@ -11,15 +11,15 @@ extension Timecode {
     ///
     /// ```swift
     /// let tcc = Timecode.Components(h: 1)
-    /// Timecode(.components(tcc), at: ._23_976)
+    /// Timecode(.components(tcc), at: .fps23_976)
     ///
     /// // is the same as using the shorthand:
-    /// Timecode(.components(h: 1), at: ._23_976)
+    /// Timecode(.components(h: 1), at: .fps23_976)
     /// ```
     ///
     /// ```swift
     /// let cmp = try "01:12:20:05"
-    ///     .timecode(at: ._23_976)
+    ///     .timecode(at: .fps23_976)
     ///     .components // Timecode.Components
     ///
     /// cmp.days      // == 0
@@ -67,7 +67,7 @@ extension Timecode {
     ///
     /// ```swift
     /// var tc = try "01:12:20:05.62"
-    ///     .timecode(at: ._24, base: ._80SubFrames)
+    ///     .timecode(at: .fps24, base: ._80SubFrames)
     ///
     /// // string with default formatting
     /// tc.stringValue() // == "01:12:20:05"
@@ -81,7 +81,7 @@ extension Timecode {
     ///
     /// ```swift
     /// var tc = try "00:00:00:00.40"
-    ///     .timecode(at: ._24, base: ._80SubFrames)
+    ///     .timecode(at: .fps24, base: ._80SubFrames)
     ///
     /// tc.stringValue() // == "00:00:00:00"
     /// tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"

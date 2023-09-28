@@ -20,8 +20,8 @@ class Timecode_init_Tests: XCTestCase {
         
         // defaults
         
-        let tc = Timecode(.zero, at: ._24)
-        XCTAssertEqual(tc.frameRate, ._24)
+        let tc = Timecode(.zero, at: .fps24)
+        XCTAssertEqual(tc.frameRate, .fps24)
         XCTAssertEqual(tc.upperLimit, ._24Hours)
         XCTAssertEqual(tc.frameCount.subFrameCount, 0)
         XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 0, m: 0, s: 0, f: 0))

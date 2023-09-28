@@ -17,19 +17,19 @@ class Timecode_Comparable_Tests: XCTestCase {
         // ==
         
         XCTAssertEqual(
-            try "01:00:00:00".timecode(at: ._23_976),
-            try "01:00:00:00".timecode(at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976),
+            try "01:00:00:00".timecode(at: .fps23_976)
         )
         XCTAssertEqual(
-            try "01:00:00:00".timecode(at: ._23_976),
-            try "01:00:00:00".timecode(at: ._29_97)
+            try "01:00:00:00".timecode(at: .fps23_976),
+            try "01:00:00:00".timecode(at: .fps29_97)
         )
         
         // == where elapsed frame count matches but frame rate differs (two frame rates where elapsed frames in 24 hours is identical)
         
         XCTAssertNotEqual(
-            try "01:00:00:00".timecode(at: ._23_976),
-            try "01:00:00:00".timecode(at: ._24)
+            try "01:00:00:00".timecode(at: .fps23_976),
+            try "01:00:00:00".timecode(at: .fps24)
         )
         
         try TimecodeFrameRate.allCases.forEach { frameRate in
@@ -49,21 +49,21 @@ class Timecode_Comparable_Tests: XCTestCase {
         // < >
         
         XCTAssertFalse(
-            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
-                < "01:00:00:00".timecode(at: ._29_97)
+            try "01:00:00:00".timecode(at: .fps23_976) // false because they're ==
+                < "01:00:00:00".timecode(at: .fps29_97)
         )
         XCTAssertFalse(
-            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
-                > "01:00:00:00".timecode(at: ._29_97)
+            try "01:00:00:00".timecode(at: .fps23_976) // false because they're ==
+                > "01:00:00:00".timecode(at: .fps29_97)
         )
         
         XCTAssertFalse(
-            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
-                < "01:00:00:00".timecode(at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976) // false because they're ==
+                < "01:00:00:00".timecode(at: .fps23_976)
         )
         XCTAssertFalse(
-            try "01:00:00:00".timecode(at: ._23_976) // false because they're ==
-                > "01:00:00:00".timecode(at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976) // false because they're ==
+                > "01:00:00:00".timecode(at: .fps23_976)
         )
         
         try TimecodeFrameRate.allCases.forEach { frameRate in
@@ -248,7 +248,7 @@ class Timecode_Comparable_Tests: XCTestCase {
     
     /// For comparison with the context of a timeline that is != 00:00:00:00
     func testCompareTo() throws {
-        let frameRate: TimecodeFrameRate = ._24
+        let frameRate: TimecodeFrameRate = .fps24
         
         func tc(_ string: String) throws -> Timecode {
             try string.timecode(at: frameRate)
@@ -358,7 +358,7 @@ class Timecode_Comparable_Tests: XCTestCase {
     }
     
     func testCollection_isSorted() throws {
-        let frameRate: TimecodeFrameRate = ._24
+        let frameRate: TimecodeFrameRate = .fps24
         
         func tc(_ string: String) throws -> Timecode {
             try string.timecode(at: frameRate)

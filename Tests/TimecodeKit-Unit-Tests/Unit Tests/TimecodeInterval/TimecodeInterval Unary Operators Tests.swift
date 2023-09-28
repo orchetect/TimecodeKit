@@ -14,16 +14,16 @@ class TimecodeInterval_UnaryOperators_Tests: XCTestCase {
     override func tearDown() { }
     
     func testNegative() throws {
-        let interval = try -Timecode(.components(m: 1), at: ._24)
+        let interval = try -Timecode(.components(m: 1), at: .fps24)
         
-        XCTAssertEqual(interval.absoluteInterval, try Timecode(.components(m: 1), at: ._24))
+        XCTAssertEqual(interval.absoluteInterval, try Timecode(.components(m: 1), at: .fps24))
         XCTAssertTrue(interval.isNegative)
     }
     
     func testPositive() throws {
-        let interval = try +Timecode(.components(m: 1), at: ._24)
+        let interval = try +Timecode(.components(m: 1), at: .fps24)
         
-        XCTAssertEqual(interval.absoluteInterval, try Timecode(.components(m: 1), at: ._24))
+        XCTAssertEqual(interval.absoluteInterval, try Timecode(.components(m: 1), at: .fps24))
         XCTAssertFalse(interval.isNegative)
     }
 }

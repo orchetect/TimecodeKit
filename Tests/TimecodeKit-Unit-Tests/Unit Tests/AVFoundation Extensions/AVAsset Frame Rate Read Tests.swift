@@ -21,21 +21,21 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let url = try TestResource.timecodeTrack_23_976_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._23_976)
+        XCTAssertEqual(frameRate, .fps23_976)
     }
     
     func testTimecodeFrameRate_23_976fps_B() throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._23_976)
+        XCTAssertEqual(frameRate, .fps23_976)
     }
     
     func testTimecodeFrameRate_24fps() throws {
         let url = try TestResource.timecodeTrack_24_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
-        XCTAssertEqual(frameRate, ._24)
+        XCTAssertEqual(frameRate, .fps24)
     }
     
     func testTimecodeFrameRate_29_97dropfps() throws {
@@ -43,7 +43,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, true)
-        XCTAssertEqual(frameRate, ._29_97_drop)
+        XCTAssertEqual(frameRate, .fps29_97d)
     }
     
     func testTimecodeFrameRate_29_97fps() throws {
@@ -51,7 +51,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, false)
-        XCTAssertEqual(frameRate, ._29_97)
+        XCTAssertEqual(frameRate, .fps29_97)
     }
     
     func testTimecodeFrameRate_29_97fps_from2997i() throws {
@@ -59,7 +59,7 @@ class AVAsset_FrameRateRead_Tests: XCTestCase {
         let asset = AVAsset(url: url)
         let frameRate = try asset.timecodeFrameRate()
         XCTAssertEqual(asset.isTimecodeFrameRateDropFrame, false)
-        XCTAssertEqual(frameRate, ._29_97)
+        XCTAssertEqual(frameRate, .fps29_97)
     }
     
     // MARK: - VideoFrameRate

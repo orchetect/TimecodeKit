@@ -16,7 +16,7 @@ class TimecodeInterval_Tests: XCTestCase {
     func testInitA() throws {
         // positive
         
-        let intervalTC = try Timecode(.components(m: 1), at: ._24)
+        let intervalTC = try Timecode(.components(m: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC)
         
@@ -27,7 +27,7 @@ class TimecodeInterval_Tests: XCTestCase {
     func testInitB() throws {
         // negative
         
-        let intervalTC = try Timecode(.components(m: 1), at: ._24)
+        let intervalTC = try Timecode(.components(m: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC, .minus)
         
@@ -39,7 +39,7 @@ class TimecodeInterval_Tests: XCTestCase {
         // Timecode.Components can contain negative values;
         // this should not alter the sign however
         
-        let intervalTC = Timecode(.components(m: -1), at: ._24, by: .allowingInvalid)
+        let intervalTC = Timecode(.components(m: -1), at: .fps24, by: .allowingInvalid)
         
         let interval = TimecodeInterval(intervalTC)
         
@@ -49,13 +49,13 @@ class TimecodeInterval_Tests: XCTestCase {
     
     func testIsNegative() {
         XCTAssertEqual(
-            TimecodeInterval(Timecode(.zero, at: ._24))
+            TimecodeInterval(Timecode(.zero, at: .fps24))
                 .isNegative,
             false
         )
         
         XCTAssertEqual(
-            TimecodeInterval(Timecode(.zero, at: ._24), .minus)
+            TimecodeInterval(Timecode(.zero, at: .fps24), .minus)
                 .isNegative,
             true
         )
@@ -64,7 +64,7 @@ class TimecodeInterval_Tests: XCTestCase {
     func testTimecodeA() throws {
         // positive
         
-        let intervalTC = try Timecode(.components(m: 1), at: ._24)
+        let intervalTC = try Timecode(.components(m: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC)
         
@@ -74,59 +74,59 @@ class TimecodeInterval_Tests: XCTestCase {
     func testTimecodeB() throws {
         // negative, wrapping
         
-        let intervalTC = try Timecode(.components(m: 1), at: ._24)
+        let intervalTC = try Timecode(.components(m: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(
             interval.flattened(),
-            try Timecode(.components(h: 23, m: 59, s: 00, f: 00), at: ._24)
+            try Timecode(.components(h: 23, m: 59, s: 00, f: 00), at: .fps24)
         )
     }
     
     func testTimecodeC() throws {
         // positive, wrapping
         
-        let intervalTC = Timecode(.components(h: 26), at: ._24, by: .allowingInvalid)
+        let intervalTC = Timecode(.components(h: 26), at: .fps24, by: .allowingInvalid)
         
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(
             interval.flattened(),
-            try Timecode(.components(h: 02, m: 00, s: 00, f: 00), at: ._24)
+            try Timecode(.components(h: 02, m: 00, s: 00, f: 00), at: .fps24)
         )
     }
     
     func testTimecodeOffsettingA() throws {
         // positive
         
-        let intervalTC = Timecode(.components(m: 1), at: ._24, by: .allowingInvalid)
+        let intervalTC = Timecode(.components(m: 1), at: .fps24, by: .allowingInvalid)
         
         let interval = TimecodeInterval(intervalTC)
         
         XCTAssertEqual(
-            try interval.timecode(offsetting: Timecode(.components(h: 1), at: ._24)),
-            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: ._24)
+            try interval.timecode(offsetting: Timecode(.components(h: 1), at: .fps24)),
+            try Timecode(.components(h: 01, m: 01, s: 00, f: 00), at: .fps24)
         )
     }
     
     func testTimecodeOffsettingB() throws {
         // negative
         
-        let intervalTC = Timecode(.components(m: 1), at: ._24, by: .allowingInvalid)
+        let intervalTC = Timecode(.components(m: 1), at: .fps24, by: .allowingInvalid)
         
         let interval = TimecodeInterval(intervalTC, .minus)
         
         XCTAssertEqual(
-            try interval.timecode(offsetting: Timecode(.components(h: 1), at: ._24)),
-            try Timecode(.components(h: 00, m: 59, s: 00, f: 00), at: ._24)
+            try interval.timecode(offsetting: Timecode(.components(h: 1), at: .fps24)),
+            try Timecode(.components(h: 00, m: 59, s: 00, f: 00), at: .fps24)
         )
     }
     
     func testRealTimeValueA() throws {
         // positive
         
-        let intervalTC = try Timecode(.components(h: 1), at: ._24)
+        let intervalTC = try Timecode(.components(h: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC)
         
@@ -136,7 +136,7 @@ class TimecodeInterval_Tests: XCTestCase {
     func testRealTimeValueB() throws {
         // negative
         
-        let intervalTC = try Timecode(.components(h: 1), at: ._24)
+        let intervalTC = try Timecode(.components(h: 1), at: .fps24)
         
         let interval = TimecodeInterval(intervalTC, .minus)
         
@@ -145,22 +145,22 @@ class TimecodeInterval_Tests: XCTestCase {
     
     func testStaticConstructors_Positive() throws {
         let interval: TimecodeInterval = try .positive(
-            Timecode(.components(h: 1), at: ._24)
+            Timecode(.components(h: 1), at: .fps24)
         )
         XCTAssertEqual(
             interval.absoluteInterval,
-            try Timecode(.components(h: 1), at: ._24)
+            try Timecode(.components(h: 1), at: .fps24)
         )
         XCTAssertFalse(interval.isNegative)
     }
     
     func testStaticConstructors_Negative() throws {
         let interval: TimecodeInterval = try .negative(
-            Timecode(.components(h: 1), at: ._24)
+            Timecode(.components(h: 1), at: .fps24)
         )
         XCTAssertEqual(
             interval.absoluteInterval,
-            try Timecode(.components(h: 1), at: ._24)
+            try Timecode(.components(h: 1), at: .fps24)
         )
         XCTAssertTrue(interval.isNegative)
     }

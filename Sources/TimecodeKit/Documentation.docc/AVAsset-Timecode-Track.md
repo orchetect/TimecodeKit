@@ -17,7 +17,7 @@ Auto-detect the movie's frame rate (if it's embedded in the file) and return it 
 If frame rate information is not available in the video file, this method will throw an error.
 
 ```swift
-let frameRate = try asset.timecodeFrameRate() // ie: ._29_97
+let frameRate = try asset.timecodeFrameRate() // ie: .fps29_97
 ```
 
 Read the start timecode, duration expressed as elapsed timecode, and end timecode.
@@ -29,17 +29,17 @@ If frame rate information is not available in the video file, these methods will
 // read start timecode, auto-detecting frame rate
 let startTimecode = try asset.startTimecode()
 // read start timecode, forcing a known frame rate
-let startTimecode = try asset.startTimecode(at: ._29_97)
+let startTimecode = try asset.startTimecode(at: .fps29_97)
 
 // read video duration expressed as timecode
 let durationTimecode = try asset.durationTimecode()
 // read video duration expressed as timecode, forcing a known frame rate
-let durationTimecode = try asset.durationTimecode(at: ._29_97)
+let durationTimecode = try asset.durationTimecode(at: .fps29_97)
 
 // read end timecode, auto-detecting frame rate
 let endTimecode = try asset.endTimecode()
 // read end timecode, forcing a known frame rate
-let endTimecode = try asset.endTimecode(at: ._29_97)
+let endTimecode = try asset.endTimecode(at: .fps29_97)
 ```
 
 ## Add or Replace Timecode Track in a QuickTime Movie
@@ -58,7 +58,7 @@ Then add/replace the timecode track.
 ```swift
 // replace existing timecode track if it exists, otherwise add a new timecode track
 try mutableMovie.replaceTimecodeTrack(
-    startTimecode: Timecode(.components(h: 0, m: 59, s: 58, f: 00), at: ._29_97),
+    startTimecode: Timecode(.components(h: 0, m: 59, s: 58, f: 00), at: .fps29_97),
     fileType: .mov
 )
 ```

@@ -21,14 +21,14 @@ extension Timecode {
     /// The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
     ///
     /// ```swift
-    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     ///     .stringValueValidatedText()
     /// ```
     ///
     /// You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
     ///
     /// ```swift
-    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     ///     .stringValueValidatedText(
     ///         invalidModifiers: {
     ///             $0.foregroundColor(.blue)

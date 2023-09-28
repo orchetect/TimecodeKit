@@ -17,12 +17,12 @@ Timecode can be tested as:
 // but 75 seconds and 60 frames are NOT valid
 
 // non-granular validation
-try Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976)
+try Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976)
 // == throws error; cannot form a valid timecode
 
 // granular validation
 // allowingInvalid allows invalid values; does not throw errors so 'try' is not needed
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     .invalidComponents // == [.seconds, .frames]
 ```
 
@@ -31,7 +31,7 @@ Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInva
 This method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of attributes.
 
 ```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     .stringValueValidated()
 ```
 
@@ -50,7 +50,7 @@ let defaultAttr: [NSAttributedString.Key: Any] = [
     .font: NSFont.systemFont(ofSize: 16)
 ]
 
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     .stringValueValidated(invalidAttributes: invalidAttr,
                           defaultAttributes: defaultAttr)
 ```
@@ -68,7 +68,7 @@ The invalid formatting attributes defaults to applying `[.foregroundColor: NSCol
 // set up formatter
 let formatter = Timecode.TextFormatter(
     using: .init(
-        rate: ._23_976,
+        rate: .fps23_976,
         base: ._80SubFrames,
         limit: ._24Hours
     )
@@ -89,7 +89,7 @@ When importing `TimecodeKitUI`, a SwiftUI `Text` view is available which highlig
 The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
 
 ```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     .stringValueValidatedText()
 ```
 
@@ -98,7 +98,7 @@ You can alternatively supply your own invalid modifiers by setting the `invalidM
 ```swift
 import TimecodeKitUI
 
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: ._23_976, by: .allowingInvalid)
+Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
     .stringValueValidatedText(
         invalidModifiers: {
             $0.foregroundColor(.blue)

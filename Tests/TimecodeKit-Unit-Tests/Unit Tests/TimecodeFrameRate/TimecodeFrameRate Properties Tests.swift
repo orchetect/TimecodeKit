@@ -13,7 +13,7 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
     func testProperties() {
         // spot-check that properties behave as expected
         
-        let frameRate: TimecodeFrameRate = ._30
+        let frameRate: TimecodeFrameRate = .fps30
         
         XCTAssertEqual(frameRate.stringValue, "30")
         

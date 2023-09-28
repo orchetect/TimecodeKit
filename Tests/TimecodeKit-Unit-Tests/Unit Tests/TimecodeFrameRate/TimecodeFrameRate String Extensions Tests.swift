@@ -13,8 +13,8 @@ class TimecodeFrameRate_StringExtensions_Tests: XCTestCase {
     func testString_timecodeFrameRate() {
         // do a spot-check to ensure this functions as expected
                 
-        XCTAssertEqual("23.976".timecodeFrameRate, ._23_976)
-        XCTAssertEqual("29.97d".timecodeFrameRate, ._29_97_drop)
+        XCTAssertEqual("23.976".timecodeFrameRate, .fps23_976)
+        XCTAssertEqual("29.97d".timecodeFrameRate, .fps29_97d)
         
         XCTAssertNil("".timecodeFrameRate)
         XCTAssertNil(" ".timecodeFrameRate)

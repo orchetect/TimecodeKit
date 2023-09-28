@@ -17,15 +17,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```swift
-    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
     ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundedUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundedUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
@@ -47,15 +47,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```swift
-    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
     ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundUp(toNearest: .frames)
     /// // == "01:02:03:05.00" // rounds up to next whole frame
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundUp(toNearest: .seconds)
     /// // == "01:02:04:00.00" // rounds up to next whole second
     /// ```
@@ -116,15 +116,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```swift
-    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
     ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundedDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundedDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```
@@ -144,15 +144,15 @@ extension Timecode {
     /// ie:
     ///
     /// ```swift
-    /// try Timecode(.string("01:02:03:04.00"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.00"), at: .fps24)
     ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // no change
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundDown(toNearest: .frames)
     /// // == "01:02:03:04.00" // subframes set to zero
     ///
-    /// try Timecode(.string("01:02:03:04.05"), at: ._24)
+    /// try Timecode(.string("01:02:03:04.05"), at: .fps24)
     ///     .roundDown(toNearest: .seconds)
     /// // == "01:02:03:00.00" // frames and subframes set to zero
     /// ```

@@ -37,7 +37,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_Clamping() {
         let tc = Timecode(
             .realTime(seconds: 86400 + 3600), // 25 hours @ 24fps
-            at: ._24,
+            at: .fps24,
             by: .clamping
         )
         
@@ -50,7 +50,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_Wrapping() {
         let tc = Timecode(
             .realTime(seconds: 86400 + 3600), // 25 hours @ 24fps
-            at: ._24,
+            at: .fps24,
             by: .wrapping
         )
         
@@ -60,7 +60,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_RawValues() {
         let tc = Timecode(
             .realTime(seconds: (86400 * 2) + 3600), // 2 days + 1 hour @ 24fps
-            at: ._24,
+            at: .fps24,
             by: .allowingInvalid
         )
         
@@ -70,7 +70,7 @@ class Timecode_RealTime_Tests: XCTestCase {
     func testTimecode_init_RealTimeValue_RawValues_Negative() {
         let tc = Timecode(
             .realTime(seconds: -(3600 + 60 + 5)),
-            at: ._24,
+            at: .fps24,
             by: .allowingInvalid
         )
         
@@ -91,13 +91,13 @@ class Timecode_RealTime_Tests: XCTestCase {
             let tc = try Timecode(.components(d: 10), at: $0, limit: ._100Days)
             
             switch $0 {
-            case ._23_976,
-                 ._24_98,
-                 ._29_97,
-                 ._47_952,
-                 ._59_94,
-                 ._95_904,
-                 ._119_88:
+            case .fps23_976,
+                 .fps24_98,
+                 .fps29_97,
+                 .fps47_952,
+                 .fps59_94,
+                 .fps95_904,
+                 .fps119_88:
                 
                 XCTAssertEqual(
                     tc.realTimeValue,
@@ -106,15 +106,15 @@ class Timecode_RealTime_Tests: XCTestCase {
                     "at: \($0)"
                 )
                 
-            case ._24,
-                 ._25,
-                 ._30,
-                 ._48,
-                 ._50,
-                 ._60,
-                 ._96,
-                 ._100,
-                 ._120:
+            case .fps24,
+                 .fps25,
+                 .fps30,
+                 .fps48,
+                 .fps50,
+                 .fps60,
+                 .fps96,
+                 .fps100,
+                 .fps120:
                 
                 XCTAssertEqual(
                     tc.realTimeValue,
@@ -123,9 +123,9 @@ class Timecode_RealTime_Tests: XCTestCase {
                     "at: \($0)"
                 )
                 
-            case ._29_97_drop,
-                 ._59_94_drop,
-                 ._119_88_drop:
+            case .fps29_97d,
+                 .fps59_94d,
+                 .fps119_88d:
                 
                 XCTAssertEqual(
                     tc.realTimeValue,
@@ -134,9 +134,9 @@ class Timecode_RealTime_Tests: XCTestCase {
                     "at: \($0)"
                 )
                 
-            case ._30_drop,
-                 ._60_drop,
-                 ._120_drop:
+            case .fps30d,
+                 .fps60d,
+                 .fps120d:
                 
                 XCTAssertEqual(
                     tc.realTimeValue,
@@ -155,13 +155,13 @@ class Timecode_RealTime_Tests: XCTestCase {
             var tc = try Timecode(.components(tcc), at: $0, limit: ._100Days)
             
             switch $0 {
-            case ._23_976,
-                 ._24_98,
-                 ._29_97,
-                 ._47_952,
-                 ._59_94,
-                 ._95_904,
-                 ._119_88:
+            case .fps23_976,
+                 .fps24_98,
+                 .fps29_97,
+                 .fps47_952,
+                 .fps59_94,
+                 .fps95_904,
+                 .fps119_88:
                 
                 XCTAssertNoThrow(
                     try tc.set(.realTime(seconds: secInTC10Days_ShrunkFrameRates)),
@@ -169,15 +169,15 @@ class Timecode_RealTime_Tests: XCTestCase {
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
                 
-            case ._24,
-                 ._25,
-                 ._30,
-                 ._48,
-                 ._50,
-                 ._60,
-                 ._96,
-                 ._100,
-                 ._120:
+            case .fps24,
+                 .fps25,
+                 .fps30,
+                 .fps48,
+                 .fps50,
+                 .fps60,
+                 .fps96,
+                 .fps100,
+                 .fps120:
                 
                 XCTAssertNoThrow(
                     try tc.set(.realTime(seconds: secInTC10Days_BaseFrameRates)),
@@ -185,9 +185,9 @@ class Timecode_RealTime_Tests: XCTestCase {
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
                 
-            case ._29_97_drop,
-                 ._59_94_drop,
-                 ._119_88_drop:
+            case .fps29_97d,
+                 .fps59_94d,
+                 .fps119_88d:
                 
                 XCTAssertNoThrow(
                     try tc.set(.realTime(seconds: secInTC10Days_DropFrameRates)),
@@ -195,9 +195,9 @@ class Timecode_RealTime_Tests: XCTestCase {
                 )
                 XCTAssertEqual(tc.components, tcc, "at: \($0)")
                 
-            case ._30_drop,
-                 ._60_drop,
-                 ._120_drop:
+            case .fps30d,
+                 .fps60d,
+                 .fps120d:
                 
                 XCTAssertNoThrow(
                     try tc.set(.realTime(seconds: secInTC10Days_30DF)),
@@ -274,7 +274,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         let start = try Timecode(
             .realTime(seconds: _00_49_27_15_00),
-            at: ._23_976
+            at: .fps23_976
         )
         XCTAssertEqual(
             start.components,
@@ -283,7 +283,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         let event1 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_29_17_00_delta),
-            at: ._23_976
+            at: .fps23_976
         )
         XCTAssertEqual(
             event1.components,
@@ -292,7 +292,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         let event2 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_31_09_00_delta),
-            at: ._23_976
+            at: .fps23_976
         )
         XCTAssertEqual(
             event2.components,
@@ -301,7 +301,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         let event3 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_33_21_79_delta),
-            at: ._23_976,
+            at: .fps23_976,
             base: ._80SubFrames
         )
         XCTAssertEqual(
@@ -311,7 +311,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         let event4 = try Timecode(
             .realTime(seconds: _00_49_27_15_00 + _00_49_38_01_79_delta),
-            at: ._23_976,
+            at: .fps23_976,
             base: ._80SubFrames
         )
         XCTAssertEqual(
@@ -324,7 +324,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // start
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 27, f: 15, sf: 00)
-                .timecode(at: ._23_976)
+                .timecode(at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00
         )
@@ -332,7 +332,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event1
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 29, f: 17, sf: 00)
-                .timecode(at: ._23_976)
+                .timecode(at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_29_17_00_delta,
             accuracy: 0.0000005
@@ -341,7 +341,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event2
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 31, f: 09, sf: 00)
-                .timecode(at: ._23_976)
+                .timecode(at: .fps23_976)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_31_09_00_delta,
             accuracy: 0.0000005
@@ -350,7 +350,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event3
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 33, f: 21, sf: 79)
-                .timecode(at: ._23_976, base: ._80SubFrames)
+                .timecode(at: .fps23_976, base: ._80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_33_21_79_delta,
             accuracy: 0.0000005
@@ -359,7 +359,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         // event4
         XCTAssertEqual(
             try Timecode.Components(h: 00, m: 49, s: 38, f: 01, sf: 79)
-                .timecode(at: ._23_976, base: ._80SubFrames)
+                .timecode(at: .fps23_976, base: ._80SubFrames)
                 .realTimeValue,
             _00_49_27_15_00 + _00_49_38_01_79_delta,
             accuracy: 0.0000005
@@ -373,22 +373,22 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         XCTAssertEqual(
             try Timecode.Components(h: 1, m: 5, s: 20, f: 14)
-                .timecode(at: ._23_976),
+                .timecode(at: .fps23_976),
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14),
-                at: ._23_976
+                at: .fps23_976
             )
         )
         
         // timecode(rawValuesAt:) with subframes
         
         let tcWithSubFrames = try Timecode.Components(h: 1, m: 5, s: 20, f: 14, sf: 94)
-            .timecode(at: ._23_976, base: ._100SubFrames)
+            .timecode(at: .fps23_976, base: ._100SubFrames)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: ._23_976,
+                at: .fps23_976,
                 base: ._100SubFrames
             )
         )
@@ -403,7 +403,7 @@ class Timecode_RealTime_Tests: XCTestCase {
         
         XCTAssertEqual(
             try TimeInterval(secInTC10Days_BaseFrameRates)
-                .timecode(at: ._24, limit: ._100Days)
+                .timecode(at: .fps24, limit: ._100Days)
                 .components,
             Timecode.Components(d: 10)
         )
@@ -411,12 +411,12 @@ class Timecode_RealTime_Tests: XCTestCase {
         // timecode(at:) with subframes
         
         let tcWithSubFrames = try TimeInterval(3600.0)
-            .timecode(at: ._24, limit: ._100Days)
+            .timecode(at: .fps24, limit: ._100Days)
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1),
-                at: ._24,
+                at: .fps24,
                 base: ._100SubFrames
             )
         )

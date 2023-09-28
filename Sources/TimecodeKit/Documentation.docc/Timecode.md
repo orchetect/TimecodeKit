@@ -55,14 +55,14 @@ Timecode can be formed by converting from a variety of common time values.
 The frame rate must also be supplied. This can be done easily with the `at:` overload.
 
 ```swift
-let tc = try Timecode(.string("01:00:00:00"), at: ._23_976)
+let tc = try Timecode(.string("01:00:00:00"), at: .fps23_976)
 ```
 
 If additional properties need to be specified, supply a ``Timecode/Properties`` struct with the `using:` overload.
 
 ```swift
 let properties = Timecode.Properties(
-    rate: ._23_976,
+    rate: .fps23_976,
     base: ._100SubFrames,
     limit: ._100Days
 )
@@ -73,11 +73,11 @@ It is possible to clamp to valid timecode using a non-throwing init.
 
 ```swift
 // clamp full timecode to valid range
-Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: ._24, by: .clamping)
+Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: .fps24, by: .clamping)
     .stringValue() // == "23:59:59:23"
 
 // clamp individual timecode component values to valid values if they are out-of-bounds
-Timecode(.components(h: 01, m: 00, s: 85, f: 50), at: ._24, by: .clampingEach)
+Timecode(.components(h: 01, m: 00, s: 85, f: 50), at: .fps24, by: .clampingEach)
     .stringValue() // == "01:00:59:23"
 ```
 
@@ -86,10 +86,10 @@ It is also possible to wrap to valid timecode using a non-throwing init.
 ```swift
 // wrap around clock continuously if entire timecode overflows or underflows
 
-Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: ._24, by: .wrapping)
+Timecode(.components(h: 26, m: 00, s: 00, f: 00), at: .fps24, by: .wrapping)
     .stringValue() // == "02:00:00:00"
 
-Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: ._24, by: .wrapping)
+Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
     .stringValue() // == "00:00:00:00"
 ```
 

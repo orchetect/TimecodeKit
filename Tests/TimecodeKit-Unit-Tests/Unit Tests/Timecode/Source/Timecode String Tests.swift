@@ -35,7 +35,7 @@ class Timecode_String_Tests: XCTestCase {
     func testTimecode_init_String_Clamping() throws {
         let tc = try Timecode(
             .string("25:00:00:00"),
-            at: ._24,
+            at: .fps24,
             by: .clamping
         )
         
@@ -48,7 +48,7 @@ class Timecode_String_Tests: XCTestCase {
     func testTimecode_init_String_ClampingEach() throws {
         let tc = try Timecode(
             .string("25:00:00:00"),
-            at: ._24,
+            at: .fps24,
             by: .clampingComponents
         )
         
@@ -85,7 +85,7 @@ class Timecode_String_Tests: XCTestCase {
     func testStringValue_GetSet_Basic() throws {
         // basic getter tests
         
-        var tc = Timecode(.zero, at: ._23_976)
+        var tc = Timecode(.zero, at: .fps23_976)
         
         try tc.set("01:05:20:14")
         XCTAssertEqual(tc.stringValue(), "01:05:20:14")
@@ -556,10 +556,10 @@ class Timecode_String_Tests: XCTestCase {
         // timecode(at:)
         
         XCTAssertEqual(
-            try "01:05:20:14".timecode(at: ._23_976),
+            try "01:05:20:14".timecode(at: .fps23_976),
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14),
-                at: ._23_976
+                at: .fps23_976
             )
         )
         
@@ -567,14 +567,14 @@ class Timecode_String_Tests: XCTestCase {
         
         let tcWithSubFrames = try "01:05:20:14.94"
             .timecode(
-                at: ._23_976,
+                at: .fps23_976,
                 base: ._100SubFrames
             )
         XCTAssertEqual(
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: ._23_976,
+                at: .fps23_976,
                 base: ._100SubFrames
             )
         )
@@ -588,10 +588,10 @@ class Timecode_String_Tests: XCTestCase {
         // timecode(rawValuesAt:)
         
         XCTAssertEqual(
-            try "01:05:20:14".timecode(at: ._23_976, by: .allowingInvalid),
+            try "01:05:20:14".timecode(at: .fps23_976, by: .allowingInvalid),
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14),
-                at: ._23_976
+                at: .fps23_976
             )
         )
         
@@ -599,7 +599,7 @@ class Timecode_String_Tests: XCTestCase {
         
         let tcWithSubFrames = try "01:05:20:14.94"
             .timecode(
-                at: ._23_976,
+                at: .fps23_976,
                 base: ._100SubFrames,
                 by: .allowingInvalid
             )
@@ -607,7 +607,7 @@ class Timecode_String_Tests: XCTestCase {
             tcWithSubFrames,
             try Timecode(
                 .components(h: 1, m: 5, s: 20, f: 14, sf: 94),
-                at: ._23_976,
+                at: .fps23_976,
                 base: ._100SubFrames
             )
         )

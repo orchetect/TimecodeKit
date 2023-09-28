@@ -64,8 +64,8 @@ class Timecode_Strideable_Tests: XCTestCase {
         // Stride through & array
         
         let strideThrough = try stride(
-            from: "01:00:00:00".timecode(at: ._23_976),
-            through: "01:00:00:06".timecode(at: ._23_976),
+            from: "01:00:00:00".timecode(at: .fps23_976),
+            through: "01:00:00:06".timecode(at: .fps23_976),
             by: 2
         )
         var array = Array(strideThrough)
@@ -74,17 +74,17 @@ class Timecode_Strideable_Tests: XCTestCase {
         XCTAssertEqual(
             array,
             try [
-                "01:00:00:00".timecode(at: ._23_976),
-                "01:00:00:02".timecode(at: ._23_976),
-                "01:00:00:04".timecode(at: ._23_976),
-                "01:00:00:06".timecode(at: ._23_976)
+                "01:00:00:00".timecode(at: .fps23_976),
+                "01:00:00:02".timecode(at: .fps23_976),
+                "01:00:00:04".timecode(at: .fps23_976),
+                "01:00:00:06".timecode(at: .fps23_976)
             ]
         )
         
         // Stride to
         let strideTo = try stride(
-            from: "01:00:00:00".timecode(at: ._23_976),
-            to: "01:00:00:06".timecode(at: ._23_976),
+            from: "01:00:00:00".timecode(at: .fps23_976),
+            to: "01:00:00:06".timecode(at: .fps23_976),
             by: 2
         )
         array = Array(strideTo)
@@ -93,31 +93,31 @@ class Timecode_Strideable_Tests: XCTestCase {
         XCTAssertEqual(
             array,
             try [
-                "01:00:00:00".timecode(at: ._23_976),
-                "01:00:00:02".timecode(at: ._23_976),
-                "01:00:00:04".timecode(at: ._23_976)
+                "01:00:00:00".timecode(at: .fps23_976),
+                "01:00:00:02".timecode(at: .fps23_976),
+                "01:00:00:04".timecode(at: .fps23_976)
             ]
         )
         
         // Strideable
         
         XCTAssertEqual(
-            try "01:00:00:00".timecode(at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976)
                 .advanced(by: 6),
-            try "01:00:00:06".timecode(at: ._23_976)
+            try "01:00:00:06".timecode(at: .fps23_976)
         )
         
         XCTAssertEqual(
-            try "01:00:00:00".timecode(at: ._23_976)
-                .distance(to: "02:00:00:00".timecode(at: ._23_976)),
-            try "01:00:00:00".timecode(at: ._23_976).frameCount.wholeFrames
+            try "01:00:00:00".timecode(at: .fps23_976)
+                .distance(to: "02:00:00:00".timecode(at: .fps23_976)),
+            try "01:00:00:00".timecode(at: .fps23_976).frameCount.wholeFrames
         )
         
         let strs = try Array(
             stride(
-                from: "01:00:00:05".timecode(at: ._23_976),
-                through: "01:00:10:05".timecode(at: ._23_976),
-                by: Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
+                from: "01:00:00:05".timecode(at: .fps23_976),
+                through: "01:00:10:05".timecode(at: .fps23_976),
+                by: Timecode(.components(s: 1), at: .fps23_976).frameCount.wholeFrames
             )
         )
         .map { $0.stringValue() }
@@ -126,9 +126,9 @@ class Timecode_Strideable_Tests: XCTestCase {
         
         let strs2 = try Array(
             stride(
-                from: "01:00:00:05".timecode(at: ._23_976),
-                to: "01:00:10:07".timecode(at: ._23_976),
-                by: Timecode(.components(s: 1), at: ._23_976).frameCount.wholeFrames
+                from: "01:00:00:05".timecode(at: .fps23_976),
+                to: "01:00:10:07".timecode(at: .fps23_976),
+                by: Timecode(.components(s: 1), at: .fps23_976).frameCount.wholeFrames
             )
         )
         .map { $0.stringValue() }
@@ -142,39 +142,39 @@ class Timecode_Strideable_Tests: XCTestCase {
         // Range .contains
         
         XCTAssertTrue(
-            try ("01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
+            try ("01:00:00:00".timecode(at: .fps23_976) ... "01:00:00:06".timecode(at: .fps23_976))
+                .contains(Timecode(.string("01:00:00:02"), at: .fps23_976))
         )
         XCTAssertFalse(
-            try ("01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode(.string("01:00:00:10"), at: ._23_976))
+            try ("01:00:00:00".timecode(at: .fps23_976) ... "01:00:00:06".timecode(at: .fps23_976))
+                .contains(Timecode(.string("01:00:00:10"), at: .fps23_976))
         )
         XCTAssertTrue(
-            try ("01:00:00:00".timecode(at: ._23_976)...)
-                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
+            try ("01:00:00:00".timecode(at: .fps23_976)...)
+                .contains(Timecode(.string("01:00:00:02"), at: .fps23_976))
         )
         XCTAssertTrue(
-            try (..."01:00:00:06".timecode(at: ._23_976))
-                .contains(Timecode(.string("01:00:00:02"), at: ._23_976))
+            try (..."01:00:00:06".timecode(at: .fps23_976))
+                .contains(Timecode(.string("01:00:00:02"), at: .fps23_976))
         )
         
         // (same tests, but with ~= operator instead of .contains(...) which should produce the same result)
         
         XCTAssertTrue(
-            try "01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976) ... "01:00:00:06".timecode(at: .fps23_976)
+                ~= Timecode(.string("01:00:00:02"), at: .fps23_976)
         )
         XCTAssertFalse(
-            try "01:00:00:00".timecode(at: ._23_976) ... "01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode(.string("01:00:00:10"), at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976) ... "01:00:00:06".timecode(at: .fps23_976)
+                ~= Timecode(.string("01:00:00:10"), at: .fps23_976)
         )
         XCTAssertTrue(
-            try "01:00:00:00".timecode(at: ._23_976)...
-                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
+            try "01:00:00:00".timecode(at: .fps23_976)...
+                ~= Timecode(.string("01:00:00:02"), at: .fps23_976)
         )
         XCTAssertTrue(
-            try ..."01:00:00:06".timecode(at: ._23_976)
-                ~= Timecode(.string("01:00:00:02"), at: ._23_976)
+            try ..."01:00:00:06".timecode(at: .fps23_976)
+                ~= Timecode(.string("01:00:00:02"), at: .fps23_976)
         )
     }
 }

@@ -14,51 +14,51 @@ class Timecode_Operators_Tests: XCTestCase {
     override func tearDown() { }
     
     func testAdd_and_Subtract_Operators() throws {
-        var tc = Timecode(.zero, at: ._30)
+        var tc = Timecode(.zero, at: .fps30)
         
         // + and - operators
         
-        tc = try Timecode.Components(h: 00, m: 00, s: 00, f: 00).timecode(at: ._30)
+        tc = try Timecode.Components(h: 00, m: 00, s: 00, f: 00).timecode(at: .fps30)
         
-        tc = try tc + Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: ._30)
+        tc = try tc + Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 05))
         
-        tc = try tc - Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: ._30)
+        tc = try tc - Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
         // (underflow: wraps)
-        tc = try tc - Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: ._30)
+        tc = try tc - Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 27))
         
         // (overflow: wraps)
-        tc = try tc + Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: ._30)
+        tc = try tc + Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 02))
         
         // += and -= operators
         
-        tc = try Timecode.Components(h: 00, m: 00, s: 00, f: 00).timecode(at: ._30)
+        tc = try Timecode.Components(h: 00, m: 00, s: 00, f: 00).timecode(at: .fps30)
         
-        tc += try Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: ._30)
+        tc += try Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 05))
         
-        tc -= try Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: ._30)
+        tc -= try Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 01))
         
         // (underflow: wraps)
-        tc -= try Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: ._30)
+        tc -= try Timecode.Components(h: 00, m: 00, s: 00, f: 04).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 23, m: 59, s: 59, f: 27))
         
         // (overflow: wraps)
-        tc += try Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: ._30)
+        tc += try Timecode.Components(h: 00, m: 00, s: 00, f: 05).timecode(at: .fps30)
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 02))
     }
     
     func testMultiply_and_Divide_Double_Operators() throws {
-        var tc = Timecode(.zero, at: ._30)
+        var tc = Timecode(.zero, at: .fps30)
         
         // * and / operators
         
-        tc = try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30)
+        tc = try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30)
         
         tc = tc * 5
         XCTAssertEqual(tc.components, Timecode.Components(h: 05, m: 00, s: 00, f: 00))
@@ -80,7 +80,7 @@ class Timecode_Operators_Tests: XCTestCase {
         
         // *= and /= operators
         
-        tc = try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30)
+        tc = try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30)
         
         tc *= 5
         XCTAssertEqual(tc.components, Timecode.Components(h: 05, m: 00, s: 00, f: 00))
@@ -105,20 +105,20 @@ class Timecode_Operators_Tests: XCTestCase {
         // / operator
         
         XCTAssertEqual(
-            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-                Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30),
+            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30) /
+                Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30),
             1.0
         )
         
         XCTAssertEqual(
-            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-                Timecode.Components(h: 00, m: 10, s: 00, f: 00).timecode(at: ._30),
+            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30) /
+                Timecode.Components(h: 00, m: 10, s: 00, f: 00).timecode(at: .fps30),
             6.0
         )
         
         XCTAssertEqual(
-            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: ._30) /
-                Timecode.Components(h: 00, m: 16, s: 00, f: 00).timecode(at: ._30),
+            try Timecode.Components(h: 01, m: 00, s: 00, f: 00).timecode(at: .fps30) /
+                Timecode.Components(h: 00, m: 16, s: 00, f: 00).timecode(at: .fps30),
             3.75
         )
     }

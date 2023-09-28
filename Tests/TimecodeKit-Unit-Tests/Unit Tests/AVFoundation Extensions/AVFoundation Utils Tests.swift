@@ -22,19 +22,19 @@ class AVFoundationUtils_Tests: XCTestCase {
         // valid
         
         XCTAssertEqual(
-            try CMTimeRange(start: s10, end: s10).timecodeRange(at: ._30),
-            try Timecode(.components(s: 10), at: ._30) ... Timecode(.components(s: 10), at: ._30)
+            try CMTimeRange(start: s10, end: s10).timecodeRange(at: .fps30),
+            try Timecode(.components(s: 10), at: .fps30) ... Timecode(.components(s: 10), at: .fps30)
         )
         
         XCTAssertEqual(
-            try CMTimeRange(start: s10, duration: s10).timecodeRange(at: ._30),
-            try Timecode(.components(s: 10), at: ._30) ... Timecode(.components(s: 20), at: ._30)
+            try CMTimeRange(start: s10, duration: s10).timecodeRange(at: .fps30),
+            try Timecode(.components(s: 10), at: .fps30) ... Timecode(.components(s: 20), at: .fps30)
         )
         
         // invalid
         
         XCTAssertThrowsError(
-            try CMTimeRange(start: s10, end: s9).timecodeRange(at: ._30)
+            try CMTimeRange(start: s10, end: s9).timecodeRange(at: .fps30)
         )
     }
 }
