@@ -306,6 +306,26 @@ class Timecode_Samples_Tests: XCTestCase {
             )
         }
     }
+    
+    func testEdgeCases() throws {
+        // test for really large values
+        
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: 1234567891234564567,
+                    h: 1234567891234564567,
+                    m: 1234567891234564567,
+                    s: 1234567891234564567,
+                    f: 1234567891234564567,
+                    sf: 1234567891234564567
+                ),
+                at: .fps24, by: .allowingInvalid
+            )
+            .samplesValue(sampleRate: 48000),
+            0 // failsafe value
+        )
+    }
 }
 
 #endif

@@ -52,7 +52,13 @@ extension Timecode {
     /// at the given sample rate, rounded to the nearest sample.
     /// Sample rate is expressed in Hz. (ie: 48KHz would be passed as 48000)
     public func samplesValue(sampleRate: Int) -> Int {
-        Int(samplesDoubleValue(sampleRate: sampleRate).rounded())
+        let val = samplesDoubleValue(sampleRate: sampleRate).rounded()
+        // avoid crash if Double is too big
+        guard val <= Double(Int.max) else {
+            // assertionFailure("Timecode is too large to convert to audio samples. This will fail silently in a release build.")
+            return 0
+        }
+        return Int(val)
     }
     
     /// (Lossy)
