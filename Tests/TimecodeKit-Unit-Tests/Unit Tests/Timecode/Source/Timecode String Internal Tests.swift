@@ -269,6 +269,33 @@ class Timecode_String_Internal_Tests: XCTestCase {
             Timecode.Components(d: 12, h: 01, m: 56, s: 45, f: 23, sf: 05)
         )
     }
+    
+    func testStringDecodeEdgeCases() throws {
+        // test for really large values
+        
+        // valid Int values
+        XCTAssertEqual(
+            try Timecode.decode(timecode: "1234567891234564567 1234567891234564567:1234567891234564567:1234567891234564567:1234567891234564567.1234567891234564567"),
+            Timecode.Components(
+                d: 1234567891234564567,
+                h: 1234567891234564567,
+                m: 1234567891234564567,
+                s: 1234567891234564567,
+                f: 1234567891234564567,
+                sf: 1234567891234564567
+            )
+        )
+        
+        // overflowing Int values should throw an error (and not crash)
+        do {
+            _ = try Timecode.decode(timecode: "12345678912345645678 12345678912345645678:12345678912345645678:12345678912345645678:12345678912345645678.12345678912345645678")
+            XCTFail("Should have thrown an error.")
+        } catch let e as Timecode.StringParseError {
+            guard e == .malformed else { XCTFail(); return }
+        } catch {
+            XCTFail("Caught wrong error: \(error)")
+        }
+    }
 }
 
 #endif

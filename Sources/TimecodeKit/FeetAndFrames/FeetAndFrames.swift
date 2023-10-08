@@ -61,12 +61,12 @@ extension FeetAndFrames: CustomStringConvertible {
 extension FeetAndFrames {
     /// Returns string value, suitable for display in UI.
     public var stringValue: String {
-        "\(feet)+\(String(format: "%02d", frames))"
+        "\(feet)+\(String(format: "%02ld", frames))"
     }
 
     /// Returns string value including subframes, suitable for display in UI.
     public var stringValueVerbose: String {
-        "\(stringValue).\(String(format: "%02d", subFrames))"
+        "\(stringValue).\(String(format: "%02ld", subFrames))"
     }
 }
 

@@ -78,15 +78,15 @@ extension Timecode {
         var output = ""
         
         output += "\(days != 0 ? "\(days)\(sepDays)" : "")"
-        output += "\(String(format: "%02d", hours))\(sepMain)"
-        output += "\(String(format: "%02d", minutes))\(sepMain)"
-        output += "\(String(format: "%02d", seconds))\(sepFrames)"
-        output += "\(String(format: "%0\(frameRate.numberOfDigits)d", frames))"
+        output += "\(String(format: "%02ld", hours))\(sepMain)"
+        output += "\(String(format: "%02ld", minutes))\(sepMain)"
+        output += "\(String(format: "%02ld", seconds))\(sepFrames)"
+        output += "\(String(format: "%0\(frameRate.numberOfDigits)ld", frames))"
         
         if format.showSubFrames {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
-            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))"
+            output += "\(sepSubFrames)\(String(format: "%0\(numberOfSubFramesDigits)ld", subFrames))"
         }
         
         if format.contains(.filenameCompatible) {
@@ -151,7 +151,7 @@ extension Timecode {
         // hours
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", hours),
+            string: String(format: "%02ld", hours),
             attributes: attrs
         )
         if invalids.contains(.hours) {
@@ -168,7 +168,7 @@ extension Timecode {
         // minutes
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", minutes),
+            string: String(format: "%02ld", minutes),
             attributes: attrs
         )
         if invalids.contains(.minutes) {
@@ -185,7 +185,7 @@ extension Timecode {
         // seconds
         
         piece = NSMutableAttributedString(
-            string: String(format: "%02d", seconds),
+            string: String(format: "%02ld", seconds),
             attributes: attrs
         )
         if invalids.contains(.seconds) {
@@ -204,7 +204,7 @@ extension Timecode {
         piece = NSMutableAttributedString(
             string:
             String(
-                format: "%0\(frameRate.numberOfDigits)d",
+                format: "%0\(frameRate.numberOfDigits)ld",
                 frames
             ),
             attributes: attrs
@@ -228,7 +228,7 @@ extension Timecode {
             piece = NSMutableAttributedString(
                 string:
                 String(
-                    format: "%0\(numberOfSubFramesDigits)d",
+                    format: "%0\(numberOfSubFramesDigits)ld",
                     subFrames
                 ),
                 attributes: attrs

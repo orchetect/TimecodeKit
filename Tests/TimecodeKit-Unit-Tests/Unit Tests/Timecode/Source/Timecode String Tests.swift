@@ -12,7 +12,7 @@ class Timecode_String_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testTimecode_init_String_Exactly() throws {
+    func testTimecode_init_String() throws {
         try TimecodeFrameRate.allCases.forEach {
             let tc = try Timecode(
                 .string("00:00:00:00"),
@@ -278,6 +278,27 @@ class Timecode_String_Tests: XCTestCase {
             let sv = tc.stringValue(format: .showSubFrames)
             XCTAssertEqual(sv, "2 01:02:03;\(t)04.12", "for \($0)")
         }
+    }
+    
+    func testEdgeCases() throws {
+        // test for really large values
+        
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: 1234567891234564567,
+                    h: 1234567891234564567,
+                    m: 1234567891234564567,
+                    s: 1234567891234564567,
+                    f: 1234567891234564567,
+                    sf: 1234567891234564567
+                ),
+                at: .fps24, 
+                by: .allowingInvalid
+            )
+            .stringValue(format: [.showSubFrames]),
+            "1234567891234564567 1234567891234564567:1234567891234564567:1234567891234564567:1234567891234564567.1234567891234564567"
+        )
     }
 }
 

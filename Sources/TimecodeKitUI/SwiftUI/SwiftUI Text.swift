@@ -86,7 +86,7 @@ extension Timecode {
         
         // hours
         
-        let hoursText = Text(String(format: "%02d", hours))
+        let hoursText = Text(String(format: "%02ld", hours))
         if invalids.contains(.hours) {
             output = output + invalidModifiers(hoursText)
         } else {
@@ -97,7 +97,7 @@ extension Timecode {
         
         // minutes
         
-        let minutesText = Text(String(format: "%02d", minutes))
+        let minutesText = Text(String(format: "%02ld", minutes))
         if invalids.contains(.minutes) {
             output = output + invalidModifiers(minutesText)
         } else {
@@ -108,7 +108,7 @@ extension Timecode {
         
         // seconds
         
-        let secondsText = Text(String(format: "%02d", seconds))
+        let secondsText = Text(String(format: "%02ld", seconds))
         if invalids.contains(.seconds) {
             output = output + invalidModifiers(secondsText)
         } else {
@@ -119,7 +119,7 @@ extension Timecode {
         
         // frames
         
-        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)d", frames))
+        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)ld", frames))
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
@@ -133,7 +133,7 @@ extension Timecode {
             
             output = output + sepSubFrames
             
-            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)d", subFrames))
+            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)ld", subFrames))
             if invalids.contains(.subFrames) {
                 output = output + invalidModifiers(subframesText)
             } else {
