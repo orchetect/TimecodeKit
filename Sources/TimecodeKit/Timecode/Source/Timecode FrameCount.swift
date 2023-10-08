@@ -166,11 +166,14 @@ extension Timecode {
             )
             
         case false:
-            let dd = Double(values.days) * 24 * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let hh = Double(values.hours) * 60 * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let mm = Double(values.minutes) * 60 * frameRate.frameRateForElapsedFramesCalculation
-            let ss = Double(values.seconds) * frameRate.frameRateForElapsedFramesCalculation
-            let totalWholeFrames = Int(round(dd + hh + mm + ss)) + values.frames
+            let dd = Double(values.days) * 24 * 60 * 60
+            let hh = Double(values.hours) * 60 * 60
+            let mm = Double(values.minutes) * 60
+            let ss = Double(values.seconds)
+            
+            let rawFrames = round((dd + hh + mm + ss) * frameRate.frameRateForElapsedFramesCalculation) + Double(values.frames)
+            
+            let totalWholeFrames: Int = rawFrames >= Double(Int.max) ? 0 : Int(rawFrames)
             
             frameCountValue = .splitUnitInterval(
                 frames: totalWholeFrames,

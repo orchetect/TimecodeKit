@@ -258,6 +258,28 @@ class Timecode_FrameCount_Tests: XCTestCase {
         XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: 0.0), base: .max80SubFrames).isZero)
         XCTAssertFalse(Timecode.FrameCount(.splitUnitInterval(frames: -1, subFramesUnitInterval: -0.1), base: .max80SubFrames).isZero)
     }
+    
+    func testEdgeCases() throws {
+        // test for really large values
+        
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: 1234567891234564567,
+                    h: 1234567891234564567,
+                    m: 1234567891234564567,
+                    s: 1234567891234564567,
+                    f: 1234567891234564567,
+                    sf: 1234567891234564567
+                ),
+                at: .fps24, 
+                base: .max100SubFrames,
+                by: .allowingInvalid
+            )
+            .frameCount.wholeFrames,
+            0 // failsafe value
+        )
+    }
 }
 
 #endif
