@@ -145,25 +145,20 @@ extension Timecode {
     ) -> FrameCount {
         let subFramesUnitInterval = Double(values.subFrames) / Double(base.rawValue)
         
-        let frameCountValue: FrameCount.Value
+        let rawFrames: Double
         
         switch frameRate.isDrop {
         case true:
-            let totalMinutes = (24 * 60 * values.days) + (60 * values.hours) + values.minutes
+            let dd = Double(values.days) * 24 * 60
+            let hh = Double(values.hours) * 60
+            let mm = Double(values.minutes)
+            let totalMinutes = dd + hh + mm
+            let totalSeconds = (totalMinutes * 60) + Double(values.seconds)
             
-            let base = (frameRate.maxFrames * 60 * 60 * 24 * values.days)
-                + (frameRate.maxFrames * 60 * 60 * values.hours)
-                + (frameRate.maxFrames * 60 * values.minutes)
-                + (frameRate.maxFrames * values.seconds)
-                + (values.frames)
-            let dropOffset = Int(frameRate.framesDroppedPerMinute) *
-                (totalMinutes - (totalMinutes / 10))
-            let totalWholeFrames = base - dropOffset
+            let baseFrames = (totalSeconds * Double(frameRate.maxFrames)) + Double(values.frames)
+            let dropOffset = frameRate.framesDroppedPerMinute * (totalMinutes - floor(totalMinutes / 10))
             
-            frameCountValue = .splitUnitInterval(
-                frames: totalWholeFrames,
-                subFramesUnitInterval: subFramesUnitInterval
-            )
+            rawFrames = baseFrames - dropOffset
             
         case false:
             let dd = Double(values.days) * 24 * 60 * 60
@@ -171,15 +166,20 @@ extension Timecode {
             let mm = Double(values.minutes) * 60
             let ss = Double(values.seconds)
             
-            let rawFrames = round((dd + hh + mm + ss) * frameRate.frameRateForElapsedFramesCalculation) + Double(values.frames)
-            
-            let totalWholeFrames: Int = rawFrames >= Double(Int.max) ? 0 : Int(rawFrames)
-            
-            frameCountValue = .splitUnitInterval(
-                frames: totalWholeFrames,
-                subFramesUnitInterval: subFramesUnitInterval
-            )
+            rawFrames = round((dd + hh + mm + ss) * frameRate.frameRateForElapsedFramesCalculation) + Double(values.frames)
         }
+        
+        // failsafe to avoid underflow/overflow crashes
+        guard rawFrames >= Double(Int.min), rawFrames <= Double(Int.max) else {
+            return .init(.frames(0), base: base)
+        }
+        
+        let totalWholeFrames = Int(rawFrames)
+        
+        let frameCountValue: FrameCount.Value = .splitUnitInterval(
+            frames: totalWholeFrames,
+            subFramesUnitInterval: subFramesUnitInterval
+        )
         
         return .init(frameCountValue, base: base)
     }

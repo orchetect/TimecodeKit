@@ -360,6 +360,86 @@ class Timecode_RealTime_Tests: XCTestCase {
             accuracy: 0.0000005
         )
     }
+    
+    func testEdgeCases() throws {
+        // test for really large values
+        
+        // Int max
+        
+        // non-drop
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: Int.max,
+                    h: Int.max,
+                    m: Int.max,
+                    s: Int.max,
+                    f: Int.max,
+                    sf: Int.max
+                ),
+                at: .fps24,
+                by: .allowingInvalid
+            )
+            .realTimeValue,
+            0.0
+        )
+        
+        // drop
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: Int.max,
+                    h: Int.max,
+                    m: Int.max,
+                    s: Int.max,
+                    f: Int.max,
+                    sf: Int.max
+                ),
+                at: .fps29_97d,
+                by: .allowingInvalid
+            )
+            .realTimeValue,
+            0.0
+        )
+        
+        // Int min
+        
+        // non-drop
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: Int.min,
+                    h: Int.min,
+                    m: Int.min,
+                    s: Int.min,
+                    f: Int.min,
+                    sf: Int.min
+                ),
+                at: .fps24,
+                by: .allowingInvalid
+            )
+            .realTimeValue,
+            0.0
+        )
+        
+        // drop
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: Int.min,
+                    h: Int.min,
+                    m: Int.min,
+                    s: Int.min,
+                    f: Int.min,
+                    sf: Int.min
+                ),
+                at: .fps29_97d,
+                by: .allowingInvalid
+            )
+            .realTimeValue,
+            0.0
+        )
+    }
 }
 
 #endif
