@@ -99,6 +99,33 @@ class Timecode_FeetAndFrames_Tests: XCTestCase {
             XCTAssertEqual(ff.subFrames, 24, "\(frate)")
         }
     }
+    
+    func testEdgeCases() throws {
+        // test for really large values
+        
+        XCTAssertThrowsError(try FeetAndFrames("12345678912345645678+12345678912345645678"))
+        XCTAssertThrowsError(try FeetAndFrames("12345678912345645678+12345678912345645678.12345678912345645678"))
+        XCTAssertThrowsError(try FeetAndFrames("12345678912345645678+00"))
+        XCTAssertThrowsError(try FeetAndFrames("00+12345678912345645678"))
+        XCTAssertThrowsError(try FeetAndFrames("00+00.12345678912345645678"))
+        
+        XCTAssertEqual(
+            Timecode(
+                .components(
+                    d: 1234567891234564567,
+                    h: 1234567891234564567,
+                    m: 1234567891234564567,
+                    s: 1234567891234564567,
+                    f: 1234567891234564567,
+                    sf: 1234567891234564567
+                ),
+                at: .fps24,
+                by: .allowingInvalid
+            )
+            .feetAndFramesValue,
+            .init(feet: 0, frames: 0, subFrames: 1234567891234564567) // failsafe values
+        )
+    }
 }
 
 #endif
