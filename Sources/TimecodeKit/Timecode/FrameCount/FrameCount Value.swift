@@ -26,6 +26,8 @@ extension Timecode.FrameCount.Value: Equatable, Hashable {
     // synthesized implementation
 }
 
+extension Timecode.FrameCount.Value: Sendable { }
+
 extension Timecode.FrameCount.Value: CustomStringConvertible {
     public var description: String {
         switch self {

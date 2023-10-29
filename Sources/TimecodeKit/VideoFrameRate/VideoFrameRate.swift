@@ -141,6 +141,8 @@ extension VideoFrameRate: CustomStringConvertible {
     }
 }
 
+extension VideoFrameRate: Sendable { }
+
 extension VideoFrameRate: Codable { }
 
 @available(macOS 10.15, macCatalyst 13, iOS 11, *)

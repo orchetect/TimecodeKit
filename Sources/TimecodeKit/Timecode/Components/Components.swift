@@ -164,6 +164,8 @@ extension Timecode.Components: Equatable { }
 
 extension Timecode.Components: Hashable { }
 
+extension Timecode.Components: Sendable { }
+
 extension Timecode.Components: Codable { }
 
 // MARK: - Static Constructors

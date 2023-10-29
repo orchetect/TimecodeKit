@@ -121,7 +121,7 @@ extension Timecode.FrameCount {
     }
 }
 
-// MARK: - Equatable / Hashable / Comparable
+// MARK: - Equatable / Hashable / Comparable / Sendable 
 
 extension Timecode.FrameCount: Equatable, Hashable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -142,6 +142,8 @@ extension Timecode.FrameCount: Comparable {
         lhs.subFrameCount > rhs.subFrameCount
     }
 }
+
+extension Timecode.FrameCount: Sendable { }
 
 extension Timecode.FrameCount: CustomStringConvertible {
     public var description: String {

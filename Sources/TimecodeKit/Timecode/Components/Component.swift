@@ -15,3 +15,5 @@ extension Timecode {
         case subFrames
     }
 }
+
+extension Timecode.Component: Sendable { }

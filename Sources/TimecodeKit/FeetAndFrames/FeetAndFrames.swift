@@ -58,6 +58,8 @@ extension FeetAndFrames: CustomStringConvertible {
     }
 }
 
+extension FeetAndFrames: Sendable { }
+
 extension FeetAndFrames {
     /// Returns string value, suitable for display in UI.
     public var stringValue: String {

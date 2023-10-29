@@ -51,6 +51,8 @@ extension Timecode.SubFramesBase: Identifiable {
     }
 }
 
+extension Timecode.SubFramesBase: Sendable { }
+
 extension Timecode.SubFramesBase: Codable { }
 
 // MARK: Methods

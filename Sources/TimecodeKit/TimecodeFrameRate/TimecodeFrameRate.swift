@@ -199,6 +199,8 @@ extension TimecodeFrameRate: CustomStringConvertible {
     }
 }
 
+extension TimecodeFrameRate: Sendable { }
+
 extension TimecodeFrameRate: Codable { }
 
 @available(macOS 10.15, macCatalyst 13, iOS 11, *)

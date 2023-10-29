@@ -10,7 +10,8 @@ import Foundation
 public protocol FrameRateProtocol where
     Self: CaseIterable,
     AllCases.Index == Int,
-    Self: Equatable
+    Self: Equatable,
+    Self: Sendable
 {
     /// Returns human-readable frame rate string.
     var stringValue: String { get }

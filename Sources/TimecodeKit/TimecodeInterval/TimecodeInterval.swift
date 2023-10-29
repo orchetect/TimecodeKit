@@ -83,6 +83,8 @@ public struct TimecodeInterval: Equatable, Hashable {
     }
 }
 
+extension TimecodeInterval: Sendable { }
+
 // MARK: - CustomStringConvertible
 
 extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertible {

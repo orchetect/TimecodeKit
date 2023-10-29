@@ -42,6 +42,8 @@ public struct TimecodeTransformer {
     }
 }
 
+extension TimecodeTransformer: Sendable { }
+
 extension TimecodeTransformer {
     /// A timecode transform rule or logic.
     public enum Transform {
@@ -52,6 +54,8 @@ extension TimecodeTransformer {
         case offset(by: TimecodeInterval)
         
         /// A custom transformer that processes input `Timecode` with the supplied closure.
-        case custom((Timecode) -> Timecode)
+        case custom(@Sendable (Timecode) -> Timecode)
     }
 }
+
+extension TimecodeTransformer.Transform: Sendable { }
