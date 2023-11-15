@@ -11,6 +11,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.5'
   s.static_framework = true
 
+  s.default_subspec = 'Core'
+
   s.subspec 'Core' do |subspec|
     subspec.source_files = 'Sources/TimecodeKit/**/*'
     subspec.ios.deployment_target = '12.0'
