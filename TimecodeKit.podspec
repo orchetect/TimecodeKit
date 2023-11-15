@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'TimecodeKitUI' do |ui|
     ui.source_files = 'Sources/TimecodeKitUI/**/*'
-    ui.dependency 'Core'
+    ui.dependency 'TimecodeKit/Core'
     ui.weak_framework = 'SwiftUI'
     ui.ios.deployment_target = '12.0'
   end
