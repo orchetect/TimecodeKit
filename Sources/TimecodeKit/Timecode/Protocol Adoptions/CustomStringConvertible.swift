@@ -6,7 +6,7 @@
 
 extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
-        stringValue()
+        stringValue(format: [.showSubFrames])
     }
     
     public var debugDescription: String {
