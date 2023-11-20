@@ -66,6 +66,15 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 16, m: 04, s: 06, f: 08))
     }
     
+    func testAddDifferingFrameRates() throws {
+        var tc = try Timecode(.components(h: 1), at: .fps25)
+        let tc1 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        try tc.add(tc1)
+        
+        XCTAssertEqual(tc.components, Timecode.Components(h: 02, m: 00, s: 03, f: 15))
+    }
+    
     func testAddingTimecode() throws {
         var tc = Timecode(.zero, at: .fps23_976, limit: .max24Hours)
         
@@ -117,6 +126,14 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         let tc3 = try tc2.adding(tc1, by: .wrapping)
         XCTAssertEqual(tc3.components, Timecode.Components(h: 16, m: 04, s: 06, f: 08))
+    }
+    
+    func testAddingDifferingFrameRates() throws {
+        let tc = try Timecode(.components(h: 1), at: .fps25)
+        let tc1 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        let tc2 = try tc.adding(tc1)
+        XCTAssertEqual(tc2.components, Timecode.Components(h: 02, m: 00, s: 03, f: 15))
     }
     
     func testSubtractTimecode() throws {
@@ -179,6 +196,14 @@ class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 22, m: 00, s: 00, f: 00))
     }
     
+    func testSubtractDifferingFrameRates() throws {
+        var tc = try Timecode(.components(h: 2), at: .fps25)
+        let tc1 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        try tc.subtract(tc1)
+        XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 59, s: 56, f: 10))
+    }
+    
     func testSubtractingTimecode() throws {
         let tc = try Timecode(
             .components(h: 10, m: 00, s: 00, f: 00),
@@ -237,6 +262,14 @@ class Timecode_Math_Public_Tests: XCTestCase {
         
         let tc3 = try tc2.subtracting(tc1, by: .wrapping)
         XCTAssertEqual(tc3.components, Timecode.Components(h: 22, m: 00, s: 00, f: 00))
+    }
+    
+    func testSubtractingDifferingFrameRates() throws {
+        let tc = try Timecode(.components(h: 2), at: .fps25)
+        let tc1 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        let tc2 = try tc.subtracting(tc1)
+        XCTAssertEqual(tc2.components, Timecode.Components(h: 00, m: 59, s: 56, f: 10))
     }
     
     func testAddTimecodeSourceValue() throws {

@@ -53,6 +53,42 @@ class Timecode_Operators_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 00, m: 00, s: 00, f: 02))
     }
     
+    func testAdd_Operator_DifferingFrameRates() throws {
+        let tc1 = try Timecode(.components(h: 1), at: .fps25)
+        let tc2 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        let result = tc1 + tc2
+        
+        XCTAssertEqual(result, try Timecode(.components(h: 02, m: 00, s: 03, f: 15), at: .fps25))
+    }
+    
+    func testAddAssign_Operator_DifferingFrameRates() throws {
+        var tc1 = try Timecode(.components(h: 1), at: .fps25)
+        let tc2 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        tc1 += tc2
+        
+        XCTAssertEqual(tc1, try Timecode(.components(h: 02, m: 00, s: 03, f: 15), at: .fps25))
+    }
+    
+    func testSubtract_Operator_DifferingFrameRates() throws {
+        let tc1 = try Timecode(.components(h: 2), at: .fps25)
+        let tc2 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        let result = tc1 - tc2
+        
+        XCTAssertEqual(result, try Timecode(.components(h: 00, m: 59, s: 56, f: 10), at: .fps25))
+    }
+    
+    func testSubtractAssign_Operator_DifferingFrameRates() throws {
+        var tc1 = try Timecode(.components(h: 2), at: .fps25)
+        let tc2 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
+        
+        tc1 -= tc2
+        
+        XCTAssertEqual(tc1, try Timecode(.components(h: 00, m: 59, s: 56, f: 10), at: .fps25))
+    }
+    
     func testMultiply_and_Divide_Double_Operators() throws {
         var tc = Timecode(.zero, at: .fps30)
         
@@ -120,6 +156,16 @@ class Timecode_Operators_Tests: XCTestCase {
             try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps30) /
                 Timecode(.components(h: 00, m: 16, s: 00, f: 00), at: .fps30),
             3.75
+        )
+    }
+    
+    func testDivide_Timecode_Operator_DifferingFrameRates() throws {
+        // / operator
+        
+        XCTAssertEqual(
+            try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps30) /
+            Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps29_97), // longer real time than 30fps
+            30 / (30 * 1.001)
         )
     }
 }

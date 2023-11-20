@@ -14,7 +14,7 @@ extension Timecode {
         try add(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components
+                : other.converted(to: frameRate).components
         )
     }
     
@@ -25,7 +25,7 @@ extension Timecode {
         try add(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components,
+                : other.converted(to: frameRate).components,
             by: validation
         )
     }
@@ -153,7 +153,7 @@ extension Timecode {
         try adding(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components
+                : other.converted(to: frameRate).components
         )
     }
     
@@ -164,7 +164,7 @@ extension Timecode {
         try adding(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components,
+                : other.converted(to: frameRate).components,
             by: validation
         )
     }
@@ -280,7 +280,7 @@ extension Timecode {
         try subtract(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components
+                : other.converted(to: frameRate).components
         )
     }
     
@@ -291,7 +291,7 @@ extension Timecode {
         try subtract(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components,
+                : other.converted(to: frameRate).components,
             by: validation
         )
     }
@@ -419,7 +419,7 @@ extension Timecode {
         try subtracting(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components
+                : other.converted(to: frameRate).components
         )
     }
     
@@ -430,7 +430,7 @@ extension Timecode {
         try subtracting(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components,
+                : other.converted(to: frameRate).components,
             by: validation
         )
     }
@@ -644,7 +644,7 @@ extension Timecode {
         try dividing(
             frameRate == other.frameRate
                 ? other.components
-                : converted(to: other.frameRate).components
+                : other.converted(to: frameRate).components
         )
     }
     
