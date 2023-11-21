@@ -71,6 +71,11 @@ public struct Fraction {
         // performing the division using Float
         Float(doubleValue)
     }
+    
+    /// Returns the evaluated fraction as a `Decimal`.
+    public var decimalValue: Decimal {
+        Decimal(numerator) / Decimal(denominator)
+    }
 }
 
 extension Fraction: Equatable {
