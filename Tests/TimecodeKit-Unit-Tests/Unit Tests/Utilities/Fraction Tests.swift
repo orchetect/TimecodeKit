@@ -27,6 +27,16 @@ class Fraction_Tests: XCTestCase {
         XCTAssertFalse(Fraction(-2, -4).isNegative)
     }
     
+    func testIsWholeInteger() {
+        XCTAssertTrue(Fraction(4, 2).isWholeInteger) // == 2.0
+        XCTAssertTrue(Fraction(2, 1).isWholeInteger) // == 2.0
+        
+        XCTAssertFalse(Fraction(1, 2).isWholeInteger) // == 0.5
+        XCTAssertFalse(Fraction(2, 4).isWholeInteger) // == 0.5
+        
+        XCTAssertTrue(Fraction(0, 1).isWholeInteger) // == 0.0
+    }
+    
     func testNegated() {
         XCTAssertEqual(Fraction(2, 4).negated(), Fraction(-2, 4))
         XCTAssertEqual(Fraction(-2, 4).negated(), Fraction(2, 4))

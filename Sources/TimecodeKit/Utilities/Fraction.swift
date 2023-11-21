@@ -30,6 +30,12 @@ public struct Fraction {
         return (n && !d) || (!n && d)
     }
     
+    /// Returns `true` if the evaluation of the fraction results in a whole integer with
+    /// no fractional component (trailing decimal digits).
+    public var isWholeInteger: Bool {
+        doubleValue.fraction.isZero
+    }
+    
     // MARK: - Init
     
     /// Initialize with literal values.
