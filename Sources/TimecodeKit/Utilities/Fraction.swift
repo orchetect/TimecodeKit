@@ -116,7 +116,16 @@ extension Fraction {
             (v, u) = (u % v, v)
         }
         
-        return (absN / u * signN, absD / u * signD)
+        var outN = absN / u * signN
+        var outD = absD / u * signD
+        
+        // final check to normalize if necessary
+        if outN >= 0, outD < 0 {
+            outN = -outN
+            outD = -outD
+        }
+        
+        return (outN, outD)
     }
     
     /// Returns a new instance reduced to its simplest form.
