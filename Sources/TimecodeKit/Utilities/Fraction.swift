@@ -49,11 +49,15 @@ public struct Fraction {
     
     // MARK: - Conversions
     
+    /// Returns the evaluated fraction as a `Double`.
     public var doubleValue: Double {
         Double(numerator) / Double(denominator)
     }
     
+    /// Returns the evaluated fraction as a `Float`.
     public var floatValue: Float {
+        // converting Double to float produces greater precision than
+        // performing the division using Float
         Float(doubleValue)
     }
 }
@@ -170,12 +174,20 @@ extension Double {
     ///   - precision: Number of places after the decimal to preserve.
     /// - Returns: Numerator and denominator.
     func rational(
-        precision: Int = 10
+        precision: Int = 18
     ) -> Fraction {
-        let pad = Int(truncating: pow(10, precision) as NSNumber)
-        let n = Int(self * Double(pad))
+        let isNegative = self < 0.0
+        let absSelf = abs(self)
+        
+        // clamp exponent to avoid overflow crashes
+        // Int.max = 9.22... x 10^18
+        let maxExponent = precision.clamped(to: 0 ... max(19 - integralDigitPlaces, 0))
+        let pad = Int(truncating: pow(10, maxExponent) as NSNumber)
+        let nFloat = absSelf * Double(pad)
+        
+        let n = Int(truncating: nFloat as NSNumber)
         let d = pad
         
-        return Fraction(n, d).reduced()
+        return Fraction(reducing: isNegative ? -n : n, d)
     }
 }
