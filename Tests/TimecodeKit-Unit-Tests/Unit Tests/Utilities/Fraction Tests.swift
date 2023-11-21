@@ -92,12 +92,83 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(reduced.isReduced, true)
     }
     
+    func testFractionReduced_NegativeValues_D() {
+        let frac = Fraction(-1, 2)
+        XCTAssertEqual(frac.numerator, -1)
+        XCTAssertEqual(frac.denominator, 2)
+        XCTAssertEqual(frac.isReduced, true)
+        
+        let reduced = frac.reduced() // also normalizes signs
+        XCTAssertEqual(reduced, Fraction(-1, 2))
+        XCTAssertEqual(reduced.isReduced, true)
+    }
+    
+    func testInitFromDouble() {
+        XCTAssertEqual(Fraction(double: 2.0), Fraction(2, 1))
+        XCTAssertEqual(Fraction(double: 0.5), Fraction(1, 2))
+        
+        // high precision
+        XCTAssertEqual(
+            Fraction(double: 30000/1001, decimalPrecision: 18),
+            Fraction(2926760739260739, 97656250000000)
+        )
+        XCTAssertEqual(
+            Fraction(double: 30000/1001, decimalPrecision: 18).doubleValue,
+            29.970029970029966
+        )
+        
+        // edge case: algorithm can work with up to 18 places of precision
+        XCTAssertEqual(Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
+                       9.999_999_999_999_999_999)
+        XCTAssertEqual(Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
+                       10.0)
+        
+        // edge case: a really high precision number.
+        // it will clamp number of decimal places internally.
+        XCTAssertEqual(Fraction(double: 30000/1001, decimalPrecision: 50).doubleValue, 29.970029970029966)
+        
+        // edge case: a negative precision number.
+        // it will clamp number of decimal places internally.
+        XCTAssertEqual(Fraction(double: 30000/1001, decimalPrecision: -2).doubleValue, 29.0)
+    }
+    
+    func testInitFromDouble_NegativeValues() {
+        XCTAssertEqual(Fraction(double: -2.0), Fraction(-2, 1))
+        XCTAssertEqual(Fraction(double: -0.5), Fraction(-1, 2))
+        
+        // high precision
+        XCTAssertEqual(
+            Fraction(double: -(30000/1001), decimalPrecision: 18),
+            Fraction(-2926760739260739, 97656250000000)
+        )
+        XCTAssertEqual(
+            Fraction(double: -(30000/1001), decimalPrecision: 18).doubleValue,
+            -29.970029970029966
+        )
+        
+        // edge case: a really high precision number.
+        // it will clamp number of decimal places internally.
+        XCTAssertEqual(Fraction(double: -30000/1001, decimalPrecision: 50).doubleValue, -29.970029970029966)
+        
+        // edge case: a negative precision number.
+        // it will clamp number of decimal places internally.
+        XCTAssertEqual(Fraction(double: -30000/1001, decimalPrecision: -2).doubleValue, -29.0)
+    }
+    
     func testDoubleValue() {
         XCTAssertEqual(Fraction(4, 2).doubleValue, 2.0)
         XCTAssertEqual(Fraction(2, 1).doubleValue, 2.0)
         
         XCTAssertEqual(Fraction(2, 4).doubleValue, 0.5)
         XCTAssertEqual(Fraction(1, 2).doubleValue, 0.5)
+    }
+    
+    func testDoubleValue_NegativeValues() {
+        XCTAssertEqual(Fraction(-4, 2).doubleValue, -2.0)
+        XCTAssertEqual(Fraction(-2, 1).doubleValue, -2.0)
+        
+        XCTAssertEqual(Fraction(-2, 4).doubleValue, -0.5)
+        XCTAssertEqual(Fraction(-1, 2).doubleValue, -0.5)
     }
     
     func testNegativeValues() {
