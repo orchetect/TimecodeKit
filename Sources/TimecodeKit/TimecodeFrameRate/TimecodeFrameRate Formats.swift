@@ -67,7 +67,7 @@ extension TimecodeFrameRate {
     /// ```
     public var fcpXMLMetadata: (frameDuration: String, tcFormat: String) {
         (
-            frameDuration: "\(frameDuration.numerator)/\(frameDuration.denominator)",
+            frameDuration: frameDuration.fcpxmlStringValue,
             tcFormat: isDrop ? "DF" : "NDF"
         )
     }

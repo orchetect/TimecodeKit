@@ -113,7 +113,7 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(reduced.isReduced, true)
     }
     
-    func testInitFromDouble() {
+    func testInit_Double() {
         XCTAssertEqual(Fraction(double: 2.0), Fraction(2, 1))
         XCTAssertEqual(Fraction(double: 0.5), Fraction(1, 2))
         
@@ -142,7 +142,7 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(double: 30000/1001, decimalPrecision: -2).doubleValue, 29.0)
     }
     
-    func testInitFromDouble_NegativeValues() {
+    func testInit_Double_NegativeValues() {
         XCTAssertEqual(Fraction(double: -2.0), Fraction(-2, 1))
         XCTAssertEqual(Fraction(double: -0.5), Fraction(-1, 2))
         
@@ -203,6 +203,46 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(-1, 0).doubleValue, -.infinity)
         XCTAssertEqual(Fraction(0, 0).doubleValue.isNaN, true)
         XCTAssertEqual(Fraction(0, -1).doubleValue, 0.0)
+    }
+    
+    // MARK: FCPXML Encoding
+    
+    func testInit_fcpxmlString() {
+        XCTAssertEqual(Fraction(fcpxmlString: "0s"), Fraction(0, 1))
+        XCTAssertEqual(Fraction(fcpxmlString: "4s"), Fraction(4, 1))
+        
+        XCTAssertEqual(Fraction(fcpxmlString: "4/2s"), Fraction(2, 1))
+        XCTAssertEqual(Fraction(fcpxmlString: "2/1s"), Fraction(2, 1))
+    }
+    
+    func testInit_fcpxmlString_NegativeValues() {
+        XCTAssertEqual(Fraction(fcpxmlString: "-0s"), Fraction(-0, 1))
+        XCTAssertEqual(Fraction(fcpxmlString: "-4s"), Fraction(-4, 1))
+        
+        XCTAssertEqual(Fraction(fcpxmlString: "-4/2s"), Fraction(-2, 1))
+        XCTAssertEqual(Fraction(fcpxmlString: "-2/1s"), Fraction(-2, 1))
+    }
+    
+    func testfcpxmlString() {
+        XCTAssertEqual(Fraction(0, 1).fcpxmlStringValue, "0s")
+        XCTAssertEqual(Fraction(4, 1).fcpxmlStringValue, "4s")
+        
+        XCTAssertEqual(Fraction(4, 2).fcpxmlStringValue, "2s")
+        XCTAssertEqual(Fraction(2, 1).fcpxmlStringValue, "2s")
+        
+        XCTAssertEqual(Fraction(2, 4).fcpxmlStringValue, "1/2s")
+        XCTAssertEqual(Fraction(1, 2).fcpxmlStringValue, "1/2s")
+    }
+    
+    func testfcpxmlString_NegativeValues() {
+        XCTAssertEqual(Fraction(-0, 1).fcpxmlStringValue, "0s") // zero will remove negative sign
+        XCTAssertEqual(Fraction(-4, 1).fcpxmlStringValue, "-4s")
+        
+        XCTAssertEqual(Fraction(-4, 2).fcpxmlStringValue, "-2s")
+        XCTAssertEqual(Fraction(-2, 1).fcpxmlStringValue, "-2s")
+        
+        XCTAssertEqual(Fraction(-2, 4).fcpxmlStringValue, "-1/2s")
+        XCTAssertEqual(Fraction(-1, 2).fcpxmlStringValue, "-1/2s")
     }
 }
 

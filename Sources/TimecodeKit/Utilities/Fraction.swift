@@ -222,3 +222,73 @@ extension Double {
         return Fraction(reducing: isNegative ? -n : n, d)
     }
 }
+
+// MARK: FCPXML Encoding
+
+extension Fraction {
+    /// Initializes from an encoded Final Cut Pro FCPXML time value string.
+    ///
+    /// Where the time value is an even number of seconds, it is encoded as a whole number without
+    /// the fraction, ie: "0s" or "60s".
+    ///
+    /// Where a time value is not an even number of seconds, FCPXML uses the string format "N/Ds",
+    /// ie: "34900/2500s".
+    ///
+    /// FCPXML uses a trailing "s" character in the string to denote 'seconds'.
+    ///
+    /// If the value is negative, a minus sign is prepended to the string, ie: "-60s" or
+    /// "-34900/2500s".
+    ///
+    /// - Returns: ``Fraction`` instance if string is a valid FCPXML time encoding.
+    ///   Returns `nil` if the string was not formatted as expected.
+    public init?(fcpxmlString: String) {
+        // test for whole seconds, without fraction
+        let wholeSecsMatches = fcpxmlString
+            .regexMatches(captureGroupsFromPattern: #"^([-]){0,1}([\d]+)s$"#)
+        if wholeSecsMatches.count == 3 {
+            let negativeSign = wholeSecsMatches[1] ?? ""
+            if let secondsString = wholeSecsMatches[2],
+               let seconds = Int(negativeSign + secondsString)
+            {
+                self.init(seconds, 1) // no need to reduce, as it will already be reduced
+                return
+            }
+        }
+        
+        // test for fraction
+        let fracMatches = fcpxmlString
+            .regexMatches(captureGroupsFromPattern: #"^([-]){0,1}([\d]+)\/([\d]+)s$"#)
+        if fracMatches.count == 4 {
+            let negativeSign = fracMatches[1] ?? ""
+            if let numeratorString = fracMatches[2],
+               let numerator = Int(negativeSign + numeratorString),
+               let denominatorString = fracMatches[3],
+               let denominator = Int(denominatorString)
+            {
+                self.init(reducing: numerator, denominator)
+                return
+            }
+        }
+        return nil
+    }
+    
+    /// Returns the string value using time value encoding for Final Cut Pro FCPXML files.
+    /// Reduces the fraction first if necessary.
+    ///
+    /// Where the time value is an even number of seconds, it is encoded as a whole number without
+    /// the fraction, ie: "0s" or "60s".
+    ///
+    /// Where a time value is not an even number of seconds, FCPXML uses the string format "N/Ds",
+    /// ie: "34900/2500s".
+    ///
+    /// FCPXML uses a trailing "s" character in the string to denote 'seconds'.
+    ///
+    /// If the value is negative, a minus sign is prepended to the string, ie: "-60s" or
+    /// "-34900/2500s".
+    public var fcpxmlStringValue: String {
+        let reduced = _isReduced ?? false ? self : self.reduced()
+        return isWholeInteger
+            ? "\(Int(reduced.doubleValue))s"
+            : "\(reduced.numerator)/\(reduced.denominator)s"
+    }
+}
