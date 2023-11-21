@@ -47,6 +47,17 @@ public struct Fraction {
         _isReduced = true
     }
     
+    /// Initialize by converting a floating-point number to a given precision (number of decimal
+    /// places).
+    ///
+    /// Note that this conversion may be lossy.
+    public init(
+        double: Double,
+        decimalPrecision: Int = 18
+    ) {
+        self = double.rational(precision: decimalPrecision)
+    }
+    
     // MARK: - Conversions
     
     /// Returns the evaluated fraction as a `Double`.
