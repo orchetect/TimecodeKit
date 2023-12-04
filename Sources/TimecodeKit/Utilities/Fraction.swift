@@ -113,6 +113,13 @@ extension Fraction: CustomStringConvertible {
     }
 }
 
+// MARK: - Static Constructors
+
+extension Fraction {
+    /// Returns a fraction with the time equivalent of zero.
+    public static let zero = Fraction(0, 1)
+}
+
 // MARK: - Operations
 
 extension Fraction {
