@@ -47,7 +47,7 @@ public struct Fraction {
     
     /// Initialize by reducing and normalizing the fraction.
     public init(reducing numerator: Int, _ denominator: Int) {
-        let reduced = Self.reduce(n: numerator, d: denominator)
+        let reduced = reduce(n: numerator, d: denominator)
         self.numerator = reduced.n
         self.denominator = reduced.d
         _isReduced = true
@@ -137,32 +137,6 @@ extension Fraction {
         return isNegative ? norm.negated() : norm
     }
     
-    /// Internal:
-    /// Reduce a fraction to its simplest form.
-    /// This also normalizes signs.
-    static func reduce(n: Int, d: Int) -> (n: Int, d: Int) {
-        let (absN, signN) = n < 0 ? (-n, -1) : (n, 1)
-        let (absD, signD) = d < 0 ? (-d, -1) : (d, 1)
-        var v = n
-        var u = d
-        
-        // Euclid's solution to finding the Greatest Common Denominator
-        while (v != 0) {
-            (v, u) = (u % v, v)
-        }
-        
-        var outN = absN / u * signN
-        var outD = absD / u * signD
-        
-        // final check to normalize if necessary
-        if outN >= 0, outD < 0 {
-            outN = -outN
-            outD = -outD
-        }
-        
-        return (outN, outD)
-    }
-    
     /// Returns a new instance reduced to its simplest form.
     /// This also normalizes signs.
     public func reduced() -> Self {
@@ -170,26 +144,11 @@ extension Fraction {
         return Fraction(reducing: numerator, denominator)
     }
     
-    /// Internal:
-    /// Normalize a fraction.
-    /// Fractions with two negative signs are normalized to two positive signs.
-    /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
-    static func normalize(n: Int, d: Int) -> (n: Int, d: Int) {
-        var n = n
-        var d = d
-        if n >= 0 && d >= 0 { return (n: n, d: d) }
-        if (n < 0 && d < 0) || (d < 0) {
-            n *= -1
-            d *= -1
-        }
-        return (n: n, d: d)
-    }
-    
     /// Returns a new instance normalized.
     /// Fractions with two negative signs are normalized to two positive signs.
     /// Fractions with negative denominator are normalized to negative numerator and positive denominator.
     func normalized() -> Self {
-        let result = Self.normalize(n: numerator, d: denominator)
+        let result = normalize(n: numerator, d: denominator)
         return Fraction(result.n, result.d)
     }
     
@@ -208,7 +167,33 @@ extension Fraction {
     }
 }
 
-// MARK: Double
+// MARK: - Math
+
+extension Fraction {
+    public static func + (lhs: Self, rhs: Self) -> Self {
+        if lhs.denominator == rhs.denominator {
+            return Fraction(reducing: lhs.numerator + rhs.numerator, lhs.denominator)
+        }
+        
+        let lcm = leastCommonMultiple(lhs: lhs.denominator, rhs: rhs.denominator)
+        
+        let num = (lhs.numerator * lcm.lhsMultiplier) + (rhs.numerator * lcm.rhsMultiplier)
+        return Fraction(reducing: num, lcm.denominator)
+    }
+    
+    public static func - (lhs: Self, rhs: Self) -> Self {
+        if lhs.denominator == rhs.denominator {
+            return Fraction(reducing: lhs.numerator - rhs.numerator, lhs.denominator)
+        }
+        
+        let lcm = leastCommonMultiple(lhs: lhs.denominator, rhs: rhs.denominator)
+        
+        let num = (lhs.numerator * lcm.lhsMultiplier) - (rhs.numerator * lcm.rhsMultiplier)
+        return Fraction(reducing: num, lcm.denominator)
+    }
+}
+
+// MARK: - Double
 
 extension Double {
     /// Internal:
@@ -236,7 +221,7 @@ extension Double {
     }
 }
 
-// MARK: FCPXML Encoding
+// MARK: - FCPXML Encoding
 
 extension Fraction {
     /// Initializes from an encoded Final Cut Pro FCPXML time value string.
@@ -304,4 +289,79 @@ extension Fraction {
             ? "\(Int(reduced.doubleValue))s"
             : "\(reduced.numerator)/\(reduced.denominator)s"
     }
+}
+
+// MARK: - Math Functions
+
+/// Internal:
+/// Normalize a fraction.
+/// Fractions with two negative signs are normalized to two positive signs.
+/// Fractions with negative denominator are normalized to negative numerator and positive denominator.
+func normalize(n: Int, d: Int) -> (n: Int, d: Int) {
+    var n = n
+    var d = d
+    if n >= 0 && d >= 0 { return (n: n, d: d) }
+    if (n < 0 && d < 0) || (d < 0) {
+        n *= -1
+        d *= -1
+    }
+    return (n: n, d: d)
+}
+
+/// Internal:
+/// Reduce a fraction to its simplest form.
+/// This also normalizes signs.
+func reduce(n: Int, d: Int) -> (n: Int, d: Int) {
+    let (absN, signN) = n < 0 ? (-n, -1) : (n, 1)
+    let (absD, signD) = d < 0 ? (-d, -1) : (d, 1)
+    var v = n
+    var u = d
+    
+    // Euclid's solution to finding the Greatest Common Denominator
+    while (v != 0) {
+        (v, u) = (u % v, v)
+    }
+    
+    var outN = absN / u * signN
+    var outD = absD / u * signD
+    
+    // final check to normalize if necessary
+    if outN >= 0, outD < 0 {
+        outN = -outN
+        outD = -outD
+    }
+    
+    return (outN, outD)
+}
+
+/// Internal:
+/// Returns greatest common divisor of two numbers.
+func greatestCommonDivisor(_ n1: Int, _ n2: Int) -> Int {
+    var x = 0
+    var y = max(n1, n2)
+    var z = min(n1, n2)
+    
+    while z != 0 {
+        x = y
+        y = z
+        z = x % y
+    }
+    
+    return y
+}
+
+/// Internal:
+/// Returns least common multiple of two numbers and their respective multipliers.
+func leastCommonMultiple(
+    lhs: Int, rhs: Int
+) -> (denominator: Int, lhsMultiplier: Int, rhsMultiplier: Int) {
+    let denominator = lhs * rhs / greatestCommonDivisor(lhs, rhs)
+    let lhsMultiplier = denominator / lhs
+    let rhsMultiplier = denominator / rhs
+    
+    return (
+        denominator: denominator,
+        lhsMultiplier: lhsMultiplier,
+        rhsMultiplier: rhsMultiplier
+    )
 }
