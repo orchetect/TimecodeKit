@@ -107,6 +107,12 @@ extension Fraction: Hashable {
     }
 }
 
+extension Fraction: Comparable {
+    public static func < (lhs: Fraction, rhs: Fraction) -> Bool {
+        lhs.doubleValue < rhs.doubleValue
+    }
+}
+
 extension Fraction: CustomStringConvertible {
     public var description: String {
         "\(numerator)/\(denominator)"

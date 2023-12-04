@@ -50,6 +50,20 @@ class Fraction_Tests: XCTestCase {
         XCTAssertTrue(Fraction(-1, -2).isEqual(to: Fraction(1, 2)))
     }
     
+    func testComparable() {
+        XCTAssertFalse(Fraction(2, 4) < Fraction(2, 4))
+        XCTAssertFalse(Fraction(2, 4) > Fraction(2, 4))
+        
+        XCTAssertFalse(Fraction(1, 2) < Fraction(2, 4))
+        XCTAssertFalse(Fraction(1, 2) > Fraction(2, 4))
+        
+        XCTAssertFalse(Fraction(2, 4) < Fraction(1, 2))
+        XCTAssertFalse(Fraction(2, 4) > Fraction(1, 2))
+        
+        XCTAssertTrue(Fraction(1, 10) < Fraction(2, 10))
+        XCTAssertTrue(Fraction(2, 10) > Fraction(1, 10))
+    }
+    
     func testFractionInitReducing() {
         let frac = Fraction(reducing: 4, 2)
         XCTAssertEqual(frac, Fraction(2, 1))
