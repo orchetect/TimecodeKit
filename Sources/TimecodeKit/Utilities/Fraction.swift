@@ -113,18 +113,6 @@ extension Fraction: Comparable {
     }
 }
 
-extension Fraction: Strideable {
-    public typealias Stride = Double
-    
-    public func distance(to other: Self) -> Double {
-        other.doubleValue - doubleValue
-    }
-    
-    public func advanced(by n: Double) -> Self {
-        Self(double: self.doubleValue + n)
-    }
-}
-
 extension Fraction: CustomStringConvertible {
     public var description: String {
         "\(numerator)/\(denominator)"
