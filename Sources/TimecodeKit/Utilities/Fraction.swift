@@ -20,7 +20,8 @@ public struct Fraction {
     public var isReduced: Bool {
         if let _isReduced = _isReduced, _isReduced { return _isReduced }
         let reduced = reduced()
-        return self == reduced
+        
+        return isIdentical(to: reduced)
     }
     
     /// Returns `true` if one operand of the fraction is negative.
@@ -87,8 +88,7 @@ public struct Fraction {
 extension Fraction: Equatable {
     /// Performs a comparison against literal values.
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.numerator == rhs.numerator
-            && lhs.denominator == rhs.denominator
+        lhs.isEqual(to: rhs)
     }
     
     /// Returns `true` if both fractions are mathematically equal (can reduce to the same values).
@@ -96,7 +96,13 @@ extension Fraction: Equatable {
         let lhsReduced = reduced().normalized()
         let rhsReduced = other.reduced().normalized()
         
-        return lhsReduced == rhsReduced
+        return lhsReduced.isIdentical(to: rhsReduced)
+    }
+    
+    /// Returns `true` if both fractions contain identical numerators and identical denominators.
+    public func isIdentical(to other: Self) -> Bool {
+        numerator == other.numerator
+            && denominator == other.denominator
     }
 }
 
