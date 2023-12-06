@@ -64,6 +64,20 @@ class Fraction_Tests: XCTestCase {
         XCTAssertTrue(Fraction(2, 10) > Fraction(1, 10))
     }
     
+    func testStrideable() {
+        XCTAssertEqual(Fraction(1, 4).distance(to: Fraction(3, 4)), 0.5)
+        
+        let range = Fraction(2, 10) ... Fraction(6, 10)
+        
+        XCTAssertFalse(range.contains(Fraction(1, 10)))
+        XCTAssertTrue(range.contains(Fraction(2, 10)))
+        XCTAssertTrue(range.contains(Fraction(4, 10)))
+        XCTAssertTrue(range.contains(Fraction(6, 10)))
+        XCTAssertFalse(range.contains(Fraction(7, 10)))
+        
+        XCTAssertTrue(range.contains(Fraction(1, 2)))
+    }
+    
     func testMathAdd() {
         XCTAssertEqual(Fraction(1, 2) + Fraction(1, 4), Fraction(3, 4))
         XCTAssertEqual(Fraction(2, 4) + Fraction(1, 4), Fraction(3, 4))
