@@ -12,7 +12,7 @@ public struct TimecodeInterval: Equatable, Hashable {
     /// The interval's absolute distance, stripping sign negation if present.
     /// The ``isNegative`` property determines the delta direction of the interval.
     public let absoluteInterval: Timecode
-        
+    
     /// The `interval` sign.
     public let sign: FloatingPointSign
     
@@ -25,24 +25,14 @@ public struct TimecodeInterval: Equatable, Hashable {
         absoluteInterval = interval
         self.sign = sign
     }
-    
+}
+
+extension TimecodeInterval {
     // MARK: - Public Properties
         
     /// Returns `true` if the sign is negative.
     public var isNegative: Bool {
         sign == .minus
-    }
-        
-    /// Returns the interval time as real-time (wall-clock time) in seconds.
-    /// Expressed as either a positive or negative number.
-    public var realTimeValue: TimeInterval {
-        switch sign {
-        case .plus:
-            return absoluteInterval.realTimeValue
-                
-        case .minus:
-            return -(absoluteInterval.realTimeValue)
-        }
     }
     
     /// Flattens the interval and returns it expressed as valid timecode, wrapping as necessary based on the
