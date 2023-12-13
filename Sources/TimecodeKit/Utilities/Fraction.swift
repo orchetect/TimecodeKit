@@ -277,7 +277,7 @@ extension Fraction {
     }
     
     /// Returns the string value using time value encoding for Final Cut Pro FCPXML files.
-    /// Reduces the fraction first if necessary.
+    /// Normalizes the fraction first if necessary.
     ///
     /// Where the time value is an even number of seconds, it is encoded as a whole number without
     /// the fraction, ie: "0s" or "60s".
@@ -290,7 +290,7 @@ extension Fraction {
     /// If the value is negative, a minus sign is prepended to the string, ie: "-60s" or
     /// "-34900/2500s".
     public var fcpxmlStringValue: String {
-        let reduced = _isReduced ?? false ? self : self.reduced()
+        let reduced = _isReduced ?? false ? self : self.normalized()
         return isWholeInteger
             ? "\(Int(reduced.doubleValue))s"
             : "\(reduced.numerator)/\(reduced.denominator)s"
