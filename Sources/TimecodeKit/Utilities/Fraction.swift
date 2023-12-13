@@ -254,7 +254,7 @@ extension Fraction {
             if let secondsString = wholeSecsMatches[2],
                let seconds = Int(negativeSign + secondsString)
             {
-                self.init(seconds, 1) // no need to reduce, as it will already be reduced
+                self.init(seconds, 1)
                 return
             }
         }
@@ -269,7 +269,7 @@ extension Fraction {
                let denominatorString = fracMatches[3],
                let denominator = Int(denominatorString)
             {
-                self.init(reducing: numerator, denominator)
+                self.init(numerator, denominator)
                 return
             }
         }

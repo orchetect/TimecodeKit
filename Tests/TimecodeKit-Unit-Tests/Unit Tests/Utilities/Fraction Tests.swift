@@ -249,6 +249,13 @@ class Fraction_Tests: XCTestCase {
         
         XCTAssertEqual(Fraction(fcpxmlString: "-4/2s"), Fraction(-2, 1))
         XCTAssertEqual(Fraction(fcpxmlString: "-2/1s"), Fraction(-2, 1))
+        
+        // we would like to ensure the fraction does not reduce for FCPXML.
+        // it's not a requirement, but Final Cut Pro likes to use non-reduced
+        // timebases and it also makes comparing values against strings easier
+        // if the literal numbers are preserved and not reduced.
+        XCTAssertEqual(Fraction(fcpxmlString: "4/2s")?.numerator, 4)
+        XCTAssertEqual(Fraction(fcpxmlString: "4/2s")?.denominator, 2)
     }
     
     func testfcpxmlString() {
