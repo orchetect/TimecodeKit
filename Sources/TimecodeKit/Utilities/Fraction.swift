@@ -65,6 +65,13 @@ public struct Fraction {
         self = double.rational(precision: decimalPrecision)
     }
     
+    /// Internal: Initialize with literal values and force the reduced flag.
+    init(_ numerator: Int, _ denominator: Int, isReduced: Bool?) {
+        self.numerator = numerator
+        self.denominator = denominator
+        _isReduced = isReduced
+    }
+    
     // MARK: - Conversions
     
     /// Returns the evaluated fraction as a `Double`.
@@ -254,7 +261,7 @@ extension Fraction {
             if let secondsString = wholeSecsMatches[2],
                let seconds = Int(negativeSign + secondsString)
             {
-                self.init(seconds, 1)
+                self.init(seconds, 1, isReduced: true)
                 return
             }
         }
