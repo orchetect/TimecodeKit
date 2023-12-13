@@ -100,8 +100,8 @@ extension Fraction: Equatable {
     
     /// Returns `true` if both fractions are mathematically equal (can reduce to the same values).
     public func isEqual(to other: Self) -> Bool {
-        let lhsReduced = reduced().normalized()
-        let rhsReduced = other.reduced().normalized()
+        let lhsReduced = reduced()
+    let rhsReduced = other.reduced()
         
         return lhsReduced.isIdentical(to: rhsReduced)
     }
@@ -297,6 +297,7 @@ extension Fraction {
     /// If the value is negative, a minus sign is prepended to the string, ie: "-60s" or
     /// "-34900/2500s".
     public var fcpxmlStringValue: String {
+        // if fraction is reduced, it's also normalized
         let reduced = _isReduced ?? false ? self : self.normalized()
         return isWholeInteger
             ? "\(Int(reduced.doubleValue))s"
