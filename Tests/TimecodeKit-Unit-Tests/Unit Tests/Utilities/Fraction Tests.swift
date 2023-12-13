@@ -251,9 +251,7 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(fcpxmlString: "-2/1s"), Fraction(-2, 1))
         
         // we would like to ensure the fraction does not reduce for FCPXML.
-        // it's not a requirement, but Final Cut Pro likes to use non-reduced
-        // timebases and it also makes comparing values against strings easier
-        // if the literal numbers are preserved and not reduced.
+        // it's not a requirement, but makes comparisons easier with the XML.
         XCTAssertEqual(Fraction(fcpxmlString: "4/2s")?.numerator, 4)
         XCTAssertEqual(Fraction(fcpxmlString: "4/2s")?.denominator, 2)
     }
@@ -265,7 +263,9 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(4, 2).fcpxmlStringValue, "2s")
         XCTAssertEqual(Fraction(2, 1).fcpxmlStringValue, "2s")
         
-        XCTAssertEqual(Fraction(2, 4).fcpxmlStringValue, "1/2s")
+        // we would like to ensure the fraction does not reduce for FCPXML.
+        // it's not a requirement, but makes comparisons easier with the XML.
+        XCTAssertEqual(Fraction(2, 4).fcpxmlStringValue, "2/4s")
         XCTAssertEqual(Fraction(1, 2).fcpxmlStringValue, "1/2s")
     }
     
@@ -276,7 +276,9 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(-4, 2).fcpxmlStringValue, "-2s")
         XCTAssertEqual(Fraction(-2, 1).fcpxmlStringValue, "-2s")
         
-        XCTAssertEqual(Fraction(-2, 4).fcpxmlStringValue, "-1/2s")
+        // we would like to ensure the fraction does not reduce for FCPXML.
+        // it's not a requirement, but makes comparisons easier with the XML.
+        XCTAssertEqual(Fraction(-2, 4).fcpxmlStringValue, "-2/4s")
         XCTAssertEqual(Fraction(-1, 2).fcpxmlStringValue, "-1/2s")
     }
 }
