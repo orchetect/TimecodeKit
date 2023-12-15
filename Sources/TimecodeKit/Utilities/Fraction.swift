@@ -126,6 +126,8 @@ extension Fraction: Comparable {
     }
 }
 
+extension Fraction: Sendable { }
+
 extension Fraction: CustomStringConvertible {
     public var description: String {
         "\(numerator)/\(denominator)"
