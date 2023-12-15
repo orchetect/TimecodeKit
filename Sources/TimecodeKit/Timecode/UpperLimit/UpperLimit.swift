@@ -55,4 +55,6 @@ extension Timecode {
     }
 }
 
+extension Timecode.UpperLimit: Sendable { }
+
 extension Timecode.UpperLimit: Codable { }
