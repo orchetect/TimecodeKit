@@ -74,4 +74,6 @@ extension Timecode {
     }
 }
 
+extension Timecode.Properties: Sendable { }
+
 extension Timecode.Properties: Codable { }
