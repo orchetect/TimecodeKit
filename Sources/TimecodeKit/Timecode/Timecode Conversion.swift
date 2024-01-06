@@ -9,21 +9,37 @@ extension Timecode {
     
     /// Return a new `Timecode` object converted to a new frame rate.
     ///
-    /// - If `preservingValues` is `false` (default): entire timecode is converted based on the equivalent real time value.
+    /// - Warning: This conversion process may be lossy.
     ///
-    /// - If `preservingValues` is `true`: Return a new `Timecode` instance at the new frame rate preserving literal timecode values if
-    ///   possible.
-    ///   If any value is not expressible at the new frame rate, the entire timecode will be converted.
+    /// - Parameters:
+    ///   - newFrameRate: New frame rate.
+    ///     If the new rate is identical to the current rate, the timecode will be returned unchanged.
     ///
-    /// - Note: this process may be lossy.
+    ///   - newSubFramesBase: New sub-frames base (optional).
+    ///
+    ///     If not specified, the current sub-frames base will be preserved.
+    ///
+    ///   - preservingValues: Preserve literal timecode component values. (Default: `false`)
+    ///
+    ///     When `true`, a new `Timecode` instance at the new frame rate is returned, preserving literal timecode values
+    ///     if possible. If any values are invalid at the new frame rate, an error is thrown.
+    ///     If any value is not expressible at the new frame rate, the entire timecode will be converted.
+    ///     When `false`, the timecode is converted to the new frame rate based on the equivalent real time value.
     ///
     /// - Throws: ``ValidationError``
+    ///
+    /// - Returns: A new `Timecode` instance converted to the new frame rate and sub-frames base.
     public func converted(
         to newFrameRate: TimecodeFrameRate,
+        base newSubFramesBase: Timecode.SubFramesBase? = nil,
         preservingValues: Bool = false
     ) throws -> Timecode {
-        // just return self if frameRate is equal
-        guard frameRate != newFrameRate else {
+        let newSubFramesBase = newSubFramesBase ?? subFramesBase
+        
+        // just return self if new parameters are equal to current parameters
+        guard frameRate != newFrameRate ||
+              subFramesBase != newSubFramesBase
+        else {
             return self
         }
         
@@ -31,7 +47,7 @@ extension Timecode {
            let newTC = try? Timecode(
                .components(components),
                at: newFrameRate,
-               base: subFramesBase,
+               base: newSubFramesBase,
                limit: upperLimit
            )
         {
@@ -43,7 +59,7 @@ extension Timecode {
         return try Timecode(
             .realTime(seconds: realTimeValue),
             at: newFrameRate,
-            base: subFramesBase,
+            base: newSubFramesBase,
             limit: upperLimit
         )
     }
