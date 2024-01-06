@@ -13,12 +13,12 @@ class Timecode_Conversion_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
-    func testConverted() throws {
+    func testConverted_NewFrameRate() throws {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
         try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(h: 1), at: $0)
+            let tc = try Timecode(.components(h: 1), at: $0, base: .max100SubFrames)
             
             let convertedTC = try tc.converted(to: $0)
             
@@ -35,10 +35,41 @@ class Timecode_Conversion_Tests: XCTestCase {
         .converted(to: .fps30)
         
         XCTAssertEqual(convertedTC.frameRate, .fps30)
+        XCTAssertEqual(convertedTC.subFramesBase, .max100SubFrames)
         XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 03, f: 18, sf: 00))
     }
     
-    func testConverted_PreservingValues() throws {
+    func testConverted_NewFrameRate_NewSubFramesBaseA() throws {
+        // spot-check an example conversion
+        
+        let convertedTC = try Timecode(
+            .components(sf: 50),
+            at: .fps30,
+            base: .max100SubFrames
+        )
+        .converted(to: .fps60, base: .max80SubFrames)
+        
+        XCTAssertEqual(convertedTC.frameRate, .fps60)
+        XCTAssertEqual(convertedTC.subFramesBase, .max80SubFrames)
+        XCTAssertEqual(convertedTC.components, Timecode.Components(f: 1))
+    }
+    
+    func testConverted_NewFrameRate_NewSubFramesBaseB() throws {
+        // spot-check an example conversion
+        
+        let convertedTC = try Timecode(
+            .components(h: 1, sf: 40),
+            at: .fps23_976,
+            base: .max80SubFrames
+        )
+        .converted(to: .fps30, base: .max100SubFrames)
+        
+        XCTAssertEqual(convertedTC.frameRate, .fps30)
+        XCTAssertEqual(convertedTC.subFramesBase, .max100SubFrames)
+        XCTAssertEqual(convertedTC.components, Timecode.Components(h: 1, m: 00, s: 03, f: 18, sf: 62))
+    }
+    
+    func testConverted_NewFrameRate_PreservingValues() throws {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
