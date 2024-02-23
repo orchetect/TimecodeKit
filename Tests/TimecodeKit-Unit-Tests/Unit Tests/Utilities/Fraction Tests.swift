@@ -84,6 +84,28 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(8000, 3800) - Fraction(100, 1900), Fraction(39, 19))
     }
     
+    func testMathMultiply() {
+        XCTAssertEqual(Fraction(1, 4) * Fraction(2, 8), Fraction(1, 16))
+        XCTAssertEqual(Fraction(1, 4) * Fraction(8, 32), Fraction(1, 16))
+        XCTAssertEqual(Fraction(3, 4) * Fraction(1, 2), Fraction(3, 8))
+        
+        XCTAssertEqual(Fraction(-3, 4) * Fraction(1, 2), Fraction(-3, 8))
+        XCTAssertEqual(Fraction(-3, 4) * Fraction(-1, 2), Fraction(3, 8))
+        
+        XCTAssertEqual(Fraction(900, 1800) * Fraction(9500, 3800), Fraction(5, 4))
+    }
+    
+    func testMathDivide() {
+        XCTAssertEqual(Fraction(1, 16) / Fraction(2, 8), Fraction(1, 4))
+        XCTAssertEqual(Fraction(8, 32) / Fraction(1, 4), Fraction(1, 1))
+        
+        XCTAssertEqual(Fraction(-1, 16) / Fraction(2, 8), Fraction(-1, 4))
+        XCTAssertEqual(Fraction(-1, 16) / Fraction(-2, 8), Fraction(1, 4))
+        XCTAssertEqual(Fraction(1, 16) / Fraction(-2, 8), Fraction(-1, 4))
+        
+        XCTAssertEqual(Fraction(5, 4) / Fraction(900, 1800), Fraction(9500, 3800))
+    }
+    
     func testFractionInitReducing() {
         let frac = Fraction(reducing: 4, 2)
         XCTAssertEqual(frac, Fraction(2, 1))
