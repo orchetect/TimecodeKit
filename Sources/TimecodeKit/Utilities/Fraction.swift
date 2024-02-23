@@ -206,6 +206,20 @@ extension Fraction {
         let num = (lhs.numerator * lcm.lhsMultiplier) - (rhs.numerator * lcm.rhsMultiplier)
         return Fraction(reducing: num, lcm.denominator)
     }
+    
+    public static func * (lhs: Self, rhs: Self) -> Self {
+        Fraction(reducing: lhs.numerator * rhs.numerator, lhs.denominator * rhs.denominator)
+    }
+    
+    public static func / (lhs: Self, rhs: Self) -> Self {
+        // Check for division by zero scenario
+        guard rhs.numerator != 0 else {
+            fatalError("Division by zero.")
+        }
+        
+        // Multiply lhs by the reciprocal of rhs
+        return Fraction(reducing: lhs.numerator * rhs.denominator, lhs.denominator * rhs.numerator)
+    }
 }
 
 // MARK: - Double
