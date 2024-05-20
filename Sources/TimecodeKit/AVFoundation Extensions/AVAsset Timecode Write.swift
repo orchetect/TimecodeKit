@@ -41,7 +41,10 @@ extension AVMutableMovie {
         }
         
         // copy new track
-        let targetTrack = addMutableTracksCopyingSettings(from: [newTimecodeTrack])[0] // guaranteed
+        let mutableTracks = addMutableTracksCopyingSettings(from: [newTimecodeTrack])
+        guard let targetTrack = mutableTracks.first else {
+            throw Timecode.MediaWriteError.internalError
+        }
         
         // we have to provide on-disk data storage
         targetTrack.mediaDataStorage = try .init(data: Data())
@@ -78,7 +81,7 @@ extension AVMutableMovie {
         
         return try addTimecodeTrack(
             startTimecode: startTimecode,
-            duration: duration ?? durationTimecode(),
+            duration: duration ?? durationTimecode(at: startTimecode.frameRate),
             extensions: extensions,
             fileType: outputFileType
         )
