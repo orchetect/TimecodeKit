@@ -52,10 +52,13 @@ import AVFoundation
 //         let exporter = ObservableExporter(
 //             session: export,
 //             pollingInterval: 1.0,
-//             progress: Binding<Double>(get: { 0 }, set: { prog, _ in
-//                 let percentString = String(format: "%.0f", prog * 100) + "%"
-//                 print(percentString)
-//             })
+//             progress: Binding<Double>(
+//                 get: { 0 },
+//                 set: { prog, _ in
+//                     let percentString = String(format: "%.0f", prog * 100) + "%"
+//                     print(percentString)
+//                 }
+//             )
 //         )
 //         let status = try await exporter.export()
 //         print("100%")
