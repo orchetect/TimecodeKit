@@ -2,7 +2,7 @@
 
 # TimecodeKit
 
-[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2 | visionOS 1](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202%20|%20visionOS%201-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-5.9](https://img.shields.io/badge/Swift-5.5–5.9-orange.svg?style=flat) [![Xcode 13-15](https://img.shields.io/badge/Xcode-13–15-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2 | visionOS 1](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202%20|%20visionOS%201-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.5-6](https://img.shields.io/badge/Swift-5.5–6-orange.svg?style=flat) [![Xcode 13-16](https://img.shields.io/badge/Xcode-13–16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
 The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 22 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
