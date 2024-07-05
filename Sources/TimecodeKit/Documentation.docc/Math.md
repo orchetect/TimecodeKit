@@ -50,9 +50,9 @@ var tc2 = try "00:00:02:00".timecode(at: .fps23_976)
 
 // in-place mutation
 try tc1.add(tc2)
-try tc1.add(tc2, by: wrapping) // using result validation rule
+try tc1.add(tc2, by: .wrapping) // using result validation rule
 
 // return a new instance
 let tc3 = try tc1.adding(tc2)
-let tc3 = try tc1.adding(tc2, by: wrapping) // using result validation rule
+let tc3 = try tc1.adding(tc2, by: .wrapping) // using result validation rule
 ```
