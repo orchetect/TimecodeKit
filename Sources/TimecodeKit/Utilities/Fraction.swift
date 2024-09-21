@@ -90,6 +90,12 @@ public struct Fraction {
     public var decimalValue: Decimal {
         Decimal(numerator) / Decimal(denominator)
     }
+    
+    /// Returns the fraction as a human-readable string.
+    /// ie: "1/2"
+    public var stringValue: String {
+        "\(numerator)/\(denominator)"
+    }
 }
 
 extension Fraction: Equatable {
@@ -130,7 +136,7 @@ extension Fraction: Sendable { }
 
 extension Fraction: CustomStringConvertible {
     public var description: String {
-        "\(numerator)/\(denominator)"
+        stringValue
     }
 }
 
