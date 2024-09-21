@@ -54,7 +54,7 @@ extension Timecode.SubFramesBase: Sendable { }
 
 extension Timecode.SubFramesBase: Codable { }
 
-// MARK: Methods
+// MARK: - Methods
 
 extension Timecode.SubFramesBase {
     /// Converts a given number of subframes at this subframes base to a different subframes base.
