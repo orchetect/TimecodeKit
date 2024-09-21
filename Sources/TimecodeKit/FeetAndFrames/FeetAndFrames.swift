@@ -52,6 +52,11 @@ public struct FeetAndFrames: Equatable, Hashable {
     }
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension FeetAndFrames: Identifiable {
+    public var id: Self { self }
+}
+
 extension FeetAndFrames: CustomStringConvertible {
     public var description: String {
         stringValue

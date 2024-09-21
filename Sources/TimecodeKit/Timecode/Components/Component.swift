@@ -16,4 +16,9 @@ extension Timecode {
     }
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Timecode.Component: Identifiable {
+    public var id: Self { self }
+}
+
 extension Timecode.Component: Sendable { }

@@ -1,17 +1,12 @@
 //
-//  RangeAttribute.swift
+//  Identifiable.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-/// An individual time attribute of a time range.
-public enum RangeAttribute {
-    case start
-    case end
-    case duration
-}
+import Foundation
 
 @available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
-extension RangeAttribute: Identifiable {
+extension Timecode: Identifiable {
     public var id: Self { self }
 }

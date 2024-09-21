@@ -58,3 +58,8 @@ extension Timecode {
 extension Timecode.UpperLimit: Sendable { }
 
 extension Timecode.UpperLimit: Codable { }
+
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Timecode.UpperLimit: Identifiable {
+    public var id: Self { self }
+}

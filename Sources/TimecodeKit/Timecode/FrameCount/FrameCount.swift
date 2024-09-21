@@ -121,7 +121,7 @@ extension Timecode.FrameCount {
     }
 }
 
-// MARK: - Equatable / Hashable / Comparable / Sendable 
+// MARK: - Equatable / Hashable / Comparable / Identifiable / Sendable
 
 extension Timecode.FrameCount: Equatable, Hashable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
@@ -141,6 +141,11 @@ extension Timecode.FrameCount: Comparable {
     public static func > (lhs: Self, rhs: Self) -> Bool {
         lhs.subFrameCount > rhs.subFrameCount
     }
+}
+
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Timecode.FrameCount: Identifiable {
+    public var id: Self { self }
 }
 
 extension Timecode.FrameCount: Sendable { }

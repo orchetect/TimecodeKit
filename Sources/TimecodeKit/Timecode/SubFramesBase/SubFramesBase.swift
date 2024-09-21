@@ -45,10 +45,9 @@ extension Timecode.SubFramesBase: CustomStringConvertible {
     }
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
 extension Timecode.SubFramesBase: Identifiable {
-    public var id: RawValue {
-        rawValue
-    }
+    public var id: Self { self }
 }
 
 extension Timecode.SubFramesBase: Sendable { }

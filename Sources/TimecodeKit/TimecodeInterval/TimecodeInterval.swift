@@ -73,6 +73,11 @@ extension TimecodeInterval {
     }
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension TimecodeInterval: Identifiable {
+    public var id: Self { self }
+}
+
 extension TimecodeInterval: Sendable { }
 
 // MARK: - CustomStringConvertible

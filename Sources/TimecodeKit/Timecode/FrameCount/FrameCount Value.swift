@@ -26,6 +26,11 @@ extension Timecode.FrameCount.Value: Equatable, Hashable {
     // synthesized implementation
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Timecode.FrameCount.Value: Identifiable {
+    public var id: Self { self }
+}
+
 extension Timecode.FrameCount.Value: Sendable { }
 
 extension Timecode.FrameCount.Value: CustomStringConvertible {

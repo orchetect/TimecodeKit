@@ -132,6 +132,11 @@ extension Fraction: Comparable {
     }
 }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Fraction: Identifiable {
+    public var id: String { stringValue }
+}
+
 extension Fraction: Sendable { }
 
 extension Fraction: CustomStringConvertible {

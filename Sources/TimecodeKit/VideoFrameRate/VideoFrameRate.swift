@@ -145,9 +145,7 @@ extension VideoFrameRate: Sendable { }
 
 extension VideoFrameRate: Codable { }
 
-@available(macOS 10.15, macCatalyst 13, iOS 11, *)
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
 extension VideoFrameRate: Identifiable {
-    public var id: String {
-        rawValue
-    }
+    public var id: Self { self }
 }

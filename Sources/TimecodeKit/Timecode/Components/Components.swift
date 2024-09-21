@@ -164,6 +164,11 @@ extension Timecode.Components: Equatable { }
 
 extension Timecode.Components: Hashable { }
 
+@available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
+extension Timecode.Components: Identifiable {
+    public var id: Self { self }
+}
+
 extension Timecode.Components: Sendable { }
 
 extension Timecode.Components: Codable { }
