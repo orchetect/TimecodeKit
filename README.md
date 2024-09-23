@@ -8,7 +8,8 @@ The most robust, precise and complete Swift library for working with SMPTE/EBU t
 
 Timecode is a broadcast and post-production standard for addressing video frames. It is used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
 
-> **Note**: See the TimecodeKit 1.x → 2.x [Migration Guide](https://orchetect.github.io/TimecodeKit/documentation/timecodekit/timecodekit-2-migration-guide) if you are moving from TimecodeKit 1.x.
+> [!TIP]
+> See the TimecodeKit 1.x → 2.x [Migration Guide](https://orchetect.github.io/TimecodeKit/documentation/timecodekit/timecodekit-2-migration-guide) if you are moving from TimecodeKit 1.x.
 
 ## Supported Timecode Frame Rates
 
