@@ -17,11 +17,12 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
     
     // MARK: - Start/Duration/End Timecode
     
-    func testReadTimecodeRange_23_976fps() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testReadTimecodeRange_23_976fps() async throws {
         let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let loadTrack = try getFirstTrack(of: asset)
+        let loadTrack = try await getFirstTrack(of: asset)
         let track = try XCTUnwrap(loadTrack)
         
         let correctStart = Timecode(.zero, at: frameRate)
@@ -32,49 +33,55 @@ class AVAssetTrack_TimecodeRead_Tests: XCTestCase {
         
         // auto-detect frame rate
         do {
-            let tcRange = try track.timecodeRange()
+            let tcRange = try await track.timecodeRange()
             XCTAssertEqual(tcRange.lowerBound, correctStart)
             XCTAssertEqual(tcRange.upperBound, correctEnd)
         }
         
         // manually supply frame rate
         do {
-            let tcRange = try track.timecodeRange(at: frameRate)
+            let tcRange = try await track.timecodeRange(at: frameRate)
             XCTAssertEqual(tcRange.lowerBound, correctStart)
             XCTAssertEqual(tcRange.upperBound, correctEnd)
         }
     }
     
-    func testReadDurationTimecode_23_976fps() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testReadDurationTimecode_23_976fps() async throws {
         let frameRate: TimecodeFrameRate = .fps23_976
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
-        let loadTrack = try getFirstTrack(of: asset)
+        let loadTrack = try await getFirstTrack(of: asset)
         let track = try XCTUnwrap(loadTrack)
         
         // duration
         let correctDur = try Timecode(.components(m: 24, s: 10, f: 19, sf: 03), at: frameRate)
         
         // auto-detect frame rate
-        XCTAssertEqual(try track.durationTimecode(), correctDur)
+        let durationTimecode = try await track.durationTimecode()
+        XCTAssertEqual(durationTimecode, correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
+        let durationTimecodeAtFR = try await track.durationTimecode(at: frameRate)
+        XCTAssertEqual(durationTimecodeAtFR, correctDur)
     }
     
-    func testReadDurationTimecode_29_97fps() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testReadDurationTimecode_29_97fps() async throws {
         let frameRate: TimecodeFrameRate = .fps29_97
         let url = try TestResource.videoTrack_29_97_Start_00_00_00_00.url()
         let asset = AVAsset(url: url)
-        let loadTrack = try getFirstTrack(of: asset)
+        let loadTrack = try await getFirstTrack(of: asset)
         let track = try XCTUnwrap(loadTrack)
         
         // duration
         let correctDur = try Timecode(.components(s: 10), at: frameRate)
         
         // auto-detect frame rate
-        XCTAssertEqual(try track.durationTimecode(), correctDur)
+        let durationTimecode = try await track.durationTimecode()
+        XCTAssertEqual(durationTimecode, correctDur)
         // manually supply frame rate
-        XCTAssertEqual(try track.durationTimecode(at: frameRate), correctDur)
+        let durationTimecodeAtFR = try await track.durationTimecode(at: frameRate)
+        XCTAssertEqual(durationTimecodeAtFR, correctDur)
     }
 }
 
@@ -95,8 +102,11 @@ extension AVAssetTrack_TimecodeRead_Tests {
     // }
     
     /// Wrapper to load asset's first track depending on OS version.
-    func getFirstTrack(of asset: AVAsset) throws -> AVAssetTrack {
-        try XCTUnwrap(asset.tracks.first)
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func getFirstTrack(of asset: AVAsset) async throws -> AVAssetTrack {
+        let tracks = try await asset.load(.tracks)
+        let track = try XCTUnwrap(tracks.first)
+        return track
     }
 }
 #endif

@@ -19,29 +19,32 @@ class Timecode_AVAsset_Tests: XCTestCase {
     // These tests are just to verify baseline results using this API on `Timecode`.
     // More extensive AVAsset parsing tests are in AVAsset Extensions Tests.swift
     
-    func testTimecode_init_startOfAsset() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testTimecode_init_startOfAsset() async throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(.avAsset(asset, .start))
+        let timecode = try await Timecode(.avAsset(asset, .start))
         XCTAssertEqual(timecode.components, Timecode.Components(m: 58, s: 40))
         XCTAssertEqual(timecode.frameRate, .fps23_976)
     }
     
-    func testTimecode_init_durationOfAsset() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testTimecode_init_durationOfAsset() async throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(.avAsset(asset, .duration))
+        let timecode = try await Timecode(.avAsset(asset, .duration))
         XCTAssertEqual(timecode.components, Timecode.Components(m: 24, s: 10, f: 19, sf: 03))
         XCTAssertEqual(timecode.frameRate, .fps23_976)
     }
     
-    func testTimecode_init_endOfAsset() throws {
+    @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+    func testTimecode_init_endOfAsset() async throws {
         let url = try TestResource.timecodeTrack_23_976_Start_00_58_40_00.url()
         let asset = AVAsset(url: url)
         
-        let timecode = try Timecode(.avAsset(asset, .end))
+        let timecode = try await Timecode(.avAsset(asset, .end))
         XCTAssertEqual(timecode.components, Timecode.Components(h: 1, m: 22, s: 50, f: 19, sf: 03))
         XCTAssertEqual(timecode.frameRate, .fps23_976)
     }
