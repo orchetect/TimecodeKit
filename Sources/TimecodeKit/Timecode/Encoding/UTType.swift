@@ -16,7 +16,7 @@ extension UTType {
 
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Timecode {
-    /// The UT Type uses to encode ``Timecode`` as plain text.
+    /// The UT Type used to encode ``Timecode`` as plain text.
     public static let textUTType: UTType = .utf8PlainText
     
     /// All supported UT Types for copying to the pasteboard or dragging an item.
