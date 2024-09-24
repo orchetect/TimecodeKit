@@ -12,6 +12,7 @@ import Foundation
 
 // MARK: - Helper methods
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension AVAssetTrack {
     /// Returns the track duration expressed as timecode.
     ///
@@ -24,13 +25,16 @@ extension AVAssetTrack {
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default()
-    ) throws -> Timecode {
-        guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()
+    ) async throws -> Timecode {
+        guard let frameRate = try await {
+            if let frameRate { return frameRate }
+            return try await asset?.timecodeFrameRate()
+        }()
         else {
             throw Timecode.MediaParseError.missingOrNonStandardFrameRate
         }
         
-        let range = try timecodeRange(
+        let range = try await timecodeRange(
             at: frameRate,
             limit: limit,
             base: base
@@ -58,8 +62,11 @@ extension AVAssetTrack {
         at frameRate: TimecodeFrameRate? = nil,
         limit: Timecode.UpperLimit = .max24Hours,
         base: Timecode.SubFramesBase = .default()
-    ) throws -> ClosedRange<Timecode> {
-        guard let frameRate = try frameRate ?? asset?.timecodeFrameRate()
+    ) async throws -> ClosedRange<Timecode> {
+        guard let frameRate = try await {
+            if let frameRate { return frameRate }
+            return try await asset?.timecodeFrameRate()
+        }()
         else {
             throw Timecode.MediaParseError.missingOrNonStandardFrameRate
         }
@@ -105,20 +112,18 @@ extension AVAssetTrack {
             return []
         }
         
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
-            guard sampleBuffer.totalSampleSize > 0 else {
-                return []
-            }
+        guard sampleBuffer.totalSampleSize > 0 else {
+            return []
         }
         
-        // FYI: on macOS 10.15/iOS 13 and later, you can use
+        // on macOS 10.15/iOS 13 and later, you can use
         // formatDescription.mediaSubType instead of CMFormatDescriptionGetMediaSubType
-        let type = CMFormatDescriptionGetMediaSubType(formatDescription)
+        let type = formatDescription.mediaSubType
         
         var offset = 0
         
         switch type {
-        case kCMTimeCodeFormatType_TimeCode32:
+        case .timeCode32: // kCMTimeCodeFormatType_TimeCode32
             var samples: [CMTimeCode32] = []
             while let tc = readTimecode32Sample(blockBuffer: blockBuffer, offset: offset) {
                 samples.append(tc)
@@ -126,7 +131,7 @@ extension AVAssetTrack {
             }
             return samples
             
-        case kCMTimeCodeFormatType_TimeCode64:
+        case .timeCode64: // kCMTimeCodeFormatType_TimeCode64
             var samples: [CMTimeCode64] = []
             while let tc = readTimecode64Sample(blockBuffer: blockBuffer, offset: offset) {
                 samples.append(tc)

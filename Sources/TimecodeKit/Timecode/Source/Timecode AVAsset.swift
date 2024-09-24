@@ -10,22 +10,24 @@
 import AVFoundation
 import Foundation
 
-// MARK: - TimecodeSource
+// MARK: - AVAssetTimecodeSource
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 struct AVAssetTimecodeSource {
     var asset: AVAsset
     var attribute: RangeAttribute
 }
 
-extension AVAssetTimecodeSource: _TimecodeSource {
-    func set(timecode: inout Timecode) throws {
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+extension AVAssetTimecodeSource: _AsyncTimecodeSource {
+    func set(timecode: inout Timecode) async throws {
         let rate: TimecodeFrameRate = timecode.frameRate
         let base: Timecode.SubFramesBase = timecode.subFramesBase
         let limit: Timecode.UpperLimit = timecode.upperLimit
         
         switch attribute {
         case .start:
-            guard let tc = try asset.startTimecode(
+            guard let tc = try await asset.startTimecode(
                 at: rate,
                 base: base,
                 limit: limit
@@ -35,7 +37,7 @@ extension AVAssetTimecodeSource: _TimecodeSource {
             timecode = tc
             
         case .end:
-            guard let tc = try asset.endTimecode(
+            guard let tc = try await asset.endTimecode(
                 at: rate,
                 base: base,
                 limit: limit
@@ -45,7 +47,7 @@ extension AVAssetTimecodeSource: _TimecodeSource {
             timecode = tc
             
         case .duration:
-            timecode = try asset.durationTimecode(
+            timecode = try await asset.durationTimecode(
                 at: rate,
                 base: base,
                 limit: limit
@@ -53,7 +55,7 @@ extension AVAssetTimecodeSource: _TimecodeSource {
         }
     }
     
-    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) async {
         let rate: TimecodeFrameRate = timecode.frameRate
         let base: Timecode.SubFramesBase = timecode.subFramesBase
         let limit: Timecode.UpperLimit = timecode.upperLimit
@@ -64,21 +66,21 @@ extension AVAssetTimecodeSource: _TimecodeSource {
         
         switch attribute {
         case .start:
-            timecode = (try? asset.startTimecode(
+            timecode = (try? await asset.startTimecode(
                 at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .end:
-            timecode = (try? asset.endTimecode(
+            timecode = (try? await asset.endTimecode(
                 at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .duration:
-            timecode = (try? asset.durationTimecode(
+            timecode = (try? await asset.durationTimecode(
                 at: rate,
                 base: base,
                 limit: limit
@@ -89,7 +91,8 @@ extension AVAssetTimecodeSource: _TimecodeSource {
 
 // MARK: - Static Constructors
 
-extension TimecodeSourceValue {
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+extension AsyncTimecodeSourceValue {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be overridden by the passed properties, and will not be auto-detected from
     /// the asset.
@@ -104,23 +107,25 @@ extension TimecodeSourceValue {
     }
 }
 
-// MARK: - RichTimecodeSource
+// MARK: - AVAssetRichTimecodeSource
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 struct AVAssetRichTimecodeSource {
     var asset: AVAsset
     var attribute: RangeAttribute
 }
 
-extension AVAssetRichTimecodeSource: _RichTimecodeSource {
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+extension AVAssetRichTimecodeSource: _AsyncRichTimecodeSource {
     func set(
         timecode: inout Timecode
-    ) throws -> Timecode.Properties {
+    ) async throws -> Timecode.Properties {
         let base: Timecode.SubFramesBase = timecode.subFramesBase
         let limit: Timecode.UpperLimit = timecode.upperLimit
         
         switch attribute {
         case .start:
-            guard let tc = try asset.startTimecode(
+            guard let tc = try await asset.startTimecode(
                 at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
@@ -130,7 +135,7 @@ extension AVAssetRichTimecodeSource: _RichTimecodeSource {
             timecode = tc
             
         case .end:
-            guard let tc = try asset.endTimecode(
+            guard let tc = try await asset.endTimecode(
                 at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
@@ -140,7 +145,7 @@ extension AVAssetRichTimecodeSource: _RichTimecodeSource {
             timecode = tc
             
         case .duration:
-            timecode = try asset.durationTimecode(
+            timecode = try await asset.durationTimecode(
                 at: nil, // auto-detect from asset
                 base: base,
                 limit: limit
@@ -153,7 +158,8 @@ extension AVAssetRichTimecodeSource: _RichTimecodeSource {
 
 // MARK: - Static Constructors
 
-extension RichTimecodeSourceValue {
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+extension AsyncRichTimecodeSourceValue {
     /// Read start, end or duration of an `AVAsset`.
     /// Frame rate will be automatically detected from the asset if possible.
     public static func avAsset(

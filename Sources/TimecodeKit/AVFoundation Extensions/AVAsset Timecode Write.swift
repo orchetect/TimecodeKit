@@ -12,7 +12,7 @@ import Foundation
 
 #if !os(tvOS) // AVMutableMovie not available on tvOS
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, *)
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 @available(tvOS, unavailable)
 extension AVMutableMovie {
     /// Add a timecode track containing one sample (start timecode).
@@ -24,18 +24,24 @@ extension AVMutableMovie {
         duration: Timecode? = nil,
         extensions: CMFormatDescription.Extensions? = nil,
         fileType outputFileType: AVFileType
-    ) throws -> AVAssetTrack {
+    ) async throws -> AVAssetTrack {
         // the only way to add a timecode track is to create a new
         // temporary asset and use AVAssetWriter.
         // AVMutableMovie does not provide enough API to author all aspects
         // of a timecode track.
+        
+        let duration: Timecode = try await {
+            if let duration { return duration }
+            return try await durationTimecode()
+        }()
+        
         let newAsset = try AVMutableMovie(
             timecodeTrackStart: startTimecode,
-            duration: duration ?? durationTimecode(),
+            duration: duration,
             extensions: extensions,
             fileType: outputFileType
         )
-        guard let newTimecodeTrack = newAsset.tracks(withMediaType: .timecode).first
+        guard let newTimecodeTrack = try? await newAsset.loadTracks(withMediaType: .timecode).first
         else {
             throw Timecode.MediaWriteError.internalError
         }
@@ -57,7 +63,8 @@ extension AVMutableMovie {
         )
         
         // associate with all video tracks
-        tracks(withMediaType: .video).forEach {
+        let videoTracks = try? await loadTracks(withMediaType: .video)
+        videoTracks?.forEach {
             $0.addTrackAssociation(to: targetTrack, type: .timecode)
         }
         
@@ -74,14 +81,19 @@ extension AVMutableMovie {
         duration: Timecode? = nil,
         extensions: CMFormatDescription.Extensions? = nil,
         fileType outputFileType: AVFileType
-    ) throws -> AVAssetTrack {
+    ) async throws -> AVAssetTrack {
         // remove existing timecode tracks
-        let existingTimecodeTracks = tracks(withMediaType: .timecode)
+        let existingTimecodeTracks = try await loadTracks(withMediaType: .timecode)
         existingTimecodeTracks.forEach { removeTrack($0) }
         
-        return try addTimecodeTrack(
+        let duration: Timecode = try await {
+            if let duration { return duration }
+            return try await durationTimecode(at: startTimecode.frameRate)
+        }()
+        
+        return try await addTimecodeTrack(
             startTimecode: startTimecode,
-            duration: duration ?? durationTimecode(at: startTimecode.frameRate),
+            duration: duration,
             extensions: extensions,
             fileType: outputFileType
         )
@@ -89,10 +101,10 @@ extension AVMutableMovie {
     
     /// Internal helper.
     /// Returns the format description of the first timecode track.
-    private func getTimecodeFormatDescription() -> CMTimeCodeFormatDescription? {
-        tracks(withMediaType: .timecode)
+    private func getTimecodeFormatDescription() async throws -> CMTimeCodeFormatDescription? {
+        try await loadTracks(withMediaType: .timecode)
             .first?
-            .formatDescriptionsTyped
+            .formatDescriptions
             .first as CMTimeCodeFormatDescription? // just a typealias
     }
     
@@ -153,7 +165,7 @@ extension AVMutableMovie {
 
 #endif
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
 extension Timecode {
     /// Returns a new Core Media format description based on the timecode `frameRate`.
     ///

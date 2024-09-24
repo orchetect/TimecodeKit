@@ -12,6 +12,7 @@ import Foundation
 
 // MARK: - Start Timecode
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension AVAsset {
     /// Returns the start timecode.
     /// Returns an array because more than one track in an asset may contain this information.
@@ -26,8 +27,8 @@ extension AVAsset {
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = .max24Hours
-    ) throws -> Timecode? {
-        try timecodes(
+    ) async throws -> Timecode? {
+        try await timecodes(
             at: frameRate,
             base: base,
             limit: limit
@@ -49,15 +50,19 @@ extension AVAsset {
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = .max24Hours
-    ) throws -> Timecode? {
-        let frameRate = try frameRate ?? timecodeFrameRate()
-        guard let start = try startTimecode(
+    ) async throws -> Timecode? {
+        let frameRate = try await {
+            if let frameRate { return frameRate }
+            return try await timecodeFrameRate()
+        }()
+        
+        guard let start = try await startTimecode(
             at: frameRate,
             base: base,
             limit: limit
         ) else { return nil }
         
-        return try start + durationTimecode(
+        return try await start + durationTimecode(
             at: frameRate,
             base: base,
             limit: limit
@@ -77,8 +82,12 @@ extension AVAsset {
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = .max24Hours
-    ) throws -> Timecode {
-        let frameRate = try frameRate ?? timecodeFrameRate()
+    ) async throws -> Timecode {
+        let frameRate = try await {
+            if let frameRate { return frameRate }
+            return try await timecodeFrameRate()
+        }()
+        
         return try Timecode(
             .cmTime(duration),
             at: frameRate,
@@ -99,10 +108,13 @@ extension AVAsset {
         at frameRate: TimecodeFrameRate? = nil,
         base: Timecode.SubFramesBase = .default(),
         limit: Timecode.UpperLimit = .max24Hours
-    ) throws -> [[Timecode]] {
-        let frameRate = try frameRate ?? timecodeFrameRate()
+    ) async throws -> [[Timecode]] {
+        let frameRate = try await {
+            if let frameRate { return frameRate }
+            return try await timecodeFrameRate()
+        }()
         
-        let samples = try tracks(withMediaType: .timecode)
+        let samples = try await loadTracks(withMediaType: .timecode)
             .map { try $0.readTimecodeSamples(context: self) }
         
         let timecodes = try samples.map {
@@ -119,11 +131,9 @@ extension AVAsset {
     // MARK: - Helpers
     
     @_disfavoredOverload
-    func readTimecodeSamples() throws -> [[CMTimeCode]] {
-        try tracks(withMediaType: .timecode)
-            .map {
-                try $0.readTimecodeSamples(context: self)
-            }
+    func readTimecodeSamples() async throws -> [[CMTimeCode]] {
+        try await loadTracks(withMediaType: .timecode)
+            .map { try $0.readTimecodeSamples(context: self) }
     }
 }
 

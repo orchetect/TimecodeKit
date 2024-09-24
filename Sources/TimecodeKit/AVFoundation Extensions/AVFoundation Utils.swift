@@ -25,11 +25,14 @@ extension CMFormatDescription {
     }
 }
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension AVAssetTrack {
-    /// Returns `formatDescriptions` cast as `[CMFormatDescription]`
-    var formatDescriptionsTyped: [CMFormatDescription] {
-        formatDescriptions as? [CMFormatDescription]
-            ?? []
+    /// Returns `formatDescriptions` cast as `[CMFormatDescription]`.
+    @_disfavoredOverload
+    var formatDescriptions: [CMFormatDescription] {
+        get async throws {
+            try await load(.formatDescriptions)
+        }
     }
 }
 

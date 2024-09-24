@@ -180,10 +180,11 @@ extension VideoFrameRate {
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 import AVFoundation
 
+@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension VideoFrameRate {
     /// Initialize from embedded frame rate information in an `AVAsset`.
-    public init(asset: AVAsset) throws {
-        self = try asset.videoFrameRate()
+    public init(asset: AVAsset) async throws {
+        self = try await asset.videoFrameRate()
     }
 }
 #endif
