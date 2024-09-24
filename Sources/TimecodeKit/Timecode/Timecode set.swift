@@ -58,6 +58,58 @@ extension Timecode {
     }
 }
 
+// MARK: - AsyncTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func set(_ source: AsyncTimecodeSourceValue) async throws {
+        try await set(source.value)
+    }
+    
+    /// Set timecode by converting from a time source.
+    public mutating func set(_ source: AsyncTimecodeSourceValue, by validation: ValidationRule) async {
+        await set(source.value, by: validation)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(_ source: AsyncTimecodeSourceValue) async throws -> Timecode {
+        try await setting(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    public func setting(_ source: AsyncTimecodeSourceValue, by validation: ValidationRule) async -> Timecode {
+        await setting(source.value, by: validation)
+    }
+}
+
+extension Timecode {
+    /// - Throws: ``ValidationError``
+    mutating func set(_ source: _AsyncTimecodeSource) async throws {
+        try await source.set(timecode: &self)
+    }
+    
+    mutating func set(_ source: _AsyncTimecodeSource, by validation: ValidationRule) async {
+        await source.set(timecode: &self, by: validation)
+    }
+    
+    /// - Throws: ``ValidationError``
+    func setting(_ value: _AsyncTimecodeSource) async throws -> Timecode {
+        var copy = self
+        try await copy.set(value)
+        return copy
+    }
+    
+    func setting(_ value: _AsyncTimecodeSource, by validation: ValidationRule) async -> Timecode {
+        var copy = self
+        await copy.set(value, by: validation)
+        return copy
+    }
+}
+
 // MARK: - FormattedTimecodeSource
 
 extension Timecode {
@@ -146,6 +198,46 @@ extension Timecode {
     ) throws -> Timecode {
         var copy = self
         try copy.set(source)
+        return copy
+    }
+}
+
+// MARK: - AsyncRichTimecodeSource
+
+extension Timecode {
+    /// Set timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public mutating func set(
+        _ source: AsyncRichTimecodeSourceValue
+    ) async throws {
+        try await set(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(
+        _ source: AsyncRichTimecodeSourceValue
+    ) async throws -> Timecode {
+        try await setting(source.value)
+    }
+}
+
+extension Timecode {
+    /// - Throws: ``ValidationError``
+    mutating func set(
+        _ source: _AsyncRichTimecodeSource
+    ) async throws {
+        properties = try await source.set(timecode: &self)
+    }
+    
+    /// - Throws: ``ValidationError``
+    func setting(
+        _ source: _AsyncRichTimecodeSource
+    ) async throws -> Timecode {
+        var copy = self
+        try await copy.set(source)
         return copy
     }
 }

@@ -55,6 +55,54 @@ extension Timecode {
         set(source.value, by: validation)
     }
     
+    // MARK: - AsyncTimecodeSource
+    
+    /// Initialize by converting a time source to timecode at a given frame rate.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: AsyncTimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours
+    ) async throws {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        try await set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
+    public init(
+        _ source: AsyncTimecodeSourceValue,
+        at frameRate: TimecodeFrameRate,
+        base: SubFramesBase = .default(),
+        limit: UpperLimit = .max24Hours,
+        by validation: ValidationRule
+    ) async {
+        properties = Properties(rate: frameRate, base: base, limit: limit)
+        await set(source.value, by: validation)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: AsyncTimecodeSourceValue,
+        using properties: Properties
+    ) async throws {
+        self.properties = properties
+        try await set(source.value)
+    }
+    
+    /// Initialize by converting a time source to timecode using the given properties.
+    public init(
+        _ source: AsyncTimecodeSourceValue,
+        using properties: Properties,
+        by validation: ValidationRule
+    ) async {
+        self.properties = properties
+        await set(source.value, by: validation)
+    }
+    
     // MARK: - FormattedTimecodeSource
     
     /// Initialize by converting a time source to timecode at a given frame rate.
@@ -117,6 +165,18 @@ extension Timecode {
     ) throws {
         properties = Properties(rate: .fps24) // must init to a default first
         try set(source.value)
+    }
+    
+    // MARK: - AsyncRichTimecodeSource
+    
+    /// Initialize by converting a rich time source to timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    public init(
+        _ source: AsyncRichTimecodeSourceValue
+    ) async throws {
+        properties = Properties(rate: .fps24) // must init to a default first
+        try await set(source.value)
     }
     
     // MARK: - GuaranteedTimecodeSource

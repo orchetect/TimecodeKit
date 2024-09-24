@@ -18,6 +18,18 @@ protocol _TimecodeSource {
     func set(timecode: inout Timecode, by validation: Timecode.ValidationRule)
 }
 
+/// A protocol for timecode time value sources that do not supply their own frame
+/// rate information. (Async variant of ``_TimecodeSource``.)
+protocol _AsyncTimecodeSource {
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode) async throws
+    
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) async
+}
+
 /// A protocol for formatted timecode time value sources that do not supply their own frame
 /// rate information.
 protocol _FormattedTimecodeSource {
@@ -35,6 +47,14 @@ protocol _RichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
+}
+
+/// A protocol for timecode time value sources that are able to supply frame rate information.
+/// (Async variant of ``_RichTimecodeSource``.)
+protocol _AsyncRichTimecodeSource {
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode) async throws -> Timecode.Properties
 }
 
 /// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
@@ -67,6 +87,20 @@ public struct TimecodeSourceValue {
     }
 }
 
+/// Box containing a concrete `AsyncTimecodeSource` instance.
+/// (Async variant of ``TimecodeSourceValue``)
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
+public struct AsyncTimecodeSourceValue {
+    var value: _AsyncTimecodeSource
+    
+    init(value: _AsyncTimecodeSource) {
+        self.value = value
+    }
+}
+
 /// Box containing a concrete `FormattedTimecodeSource` instance.
 ///
 /// > Note:
@@ -89,6 +123,20 @@ public struct RichTimecodeSourceValue {
     var value: _RichTimecodeSource
     
     init(value: _RichTimecodeSource) {
+        self.value = value
+    }
+}
+
+/// Box containing a concrete `AsyncRichTimecodeSource` instance.
+/// (Async variant of ``RichTimecodeSourceValue``)
+///
+/// > Note:
+/// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
+/// > See ``Timecode`` for more details and examples.
+public struct AsyncRichTimecodeSourceValue {
+    var value: _AsyncRichTimecodeSource
+    
+    init(value: _AsyncRichTimecodeSource) {
         self.value = value
     }
 }
