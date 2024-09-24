@@ -162,17 +162,28 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         XCTAssertEqual(tc.subFrames, 0)
     }
     
-    func testTimecode_cmTimeValue() throws {
+    func testTimecode_cmTimeValue() async throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
-        try TimecodeFrameRate.allCases.forEach { fRate in
-            let s = try Timecode(.components(m: 8, f: 20), at: fRate)
-            let e = try Timecode(.components(m: 10, f: 5), at: fRate)
-
-            try (s ... e).forEach { tc in
-                let f = tc.cmTimeValue
-                let reformedTC = try Timecode(.cmTime(f), at: fRate)
-                XCTAssertEqual(tc, reformedTC)
+        
+        // since this test can take a long time, parallelize using a task group
+        // which will use 100% of all available CPU cores
+        await withThrowingTaskGroup(of: Void.self, returning: Void.self) { taskGroup in
+            TimecodeFrameRate.allCases.forEach { fRate in
+                taskGroup.addTask {
+                    print("Starting \(fRate.stringValue) task")
+                    
+                    let s = try Timecode(.components(m: 8, f: 20), at: fRate)
+                    let e = try Timecode(.components(m: 10, f: 5), at: fRate)
+                    
+                    try (s ... e).forEach { tc in
+                        let f = tc.cmTimeValue
+                        let reformedTC = try Timecode(.cmTime(f), at: fRate)
+                        XCTAssertEqual(tc, reformedTC)
+                    }
+                    
+                    print("Done \(fRate.stringValue) task")
+                }
             }
         }
     }
