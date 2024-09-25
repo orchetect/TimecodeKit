@@ -276,9 +276,6 @@ extension Fraction {
     ///
     /// If the value is negative, a minus sign is prepended to the string, ie: "-60s" or
     /// "-34900/2500s".
-    ///
-    /// - Returns: ``Fraction`` instance if string is a valid FCPXML time encoding.
-    ///   Returns `nil` if the string was not formatted as expected.
     public init?(fcpxmlString: String) {
         // test for whole seconds, without fraction
         let wholeSecsMatches = fcpxmlString

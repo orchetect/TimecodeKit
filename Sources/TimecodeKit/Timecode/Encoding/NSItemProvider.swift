@@ -96,7 +96,15 @@ extension Timecode {
     }
     
     /// Generates item providers for copying the ``Timecode`` instance to the pasteboard.
-    /// 
+    ///
+    /// This method generates two item providers:
+    /// - A plain-text timecode string
+    /// - A lossless JSON-encoded representation
+    ///
+    /// This means that the end-user is able to:
+    /// - Paste or drag as a timecode string to any 3rd-party application that can receive plain-text
+    /// - Paste or drag to paste destinations within your app that accept the timecode UT Type
+    ///
     /// > Note:
     /// >
     /// > An item provider is used when conveying data or a file between processes during drag-and-drop
