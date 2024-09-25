@@ -23,8 +23,8 @@ Multiplying timecode against timecode in order to produce a timecode result is n
 Arithmetic operators are provided for convenience. These operators employ the ``Timecode/ValidationRule/wrapping`` validation rule in the event of underflows or overflows.
 
 ```swift
-let tc1 = try "01:00:00:00".timecode(at: .fps23_976)
-let tc2 = try "00:02:00:00".timecode(at: .fps23_976)
+let tc1 = try Timecode(.string("01:00:00:00"), at: .fps23_976)
+let tc2 = try Timecode(.string("00:02:00:00"), at: .fps23_976)
 
 (tc1 + tc2).stringValue() // == "01:02:00:00"
 (tc1 - tc2).stringValue() // == "00:58:00:00"
@@ -45,8 +45,8 @@ The right-hand operand may be a ``Timecode`` instance, or any time source value.
 - `divide()` / `dividing()`
 
 ```swift
-var tc1 = try "01:00:00:00".timecode(at: .fps23_976)
-var tc2 = try "00:00:02:00".timecode(at: .fps23_976)
+var tc1 = try Timecode(.string("01:00:00:00"), at: .fps23_976)
+var tc2 = try Timecode(.string("00:00:02:00"), at: .fps23_976)
 
 // in-place mutation
 try tc1.add(tc2)

@@ -5,8 +5,8 @@ Forming a `Range` or `Stride` between two ``Timecode`` instances.
 For simplicity, we will define the start and end timecodes beforehand.
 
 ```swift
-let startTC = try "01:00:00:00".timecode(at: .fps24)
-let endTC   = try "01:00:00:10".timecode(at: .fps24)
+let startTC = try Timecode(.string("01:00:00:00"), at: .fps24)
+let endTC   = try Timecode(.string("01:00:00:10"), at: .fps24)
 ```
 
 ## Range
@@ -14,8 +14,8 @@ let endTC   = try "01:00:00:10".timecode(at: .fps24)
 Check if a timecode is contained within the range:
 
 ```swift
-(startTC...endTC).contains(try "01:00:00:05".timecode(at: .fps24)) // == true
-(startTC...endTC).contains(try "01:05:00:00".timecode(at: .fps24)) // == false
+(startTC...endTC).contains(try Timecode(.string("01:00:00:05"), at: .fps24)) // == true
+(startTC...endTC).contains(try Timecode(.string("01:05:00:00"), at: .fps24)) // == false
 ```
 
 Iterate on each frame of the range:

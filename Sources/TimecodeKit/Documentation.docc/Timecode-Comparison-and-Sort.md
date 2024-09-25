@@ -9,14 +9,14 @@ Comparable protocol conformance.
 Two ``Timecode`` instances can be compared linearly using common comparison operators.
 
 ```swift
-try "01:00:00:00".timecode(at: .fps24) 
-    == try "01:00:00:00".timecode(at: .fps24) // == true
+try Timecode(.string("01:00:00:00"), at: .fps24) 
+    == Timecode(.string("01:00:00:00"), at: .fps24) // == true
 
-try "00:59:50:00".timecode(at: .fps24) 
-    < "01:00:00:00".timecode(at: .fps24) // == true
+try Timecode(.string("00:59:50:00"), at: .fps24) 
+    < Timecode(.string("01:00:00:00"), at: .fps24) // == true
 
-try "00:59:50:00".timecode(at: .fps24) 
-    > "01:00:00:00".timecode(at: .fps24) // == false
+try Timecode(.string("00:59:50:00"), at: .fps24) 
+    > Timecode(.string("01:00:00:00"), at: .fps24) // == false
 ```
 
 ## Comparing using Timeline Context
@@ -85,7 +85,7 @@ Collections of ``Timecode`` can be sorted ascending or descending.
 
 ```swift
 let timeline: [Timecode] = [ ... ]
-let start = try "01:00:00:00".timecode(at: .fps24)
+let start = try Timecode(.string("01:00:00:00"), at: .fps24)
 let sorted = timeline.sorted(timelineStart: start) // ascending
 let sorted = timeline.sorted(order: .reverse, timelineStart: start) // descending
 ```
@@ -94,7 +94,7 @@ These collections can also be tested for sort order:
 
 ```swift
 let timeline: [Timecode] = [ ... ]
-let start = try "01:00:00:00".timecode(at: .fps24)
+let start = try Timecode(.string("01:00:00:00"), at: .fps24)
 let isSorted: Bool = timeline.isSorted(timelineStart: start) // ascending
 let isSorted: Bool = timeline.isSorted(order: .reverse, timelineStart: start) // descending
 ```
@@ -102,7 +102,7 @@ let isSorted: Bool = timeline.isSorted(order: .reverse, timelineStart: start) //
 On newer systems, a `SortComparator` called ``TimecodeSortComparator`` is available as well.
 
 ```swift
-let start = try "01:00:00:00".timecode(at: .fps24)
+let start = try Timecode(.string("01:00:00:00"), at: .fps24)
 let comparator = TimecodeSortComparator(timelineStart: start) // ascending
 let comparator = TimecodeSortComparator(order: .reverse, timelineStart: start) // descending
 
