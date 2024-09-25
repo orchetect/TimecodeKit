@@ -60,6 +60,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode at a given frame rate.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public init(
         _ source: AsyncTimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
@@ -71,6 +72,7 @@ extension Timecode {
     }
     
     /// Initialize by converting a time source to timecode at a given frame rate and validation rule.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public init(
         _ source: AsyncTimecodeSourceValue,
         at frameRate: TimecodeFrameRate,
@@ -85,6 +87,7 @@ extension Timecode {
     /// Initialize by converting a time source to timecode using the given properties.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public init(
         _ source: AsyncTimecodeSourceValue,
         using properties: Properties
@@ -94,6 +97,7 @@ extension Timecode {
     }
     
     /// Initialize by converting a time source to timecode using the given properties.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public init(
         _ source: AsyncTimecodeSourceValue,
         using properties: Properties,
@@ -172,6 +176,7 @@ extension Timecode {
     /// Initialize by converting a rich time source to timecode.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public init(
         _ source: AsyncRichTimecodeSourceValue
     ) async throws {

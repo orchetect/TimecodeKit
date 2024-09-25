@@ -23,10 +23,12 @@ protocol _TimecodeSource {
 protocol _AsyncTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func set(timecode: inout Timecode) async throws
     
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) async
 }
 
@@ -54,6 +56,7 @@ protocol _RichTimecodeSource {
 protocol _AsyncRichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func set(timecode: inout Timecode) async throws -> Timecode.Properties
 }
 

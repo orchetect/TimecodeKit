@@ -64,11 +64,13 @@ extension Timecode {
     /// Set timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public mutating func set(_ source: AsyncTimecodeSourceValue) async throws {
         try await set(source.value)
     }
     
     /// Set timecode by converting from a time source.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public mutating func set(_ source: AsyncTimecodeSourceValue, by validation: ValidationRule) async {
         await set(source.value, by: validation)
     }
@@ -76,11 +78,13 @@ extension Timecode {
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func setting(_ source: AsyncTimecodeSourceValue) async throws -> Timecode {
         try await setting(source.value)
     }
     
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func setting(_ source: AsyncTimecodeSourceValue, by validation: ValidationRule) async -> Timecode {
         await setting(source.value, by: validation)
     }
@@ -88,21 +92,25 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     mutating func set(_ source: _AsyncTimecodeSource) async throws {
         try await source.set(timecode: &self)
     }
     
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     mutating func set(_ source: _AsyncTimecodeSource, by validation: ValidationRule) async {
         await source.set(timecode: &self, by: validation)
     }
     
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func setting(_ value: _AsyncTimecodeSource) async throws -> Timecode {
         var copy = self
         try await copy.set(value)
         return copy
     }
     
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func setting(_ value: _AsyncTimecodeSource, by validation: ValidationRule) async -> Timecode {
         var copy = self
         await copy.set(value, by: validation)
@@ -208,6 +216,7 @@ extension Timecode {
     /// Set timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public mutating func set(
         _ source: AsyncRichTimecodeSourceValue
     ) async throws {
@@ -217,6 +226,7 @@ extension Timecode {
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     public func setting(
         _ source: AsyncRichTimecodeSourceValue
     ) async throws -> Timecode {
@@ -226,6 +236,7 @@ extension Timecode {
 
 extension Timecode {
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     mutating func set(
         _ source: _AsyncRichTimecodeSource
     ) async throws {
@@ -233,6 +244,7 @@ extension Timecode {
     }
     
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
     func setting(
         _ source: _AsyncRichTimecodeSource
     ) async throws -> Timecode {
