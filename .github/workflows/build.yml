@@ -29,9 +29,9 @@ jobs:
     steps:
     - uses: actions/checkout@main
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "PListKit-CI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "PListKit-CI" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
 
   macOS-13:
     name: macOS 13 Ventura
