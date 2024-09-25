@@ -119,20 +119,33 @@ extension Timecode {
     public func itemProviders(stringFormat: StringFormat = .default()) -> [NSItemProvider] {
         var providers: [NSItemProvider] = []
         
-        let text = stringValue(format: stringFormat)
-        
         // Codable data (lossless)
-        let encoder = JSONEncoder()
-        if let tcData = try? encoder.encode(self) as NSData {
-            let dataProvider = NSItemProvider(item: tcData, typeIdentifier: UTType.timecode.identifier)
-            providers.append(dataProvider)
+        if let jsonProvider = try? jsonItemProvider() {
+            providers.append(jsonProvider)
         }
         
         // String (lossy)
-        let strProvider = NSItemProvider(object: text as NSString)
+        let strProvider = stringItemProvider(stringFormat: stringFormat)
         providers.append(strProvider)
         
         return providers
+    }
+    
+    /// Internal:
+    /// Returns a String item provider containing a plain-text timecode string (lossy).
+    func stringItemProvider(stringFormat: StringFormat = .default()) -> NSItemProvider {
+        let text = stringValue(format: stringFormat)
+        let provider = NSItemProvider(object: text as NSString)
+        return provider
+    }
+    
+    /// Internal:
+    /// Returns a JSON item provider containing a plain-text timecode string (lossy).
+    func jsonItemProvider() throws -> NSItemProvider {
+        let encoder = JSONEncoder()
+        let tcData = try encoder.encode(self) as NSData
+        let provider = NSItemProvider(item: tcData, typeIdentifier: UTType.timecode.identifier)
+        return provider
     }
 }
 
