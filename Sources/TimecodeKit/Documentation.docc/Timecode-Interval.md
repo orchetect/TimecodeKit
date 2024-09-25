@@ -64,3 +64,8 @@ interval.flattened() // 23:00:00:00
 
 - ``CoreMedia/CMTime/timecodeInterval(at:base:limit:)``
 - ``CoreMedia/CMTime/timecodeInterval(using:)``
+
+### Double Extensions
+
+- ``Swift/Double/timecodeInterval(at:base:limit:)``
+- ``Swift/Double/timecodeInterval(using:)``

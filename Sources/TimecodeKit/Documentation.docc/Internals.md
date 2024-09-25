@@ -7,7 +7,9 @@ Internal types and protocols.
 ### Timecode Source Values
 
 - ``TimecodeSourceValue``
+- ``AsyncTimecodeSourceValue``
 - ``RichTimecodeSourceValue``
+- ``AsyncRichTimecodeSourceValue``
 - ``FormattedTimecodeSourceValue``
 - ``GuaranteedTimecodeSourceValue``
 - ``GuaranteedRichTimecodeSourceValue``
@@ -19,3 +21,7 @@ Internal types and protocols.
 ### Frame Rate
 
 - ``FrameRateProtocol``
+
+### Utilities
+
+- ``Swift/BinaryInteger/numberOfDigits``

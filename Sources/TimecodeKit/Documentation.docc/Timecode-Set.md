@@ -7,8 +7,12 @@ Set an existing ``Timecode`` instance to a new timecode.
 - ``Timecode/set(_:)-5y7su``
 - ``Timecode/set(_:by:)-92yoi``
 
+- ``Timecode/set(_:)-7b9qg``
+- ``Timecode/set(_:by:)-8glzs``
+
 - ``Timecode/set(_:)-2rc5m``
-- ``Timecode/set(_:)-2rc5m``
+
+- ``Timecode/set(_:)-4y2bh``
 
 - ``Timecode/set(_:)-22ndo``
 - ``Timecode/set(_:by:)-1goc0``
@@ -20,7 +24,12 @@ Set an existing ``Timecode`` instance to a new timecode.
 - ``Timecode/setting(_:)-3akbp``
 - ``Timecode/setting(_:by:)-42wj3``
 
+- ``Timecode/setting(_:)-2qd7a``
+- ``Timecode/setting(_:by:)-4oa78``
+
 - ``Timecode/setting(_:)-1dhd5``
+
+- ``Timecode/setting(_:)-2d9ti``
 
 - ``Timecode/setting(_:)-95f3c``
 - ``Timecode/setting(_:by:)-2fpos``

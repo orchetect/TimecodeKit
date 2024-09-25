@@ -17,7 +17,7 @@ Auto-detect the movie's frame rate (if it's embedded in the file) and return it 
 If frame rate information is not available in the video file, this method will throw an error.
 
 ```swift
-let frameRate = try asset.timecodeFrameRate() // ie: .fps29_97
+let frameRate = try await asset.timecodeFrameRate() // ie: .fps29_97
 ```
 
 Read the start timecode, duration expressed as elapsed timecode, and end timecode.
@@ -27,19 +27,19 @@ If frame rate information is not available in the video file, these methods will
 
 ```swift
 // read start timecode, auto-detecting frame rate
-let startTimecode = try asset.startTimecode()
+let startTimecode = try await asset.startTimecode()
 // read start timecode, forcing a known frame rate
-let startTimecode = try asset.startTimecode(at: .fps29_97)
+let startTimecode = try await asset.startTimecode(at: .fps29_97)
 
 // read video duration expressed as timecode
-let durationTimecode = try asset.durationTimecode()
+let durationTimecode = try await asset.durationTimecode()
 // read video duration expressed as timecode, forcing a known frame rate
-let durationTimecode = try asset.durationTimecode(at: .fps29_97)
+let durationTimecode = try await asset.durationTimecode(at: .fps29_97)
 
 // read end timecode, auto-detecting frame rate
-let endTimecode = try asset.endTimecode()
+let endTimecode = try await asset.endTimecode()
 // read end timecode, forcing a known frame rate
-let endTimecode = try asset.endTimecode(at: .fps29_97)
+let endTimecode = try await asset.endTimecode(at: .fps29_97)
 ```
 
 ## Add or Replace Timecode Track in a QuickTime Movie
@@ -57,7 +57,7 @@ Then add/replace the timecode track.
 
 ```swift
 // replace existing timecode track if it exists, otherwise add a new timecode track
-try mutableMovie.replaceTimecodeTrack(
+try await mutableMovie.replaceTimecodeTrack(
     startTimecode: Timecode(.components(h: 0, m: 59, s: 58, f: 00), at: .fps29_97),
     fileType: .mov
 )
@@ -66,15 +66,12 @@ try mutableMovie.replaceTimecodeTrack(
 Finally, the new file can be saved back to disk using `AVAssetExportSession`. There are other ways of course but this is the vanilla method.
 
 ```swift
-let export = AVAssetExportSession(
+let exportSession = AVAssetExportSession(
     asset: mutableMovie,
     presetName: AVAssetExportPresetPassthrough
 )
-export.outputFileType = .mov
-export.outputURL = // new file URL on disk
-export.exportAsynchronously {
-    // completion handler
-}
+let url = URL( ... )
+try await exportSession.export(to: url, as: .mov)
 ```
 
 ## Topics

@@ -146,7 +146,7 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 
 ### Conversion
 
-- ``converted(to:preservingValues:)``
+- ``converted(to:base:preservingValues:)``
 - ``cmTimeValue``
 - ``feetAndFramesValue``
 - ``rationalValue``

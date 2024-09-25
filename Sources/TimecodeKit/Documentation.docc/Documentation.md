@@ -12,7 +12,7 @@ Value types for representing and working with SMPTE/EBU timecode.
 
 ## Topics
 
-### Getting Started
+### Welcome
 
 - <doc:Getting-Started>
 - <doc:TimecodeKit-2-Migration-Guide>
@@ -40,7 +40,11 @@ Value types for representing and working with SMPTE/EBU timecode.
 - <doc:Timecode-Interval>
 - <doc:Timecode-Transformer>
 
-### Encoding Formats
+### Encoding
+
+- <doc:Timecode-Encoding>
+
+### Formats
 
 - <doc:LTC-Linear-Timecode>
 - <doc:MTC-MIDI-Timecode>
@@ -50,6 +54,6 @@ Value types for representing and working with SMPTE/EBU timecode.
 
 - ``FeetAndFrames``
 
-### Internals
+### Package Internals
 
 - <doc:Internals>
