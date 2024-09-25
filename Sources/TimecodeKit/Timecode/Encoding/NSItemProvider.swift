@@ -32,6 +32,7 @@ extension Timecode {
     ///   - itemProvider: The item provider to decode.
     ///   - propertiesForTimecodeString: Properties to apply to the newly formed ``Timecode`` instance
     ///     in the event the item provider contains a plain-text timecode string.
+    @MainActor
     public init(
         from itemProvider: NSItemProvider,
         propertiesForTimecodeString: Timecode.Properties
@@ -63,6 +64,7 @@ extension Timecode {
     ///   - propertiesForTimecodeString: Properties to apply to the newly formed ``Timecode`` instance
     ///     in the event the item provider(s) contain a plain-text timecode string and no richer encoding
     ///     is present.
+    @MainActor
     public init(
         from itemProviders: [NSItemProvider],
         propertiesForTimecodeString: Timecode.Properties
@@ -133,6 +135,7 @@ extension NSItemProvider {
     ///
     /// - Note: This discards the `Progress` instance that the internal method normally returns.
     ///         If access to this is required, use the original `loadTransferable` method directly instead.
+    @MainActor
     fileprivate func _loadTransferable<T>(
         type transferableType: T.Type
     ) async throws -> T where T: Transferable {
