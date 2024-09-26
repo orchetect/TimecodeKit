@@ -22,17 +22,7 @@ on:
   schedule:
     - cron: '40 11 * * *'   # once a day @ 11:40am UTC (4:40am PST)
     
-jobs: 
-  macOS-12:
-    name: macOS 12 Monterey
-    runs-on: macos-12
-    steps:
-    - uses: actions/checkout@main
-    - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
-    - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
-
+jobs:
   macOS-13:
     name: macOS 13 Ventura
     runs-on: macos-13
