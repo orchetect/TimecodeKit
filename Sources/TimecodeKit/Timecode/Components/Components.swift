@@ -176,7 +176,27 @@ extension Timecode.Components: Codable { }
 // MARK: - Static Constructors
 
 extension Timecode.Components {
-    /// Components value of zero (00:00:00:00)
+    /// Components value of zero (00:00:00:00).
     @_disfavoredOverload
     public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
+}
+
+// MARK: - Random
+
+extension Timecode.Components {
+    /// Create a new set of timecode components with random values using the given properties.
+    init(randomUsing properties: Timecode.Properties) {
+        var components = Self.zero
+        
+        if properties.upperLimit == .max100Days {
+            components.days = components.validRange(of: .days, using: properties).randomElement()!
+        }
+        components.hours = components.validRange(of: .hours, using: properties).randomElement()!
+        components.minutes = components.validRange(of: .minutes, using: properties).randomElement()!
+        components.seconds = components.validRange(of: .seconds, using: properties).randomElement()!
+        components.frames = components.validRange(of: .frames, using: properties).randomElement()!
+        components.subFrames = components.validRange(of: .subFrames, using: properties).randomElement()!
+        
+        self = components
+    }
 }
