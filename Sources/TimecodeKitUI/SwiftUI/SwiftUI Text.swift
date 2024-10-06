@@ -10,7 +10,7 @@ import SwiftUI
 import TimecodeKit
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-extension Timecode {
+extension Text {
     /// Returns the same output of `stringValue(format:)` as SwiftUI `Text`, colorizing invalid values.
     ///
     /// This method will produce a SwiftUI `Text` view colorizing individual invalid timecode components
@@ -19,21 +19,30 @@ extension Timecode {
     /// The `Timecode` instance must be initialized using the `.allowingInvalid` validation rule.
     ///
     /// ```swift
-    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    ///     .stringValueValidatedText()
+    /// let timecode = Timecode(
+    ///     .components(h: 1, m: 20, s: 75, f: 60),
+    ///     at: .fps23_976,
+    ///     by: .allowingInvalid
+    /// )
+    /// Text(timecode: timecode)
     /// ```
     ///
     /// You can alternatively supply your own invalid component modifiers by setting the `invalidModifiers` argument.
     ///
     /// ```swift
-    /// Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    ///     .stringValueValidatedText(
-    ///         invalidModifiers: {
-    ///             $0.foregroundColor(.blue)
-    ///         }, defaultModifiers: {
-    ///             $0.foregroundColor(.black)
-    ///         }
-    ///     )
+    /// let timecode = Timecode(
+    ///     .components(h: 1, m: 20, s: 75, f: 60),
+    ///     at: .fps23_976,
+    ///     by: .allowingInvalid
+    /// )
+    /// Text(
+    ///     timecode: timecode,
+    ///     invalidModifiers: {
+    ///         $0.foregroundColor(.blue)
+    ///     }, defaultModifiers: {
+    ///         $0.foregroundColor(.black)
+    ///     }
+    /// )
     /// ```
     ///
     /// - Parameters:
@@ -41,11 +50,12 @@ extension Timecode {
     ///   - invalidModifiers: View modifiers to apply to invalid timecode components. Defaults to `.red` foreground color.
     ///   - defaultModifiers: Default view modifiers to apply to valid timecode components.
     /// - Returns: SwiftUI `Text` view.
-    public func stringValueValidatedText(
-        format: StringFormat = .default(),
+    public init(
+        timecode: Timecode,
+        format: Timecode.StringFormat = .default(),
         invalidModifiers: ((Text) -> Text)? = nil,
         defaultModifiers: ((Text) -> Text)? = nil
-    ) -> Text {
+    ) {
         let defaultModifiers = defaultModifiers ?? {
             $0
         }
@@ -60,21 +70,22 @@ extension Timecode {
             : defaultModifiers(Text(":"))
         let sepFrames = format.filenameCompatible
             ? defaultModifiers(Text("-"))
-            : defaultModifiers(Text(frameRate.isDrop ? ";" : ":"))
+            : defaultModifiers(Text(timecode.frameRate.isDrop ? ";" : ":"))
         let sepSubFrames = defaultModifiers(Text("."))
         
-        let invalids = invalidComponents
+        let invalids = timecode.invalidComponents
         
         // early return logic
         if invalids.isEmpty {
-            return defaultModifiers(Text(stringValue(format: format)))
+            self = defaultModifiers(Text(timecode.stringValue(format: format)))
+            return
         }
         
         var output = defaultModifiers(Text(""))
         
         // days
-        if days != 0 {
-            let daysText = Text("\(days)")
+        if timecode.days != 0 {
+            let daysText = Text("\(timecode.days)")
             if invalids.contains(.days) {
                 output = output + invalidModifiers(daysText)
             } else {
@@ -86,7 +97,7 @@ extension Timecode {
         
         // hours
         
-        let hoursText = Text(String(format: "%02ld", hours))
+        let hoursText = Text(String(format: "%02ld", timecode.hours))
         if invalids.contains(.hours) {
             output = output + invalidModifiers(hoursText)
         } else {
@@ -97,7 +108,7 @@ extension Timecode {
         
         // minutes
         
-        let minutesText = Text(String(format: "%02ld", minutes))
+        let minutesText = Text(String(format: "%02ld", timecode.minutes))
         if invalids.contains(.minutes) {
             output = output + invalidModifiers(minutesText)
         } else {
@@ -108,7 +119,7 @@ extension Timecode {
         
         // seconds
         
-        let secondsText = Text(String(format: "%02ld", seconds))
+        let secondsText = Text(String(format: "%02ld", timecode.seconds))
         if invalids.contains(.seconds) {
             output = output + invalidModifiers(secondsText)
         } else {
@@ -119,7 +130,7 @@ extension Timecode {
         
         // frames
         
-        let framesText = Text(String(format: "%0\(frameRate.numberOfDigits)ld", frames))
+        let framesText = Text(String(format: "%0\(timecode.frameRate.numberOfDigits)ld", timecode.frames))
         if invalids.contains(.frames) {
             output = output + invalidModifiers(framesText)
         } else {
@@ -129,11 +140,11 @@ extension Timecode {
         // subframes
         
         if format.showSubFrames {
-            let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
+            let numberOfSubFramesDigits = timecode.validRange(of: .subFrames).upperBound.numberOfDigits
             
             output = output + sepSubFrames
             
-            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)ld", subFrames))
+            let subframesText = Text(String(format: "%0\(numberOfSubFramesDigits)ld", timecode.subFrames))
             if invalids.contains(.subFrames) {
                 output = output + invalidModifiers(subframesText)
             } else {
@@ -141,7 +152,7 @@ extension Timecode {
             }
         }
         
-        return output
+        self = output
     }
 }
 
