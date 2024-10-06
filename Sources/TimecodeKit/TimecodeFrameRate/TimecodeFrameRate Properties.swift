@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: stringValue
@@ -408,7 +408,6 @@ extension TimecodeFrameRate {
         case .fps60d:     return 4.0
         case .fps119_88d: return 8.0
         case .fps120d:    return 8.0
-            
         case .fps23_976,
              .fps24,
              .fps24_98,

@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: - FrameRate
@@ -53,7 +53,7 @@
 /// ### String Extensions
 ///
 /// - ``Swift/String/timecodeFrameRate``
-/// 
+///
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)
     ///

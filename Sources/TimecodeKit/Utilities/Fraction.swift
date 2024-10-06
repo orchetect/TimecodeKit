@@ -1,7 +1,7 @@
 //
 //  Fraction.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -107,7 +107,7 @@ extension Fraction: Equatable {
     /// Returns `true` if both fractions are mathematically equal (can reduce to the same values).
     public func isEqual(to other: Self) -> Bool {
         let lhsReduced = reduced()
-    let rhsReduced = other.reduced()
+        let rhsReduced = other.reduced()
         
         return lhsReduced.isIdentical(to: rhsReduced)
     }
@@ -322,7 +322,7 @@ extension Fraction {
     /// "-34900/2500s".
     public var fcpxmlStringValue: String {
         // if fraction is reduced, it's also normalized
-        let reduced = _isReduced ?? false ? self : self.normalized()
+        let reduced = _isReduced ?? false ? self : normalized()
         return isWholeInteger
             ? "\(Int(reduced.doubleValue))s"
             : "\(reduced.numerator)/\(reduced.denominator)s"

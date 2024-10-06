@@ -1,7 +1,7 @@
 //
 //  Timecode Conversion.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
@@ -38,7 +38,7 @@ extension Timecode {
         
         // just return self if new parameters are equal to current parameters
         guard frameRate != newFrameRate ||
-              subFramesBase != newSubFramesBase
+            subFramesBase != newSubFramesBase
         else {
             return self
         }

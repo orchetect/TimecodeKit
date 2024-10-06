@@ -1,12 +1,12 @@
 //
 //  NSItemProvider.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 #if canImport(UniformTypeIdentifiers) && canImport(CoreTransferable)
-import UniformTypeIdentifiers
 import CoreTransferable
+import UniformTypeIdentifiers
 
 #if os(macOS)
 import AppKit
@@ -17,7 +17,7 @@ import UIKit
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 extension Timecode {
     /// Decode the content of an `NSItemProvider` as a new ``Timecode`` instance.
-    /// 
+    ///
     /// If the item provider does not contain data that can be decoded, an error will be thrown.
     ///
     /// > Note:
@@ -44,11 +44,11 @@ extension Timecode {
     }
     
     /// Decode the content of a `NSItemProvider` collection as a new ``Timecode`` instance.
-    /// 
+    ///
     /// Attempts to decode the item provider that contains the richest data.
     /// For instance, if a timecode String item provider and a JSON-encoded item provider are both present,
     /// the JSON-encoded item provider will be favored.
-    /// 
+    ///
     /// If none of the item providers contain data that can be decoded, an error will be thrown.
     ///
     /// > Note:
@@ -84,8 +84,8 @@ extension Timecode {
         if let provider = itemProviders.first(where: {
             $0.hasItemConformingToTypeIdentifier(Self.textUTType.identifier)
         }),
-           let string = try? await provider._loadTransferable(type: String.self),
-           let timecode = try? Timecode(.string(string), using: propertiesForTimecodeString, by: .allowingInvalid)
+            let string = try? await provider._loadTransferable(type: String.self),
+            let timecode = try? Timecode(.string(string), using: propertiesForTimecodeString, by: .allowingInvalid)
         {
             self = timecode
             return

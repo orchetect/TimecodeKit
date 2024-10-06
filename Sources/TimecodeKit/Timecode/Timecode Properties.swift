@@ -1,7 +1,7 @@
 //
 //  Timecode Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -31,7 +31,8 @@ extension Timecode {
     ///
     /// ## Components Struct
     ///
-    /// A compact components struct can be used to initialize ``Timecode`` and can also be accessed using ``Timecode/components-swift.property``.
+    /// A compact components struct can be used to initialize ``Timecode`` and can also be accessed using
+    /// ``Timecode/components-swift.property``.
     ///
     /// See ``Components-swift.struct``.
     public struct Properties: Equatable, Hashable {

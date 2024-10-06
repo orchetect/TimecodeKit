@@ -1,7 +1,7 @@
 //
 //  FrameRateProtocol Properties.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 // MARK: Sorted
@@ -59,7 +59,7 @@ extension Collection where Element: FrameRateProtocol {
                 if isFPSMatch { result = true; return }
             }
             
-            var result: Bool = false
+            var result = false
             
             // first check primary frame duration
             compare(lhsFrac: $0.frameDuration, result: &result)

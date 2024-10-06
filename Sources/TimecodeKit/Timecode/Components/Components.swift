@@ -1,13 +1,14 @@
 //
 //  Components.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 extension Timecode {
     /// Primitive struct describing timecode values, agnostic of frame rate.
     ///
-    /// In order to help facilitate defining a set of timecode component values, a simple ``Timecode/Components`` struct is implemented. This struct can be passed into many methods and initializers.
+    /// In order to help facilitate defining a set of timecode component values, a simple ``Timecode/Components`` struct is implemented.
+    /// This struct can be passed into many methods and initializers.
     ///
     /// ```swift
     /// let tcc = Timecode.Components(h: 1)
@@ -36,9 +37,11 @@ extension Timecode {
     ///
     /// Using the Days timecode component.
     ///
-    /// Although not covered by SMPTE spec, some DAWs (digital audio workstation) such as Cubase support the use of the Days timecode component for timelines longer than (or outside of) 24 hours.
+    /// Although not covered by SMPTE spec, some DAWs (digital audio workstation) such as Cubase support the use of the Days timecode
+    /// component for timelines longer than (or outside of) 24 hours.
     ///
-    /// By default, ``Timecode`` is constructed with an ``Timecode/upperLimit`` of 24-hour maximum expression (`.max24Hours`) which suppresses the ability to use Days. To enable Days, set the limit to `.max100Days`.
+    /// By default, ``Timecode`` is constructed with an ``Timecode/upperLimit`` of 24-hour maximum expression (`.max24Hours`) which
+    /// suppresses the ability to use Days. To enable Days, set the limit to `.max100Days`.
     ///
     /// The limit setting naturally affects internal timecode validation routines, as well as clamping and wrapping.
     ///
@@ -56,14 +59,17 @@ extension Timecode {
     ///
     /// Subframes represent a fraction (subdivision) of a single frame.
     ///
-    /// Subframes are only used by some software and hardware, and since there are no industry standards, each manufacturer can decide how they want to implement subframes. Subframes are frame rate agnostic, meaning the subframe base (divisor) is mutually exclusive of frame rate.
+    /// Subframes are only used by some software and hardware, and since there are no industry standards, each manufacturer can decide how
+    /// they want to implement subframes. Subframes are frame rate agnostic, meaning the subframe base (divisor) is mutually exclusive of
+    /// frame rate.
     ///
     /// For example:
     ///
     /// - *Cubase/Nuendo* and *Logic Pro* globally use 80 subframes per frame (0 ... 79) regardless of frame rate
     /// - *Pro Tools* uses 100 subframes (0 ... 99) globally regardless of frame rate
     ///
-    /// Timecode supports subframes throughout. However, by default subframes are not displayed in ``Timecode/stringValue(format:)``. You can enable them:
+    /// Timecode supports subframes throughout. However, by default subframes are not displayed in ``Timecode/stringValue(format:)``. You
+    /// can enable them:
     ///
     /// ```swift
     /// var tc = try "01:12:20:05.62"
@@ -77,7 +83,8 @@ extension Timecode {
     /// tc.stringValue(format: .showSubFrames) // == "01:12:20:05.62"
     /// ```
     ///
-    /// Subframes are always calculated when performing operations on the ``Timecode`` instance, even if they are not expressed in the timecode string when not displaying subframes.
+    /// Subframes are always calculated when performing operations on the ``Timecode`` instance, even if they are not expressed in the
+    /// timecode string when not displaying subframes.
     ///
     /// ```swift
     /// var tc = try "00:00:00:00.40"

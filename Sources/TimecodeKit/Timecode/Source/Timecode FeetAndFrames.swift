@@ -1,7 +1,7 @@
 //
 //  Timecode FeetAndFrames.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -106,7 +106,7 @@ extension Timecode {
 extension FeetAndFrames {
     /// Utility to decode a Feet+Frames string into its component values, without validating component values.
     ///
-    /// An error is thrown if the string is malformed and cannot be reasonably parsed. 
+    /// An error is thrown if the string is malformed and cannot be reasonably parsed.
     /// Raw values themselves will be passed as-is and not validated.
     ///
     /// - Throws: ``Timecode/StringParseError``
@@ -115,7 +115,7 @@ extension FeetAndFrames {
         
         let matches = string.regexMatches(captureGroupsFromPattern: pattern)
         
-        guard matches.count == 4 else { 
+        guard matches.count == 4 else {
             throw Timecode.StringParseError.malformed
         }
         

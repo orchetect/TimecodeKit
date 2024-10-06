@@ -1,7 +1,7 @@
 //
 //  Timecode AVAsset.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
@@ -66,21 +66,21 @@ extension AVAssetTimecodeSource: _AsyncTimecodeSource {
         
         switch attribute {
         case .start:
-            timecode = (try? await asset.startTimecode(
+            timecode = await (try? asset.startTimecode(
                 at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .end:
-            timecode = (try? await asset.endTimecode(
+            timecode = await (try? asset.endTimecode(
                 at: rate,
                 base: base,
                 limit: limit
             )) ?? zeroTimecode()
             
         case .duration:
-            timecode = (try? await asset.durationTimecode(
+            timecode = await (try? asset.durationTimecode(
                 at: rate,
                 base: base,
                 limit: limit

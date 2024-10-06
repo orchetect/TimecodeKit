@@ -1,13 +1,13 @@
 //
 //  Transferable.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 #if canImport(UniformTypeIdentifiers) && canImport(CoreTransferable)
 
-import Foundation
 import CoreTransferable
+import Foundation
 
 @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
 extension Timecode: Transferable {
