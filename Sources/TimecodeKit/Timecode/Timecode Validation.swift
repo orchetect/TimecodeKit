@@ -109,13 +109,31 @@ extension Timecode {
 
 extension Timecode {
     /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
+    ///
+    /// > Note:
+    /// >
+    /// > This method is context-sensitive and oriented toward validation based on the current component values and
+    /// > properties.
+    /// >
+    /// > For example, if the frame rate is a drop-frame rate and the current `minutes` are divisible by `10` and the
+    /// > current `seconds` are `0` then this method will return a valid `frames` range of `2 ... X` where `X` is the
+    /// > maximum frame number expressible.
     public func validRange(of component: Component) -> ClosedRange<Int> {
         components.validRange(of: component, using: properties)
     }
 }
 
 extension Timecode.Components {
-    /// Returns valid range of values for a timecode component.
+    /// Returns valid range of values for a timecode component using the specified properties.
+    ///
+    /// > Note:
+    /// >
+    /// > This method is context-sensitive and oriented toward validation based on the current component values and
+    /// > properties.
+    /// >
+    /// > For example, if the frame rate is a drop-frame rate and the current `minutes` are divisible by `10` and the
+    /// > current `seconds` are `0` then this method will return a valid `frames` range of `2 ... X` where `X` is the
+    /// > maximum frame number expressible.
     public func validRange(
         of component: Timecode.Component,
         at frameRate: TimecodeFrameRate,
@@ -126,7 +144,16 @@ extension Timecode.Components {
         return validRange(of: component, using: properties)
     }
     
-    /// Returns valid range of values for a timecode component.
+    /// Returns valid range of values for a timecode component using the specified properties.
+    ///
+    /// > Note:
+    /// >
+    /// > This method is context-sensitive and oriented toward validation based on the current component values and
+    /// > properties.
+    /// >
+    /// > For example, if the frame rate is a drop-frame rate and the current `minutes` are divisible by `10` and the
+    /// > current `seconds` are `0` then this method will return a valid `frames` range of `2 ... X` where `X` is the
+    /// > maximum frame number expressible.
     public func validRange(
         of component: Timecode.Component,
         using properties: Timecode.Properties
