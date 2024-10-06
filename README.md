@@ -54,9 +54,12 @@ The following video frame rates are supported. (Video rates)
 - Granular timecode validation
 - Form a `Range` or `Stride` between two timecodes
 - Conforms to `Codable`
-- A `Formatter` object that can format timecode
-- A `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
-- A SwiftUI `Text` object showing invalid timecode components using alternate attributes (such as red text color)
+- Formatters
+  - A `Formatter` object that can format timecode
+  - A `NSAttributedString` showing invalid timecode components using alternate attributes (such as red text color)
+- SwiftUI Views
+  - A timecode entry textfield
+  - A timecode string `Text` view emphasizing invalid timecode components using alternate attributes (such as red text color)
 - `AVAsset` video file utilities to easily read/write timecode tracks and locate `AVPlayer` to timecode locations
 - Exhaustive unit tests ensuring accuracy
 
@@ -69,9 +72,8 @@ The following video frame rates are supported. (Video rates)
      - Select the menu: **File → Swift Packages → Add Package Dependency...**
      - Enter this URL: `https://github.com/orchetect/TimecodeKit`
    - In a Swift Package, add it to the Package.swift dependencies:
-
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.0.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.2.0")
      ```
 2. Import the library:
    ```swift
@@ -81,6 +83,8 @@ The following video frame rates are supported. (Video rates)
 ## Documentation
 
 See the [online documentation](https://orchetect.github.io/TimecodeKit) for library usage, getting started info, and 1.x → 2.x migration guide.
+
+Also check out the [Examples](Examples) folder for sample code to see TimecodeKit in action.
 
 ## References
 
