@@ -28,7 +28,7 @@ extension Timecode.Component: Sendable { }
 extension Timecode.Component {
     /// Returns the next timecode component in sequence.
     /// If the component is the last in the sequence, the sequence wraps around and returns the first component.
-    public func next(excluding: [Self] = []) -> Self {
+    public func next(excluding: Set<Self> = []) -> Self {
         let components = Self.allCases.filter { !excluding.contains($0) }
         
         precondition(!components.isEmpty)
@@ -48,7 +48,7 @@ extension Timecode.Component {
     
     /// Returns the previous timecode component in sequence.
     /// If the component is the first in the sequence, the sequence wraps around and returns the last component.
-    public func previous(excluding: [Self] = []) -> Self {
+    public func previous(excluding: Set<Self> = []) -> Self {
         let components = Self.allCases.filter { !excluding.contains($0) }
         
         precondition(!components.isEmpty)
