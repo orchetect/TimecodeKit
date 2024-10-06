@@ -108,7 +108,16 @@ extension Timecode {
 }
 
 extension Timecode {
-    /// Returns valid range of values for a timecode component, given the current `frameRate` and `upperLimit`.
+    /// Returns `true` if the timecode is valid given the current ``frameRate``, ``upperLimit-swift.property``, and
+    /// ``subFramesBase-swift.property``.
+    public var isValid: Bool {
+        invalidComponents.isEmpty
+    }
+}
+
+extension Timecode {
+    /// Returns valid range of values for a timecode component, given the current ``frameRate``,
+    /// ``upperLimit-swift.property``, and ``subFramesBase-swift.property``.
     ///
     /// > Note:
     /// >
