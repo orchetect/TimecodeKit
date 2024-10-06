@@ -66,3 +66,28 @@ extension Timecode.Component {
         }
     }
 }
+
+// MARK: - Properties
+
+extension Timecode.Component {
+    /// Returns the number of digit places the component occupies in a timecode string or a timecode edit field user
+    /// interface.
+    public func numberOfDigits(
+        at rate: TimecodeFrameRate
+    ) -> Int {
+        switch self {
+        case .days:
+            return 2
+        case .hours:
+            return 2
+        case .minutes:
+            return 2
+        case .seconds:
+            return 2
+        case .frames:
+            return rate.numberOfDigits
+        case .subFrames:
+            return 2
+        }
+    }
+}
