@@ -111,6 +111,28 @@ jobs:
     - name: Unit Tests
       run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)" | xcpretty && exit ${PIPESTATUS[0]}
 
+  examples:
+    name: Examples
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@main
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable # Sometimes a newer version of Xcode is available but isn't yet made default
+    
+    - name: Movie Timecode - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
+      run: xcodebuild -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Movie Timecode - Build (macOS)
+      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Movie Timecode - Build (iOS)
+      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+    
+    - name: TimecodeUI Example - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
+      run: xcodebuild -project "Examples/TimecodeUI Example/TimecodeUI Example.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+    - name: TimecodeUI Example - Build (macOS)
+      run: xcodebuild build -project "Examples/TimecodeUI Example/TimecodeUI Example.xcodeproj" -scheme "TimecodeUI Example" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: TimecodeUI Example - Build (iOS)
+      run: xcodebuild build -project "Examples/TimecodeUI Example/TimecodeUI Example.xcodeproj" -scheme "TimecodeUI Example" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
 
 # xcodebuild test reference:
 # https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/08-automation.html
