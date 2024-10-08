@@ -14,7 +14,7 @@ extension Timecode: Hashable {
     public func hash(into hasher: inout Hasher) {
         // Add the frame rate information in bits above the total frames value; 30 places to the left so they don't overlap
         
-        hasher.combine(frameCount)
-        hasher.combine(frameRate.rawValue)
+        hasher.combine(components)
+        hasher.combine(properties)
     }
 }

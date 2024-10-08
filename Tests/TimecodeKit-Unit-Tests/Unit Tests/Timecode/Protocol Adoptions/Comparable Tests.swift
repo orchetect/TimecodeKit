@@ -20,7 +20,8 @@ class Timecode_Comparable_Tests: XCTestCase {
             try Timecode(.string("01:00:00:00"), at: .fps23_976),
             try Timecode(.string("01:00:00:00"), at: .fps23_976)
         )
-        XCTAssertEqual(
+        // frame rate should always be the same, even if elapsed real time is equal
+        XCTAssertNotEqual(
             try Timecode(.string("01:00:00:00"), at: .fps23_976),
             try Timecode(.string("01:00:00:00"), at: .fps29_97)
         )
