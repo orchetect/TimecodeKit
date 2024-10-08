@@ -128,7 +128,7 @@ jobs:
       run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
     
     - name: UI Example - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
-      run: xcodebuild -project "Examples/TimecodeUI Example/TimecodeUI Example.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild -project "Examples/UI Example/UI Example.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
     - name: UI Example - Build (macOS)
       run: xcodebuild build -project "Examples/UI Example/UI Example.xcodeproj" -scheme "UI Example" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
     - name: UI Example - Build (iOS)
