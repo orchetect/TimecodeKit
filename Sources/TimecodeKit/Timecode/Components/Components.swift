@@ -192,7 +192,7 @@ extension Timecode.Components {
 
 extension Timecode.Components {
     /// Create a new set of timecode components with random values using the given properties.
-    init(randomUsing properties: Timecode.Properties) {
+    public init(randomUsing properties: Timecode.Properties) {
         var components = Self.zero
         
         if properties.upperLimit == .max100Days {
