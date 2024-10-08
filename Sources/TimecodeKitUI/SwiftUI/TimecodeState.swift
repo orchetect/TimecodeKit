@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && (os(macOS) || os(iOS))
+#if canImport(SwiftUI)
 
 import SwiftUI
 import TimecodeKit
