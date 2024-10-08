@@ -129,6 +129,7 @@ public struct Timecode {
     
     // Just to disable synthesized init
     private init() {
+        assertionFailure("This init should not be used. It only exists to suppress the synthesized init.")
         properties = Properties(rate: .fps24)
     }
 }
