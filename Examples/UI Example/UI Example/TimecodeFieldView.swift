@@ -15,6 +15,7 @@ struct TimecodeFieldView: View {
     @State var upperLimit: Timecode.UpperLimit = .max24Hours
     
     @State private var isEnabled: Bool = true
+    @State private var timecodeFormat: Timecode.StringFormat = [.showSubFrames]
     @State private var validationStyle: ValidationStyle = .red
     @State private var separatorStyle: SeparatorStyle = .secondary
     @State private var highlightStyle: HighlightStyle = .default
@@ -25,12 +26,12 @@ struct TimecodeFieldView: View {
                 components: $components,
                 at: frameRate,
                 base: subFramesBase,
-                limit: upperLimit,
-                showSubFrames: true
+                limit: upperLimit
             )
-            .timecodeFieldValidationStyle(validationStyle.color)
-            .timecodeFieldSeparatorStyle(separatorStyle.color)
-            .timecodeFieldHighlightStyle(highlightStyle.color)
+            .timecodeFormat(timecodeFormat)
+            .timecodeValidationStyle(validationStyle.color)
+            .timecodeSeparatorStyle(separatorStyle.color)
+            .timecodeHighlightStyle(highlightStyle.color)
             .font(.largeTitle)
             .disabled(!isEnabled)
             
@@ -67,6 +68,9 @@ struct TimecodeFieldView: View {
                         Text(color.name).tag(color)
                     }
                 }
+                Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
+                    Text("Show SubFrames")
+                }
                 Toggle(isOn: $isEnabled) {
                     Text("Enabled")
                 }
@@ -77,7 +81,7 @@ struct TimecodeFieldView: View {
                         Text("Entering a separator character (`.` or `:` or `;`) will advance the highlight to the next timecode component.")
                         Text("Up and down arrow keys can be used to increment or decrement the highlighted timecode components.")
                         Text("Number keys can be used to overwrite the currently highlighted timecode component.")
-                        Text("The optional `timecodeFieldValidationStyle` modifier causes invalid timecode components to render with a different foreground color (red in this example).")
+                        Text("The optional `timecodeValidationStyle` modifier causes invalid timecode components to render with a different foreground color (red in this example).")
                         Text("When applying the `disabled()` modifier, the field becomes read-only and not selectable or editable.")
                     }
                 }

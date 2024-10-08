@@ -38,11 +38,9 @@ struct AddOrReplaceTimecodeTrackView: View {
                     Text("New Start Timecode")
                     Spacer()
                     
-                    TimecodeField(
-                        timecode: $newStartTimecode,
-                        showSubFrames: true
-                    )
-                    .timecodeFieldValidationStyle(.red)
+                    TimecodeField(timecode: $newStartTimecode)
+                    .timecodeFormat([.showSubFrames])
+                    .timecodeValidationStyle(.red)
                 }
                 
                 LabeledContent("") {

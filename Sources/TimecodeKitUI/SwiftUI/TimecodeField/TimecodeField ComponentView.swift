@@ -14,24 +14,34 @@ import TimecodeKit
 @available(tvOS, unavailable)
 extension TimecodeField {
     struct ComponentView: View {
+        // MARK: - Properties settable through view initializers
+        
         let component: Timecode.Component
         let frameRate: TimecodeFrameRate
         let subFramesBase: Timecode.SubFramesBase
         let upperLimit: Timecode.UpperLimit
-        let showSubFrames: Bool
-        let highlightColor: Color
-        let invalidComponentColor: Color?
         @FocusState var componentEditing: Timecode.Component?
         @Binding var value: Int
         
+        // MARK: - Properties settable through custom view modifiers
+        
+        @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
+        @Environment(\.timecodeHighlightStyle) private var timecodeHighlightStyle: Color?
+        @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
+        @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
+        
+        // MARK: - Internal State
+        
         @State private var isVirgin: Bool = true
         @State private var isHovering: Bool = false
+        
+        // MARK: - Body
         
         var body: some View {
             VStack(spacing: 0) {
                 ZStack {
                     Text(valuePadded)
-                        .conditionalForegroundStyle(isValueValid ? nil : invalidComponentColor)
+                        .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
                         .background(
                             background,
                             alignment: .center
@@ -73,7 +83,7 @@ extension TimecodeField {
         @ViewBuilder
         private var background: some View {
             if isEditing {
-                highlightColor.mask(backgroundMask)
+                timecodeHighlightStyle.mask(backgroundMask)
             } else if isHovering {
                 Color.secondary.mask(backgroundMask)
             } else {
@@ -115,7 +125,7 @@ extension TimecodeField {
         private var invisibleComponents: Set<Timecode.Component> {
             var c: Set<Timecode.Component> = []
             if upperLimit == ._24hours { c.insert(.days) }
-            if !showSubFrames { c.insert(.subFrames) }
+            if !timecodeFormat.contains(.showSubFrames) { c.insert(.subFrames) }
             return c
         }
         

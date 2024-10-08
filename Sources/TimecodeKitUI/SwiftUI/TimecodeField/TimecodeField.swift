@@ -19,30 +19,28 @@ public struct TimecodeField: View {
     @Binding private var frameRate: TimecodeFrameRate
     @Binding private var subFramesBase: Timecode.SubFramesBase
     @Binding private var upperLimit: Timecode.UpperLimit
-    private var showSubFrames: Bool
     @Binding private var timecode: Timecode
     
     // MARK: - Properties settable through custom view modifiers
     
-    var highlightColor: Color = .accentColor
-    var separatorColor: Color?
-    var invalidComponentColor: Color?
+    @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
+    @Environment(\.timecodeHighlightStyle) private var timecodeHighlightStyle: Color?
+    @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
+    @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
     
-    // MARK: - Internal properties
+    // MARK: - Internal State
     
     @FocusState private var componentEditing: Timecode.Component?
     
     // MARK: - Init from Components and Properties
     
     public init(
-        components: Binding<Timecode.Components>,
-        showSubFrames: Bool = false
+        components: Binding<Timecode.Components>
     ) {
         let defaultTimecode = Timecode(.zero, at: .fps24) // TODO: use a different default frame rate?
         self.init(
             components: components,
-            using: defaultTimecode.properties,
-            showSubFrames: showSubFrames
+            using: defaultTimecode.properties
         )
     }
     
@@ -50,23 +48,20 @@ public struct TimecodeField: View {
         components: Binding<Timecode.Components>,
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase,
-        limit: Timecode.UpperLimit,
-        showSubFrames: Bool = false
+        limit: Timecode.UpperLimit
     ) {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
-        self.init(components: components, using: properties, showSubFrames: showSubFrames)
+        self.init(components: components, using: properties)
     }
     
     public init(
         components: Binding<Timecode.Components>,
-        using properties: Timecode.Properties,
-        showSubFrames: Bool = false
+        using properties: Timecode.Properties
     ) {
         _components = components
         _frameRate = .constant(properties.frameRate)
         _subFramesBase = .constant(properties.subFramesBase)
         _upperLimit = .constant(properties.upperLimit)
-        self.showSubFrames = showSubFrames
         
         // need to set this first or compiler complains about accessing self before initialization
         _timecode = .constant(Timecode(.zero, using: properties)) // unused
@@ -76,12 +71,9 @@ public struct TimecodeField: View {
     // MARK: - Init from Timecode struct
     
     public init(
-        timecode: Binding<Timecode>,
-        showSubFrames: Bool = false
+        timecode: Binding<Timecode>
     ) {
         _timecode = timecode
-        self.showSubFrames = showSubFrames
-        
         // need to set this first or compiler complains about accessing self before initialization
         _components = .constant(.zero) // will be changed to a binding
         _frameRate = .constant(.fps24) // will be changed to a binding
@@ -105,14 +97,11 @@ public struct TimecodeField: View {
                         frameRate: frameRate,
                         subFramesBase: subFramesBase,
                         upperLimit: upperLimit,
-                        showSubFrames: showSubFrames,
-                        highlightColor: highlightColor,
-                        invalidComponentColor: invalidComponentColor,
                         componentEditing: _componentEditing,
                         value: $components.days
                     )
                     Text(daysSeparator)
-                        .conditionalForegroundStyle(separatorColor)
+                        .conditionalForegroundStyle(timecodeValidationStyle)
                 }
                 
                 TimecodeField.ComponentView(
@@ -120,70 +109,55 @@ public struct TimecodeField: View {
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    showSubFrames: showSubFrames,
-                    highlightColor: highlightColor,
-                    invalidComponentColor: invalidComponentColor,
                     componentEditing: _componentEditing,
                     value: $components.hours
                 )
                 
                 Text(mainSeparator)
-                    .conditionalForegroundStyle(separatorColor)
+                    .conditionalForegroundStyle(timecodeValidationStyle)
                 
                 TimecodeField.ComponentView(
                     component: .minutes,
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    showSubFrames: showSubFrames,
-                    highlightColor: highlightColor,
-                    invalidComponentColor: invalidComponentColor,
                     componentEditing: _componentEditing,
                     value: $components.minutes
                 )
                 
                 Text(mainSeparator)
-                    .conditionalForegroundStyle(separatorColor)
+                    .conditionalForegroundStyle(timecodeValidationStyle)
                 
                 TimecodeField.ComponentView(
                     component: .seconds,
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    showSubFrames: showSubFrames,
-                    highlightColor: highlightColor,
-                    invalidComponentColor: invalidComponentColor,
                     componentEditing: _componentEditing,
                     value: $components.seconds
                 )
                 
                 Text(framesSeparator)
-                    .conditionalForegroundStyle(separatorColor)
+                    .conditionalForegroundStyle(timecodeValidationStyle)
                 
                 TimecodeField.ComponentView(
                     component: .frames,
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    showSubFrames: showSubFrames,
-                    highlightColor: highlightColor,
-                    invalidComponentColor: invalidComponentColor,
                     componentEditing: _componentEditing,
                     value: $components.frames
                 )
                 
-                if showSubFrames {
+                if timecodeFormat.contains(.showSubFrames) {
                     Text(subFramesSeparator)
-                        .conditionalForegroundStyle(separatorColor)
+                        .conditionalForegroundStyle(timecodeValidationStyle)
                     
                     TimecodeField.ComponentView(
                         component: .subFrames,
                         frameRate: frameRate,
                         subFramesBase: subFramesBase,
                         upperLimit: upperLimit,
-                        showSubFrames: showSubFrames,
-                        highlightColor: highlightColor,
-                        invalidComponentColor: invalidComponentColor,
                         componentEditing: _componentEditing,
                         value: $components.subFrames
                     )
@@ -294,14 +268,15 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: false)
+        TimecodeField(components: $components)
+            .timecodeFormat([.showSubFrames])
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: false
+            limit: properties.upperLimit
         )
+        .timecodeFormat([])
     }
     .padding()
     .font(.largeTitle)
@@ -319,17 +294,17 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
+        TimecodeField(components: $components)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
     }
     .padding()
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -344,17 +319,17 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: false)
+        TimecodeField(components: $components)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: false
+            limit: properties.upperLimit
         )
     }
     .padding()
     .font(.largeTitle)
+    .timecodeFormat([])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -369,17 +344,17 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
+        TimecodeField(components: $components)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
     }
     .padding()
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -394,18 +369,18 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
+        TimecodeField(components: $components)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
     }
-    .disabled(true)
     .padding()
+    .disabled(true)
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -420,25 +395,25 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
-            .timecodeFieldSeparatorStyle(.green)
-            .timecodeFieldValidationStyle(.red)
-            .timecodeFieldHighlightStyle(.purple)
+        TimecodeField(components: $components)
+            .timecodeSeparatorStyle(.green)
+            .timecodeValidationStyle(.red)
+            .timecodeHighlightStyle(.purple)
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
-        .timecodeFieldSeparatorStyle(.gray)
-        .timecodeFieldValidationStyle(.purple)
-        .timecodeFieldHighlightStyle(.white)
+        .timecodeSeparatorStyle(.gray)
+        .timecodeValidationStyle(.purple)
+        .timecodeHighlightStyle(.white)
         .foregroundStyle(.blue)
     }
     .padding()
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -453,26 +428,26 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
-            .timecodeFieldSeparatorStyle(.green)
-            .timecodeFieldValidationStyle(.red)
-            .timecodeFieldHighlightStyle(.purple)
+        TimecodeField(components: $components)
+            .timecodeSeparatorStyle(.green)
+            .timecodeValidationStyle(.red)
+            .timecodeHighlightStyle(.purple)
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
-        .timecodeFieldSeparatorStyle(.gray)
-        .timecodeFieldValidationStyle(.purple)
-        .timecodeFieldHighlightStyle(.white)
+        .timecodeSeparatorStyle(.gray)
+        .timecodeValidationStyle(.purple)
+        .timecodeHighlightStyle(.white)
         .foregroundStyle(.blue)
     }
-    .disabled(true)
     .padding()
+    .disabled(true)
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -485,20 +460,19 @@ public struct TimecodeField: View {
     @Previewable @State var components: Timecode.Components = .zero
     
     VStack(alignment: .trailing) {
-        TimecodeField(components: $components, showSubFrames: true)
-            .timecodeFieldValidationStyle(nil)
+        TimecodeField(components: $components)
         TimecodeField(
             components: $components,
             at: properties.frameRate,
             base: properties.subFramesBase,
-            limit: properties.upperLimit,
-            showSubFrames: true
+            limit: properties.upperLimit
         )
-        .timecodeFieldValidationStyle(nil)
         .foregroundStyle(.blue)
     }
     .padding()
     .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
+    .timecodeValidationStyle(nil)
     .frame(width: 400)
     .onAppear {
         components = Timecode(.random, using: properties).components
@@ -516,23 +490,22 @@ public struct TimecodeField: View {
         ),
         by: .allowingInvalid
     )
-    @Previewable @State var isSubFramesShown = true
+    @Previewable @State var tcFormat: Timecode.StringFormat = [.showSubFrames]
     
     VStack(alignment: .trailing) {
         Group {
-            TimecodeField(timecode: $timecode, showSubFrames: isSubFramesShown)
-                .timecodeFieldValidationStyle(.red)
+            TimecodeField(timecode: $timecode)
             TimecodeField(
                 components: $timecode.components,
                 at: timecode.frameRate,
                 base: timecode.subFramesBase,
-                limit: timecode.upperLimit,
-                showSubFrames: isSubFramesShown
+                limit: timecode.upperLimit
             )
-            .timecodeFieldValidationStyle(.red)
-            Text(timecode: timecode, format: isSubFramesShown ? [.showSubFrames] : [])
+            Text(timecode: timecode, format: tcFormat)
         }
         .font(.largeTitle)
+        .timecodeFormat(tcFormat)
+        .timecodeValidationStyle(.red)
         
         Grid {
             GridRow {
@@ -556,13 +529,12 @@ public struct TimecodeField: View {
             }
             GridRow {
                 Text("Show SubFrames")
-                Toggle("Show SubFrames", isOn: $isSubFramesShown)
-                    .labelsHidden()
+                Toggle("Show SubFrames", isOn: $tcFormat.option(.showSubFrames))
+                .labelsHidden()
             }
         }
     }
     .padding()
-    
     .frame(width: 400)
 }
 
