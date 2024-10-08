@@ -46,10 +46,10 @@ extension Text {
     /// ```
     ///
     /// - Parameters:
+    ///   - timecode: Timecode instance.
     ///   - format: Raw string format options.
     ///   - invalidModifiers: View modifiers to apply to invalid timecode components. Defaults to `.red` foreground color.
     ///   - defaultModifiers: Default view modifiers to apply to valid timecode components.
-    /// - Returns: SwiftUI `Text` view.
     public init(
         timecode: Timecode,
         format: Timecode.StringFormat = .default(),
