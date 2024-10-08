@@ -20,7 +20,7 @@ extension Scene {
     func windowModifiersForMacOS() -> some Scene {
         #if os(macOS)
             self
-                .windowIdealSize(.fitToContent)
+                .defaultSize(width: 680, height: 750)
                 .defaultPosition(.center)
         #else
             self

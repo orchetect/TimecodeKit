@@ -23,12 +23,12 @@ struct AddOrReplaceTimecodeTrackView: View {
                 Text("Adds a new timecode track to the video, or replaces the existing timecode track if one is present.")
                 Text("A copy of the video will be exported and the original file will remain unmodified.")
                 
-                Picker("Frame Rate", selection: $newStartTimecode.properties.frameRate) {
+                Picker("Frame Rate", selection: $newStartTimecode.frameRate) {
                     ForEach(TimecodeFrameRate.allCases) { frameRate in
                         Text(frameRate.stringValueVerbose).tag(frameRate)
                     }
                 }
-                Picker("SubFrames Base", selection: $newStartTimecode.properties.subFramesBase) {
+                Picker("SubFrames Base", selection: $newStartTimecode.subFramesBase) {
                     ForEach(Timecode.SubFramesBase.allCases) { subFramesBase in
                         Text("\(subFramesBase)").tag(subFramesBase)
                     }
@@ -62,7 +62,7 @@ struct AddOrReplaceTimecodeTrackView: View {
         ) { result in
             Task { await handleResult(result) }
         }
-        .fileDialogDefaultDirectory(defaultFolder)
+        .fileDialogDefaultDirectory(model.defaultFolder)
         .fileDialogConfirmationLabel("Export")
     }
     
@@ -71,6 +71,8 @@ struct AddOrReplaceTimecodeTrackView: View {
         case .success(let folderURL):
             isExportProgressShown = true
             guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
+            print("Exporting to \(fileURL.path)")
+            
             await model.exportReplacingTimecodeTrack(
                 startTimecode: newStartTimecode,
                 to: fileURL,
@@ -80,9 +82,5 @@ struct AddOrReplaceTimecodeTrackView: View {
         case .failure(let error):
             model.error = ModelError.exportError(error)
         }
-    }
-    
-    private var defaultFolder: URL {
-        model.movieContainingFolder ?? URL.desktopDirectory
     }
 }

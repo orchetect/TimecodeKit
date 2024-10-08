@@ -123,7 +123,7 @@ extension Model {
     /// Forms a file URL ensuring it is unique and does not exist.
     private func _uniqueExportURL(folder folderURL: URL) throws -> URL {
         var isDirectory: ObjCBool = false
-        let isExists = FileManager.default.fileExists(atPath: folderURL.path(), isDirectory: &isDirectory)
+        let isExists = FileManager.default.fileExists(atPath: folderURL.path(percentEncoded: false), isDirectory: &isDirectory)
         
         guard isExists else {
             throw ModelError.pathDoesNotExist
@@ -137,12 +137,20 @@ extension Model {
         
         // disambiguate if file exists
         var index = 1
-        while FileManager.default.fileExists(atPath: fileURL.path()) {
+        while FileManager.default.fileExists(atPath: fileURL.path(percentEncoded: false)) {
             fileURL = folderURL.appending(component: defaultExportFileName(disambiguation: "\(index)"))
             index += 1
         }
         
         return fileURL
+    }
+    
+    var defaultFolder: URL {
+        #if os(macOS)
+        movieContainingFolder ?? URL.desktopDirectory
+        #else
+        URL.documentsDirectory
+        #endif
     }
     
     var defaultTimecode: Timecode {
@@ -179,7 +187,7 @@ extension Model {
     }
     
     /// Creates a copy of the movie, performs the operation, exports to a new file,
-    /// and optionally reveals the new file in the Finder.
+    /// and optionally reveals the new file in the Finder (macOS only).
     private func export(
         to url: URL,
         revealInFinderOnCompletion: Bool,
@@ -190,9 +198,11 @@ extension Model {
             try await mutation(mutableMovie)
             try await mutableMovie.export(to: url)
             
+            #if os(macOS)
             if revealInFinderOnCompletion {
                 try url.revealInFinder()
             }
+            #endif
         } catch let err as ModelError {
             error = err
         } catch let err {

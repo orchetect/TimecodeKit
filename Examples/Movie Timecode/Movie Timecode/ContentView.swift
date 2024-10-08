@@ -28,15 +28,17 @@ struct ContentView: View {
             model.handleFileImport(result: result)
         }
         .sheet(isPresented: $isExportProgressShown) {
-            ZStack {
-                VStack(spacing: 40) {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                    Text("Exporting...")
-                }
+            VStack(spacing: 40) {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .controlSize(.extraLarge)
+                Text("Exporting Movie...")
             }
-            .frame(width: 250, height: 250)
+            .padding(40)
+            .presentationSizing(.fitted)
+            .interactiveDismissDisabled(true)
         }
+        
         .alert(isPresented: .constant(model.error != nil), error: model.error) {
             Button("OK") {
                 model.error = nil

@@ -36,7 +36,7 @@ struct RemoveTimecodeTrackView: View {
         ) { result in
             Task { await handleResult(result) }
         }
-        .fileDialogDefaultDirectory(defaultFolder)
+        .fileDialogDefaultDirectory(model.defaultFolder)
         .fileDialogConfirmationLabel("Export")
     }
     
@@ -45,6 +45,8 @@ struct RemoveTimecodeTrackView: View {
         case .success(let folderURL):
             isExportProgressShown = true
             guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
+            print("Exporting to \(fileURL.path)")
+            
             await model.exportRemovingTimecodeTrack(
                 to: fileURL,
                 revealInFinderOnCompletion: true
@@ -53,9 +55,5 @@ struct RemoveTimecodeTrackView: View {
         case .failure(let error):
             model.error = ModelError.exportError(error)
         }
-    }
-    
-    private var defaultFolder: URL {
-        model.movieContainingFolder ?? URL.desktopDirectory
     }
 }
