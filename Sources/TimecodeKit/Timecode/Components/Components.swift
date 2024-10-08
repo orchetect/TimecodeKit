@@ -186,6 +186,11 @@ extension Timecode.Components {
     /// Components value of zero (00:00:00:00).
     @_disfavoredOverload
     public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
+    
+    /// Create a new set of timecode components with random values using the given properties.
+    public static func random(using properties: Timecode.Properties) -> Self {
+        .init(randomUsing: properties)
+    }
 }
 
 // MARK: - Random
