@@ -9,7 +9,16 @@ import Foundation
 
 extension Timecode: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.realTimeValue.rounded(decimalPlaces: 9)
+        // frame rate should always be equal, even if the two timecode instances are the same elapsed real time
+        guard lhs.frameRate == rhs.frameRate else { return false }
+        
+        // ignore subframes base if subframes are zero for both timecode instances
+        if lhs.subFrames != 0, rhs.subFrames != 0 {
+            guard lhs.subFramesBase == rhs.subFramesBase else { return false }
+        }
+        
+        // otherwise, treat two instances as equal if their real time equates
+        return lhs.realTimeValue.rounded(decimalPlaces: 9)
             == rhs.realTimeValue.rounded(decimalPlaces: 9)
     }
 }
