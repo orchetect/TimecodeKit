@@ -12,7 +12,7 @@ import TimecodeKitUI
 struct AddOrReplaceTimecodeTrackView: View {
     @Environment(Model.self) private var model
     
-    @State var newStartTimecode: Timecode
+    @TimecodeState var newStartTimecode: Timecode
     @Binding var isExportProgressShown: Bool
     
     @State private var isFolderPickerShown: Bool = false
@@ -39,10 +39,7 @@ struct AddOrReplaceTimecodeTrackView: View {
                     Spacer()
                     
                     TimecodeField(
-                        components: $newStartTimecode.components,
-                        frameRate: newStartTimecode.frameRate,
-                        subFramesBase: newStartTimecode.subFramesBase,
-                        upperLimit: newStartTimecode.upperLimit,
+                        timecode: $newStartTimecode,
                         showSubFrames: true
                     )
                     .timecodeFieldValidationStyle(.red)
