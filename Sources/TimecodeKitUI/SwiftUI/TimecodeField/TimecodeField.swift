@@ -16,10 +16,11 @@ public struct TimecodeField: View {
     // MARK: - Properties settable through view initializers
     
     @Binding private var components: Timecode.Components
-    private var frameRate: TimecodeFrameRate
-    private var subFramesBase: Timecode.SubFramesBase
-    private var upperLimit: Timecode.UpperLimit
+    @Binding private var frameRate: TimecodeFrameRate
+    @Binding private var subFramesBase: Timecode.SubFramesBase
+    @Binding private var upperLimit: Timecode.UpperLimit
     private var showSubFrames: Bool
+    @Binding private var timecode: Timecode
     
     // MARK: - Properties settable through custom view modifiers
     
@@ -31,33 +32,66 @@ public struct TimecodeField: View {
     
     @FocusState private var componentEditing: Timecode.Component?
     
-    // MARK: - Init
+    // MARK: - Init from Components and Properties
     
     public init(
         components: Binding<Timecode.Components>,
         showSubFrames: Bool = false
     ) {
-        _components = components
-        
-        let defaultTimecode = Timecode(.zero, at: .fps24)
-        frameRate = defaultTimecode.frameRate
-        subFramesBase = defaultTimecode.subFramesBase
-        upperLimit = defaultTimecode.upperLimit
-        self.showSubFrames = showSubFrames
+        let defaultTimecode = Timecode(.zero, at: .fps24) // TODO: use a different default frame rate?
+        self.init(
+            components: components,
+            using: defaultTimecode.properties,
+            showSubFrames: showSubFrames
+        )
     }
     
     public init(
         components: Binding<Timecode.Components>,
-        frameRate: TimecodeFrameRate,
-        subFramesBase: Timecode.SubFramesBase,
-        upperLimit: Timecode.UpperLimit,
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase,
+        limit: Timecode.UpperLimit,
+        showSubFrames: Bool = false
+    ) {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        self.init(components: components, using: properties, showSubFrames: showSubFrames)
+    }
+    
+    public init(
+        components: Binding<Timecode.Components>,
+        using properties: Timecode.Properties,
         showSubFrames: Bool = false
     ) {
         _components = components
-        self.frameRate = frameRate
-        self.subFramesBase = subFramesBase
-        self.upperLimit = upperLimit
+        _frameRate = .constant(properties.frameRate)
+        _subFramesBase = .constant(properties.subFramesBase)
+        _upperLimit = .constant(properties.upperLimit)
         self.showSubFrames = showSubFrames
+        
+        // need to set this first or compiler complains about accessing self before initialization
+        _timecode = .constant(Timecode(.zero, using: properties)) // unused
+        _timecode = timecodeBinding() // unused
+    }
+    
+    // MARK: - Init from Timecode struct
+    
+    public init(
+        timecode: Binding<Timecode>,
+        showSubFrames: Bool = false
+    ) {
+        _timecode = timecode
+        self.showSubFrames = showSubFrames
+        
+        // need to set this first or compiler complains about accessing self before initialization
+        _components = .constant(.zero) // will be changed to a binding
+        _frameRate = .constant(.fps24) // will be changed to a binding
+        _subFramesBase = .constant(.max100SubFrames) // will be changed to a binding
+        _upperLimit = .constant(.max24Hours) // will be changed to a binding
+        
+        _components = componentsBinding()
+        _frameRate = frameRateBinding()
+        _subFramesBase = subFramesBaseBinding()
+        _upperLimit = upperLimitBinding()
     }
     
     // MARK: - Body
@@ -159,6 +193,33 @@ public struct TimecodeField: View {
         .monospacedDigit()
         .fixedSize()
         .animation(nil)
+        
+        // sync components to/from `timecode` binding.
+        .onChange(of: components) { oldValue, newValue in
+            if timecode.components != components {
+                timecode.components = components
+            }
+        }
+        .onChange(of: timecode.components) { oldValue, newValue in
+            if components != timecode.components {
+                components = timecode.components
+            }
+        }
+        // sync timecode properties
+        .onChange(of: timecode.properties) { oldValue, newValue in
+            if frameRate != timecode.properties.frameRate { frameRate = timecode.properties.frameRate }
+            if subFramesBase != timecode.properties.subFramesBase { subFramesBase = timecode.properties.subFramesBase }
+            if upperLimit != timecode.properties.upperLimit { upperLimit = timecode.properties.upperLimit }
+        }
+        .onChange(of: frameRate) { oldValue, newValue in
+            if timecode.frameRate != frameRate { timecode.frameRate = frameRate }
+        }
+        .onChange(of: subFramesBase) { oldValue, newValue in
+            if timecode.subFramesBase != subFramesBase { timecode.subFramesBase = subFramesBase }
+        }
+        .onChange(of: upperLimit) { oldValue, newValue in
+            if timecode.upperLimit != upperLimit { timecode.upperLimit = upperLimit }
+        }
     }
     
     // MARK: - Timecode Separators
@@ -167,6 +228,58 @@ public struct TimecodeField: View {
     private var mainSeparator: String { ":" }
     private var framesSeparator: String { frameRate.isDrop ? ";" : ":" }
     private var subFramesSeparator: String { "." }
+    
+    // MARK: - Sync Bindings
+    
+    private func timecodeBinding() -> Binding<Timecode> {
+        Binding {
+            let properties = Timecode.Properties(
+                rate: self.frameRate,
+                base: self.subFramesBase,
+                limit: self.upperLimit
+            )
+            return Timecode(.components(components), using: properties, by: .allowingInvalid)
+        } set: { newValue in
+            if components != newValue.components {
+                components = newValue.components
+            }
+            if frameRate != newValue.frameRate { frameRate = newValue.frameRate }
+            if subFramesBase != newValue.subFramesBase { subFramesBase = newValue.subFramesBase }
+            if upperLimit != newValue.upperLimit { upperLimit = newValue.upperLimit }
+        }
+    }
+    
+    private func componentsBinding() -> Binding<Timecode.Components> {
+        Binding {
+            timecode.components
+        } set: { newValue in
+            timecode.components = newValue
+        }
+    }
+    
+    private func frameRateBinding() -> Binding<TimecodeFrameRate> {
+        Binding {
+            timecode.frameRate
+        } set: { newValue in
+            timecode.frameRate = newValue
+        }
+    }
+    
+    private func subFramesBaseBinding() -> Binding<Timecode.SubFramesBase> {
+        Binding {
+            timecode.subFramesBase
+        } set: { newValue in
+            timecode.subFramesBase = newValue
+        }
+    }
+    
+    private func upperLimitBinding() -> Binding<Timecode.UpperLimit> {
+        Binding {
+            timecode.upperLimit
+        } set: { newValue in
+            timecode.upperLimit = newValue
+        }
+    }
 }
 
 // MARK: - Previews
@@ -184,9 +297,9 @@ public struct TimecodeField: View {
         TimecodeField(components: $components, showSubFrames: false)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: false
         )
     }
@@ -209,9 +322,9 @@ public struct TimecodeField: View {
         TimecodeField(components: $components, showSubFrames: true)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
     }
@@ -234,9 +347,9 @@ public struct TimecodeField: View {
         TimecodeField(components: $components, showSubFrames: false)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: false
         )
     }
@@ -259,9 +372,9 @@ public struct TimecodeField: View {
         TimecodeField(components: $components, showSubFrames: true)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
     }
@@ -284,9 +397,9 @@ public struct TimecodeField: View {
         TimecodeField(components: $components, showSubFrames: true)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
     }
@@ -314,9 +427,9 @@ public struct TimecodeField: View {
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
         .timecodeFieldSeparatorStyle(.gray)
@@ -347,9 +460,9 @@ public struct TimecodeField: View {
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
         .timecodeFieldSeparatorStyle(.gray)
@@ -376,9 +489,9 @@ public struct TimecodeField: View {
             .timecodeFieldValidationStyle(nil)
         TimecodeField(
             components: $components,
-            frameRate: properties.frameRate,
-            subFramesBase: properties.subFramesBase,
-            upperLimit: properties.upperLimit,
+            at: properties.frameRate,
+            base: properties.subFramesBase,
+            limit: properties.upperLimit,
             showSubFrames: true
         )
         .timecodeFieldValidationStyle(nil)
@@ -390,6 +503,67 @@ public struct TimecodeField: View {
     .onAppear {
         components = Timecode(.random, using: properties).components
     }
+}
+
+@available(macOS 14, iOS 17, watchOS 10.0, *)
+#Preview("Timecode Binding") {
+    @Previewable @TimecodeState var timecode: Timecode = Timecode(
+        .components(d: 02, h: 04, m: 20, s: 30, f: 25, sf: 82),
+        using: Timecode.Properties(
+            rate: .fps24,
+            base: .max100SubFrames,
+            limit: .max100Days
+        ),
+        by: .allowingInvalid
+    )
+    @Previewable @State var isSubFramesShown = true
+    
+    VStack(alignment: .trailing) {
+        Group {
+            TimecodeField(timecode: $timecode, showSubFrames: isSubFramesShown)
+                .timecodeFieldValidationStyle(.red)
+            TimecodeField(
+                components: $timecode.components,
+                at: timecode.frameRate,
+                base: timecode.subFramesBase,
+                limit: timecode.upperLimit,
+                showSubFrames: isSubFramesShown
+            )
+            .timecodeFieldValidationStyle(.red)
+            Text(timecode: timecode, format: isSubFramesShown ? [.showSubFrames] : [])
+        }
+        .font(.largeTitle)
+        
+        Grid {
+            GridRow {
+                Text("Frame Rate").gridColumnAlignment(.trailing)
+                Button("24") { timecode.frameRate = .fps24 }
+                Button("30") { timecode.frameRate = .fps30 }
+            }
+            GridRow {
+                Text("SubFrames Base")
+                Button("80") { timecode.subFramesBase = .max80SubFrames }
+                Button("100") { timecode.subFramesBase = .max100SubFrames }
+            }
+            GridRow {
+                Text("Upper Limit")
+                Button("24 Hours") { timecode.upperLimit = .max24Hours }
+                Button("100 Days") { timecode.upperLimit = .max100Days }
+            }
+            GridRow {
+                Text("Components")
+                Button("Randomize") { timecode.components = .random(using: timecode.properties) }
+            }
+            GridRow {
+                Text("Show SubFrames")
+                Toggle("Show SubFrames", isOn: $isSubFramesShown)
+                    .labelsHidden()
+            }
+        }
+    }
+    .padding()
+    
+    .frame(width: 400)
 }
 
 #endif
