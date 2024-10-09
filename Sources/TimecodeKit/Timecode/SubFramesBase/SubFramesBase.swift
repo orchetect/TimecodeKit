@@ -54,6 +54,19 @@ extension Timecode.SubFramesBase: Sendable { }
 
 extension Timecode.SubFramesBase: Codable { }
 
+// MARK: - Properties
+
+extension Timecode.SubFramesBase {
+    /// Returns human-readable frame rate string in long form.
+    public var stringValueVerbose: String {
+        switch self {
+        case .max80SubFrames: return "80"
+        case .max100SubFrames: return "100"
+        case .quarterFrames: return "4 (Quarter-Frames)"
+        }
+    }
+}
+
 // MARK: - Methods
 
 extension Timecode.SubFramesBase {
