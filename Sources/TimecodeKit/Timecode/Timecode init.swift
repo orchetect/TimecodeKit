@@ -171,6 +171,15 @@ extension Timecode {
         try set(source.value)
     }
     
+    /// Initialize by converting a rich time source to timecode.
+    public init(
+        _ source: RichTimecodeSourceValue,
+        by validation: ValidationRule
+    ) {
+        properties = Properties(rate: .fps24) // must init to a default first
+        set(source.value, by: validation)
+    }
+    
     // MARK: - AsyncRichTimecodeSource
     
     /// Initialize by converting a rich time source to timecode.

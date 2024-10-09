@@ -49,6 +49,10 @@ protocol _RichTimecodeSource {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
+    
+    /// Sets the timecode for a ``Timecode`` instance from a time value source.
+    /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
+    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) -> Timecode.Properties
 }
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.

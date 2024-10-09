@@ -182,6 +182,14 @@ extension Timecode {
         try set(source.value)
     }
     
+    /// Set timecode by converting from a time source.
+    public mutating func set(
+        _ source: RichTimecodeSourceValue,
+        by validation: ValidationRule
+    ) {
+        set(source.value, by: validation)
+    }
+    
     /// Returns a copy of this instance, setting its timecode by converting from a time source.
     ///
     /// - Throws: ``ValidationError``
@@ -189,6 +197,16 @@ extension Timecode {
         _ source: RichTimecodeSourceValue
     ) throws -> Timecode {
         try setting(source.value)
+    }
+    
+    /// Returns a copy of this instance, setting its timecode by converting from a time source.
+    ///
+    /// - Throws: ``ValidationError``
+    public func setting(
+        _ source: RichTimecodeSourceValue,
+        by validation: ValidationRule
+    ) -> Timecode {
+        setting(source.value, by: validation)
     }
 }
 
@@ -200,12 +218,28 @@ extension Timecode {
         properties = try source.set(timecode: &self)
     }
     
+    mutating func set(
+        _ source: _RichTimecodeSource,
+        by validation: ValidationRule
+    ) {
+        properties = source.set(timecode: &self, by: validation)
+    }
+    
     /// - Throws: ``ValidationError``
     func setting(
         _ source: _RichTimecodeSource
     ) throws -> Timecode {
         var copy = self
         try copy.set(source)
+        return copy
+    }
+    
+    func setting(
+        _ source: _RichTimecodeSource,
+        by validation: ValidationRule
+    ) -> Timecode {
+        var copy = self
+        copy.set(source, by: validation)
         return copy
     }
 }
