@@ -282,7 +282,7 @@ public struct TimecodeField: View {
     .font(.largeTitle)
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -307,7 +307,7 @@ public struct TimecodeField: View {
     .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -332,7 +332,7 @@ public struct TimecodeField: View {
     .timecodeFormat([])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -357,7 +357,7 @@ public struct TimecodeField: View {
     .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -383,7 +383,7 @@ public struct TimecodeField: View {
     .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -416,7 +416,7 @@ public struct TimecodeField: View {
     .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -450,7 +450,7 @@ public struct TimecodeField: View {
     .timecodeFormat([.showSubFrames])
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 
@@ -475,7 +475,7 @@ public struct TimecodeField: View {
     .timecodeValidationStyle(nil)
     .frame(width: 400)
     .onAppear {
-        components = Timecode(.random, using: properties).components
+        components = Timecode(.randomComponents, using: properties).components
     }
 }
 

@@ -187,17 +187,22 @@ extension Timecode.Components {
     @_disfavoredOverload
     public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
     
-    /// Create a new set of timecode components with random values using the given properties.
+    /// Create a new set of valid timecode components with random values using the given properties.
     public static func random(using properties: Timecode.Properties) -> Self {
         .init(randomUsing: properties)
     }
+    
+    /// Create a new set of timecode components within the given ranges, allowing potential invalid values.
+    public static func random(in ranges: Timecode.ComponentRanges) -> Self {
+        .init(randomIn: ranges)
+    }
 }
 
-// MARK: - Random
+// MARK: - Random Inits
 
 extension Timecode.Components {
-    /// Create a new set of timecode components with random values using the given properties.
-    public init(randomUsing properties: Timecode.Properties) {
+    /// Create a new set of valid timecode components with random values using the given properties.
+    init(randomUsing properties: Timecode.Properties) {
         var components = Self.zero
         
         if properties.upperLimit == .max100Days {
@@ -210,5 +215,18 @@ extension Timecode.Components {
         components.subFrames = components.validRange(of: .subFrames, using: properties).randomElement()!
         
         self = components
+    }
+    
+    /// Create a new set of timecode components within the given ranges, allowing potential invalid values.
+    init(randomIn ranges: Timecode.ComponentRanges) {
+        self.init(
+            d: Int.random(in: ranges.days),
+            h: Int.random(in: ranges.hours),
+            m: Int.random(in: ranges.minutes),
+            s: Int.random(in: ranges.seconds),
+            f: Int.random(in: ranges.frames),
+            sf: Int.random(in: ranges.subFrames)
+        )
+        
     }
 }
