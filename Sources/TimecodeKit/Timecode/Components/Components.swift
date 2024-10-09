@@ -5,7 +5,7 @@
 //
 
 extension Timecode {
-    /// Primitive struct describing timecode values, agnostic of frame rate.
+    /// Primitive struct describing timecode component values, agnostic of frame rate.
     ///
     /// In order to help facilitate defining a set of timecode component values, a simple ``Timecode/Components`` struct is implemented.
     /// This struct can be passed into many methods and initializers.
@@ -184,8 +184,7 @@ extension Timecode.Components: Codable { }
 
 extension Timecode.Components {
     /// Components value of zero (00:00:00:00).
-    @_disfavoredOverload
-    public static let zero: Self = .init(h: 0, m: 0, s: 0, f: 0)
+    public static let zero: Self = .init(d: 0, h: 0, m: 0, s: 0, f: 0, sf: 0)
     
     /// Create a new set of valid timecode components with random values using the given properties.
     public static func random(using properties: Timecode.Properties) -> Self {
