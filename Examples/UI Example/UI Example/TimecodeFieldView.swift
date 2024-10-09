@@ -38,58 +38,96 @@ struct TimecodeFieldView: View {
             Divider()
             
             Form {
-                Picker("Frame Rate", selection: $frameRate) {
-                    ForEach(TimecodeFrameRate.allCases) { frameRate in
-                        Text(frameRate.stringValueVerbose).tag(frameRate)
-                    }
-                }
-                Picker("SubFrames Base", selection: $subFramesBase) {
-                    ForEach(Timecode.SubFramesBase.allCases) { subFramesBase in
-                        Text("\(subFramesBase)").tag(subFramesBase)
-                    }
-                }
-                Picker("Upper Limit", selection: $upperLimit) {
-                    ForEach(Timecode.UpperLimit.allCases) { upperLimit in
-                        Text(upperLimit.rawValue).tag(upperLimit)
-                    }
-                }
-                Picker("Component Validation", selection: $validationStyle) {
-                    ForEach(ValidationStyle.allCases) { validationType in
-                        Text(validationType.name).tag(validationType)
-                    }
-                }
-                Picker("Separator Color", selection: $separatorStyle) {
-                    ForEach(SeparatorStyle.allCases) { color in
-                        Text(color.name).tag(color)
-                    }
-                }
-                Picker("Highlight Color", selection: $highlightStyle) {
-                    ForEach(HighlightStyle.allCases) { color in
-                        Text(color.name).tag(color)
-                    }
-                }
-                Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
-                    Text("Show SubFrames")
-                }
-                Toggle(isOn: $isEnabled) {
-                    Text("Enabled")
-                }
-                
-                Section("Info") {
-                    List {
-                        Text("Left and right arrow keys can be used to cycle through timecode components while editing.")
-                        Text("Entering a separator character (`.` or `:` or `;`) will advance the highlight to the next timecode component.")
-                        Text("Up and down arrow keys can be used to increment or decrement the highlighted timecode components.")
-                        Text("Number keys can be used to overwrite the currently highlighted timecode component.")
-                        Text("The optional `timecodeValidationStyle` modifier causes invalid timecode components to render with a different foreground color (red in this example).")
-                        Text("When applying the `disabled()` modifier, the field becomes read-only and not selectable or editable.")
-                    }
-                }
+                propertiesSection
+                settingsSection
+                infoSection
             }
             .formStyle(.grouped)
         }
         .padding()
-        .frame(idealHeight: 700)
+//        .frame(idealHeight: 700)
+    }
+    
+    private var propertiesSection: some View {
+        Section("Properties") {
+            Picker("Frame Rate", selection: $frameRate) {
+                ForEach(TimecodeFrameRate.allCases) { frameRate in
+                    Text(frameRate.stringValueVerbose).tag(frameRate)
+                }
+            }
+            Picker("SubFrames Base", selection: $subFramesBase) {
+                ForEach(Timecode.SubFramesBase.allCases) { subFramesBase in
+                    Text("\(subFramesBase.stringValueVerbose)").tag(subFramesBase)
+                }
+            }
+            Picker("Upper Limit", selection: $upperLimit) {
+                ForEach(Timecode.UpperLimit.allCases) { upperLimit in
+                    Text(upperLimit.rawValue).tag(upperLimit)
+                }
+            }
+        }
+    }
+    
+    private var settingsSection: some View {
+        Section("Settings") {
+            Picker("Component Validation", selection: $validationStyle) {
+                ForEach(ValidationStyle.allCases) { validationType in
+                    Text(validationType.name).tag(validationType)
+                }
+            }
+            Picker("Separator Color", selection: $separatorStyle) {
+                ForEach(SeparatorStyle.allCases) { color in
+                    Text(color.name).tag(color)
+                }
+            }
+            Picker("Highlight Color", selection: $highlightStyle) {
+                ForEach(HighlightStyle.allCases) { color in
+                    Text(color.name).tag(color)
+                }
+            }
+            Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
+                Text("Show SubFrames")
+            }
+            Toggle(isOn: $isEnabled) {
+                Text("Enabled")
+            }
+        }
+    }
+    
+    private var infoSection: some View {
+        Section("Info") {
+            Grid(alignment: .topLeading, verticalSpacing: 10) {
+                GridRow {
+                    HStack {
+                        Image(systemName: "arrow.left")
+                        Image(systemName: "arrow.right")
+                    }
+                    Text("Left and right arrow keys can be used to cycle through timecode components while editing.")
+                }
+                GridRow {
+                    HStack {
+                        Image(systemName: "arrow.up")
+                        Image(systemName: "arrow.down")
+                    }
+                    Text("Up and down arrow keys can be used to increment or decrement the highlighted timecode components.")
+                }
+                GridRow {
+                    HStack {
+                        Image(systemName: "plus")
+                        Image(systemName: "minus")
+                    }
+                    Text("Plus and minus keys (on the number row or number pad) can be used to increment or decrement the highlighted timecode components.")
+                }
+                GridRow {
+                    Text("`.` or `:` or `;`")
+                    Text("Entering a timecode separator character will advance the highlight to the next timecode component.")
+                }
+                GridRow {
+                    Image(systemName: "number.square")
+                    Text("Number keys can be used to overwrite the currently highlighted timecode component.")
+                }
+            }
+        }
     }
     
     private var timecode: Timecode {

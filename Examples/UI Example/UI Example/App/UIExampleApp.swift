@@ -12,5 +12,21 @@ struct UIExampleApp: App {
         WindowGroup {
             ContentView()
         }
+        .commands {
+            SidebarCommands()
+        }
+        .windowModifiersForMacOS()
+    }
+}
+
+extension Scene {
+    func windowModifiersForMacOS() -> some Scene {
+        #if os(macOS)
+        self
+            .defaultSize(width: 920, height: 870)
+            .defaultPosition(.center)
+        #else
+        self
+        #endif
     }
 }

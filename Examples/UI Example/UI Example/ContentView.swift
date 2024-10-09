@@ -19,7 +19,7 @@ struct ContentView: View {
         } detail: {
             switch sideBarItem {
             case .timecodeField: TimecodeFieldView()
-            case .timecodeText: TimecodeTextView()
+            case .timecodeText: TimecodeTextDemoView()
             case nil: Text("Select a sidebar entry.")
             }
         }
