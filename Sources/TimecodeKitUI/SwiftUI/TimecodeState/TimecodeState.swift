@@ -53,7 +53,10 @@ import TimecodeKit
                 guard timecode.components != newValue.components ||
                         timecode.properties != newValue.properties
                 else { return }
-                objectWillChange.send()
+                
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
         
