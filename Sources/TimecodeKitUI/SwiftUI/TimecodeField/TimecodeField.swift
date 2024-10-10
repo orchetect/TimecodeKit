@@ -517,32 +517,25 @@ public struct TimecodeField: View {
         .timecodeFormat(tcFormat)
         .timecodeValidationStyle(.red)
         
-        Grid {
-            GridRow {
-                Text("Frame Rate").gridColumnAlignment(.trailing)
+        Form {
+            LabeledContent("Frame Rate") {
                 Button("24") { timecode.frameRate = .fps24 }
                 Button("30") { timecode.frameRate = .fps30 }
             }
-            GridRow {
-                Text("SubFrames Base")
+            LabeledContent("SubFrames Base") {
                 Button("80") { timecode.subFramesBase = .max80SubFrames }
                 Button("100") { timecode.subFramesBase = .max100SubFrames }
             }
-            GridRow {
-                Text("Upper Limit")
+            LabeledContent("Upper Limit") {
                 Button("24 Hours") { timecode.upperLimit = .max24Hours }
                 Button("100 Days") { timecode.upperLimit = .max100Days }
             }
-            GridRow {
-                Text("Components")
-                Button("Randomize") { timecode.components = .random(using: timecode.properties) }
+            LabeledContent("Components") {
+                Button("Randomize") { timecode.components = .random(in: .unsafeRandomRanges) }
             }
-            GridRow {
-                Text("Show SubFrames")
-                Toggle("Show SubFrames", isOn: $tcFormat.option(.showSubFrames))
-                .labelsHidden()
-            }
+            Toggle("Show SubFrames", isOn: $tcFormat.option(.showSubFrames))
         }
+        .formStyle(.grouped)
     }
     .padding()
     .frame(width: 400)
