@@ -73,7 +73,8 @@ extension Timecode.Component {
     /// Returns the number of digit places the component occupies in a timecode string or a timecode edit field user
     /// interface.
     public func numberOfDigits(
-        at rate: TimecodeFrameRate
+        at rate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase
     ) -> Int {
         switch self {
         case .days:
@@ -87,7 +88,7 @@ extension Timecode.Component {
         case .frames:
             return rate.numberOfDigits
         case .subFrames:
-            return 2
+            return base.numberOfDigits
         }
     }
 }

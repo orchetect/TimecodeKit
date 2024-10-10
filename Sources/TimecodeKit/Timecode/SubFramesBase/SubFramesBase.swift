@@ -65,6 +65,17 @@ extension Timecode.SubFramesBase {
         case .quarterFrames: return "4 (Quarter-Frames)"
         }
     }
+    
+    /// Returns the number of digits required for subframes within the timecode string.
+    ///
+    /// ie: 80 or 100 fps would return `2`, but quarter-frames (4) would return `1`.
+    public var numberOfDigits: Int {
+        switch self {
+        case .max80SubFrames: return 2 // 0 ... 79
+        case .max100SubFrames: return 2 // 0 ... 99
+        case .quarterFrames: return 1 // 0 ... 3
+        }
+    }
 }
 
 // MARK: - Methods

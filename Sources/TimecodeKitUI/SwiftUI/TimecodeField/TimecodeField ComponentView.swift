@@ -119,7 +119,7 @@ extension TimecodeField {
         }
         
         private var numberOfDigits: Int {
-            component.numberOfDigits(at: frameRate)
+            component.numberOfDigits(at: frameRate, base: subFramesBase)
         }
         
         private var invisibleComponents: Set<Timecode.Component> {
