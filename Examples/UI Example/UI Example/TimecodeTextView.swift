@@ -61,36 +61,37 @@ struct TimecodeTextView: View {
     @State var subFramesBase: Timecode.SubFramesBase = .max80SubFrames
     @State var upperLimit: Timecode.UpperLimit = .max24Hours
     
+    @State private var isEnabled: Bool = true
     @State private var timecodeFormat: Timecode.StringFormat = [.showSubFrames]
     @State private var defaultStyle: DefaultStyle = .default
+    @State private var separatorStyle: SeparatorStyle = .secondary
     @State private var validationStyle: ValidationStyle = .red
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(
-                timecode: timecode,
-                format: timecodeFormat,
-                invalidModifiers: validationStyle.modifiers,
-                defaultModifiers: defaultStyle.modifiers
-            )
-            .font(.largeTitle)
-            
-            .focusable() // allows selection for Cmd+C (copy) / Cmd+P (paste)
-            
-            #if os(macOS)
-            .copyable([timecode])
-            .pasteDestination(for: Timecode.self) { items in
-                guard let item = items.first else { return }
-                timecode = item
-            }
-            #endif
-            
-            .draggable(timecode)
-            .dropDestination(for: Timecode.self) { items, location in
-                guard let item = items.first else { return false }
-                timecode = item
-                return true
-            }
+            TimecodeText(timecode)
+                .foregroundColor(defaultStyle.color)
+                .timecodeFormat(timecodeFormat)
+                .timecodeSeparatorStyle(separatorStyle.color)
+                .timecodeValidationStyle(validationStyle.color)
+                .font(.largeTitle)
+                .disabled(!isEnabled)
+                .focusable(isEnabled) // allows selection for Cmd+C (copy) / Cmd+P (paste)
+                
+                #if os(macOS)
+                .copyable([timecode])
+                .pasteDestination(for: Timecode.self) { items in
+                    guard let item = items.first else { return }
+                    timecode = item
+                }
+                #endif
+                
+                .draggable(timecode)
+                .dropDestination(for: Timecode.self) { items, location in
+                    guard let item = items.first else { return false }
+                    timecode = item
+                    return true
+                }
             
             Divider()
             
@@ -126,18 +127,26 @@ struct TimecodeTextView: View {
     
     private var settingsSection: some View {
         Section("Settings") {
-            Picker("Component Validation", selection: $validationStyle) {
-                ForEach(ValidationStyle.allCases) { validationType in
-                    Text(validationType.name).tag(validationType)
-                }
-            }
             Picker("Default Color", selection: $defaultStyle) {
                 ForEach(DefaultStyle.allCases) { defaultType in
                     Text(defaultType.name).tag(defaultType)
                 }
             }
+            Picker("Separator Color", selection: $separatorStyle) {
+                ForEach(SeparatorStyle.allCases) { color in
+                    Text(color.name).tag(color)
+                }
+            }
+            Picker("Component Validation", selection: $validationStyle) {
+                ForEach(ValidationStyle.allCases) { validationType in
+                    Text(validationType.name).tag(validationType)
+                }
+            }
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
                 Text("Show SubFrames")
+            }
+            Toggle(isOn: $isEnabled) {
+                Text("Enabled")
             }
         }
     }
@@ -194,6 +203,8 @@ struct TimecodeTextView: View {
     }
 }
 
+// MARK: - View Property Types
+
 extension TimecodeTextView {
     private enum DefaultStyle: Int, CaseIterable, Identifiable {
         case `default`
@@ -210,11 +221,41 @@ extension TimecodeTextView {
             }
         }
         
-        var modifiers: ((Text) -> Text)? {
+        var color: Color? {
             switch self {
             case .default: return nil
-            case .blue: return { $0.foregroundStyle(.blue) }
-            case .orange: return { $0.foregroundStyle(.orange) }
+            case .blue: return .blue
+            case .orange: return .orange
+            }
+        }
+    }
+    
+    private enum SeparatorStyle: Int, CaseIterable, Identifiable {
+        case `default`
+        case primary
+        case secondary
+        case blue
+        case orange
+        
+        var id: RawValue { rawValue }
+        
+        var name: String {
+            switch self {
+            case .default: return "Default"
+            case .primary: return "Primary"
+            case .secondary: return "Secondary"
+            case .blue: return "Blue"
+            case .orange: return "Orange"
+            }
+        }
+        
+        var color: Color? {
+            switch self {
+            case .default: return nil
+            case .primary: return .primary
+            case .secondary: return .secondary
+            case .blue: return .blue
+            case .orange: return .orange
             }
         }
     }
@@ -234,11 +275,11 @@ extension TimecodeTextView {
             }
         }
         
-        var modifiers: ((Text) -> Text)? {
+        var color: Color? {
             switch self {
-            case .none: return { $0 }
-            case .red: return { $0.foregroundStyle(.red) }
-            case .purple: return { $0.foregroundStyle(.purple) }
+            case .none: return nil
+            case .red: return .red
+            case .purple: return .purple
             }
         }
     }

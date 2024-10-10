@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List(SideBarItem.allCases, selection: $sideBarItem) { item in
-                Text(item.name).tag(item)
+                item.label.tag(item)
             }
         } detail: {
             switch sideBarItem {
@@ -36,10 +36,12 @@ struct ContentView: View {
         
         var id: RawValue { rawValue }
         
-        var name: String {
+        var label: some View {
             switch self {
-            case .timecodeField: return "Editable Field"
-            case .timecodeText: return "Text"
+            case .timecodeField:
+                Label("TimecodeField", systemImage: "numbers.rectangle")
+            case .timecodeText:
+                Label("TimecodeText", systemImage: "numbers")
             }
         }
     }

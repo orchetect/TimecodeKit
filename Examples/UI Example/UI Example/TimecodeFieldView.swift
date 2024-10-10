@@ -9,16 +9,17 @@ import TimecodeKit
 import TimecodeKitUI
 
 struct TimecodeFieldView: View {
-    @State var components = Timecode.Components(d: 01, h: 02, m: 10, s: 20, f: 29, sf: 82)
+    @State var components: Timecode.Components = .random(in: .unsafeRandomRanges)
     @State var frameRate: TimecodeFrameRate = .fps24
     @State var subFramesBase: Timecode.SubFramesBase = .max80SubFrames
     @State var upperLimit: Timecode.UpperLimit = .max24Hours
     
     @State private var isEnabled: Bool = true
     @State private var timecodeFormat: Timecode.StringFormat = [.showSubFrames]
-    @State private var validationStyle: ValidationStyle = .red
+    @State private var defaultStyle: DefaultStyle = .default
     @State private var separatorStyle: SeparatorStyle = .secondary
     @State private var highlightStyle: HighlightStyle = .default
+    @State private var validationStyle: ValidationStyle = .red
     
     var body: some View {
         VStack(spacing: 20) {
@@ -28,6 +29,7 @@ struct TimecodeFieldView: View {
                 base: subFramesBase,
                 limit: upperLimit
             )
+            .foregroundColor(defaultStyle.color)
             .timecodeFormat(timecodeFormat)
             .timecodeValidationStyle(validationStyle.color)
             .timecodeSeparatorStyle(separatorStyle.color)
@@ -45,7 +47,6 @@ struct TimecodeFieldView: View {
             .formStyle(.grouped)
         }
         .padding()
-//        .frame(idealHeight: 700)
     }
     
     private var propertiesSection: some View {
@@ -70,9 +71,14 @@ struct TimecodeFieldView: View {
     
     private var settingsSection: some View {
         Section("Settings") {
-            Picker("Component Validation", selection: $validationStyle) {
-                ForEach(ValidationStyle.allCases) { validationType in
-                    Text(validationType.name).tag(validationType)
+            Picker("Default Color", selection: $defaultStyle) {
+                ForEach(DefaultStyle.allCases) { defaultType in
+                    Text(defaultType.name).tag(defaultType)
+                }
+            }
+            Picker("Highlight Color", selection: $highlightStyle) {
+                ForEach(HighlightStyle.allCases) { color in
+                    Text(color.name).tag(color)
                 }
             }
             Picker("Separator Color", selection: $separatorStyle) {
@@ -80,9 +86,9 @@ struct TimecodeFieldView: View {
                     Text(color.name).tag(color)
                 }
             }
-            Picker("Highlight Color", selection: $highlightStyle) {
-                ForEach(HighlightStyle.allCases) { color in
-                    Text(color.name).tag(color)
+            Picker("Component Validation", selection: $validationStyle) {
+                ForEach(ValidationStyle.allCases) { validationType in
+                    Text(validationType.name).tag(validationType)
                 }
             }
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
@@ -141,7 +147,33 @@ struct TimecodeFieldView: View {
     }
 }
 
+// MARK: - View Property Types
+
 extension TimecodeFieldView {
+    private enum DefaultStyle: Int, CaseIterable, Identifiable {
+        case `default`
+        case blue
+        case orange
+        
+        var id: RawValue { rawValue }
+        
+        var name: String {
+            switch self {
+            case .default: return "Default"
+            case .blue: return "Blue"
+            case .orange: return "Orange"
+            }
+        }
+        
+        var color: Color? {
+            switch self {
+            case .default: return nil
+            case .blue: return .blue
+            case .orange: return .orange
+            }
+        }
+    }
+    
     private enum SeparatorStyle: Int, CaseIterable, Identifiable {
         case `default`
         case primary
@@ -189,7 +221,7 @@ extension TimecodeFieldView {
         
         var color: Color? {
             switch self {
-            case .default: return nil
+            case .default: return .accentColor
             case .secondary: return .secondary
             case .blue: return .blue
             }
