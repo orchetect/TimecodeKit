@@ -1,46 +1,34 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.9
 // (be sure to update the .swift-version file when this Swift version changes)
 
 import PackageDescription
 
 let package = Package(
     name: "TimecodeKit",
-    
     defaultLocalization: "en",
-    
-    // certain features of the library are marked @available only on newer versions of OSes,
-    // but a platforms spec here determines what base platforms
-    // the library is currently supported on
-    
-    // Add visionOS platform in supported Swift toolchain / Xcode versions
-    // TODO: Not yet implemented in Xcode 15.0 but can be added later
     platforms: {
-        // #if swift(>=5.9.1)
-        // [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2), .visionOS(.v1)]
-        // #else
+        #if swift(>=5.9)
+        [.macOS(.v10_13), .iOS(.v12), .tvOS(.v12), .watchOS(.v4), .visionOS(.v1)]
+        #else
         [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)]
-        // #endif
+        #endif
     }(),
-    
     products: [
         .library(
             name: "TimecodeKit",
             type: .static,
             targets: ["TimecodeKit"]
         ),
-        
         .library(
             name: "TimecodeKitUI",
             type: .static,
             targets: ["TimecodeKitUI"]
         )
     ],
-    
     dependencies: [
         // used only for Dev tests, not part of regular unit tests
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ],
-    
     targets: [
         // main target
         .target(
@@ -56,11 +44,10 @@ let package = Package(
                 .linkedFramework(
                     "SwiftUI",
                     .when(platforms: {
-                        // Xcode 15 beta 8 (Swift 5.9) introduced visionOS
                         #if swift(>=5.9)
-                        [.macOS, .iOS, .tvOS, .watchOS, .visionOS]
+                        [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]
                         #else
-                        [.macOS, .iOS, .tvOS, .watchOS]
+                        [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS]
                         #endif
                     }())
                 )
@@ -75,8 +62,8 @@ let package = Package(
         ),
         
         // dev tests
-        // (not meant to be run as unit tests, but only to verify library's computational integrity when making major changes to the
-        // library, as these tests require modification to be meaningful)
+        // (not meant to be run as unit tests, but only to verify library's computational integrity
+        // when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
             name: "TimecodeKit-Dev-Tests",
             dependencies: ["TimecodeKit"] // , "XCTestUtils"
