@@ -8,6 +8,21 @@
 
 import SwiftUI
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Text {
+    /// Utility method to concatenate `Text` instances.
+    @_disfavoredOverload
+    mutating func append(_ other: Text) {
+        self = self + other
+    }
+    
+    /// Utility method to concatenate `Text` instances.
+    @_disfavoredOverload
+    func appending(_ other: Text) -> Text {
+        self + other
+    }
+}
+
 @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 struct ConditionalForegroundStyleViewModifier<S: ShapeStyle>: ViewModifier {
     let style: S?
