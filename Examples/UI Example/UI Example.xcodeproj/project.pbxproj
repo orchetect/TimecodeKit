@@ -15,9 +15,22 @@
 		E2B3AE242CB2340100149DEF /* UI Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UI Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E2C0BEA32CB77878005B916E /* Exceptions for "UI Example" folder in "UI Example" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = E2B3AE232CB2340100149DEF /* UI Example */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E2B3AE262CB2340100149DEF /* UI Example */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E2C0BEA32CB77878005B916E /* Exceptions for "UI Example" folder in "UI Example" target */,
+			);
 			path = "UI Example";
 			sourceTree = "<group>";
 		};
@@ -263,7 +276,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UI-Example-Info.plist";
+				INFOPLIST_FILE = "UI Example/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode UI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -303,7 +316,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UI-Example-Info.plist";
+				INFOPLIST_FILE = "UI Example/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode UI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
