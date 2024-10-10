@@ -37,9 +37,9 @@ extension TimecodeSourceValue {
     /// (Same as ``Timecode/FrameCount-swift.struct/Value-swift.enum/split(frames:subFrames:)``.)
     public static func frames(_ frames: Int, subFrames: Int = 0) -> Self {
         if subFrames == 0 {
-            return .init(value: Timecode.FrameCount.Value.frames(frames))
+            .init(value: Timecode.FrameCount.Value.frames(frames))
         } else {
-            return .init(value: Timecode.FrameCount.Value.split(frames: frames, subFrames: subFrames))
+            .init(value: Timecode.FrameCount.Value.split(frames: frames, subFrames: subFrames))
         }
     }
     

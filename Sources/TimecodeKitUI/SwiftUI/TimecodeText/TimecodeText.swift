@@ -203,7 +203,7 @@ extension Timecode {
 
 @available(macOS 14, iOS 17, watchOS 10.0, *)
 #Preview {
-    @Previewable @TimecodeState var timecode: Timecode = Timecode(
+    @Previewable @TimecodeState var timecode = Timecode(
         .components(d: 02, h: 04, m: 20, s: 30, f: 25, sf: 82),
         using: Timecode.Properties(
             rate: .fps24,

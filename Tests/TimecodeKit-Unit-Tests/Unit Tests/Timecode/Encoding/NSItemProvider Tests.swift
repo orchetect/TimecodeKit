@@ -1,14 +1,13 @@
 //
 //  NSItemProvider Tests.swift
-//  TimecodeKit
-//
-//  Created by Steffan Andrews on 2024-09-25.
+//  TimecodeKit • https://github.com/orchetect/TimecodeKit
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 #if canImport(UniformTypeIdentifiers) && canImport(CoreTransferable)
 
-import XCTest
 @testable import TimecodeKit
+import XCTest
 
 final class NSItemProviderTests: XCTestCase {
     @MainActor

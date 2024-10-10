@@ -1,7 +1,7 @@
 //
 //  Fraction Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import TimecodeKit
@@ -173,27 +173,31 @@ final class Fraction_Tests: XCTestCase {
         
         // high precision
         XCTAssertEqual(
-            Fraction(double: 30000/1001, decimalPrecision: 18),
+            Fraction(double: 30000 / 1001, decimalPrecision: 18),
             Fraction(2926760739260739, 97656250000000)
         )
         XCTAssertEqual(
-            Fraction(double: 30000/1001, decimalPrecision: 18).doubleValue,
+            Fraction(double: 30000 / 1001, decimalPrecision: 18).doubleValue,
             29.970029970029966
         )
         
         // edge case: algorithm can work with up to 18 places of precision
-        XCTAssertEqual(Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
-                       9.999_999_999_999_999_999)
-        XCTAssertEqual(Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
-                       10.0)
+        XCTAssertEqual(
+            Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
+            9.999_999_999_999_999_999
+        )
+        XCTAssertEqual(
+            Fraction(double: 9.999_999_999_999_999_99, decimalPrecision: 50).doubleValue,
+            10.0
+        )
         
         // edge case: a really high precision number.
         // it will clamp number of decimal places internally.
-        XCTAssertEqual(Fraction(double: 30000/1001, decimalPrecision: 50).doubleValue, 29.970029970029966)
+        XCTAssertEqual(Fraction(double: 30000 / 1001, decimalPrecision: 50).doubleValue, 29.970029970029966)
         
         // edge case: a negative precision number.
         // it will clamp number of decimal places internally.
-        XCTAssertEqual(Fraction(double: 30000/1001, decimalPrecision: -2).doubleValue, 29.0)
+        XCTAssertEqual(Fraction(double: 30000 / 1001, decimalPrecision: -2).doubleValue, 29.0)
     }
     
     func testInit_Double_NegativeValues() {
@@ -202,21 +206,21 @@ final class Fraction_Tests: XCTestCase {
         
         // high precision
         XCTAssertEqual(
-            Fraction(double: -(30000/1001), decimalPrecision: 18),
+            Fraction(double: -(30000 / 1001), decimalPrecision: 18),
             Fraction(-2926760739260739, 97656250000000)
         )
         XCTAssertEqual(
-            Fraction(double: -(30000/1001), decimalPrecision: 18).doubleValue,
+            Fraction(double: -(30000 / 1001), decimalPrecision: 18).doubleValue,
             -29.970029970029966
         )
         
         // edge case: a really high precision number.
         // it will clamp number of decimal places internally.
-        XCTAssertEqual(Fraction(double: -30000/1001, decimalPrecision: 50).doubleValue, -29.970029970029966)
+        XCTAssertEqual(Fraction(double: -30000 / 1001, decimalPrecision: 50).doubleValue, -29.970029970029966)
         
         // edge case: a negative precision number.
         // it will clamp number of decimal places internally.
-        XCTAssertEqual(Fraction(double: -30000/1001, decimalPrecision: -2).doubleValue, -29.0)
+        XCTAssertEqual(Fraction(double: -30000 / 1001, decimalPrecision: -2).doubleValue, -29.0)
     }
     
     func testDoubleValue() {

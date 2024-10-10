@@ -1,7 +1,7 @@
 //
 //  Timecode Operators Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -162,7 +162,7 @@ final class Timecode_Operators_Tests: XCTestCase {
         
         XCTAssertEqual(
             try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps30) /
-            Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps29_97), // longer real time than 30fps
+                Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps29_97), // longer real time than 30fps
             30 / (30 * 1.001)
         )
     }

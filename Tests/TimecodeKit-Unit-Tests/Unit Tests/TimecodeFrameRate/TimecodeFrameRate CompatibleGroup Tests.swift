@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate CompatibleGroup Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit
@@ -14,8 +14,8 @@ final class TimecodeFrameRate_CompatibleGroup_Tests: XCTestCase {
     func testCompatibleGroup_EnsureAllFrameRateCasesAreHandled() {
         // If an exception is thrown here, it means that a frame rate has not been added to the CompatibleGroup.table
         
-        TimecodeFrameRate.allCases.forEach {
-            _ = $0.compatibleGroup
+        for item in TimecodeFrameRate.allCases {
+            _ = item.compatibleGroup
         }
     }
     

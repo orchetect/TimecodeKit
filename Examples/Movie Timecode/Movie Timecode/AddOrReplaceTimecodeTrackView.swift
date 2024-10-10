@@ -4,8 +4,8 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 import TimecodeKit
 import TimecodeKitUI
 
@@ -39,8 +39,8 @@ struct AddOrReplaceTimecodeTrackView: View {
                     Spacer()
                     
                     TimecodeField(timecode: $newStartTimecode)
-                    .timecodeFormat([.showSubFrames])
-                    .timecodeValidationStyle(.red)
+                        .timecodeFormat([.showSubFrames])
+                        .timecodeValidationStyle(.red)
                 }
                 
                 LabeledContent("") {
@@ -53,7 +53,6 @@ struct AddOrReplaceTimecodeTrackView: View {
             .formStyle(.grouped)
         }
         .padding()
-        
         .fileImporter(
             isPresented: $isFolderPickerShown,
             allowedContentTypes: [.folder]
@@ -66,7 +65,7 @@ struct AddOrReplaceTimecodeTrackView: View {
     
     private func handleResult(_ result: Result<URL, Error>) async {
         switch result {
-        case .success(let folderURL):
+        case let .success(folderURL):
             isExportProgressShown = true
             guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
             print("Exporting to \(fileURL.path)")
@@ -77,7 +76,7 @@ struct AddOrReplaceTimecodeTrackView: View {
                 revealInFinderOnCompletion: true
             )
             isExportProgressShown = false
-        case .failure(let error):
+        case let .failure(error):
             model.error = ModelError.exportError(error)
         }
     }

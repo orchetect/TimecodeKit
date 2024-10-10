@@ -49,8 +49,8 @@ extension TimecodeSourceValue {
     }
     
     /// Feet and Frames time value.
-    public static func feetAndFrames<S: StringProtocol>(
-        _ string: S,
+    public static func feetAndFrames(
+        _ string: some StringProtocol,
         subFramesBase: Timecode.SubFramesBase = .default()
     ) throws -> Self {
         try .init(value: FeetAndFrames(
@@ -110,7 +110,7 @@ extension FeetAndFrames {
     /// Raw values themselves will be passed as-is and not validated.
     ///
     /// - Throws: ``Timecode/StringParseError``
-    static func decode<S: StringProtocol>(feetAndFrames string: S) throws -> (feet: Int, frames: Int, subFrames: Int) {
+    static func decode(feetAndFrames string: some StringProtocol) throws -> (feet: Int, frames: Int, subFrames: Int) {
         let pattern = #"^([\d]+)\+([\d]+)(?:\.([\d]+))?$"#
         
         let matches = string.regexMatches(captureGroupsFromPattern: pattern)

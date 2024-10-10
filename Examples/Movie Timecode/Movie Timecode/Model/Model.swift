@@ -85,7 +85,7 @@ extension Model {
     var movieStartTimecodeString: String {
         guard movie != nil else { return "-" }
         guard let movieStartTimecode else { return "Missing or invalid." }
-        return movieStartTimecode .stringValue(format: [.showSubFrames])
+        return movieStartTimecode.stringValue(format: [.showSubFrames])
     }
     
     var containsTimecodeTrack: Bool? {

@@ -1,7 +1,7 @@
 //
 //  TimecodeFrameRate Conversions Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import CoreMedia
@@ -13,7 +13,7 @@ final class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     override func tearDown() { }
     
     func testInit_rate_allCases() {
-        TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             let num = fRate.rate.numerator
             let den = fRate.rate.denominator
             let drop = fRate.isDrop
@@ -75,7 +75,7 @@ final class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     }
     
     func testInit_frameDuration_allCases() {
-        TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             let num = fRate.frameDuration.numerator
             let den = fRate.frameDuration.denominator
             let drop = fRate.isDrop
@@ -193,17 +193,17 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
         // due to floating-point dithering, it tends to be accurate up to
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
-        try TimecodeFrameRate.allCases.forEach {
-            let cmTimeSeconds = $0.frameDurationCMTime.seconds
+        for item in TimecodeFrameRate.allCases {
+            let cmTimeSeconds = item.frameDurationCMTime.seconds
             
-            let oneFrameDuration = try Timecode(.components(f: 1), at: $0)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: item)
                 .realTimeValue
             
             XCTAssertEqual(
                 cmTimeSeconds,
                 oneFrameDuration,
                 accuracy: 0.0000_0000_0000_0001,
-                "\($0) failed."
+                "\(item) failed."
             )
         }
     }

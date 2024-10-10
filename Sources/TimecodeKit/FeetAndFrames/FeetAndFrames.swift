@@ -39,8 +39,8 @@ public struct FeetAndFrames: Equatable, Hashable {
     /// Throws an error if the string is not formatted correctly.
     ///
     /// - Throws: ``Timecode/StringParseError``
-    public init<S: StringProtocol>(
-        _ string: S,
+    public init(
+        _ string: some StringProtocol,
         subFramesBase: Timecode.SubFramesBase = .default()
     ) throws {
         let decoded = try Self.decode(feetAndFrames: string)

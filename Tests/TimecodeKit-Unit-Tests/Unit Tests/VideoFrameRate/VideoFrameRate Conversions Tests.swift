@@ -1,7 +1,7 @@
 //
 //  VideoFrameRate Conversions Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -204,7 +204,7 @@ final class VideoFrameRate_Conversions_Tests: XCTestCase {
     }
     
     func testInit_rate_allCases() {
-        VideoFrameRate.allCases.forEach { fRate in
+        for fRate in VideoFrameRate.allCases {
             let num = fRate.rate.numerator
             let den = fRate.rate.denominator
             let interlaced = fRate.isInterlaced
@@ -277,7 +277,7 @@ final class VideoFrameRate_Conversions_Tests: XCTestCase {
     }
     
     func testInit_frameDuration_allCases() {
-        VideoFrameRate.allCases.forEach { fRate in
+        for fRate in VideoFrameRate.allCases {
             let num = fRate.frameDuration.numerator
             let den = fRate.frameDuration.denominator
             let interlaced = fRate.isInterlaced
@@ -406,17 +406,17 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
         // due to floating-point dithering, it tends to be accurate up to
         // 16 decimal places when stored in a Double (1 picosecond or less)
         
-        try VideoFrameRate.allCases.forEach {
-            let cmTimeSeconds = $0.frameDurationCMTime.seconds
+        for item in VideoFrameRate.allCases {
+            let cmTimeSeconds = item.frameDurationCMTime.seconds
             
-            let oneFrameDuration = try Timecode(.components(f: 1), at: $0.timecodeFrameRate(drop: false)!)
+            let oneFrameDuration = try Timecode(.components(f: 1), at: item.timecodeFrameRate(drop: false)!)
                 .realTimeValue
             
             XCTAssertEqual(
                 cmTimeSeconds,
                 oneFrameDuration,
                 accuracy: 0.0000_0000_0000_0001,
-                "\($0) failed."
+                "\(item) failed."
             )
         }
     }

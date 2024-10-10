@@ -91,16 +91,16 @@ extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
     public var stringValue: String {
         switch self {
         case .ntscColor:
-            return "NTSC Color"
+            "NTSC Color"
             
         case .ntscDrop:
-            return "NTSC Drop-Frame"
+            "NTSC Drop-Frame"
             
         case .whole:
-            return "Whole"
+            "Whole"
             
         case .ntscColorWallTime:
-            return "NTSC Color Wall Time"
+            "NTSC Color Wall Time"
         }
     }
 }

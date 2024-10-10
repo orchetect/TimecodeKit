@@ -1,7 +1,7 @@
 //
 //  Timecode Validation Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit
@@ -90,13 +90,11 @@ final class Timecode_Validation_Tests: XCTestCase {
         for base in Timecode.SubFramesBase.allCases {
             let tc = Timecode(.zero, at: fr, base: base, limit: limit)
             
-            let range: ClosedRange<Int> = {
-                switch base {
-                case .quarterFrames: return 0 ... 3
-                case .max80SubFrames: return 0 ... 79
-                case .max100SubFrames: return 0 ... 99
-                }
-            }()
+            let range: ClosedRange<Int> = switch base {
+            case .quarterFrames: 0 ... 3
+            case .max80SubFrames: 0 ... 79
+            case .max100SubFrames: 0 ... 99
+            }
             
             XCTAssertEqual(tc.validRange(of: .subFrames), range)
         }
@@ -105,71 +103,71 @@ final class Timecode_Validation_Tests: XCTestCase {
     func testDropFrame() {
         // perform a spot-check to ensure drop rate timecode validation works as expected
         
-        TimecodeFrameRate.allDrop.forEach {
+        for item in TimecodeFrameRate.allDrop {
             let limit = Timecode.UpperLimit.max24Hours
             
             // every 10 minutes, no frames are skipped
             
             do {
-                var tc = Timecode(.zero, at: $0, limit: limit)
+                var tc = Timecode(.zero, at: item, limit: limit)
                 tc.minutes = 0
                 tc.frames = 0
                 
                 XCTAssertEqual(
                     tc.invalidComponents,
                     [],
-                    "for \($0)"
+                    "for \(item)"
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        at: $0,
+                        at: item,
                         base: .max80SubFrames,
                         limit: limit
                     ),
                     [],
-                    "for \($0)"
+                    "for \(item)"
                 )
             }
             
             // all other minutes each skip frame 0 and 1
             
             for minute in 1 ... 9 {
-                var tc = Timecode(.zero, at: $0, limit: limit)
+                var tc = Timecode(.zero, at: item, limit: limit)
                 tc.minutes = minute
                 tc.frames = 0
                 
                 XCTAssertEqual(
                     tc.invalidComponents,
                     [.frames],
-                    "for \($0) at \(minute) minutes"
+                    "for \(item) at \(minute) minutes"
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        at: $0,
+                        at: item,
                         base: .max80SubFrames,
                         limit: limit
                     ),
                     [.frames],
-                    "for \($0) at \(minute) minutes"
+                    "for \(item) at \(minute) minutes"
                 )
                 
-                tc = Timecode(.zero, at: $0, limit: limit)
+                tc = Timecode(.zero, at: item, limit: limit)
                 tc.minutes = minute
                 tc.frames = 1
                 
                 XCTAssertEqual(
                     tc.invalidComponents,
                     [.frames],
-                    "for \($0) at \(minute) minutes"
+                    "for \(item) at \(minute) minutes"
                 )
                 XCTAssertEqual(
                     tc.components.invalidComponents(
-                        at: $0,
+                        at: item,
                         base: .max80SubFrames,
                         limit: limit
                     ),
                     [.frames],
-                    "for \($0) at \(minute) minutes"
+                    "for \(item) at \(minute) minutes"
                 )
             }
         }

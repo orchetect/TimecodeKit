@@ -1,7 +1,7 @@
 //
 //  Timecode Rational CMTime Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import CoreMedia
@@ -13,23 +13,23 @@ final class Timecode_Rational_CMTime_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_CMTime_Exactly() throws {
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .cmTime(CMTime(value: 10, timescale: 1)),
-                at: $0,
+                at: item,
                 limit: .max24Hours
             )
             
             // don't imperatively check each result, just make sure that a value was set;
             // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
-            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertNotEqual(tc.seconds, 0, "for \(item)")
         }
     }
     
     func testTimecode_init_CMTime() throws {
         // these rational fractions and timecodes are taken from actual FCP XML files as known truth
         
-        try TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             switch fRate {
             case .fps23_976:
                 XCTAssertEqual(
@@ -167,7 +167,7 @@ final class Timecode_Rational_CMTime_Tests: XCTestCase {
         // since this test can take a long time, parallelize using a task group
         // which will use 100% of all available CPU cores
         await withThrowingTaskGroup(of: Void.self, returning: Void.self) { taskGroup in
-            TimecodeFrameRate.allCases.forEach { fRate in
+            for fRate in TimecodeFrameRate.allCases {
                 taskGroup.addTask {
                     print("Starting \(fRate.stringValue) task")
                     

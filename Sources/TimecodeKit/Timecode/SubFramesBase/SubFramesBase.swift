@@ -60,9 +60,9 @@ extension Timecode.SubFramesBase {
     /// Returns human-readable frame rate string in long form.
     public var stringValueVerbose: String {
         switch self {
-        case .max80SubFrames: return "80"
-        case .max100SubFrames: return "100"
-        case .quarterFrames: return "4 (Quarter-Frames)"
+        case .max80SubFrames: "80"
+        case .max100SubFrames: "100"
+        case .quarterFrames: "4 (Quarter-Frames)"
         }
     }
     
@@ -71,9 +71,9 @@ extension Timecode.SubFramesBase {
     /// ie: 80 or 100 fps would return `2`, but quarter-frames (4) would return `1`.
     public var numberOfDigits: Int {
         switch self {
-        case .max80SubFrames: return 2 // 0 ... 79
-        case .max100SubFrames: return 2 // 0 ... 99
-        case .quarterFrames: return 1 // 0 ... 3
+        case .max80SubFrames: 2 // 0 ... 79
+        case .max100SubFrames: 2 // 0 ... 99
+        case .quarterFrames: 1 // 0 ... 3
         }
     }
 }

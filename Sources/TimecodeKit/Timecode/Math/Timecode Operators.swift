@@ -79,7 +79,7 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.multiplying(rhs, by: wrapping)`
-    public static func * <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
+    public static func * (lhs: Self, rhs: some BinaryInteger) -> Self {
         lhs.multiplying(Double(rhs), by: .wrapping)
     }
     
@@ -91,7 +91,7 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.multiply(rhs, by: wrapping)`
-    public static func *= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
+    public static func *= (lhs: inout Self, rhs: some BinaryInteger) {
         lhs.multiply(Double(rhs), by: .wrapping)
     }
     
@@ -103,7 +103,7 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.dividing(rhs, by: wrapping)`
-    public static func / <T: BinaryInteger>(lhs: Self, rhs: T) -> Self {
+    public static func / (lhs: Self, rhs: some BinaryInteger) -> Self {
         lhs.dividing(Double(rhs), by: .wrapping)
     }
     
@@ -115,7 +115,7 @@ extension Timecode {
     }
     
     /// a.k.a. `lhs.divide(rhs, by: wrapping)`
-    public static func /= <T: BinaryInteger>(lhs: inout Self, rhs: T) {
+    public static func /= (lhs: inout Self, rhs: some BinaryInteger) {
         lhs.divide(Double(rhs), by: .wrapping)
     }
 }

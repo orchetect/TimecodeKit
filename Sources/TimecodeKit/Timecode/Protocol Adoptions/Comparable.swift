@@ -82,7 +82,7 @@ extension Timecode {
         
         // zero timeline start
         
-        guard let timelineStart = timelineStart, !timelineStart.isZero else {
+        guard let timelineStart, !timelineStart.isZero else {
             // standard operator compare will work if timeline start is nil or zero (both mean zero)
             
             // (no need to check for equality, we already checked for .orderedSame early in the func)
@@ -130,7 +130,7 @@ extension Timecode {
 
 // MARK: - Collection Ordering
 
-extension Collection where Element == Timecode {
+extension Collection<Timecode> {
     /// Returns `true` if all ``Timecode`` instances are ordered chronologically, either ascending
     /// or descending according to the `ascending` parameter.
     ///
@@ -194,7 +194,7 @@ extension Collection where Element == Timecode {
     }
 }
 
-extension Collection where Element == Timecode {
+extension Collection<Timecode> {
     /// Returns a collection sorting all ``Timecode`` instances chronologically, either ascending
     /// or descending.
     ///
@@ -357,9 +357,9 @@ extension ComparisonResult {
     /// Inverts the result if different from `orderedSame`.
     var inverted: Self {
         switch self {
-        case .orderedAscending: return .orderedDescending
-        case .orderedSame: return .orderedSame
-        case .orderedDescending: return .orderedAscending
+        case .orderedAscending: .orderedDescending
+        case .orderedSame: .orderedSame
+        case .orderedDescending: .orderedAscending
         }
     }
 }

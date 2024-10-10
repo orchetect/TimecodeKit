@@ -1,7 +1,7 @@
 //
 //  Timecode FrameCount Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -67,79 +67,75 @@ final class Timecode_FrameCount_Tests: XCTestCase {
         
         // also helps ensure Strideable .distance(to:) returns the correct values
         
-        TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             // max frames in 24 hours
             
-            var maxFramesIn24hours: Int
-            
-            switch $0 {
-            case .fps23_976: maxFramesIn24hours = 2_073_600
-            case .fps24: maxFramesIn24hours = 2_073_600
-            case .fps24_98: maxFramesIn24hours = 2_160_000
-            case .fps25: maxFramesIn24hours = 2_160_000
-            case .fps29_97: maxFramesIn24hours = 2_592_000
-            case .fps29_97d: maxFramesIn24hours = 2_589_408
-            case .fps30: maxFramesIn24hours = 2_592_000
-            case .fps30d: maxFramesIn24hours = 2_589_408
-            case .fps47_952: maxFramesIn24hours = 4_147_200
-            case .fps48: maxFramesIn24hours = 4_147_200
-            case .fps50: maxFramesIn24hours = 4_320_000
-            case .fps59_94: maxFramesIn24hours = 5_184_000
-            case .fps59_94d: maxFramesIn24hours = 5_178_816
-            case .fps60: maxFramesIn24hours = 5_184_000
-            case .fps60d: maxFramesIn24hours = 5_178_816
-            case .fps95_904: maxFramesIn24hours = 8_294_400
-            case .fps96: maxFramesIn24hours = 8_294_400
-            case .fps100: maxFramesIn24hours = 8_640_000
-            case .fps119_88: maxFramesIn24hours = 10_368_000
-            case .fps119_88d: maxFramesIn24hours = 10_357_632
-            case .fps120: maxFramesIn24hours = 10_368_000
-            case .fps120d: maxFramesIn24hours = 10_357_632
+            let maxFramesIn24hours = switch item {
+            case .fps23_976: 2_073_600
+            case .fps24: 2_073_600
+            case .fps24_98: 2_160_000
+            case .fps25: 2_160_000
+            case .fps29_97: 2_592_000
+            case .fps29_97d: 2_589_408
+            case .fps30: 2_592_000
+            case .fps30d: 2_589_408
+            case .fps47_952: 4_147_200
+            case .fps48: 4_147_200
+            case .fps50: 4_320_000
+            case .fps59_94: 5_184_000
+            case .fps59_94d: 5_178_816
+            case .fps60: 5_184_000
+            case .fps60d: 5_178_816
+            case .fps95_904: 8_294_400
+            case .fps96: 8_294_400
+            case .fps100: 8_640_000
+            case .fps119_88: 10_368_000
+            case .fps119_88d: 10_357_632
+            case .fps120: 10_368_000
+            case .fps120d: 10_357_632
             }
             
             XCTAssertEqual(
-                $0.maxTotalFrames(in: .max24Hours),
+                item.maxTotalFrames(in: .max24Hours),
                 maxFramesIn24hours,
-                "for \($0)"
+                "for \(item)"
             )
         }
         
         // number of total elapsed frames in (24 hours - 1 frame), or essentially the maximum timecode expressible for each frame rate
         
-        TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             // max frames in 24 hours - 1
             
-            var maxFramesExpressibleIn24hours: Int
-            
-            switch $0 {
-            case .fps23_976: maxFramesExpressibleIn24hours = 2_073_600 - 1
-            case .fps24: maxFramesExpressibleIn24hours = 2_073_600 - 1
-            case .fps24_98: maxFramesExpressibleIn24hours = 2_160_000 - 1
-            case .fps25: maxFramesExpressibleIn24hours = 2_160_000 - 1
-            case .fps29_97: maxFramesExpressibleIn24hours = 2_592_000 - 1
-            case .fps29_97d: maxFramesExpressibleIn24hours = 2_589_408 - 1
-            case .fps30: maxFramesExpressibleIn24hours = 2_592_000 - 1
-            case .fps30d: maxFramesExpressibleIn24hours = 2_589_408 - 1
-            case .fps47_952: maxFramesExpressibleIn24hours = 4_147_200 - 1
-            case .fps48: maxFramesExpressibleIn24hours = 4_147_200 - 1
-            case .fps50: maxFramesExpressibleIn24hours = 4_320_000 - 1
-            case .fps59_94: maxFramesExpressibleIn24hours = 5_184_000 - 1
-            case .fps59_94d: maxFramesExpressibleIn24hours = 5_178_816 - 1
-            case .fps60: maxFramesExpressibleIn24hours = 5_184_000 - 1
-            case .fps60d: maxFramesExpressibleIn24hours = 5_178_816 - 1
-            case .fps95_904: maxFramesExpressibleIn24hours = 8_294_400 - 1
-            case .fps96: maxFramesExpressibleIn24hours = 8_294_400 - 1
-            case .fps100: maxFramesExpressibleIn24hours = 8_640_000 - 1
-            case .fps119_88: maxFramesExpressibleIn24hours = 10_368_000 - 1
-            case .fps119_88d: maxFramesExpressibleIn24hours = 10_357_632 - 1
-            case .fps120: maxFramesExpressibleIn24hours = 10_368_000 - 1
-            case .fps120d: maxFramesExpressibleIn24hours = 10_357_632 - 1
+            let maxFramesExpressibleIn24hours = switch item {
+            case .fps23_976: 2_073_600 - 1
+            case .fps24: 2_073_600 - 1
+            case .fps24_98: 2_160_000 - 1
+            case .fps25: 2_160_000 - 1
+            case .fps29_97: 2_592_000 - 1
+            case .fps29_97d: 2_589_408 - 1
+            case .fps30: 2_592_000 - 1
+            case .fps30d: 2_589_408 - 1
+            case .fps47_952: 4_147_200 - 1
+            case .fps48: 4_147_200 - 1
+            case .fps50: 4_320_000 - 1
+            case .fps59_94: 5_184_000 - 1
+            case .fps59_94d: 5_178_816 - 1
+            case .fps60: 5_184_000 - 1
+            case .fps60d: 5_178_816 - 1
+            case .fps95_904: 8_294_400 - 1
+            case .fps96: 8_294_400 - 1
+            case .fps100: 8_640_000 - 1
+            case .fps119_88: 10_368_000 - 1
+            case .fps119_88d: 10_357_632 - 1
+            case .fps120: 10_368_000 - 1
+            case .fps120d: 10_357_632 - 1
             }
             
             XCTAssertEqual(
-                $0.maxTotalFramesExpressible(in: .max24Hours),
+                item.maxTotalFramesExpressible(in: .max24Hours),
                 maxFramesExpressibleIn24hours,
-                "for \($0)"
+                "for \(item)"
             )
         }
     }
@@ -270,7 +266,7 @@ final class Timecode_FrameCount_Tests: XCTestCase {
                     f: 1234567891234564567,
                     sf: 1234567891234564567
                 ),
-                at: .fps24, 
+                at: .fps24,
                 base: .max100SubFrames,
                 by: .allowingInvalid
             )

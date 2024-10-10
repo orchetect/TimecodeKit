@@ -1,7 +1,7 @@
 //
 //  Timecode FeetAndFrames Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -36,7 +36,7 @@ final class Timecode_FeetAndFrames_Tests: XCTestCase {
     }
     
     func testTimecode_allRates_complex() throws {
-        try TimecodeFrameRate.allCases.forEach { frate in
+        for frate in TimecodeFrameRate.allCases {
             let ff = try Timecode(
                 .components(h: 1, m: 2, s: 3, f: 4),
                 at: frate
@@ -90,7 +90,7 @@ final class Timecode_FeetAndFrames_Tests: XCTestCase {
     
     /// Ensure subFrames are correct when set.
     func testTimecode_allRates_subFrames() throws {
-        try TimecodeFrameRate.allCases.forEach { frate in
+        for frate in TimecodeFrameRate.allCases {
             let ff = try Timecode(.components(h: 1, m: 2, s: 3, f: 4, sf: 24), at: frate)
                 .feetAndFramesValue
             

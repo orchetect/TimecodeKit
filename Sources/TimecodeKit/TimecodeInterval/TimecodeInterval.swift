@@ -45,11 +45,11 @@ extension TimecodeInterval {
         
         switch sign {
         case .plus:
-            return absoluteInterval
+            absoluteInterval
                 .adding(Timecode.Components(), by: .wrapping)
             
         case .minus:
-            return Timecode(
+            Timecode(
                 .zero,
                 at: absoluteInterval.frameRate,
                 base: absoluteInterval.subFramesBase,
@@ -66,9 +66,9 @@ extension TimecodeInterval {
     func timecode(offsetting base: Timecode) -> Timecode {
         switch sign {
         case .plus:
-            return base + absoluteInterval
+            base + absoluteInterval
         case .minus:
-            return base - absoluteInterval
+            base - absoluteInterval
         }
     }
 }
@@ -85,8 +85,8 @@ extension TimecodeInterval: Sendable { }
 extension TimecodeInterval: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
         switch sign {
-        case .plus: return absoluteInterval.description
-        case .minus: return "-\(absoluteInterval.description)"
+        case .plus: absoluteInterval.description
+        case .minus: "-\(absoluteInterval.description)"
         }
     }
     

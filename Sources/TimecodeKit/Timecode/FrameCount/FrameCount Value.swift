@@ -37,16 +37,16 @@ extension Timecode.FrameCount.Value: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .frames(frames):
-            return "\(frames) frames"
+            "\(frames) frames"
             
         case let .split(frames: frames, subFrames: subFrames):
-            return "\(frames).\(subFrames) frames"
+            "\(frames).\(subFrames) frames"
             
         case let .combined(frames: frames):
-            return "\(frames) frames"
+            "\(frames) frames"
             
         case let .splitUnitInterval(frames: frames, subFramesUnitInterval: subFramesUnitInterval):
-            return "\(Double(frames) + subFramesUnitInterval) frames"
+            "\(Double(frames) + subFramesUnitInterval) frames"
         }
     }
 }
@@ -55,16 +55,16 @@ extension Timecode.FrameCount.Value: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch self {
         case let .frames(frames):
-            return ".frames(\(frames))"
+            ".frames(\(frames))"
             
         case let .split(frames: frames, subFrames: subFrames):
-            return ".split(frames: \(frames), subFrames: \(subFrames))"
+            ".split(frames: \(frames), subFrames: \(subFrames))"
             
         case let .combined(frames: frames):
-            return ".combined(\(frames))"
+            ".combined(\(frames))"
             
         case let .splitUnitInterval(frames: frames, subFramesUnitInterval: subFramesUnitInterval):
-            return ".splitUnitInterval(frames: \(frames), subFramesUnitInterval: \(subFramesUnitInterval))"
+            ".splitUnitInterval(frames: \(frames), subFramesUnitInterval: \(subFramesUnitInterval))"
         }
     }
 }
@@ -74,16 +74,16 @@ extension Timecode.FrameCount.Value {
     public var isZero: Bool {
         switch self {
         case let .frames(frames):
-            return frames == 0
+            frames == 0
             
         case let .split(frames, subFrames):
-            return frames == 0 && subFrames == 0
+            frames == 0 && subFrames == 0
             
         case let .combined(double):
-            return double.isZero
+            double.isZero
             
         case let .splitUnitInterval(frames, subFramesUnitInterval):
-            return frames == 0 && subFramesUnitInterval.isZero
+            frames == 0 && subFramesUnitInterval.isZero
         }
     }
 }

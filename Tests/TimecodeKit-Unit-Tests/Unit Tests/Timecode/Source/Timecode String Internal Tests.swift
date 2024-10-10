@@ -1,7 +1,7 @@
 //
 //  Timecode String Internal Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import TimecodeKit
@@ -274,7 +274,9 @@ final class Timecode_String_Internal_Tests: XCTestCase {
         
         // valid Int values
         XCTAssertEqual(
-            try Timecode.decode(timecode: "1234567891234564567 1234567891234564567:1234567891234564567:1234567891234564567:1234567891234564567.1234567891234564567"),
+            try Timecode.decode(
+                timecode: "1234567891234564567 1234567891234564567:1234567891234564567:1234567891234564567:1234567891234564567.1234567891234564567"
+            ),
             Timecode.Components(
                 d: 1234567891234564567,
                 h: 1234567891234564567,
@@ -287,7 +289,9 @@ final class Timecode_String_Internal_Tests: XCTestCase {
         
         // overflowing Int values should throw an error (and not crash)
         do {
-            _ = try Timecode.decode(timecode: "12345678912345645678 12345678912345645678:12345678912345645678:12345678912345645678:12345678912345645678.12345678912345645678")
+            _ = try Timecode.decode(
+                timecode: "12345678912345645678 12345678912345645678:12345678912345645678:12345678912345645678:12345678912345645678.12345678912345645678"
+            )
             XCTFail("Should have thrown an error.")
         } catch let e as Timecode.StringParseError {
             guard e == .malformed else { XCTFail(); return }

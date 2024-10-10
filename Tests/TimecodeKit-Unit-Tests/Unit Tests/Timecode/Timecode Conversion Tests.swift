@@ -1,7 +1,7 @@
 //
 //  Timecode Conversion Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit
@@ -15,10 +15,10 @@ final class Timecode_Conversion_Tests: XCTestCase {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
-        try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(h: 1), at: $0, base: .max100SubFrames)
+        for item in TimecodeFrameRate.allCases {
+            let tc = try Timecode(.components(h: 1), at: item, base: .max100SubFrames)
             
-            let convertedTC = try tc.converted(to: $0)
+            let convertedTC = try tc.converted(to: item)
             
             XCTAssertEqual(tc, convertedTC)
         }
@@ -71,18 +71,18 @@ final class Timecode_Conversion_Tests: XCTestCase {
         // baseline check:
         // ensure conversion produces identical output if frame rates are equal
         
-        try TimecodeFrameRate.allCases.forEach {
-            let tc = try Timecode(.components(h: 1), at: $0)
+        for item in TimecodeFrameRate.allCases {
+            let tc = try Timecode(.components(h: 1), at: item)
             
-            let convertedTC = try tc.converted(to: $0, preservingValues: true)
+            let convertedTC = try tc.converted(to: item, preservingValues: true)
             
             XCTAssertEqual(tc, convertedTC)
         }
         
         // spot-check: arbitrary non-zero timecode values that should be able to be preserved across all frame rates
         
-        try TimecodeFrameRate.allCases.forEach { sourceFrameRate in
-            try TimecodeFrameRate.allCases.forEach { destinationFrameRate in
+        for sourceFrameRate in TimecodeFrameRate.allCases {
+            for destinationFrameRate in TimecodeFrameRate.allCases {
                 let convertedTC = try Timecode(
                     .components(h: 2, m: 07, s: 24, f: 11),
                     at: sourceFrameRate,

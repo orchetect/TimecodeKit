@@ -159,17 +159,17 @@ extension TimecodeFieldView {
         
         var name: String {
             switch self {
-            case .default: return "Default"
-            case .blue: return "Blue"
-            case .orange: return "Orange"
+            case .default: "Default"
+            case .blue: "Blue"
+            case .orange: "Orange"
             }
         }
         
         var color: Color? {
             switch self {
-            case .default: return nil
-            case .blue: return .blue
-            case .orange: return .orange
+            case .default: nil
+            case .blue: .blue
+            case .orange: .orange
             }
         }
     }
@@ -185,21 +185,21 @@ extension TimecodeFieldView {
         
         var name: String {
             switch self {
-            case .default: return "Default"
-            case .primary: return "Primary"
-            case .secondary: return "Secondary"
-            case .blue: return "Blue"
-            case .orange: return "Orange"
+            case .default: "Default"
+            case .primary: "Primary"
+            case .secondary: "Secondary"
+            case .blue: "Blue"
+            case .orange: "Orange"
             }
         }
         
         var color: Color? {
             switch self {
-            case .default: return nil
-            case .primary: return .primary
-            case .secondary: return .secondary
-            case .blue: return .blue
-            case .orange: return .orange
+            case .default: nil
+            case .primary: .primary
+            case .secondary: .secondary
+            case .blue: .blue
+            case .orange: .orange
             }
         }
     }
@@ -213,17 +213,17 @@ extension TimecodeFieldView {
         
         var name: String {
             switch self {
-            case .default: return "Default (Accent Color)"
-            case .secondary: return "Secondary"
-            case .blue: return "Blue"
+            case .default: "Default (Accent Color)"
+            case .secondary: "Secondary"
+            case .blue: "Blue"
             }
         }
         
         var color: Color? {
             switch self {
-            case .default: return .accentColor
-            case .secondary: return .secondary
-            case .blue: return .blue
+            case .default: .accentColor
+            case .secondary: .secondary
+            case .blue: .blue
             }
         }
     }
@@ -237,17 +237,17 @@ extension TimecodeFieldView {
         
         var name: String {
             switch self {
-            case .none: return "None"
-            case .red: return "Red"
-            case .purple: return "Purple"
+            case .none: "None"
+            case .red: "Red"
+            case .purple: "Purple"
             }
         }
         
         var color: Color? {
             switch self {
-            case .none: return nil
-            case .red: return .red
-            case .purple: return .purple
+            case .none: nil
+            case .red: .red
+            case .purple: .purple
             }
         }
     }

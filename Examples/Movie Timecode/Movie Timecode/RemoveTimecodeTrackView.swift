@@ -4,8 +4,8 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 
 struct RemoveTimecodeTrackView: View {
     @Environment(Model.self) private var model
@@ -29,7 +29,6 @@ struct RemoveTimecodeTrackView: View {
             .formStyle(.grouped)
         }
         .padding()
-        
         .fileImporter(
             isPresented: $isFolderPickerShown,
             allowedContentTypes: [.folder]
@@ -42,7 +41,7 @@ struct RemoveTimecodeTrackView: View {
     
     private func handleResult(_ result: Result<URL, Error>) async {
         switch result {
-        case .success(let folderURL):
+        case let .success(folderURL):
             isExportProgressShown = true
             guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
             print("Exporting to \(fileURL.path)")
@@ -52,7 +51,7 @@ struct RemoveTimecodeTrackView: View {
                 revealInFinderOnCompletion: true
             )
             isExportProgressShown = false
-        case .failure(let error):
+        case let .failure(error):
             model.error = ModelError.exportError(error)
         }
     }

@@ -226,6 +226,5 @@ extension Timecode.Components {
             f: Int.random(in: ranges.frames),
             sf: Int.random(in: ranges.subFrames)
         )
-        
     }
 }

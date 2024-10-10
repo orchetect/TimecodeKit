@@ -1,7 +1,7 @@
 //
 //  FeetAndFrames Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit
@@ -87,7 +87,7 @@ final class FeetAndFrames_Tests: XCTestCase {
     }
     
     func testFrameCount() throws {
-        try TimecodeFrameRate.allCases.forEach { frate in
+        for frate in TimecodeFrameRate.allCases {
             let tc10Hours = try Timecode(.components(h: 10), at: frate)
             let ff = tc10Hours.feetAndFramesValue
             XCTAssertEqual(ff.frameCount, tc10Hours.frameCount)

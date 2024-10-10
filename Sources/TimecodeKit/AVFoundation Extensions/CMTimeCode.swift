@@ -14,7 +14,7 @@ protocol CMTimeCode {
     static var byteLength: Int { get }
 }
 
-extension Collection where Element == CMTimeCode {
+extension Collection<CMTimeCode> {
     func mapToTimecode(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase = .default(),

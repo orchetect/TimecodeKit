@@ -1,7 +1,7 @@
 //
 //  Timecode Components Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -12,25 +12,25 @@ final class Timecode_Components_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_Components_Exactly() throws {
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .components(d: 0, h: 0, m: 0, s: 0, f: 0),
-                at: $0
+                at: item
             )
             
-            XCTAssertEqual(tc.components, .zero, "for \($0)")
+            XCTAssertEqual(tc.components, .zero, "for \(item)")
         }
         
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .components(d: 0, h: 1, m: 2, s: 3, f: 4),
-                at: $0
+                at: item
             )
             
             XCTAssertEqual(
                 tc.components,
                 Timecode.Components(d: 0, h: 1, m: 2, s: 3, f: 4),
-                "for \($0)"
+                "for \(item)"
             )
         }
     }
@@ -62,29 +62,29 @@ final class Timecode_Components_Tests: XCTestCase {
     }
     
     func testTimecode_init_Components_Wrapping() {
-        TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = Timecode(
                 .components(h: 25),
-                at: $0,
+                at: item,
                 by: .wrapping
             )
             
-            XCTAssertEqual(tc.components, Timecode.Components(h: 1), "for \($0)")
+            XCTAssertEqual(tc.components, Timecode.Components(h: 1), "for \(item)")
         }
     }
     
     func testTimecode_init_Components_RawValues() {
-        TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = Timecode(
                 .components(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 99),
-                at: $0,
+                at: item,
                 by: .allowingInvalid
             )
             
             XCTAssertEqual(
                 tc.components,
                 Timecode.Components(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 99),
-                "for \($0)"
+                "for \(item)"
             )
         }
     }

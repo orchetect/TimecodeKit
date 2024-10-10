@@ -128,17 +128,15 @@ extension Timecode {
     /// Add a duration to the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public mutating func add(_ source: Components, by validation: ValidationRule) {
-        let newTC: Timecode.Components
-        
-        switch validation {
+        let newTC: Timecode.Components = switch validation {
         case .clamping, .clampingComponents:
-            newTC = _add(clamping: source, to: components)
+            _add(clamping: source, to: components)
             
         case .wrapping:
-            newTC = _add(wrapping: source, to: components)
+            _add(wrapping: source, to: components)
             
         case .allowingInvalid:
-            newTC = _add(rawValues: source, to: components)
+            _add(rawValues: source, to: components)
         }
         
         _setTimecode(rawValues: newTC)
@@ -394,17 +392,15 @@ extension Timecode {
     /// Subtract a duration from the current timecode.
     /// Input values can be as large as desired and will be calculated recursively. ie: (0,0,0,1000) or (0,0,500,0)
     public mutating func subtract(_ source: Components, by validation: ValidationRule) {
-        let newTC: Timecode.Components
-        
-        switch validation {
+        let newTC: Timecode.Components = switch validation {
         case .clamping, .clampingComponents:
-            newTC = _subtract(clamping: source, from: components)
+            _subtract(clamping: source, from: components)
             
         case .wrapping:
-            newTC = _subtract(wrapping: source, from: components)
+            _subtract(wrapping: source, from: components)
             
         case .allowingInvalid:
-            newTC = _subtract(rawValues: source, from: components)
+            _subtract(rawValues: source, from: components)
         }
         
         _setTimecode(rawValues: newTC)
@@ -549,17 +545,15 @@ extension Timecode {
     
     /// Multiply the current timecode by floating-point number.
     public mutating func multiply(_ source: Double, by validation: ValidationRule) {
-        let newTC: Timecode.Components
-        
-        switch validation {
+        let newTC: Timecode.Components = switch validation {
         case .clamping, .clampingComponents:
-            newTC = _multiply(clamping: source, with: components)
+            _multiply(clamping: source, with: components)
             
         case .wrapping:
-            newTC = _multiply(wrapping: source, with: components)
+            _multiply(wrapping: source, with: components)
             
         case .allowingInvalid:
-            newTC = _multiply(rawValues: source, with: components)
+            _multiply(rawValues: source, with: components)
         }
         
         _setTimecode(rawValues: newTC)
@@ -597,17 +591,15 @@ extension Timecode {
     
     /// Divide the current timecode by floating-point number.
     public mutating func divide(_ source: Double, by validation: ValidationRule) {
-        let newTC: Timecode.Components
-        
-        switch validation {
+        let newTC: Timecode.Components = switch validation {
         case .clamping, .clampingComponents:
-            newTC = _divide(clamping: source, into: components)
+            _divide(clamping: source, into: components)
             
         case .wrapping:
-            newTC = _divide(wrapping: source, into: components)
+            _divide(wrapping: source, into: components)
             
         case .allowingInvalid:
-            newTC = _divide(rawValues: source, into: components)
+            _divide(rawValues: source, into: components)
         }
         
         _setTimecode(rawValues: newTC)

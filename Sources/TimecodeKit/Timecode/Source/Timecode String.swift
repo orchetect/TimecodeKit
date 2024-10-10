@@ -43,7 +43,7 @@ extension FormattedTimecodeSourceValue {
     
     /// Timecode string.
     @_disfavoredOverload
-    public static func string<S: StringProtocol>(_ timecodeString: S) -> Self {
+    public static func string(_ timecodeString: some StringProtocol) -> Self {
         .init(value: String(timecodeString))
     }
 }
@@ -334,7 +334,7 @@ extension Timecode {
     ///     "0;00;00;00;00.00"  "0;00;00;00;00.00"
     ///
     /// - Throws: ``StringParseError``
-    static func decode<S: StringProtocol>(timecode string: S) throws -> Components {
+    static func decode(timecode string: some StringProtocol) throws -> Components {
         let pattern = #"^(\d+)??[\:;\s]??(\d+)[\:;](\d+)[\:;](\d+)[\:\;](\d+)[\.]??(\d+)??$"#
         
         let matches = string

@@ -19,21 +19,21 @@ extension ModelError {
     var errorDescription: String? {
         switch self {
         case .errorCreatingMutableMovieCopy:
-            return "Error creating mutable movie copy in memory."
+            "Error creating mutable movie copy in memory."
         case let .fileImportError(error):
-            return "File import error: \(error.localizedDescription)."
+            "File import error: \(error.localizedDescription)."
         case .noMovieLoaded:
-            return "No movie loaded."
+            "No movie loaded."
         case let .exportError(details):
             if let details {
-                return "Export error: \(details.localizedDescription)."
+                "Export error: \(details.localizedDescription)."
             } else {
-                return "Export error."
+                "Export error."
             }
         case .pathDoesNotExist:
-            return "Path does not exist."
+            "Path does not exist."
         case .pathIsNotFolder:
-            return "Path is not a folder."
+            "Path is not a folder."
         }
     }
 }

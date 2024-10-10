@@ -1,7 +1,7 @@
 //
 //  Timecode init Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import TimecodeKit
@@ -29,24 +29,24 @@ final class Timecode_init_Tests: XCTestCase {
     // MARK: - Misc
     
     func testTimecode_init_All_DisplaySubFrames() throws {
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .string("00:00:00:00"),
-                at: $0,
+                at: item,
                 base: .max100SubFrames,
                 limit: .max24Hours
             )
             
             var frm: String
-            switch $0.numberOfDigits {
+            switch item.numberOfDigits {
             case 2: frm = "00"
             case 3: frm = "000"
             default:
                 XCTFail("Unhandled number of frames digits.")
-                return
+                continue
             }
             
-            let frSep = $0.isDrop ? ";" : ":"
+            let frSep = item.isDrop ? ";" : ":"
             
             XCTAssertEqual(tc.stringValue(format: .showSubFrames), "00:00:00\(frSep)\(frm).00")
         }

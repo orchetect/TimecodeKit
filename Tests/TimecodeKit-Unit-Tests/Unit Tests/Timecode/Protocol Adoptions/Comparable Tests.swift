@@ -1,7 +1,7 @@
 //
 //  Comparable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -31,7 +31,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
             try Timecode(.string("01:00:00:00"), at: .fps24)
         )
         
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             XCTAssertEqual(
                 try Timecode(.string("01:00:00:00"), at: frameRate),
                 try Timecode(.string("01:00:00:00"), at: frameRate)
@@ -65,7 +65,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
                 > Timecode(.string("01:00:00:00"), at: .fps23_976)
         )
         
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             XCTAssertTrue(
                 try Timecode(.string("01:00:00:00"), at: frameRate) <
                     Timecode(.string("01:00:00:01"), at: frameRate),
@@ -82,7 +82,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
     
     /// Assumes timeline start of zero (00:00:00:00)
     func testTimecode_Comparable_Sorted() throws {
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             let presortedTimecodes: [Timecode] = try [
                 Timecode(.string("00:00:00:00"), at: frameRate),
                 Timecode(.string("00:00:00:01"), at: frameRate),
@@ -113,7 +113,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
     }
     
     func testTimecode_Sorted_1HourStart() throws {
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             let presorted: [Timecode] = try [
                 Timecode(.string("01:00:00:00"), at: frameRate),
                 Timecode(.string("02:00:00:00"), at: frameRate),
@@ -154,7 +154,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
     }
     
     func testTimecode_Sort_1HourStart() throws {
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             let presorted: [Timecode] = try [
                 Timecode(.string("01:00:00:00"), at: frameRate),
                 Timecode(.string("02:00:00:00"), at: frameRate),
@@ -201,7 +201,7 @@ final class Timecode_Comparable_Tests: XCTestCase {
             throw XCTSkip("Not available on this OS version.")
         }
         
-        try TimecodeFrameRate.allCases.forEach { frameRate in
+        for frameRate in TimecodeFrameRate.allCases {
             let presorted: [Timecode] = try [
                 Timecode(.string("01:00:00:00"), at: frameRate),
                 Timecode(.string("02:00:00:00"), at: frameRate),

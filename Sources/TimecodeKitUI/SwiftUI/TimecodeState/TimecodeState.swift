@@ -51,7 +51,7 @@ import TimecodeKit
             willSet {
                 // this is tantamount to a custom Equatable implementation
                 guard timecode.components != newValue.components ||
-                        timecode.properties != newValue.properties
+                    timecode.properties != newValue.properties
                 else { return }
                 
                 DispatchQueue.main.async {

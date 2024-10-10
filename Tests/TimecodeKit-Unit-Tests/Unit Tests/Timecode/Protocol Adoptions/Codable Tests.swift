@@ -1,7 +1,7 @@
 //
 //  Codable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -17,12 +17,12 @@ final class Timecode_Codable_Tests: XCTestCase {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
         
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             // set up a timecode object that has all non-defaults
             
             let tc = try Timecode(
                 .string("1 12:34:56:11.85"),
-                at: $0,
+                at: item,
                 base: .max100SubFrames,
                 limit: .max100Days
             )

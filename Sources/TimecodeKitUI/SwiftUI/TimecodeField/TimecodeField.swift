@@ -218,9 +218,9 @@ public struct TimecodeField: View {
     private func timecodeBinding() -> Binding<Timecode> {
         Binding {
             let properties = Timecode.Properties(
-                rate: self.frameRate,
-                base: self.subFramesBase,
-                limit: self.upperLimit
+                rate: frameRate,
+                base: subFramesBase,
+                limit: upperLimit
             )
             return Timecode(.components(components), using: properties, by: .allowingInvalid)
         } set: { newValue in
@@ -491,7 +491,7 @@ public struct TimecodeField: View {
 
 @available(macOS 14, iOS 17, watchOS 10.0, *)
 #Preview("Timecode Binding") {
-    @Previewable @TimecodeState var timecode: Timecode = Timecode(
+    @Previewable @TimecodeState var timecode = Timecode(
         .components(d: 02, h: 04, m: 20, s: 30, f: 25, sf: 82),
         using: Timecode.Properties(
             rate: .fps24,

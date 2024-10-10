@@ -1,7 +1,7 @@
 //
 //  Timecode Samples Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -12,15 +12,15 @@ final class Timecode_Samples_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_Samples_Exactly() throws {
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .samples(48000 * 2, sampleRate: 48000),
-                at: $0
+                at: item
             )
             
             // don't imperatively check each result, just make sure that a value was set;
             // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
-            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertNotEqual(tc.seconds, 0, "for \(item)")
         }
     }
     
@@ -158,7 +158,7 @@ final class Timecode_Samples_Tests: XCTestCase {
         
         // 48KHz ___________________________________
         
-        try TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             let sRate = 48000
             
             var samplesIn1DayTCDouble = 0.0
@@ -251,10 +251,10 @@ final class Timecode_Samples_Tests: XCTestCase {
         for subFrame in 0 ..< subFramesBase.rawValue {
             let tcc = Timecode.Components(d: 99, h: 23, sf: subFrame)
             
-            try TimecodeFrameRate.allCases.forEach {
+            for item in TimecodeFrameRate.allCases {
                 var tc = try Timecode(
                     .components(tcc),
-                    at: $0,
+                    at: item,
                     base: subFramesBase,
                     limit: .max100Days
                 )
@@ -271,19 +271,19 @@ final class Timecode_Samples_Tests: XCTestCase {
                     samples,
                     sampleRate: sRate
                 ))) == nil {
-                    frameRatesWithSetTimecodeErrors.insert($0)
+                    frameRatesWithSetTimecodeErrors.insert(item)
                     frameRatesWithSetTimecodeErrorsCount += 1
                     if logErrors {
-                        let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
+                        let fr = "\(item)".padding(toLength: 8, withPad: " ", startingAt: 0)
                         print("setTimecode(samples:sampleRate:) failed @ \(fr)")
                     }
                 }
                 
                 if tc.components != tcc {
-                    frameRatesWithMismatchingComponents.insert($0)
+                    frameRatesWithMismatchingComponents.insert(item)
                     frameRatesWithMismatchingComponentsCount += 1
                     if logErrors {
-                        let fr = "\($0)".padding(toLength: 8, withPad: " ", startingAt: 0)
+                        let fr = "\(item)".padding(toLength: 8, withPad: " ", startingAt: 0)
                         print(
                             "Timecode.Components match failed @ \(fr) - origin \(tcc) to \(samples) samples converted to \(tc.components)"
                         )

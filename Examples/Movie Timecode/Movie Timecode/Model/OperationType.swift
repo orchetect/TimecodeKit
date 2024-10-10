@@ -12,17 +12,17 @@ enum OperationType: Int, Identifiable, CaseIterable {
     
     var title: String {
         switch self {
-        case .addOrReplaceTimecodeTrack: return "Add or Replace"
-        case .removeTimecodeTrack: return "Remove"
+        case .addOrReplaceTimecodeTrack: "Add or Replace"
+        case .removeTimecodeTrack: "Remove"
         }
     }
     
     var systemImage: String {
         switch self {
         case .addOrReplaceTimecodeTrack:
-            return "video.fill.badge.plus"
+            "video.fill.badge.plus"
         case .removeTimecodeTrack:
-            return "video.slash.fill"
+            "video.slash.fill"
         }
     }
 }

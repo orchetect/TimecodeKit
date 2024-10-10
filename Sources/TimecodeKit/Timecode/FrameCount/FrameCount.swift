@@ -28,16 +28,16 @@ extension Timecode {
         public var wholeFrames: Int {
             switch value {
             case let .frames(frames):
-                return frames
+                frames
                 
             case let .split(frames, _):
-                return frames
+                frames
                 
             case let .combined(double):
-                return Int(double.integral)
+                Int(double.integral)
                 
             case let .splitUnitInterval(frames, _):
-                return frames
+                frames
             }
         }
         
@@ -68,16 +68,16 @@ extension Timecode {
         public var doubleValue: Double {
             switch value {
             case let .frames(frames):
-                return Double(frames)
+                Double(frames)
                 
             case let .split(frames, subFrames):
-                return Double(frames) + (Double(subFrames) / Double(subFramesBase.rawValue))
+                Double(frames) + (Double(subFrames) / Double(subFramesBase.rawValue))
                 
             case let .combined(double):
-                return double
+                double
                 
             case let .splitUnitInterval(frames, subFramesUnitInterval):
-                return Double(frames) + subFramesUnitInterval
+                Double(frames) + subFramesUnitInterval
             }
         }
         
@@ -86,16 +86,16 @@ extension Timecode {
         public var decimalValue: Decimal {
             switch value {
             case let .frames(frames):
-                return Decimal(frames)
+                Decimal(frames)
                 
             case let .split(frames, subFrames):
-                return Decimal(frames) + (Decimal(subFrames) / Decimal(subFramesBase.rawValue))
+                Decimal(frames) + (Decimal(subFrames) / Decimal(subFramesBase.rawValue))
                 
             case let .combined(double):
-                return Decimal(double).truncated(decimalPlaces: 8)
+                Decimal(double).truncated(decimalPlaces: 8)
                 
             case let .splitUnitInterval(frames, subFramesUnitInterval):
-                return Decimal(frames) + Decimal(subFramesUnitInterval)
+                Decimal(frames) + Decimal(subFramesUnitInterval)
             }
         }
     }
@@ -154,10 +154,9 @@ extension Timecode.FrameCount: CustomStringConvertible {
     public var description: String {
         switch value {
         case let .frames(frames):
-            return "\(frames)"
-            
+            "\(frames)"
         case .split, .combined, .splitUnitInterval:
-            return "\(doubleValue)"
+            "\(doubleValue)"
         }
     }
 }

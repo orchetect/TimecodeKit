@@ -46,10 +46,10 @@ extension TimecodeInterval {
     public var realTimeValue: TimeInterval {
         switch sign {
         case .plus:
-            return absoluteInterval.realTimeValue
+            absoluteInterval.realTimeValue
             
         case .minus:
-            return -(absoluteInterval.realTimeValue)
+            -(absoluteInterval.realTimeValue)
         }
     }
 }

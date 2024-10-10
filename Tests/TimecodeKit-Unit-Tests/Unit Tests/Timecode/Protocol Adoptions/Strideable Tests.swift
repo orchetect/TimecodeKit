@@ -1,7 +1,7 @@
 //
 //  Strideable Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 import TimecodeKit // do NOT import as @testable in this file
@@ -12,46 +12,49 @@ final class Timecode_Strideable_Tests: XCTestCase {
     override func tearDown() { }
     
     func testAdvancedBy() throws {
-        try TimecodeFrameRate.allCases.forEach {
-            let frames = Timecode.frameCount(of: Timecode.Components(h: 1), at: $0).wholeFrames
+        for item in TimecodeFrameRate.allCases {
+            let frames = Timecode.frameCount(of: Timecode.Components(h: 1), at: item).wholeFrames
             
-            let advanced = try Timecode(.components(f: 00), at: $0)
+            let advanced = try Timecode(.components(f: 00), at: item)
                 .advanced(by: frames)
                 .components
             
-            XCTAssertEqual(advanced, Timecode.Components(h: 1), "for \($0)")
+            XCTAssertEqual(advanced, Timecode.Components(h: 1), "for \(item)")
         }
     }
     
     func testDistanceTo_24Hours() throws {
         // 24 hours stride frame count test
         
-        try TimecodeFrameRate.allCases.forEach {
-            let zero = Timecode(.zero, at: $0)
+        for item in TimecodeFrameRate.allCases {
+            let zero = Timecode(.zero, at: item)
             
-            let target = try Timecode(.components(d: 00, h: 23, m: 59, s: 59, f: $0.maxFrameNumberDisplayable), at: $0)
+            let target = try Timecode(
+                .components(d: 00, h: 23, m: 59, s: 59, f: item.maxFrameNumberDisplayable),
+                at: item
+            )
             
             let delta = zero.distance(to: target)
             
-            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: .max24Hours), "for \($0)")
+            XCTAssertEqual(delta, item.maxTotalFramesExpressible(in: .max24Hours), "for \(item)")
         }
     }
     
     func testDistanceTo_100Days() throws {
         // 100 days stride frame count test
         
-        try TimecodeFrameRate.allCases.forEach {
-            let zero = Timecode(.zero, at: $0, limit: .max100Days)
+        for item in TimecodeFrameRate.allCases {
+            let zero = Timecode(.zero, at: item, limit: .max100Days)
             
             let target = try Timecode(
-                .components(d: 99, h: 23, m: 59, s: 59, f: $0.maxFrameNumberDisplayable),
-                at: $0,
+                .components(d: 99, h: 23, m: 59, s: 59, f: item.maxFrameNumberDisplayable),
+                at: item,
                 limit: .max100Days
             )
             
             let delta = zero.distance(to: target)
             
-            XCTAssertEqual(delta, $0.maxTotalFramesExpressible(in: .max100Days), "for \($0)")
+            XCTAssertEqual(delta, item.maxTotalFramesExpressible(in: .max100Days), "for \(item)")
         }
     }
     

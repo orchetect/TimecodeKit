@@ -1,7 +1,7 @@
 //
 //  Timecode Rational Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2023 Steffan Andrews • Licensed under MIT License
+//  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import TimecodeKit
@@ -12,22 +12,22 @@ final class Timecode_Rational_Tests: XCTestCase {
     override func tearDown() { }
     
     func testTimecode_init_Rational_Exactly() throws {
-        try TimecodeFrameRate.allCases.forEach {
+        for item in TimecodeFrameRate.allCases {
             let tc = try Timecode(
                 .rational(Fraction(10, 1)),
-                at: $0
+                at: item
             )
             
             // don't imperatively check each result, just make sure that a value was set;
             // setter logic is unit-tested elsewhere, we just want to check the Timecode.init interface here.
-            XCTAssertNotEqual(tc.seconds, 0, "for \($0)")
+            XCTAssertNotEqual(tc.seconds, 0, "for \(item)")
         }
     }
     
     func testTimecode_init_Rational() throws {
         // these rational fractions and timecodes are taken from actual FCP XML files as known truth
         
-        try TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             switch fRate {
             case .fps23_976:
                 XCTAssertEqual(
@@ -194,11 +194,11 @@ final class Timecode_Rational_Tests: XCTestCase {
     func testTimecode_rationalValue() throws {
         // test a small range of timecodes at each frame rate
         // and ensure the fraction can re-form the same timecode
-        try TimecodeFrameRate.allCases.forEach { fRate in
+        for fRate in TimecodeFrameRate.allCases {
             let s = try Timecode(.components(m: 8, f: 20), at: fRate)
             let e = try Timecode(.components(m: 10, f: 5), at: fRate)
             
-            try (s ... e).forEach { tc in
+            for tc in s ... e {
                 let f = tc.rationalValue
                 let reformedTC = try Timecode(.rational(f), at: fRate)
                 XCTAssertEqual(tc, reformedTC)

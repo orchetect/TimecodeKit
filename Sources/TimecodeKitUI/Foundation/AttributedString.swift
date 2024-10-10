@@ -7,8 +7,8 @@
 #if canImport(SwiftUI)
 
 import Foundation
-import TimecodeKit
 import SwiftUI
+import TimecodeKit
 
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension AttributedString {
@@ -51,7 +51,6 @@ extension Timecode {
         let timecodeFormat = format
         let timecodeSeparatorStyle = separatorStyle
         let timecodeValidationStyle = validationStyle
-        
         
         let invalidModifiers: (String) -> AttributedString = {
             var str = AttributedString($0)

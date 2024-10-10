@@ -1,5 +1,5 @@
 //
-//  AVMutableMovie.swift
+//  AVMutableMovie Extensions.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //

@@ -32,40 +32,40 @@ extension Timecode.UpperLimit {
     /// Internal use.
     var maxDays: Int {
         switch self {
-        case .max24Hours: return 1
-        case .max100Days: return 100
+        case .max24Hours: 1
+        case .max100Days: 100
         }
     }
     
     /// Internal use.
     var maxDaysExpressible: Int {
         switch self {
-        case .max24Hours: return maxDays - 1
-        case .max100Days: return maxDays - 1
+        case .max24Hours: maxDays - 1
+        case .max100Days: maxDays - 1
         }
     }
     
     /// Internal use.
     var maxHours: Int {
         switch self {
-        case .max24Hours: return 24
-        case .max100Days: return 24
+        case .max24Hours: 24
+        case .max100Days: 24
         }
     }
     
     /// Internal use.
     var maxHoursExpressible: Int {
         switch self {
-        case .max24Hours: return maxHours - 1
-        case .max100Days: return maxHours - 1
+        case .max24Hours: maxHours - 1
+        case .max100Days: maxHours - 1
         }
     }
     
     /// Internal use.
     var maxHoursTotal: Int {
         switch self {
-        case .max24Hours: return maxHours - 1
-        case .max100Days: return (maxHours * maxDays) - 1
+        case .max24Hours: maxHours - 1
+        case .max100Days: (maxHours * maxDays) - 1
         }
     }
 }

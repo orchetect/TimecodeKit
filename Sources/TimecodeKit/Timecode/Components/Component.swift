@@ -78,17 +78,17 @@ extension Timecode.Component {
     ) -> Int {
         switch self {
         case .days:
-            return 2
+            2
         case .hours:
-            return 2
+            2
         case .minutes:
-            return 2
+            2
         case .seconds:
-            return 2
+            2
         case .frames:
-            return rate.numberOfDigits
+            rate.numberOfDigits
         case .subFrames:
-            return base.numberOfDigits
+            base.numberOfDigits
         }
     }
 }
