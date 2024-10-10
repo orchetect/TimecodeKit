@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
-class TimecodeIntegrationTests: XCTestCase {
+final class TimecodeIntegrationTests: XCTestCase {
     func testTimecode_Clamping() {
         // 24 hour
         
@@ -195,5 +193,3 @@ class TimecodeIntegrationTests: XCTestCase {
         }
     }
 }
-
-#endif

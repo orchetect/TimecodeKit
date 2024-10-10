@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class TimecodeInterval_Tests: XCTestCase {
+final class TimecodeInterval_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -167,5 +165,3 @@ class TimecodeInterval_Tests: XCTestCase {
         XCTAssertTrue(interval.isNegative)
     }
 }
-
-#endif

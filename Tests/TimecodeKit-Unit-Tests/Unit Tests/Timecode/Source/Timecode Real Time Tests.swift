@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
-class Timecode_RealTime_Tests: XCTestCase {
+final class Timecode_RealTime_Tests: XCTestCase {
     // pre-computed constants
     
     // confirmed correct in PT and Cubase
@@ -441,5 +439,3 @@ class Timecode_RealTime_Tests: XCTestCase {
         )
     }
 }
-
-#endif

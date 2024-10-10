@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class Fraction_Tests: XCTestCase {
+final class Fraction_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -310,5 +308,3 @@ class Fraction_Tests: XCTestCase {
         XCTAssertEqual(Fraction(-1, 2).fcpxmlStringValue, "-1/2s")
     }
 }
-
-#endif

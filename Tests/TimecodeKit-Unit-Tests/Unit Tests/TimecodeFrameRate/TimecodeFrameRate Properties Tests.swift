@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class TimecodeFrameRate_Properties_Tests: XCTestCase {
+final class TimecodeFrameRate_Properties_Tests: XCTestCase {
     func testProperties() {
         // spot-check that properties behave as expected
         
@@ -89,4 +87,3 @@ class TimecodeFrameRate_Properties_Tests: XCTestCase {
         XCTAssertEqual(frameRate.framesDroppedPerMinute, 0.0)
     }
 }
-#endif

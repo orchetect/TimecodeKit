@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class Timecode_init_Tests: XCTestCase {
+final class Timecode_init_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -54,5 +52,3 @@ class Timecode_init_Tests: XCTestCase {
         }
     }
 }
-
-#endif

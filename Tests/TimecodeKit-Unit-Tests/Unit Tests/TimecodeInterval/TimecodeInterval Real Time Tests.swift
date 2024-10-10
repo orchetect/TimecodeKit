@@ -4,8 +4,6 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
@@ -66,5 +64,3 @@ final class TimecodeInterval_RealTime_Tests: XCTestCase {
         )
     }
 }
-
-#endif

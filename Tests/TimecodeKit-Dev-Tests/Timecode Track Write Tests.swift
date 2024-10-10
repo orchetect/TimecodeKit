@@ -4,8 +4,6 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 import AVFoundation
@@ -102,5 +100,3 @@ import AVFoundation
 //         }
 //     }
 // }
-
-#endif

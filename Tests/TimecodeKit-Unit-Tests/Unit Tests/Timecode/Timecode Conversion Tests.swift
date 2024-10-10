@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
-class Timecode_Conversion_Tests: XCTestCase {
+final class Timecode_Conversion_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -128,5 +126,3 @@ class Timecode_Conversion_Tests: XCTestCase {
         XCTAssertEqual(newTC, try Timecode(.components(m: 2), at: .fps24))
     }
 }
-
-#endif

@@ -4,13 +4,13 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
+#if canImport(CoreMedia)
 
 import CoreMedia
 import TimecodeKit
 import XCTest
 
-class Fraction_CMTime_Tests: XCTestCase {
+final class Fraction_CMTime_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     

@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class Timecode_UpperLimit: XCTestCase {
+final class Timecode_UpperLimit: XCTestCase {
     func test24Hours() {
         let upperLimit: Timecode.UpperLimit = .max24Hours
         
@@ -32,4 +30,3 @@ class Timecode_UpperLimit: XCTestCase {
         XCTAssertEqual(upperLimit.maxHoursTotal, (24 * 100) - 1)
     }
 }
-#endif

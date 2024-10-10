@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
-class TimecodeFrameRate_Formats_Tests: XCTestCase {
+final class TimecodeFrameRate_Formats_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -42,5 +40,3 @@ class TimecodeFrameRate_Formats_Tests: XCTestCase {
         }
     }
 }
-
-#endif

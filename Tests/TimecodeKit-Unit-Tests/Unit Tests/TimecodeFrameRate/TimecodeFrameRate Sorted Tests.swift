@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
-class TimecodeFrameRate_Sorted_Tests: XCTestCase {
+final class TimecodeFrameRate_Sorted_Tests: XCTestCase {
     func testSortOrder() {
         let unsorted: [TimecodeFrameRate] = [
             .fps29_97,
@@ -32,4 +30,3 @@ class TimecodeFrameRate_Sorted_Tests: XCTestCase {
         XCTAssertEqual(sorted, correctOrder)
     }
 }
-#endif

@@ -4,11 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
 import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
-class Timecode_String_Tests: XCTestCase {
+final class Timecode_String_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -301,5 +300,3 @@ class Timecode_String_Tests: XCTestCase {
         )
     }
 }
-
-#endif

@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
-class VideoFrameRate_Conversions_Tests: XCTestCase {
+final class VideoFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -423,6 +421,4 @@ class VideoFrameRate_Conversions_CMTime_Tests: XCTestCase {
         }
     }
 }
-#endif
-
 #endif

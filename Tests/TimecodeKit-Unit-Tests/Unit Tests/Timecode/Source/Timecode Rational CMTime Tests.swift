@@ -4,13 +4,11 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import CoreMedia
 import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
-class Timecode_Rational_CMTime_Tests: XCTestCase {
+final class Timecode_Rational_CMTime_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -194,5 +192,3 @@ class Timecode_Rational_CMTime_Tests: XCTestCase {
         XCTAssertEqual(tc.cmTimeValue.timescale, 30000)
     }
 }
-
-#endif

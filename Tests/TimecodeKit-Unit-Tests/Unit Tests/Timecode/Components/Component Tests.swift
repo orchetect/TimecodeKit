@@ -4,8 +4,6 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
@@ -91,5 +89,3 @@ final class Timecode_Component_Tests: XCTestCase {
         XCTAssertEqual(C.subFrames.previous(excluding: []), .frames)
     }
 }
-
-#endif

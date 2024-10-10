@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit
 import XCTest
 
-class TimecodeTransformer_Tests: XCTestCase {
+final class TimecodeTransformer_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -96,5 +94,3 @@ class TimecodeTransformer_Tests: XCTestCase {
         _ = TimecodeTransformer(.offset(by: .positive(delta)))
     }
 }
-
-#endif

@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 @testable import TimecodeKit
 import XCTest
 
-class FrameCount_Tests: XCTestCase {
+final class FrameCount_Tests: XCTestCase {
     func testInit_frameCount() {
         let subFramesBase: Timecode.SubFramesBase = .max80SubFrames
         
@@ -212,4 +210,3 @@ class FrameCount_Tests: XCTestCase {
         )
     }
 }
-#endif

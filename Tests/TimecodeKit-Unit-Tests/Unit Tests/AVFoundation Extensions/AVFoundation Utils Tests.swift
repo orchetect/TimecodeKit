@@ -5,13 +5,13 @@
 //
 
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
-#if shouldTestCurrentPlatform && canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
+#if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
 import AVFoundation
 import TimecodeKit
 import XCTest
 
-class AVFoundationUtils_Tests: XCTestCase {
+final class AVFoundationUtils_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     

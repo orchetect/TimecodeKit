@@ -4,13 +4,11 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import CoreMedia
 import TimecodeKit
 import XCTest
 
-class TimecodeFrameRate_Conversions_Tests: XCTestCase {
+final class TimecodeFrameRate_Conversions_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -210,6 +208,4 @@ class TimecodeFrameRate_Conversions_CMTime_Tests: XCTestCase {
         }
     }
 }
-#endif
-
 #endif

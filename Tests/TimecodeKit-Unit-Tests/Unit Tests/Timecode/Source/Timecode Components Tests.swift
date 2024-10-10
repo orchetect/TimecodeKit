@@ -4,12 +4,10 @@
 //  © 2020-2023 Steffan Andrews • Licensed under MIT License
 //
 
-#if shouldTestCurrentPlatform
-
 import TimecodeKit // do NOT import as @testable in this file
 import XCTest
 
-class Timecode_Components_Tests: XCTestCase {
+final class Timecode_Components_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -159,5 +157,3 @@ class Timecode_Components_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(d: 0, h: 23, m: 59, s: 59, f: 29, sf: 00))
     }
 }
-
-#endif
