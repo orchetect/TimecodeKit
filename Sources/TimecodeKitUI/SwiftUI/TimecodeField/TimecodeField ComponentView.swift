@@ -52,7 +52,7 @@ extension TimecodeField {
                         keyboardType: .decimalPad,
                         isFocused: isEditing
                     ) { key in
-                        handleKeyPress(key: key)
+                        _ = handleKeyPress(key: key)
                     }
                     .keyboardType(.decimalPad) // note: only affects TextField
                     .autocapitalization(.none)

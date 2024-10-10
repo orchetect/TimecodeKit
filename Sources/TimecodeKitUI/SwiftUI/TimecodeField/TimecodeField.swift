@@ -13,6 +13,10 @@ import TimecodeKit
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 public struct TimecodeField: View {
+    // MARK: - Standard Environment
+    
+    @Environment(\.isEnabled) private var isEnabled
+    
     // MARK: - Properties settable through view initializers
     
     @Binding private var components: Timecode.Components
@@ -37,10 +41,9 @@ public struct TimecodeField: View {
     public init(
         components: Binding<Timecode.Components>
     ) {
-        let defaultTimecode = Timecode(.zero, at: .fps24) // TODO: use a different default frame rate?
         self.init(
             components: components,
-            using: defaultTimecode.properties
+            using: Timecode.Properties(rate: .fps24) // TODO: use a different default frame rate?
         )
     }
     
@@ -101,7 +104,7 @@ public struct TimecodeField: View {
                         value: $components.days
                     )
                     Text(daysSeparator)
-                        .conditionalForegroundStyle(timecodeValidationStyle)
+                        .conditionalForegroundStyle(timecodeSeparatorStyle)
                 }
                 
                 TimecodeField.ComponentView(
@@ -114,7 +117,7 @@ public struct TimecodeField: View {
                 )
                 
                 Text(mainSeparator)
-                    .conditionalForegroundStyle(timecodeValidationStyle)
+                    .conditionalForegroundStyle(timecodeSeparatorStyle)
                 
                 TimecodeField.ComponentView(
                     component: .minutes,
@@ -126,7 +129,7 @@ public struct TimecodeField: View {
                 )
                 
                 Text(mainSeparator)
-                    .conditionalForegroundStyle(timecodeValidationStyle)
+                    .conditionalForegroundStyle(timecodeSeparatorStyle)
                 
                 TimecodeField.ComponentView(
                     component: .seconds,
@@ -138,7 +141,7 @@ public struct TimecodeField: View {
                 )
                 
                 Text(framesSeparator)
-                    .conditionalForegroundStyle(timecodeValidationStyle)
+                    .conditionalForegroundStyle(timecodeSeparatorStyle)
                 
                 TimecodeField.ComponentView(
                     component: .frames,
@@ -151,7 +154,7 @@ public struct TimecodeField: View {
                 
                 if timecodeFormat.contains(.showSubFrames) {
                     Text(subFramesSeparator)
-                        .conditionalForegroundStyle(timecodeValidationStyle)
+                        .conditionalForegroundStyle(timecodeSeparatorStyle)
                     
                     TimecodeField.ComponentView(
                         component: .subFrames,
@@ -167,6 +170,13 @@ public struct TimecodeField: View {
         .monospacedDigit()
         .fixedSize()
         .animation(nil)
+        
+        // update focus if view is disabled
+        .onChange(of: isEnabled, initial: false) { oldValue, newValue in
+            if !isEnabled {
+                componentEditing = nil
+            }
+        }
         
         // sync components to/from `timecode` binding.
         .onChange(of: components) { oldValue, newValue in
@@ -501,7 +511,7 @@ public struct TimecodeField: View {
                 base: timecode.subFramesBase,
                 limit: timecode.upperLimit
             )
-            Text(timecode: timecode, format: tcFormat)
+            TimecodeText(timecode)
         }
         .font(.largeTitle)
         .timecodeFormat(tcFormat)
