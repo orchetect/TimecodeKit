@@ -124,6 +124,15 @@ struct KeyboardInputView: UIViewRepresentable {
             keyPressed(.delete)
         }
         
+        // forward return key
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            keyPressed(.return)
+            return false
+        }
+        
+        // TODO: could forward this in the future as well
+        // func textFieldShouldClear(_ textField: UITextField) -> Bool { }
+        
         override var hasText: Bool { true }
     }
 }

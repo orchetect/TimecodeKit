@@ -69,9 +69,9 @@ extension TimecodeField {
             #elseif os(iOS) || os(visionOS)
             ZStack {
                 KeyboardInputView(
-                    keyboardType: .decimalPad
+                    keyboardType: .decimalPad // note that on iPadOS this also contains extended chars
                 ) { keyEquivalent in
-                    handleKeyPress(key: keyEquivalent)
+                    _ = handleKeyPress(key: keyEquivalent)
                 }
                 .onKeyPress(phases: [.down, .repeat]) { keyPress in
                     // only handle hardware keyboard keys that aren't already handled by KeyboardInputView.
