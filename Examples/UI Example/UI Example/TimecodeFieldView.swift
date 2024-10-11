@@ -21,6 +21,8 @@ struct TimecodeFieldView: View {
     @State private var highlightStyle: HighlightStyle = .default
     @State private var validationStyle: ValidationStyle = .red
     
+    @FocusState private var isEditing: Bool
+    
     var body: some View {
         VStack(spacing: 20) {
             TimecodeField(
@@ -36,6 +38,7 @@ struct TimecodeFieldView: View {
             .timecodeHighlightStyle(highlightStyle.color)
             .font(.largeTitle)
             .disabled(!isEnabled)
+            .focused($isEditing)
             
             Divider()
             
@@ -47,6 +50,16 @@ struct TimecodeFieldView: View {
             .formStyle(.grouped)
         }
         .padding()
+        
+        #if os(iOS)
+        .toolbar {
+            ToolbarItemGroup(placement: .confirmationAction) {
+                if isEditing {
+                    Button("Done") { isEditing = false }
+                }
+            }
+        }
+        #endif
     }
     
     private var propertiesSection: some View {
@@ -101,7 +114,7 @@ struct TimecodeFieldView: View {
     }
     
     private var infoSection: some View {
-        Section("Info") {
+        Section("Hardware Keyboard Guide") {
             Grid(alignment: .topLeading, verticalSpacing: 10) {
                 GridRow {
                     HStack {
