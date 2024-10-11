@@ -178,7 +178,6 @@ public struct TimecodeField: View {
         .monospacedDigit()
         .fixedSize()
         .compositingGroup()
-        .animation(nil)
         
         // update focus if view is disabled
         .onChange(of: isEnabled, initial: false) { oldValue, newValue in

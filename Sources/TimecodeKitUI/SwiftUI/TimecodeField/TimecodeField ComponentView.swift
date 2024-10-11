@@ -46,11 +46,11 @@ extension TimecodeField {
             ZStack {
                 Text(valuePadded)
                     .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
-                    .background(background, alignment: .center)
                     .lineLimit(1)
                     .fixedSize()
                     .allowsTightening(false)
             }
+            .background { background }
             .focusable(interactions: [.edit])
             .focused($componentEditing, equals: component)
             
@@ -65,6 +65,9 @@ extension TimecodeField {
             }
             .onKeyPress(phases: [.down, .repeat]) { keyPress in
                 handleKeyPress(key: keyPress.key)
+            }
+            .onDisappear {
+                endEditing()
             }
             #elseif os(iOS) || os(visionOS)
             ZStack {
@@ -88,29 +91,35 @@ extension TimecodeField {
                 
                 Text(valuePadded)
                     .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
-                    .background(background, alignment: .center)
                     .lineLimit(1)
                     .fixedSize()
                     .allowsTightening(false)
                     .allowsHitTesting(false)
             }
+            .background { background }
             .onTapGesture {
                 startEditing()
             }
             .onChange(of: componentEditing) { oldValue, newValue in
                 isVirgin = true
             }
+            .onDisappear {
+                endEditing()
+            }
             #endif
         }
         
         // MARK: - Styling
         
-        @ViewBuilder
         private var background: some View {
-            if isEditing {
-                timecodeHighlightStyle.mask(backgroundMask)
+            backgroundColor.mask(alignment: .center) { backgroundMask }
+        }
+        
+        private var backgroundColor: Color {
+            if isEditing, let timecodeHighlightStyle {
+                timecodeHighlightStyle
             } else if isHovering {
-                Color.secondary.mask(backgroundMask)
+                Color.secondary
             } else {
                 Color.clear
             }
