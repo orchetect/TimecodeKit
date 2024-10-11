@@ -53,7 +53,3 @@ Value types for representing and working with SMPTE/EBU timecode.
 ### Additional Value Types
 
 - ``FeetAndFrames``
-
-### Package Internals
-
-- <doc:Internals>

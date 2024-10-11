@@ -9,6 +9,79 @@
 import SwiftUI
 import TimecodeKit
 
+/// A hybrid text field designed for timecode entry, allowing specialized format and style view modifiers
+/// including the ability to colorize invalid timecode components.
+///
+/// ## Initializers
+///
+/// The view may be initialized to a `Timecode` instance directly. In this case, it is required to store the
+/// `Timecode` instance in the view using the custom ``TimecodeState`` wrapper in place of the typical SwiftUI
+/// `@State` wrapper.
+///
+/// It may then be passed into subviews using normal SwiftUI Bindings.
+///
+/// ```swift
+/// struct ContentView: View {
+///     @TimecodeState private var timecode: Timecode = // ...
+///
+///     var body: some View {
+///         TimecodeField(timecode: $timecode)
+///         MySubView(timecode: $timecode)
+///     }
+/// }
+///
+/// struct MySubView: View {
+///     @Binding var timecode: Timecode
+/// }
+/// ```
+///
+/// For more granular flexibility, timecode components and properties may be bound as individual properties.
+///
+/// ```swift
+/// @State private var components: Timecode.Components = .zero
+/// @State private var frameRate: TimecodeFrameRate = .fps24
+///
+/// var body: some View {
+///     TimecodeField(components: $components, at: frameRate)
+/// }
+/// ```
+///
+/// ## Style and Format Modifiers
+///
+/// You can supply format and style options by using the available view modifiers.
+///
+/// ```swift
+/// TimecodeField(timecode: $timecode)
+///     .foregroundColor(.primary)
+///     .timecodeFormat([.showSubFrames])
+///     .timecodeHighlightStyle(.accentColor)
+///     .timecodeSeparatorStyle(.secondary)
+///     .timecodeValidationStyle(.red)
+/// ```
+///
+/// ## Focus
+///
+/// Each timecode component individually receives focus one at a time.
+///
+/// - On macOS and iOS, the user can click or tap on specific timecode components to move the focus.
+/// - On macOS and iOS, a hardware keyboard accepts:
+///   - left and right arrow keys to move the focus between timecode components
+///   - tab key to advance to the next timecode component
+///   - inputting a timecode separator (`.`, `:`) will advance the focus to the next timecode component
+/// - On iOS, in the absence of a hardware keyboard, the standard decimal pad keyboard will appear on-screen.
+///
+/// ## Hardware Keyboard Input
+///
+/// The view is capable of receiving hardware keyboard input on macOS and iOS, as well as iOS on-screen keyboard input.
+///
+/// | Key | Description |
+/// | --- | --- |
+/// | Numeric digit keys | Enters digits for the currently focused timecode component. |
+/// | `Return` or `Escape` | Can be used to remove focus from the field. |
+/// | `Backspace` | Resets the timecode component to zero if it has freshly received focus. Once the user begins to enter digits into the component, the Backspace key will function as single digit delete akin to a text-entry field.
+/// | `Delete` (`Del` key, or `forwardDelete`) | Resets the component to zero. |
+///
+/// For keys that navigate timecode component focus, see the Focus section above.
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
@@ -50,8 +123,8 @@ public struct TimecodeField: View {
     public init(
         components: Binding<Timecode.Components>,
         at frameRate: TimecodeFrameRate,
-        base: Timecode.SubFramesBase,
-        limit: Timecode.UpperLimit
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours
     ) {
         let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
         self.init(components: components, using: properties)

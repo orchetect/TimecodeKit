@@ -22,7 +22,7 @@ struct TimecodeFormatViewModifier: ViewModifier {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    /// Sets the timecode string format for ``TimecodeField`` and ``Text(timecode:)`` views.
+    /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
     public func timecodeFormat(
         _ format: Timecode.StringFormat
     ) -> some View {
@@ -65,10 +65,11 @@ struct TimecodeSeparatorStyleViewModifier: ViewModifier {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    /// Sets the text separator style for ``TimecodeField`` and ``Text(timecode:)`` views.
+    /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
     ///
-    /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view modifiers.
+    /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
+    ///   modifiers.
     public func timecodeSeparatorStyle(
         _ color: Color? = nil
     ) -> some View {
@@ -89,7 +90,7 @@ struct TimecodeValidationStyleViewModifier: ViewModifier {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    /// Sets timecode component validation style for ``TimecodeField`` and ``Text(timecode:)`` views.
+    /// Sets timecode component validation style for ``TimecodeField`` and ``TimecodeText`` views.
     ///
     /// This foreground color will be used only for any timecode component values that are invalid for the given
     /// properties (frame rate, subframes base, and upper limit).

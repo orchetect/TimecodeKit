@@ -11,6 +11,7 @@ import TimecodeKit
 
 // MARK: API Changes in TimecodeKit 2.0.0 UI
 
+@_documentation(visibility: internal)
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension Timecode {
     @_disfavoredOverload

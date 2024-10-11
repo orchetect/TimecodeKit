@@ -12,12 +12,37 @@ import TimecodeKit
 /// Custom SwiftUI state wrapper that ensures changes are pushed to views when any Timecode component or property
 /// changes.
 ///
-/// The purpose of this is that SwiftUI's native `@State` wrapper is not sufficient. `@State` relies on `Equatable` to
-/// diff old and new copies of a value type. However, `Timecode`'s `Equatable` implementation does not take `upperLimit`
-/// into account, and depending on component values, `subFramesBase` may not be taken into account either. That is by
-/// design, since it makes comparing two `Timecode` instances idiomatic. This will create an issue when we want to
-/// change or observe individual `Timecode` properties in SwiftUI. The solution is a custom state wrapper that forces
-/// view updates when any `Timecode` property changes.
+/// It is required to store `Timecode` instances in a view using this wrapper in place of the typical SwiftUI
+/// `@State` wrapper.
+///
+/// It may then be passed into subviews using normal SwiftUI Bindings.
+///
+/// ```swift
+/// struct ContentView: View {
+///     @TimecodeState private var timecode: Timecode = // ...
+///
+///     var body: some View {
+///         TimecodeText(timecode)
+///         MySubView(timecode: $timecode)
+///     }
+/// }
+///
+/// struct MySubView: View {
+///     @Binding var timecode: Timecode
+/// }
+/// ```
+///
+/// > Purpose:
+/// >
+/// > SwiftUI's native `@State` wrapper is not sufficient to contain `Timecode` state. `@State` relies on `Equatable`
+/// > to diff old and new copies of a value type.
+/// >
+/// > However, `Timecode`'s `Equatable` implementation does not take `upperLimit` into account, and depending on
+/// > component values, `subFramesBase` may not be taken into account either.
+/// >
+/// > This is by design, since it makes comparing two `Timecode` instances idiomatic. However, this creates an issue
+/// > when we want to observe changes to individual `Timecode` properties in SwiftUI. The solution is a custom state
+/// > wrapper that forces view updates when any `Timecode` property changes.
 @available(iOS 13.0, macOS 11, tvOS 13.0, watchOS 6.0, *)
 @propertyWrapper public struct TimecodeState: DynamicProperty {
     public typealias Value = Timecode

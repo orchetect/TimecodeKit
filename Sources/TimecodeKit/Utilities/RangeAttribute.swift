@@ -5,6 +5,7 @@
 //
 
 /// An individual time attribute of a time range.
+@_documentation(visibility: internal)
 public enum RangeAttribute: Equatable, Hashable {
     case start
     case end

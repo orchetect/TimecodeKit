@@ -14,7 +14,9 @@ The library provides UI components that may also be imported if desired.
 import TimecodeKitUI
 ```
 
-The documentation page for ``Timecode`` is a good starting point to jump in. It provides a quick overview of how to form timecode and convert to/from various other time values.
+The documentation page for ``Timecode`` provides a quick overview of how to form timecode and convert to/from various other time values.
+
+Example projects are located in the Examples folder to demonstrate usage of the library.
 
 The topics list in the sidebar give overviews of specific areas of concern.
 

@@ -86,6 +86,7 @@ protocol _GuaranteedRichTimecodeSource {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct TimecodeSourceValue {
     var value: _TimecodeSource
     
@@ -100,6 +101,7 @@ public struct TimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct AsyncTimecodeSourceValue {
     var value: _AsyncTimecodeSource
     
@@ -113,6 +115,7 @@ public struct AsyncTimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct FormattedTimecodeSourceValue {
     var value: _FormattedTimecodeSource
     
@@ -126,6 +129,7 @@ public struct FormattedTimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct RichTimecodeSourceValue {
     var value: _RichTimecodeSource
     
@@ -140,6 +144,7 @@ public struct RichTimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct AsyncRichTimecodeSourceValue {
     var value: _AsyncRichTimecodeSource
     
@@ -153,6 +158,7 @@ public struct AsyncRichTimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct GuaranteedTimecodeSourceValue {
     var value: _GuaranteedTimecodeSource
     
@@ -166,6 +172,7 @@ public struct GuaranteedTimecodeSourceValue {
 /// > Note:
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
+@_documentation(visibility: internal)
 public struct GuaranteedRichTimecodeSourceValue {
     var value: _GuaranteedRichTimecodeSource
     

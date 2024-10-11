@@ -7,6 +7,7 @@
 import Foundation
 
 /// Protocol used in TimecodeKit to provide shared properties and methods for frame rate types.
+@_documentation(visibility: internal)
 public protocol FrameRateProtocol where
     Self: CaseIterable,
     AllCases.Index == Int,

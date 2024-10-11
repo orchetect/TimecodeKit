@@ -6,7 +6,7 @@ Using rational (fractional) time values and `CMTime`.
 
 Video file metadata and timeline interchange files (AAF, Final Cut Pro XML) encode frame rate and timecode as rational numbers (a fraction consisting of two integers - a numerator and a denominator).
 
-``Timecode`` is capable of initializing from an elapsed time expressed as a rational fraction using a ``TimecodeSourceValue/rational(_:)`` value. The ``Timecode/rationalValue`` property returns the elapsed time expressed as a rational fraction.
+``Timecode`` is capable of initializing from an elapsed time expressed as a rational fraction using a `rational` value. The ``Timecode/rationalValue`` property returns the elapsed time expressed as a rational fraction.
 
 ```swift
 try Timecode(.rational(Fraction(1920919, 30000)), at: .fps29_97)

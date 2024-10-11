@@ -24,13 +24,13 @@ import TimecodeKit
 // without losing the format/style attributes entirely, or having the same result as before where they would only render
 // when the view first appears and would not update from changes to the view modifiers' state.
 
-/// Renders the timecode string as SwiftUI `Text`, allowing the use of specialized format and style view modifiers
+/// Renders the timecode string as SwiftUI `Text`, allowing specialized format and style view modifiers
 /// including the ability to colorize invalid timecode components.
 ///
 /// This method will wraps a SwiftUI `Text` view colorizing individual invalid timecode components
 /// to indicate to the user that they are not valid, among other style options.
 ///
-/// The `Timecode` instance may be initialized using the `.allowingInvalid` validation rule in order to allow
+/// The `Timecode` instance may be initialized using the `allowingInvalid` validation rule in order to allow
 /// invalid component values.
 ///
 /// ```swift
@@ -53,10 +53,6 @@ import TimecodeKit
 ///     .timecodeSeparatorStyle(.secondary)
 ///     .timecodeValidationStyle(.red)
 /// ```
-///
-/// ## Text Interpolation
-///
-/// Note that use of string interpolation or `Text` concatenation will not allow use of the timecode view modifiers.
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public struct TimecodeText: View {
     @Environment(\.timecodeFormat) private var timecodeFormat

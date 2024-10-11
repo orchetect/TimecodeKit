@@ -19,6 +19,7 @@ extension BinaryInteger {
     /// - for the integer 5, this would return 1
     /// - for the integer 10, this would return 2
     /// - for the integer 250, this would return 3
+    @_documentation(visibility: internal)
     @_disfavoredOverload
     public var numberOfDigits: Int {
         if self < 10 && self >= 0 || self > -10 && self < 0 {

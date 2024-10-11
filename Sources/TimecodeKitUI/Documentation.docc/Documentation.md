@@ -8,9 +8,26 @@ UI controls and tools for formatting and displaying timecode, including user-edi
 
 ### AppKit
 
-- ``TimecodeKit/Timecode/TextField``
-- ``TimecodeKit/Timecode/TextFieldCell``
+- ``TimecodeKitUI/TimecodeKit/Timecode/TextField``
+- ``TimecodeKitUI/TimecodeKit/Timecode/TextFieldCell``
 
 ### SwiftUI
 
-- ``TimecodeKit/Timecode/stringValueValidatedText(format:invalidModifiers:defaultModifiers:)``
+- ``TimecodeField``
+- ``TimecodeText``
+
+### SwiftUI View Modifiers
+
+- ``SwiftUICore/View/timecodeFormat(_:)``
+- ``SwiftUICore/View/timecodeHighlightStyle(_:)``
+- ``SwiftUICore/View/timecodeSeparatorStyle(_:)``
+- ``SwiftUICore/View/timecodeValidationStyle(_:)``
+
+### SwiftUI State
+
+- ``TimecodeState``
+- ``SwiftUICore/Binding/option(_:)``
+
+### AttributedString
+
+- ``Foundation/AttributedString/init(_:format:separatorStyle:validationStyle:)``
