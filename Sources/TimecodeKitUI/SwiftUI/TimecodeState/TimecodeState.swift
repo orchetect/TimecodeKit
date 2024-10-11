@@ -43,7 +43,7 @@ import TimecodeKit
 /// > This is by design, since it makes comparing two `Timecode` instances idiomatic. However, this creates an issue
 /// > when we want to observe changes to individual `Timecode` properties in SwiftUI. The solution is a custom state
 /// > wrapper that forces view updates when any `Timecode` property changes.
-@available(iOS 13.0, macOS 11, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 @propertyWrapper public struct TimecodeState: DynamicProperty {
     public typealias Value = Timecode
     
@@ -93,7 +93,7 @@ import TimecodeKit
 
 // Suppress the ability to use `@State` with a `Timecode` instance.
 @available(*, unavailable, message: "Use @TimecodeState instead of @State.")
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension State where Value == Timecode {
     public init(wrappedValue: Timecode) { fatalError() }
 }
