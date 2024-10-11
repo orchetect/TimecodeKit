@@ -47,7 +47,7 @@ import TimecodeKit
 @propertyWrapper public struct TimecodeState: DynamicProperty {
     public typealias Value = Timecode
     
-    @ObservedObject private var wrapper: Wrapper
+    @StateObject private var wrapper: Wrapper
     
     public var wrappedValue: Timecode {
         get { wrapper.timecode }
@@ -55,7 +55,7 @@ import TimecodeKit
     }
     
     public init(wrappedValue: Timecode) {
-        _wrapper = ObservedObject(wrappedValue: Wrapper(timecode: wrappedValue))
+        _wrapper = StateObject(wrappedValue: Wrapper(timecode: wrappedValue))
     }
     
     public init(initialValue value: Timecode) {
