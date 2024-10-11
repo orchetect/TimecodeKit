@@ -4,27 +4,23 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && os(iOS)
+#if canImport(SwiftUI) && (os(iOS) || os(visionOS))
 
 import SwiftUI
 
 /// An invisible view providing a native SwiftUI on-screen keyboard input experience.
-/// Limited in functionality. Provided as-is.
 @available(iOS 14, *)
 struct KeyboardInputView: UIViewRepresentable {
     typealias UIViewType = KeyboardInputTextField
     
     private var keyboardType: UIKeyboardType
     private var keyPressed: (KeyEquivalent) -> Void
-    private var isFocused: Bool
     
     init(
         keyboardType: UIKeyboardType = .default,
-        isFocused: Bool,
         keyPressed: @escaping (KeyEquivalent) -> Void
     ) {
         self.keyboardType = keyboardType
-        self.isFocused = isFocused
         self.keyPressed = keyPressed
     }
     
@@ -36,17 +32,7 @@ struct KeyboardInputView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: KeyboardInputTextField, context: Context) {
-        Task { @MainActor in
-            if isFocused {
-                if !uiView.isFirstResponder {
-                    uiView.becomeFirstResponder()
-                }
-            } else {
-                if uiView.isFirstResponder {
-                    uiView.resignFirstResponder()
-                }
-            }
-        }
+        
     }
     
     // func makeCoordinator() -> Coordinator {

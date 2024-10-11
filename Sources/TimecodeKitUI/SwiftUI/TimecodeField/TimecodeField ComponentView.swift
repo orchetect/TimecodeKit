@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && (os(macOS) || os(iOS) || os(visionOS))
+#if canImport(SwiftUI)
 
 import SwiftUI
 import TimecodeKit
@@ -13,6 +13,7 @@ import TimecodeKit
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField {
+    /// Individual timecode component view.
     struct ComponentView: View {
         // MARK: - Properties settable through view initializers
         
@@ -20,7 +21,7 @@ extension TimecodeField {
         let frameRate: TimecodeFrameRate
         let subFramesBase: Timecode.SubFramesBase
         let upperLimit: Timecode.UpperLimit
-        @FocusState var componentEditing: Timecode.Component?
+        @FocusState.Binding var componentEditing: Timecode.Component?
         @Binding var value: Int
         
         // MARK: - Properties settable through custom view modifiers
@@ -38,32 +39,21 @@ extension TimecodeField {
         // MARK: - Body
         
         var body: some View {
-            VStack(spacing: 0) {
-                ZStack {
-                    Text(valuePadded)
-                        .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
-                        .background(
-                            background,
-                            alignment: .center
-                        )
-                    #if os(iOS)
-                    // for iOS, add an invisible view overlay to allow on-screen keyboard input
-                    KeyboardInputView(
-                        keyboardType: .decimalPad,
-                        isFocused: isEditing
-                    ) { key in
-                        _ = handleKeyPress(key: key)
-                    }
-                    .keyboardType(.decimalPad) // note: only affects TextField
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                    // .focusable(interactions: [.edit])
-                    // .focused($componentEditing, equals: component)
-                    #endif
-                }
+            #if os(macOS)
+            // Note: The ZStack is necessary to persist focus state.
+            // The `conditionalForegroundStyle` modifier causes the view to be recreated
+            // when `isValueValid` changes which in turn would cause focus to be lost.
+            ZStack {
+                Text(valuePadded)
+                    .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
+                    .background(background, alignment: .center)
+                    .lineLimit(1)
+                    .fixedSize()
+                    .allowsTightening(false)
             }
             .focusable(interactions: [.edit])
             .focused($componentEditing, equals: component)
+            
             .onHover { state in
                 isHovering = state
             }
@@ -76,6 +66,41 @@ extension TimecodeField {
             .onKeyPress(phases: [.down, .repeat]) { keyPress in
                 handleKeyPress(key: keyPress.key)
             }
+            #elseif os(iOS) || os(visionOS)
+            ZStack {
+                KeyboardInputView(
+                    keyboardType: .decimalPad
+                ) { keyEquivalent in
+                    handleKeyPress(key: keyEquivalent)
+                }
+                .onKeyPress(phases: [.down, .repeat]) { keyPress in
+                    // only handle hardware keyboard keys that aren't already handled by KeyboardInputView.
+                    // basically, anything that isn't a numeric digit or a period.
+                    
+                    guard !keyPress.key.character.isNumber,
+                          keyPress.key.character != "."
+                    else {
+                        return .ignored
+                    }
+                    return handleKeyPress(key: keyPress.key)
+                }
+                .focused($componentEditing, equals: component)
+                
+                Text(valuePadded)
+                    .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
+                    .background(background, alignment: .center)
+                    .lineLimit(1)
+                    .fixedSize()
+                    .allowsTightening(false)
+                    .allowsHitTesting(false)
+            }
+            .onTapGesture {
+                startEditing()
+            }
+            .onChange(of: componentEditing) { oldValue, newValue in
+                isVirgin = true
+            }
+            #endif
         }
         
         // MARK: - Styling

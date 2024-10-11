@@ -93,82 +93,18 @@ public struct TimecodeField: View {
     
     public var body: some View {
         VStack(alignment: .trailing) {
-            HStack(spacing: 0) {
-                if upperLimit == .max100Days {
-                    TimecodeField.ComponentView(
-                        component: .days,
-                        frameRate: frameRate,
-                        subFramesBase: subFramesBase,
-                        upperLimit: upperLimit,
-                        componentEditing: _componentEditing,
-                        value: $components.days
-                    )
-                    Text(daysSeparator)
-                        .conditionalForegroundStyle(timecodeSeparatorStyle)
-                }
-                
-                TimecodeField.ComponentView(
-                    component: .hours,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
-                    componentEditing: _componentEditing,
-                    value: $components.hours
-                )
-                
-                Text(mainSeparator)
-                    .conditionalForegroundStyle(timecodeSeparatorStyle)
-                
-                TimecodeField.ComponentView(
-                    component: .minutes,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
-                    componentEditing: _componentEditing,
-                    value: $components.minutes
-                )
-                
-                Text(mainSeparator)
-                    .conditionalForegroundStyle(timecodeSeparatorStyle)
-                
-                TimecodeField.ComponentView(
-                    component: .seconds,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
-                    componentEditing: _componentEditing,
-                    value: $components.seconds
-                )
-                
-                Text(framesSeparator)
-                    .conditionalForegroundStyle(timecodeSeparatorStyle)
-                
-                TimecodeField.ComponentView(
-                    component: .frames,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
-                    componentEditing: _componentEditing,
-                    value: $components.frames
-                )
-                
-                if timecodeFormat.contains(.showSubFrames) {
-                    Text(subFramesSeparator)
-                        .conditionalForegroundStyle(timecodeSeparatorStyle)
-                    
-                    TimecodeField.ComponentView(
-                        component: .subFrames,
-                        frameRate: frameRate,
-                        subFramesBase: subFramesBase,
-                        upperLimit: upperLimit,
-                        componentEditing: _componentEditing,
-                        value: $components.subFrames
-                    )
-                }
-            }
+            #if os(macOS)
+            timecodeBody
+            #else
+            timecodeBody
+                .keyboardType(.decimalPad)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+            #endif
         }
         .monospacedDigit()
         .fixedSize()
+        .compositingGroup()
         .animation(nil)
         
         // update focus if view is disabled
@@ -203,6 +139,81 @@ public struct TimecodeField: View {
         }
         .onChange(of: upperLimit) { oldValue, newValue in
             if timecode.upperLimit != upperLimit { timecode.upperLimit = upperLimit }
+        }
+    }
+    public var timecodeBody: some View {
+        HStack(spacing: 0) {
+            if upperLimit == .max100Days {
+                TimecodeField.ComponentView(
+                    component: .days,
+                    frameRate: frameRate,
+                    subFramesBase: subFramesBase,
+                    upperLimit: upperLimit,
+                    componentEditing: $componentEditing,
+                    value: $components.days
+                )
+                Text(daysSeparator)
+                    .conditionalForegroundStyle(timecodeSeparatorStyle)
+            }
+            
+            TimecodeField.ComponentView(
+                component: .hours,
+                frameRate: frameRate,
+                subFramesBase: subFramesBase,
+                upperLimit: upperLimit,
+                componentEditing: $componentEditing,
+                value: $components.hours
+            )
+            
+            Text(mainSeparator)
+                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            
+            TimecodeField.ComponentView(
+                component: .minutes,
+                frameRate: frameRate,
+                subFramesBase: subFramesBase,
+                upperLimit: upperLimit,
+                componentEditing: $componentEditing,
+                value: $components.minutes
+            )
+            
+            Text(mainSeparator)
+                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            
+            TimecodeField.ComponentView(
+                component: .seconds,
+                frameRate: frameRate,
+                subFramesBase: subFramesBase,
+                upperLimit: upperLimit,
+                componentEditing: $componentEditing,
+                value: $components.seconds
+            )
+            
+            Text(framesSeparator)
+                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            
+            TimecodeField.ComponentView(
+                component: .frames,
+                frameRate: frameRate,
+                subFramesBase: subFramesBase,
+                upperLimit: upperLimit,
+                componentEditing: $componentEditing,
+                value: $components.frames
+            )
+            
+            if timecodeFormat.contains(.showSubFrames) {
+                Text(subFramesSeparator)
+                    .conditionalForegroundStyle(timecodeSeparatorStyle)
+                
+                TimecodeField.ComponentView(
+                    component: .subFrames,
+                    frameRate: frameRate,
+                    subFramesBase: subFramesBase,
+                    upperLimit: upperLimit,
+                    componentEditing: $componentEditing,
+                    value: $components.subFrames
+                )
+            }
         }
     }
     
