@@ -26,6 +26,20 @@ extension Timecode.Component: Sendable { }
 // MARK: - Sequence Traversal
 
 extension Timecode.Component {
+    /// Returns the first timecode component in sequence.
+    public static func first(excluding: Set<Self> = []) -> Self {
+        let components = allCases.filter { !excluding.contains($0) }
+        precondition(!components.isEmpty)
+        return components.first!
+    }
+    
+    /// Returns the last timecode component in sequence.
+    public static func last(excluding: Set<Self> = []) -> Self {
+        let components = allCases.filter { !excluding.contains($0) }
+        precondition(!components.isEmpty)
+        return components.last!
+    }
+    
     /// Returns the next timecode component in sequence.
     /// If the component is the last in the sequence, the sequence wraps around and returns the first component.
     public func next(excluding: Set<Self> = []) -> Self {
