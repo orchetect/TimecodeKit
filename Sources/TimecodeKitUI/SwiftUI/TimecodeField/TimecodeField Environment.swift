@@ -9,9 +9,55 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldReturnAction
+
+/// Sets the `Return` key action for ``TimecodeField`` views.
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldReturnActionKey: EnvironmentKey {
+    public static var defaultValue: TimecodeField.FieldAction? = nil
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Sets the `Return` key action for ``TimecodeField`` views.
+    public var timecodeFieldReturnAction: TimecodeField.FieldAction? {
+        get { self[TimecodeFieldReturnActionKey.self] }
+        set { self[TimecodeFieldReturnActionKey.self] = newValue }
+    }
+}
+
+// MARK: - TimecodeFieldEscapeAction
+
+/// Sets the `Escape` key action for ``TimecodeField`` views.
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldEscapeActionKey: EnvironmentKey {
+    public static var defaultValue: TimecodeField.FieldAction? = nil
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Sets the `Escape` key action for ``TimecodeField`` views.
+    public var timecodeFieldEscapeAction: TimecodeField.FieldAction? {
+        get { self[TimecodeFieldEscapeActionKey.self] }
+        set { self[TimecodeFieldEscapeActionKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeFormat
 
-/// Sets the timecode string format for ``TimecodeField`` and ``Text(timecode:)`` views.
+/// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFormatKey: EnvironmentKey {

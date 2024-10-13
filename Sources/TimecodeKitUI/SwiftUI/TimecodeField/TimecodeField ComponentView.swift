@@ -30,6 +30,8 @@ extension TimecodeField {
         @Environment(\.timecodeHighlightStyle) private var timecodeHighlightStyle: Color?
         @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
         @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
+        @Environment(\.timecodeFieldReturnAction) private var timecodeFieldReturnAction: TimecodeField.FieldAction?
+        @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction: TimecodeField.FieldAction?
         
         // MARK: - Internal State
         
@@ -240,15 +242,31 @@ extension TimecodeField {
                 return .handled
                 
             case .escape:
-                endEditing()
-                return .handled
+                perform(fieldAction: timecodeFieldEscapeAction)
+                // pass through to any receivers that accept cancel action
+                return .ignored
                 
             case .return:
-                endEditing()
-                return .ignored // pass through to any buttons that may have default action
+                perform(fieldAction: timecodeFieldReturnAction)
+                // pass through to any receivers that accept default action
+                return .ignored
                 
             default:
                 return .ignored
+            }
+        }
+        
+        private func perform(fieldAction: TimecodeField.FieldAction?) {
+            // a `nil` action does nothing.
+            guard let fieldAction else { return }
+            
+            switch fieldAction {
+            case .endEditing:
+                endEditing()
+            case let .resetComponentFocus(component):
+                let component = component ??
+                    Timecode.Component.first(excluding: invisibleComponents)
+                componentEditing = component
             }
         }
     }

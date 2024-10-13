@@ -9,8 +9,61 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldReturnAction
+
+/// Sets the `Return` key action for ``TimecodeField`` views.
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldReturnActionViewModifier: ViewModifier {
+    let format: TimecodeField.FieldAction?
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeFieldReturnAction, format)
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension View {
+    /// Sets the `Return` key action for ``TimecodeField`` views.
+    public func timecodeFieldReturnAction(
+        _ format: TimecodeField.FieldAction?
+    ) -> some View {
+        modifier(TimecodeFieldReturnActionViewModifier(format: format))
+    }
+}
+
+// MARK: - TimecodeFieldEscapeAction
+
+/// Sets the `Escape` key action for ``TimecodeField`` views.
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldEscapeActionViewModifier: ViewModifier {
+    let format: TimecodeField.FieldAction?
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeFieldEscapeAction, format)
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension View {
+    /// Sets the `Escape` key action for ``TimecodeField`` views.
+    public func timecodeFieldEscapeAction(
+        _ format: TimecodeField.FieldAction?
+    ) -> some View {
+        modifier(TimecodeFieldEscapeActionViewModifier(format: format))
+    }
+}
+
 // MARK: - TimecodeFormat
 
+/// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFormatViewModifier: ViewModifier {
     let format: Timecode.StringFormat
@@ -32,6 +85,8 @@ extension View {
 
 // MARK: - TimecodeHighlightStyle
 
+/// Sets the component highlight style for ``TimecodeField`` views.
+/// By default, the application's `accentColor` is used.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeHighlightStyleViewModifier: ViewModifier {
     let color: Color?
@@ -54,6 +109,11 @@ extension View {
 
 // MARK: - TimecodeSeparatorStyle
 
+/// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
+/// If `color` is nil, the foreground style is used.
+///
+/// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
+///   modifiers.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeSeparatorStyleViewModifier: ViewModifier {
     let color: Color?
@@ -79,6 +139,12 @@ extension View {
 
 // MARK: - TimecodeValidationStyle
 
+/// Sets timecode component validation style for ``TimecodeField`` and ``TimecodeText`` views.
+///
+/// This foreground color will be used only for any timecode component values that are invalid for the given
+/// properties (frame rate, subframes base, and upper limit).
+///
+/// If `nil`, validation is disabled and invalid components will not be colorized.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeValidationStyleViewModifier: ViewModifier {
     let color: Color?
