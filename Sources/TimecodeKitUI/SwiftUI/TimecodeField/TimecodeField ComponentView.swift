@@ -208,15 +208,23 @@ extension TimecodeField {
                 
                 guard var proposedValue else { return .ignored }
                 
-                textInput += "\(key.character)"
+                let proposedTextInput = "\(textInput)\(key.character)"
                 
                 switch timecodeFieldInputStyle {
                 case .autoAdvance:
-                    let postDigitCount = textInput.count
+                    let postDigitCount = proposedTextInput.count
                     let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
-                    if postDigitCount >= maxDigits {
+                    if postDigitCount > maxDigits {
+                        focusNextComponent(wrap: timecodeFieldInputWrapping)
+                        return .handled
+                    }
+                    value = proposedValue
+                    textInput = proposedTextInput
+                    if postDigitCount == maxDigits {
                         focusNextComponent(wrap: timecodeFieldInputWrapping)
                     }
+                    
+                    return .handled
                 case .continuousWithinComponent:
                     let postDigitCount = proposedValue.numberOfDigits
                     let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
@@ -226,12 +234,15 @@ extension TimecodeField {
                         }
                         proposedValue = int
                     }
+                    
+                    value = proposedValue
+                    textInput = proposedTextInput
+                    return .handled
                 case .unbounded:
-                    break
+                    value = proposedValue
+                    textInput = proposedTextInput
+                    return .handled
                 }
-                
-                value = proposedValue
-                return .handled
                 
             case "+", "=", .upArrow: // increment
                 let newValue = value + 1
@@ -296,14 +307,24 @@ extension TimecodeField {
             componentEditing = Timecode.Component.first(excluding: invisibleComponents)
         }
         
-        private func focusPreviousComponent(wrap: TimecodeField.InputWrapping) {
+        /// Returns true if component focus changed.
+        @discardableResult
+        private func focusPreviousComponent(wrap: TimecodeField.InputWrapping) -> Bool {
             let bool = wrap == .wrap
-            componentEditing = component.previous(excluding: invisibleComponents, wrap: bool)
+            let newComponent = component.previous(excluding: invisibleComponents, wrap: bool)
+            let didChange = componentEditing != newComponent
+            componentEditing = newComponent
+            return didChange
         }
         
-        private func focusNextComponent(wrap: TimecodeField.InputWrapping) {
+        /// Returns true if component focus changed.
+        @discardableResult
+        private func focusNextComponent(wrap: TimecodeField.InputWrapping) -> Bool {
             let bool = wrap == .wrap
-            componentEditing = component.next(excluding: invisibleComponents, wrap: bool)
+            let newComponent = component.next(excluding: invisibleComponents, wrap: bool)
+            let didChange = componentEditing != newComponent
+            componentEditing = newComponent
+            return didChange
         }
         
         private func perform(fieldAction: TimecodeField.FieldAction?) -> KeyPress.Result {
