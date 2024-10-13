@@ -101,7 +101,7 @@ public struct TimecodeField: View {
     // MARK: - Properties settable through custom view modifiers
     
     @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
-    @Environment(\.timecodeHighlightStyle) private var timecodeHighlightStyle: Color?
+    @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
     @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
     
@@ -491,7 +491,7 @@ public struct TimecodeField: View {
         TimecodeField(components: $components)
             .timecodeSeparatorStyle(.green)
             .timecodeValidationStyle(.red)
-            .timecodeHighlightStyle(.purple)
+            .timecodeFieldHighlightStyle(.purple)
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
@@ -501,7 +501,7 @@ public struct TimecodeField: View {
         )
         .timecodeSeparatorStyle(.gray)
         .timecodeValidationStyle(.purple)
-        .timecodeHighlightStyle(.white)
+        .timecodeFieldHighlightStyle(.white)
         .foregroundStyle(.blue)
     }
     .padding()
@@ -524,7 +524,7 @@ public struct TimecodeField: View {
         TimecodeField(components: $components)
             .timecodeSeparatorStyle(.green)
             .timecodeValidationStyle(.red)
-            .timecodeHighlightStyle(.purple)
+            .timecodeFieldHighlightStyle(.purple)
             .foregroundStyle(.orange)
         TimecodeField(
             components: $components,
@@ -534,7 +534,7 @@ public struct TimecodeField: View {
         )
         .timecodeSeparatorStyle(.gray)
         .timecodeValidationStyle(.purple)
-        .timecodeHighlightStyle(.white)
+        .timecodeFieldHighlightStyle(.white)
         .foregroundStyle(.blue)
     }
     .padding()

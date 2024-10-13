@@ -35,7 +35,7 @@ struct TimecodeFieldView: View {
             )
             .foregroundColor(defaultStyle.color)
             .timecodeFormat(timecodeFormat)
-            .timecodeHighlightStyle(highlightStyle.color)
+            .timecodeFieldHighlightStyle(highlightStyle.color)
             .timecodeFieldInputStyle(inputStyle)
             .timecodeFieldInputWrapping(inputWrapping)
             .timecodeFieldReturnAction(.focusNextComponent)

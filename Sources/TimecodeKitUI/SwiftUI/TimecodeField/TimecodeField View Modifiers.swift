@@ -135,16 +135,16 @@ extension View {
     }
 }
 
-// MARK: - TimecodeHighlightStyle
+// MARK: - TimecodeFieldHighlightStyle
 
 /// Sets the component highlight style for ``TimecodeField`` views.
 /// By default, the application's `accentColor` is used.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-struct TimecodeHighlightStyleViewModifier: ViewModifier {
+struct TimecodeFieldHighlightStyleViewModifier: ViewModifier {
     let color: Color?
     
     func body(content: Content) -> some View {
-        content.environment(\.timecodeHighlightStyle, color)
+        content.environment(\.timecodeFieldHighlightStyle, color)
     }
 }
 
@@ -152,10 +152,10 @@ struct TimecodeHighlightStyleViewModifier: ViewModifier {
 extension View {
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
-    public func timecodeHighlightStyle(
+    public func timecodeFieldHighlightStyle(
         _ color: Color?
     ) -> some View {
-        modifier(TimecodeHighlightStyleViewModifier(color: color))
+        modifier(TimecodeFieldHighlightStyleViewModifier(color: color))
     }
 }
 

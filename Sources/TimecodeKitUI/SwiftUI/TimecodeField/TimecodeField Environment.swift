@@ -120,13 +120,13 @@ extension EnvironmentValues {
     }
 }
 
-// MARK: - TimecodeHighlightStyle
+// MARK: - TimecodeFieldHighlightStyle
 
 /// Sets the component highlight style for ``TimecodeField`` views.
 /// By default, the application's `accentColor` is used.
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-struct TimecodeHighlightStyleKey: EnvironmentKey {
+struct TimecodeFieldHighlightStyleKey: EnvironmentKey {
     public static var defaultValue: Color? = .accentColor
 }
 
@@ -135,9 +135,9 @@ struct TimecodeHighlightStyleKey: EnvironmentKey {
 extension EnvironmentValues {
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
-    public var timecodeHighlightStyle: Color? {
-        get { self[TimecodeHighlightStyleKey.self] }
-        set { self[TimecodeHighlightStyleKey.self] = newValue }
+    public var timecodeFieldHighlightStyle: Color? {
+        get { self[TimecodeFieldHighlightStyleKey.self] }
+        set { self[TimecodeFieldHighlightStyleKey.self] = newValue }
     }
 }
 

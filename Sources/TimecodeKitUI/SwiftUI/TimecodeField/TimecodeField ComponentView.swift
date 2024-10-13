@@ -27,7 +27,7 @@ extension TimecodeField {
         // MARK: - Properties settable through custom view modifiers
         
         @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
-        @Environment(\.timecodeHighlightStyle) private var timecodeHighlightStyle: Color?
+        @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
         @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
         @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
         @Environment(\.timecodeFieldReturnAction) private var timecodeFieldReturnAction: TimecodeField.FieldAction?
