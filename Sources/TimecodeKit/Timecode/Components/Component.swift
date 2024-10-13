@@ -16,6 +16,12 @@ extension Timecode {
     }
 }
 
+extension Timecode.Component: Comparable {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        allCases.firstIndex(of: lhs)! < allCases.firstIndex(of: rhs)!
+    }
+}
+
 @available(macOS 10.15, macCatalyst 13, iOS 11, tvOS 11, watchOS 6, *)
 extension Timecode.Component: Identifiable {
     public var id: Self { self }
