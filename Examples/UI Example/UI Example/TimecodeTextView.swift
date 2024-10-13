@@ -106,7 +106,7 @@ struct TimecodeTextView: View {
     }
     
     private var propertiesSection: some View {
-        Section("Properties") {
+        Section("Timecode Properties") {
             Picker("Frame Rate", selection: $frameRate) {
                 ForEach(TimecodeFrameRate.allCases) { frameRate in
                     Text(frameRate.stringValueVerbose).tag(frameRate)
@@ -137,7 +137,7 @@ struct TimecodeTextView: View {
                     Text(color.name).tag(color)
                 }
             }
-            Picker("Component Validation", selection: $validationStyle) {
+            Picker("Validation Style", selection: $validationStyle) {
                 ForEach(ValidationStyle.allCases) { validationType in
                     Text(validationType.name).tag(validationType)
                 }
@@ -152,7 +152,7 @@ struct TimecodeTextView: View {
     }
     
     private var timecodeSection: some View {
-        Section("Timecode") {
+        Section("Set Timecode") {
             LabeledContent("Random Valid Timecode") {
                 Button("Randomize") {
                     timecode = Timecode(.randomComponentsAndProperties)

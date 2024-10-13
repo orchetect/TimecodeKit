@@ -16,6 +16,8 @@ struct TimecodeFieldView: View {
     
     @State private var isEnabled: Bool = true
     @State private var timecodeFormat: Timecode.StringFormat = [.showSubFrames]
+    @State private var inputStyle: TimecodeField.InputStyle = .autoAdvance
+    @State private var inputWrapping: TimecodeField.InputWrapping = .wrap
     @State private var defaultStyle: DefaultStyle = .default
     @State private var separatorStyle: SeparatorStyle = .secondary
     @State private var highlightStyle: HighlightStyle = .default
@@ -33,9 +35,13 @@ struct TimecodeFieldView: View {
             )
             .foregroundColor(defaultStyle.color)
             .timecodeFormat(timecodeFormat)
-            .timecodeValidationStyle(validationStyle.color)
-            .timecodeSeparatorStyle(separatorStyle.color)
             .timecodeHighlightStyle(highlightStyle.color)
+            .timecodeFieldInputStyle(inputStyle)
+            .timecodeFieldInputWrapping(inputWrapping)
+            .timecodeFieldReturnAction(.focusNextComponent)
+            .timecodeFieldEscapeAction(.resetComponentFocus())
+            .timecodeSeparatorStyle(separatorStyle.color)
+            .timecodeValidationStyle(validationStyle.color)
             .font(.largeTitle)
             .disabled(!isEnabled)
             .focused($isEditing)
@@ -44,7 +50,8 @@ struct TimecodeFieldView: View {
             
             Form {
                 propertiesSection
-                settingsSection
+                appearanceSection
+                inputBehaviorSection
                 infoSection
             }
             .formStyle(.grouped)
@@ -63,7 +70,7 @@ struct TimecodeFieldView: View {
     }
     
     private var propertiesSection: some View {
-        Section("Properties") {
+        Section("Timecode Properties") {
             Picker("Frame Rate", selection: $frameRate) {
                 ForEach(TimecodeFrameRate.allCases) { frameRate in
                     Text(frameRate.stringValueVerbose).tag(frameRate)
@@ -82,8 +89,8 @@ struct TimecodeFieldView: View {
         }
     }
     
-    private var settingsSection: some View {
-        Section("Settings") {
+    private var appearanceSection: some View {
+        Section("Appearance") {
             Picker("Default Color", selection: $defaultStyle) {
                 ForEach(DefaultStyle.allCases) { defaultType in
                     Text(defaultType.name).tag(defaultType)
@@ -99,9 +106,24 @@ struct TimecodeFieldView: View {
                     Text(color.name).tag(color)
                 }
             }
-            Picker("Component Validation", selection: $validationStyle) {
+            Picker("Validation Style", selection: $validationStyle) {
                 ForEach(ValidationStyle.allCases) { validationType in
                     Text(validationType.name).tag(validationType)
+                }
+            }
+        }
+    }
+    
+    private var inputBehaviorSection: some View {
+        Section("Input Behavior") {
+            Picker("Input Style", selection: $inputStyle) {
+                ForEach(TimecodeField.InputStyle.allCases) { style in
+                    Text(style.name).tag(style)
+                }
+            }
+            Picker("Input Wrapping", selection: $inputWrapping) {
+                ForEach(TimecodeField.InputWrapping.allCases) { wrapping in
+                    Text(wrapping.name).tag(wrapping)
                 }
             }
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
@@ -262,6 +284,28 @@ extension TimecodeFieldView {
             case .red: .red
             case .purple: .purple
             }
+        }
+    }
+}
+
+extension TimecodeField.InputStyle {
+    var name: String {
+        switch self {
+        case .autoAdvance:
+            return "Auto-Advance"
+        case .continuousWithinComponent:
+            return "Continuous"
+        case .unbounded:
+            return "Unbounded"
+        }
+    }
+}
+
+extension TimecodeField.InputWrapping {
+    var name: String {
+        switch self {
+        case .noWrap: return "No Wrap"
+        case .wrap: return "Wrap"
         }
     }
 }

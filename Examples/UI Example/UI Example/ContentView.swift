@@ -16,6 +16,7 @@ struct ContentView: View {
             List(SideBarItem.allCases, selection: $sideBarItem) { item in
                 item.label.tag(item)
             }
+            .frame(minWidth: 180)
         } detail: {
             switch sideBarItem {
             case .timecodeField: TimecodeFieldView()
