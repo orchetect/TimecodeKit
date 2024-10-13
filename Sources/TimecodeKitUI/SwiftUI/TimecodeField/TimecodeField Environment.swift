@@ -32,6 +32,29 @@ extension EnvironmentValues {
     }
 }
 
+// MARK: - TimecodeFieldInputWrapping
+
+/// Sets the focus wrapping behavior for ``TimecodeField`` views.
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldInputWrappingKey: EnvironmentKey {
+    public static var defaultValue: TimecodeField.InputWrapping = .wrap
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Sets the focus wrapping behavior for ``TimecodeField`` views.
+    public var timecodeFieldInputWrapping: TimecodeField.InputWrapping {
+        get { self[TimecodeFieldInputWrappingKey.self] }
+        set { self[TimecodeFieldInputWrappingKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeFieldReturnAction
 
 /// Sets the `Return` key action for ``TimecodeField`` views.

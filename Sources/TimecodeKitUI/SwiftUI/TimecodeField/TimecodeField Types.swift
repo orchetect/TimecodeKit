@@ -9,6 +9,8 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - FieldAction
+
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
@@ -40,8 +42,10 @@ extension TimecodeField.FieldAction: Identifiable {
 @available(tvOS, unavailable)
 extension TimecodeField.FieldAction: CaseIterable {
     public static let allCases: [Self] = [.endEditing]
-    + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
+        + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
 }
+
+// MARK: - InputStyle
 
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)
@@ -75,6 +79,26 @@ extension TimecodeField {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField.InputStyle: Identifiable {
+    public var id: Self { self }
+}
+
+// MARK: - InputWrapping
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField {
+    /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
+    public enum InputWrapping: Equatable, Hashable, CaseIterable, Sendable {
+        case wrap
+        case noWrap
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.InputWrapping: Identifiable {
     public var id: Self { self }
 }
 

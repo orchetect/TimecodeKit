@@ -32,11 +32,14 @@ extension TimecodeField {
         @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
         @Environment(\.timecodeFieldReturnAction) private var timecodeFieldReturnAction: TimecodeField.FieldAction?
         @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction: TimecodeField.FieldAction?
+        @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
+        @Environment(\.timecodeFieldInputWrapping) private var timecodeFieldInputWrapping
         
         // MARK: - Internal State
         
         @State private var isVirgin: Bool = true
         @State private var isHovering: Bool = false
+        @State private var textInput: String = ""
         
         // MARK: - Body
         
@@ -63,7 +66,7 @@ extension TimecodeField {
                 startEditing()
             }
             .onChange(of: componentEditing) { oldValue, newValue in
-                isVirgin = true
+                setIsVirgin(true)
             }
             .onKeyPress(phases: [.down, .repeat]) { keyPress in
                 handleKeyPress(key: keyPress.key)
@@ -103,7 +106,7 @@ extension TimecodeField {
                 startEditing()
             }
             .onChange(of: componentEditing) { oldValue, newValue in
-                isVirgin = true
+                setIsVirgin(true)
             }
             .onDisappear {
                 endEditing()
@@ -179,23 +182,56 @@ extension TimecodeField {
             componentEditing = nil
         }
         
+        private func setIsVirgin(_ state: Bool) {
+            isVirgin = state
+            if isVirgin { textInput = "" }
+        }
+        
+        private func resetToZero() {
+            value = 0
+            textInput = ""
+        }
+        
         private func handleKeyPress(key: KeyEquivalent) -> KeyPress.Result {
             switch key {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+                var priorNonVirginDigitCount = isVirgin ? 0 : value.numberOfDigits
+                
+                let proposedValue: Int?
+                
                 if isVirgin {
-                    guard let newValue = Int("\(key.character)") else {
-                        return .ignored
-                    }
-                    value = newValue
-                    isVirgin = false
-                    return .handled
+                    proposedValue = Int("\(key.character)")
+                    defer { setIsVirgin(false) }
                 } else {
-                    guard let newValue = Int("\(value)\(key.character)") else {
-                        return .ignored
-                    }
-                    value = newValue
-                    return .handled
+                    proposedValue = Int("\(value)\(key.character)")
                 }
+                
+                guard var proposedValue else { return .ignored }
+                
+                textInput += "\(key.character)"
+                
+                switch timecodeFieldInputStyle {
+                case .autoAdvance:
+                    let postDigitCount = textInput.count
+                    let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
+                    if postDigitCount >= maxDigits {
+                        focusNextComponent(wrap: timecodeFieldInputWrapping)
+                    }
+                case .continuousWithinComponent:
+                    let postDigitCount = proposedValue.numberOfDigits
+                    let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
+                    if postDigitCount > maxDigits {
+                        guard let int = Int("\(proposedValue)".suffix(maxDigits)) else {
+                            return .handled
+                        }
+                        proposedValue = int
+                    }
+                case .unbounded:
+                    break
+                }
+                
+                value = proposedValue
+                return .handled
                 
             case "+", "=", .upArrow: // increment
                 let newValue = value + 1
@@ -204,7 +240,7 @@ extension TimecodeField {
                 } else {
                     value = validRange.lowerBound
                 }
-                isVirgin = true
+                setIsVirgin(true)
                 return .handled
                 
             case "-", .downArrow: // decrement
@@ -214,31 +250,33 @@ extension TimecodeField {
                 } else {
                     value = validRange.upperBound
                 }
-                isVirgin = true
+                setIsVirgin(true)
                 return .handled
                 
             case .delete, .deleteScalar: // backspace
                 if value == 0 {
-                    focusPreviousComponent()
+                    focusPreviousComponent(wrap: timecodeFieldInputWrapping)
                 }
                 if isVirgin {
-                    value = 0
-                    isVirgin = false
+                    resetToZero()
+                    setIsVirgin(false)
                 } else {
-                    value = Int("\(value)".dropLast()) ?? 0
+                    textInput = String(textInput.dropLast())
+                    value = Int("\(textInput)") ?? 0
                 }
                 return .handled
                 
             case .deleteForward:
-                value = 0
+                resetToZero()
+                setIsVirgin(false)
                 return .handled
                 
             case .leftArrow:
-                focusPreviousComponent()
+                focusPreviousComponent(wrap: timecodeFieldInputWrapping)
                 return .handled
                 
             case ".", ":", ";", ",", /* .tab, */ .rightArrow:
-                focusNextComponent()
+                focusNextComponent(wrap: timecodeFieldInputWrapping)
                 return .handled
                 
             case .escape:
@@ -254,12 +292,18 @@ extension TimecodeField {
             }
         }
         
-        private func focusPreviousComponent() {
-            componentEditing = component.previous(excluding: invisibleComponents)
+        private func focusFirstComponent() {
+            componentEditing = Timecode.Component.first(excluding: invisibleComponents)
         }
         
-        private func focusNextComponent() {
-            componentEditing = component.next(excluding: invisibleComponents)
+        private func focusPreviousComponent(wrap: TimecodeField.InputWrapping) {
+            let bool = wrap == .wrap
+            componentEditing = component.previous(excluding: invisibleComponents, wrap: bool)
+        }
+        
+        private func focusNextComponent(wrap: TimecodeField.InputWrapping) {
+            let bool = wrap == .wrap
+            componentEditing = component.next(excluding: invisibleComponents, wrap: bool)
         }
         
         private func perform(fieldAction: TimecodeField.FieldAction?) -> KeyPress.Result {
@@ -279,7 +323,7 @@ extension TimecodeField {
                 return .ignored
                 
             case .focusNextComponent:
-                focusNextComponent()
+                focusNextComponent(wrap: timecodeFieldInputWrapping)
                 return .handled
             }
         }

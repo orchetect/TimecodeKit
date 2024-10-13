@@ -9,6 +9,32 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldInputWrapping
+
+/// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldInputWrappingViewModifier: ViewModifier {
+    let wrapping: TimecodeField.InputWrapping
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeFieldInputWrapping, wrapping)
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension View {
+    /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
+    public func timecodeFieldInputWrapping(
+        _ wrapping: TimecodeField.InputWrapping
+    ) -> some View {
+        modifier(TimecodeFieldInputWrappingViewModifier(wrapping: wrapping))
+    }
+}
+
 // MARK: - TimecodeFieldInputStyle
 
 /// Sets the data entry input style for ``TimecodeField`` views.
