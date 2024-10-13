@@ -22,6 +22,9 @@ extension TimecodeField {
         /// Resets component focus to the specified component.
         /// If `nil`, focus is reset to the first visible component.
         case resetComponentFocus(component: Timecode.Component? = nil)
+        
+        /// Advances the focus to the next timecode component.
+        case focusNextComponent
     }
 }
 

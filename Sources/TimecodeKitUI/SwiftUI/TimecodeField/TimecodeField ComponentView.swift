@@ -219,7 +219,7 @@ extension TimecodeField {
                 
             case .delete, .deleteScalar: // backspace
                 if value == 0 {
-                    componentEditing = component.previous(excluding: invisibleComponents)
+                    focusPreviousComponent()
                 }
                 if isVirgin {
                     value = 0
@@ -234,39 +234,53 @@ extension TimecodeField {
                 return .handled
                 
             case .leftArrow:
-                componentEditing = component.previous(excluding: invisibleComponents)
+                focusPreviousComponent()
                 return .handled
                 
             case ".", ":", ";", ",", /* .tab, */ .rightArrow:
-                componentEditing = component.next(excluding: invisibleComponents)
+                focusNextComponent()
                 return .handled
                 
             case .escape:
-                perform(fieldAction: timecodeFieldEscapeAction)
                 // pass through to any receivers that accept cancel action
-                return .ignored
+                return perform(fieldAction: timecodeFieldEscapeAction)
                 
             case .return:
-                perform(fieldAction: timecodeFieldReturnAction)
                 // pass through to any receivers that accept default action
-                return .ignored
+                return perform(fieldAction: timecodeFieldReturnAction)
                 
             default:
                 return .ignored
             }
         }
         
-        private func perform(fieldAction: TimecodeField.FieldAction?) {
+        private func focusPreviousComponent() {
+            componentEditing = component.previous(excluding: invisibleComponents)
+        }
+        
+        private func focusNextComponent() {
+            componentEditing = component.next(excluding: invisibleComponents)
+        }
+        
+        private func perform(fieldAction: TimecodeField.FieldAction?) -> KeyPress.Result {
             // a `nil` action does nothing.
-            guard let fieldAction else { return }
+            guard let fieldAction else { return .ignored }
             
             switch fieldAction {
             case .endEditing:
                 endEditing()
+                return .ignored
+                
             case let .resetComponentFocus(component):
                 let component = component ??
                     Timecode.Component.first(excluding: invisibleComponents)
                 componentEditing = component
+                // pass through to any receivers
+                return .ignored
+                
+            case .focusNextComponent:
+                focusNextComponent()
+                return .handled
             }
         }
     }
