@@ -130,12 +130,19 @@ jobs:
     - name: Movie Timecode - Build (iOS)
       run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
     
-    - name: UI Example - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
-      run: xcodebuild -project "Examples/UI Example/UI Example.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
-    - name: UI Example - Build (macOS)
-      run: xcodebuild build -project "Examples/UI Example/UI Example.xcodeproj" -scheme "UI Example" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
-    - name: UI Example - Build (iOS)
-      run: xcodebuild build -project "Examples/UI Example/UI Example.xcodeproj" -scheme "UI Example" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Timecode UI - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
+      run: xcodebuild -project "Examples/Timecode UI/Timecode UI.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Timecode UI - Build (macOS)
+      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Timecode UI - Build (iOS)
+      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+    
+    - name: Timecode Math - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
+      run: xcodebuild -project "Examples/Timecode Math/Timecode Math.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Timecode Math - Build (macOS)
+      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Timecode Math - Build (iOS)
+      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
 
 # xcodebuild test reference:
 # https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/08-automation.html
