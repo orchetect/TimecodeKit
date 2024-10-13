@@ -1,4 +1,4 @@
-# UI Example
+# Timecode UI Example
 
 This example project demonstrates the UI components available in the **TimecodeKitUI** module.
 

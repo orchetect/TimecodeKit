@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2B3AE232CB2340100149DEF"
-               BuildableName = "UI Example.app"
-               BlueprintName = "UI Example"
-               ReferencedContainer = "container:UI Example.xcodeproj">
+               BuildableName = "Timecode UI.app"
+               BlueprintName = "Timecode UI"
+               ReferencedContainer = "container:Timecode UI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2B3AE232CB2340100149DEF"
-            BuildableName = "UI Example.app"
-            BlueprintName = "UI Example"
-            ReferencedContainer = "container:UI Example.xcodeproj">
+            BuildableName = "Timecode UI.app"
+            BlueprintName = "Timecode UI"
+            ReferencedContainer = "container:Timecode UI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2B3AE232CB2340100149DEF"
-            BuildableName = "UI Example.app"
-            BlueprintName = "UI Example"
-            ReferencedContainer = "container:UI Example.xcodeproj">
+            BuildableName = "Timecode UI.app"
+            BlueprintName = "Timecode UI"
+            ReferencedContainer = "container:Timecode UI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

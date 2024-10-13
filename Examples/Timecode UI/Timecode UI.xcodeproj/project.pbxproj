@@ -12,26 +12,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E2B3AE242CB2340100149DEF /* UI Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UI Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2B3AE242CB2340100149DEF /* Timecode UI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Timecode UI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E2C0BEA32CB77878005B916E /* Exceptions for "UI Example" folder in "UI Example" target */ = {
+		E2C0BEA32CB77878005B916E /* Exceptions for "Timecode UI" folder in "Timecode UI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/Info.plist,
 			);
-			target = E2B3AE232CB2340100149DEF /* UI Example */;
+			target = E2B3AE232CB2340100149DEF /* Timecode UI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E2B3AE262CB2340100149DEF /* UI Example */ = {
+		E2B3AE262CB2340100149DEF /* Timecode UI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E2C0BEA32CB77878005B916E /* Exceptions for "UI Example" folder in "UI Example" target */,
+				E2C0BEA32CB77878005B916E /* Exceptions for "Timecode UI" folder in "Timecode UI" target */,
 			);
-			path = "UI Example";
+			path = "Timecode UI";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,7 +52,7 @@
 		E2B3AE1B2CB2340100149DEF = {
 			isa = PBXGroup;
 			children = (
-				E2B3AE262CB2340100149DEF /* UI Example */,
+				E2B3AE262CB2340100149DEF /* Timecode UI */,
 				E2B3AE252CB2340100149DEF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,7 +60,7 @@
 		E2B3AE252CB2340100149DEF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E2B3AE242CB2340100149DEF /* UI Example.app */,
+				E2B3AE242CB2340100149DEF /* Timecode UI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,9 +68,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E2B3AE232CB2340100149DEF /* UI Example */ = {
+		E2B3AE232CB2340100149DEF /* Timecode UI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2B3AE332CB2340200149DEF /* Build configuration list for PBXNativeTarget "UI Example" */;
+			buildConfigurationList = E2B3AE332CB2340200149DEF /* Build configuration list for PBXNativeTarget "Timecode UI" */;
 			buildPhases = (
 				E2B3AE202CB2340100149DEF /* Sources */,
 				E2B3AE212CB2340100149DEF /* Frameworks */,
@@ -81,15 +81,15 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E2B3AE262CB2340100149DEF /* UI Example */,
+				E2B3AE262CB2340100149DEF /* Timecode UI */,
 			);
-			name = "UI Example";
+			name = "Timecode UI";
 			packageProductDependencies = (
 				E2B3AE472CB238C900149DEF /* TimecodeKit */,
 				E2B3AE492CB238C900149DEF /* TimecodeKitUI */,
 			);
 			productName = "TimecodeUI Example";
-			productReference = E2B3AE242CB2340100149DEF /* UI Example.app */;
+			productReference = E2B3AE242CB2340100149DEF /* Timecode UI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,7 +107,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E2B3AE1F2CB2340100149DEF /* Build configuration list for PBXProject "UI Example" */;
+			buildConfigurationList = E2B3AE1F2CB2340100149DEF /* Build configuration list for PBXProject "Timecode UI" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -124,7 +124,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E2B3AE232CB2340100149DEF /* UI Example */,
+				E2B3AE232CB2340100149DEF /* Timecode UI */,
 			);
 		};
 /* End PBXProject section */
@@ -269,14 +269,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "UI Example/App/UIExample.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Timecode UI/App/TimecodeUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UI Example/App/Info.plist";
+				INFOPLIST_FILE = "Timecode UI/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode UI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -293,7 +293,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.UIExample${DEVELOPERTEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.TimecodeUI${DEVELOPERTEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -309,14 +309,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "UI Example/App/UIExample.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Timecode UI/App/TimecodeUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "UI Example/App/Info.plist";
+				INFOPLIST_FILE = "Timecode UI/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode UI";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -333,7 +333,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.UIExample${DEVELOPERTEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.TimecodeUI${DEVELOPERTEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -347,7 +347,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E2B3AE1F2CB2340100149DEF /* Build configuration list for PBXProject "UI Example" */ = {
+		E2B3AE1F2CB2340100149DEF /* Build configuration list for PBXProject "Timecode UI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B3AE312CB2340200149DEF /* Debug */,
@@ -356,7 +356,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2B3AE332CB2340200149DEF /* Build configuration list for PBXNativeTarget "UI Example" */ = {
+		E2B3AE332CB2340200149DEF /* Build configuration list for PBXNativeTarget "Timecode UI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B3AE342CB2340200149DEF /* Debug */,
