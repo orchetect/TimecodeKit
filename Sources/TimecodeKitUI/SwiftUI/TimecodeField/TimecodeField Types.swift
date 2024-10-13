@@ -43,4 +43,39 @@ extension TimecodeField.FieldAction: CaseIterable {
     + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
 }
 
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField {
+    /// An enum describing numeric data entry input style cases for ``TimecodeField``.
+    public enum InputStyle: Equatable, Hashable, CaseIterable, Sendable {
+        /// Auto-advance focus to next timecode component once all digits for the currently-focused component are
+        /// populated by user data entry.
+        ///
+        /// All components will auto-advance except subframes will not auto-advance back around to the first timecode
+        /// component.
+        case autoAdvance
+        
+        /// Numeric entry remains continuous within the currently-focused timecode component.
+        ///
+        /// Digit places will populate normally until all available digit places are occupied for the currently-focused
+        /// timecode component, after which the most-significant digit will be discarded to accommodate the newly
+        /// entered digit.
+        case continuousWithinComponent
+        
+        /// Unbounded timecode component values are allowed.
+        /// Entry will accept arbitrarily large numbers for all timecode components.
+        ///
+        /// This is useful for testing purposes or non-standard timecode entry.
+        case unbounded
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.InputStyle: Identifiable {
+    public var id: Self { self }
+}
+
 #endif

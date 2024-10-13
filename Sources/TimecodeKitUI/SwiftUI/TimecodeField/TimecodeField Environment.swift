@@ -9,6 +9,29 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldInputStyle
+
+/// Sets the data entry input style for ``TimecodeField`` views.
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldInputStyleKey: EnvironmentKey {
+    public static var defaultValue: TimecodeField.InputStyle = .autoAdvance
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Sets the data entry input style for ``TimecodeField`` views.
+    public var timecodeFieldInputStyle: TimecodeField.InputStyle {
+        get { self[TimecodeFieldInputStyleKey.self] }
+        set { self[TimecodeFieldInputStyleKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeFieldReturnAction
 
 /// Sets the `Return` key action for ``TimecodeField`` views.
