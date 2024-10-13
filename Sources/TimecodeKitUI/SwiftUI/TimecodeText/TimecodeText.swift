@@ -53,7 +53,7 @@ import TimecodeKit
 ///     .timecodeSeparatorStyle(.secondary)
 ///     .timecodeValidationStyle(.red)
 /// ```
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 public struct TimecodeText: View {
     @Environment(\.timecodeFormat) private var timecodeFormat
     @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle
@@ -81,7 +81,7 @@ extension Timecode {
     /// This method is not meant to be used directly, and is thus not exposed as public.
     /// Instead, instantiate a ``TimecodeText`` view and use the provided custom view modifiers to supply the format and
     /// style attributes.
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
     func text(
         format: Timecode.StringFormat = .default(),
         separatorStyle: Color? = nil,
@@ -191,7 +191,7 @@ extension Timecode {
             }
         }
         
-        return output
+        return output.monospacedDigit()
     }
 }
 
