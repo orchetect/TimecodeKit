@@ -9,6 +9,30 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldHighlightStyle
+
+/// Sets the component highlight style for ``TimecodeField`` views.
+/// By default, the application's `accentColor` is used.
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+struct TimecodeFieldHighlightStyleViewModifier: ViewModifier {
+    let color: Color?
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeFieldHighlightStyle, color)
+    }
+}
+
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+extension View {
+    /// Sets the component highlight style for ``TimecodeField`` views.
+    /// By default, the application's `accentColor` is used.
+    public func timecodeFieldHighlightStyle(
+        _ color: Color?
+    ) -> some View {
+        modifier(TimecodeFieldHighlightStyleViewModifier(color: color))
+    }
+}
+
 // MARK: - TimecodeFieldInputStyle
 
 /// Sets the data entry input style for ``TimecodeField`` views.
@@ -132,30 +156,6 @@ extension View {
         _ format: Timecode.StringFormat
     ) -> some View {
         modifier(TimecodeFormatViewModifier(format: format))
-    }
-}
-
-// MARK: - TimecodeFieldHighlightStyle
-
-/// Sets the component highlight style for ``TimecodeField`` views.
-/// By default, the application's `accentColor` is used.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-struct TimecodeFieldHighlightStyleViewModifier: ViewModifier {
-    let color: Color?
-    
-    func body(content: Content) -> some View {
-        content.environment(\.timecodeFieldHighlightStyle, color)
-    }
-}
-
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension View {
-    /// Sets the component highlight style for ``TimecodeField`` views.
-    /// By default, the application's `accentColor` is used.
-    public func timecodeFieldHighlightStyle(
-        _ color: Color?
-    ) -> some View {
-        modifier(TimecodeFieldHighlightStyleViewModifier(color: color))
     }
 }
 

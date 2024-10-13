@@ -9,6 +9,27 @@
 import SwiftUI
 import TimecodeKit
 
+// MARK: - TimecodeFieldHighlightStyle
+
+/// Sets the component highlight style for ``TimecodeField`` views.
+/// By default, the application's `accentColor` is used.
+@_documentation(visibility: internal)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+struct TimecodeFieldHighlightStyleKey: EnvironmentKey {
+    public static var defaultValue: Color? = .accentColor
+}
+
+@_documentation(visibility: internal)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+extension EnvironmentValues {
+    /// Sets the component highlight style for ``TimecodeField`` views.
+    /// By default, the application's `accentColor` is used.
+    public var timecodeFieldHighlightStyle: Color? {
+        get { self[TimecodeFieldHighlightStyleKey.self] }
+        set { self[TimecodeFieldHighlightStyleKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeFieldInputStyle
 
 /// Sets the data entry input style for ``TimecodeField`` views.
@@ -117,27 +138,6 @@ extension EnvironmentValues {
     public var timecodeFormat: Timecode.StringFormat {
         get { self[TimecodeFormatKey.self] }
         set { self[TimecodeFormatKey.self] = newValue }
-    }
-}
-
-// MARK: - TimecodeFieldHighlightStyle
-
-/// Sets the component highlight style for ``TimecodeField`` views.
-/// By default, the application's `accentColor` is used.
-@_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-struct TimecodeFieldHighlightStyleKey: EnvironmentKey {
-    public static var defaultValue: Color? = .accentColor
-}
-
-@_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension EnvironmentValues {
-    /// Sets the component highlight style for ``TimecodeField`` views.
-    /// By default, the application's `accentColor` is used.
-    public var timecodeFieldHighlightStyle: Color? {
-        get { self[TimecodeFieldHighlightStyleKey.self] }
-        set { self[TimecodeFieldHighlightStyleKey.self] = newValue }
     }
 }
 
