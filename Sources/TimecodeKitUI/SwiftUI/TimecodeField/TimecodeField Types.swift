@@ -28,4 +28,19 @@ extension TimecodeField {
     }
 }
 
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.FieldAction: Identifiable {
+    public var id: Self { self }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.FieldAction: CaseIterable {
+    public static let allCases: [Self] = [.endEditing]
+    + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
+}
+
 #endif
