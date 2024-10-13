@@ -215,7 +215,10 @@ extension TimecodeField {
                 isVirgin = true
                 return .handled
                 
-            case .delete, .deleteScalar:
+            case .delete, .deleteScalar: // backspace
+                if value == 0 {
+                    componentEditing = component.previous(excluding: invisibleComponents)
+                }
                 if isVirgin {
                     value = 0
                     isVirgin = false
