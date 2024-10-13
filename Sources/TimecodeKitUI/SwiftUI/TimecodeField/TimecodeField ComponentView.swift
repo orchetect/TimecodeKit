@@ -242,7 +242,7 @@ extension TimecodeField {
                 
             case .return:
                 endEditing()
-                return .handled
+                return .ignored // pass through to any buttons that may have default action
                 
             default:
                 return .ignored
