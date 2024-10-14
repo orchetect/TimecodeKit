@@ -16,6 +16,9 @@ import TimecodeKit
 @available(tvOS, unavailable)
 extension TimecodeField {
     /// An enum describing actions to perform in response to ``TimecodeField`` user input.
+    ///
+    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldReturnAction`` and/or
+    /// ``SwiftUICore/EnvironmentValues/timecodeFieldEscapeAction`` view modifiers.
     public enum FieldAction: Equatable, Hashable, Sendable {
         /// End editing.
         /// Removes focus from the timecode field.
@@ -52,6 +55,8 @@ extension TimecodeField.FieldAction: CaseIterable {
 @available(tvOS, unavailable)
 extension TimecodeField {
     /// An enum describing numeric data entry input style cases for ``TimecodeField``.
+    ///
+    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldInputStyle`` view modifier.
     public enum InputStyle: Equatable, Hashable, CaseIterable, Sendable {
         /// Auto-advance focus to next timecode component once all digits for the currently-focused component are
         /// populated by user data entry.
@@ -89,8 +94,26 @@ extension TimecodeField.InputStyle: Identifiable {
 @available(tvOS, unavailable)
 extension TimecodeField {
     /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
+    ///
+    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldInputWrapping`` view modifier.
     public enum InputWrapping: Equatable, Hashable, CaseIterable, Sendable {
+        /// When the timecode field advances focus to the next timecode component, the focus should wrap around to the
+        /// first visible timecode component when advancing focus from the last visible timecode component.
+        ///
+        /// For example, when HH:MM:SS:FF components are visible, focus will advance from frames back around to hours.
         case wrap
+        
+        /// When the timecode field advances focus to the next timecode component, do not wrap around to the first
+        /// timecode component when attempting to advance focus from the last visible timecode component.
+        ///
+        /// For example, when HH:MM:SS:FF components are visible, focus will not advance from frames but instead frames
+        /// will remain focused.
+        ///
+        /// In order to move focus to a previous component, the user may either:
+        /// - click or tap on a different component
+        /// - use the hardware left or right arrow keys to navigate focus
+        /// - use the Delete (backspace) key twice to delete the contents of the component and then move focus to the
+        ///   previous component, repeating as desired
         case noWrap
     }
 }

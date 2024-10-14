@@ -191,12 +191,15 @@ extension View {
 
 // MARK: - TimecodeValidationStyle
 
-/// Sets timecode component validation style for ``TimecodeField`` and ``TimecodeText`` views.
+/// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
 ///
-/// This foreground color will be used only for any timecode component values that are invalid for the given
+/// This foreground color will be used only for any timecode component values that are invalid based on the given
 /// properties (frame rate, subframes base, and upper limit).
 ///
-/// If `nil`, validation is disabled and invalid components will not be colorized.
+/// If `nil`, validation rendering is disabled and invalid components will not be colorized.
+///
+/// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
+/// validation that may (or may not) be applied separately.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeValidationStyleViewModifier: ViewModifier {
     let color: Color?
@@ -208,12 +211,15 @@ struct TimecodeValidationStyleViewModifier: ViewModifier {
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    /// Sets timecode component validation style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
     ///
-    /// This foreground color will be used only for any timecode component values that are invalid for the given
+    /// This foreground color will be used only for any timecode component values that are invalid based on the given
     /// properties (frame rate, subframes base, and upper limit).
     ///
-    /// If `nil`, validation is disabled and invalid components will not be colorized.
+    /// If `nil`, validation rendering is disabled and invalid components will not be colorized.
+    ///
+    /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
+    /// validation that may (or may not) be applied separately.
     public func timecodeValidationStyle(
         _ color: Color? = .red
     ) -> some View {
