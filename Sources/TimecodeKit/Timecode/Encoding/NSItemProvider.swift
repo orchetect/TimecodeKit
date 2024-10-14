@@ -159,7 +159,7 @@ extension NSItemProvider {
     @MainActor
     fileprivate func _loadTransferable<T>(
         type transferableType: T.Type
-    ) async throws -> T where T: Transferable {
+    ) async throws -> T where T: Transferable, T: Sendable {
         let result = await withCheckedContinuation { continuation in
             // discard the returned Progress instance
             _ = loadTransferable(type: transferableType) { result in

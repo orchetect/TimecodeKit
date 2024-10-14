@@ -195,13 +195,11 @@ extension TimecodeField {
         private func handleKeyPress(key: KeyEquivalent) -> KeyPress.Result {
             switch key {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-                var priorNonVirginDigitCount = isVirgin ? 0 : value.numberOfDigits
-                
                 let proposedValue: Int?
                 
+                defer { setIsVirgin(false) }
                 if isVirgin {
                     proposedValue = Int("\(key.character)")
-                    defer { setIsVirgin(false) }
                 } else {
                     proposedValue = Int("\(value)\(key.character)")
                 }

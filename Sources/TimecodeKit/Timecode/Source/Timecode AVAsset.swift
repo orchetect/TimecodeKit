@@ -7,15 +7,15 @@
 // AVAssetReader is unavailable on watchOS so we can't support any AVAsset operations
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
-import AVFoundation
+@preconcurrency import AVFoundation
 import Foundation
 
 // MARK: - AVAssetTimecodeSource
 
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 struct AVAssetTimecodeSource {
-    var asset: AVAsset
-    var attribute: RangeAttribute
+    let asset: AVAsset
+    let attribute: RangeAttribute
 }
 
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
@@ -111,8 +111,8 @@ extension AsyncTimecodeSourceValue {
 
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 struct AVAssetRichTimecodeSource {
-    var asset: AVAsset
-    var attribute: RangeAttribute
+    let asset: AVAsset
+    let attribute: RangeAttribute
 }
 
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)

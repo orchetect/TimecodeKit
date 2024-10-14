@@ -44,7 +44,8 @@ import TimecodeKit
 /// > when we want to observe changes to individual `Timecode` properties in SwiftUI. The solution is a custom state
 /// > wrapper that forces view updates when any `Timecode` property changes.
 @available(macOS 11, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
-@propertyWrapper public struct TimecodeState: DynamicProperty {
+@MainActor
+@propertyWrapper public struct TimecodeState: DynamicProperty, Sendable {
     public typealias Value = Timecode
     
     @StateObject private var wrapper: Wrapper
@@ -71,7 +72,7 @@ import TimecodeKit
     
     // public func update() { }
     
-    private class Wrapper: ObservableObject {
+    private final class Wrapper: ObservableObject {
         var timecode: Timecode {
             willSet {
                 // this is tantamount to a custom Equatable implementation
@@ -79,9 +80,9 @@ import TimecodeKit
                     timecode.properties != newValue.properties
                 else { return }
                 
-                DispatchQueue.main.async {
+                // DispatchQueue.main.async {
                     self.objectWillChange.send()
-                }
+                // }
             }
         }
         

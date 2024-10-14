@@ -43,44 +43,45 @@ extension TimecodeFrameRate {
         /// frame number will differ. They will then both reach `01:00:01:00` at exactly the same time, and so on.
         ///
         /// - note: These are intended for internal logic and not for end-user user interface.
-        public static var table: [CompatibleGroup: [TimecodeFrameRate]] =
-            [
-                .ntscColor: [
-                    .fps23_976,
-                    .fps24_98,
-                    .fps29_97,
-                    .fps47_952,
-                    .fps59_94,
-                    .fps95_904,
-                    .fps119_88
-                ],
-                
-                .ntscDrop: [
-                    .fps29_97d,
-                    .fps59_94d,
-                    .fps119_88d
-                ],
-                
-                .whole: [
-                    .fps24,
-                    .fps25,
-                    .fps30,
-                    .fps48,
-                    .fps50,
-                    .fps60,
-                    .fps96,
-                    .fps100,
-                    .fps120
-                ],
-                
-                .ntscColorWallTime: [
-                    .fps30d,
-                    .fps60d,
-                    .fps120d
-                ]
+        public static let table: [CompatibleGroup: [TimecodeFrameRate]] = [
+            .ntscColor: [
+                .fps23_976,
+                .fps24_98,
+                .fps29_97,
+                .fps47_952,
+                .fps59_94,
+                .fps95_904,
+                .fps119_88
+            ],
+            
+            .ntscDrop: [
+                .fps29_97d,
+                .fps59_94d,
+                .fps119_88d
+            ],
+        
+            .whole: [
+                .fps24,
+                .fps25,
+                .fps30,
+                .fps48,
+                .fps50,
+                .fps60,
+                .fps96,
+                .fps100,
+                .fps120
+            ],
+        
+            .ntscColorWallTime: [
+                .fps30d,
+                .fps60d,
+                .fps120d
             ]
+        ]
     }
 }
+
+extension TimecodeFrameRate.CompatibleGroup: Sendable { }
 
 extension TimecodeFrameRate.CompatibleGroup: CustomStringConvertible {
     public var description: String {

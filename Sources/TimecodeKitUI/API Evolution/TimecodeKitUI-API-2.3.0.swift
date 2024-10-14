@@ -14,7 +14,7 @@ import TimecodeKit
 @_documentation(visibility: internal)
 @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
 extension Timecode {
-    @_disfavoredOverload
+    @MainActor @_disfavoredOverload
     @available(
         *,
         deprecated,

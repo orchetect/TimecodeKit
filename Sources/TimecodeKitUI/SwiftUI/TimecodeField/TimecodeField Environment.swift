@@ -16,7 +16,7 @@ import TimecodeKit
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFieldHighlightStyleKey: EnvironmentKey {
-    public static var defaultValue: Color? = .accentColor
+    public static let defaultValue: Color? = .accentColor
 }
 
 @_documentation(visibility: internal)
@@ -38,7 +38,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldInputStyleKey: EnvironmentKey {
-    public static var defaultValue: TimecodeField.InputStyle = .autoAdvance
+    public static let defaultValue: TimecodeField.InputStyle = .autoAdvance
 }
 
 @_documentation(visibility: internal)
@@ -61,7 +61,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldInputWrappingKey: EnvironmentKey {
-    public static var defaultValue: TimecodeField.InputWrapping = .wrap
+    public static let defaultValue: TimecodeField.InputWrapping = .wrap
 }
 
 @_documentation(visibility: internal)
@@ -84,7 +84,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldReturnActionKey: EnvironmentKey {
-    public static var defaultValue: TimecodeField.FieldAction? = nil
+    public static let defaultValue: TimecodeField.FieldAction? = nil
 }
 
 @_documentation(visibility: internal)
@@ -107,7 +107,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldEscapeActionKey: EnvironmentKey {
-    public static var defaultValue: TimecodeField.FieldAction? = nil
+    public static let defaultValue: TimecodeField.FieldAction? = nil
 }
 
 @_documentation(visibility: internal)
@@ -128,7 +128,7 @@ extension EnvironmentValues {
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFormatKey: EnvironmentKey {
-    public static var defaultValue: Timecode.StringFormat = .default()
+    public static let defaultValue: Timecode.StringFormat = .default()
 }
 
 @_documentation(visibility: internal)
@@ -150,7 +150,7 @@ extension EnvironmentValues {
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeSeparatorStyleKey: EnvironmentKey {
-    public static var defaultValue: Color? = nil
+    public static let defaultValue: Color? = nil
 }
 
 @_documentation(visibility: internal)
@@ -172,7 +172,7 @@ extension EnvironmentValues {
 @_documentation(visibility: internal)
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeValidationStyleKey: EnvironmentKey {
-    public static var defaultValue: Color? = .red
+    public static let defaultValue: Color? = .red
 }
 
 @_documentation(visibility: internal)

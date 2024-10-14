@@ -8,7 +8,7 @@
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information.
-protocol _TimecodeSource {
+protocol _TimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -20,7 +20,7 @@ protocol _TimecodeSource {
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information. (Async variant of ``_TimecodeSource``.)
-protocol _AsyncTimecodeSource {
+protocol _AsyncTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -34,7 +34,7 @@ protocol _AsyncTimecodeSource {
 
 /// A protocol for formatted timecode time value sources that do not supply their own frame
 /// rate information.
-protocol _FormattedTimecodeSource {
+protocol _FormattedTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -45,7 +45,7 @@ protocol _FormattedTimecodeSource {
 }
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
-protocol _RichTimecodeSource {
+protocol _RichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
@@ -57,7 +57,7 @@ protocol _RichTimecodeSource {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
 /// (Async variant of ``_RichTimecodeSource``.)
-protocol _AsyncRichTimecodeSource {
+protocol _AsyncRichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -65,7 +65,7 @@ protocol _AsyncRichTimecodeSource {
 }
 
 /// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
-protocol _GuaranteedTimecodeSource {
+protocol _GuaranteedTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode)
@@ -73,7 +73,7 @@ protocol _GuaranteedTimecodeSource {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information and
 /// are guaranteed to be valid regardless of properties.
-protocol _GuaranteedRichTimecodeSource {
+protocol _GuaranteedRichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
@@ -87,7 +87,7 @@ protocol _GuaranteedRichTimecodeSource {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct TimecodeSourceValue {
+public struct TimecodeSourceValue: Sendable {
     var value: _TimecodeSource
     
     init(value: _TimecodeSource) {
@@ -102,7 +102,7 @@ public struct TimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct AsyncTimecodeSourceValue {
+public struct AsyncTimecodeSourceValue: Sendable {
     var value: _AsyncTimecodeSource
     
     init(value: _AsyncTimecodeSource) {
@@ -116,7 +116,7 @@ public struct AsyncTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct FormattedTimecodeSourceValue {
+public struct FormattedTimecodeSourceValue: Sendable {
     var value: _FormattedTimecodeSource
     
     init(value: _FormattedTimecodeSource) {
@@ -130,7 +130,7 @@ public struct FormattedTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct RichTimecodeSourceValue {
+public struct RichTimecodeSourceValue: Sendable {
     var value: _RichTimecodeSource
     
     init(value: _RichTimecodeSource) {
@@ -145,7 +145,7 @@ public struct RichTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct AsyncRichTimecodeSourceValue {
+public struct AsyncRichTimecodeSourceValue: Sendable {
     var value: _AsyncRichTimecodeSource
     
     init(value: _AsyncRichTimecodeSource) {
@@ -159,7 +159,7 @@ public struct AsyncRichTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct GuaranteedTimecodeSourceValue {
+public struct GuaranteedTimecodeSourceValue: Sendable {
     var value: _GuaranteedTimecodeSource
     
     init(value: _GuaranteedTimecodeSource) {
@@ -173,7 +173,7 @@ public struct GuaranteedTimecodeSourceValue {
 /// > This struct is not designed to be used directly. Use the static construction methods to form a value instead.
 /// > See ``Timecode`` for more details and examples.
 @_documentation(visibility: internal)
-public struct GuaranteedRichTimecodeSourceValue {
+public struct GuaranteedRichTimecodeSourceValue: Sendable {
     var value: _GuaranteedRichTimecodeSource
     
     init(value: _GuaranteedRichTimecodeSource) {
