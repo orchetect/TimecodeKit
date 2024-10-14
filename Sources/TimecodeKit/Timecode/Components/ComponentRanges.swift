@@ -42,7 +42,7 @@ extension Timecode.ComponentRanges: Sendable { }
 
 extension Timecode.ComponentRanges {
     /// A default set of unsafe random component value ranges.
-    public static var unsafeRandomRanges = Self(
+    public static let unsafeRandomRanges = Self(
         days: 0 ... 99,
         hours: 0 ... 99,
         minutes: 0 ... 99,
