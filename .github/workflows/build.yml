@@ -61,22 +61,7 @@ jobs:
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Unit Tests
       run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
-
-  macOS:
-    name: macOS (Swift 6.0)
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@main
-    - uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable # Sometimes a newer version of Xcode is available but isn't yet made default
-    - name: Set Swift Tools version
-      run: swift package tools-version --set "6.0"
-    - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
-    - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
-
+  
   macCatalyst:
     name: macCatalyst
     runs-on: macos-latest
