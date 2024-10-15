@@ -1,5 +1,5 @@
 //
-//  Timecode Integration Tests.swift
+//  Timecode Ad-Hoc Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
