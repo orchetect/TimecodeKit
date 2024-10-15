@@ -8,7 +8,7 @@
 #if canImport(AVFoundation) && !os(watchOS) && !os(visionOS)
 
 import AVFoundation
-import TimecodeKitCore
+import TimecodeKitAV
 import XCTest
 
 final class AVFoundationUtils_Tests: XCTestCase {

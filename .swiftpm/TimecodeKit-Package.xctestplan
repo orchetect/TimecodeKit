@@ -1,0 +1,40 @@
+{
+  "configurations" : [
+    {
+      "id" : "B7F443DF-A625-4ED8-A371-47C764F59DE2",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "TimecodeKitAVTests",
+        "name" : "TimecodeKitAVTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "TimecodeKitCoreTests",
+        "name" : "TimecodeKitCoreTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "TimecodeKitDevTests",
+        "name" : "TimecodeKitDevTests"
+      }
+    }
+  ],
+  "version" : 1
+}

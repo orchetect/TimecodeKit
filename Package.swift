@@ -14,23 +14,10 @@ let package = Package(
         #endif
     }(),
     products: [
-        .library(
-            name: "TimecodeKit",
-            targets: ["TimecodeKit"]
-        ),
-        .library(
-            name: "TimecodeKitCore",
-            type: .static,
-            targets: ["TimecodeKitCore"]
-        ),
-        .library(
-            name: "TimecodeKitAV",
-            targets: ["TimecodeKitAV"]
-        ),
-        .library(
-            name: "TimecodeKitUI",
-            targets: ["TimecodeKitUI"]
-        )
+        .library(name: "TimecodeKit", targets: ["TimecodeKit"]),
+        .library(name: "TimecodeKitCore", type: .static, targets: ["TimecodeKitCore"]),
+        .library(name: "TimecodeKitAV", targets: ["TimecodeKitAV"]),
+        .library(name: "TimecodeKitUI", targets: ["TimecodeKitUI"])
     ],
     dependencies: [
         // used only for Dev tests, not part of regular unit tests
@@ -72,11 +59,17 @@ let package = Package(
                 )
             ]
         ),
-            
-        // unit tests
+        
+        // core unit tests
         .testTarget(
-            name: "TimecodeKit-Unit-Tests",
-            dependencies: ["TimecodeKitCore"],
+            name: "TimecodeKitCoreTests",
+            dependencies: ["TimecodeKitCore"]
+        ),
+        
+        // AV tests
+        .testTarget(
+            name: "TimecodeKitAVTests",
+            dependencies: ["TimecodeKitAV"],
             resources: [.copy("TestResource/Media Files")]
         ),
         
@@ -84,7 +77,7 @@ let package = Package(
         // (not meant to be run as unit tests, but only to verify library's computational integrity
         // when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
-            name: "TimecodeKit-Dev-Tests",
+            name: "TimecodeKitDevTests",
             dependencies: ["TimecodeKitCore"] // , "XCTestUtils"
         )
     ]

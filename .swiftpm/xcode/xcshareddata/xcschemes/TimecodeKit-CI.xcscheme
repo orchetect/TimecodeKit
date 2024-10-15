@@ -20,34 +20,6 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TimecodeKit-Dev-Tests"
-               BuildableName = "TimecodeKit-Dev-Tests"
-               BlueprintName = "TimecodeKit-Dev-Tests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TimecodeKit-Unit-Tests"
-               BuildableName = "TimecodeKit-Unit-Tests"
-               BlueprintName = "TimecodeKit-Unit-Tests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -58,12 +30,12 @@
       codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
-            skipped = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TimecodeKit-Dev-Tests"
-               BuildableName = "TimecodeKit-Dev-Tests"
-               BlueprintName = "TimecodeKit-Dev-Tests"
+               BlueprintIdentifier = "TimecodeKitAVTests"
+               BuildableName = "TimecodeKitAVTests"
+               BlueprintName = "TimecodeKitAVTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -72,9 +44,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TimecodeKit-Unit-Tests"
-               BuildableName = "TimecodeKit-Unit-Tests"
-               BlueprintName = "TimecodeKit-Unit-Tests"
+               BlueprintIdentifier = "TimecodeKitCoreTests"
+               BuildableName = "TimecodeKitCoreTests"
+               BlueprintName = "TimecodeKitCoreTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
