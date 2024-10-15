@@ -7,7 +7,7 @@
 #if canImport(SwiftUI) && (os(macOS) || os(iOS) || os(visionOS))
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 /// A hybrid text field designed for timecode entry, allowing specialized format and style view modifiers
 /// including the ability to colorize invalid timecode components.

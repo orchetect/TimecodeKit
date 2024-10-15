@@ -5,7 +5,7 @@
 //
 
 import AVFoundation
-@testable import TimecodeKit
+@testable import TimecodeKitCore
 import XCTest
 
 // final class TimecodeTrackWriteTests: XCTestCase {

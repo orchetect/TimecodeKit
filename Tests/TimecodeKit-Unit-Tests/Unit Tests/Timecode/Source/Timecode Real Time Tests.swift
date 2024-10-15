@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-import TimecodeKit // do NOT import as @testable in this file
+import TimecodeKitCore // do NOT import as @testable in this file
 import XCTest
 
 final class Timecode_RealTime_Tests: XCTestCase {

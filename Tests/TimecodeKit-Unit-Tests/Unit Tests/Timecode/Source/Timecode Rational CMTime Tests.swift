@@ -5,7 +5,7 @@
 //
 
 import CoreMedia
-import TimecodeKit // do NOT import as @testable in this file
+import TimecodeKitCore // do NOT import as @testable in this file
 import XCTest
 
 final class Timecode_Rational_CMTime_Tests: XCTestCase {

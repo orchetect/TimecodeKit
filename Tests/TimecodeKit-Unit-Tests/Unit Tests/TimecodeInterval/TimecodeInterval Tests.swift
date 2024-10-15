@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-@testable import TimecodeKit
+@testable import TimecodeKitCore
 import XCTest
 
 final class TimecodeInterval_Tests: XCTestCase {

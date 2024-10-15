@@ -6,7 +6,7 @@
 
 #if canImport(UniformTypeIdentifiers) && canImport(CoreTransferable)
 
-@testable import TimecodeKit
+@testable import TimecodeKitCore
 import XCTest
 
 final class NSItemProviderTests: XCTestCase {

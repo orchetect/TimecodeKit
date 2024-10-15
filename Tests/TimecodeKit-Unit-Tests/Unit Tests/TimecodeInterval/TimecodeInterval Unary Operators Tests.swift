@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-import TimecodeKit
+import TimecodeKitCore
 import XCTest
 
 final class TimecodeInterval_UnaryOperators_Tests: XCTestCase {

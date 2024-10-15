@@ -7,7 +7,7 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)

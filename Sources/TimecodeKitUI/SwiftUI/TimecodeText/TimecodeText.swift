@@ -7,7 +7,7 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 // ⚠️ NOTE:
 //

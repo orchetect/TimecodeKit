@@ -7,7 +7,7 @@
 #if canImport(CoreMedia)
 
 import CoreMedia
-import TimecodeKit
+import TimecodeKitCore
 import XCTest
 
 final class Fraction_CMTime_Tests: XCTestCase {

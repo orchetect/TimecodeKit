@@ -7,7 +7,7 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Binding where Value == Timecode.StringFormat {

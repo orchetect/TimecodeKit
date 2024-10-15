@@ -7,7 +7,7 @@
 #if canImport(SwiftUI) && (os(macOS) || os(iOS) || os(visionOS))
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 // MARK: - FieldAction
 

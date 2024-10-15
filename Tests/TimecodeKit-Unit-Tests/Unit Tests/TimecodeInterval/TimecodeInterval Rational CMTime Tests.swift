@@ -5,7 +5,7 @@
 //
 
 import CoreMedia
-import TimecodeKit
+import TimecodeKitCore
 import XCTest
 
 final class TimecodeInterval_Rational_CMTime_Tests: XCTestCase {

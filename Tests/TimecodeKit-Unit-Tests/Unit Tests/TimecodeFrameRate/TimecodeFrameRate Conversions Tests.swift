@@ -5,7 +5,7 @@
 //
 
 import CoreMedia
-import TimecodeKit
+import TimecodeKitCore
 import XCTest
 
 final class TimecodeFrameRate_Conversions_Tests: XCTestCase {

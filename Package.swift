@@ -17,7 +17,12 @@ let package = Package(
         .library(
             name: "TimecodeKit",
             type: .static,
-            targets: ["TimecodeKit"]
+            targets: ["TimecodeKitCore", "TimecodeKitUI"]
+        ),
+        .library(
+            name: "TimecodeKitCore",
+            type: .static,
+            targets: ["TimecodeKitCore"]
         ),
         .library(
             name: "TimecodeKitUI",
@@ -30,16 +35,16 @@ let package = Package(
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ],
     targets: [
-        // main target
+        // core target
         .target(
-            name: "TimecodeKit",
+            name: "TimecodeKitCore",
             dependencies: []
         ),
         
         // UI components
         .target(
             name: "TimecodeKitUI",
-            dependencies: ["TimecodeKit"],
+            dependencies: ["TimecodeKitCore"],
             linkerSettings: [
                 .linkedFramework(
                     "SwiftUI",
@@ -57,7 +62,7 @@ let package = Package(
         // unit tests
         .testTarget(
             name: "TimecodeKit-Unit-Tests",
-            dependencies: ["TimecodeKit"],
+            dependencies: ["TimecodeKitCore"],
             resources: [.copy("TestResource/Media Files")]
         ),
         
@@ -66,7 +71,7 @@ let package = Package(
         // when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
             name: "TimecodeKit-Dev-Tests",
-            dependencies: ["TimecodeKit"] // , "XCTestUtils"
+            dependencies: ["TimecodeKitCore"] // , "XCTestUtils"
         )
     ]
 )

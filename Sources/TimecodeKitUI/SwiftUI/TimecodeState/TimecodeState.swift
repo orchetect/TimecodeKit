@@ -7,7 +7,7 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 /// Custom SwiftUI state wrapper that ensures changes are pushed to views when any Timecode component or property
 /// changes.

@@ -7,7 +7,7 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
-import TimecodeKit
+import TimecodeKitCore
 
 // MARK: API Changes in TimecodeKit 2.0.0 UI
 

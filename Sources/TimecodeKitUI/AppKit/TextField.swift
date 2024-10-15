@@ -7,7 +7,7 @@
 #if os(macOS)
 
 import AppKit
-import TimecodeKit
+import TimecodeKitCore
 
 extension Timecode {
     /// `NSTextField` subclass with timecode formatting.
