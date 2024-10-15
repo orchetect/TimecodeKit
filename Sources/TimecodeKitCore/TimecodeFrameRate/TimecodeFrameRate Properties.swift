@@ -314,7 +314,7 @@ extension TimecodeFrameRate {
 extension TimecodeFrameRate {
     /// Internal use.
     /// Constant for total number of elapsed frames that comprise 1 'second' of timecode.
-    var maxFrames: Int {
+    package var maxFrames: Int {
         switch self {
         case .fps23_976:  24
         case .fps24:      24
@@ -343,7 +343,7 @@ extension TimecodeFrameRate {
     
     /// Internal use.
     /// Constant used when calculating total frame count, audio samples, etc.
-    var frameRateForElapsedFramesCalculation: Double {
+    package var frameRateForElapsedFramesCalculation: Double {
         switch self {
         case .fps23_976:  24.0
         case .fps24:      24.0
@@ -372,7 +372,7 @@ extension TimecodeFrameRate {
     
     /// Internal use.
     /// Constant used in real time conversion, SMF export, etc.
-    var frameRateForRealTimeCalculation: Double {
+    package var frameRateForRealTimeCalculation: Double {
         switch self {
         case .fps23_976:  24.0 / 1.001
         case .fps24:      24.0
@@ -400,7 +400,7 @@ extension TimecodeFrameRate {
     }
     
     /// Internal use.
-    var framesDroppedPerMinute: Double {
+    package var framesDroppedPerMinute: Double {
         switch self {
         case .fps29_97d:  2.0
         case .fps30d:     2.0

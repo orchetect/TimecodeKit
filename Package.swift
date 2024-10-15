@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 5.9
 // (be sure to update the .swift-version file when this Swift version changes)
 
 import PackageDescription
@@ -16,7 +16,6 @@ let package = Package(
     products: [
         .library(
             name: "TimecodeKit",
-            type: .static,
             targets: ["TimecodeKit"]
         ),
         .library(
@@ -25,8 +24,11 @@ let package = Package(
             targets: ["TimecodeKitCore"]
         ),
         .library(
+            name: "TimecodeKitAV",
+            targets: ["TimecodeKitAV"]
+        ),
+        .library(
             name: "TimecodeKitUI",
-            type: .static,
             targets: ["TimecodeKitUI"]
         )
     ],
@@ -38,13 +40,19 @@ let package = Package(
         // umbrella target
         .target(
             name: "TimecodeKit",
-            dependencies: ["TimecodeKitCore", "TimecodeKitUI"]
+            dependencies: ["TimecodeKitCore", "TimecodeKitAV", "TimecodeKitUI"]
         ),
         
         // core target
         .target(
             name: "TimecodeKitCore",
             dependencies: []
+        ),
+        
+        // AVFoundation target
+        .target(
+            name: "TimecodeKitAV",
+            dependencies: ["TimecodeKitCore"]
         ),
         
         // UI components

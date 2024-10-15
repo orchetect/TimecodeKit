@@ -8,7 +8,7 @@
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information.
-protocol _TimecodeSource where Self: Sendable {
+package protocol _TimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -20,7 +20,7 @@ protocol _TimecodeSource where Self: Sendable {
 
 /// A protocol for timecode time value sources that do not supply their own frame
 /// rate information. (Async variant of ``_TimecodeSource``.)
-protocol _AsyncTimecodeSource where Self: Sendable {
+package protocol _AsyncTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -34,7 +34,7 @@ protocol _AsyncTimecodeSource where Self: Sendable {
 
 /// A protocol for formatted timecode time value sources that do not supply their own frame
 /// rate information.
-protocol _FormattedTimecodeSource where Self: Sendable {
+package protocol _FormattedTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws
@@ -45,7 +45,7 @@ protocol _FormattedTimecodeSource where Self: Sendable {
 }
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
-protocol _RichTimecodeSource where Self: Sendable {
+package protocol _RichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) throws -> Timecode.Properties
@@ -57,7 +57,7 @@ protocol _RichTimecodeSource where Self: Sendable {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information.
 /// (Async variant of ``_RichTimecodeSource``.)
-protocol _AsyncRichTimecodeSource where Self: Sendable {
+package protocol _AsyncRichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -65,7 +65,7 @@ protocol _AsyncRichTimecodeSource where Self: Sendable {
 }
 
 /// A protocol for timecode time value sources that are guaranteed to be valid regardless of properties.
-protocol _GuaranteedTimecodeSource where Self: Sendable {
+package protocol _GuaranteedTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode)
@@ -73,7 +73,7 @@ protocol _GuaranteedTimecodeSource where Self: Sendable {
 
 /// A protocol for timecode time value sources that are able to supply frame rate information and
 /// are guaranteed to be valid regardless of properties.
-protocol _GuaranteedRichTimecodeSource where Self: Sendable {
+package protocol _GuaranteedRichTimecodeSource where Self: Sendable {
     /// Sets the timecode for a ``Timecode`` instance from a time value source.
     /// Not meant to be called directly; instead, pass this instance into a ``Timecode`` initializer.
     func set(timecode: inout Timecode) -> Timecode.Properties
@@ -105,7 +105,7 @@ public struct TimecodeSourceValue: Sendable {
 public struct AsyncTimecodeSourceValue: Sendable {
     var value: _AsyncTimecodeSource
     
-    init(value: _AsyncTimecodeSource) {
+    package init(value: _AsyncTimecodeSource) {
         self.value = value
     }
 }
@@ -119,7 +119,7 @@ public struct AsyncTimecodeSourceValue: Sendable {
 public struct FormattedTimecodeSourceValue: Sendable {
     var value: _FormattedTimecodeSource
     
-    init(value: _FormattedTimecodeSource) {
+    package init(value: _FormattedTimecodeSource) {
         self.value = value
     }
 }
@@ -133,7 +133,7 @@ public struct FormattedTimecodeSourceValue: Sendable {
 public struct RichTimecodeSourceValue: Sendable {
     var value: _RichTimecodeSource
     
-    init(value: _RichTimecodeSource) {
+    package init(value: _RichTimecodeSource) {
         self.value = value
     }
 }
@@ -148,7 +148,7 @@ public struct RichTimecodeSourceValue: Sendable {
 public struct AsyncRichTimecodeSourceValue: Sendable {
     var value: _AsyncRichTimecodeSource
     
-    init(value: _AsyncRichTimecodeSource) {
+    package init(value: _AsyncRichTimecodeSource) {
         self.value = value
     }
 }
@@ -162,7 +162,7 @@ public struct AsyncRichTimecodeSourceValue: Sendable {
 public struct GuaranteedTimecodeSourceValue: Sendable {
     var value: _GuaranteedTimecodeSource
     
-    init(value: _GuaranteedTimecodeSource) {
+    package init(value: _GuaranteedTimecodeSource) {
         self.value = value
     }
 }
@@ -176,7 +176,7 @@ public struct GuaranteedTimecodeSourceValue: Sendable {
 public struct GuaranteedRichTimecodeSourceValue: Sendable {
     var value: _GuaranteedRichTimecodeSource
     
-    init(value: _GuaranteedRichTimecodeSource) {
+    package init(value: _GuaranteedRichTimecodeSource) {
         self.value = value
     }
 }

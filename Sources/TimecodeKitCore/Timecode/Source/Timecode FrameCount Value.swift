@@ -9,11 +9,11 @@ import Foundation
 // MARK: - TimecodeSource
 
 extension Timecode.FrameCount.Value: _TimecodeSource {
-    func set(timecode: inout Timecode) throws {
+    package func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }
     
-    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    package func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         switch validation {
         case .clamping, .clampingComponents:
             timecode._setTimecode(clamping: self)

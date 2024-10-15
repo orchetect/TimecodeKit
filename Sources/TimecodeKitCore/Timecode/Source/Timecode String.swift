@@ -15,11 +15,11 @@ import UIKit
 // MARK: - FormattedTimecodeSource
 
 extension String: _FormattedTimecodeSource {
-    func set(timecode: inout Timecode) throws {
+    package func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }
     
-    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) throws {
+    package func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) throws {
         switch validation {
         case .clamping:
             try timecode._setTimecode(clamping: self)

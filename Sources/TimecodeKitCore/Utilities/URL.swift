@@ -7,7 +7,7 @@
 import Foundation
 
 extension URL {
-    init(temporaryFileWithData data: Data) throws {
+    package init(temporaryFileWithData data: Data) throws {
         let url = FileManager.default.temporaryDirectoryCompat
             .appendingPathComponent(UUID().uuidString)
         try data.write(to: url)
@@ -18,7 +18,7 @@ extension URL {
 extension FileManager {
     /// Backwards compatible method for retrieving a temporary folder from the system.
     @_disfavoredOverload
-    var temporaryDirectoryCompat: URL {
+    package var temporaryDirectoryCompat: URL {
         if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
             return temporaryDirectory
         } else {

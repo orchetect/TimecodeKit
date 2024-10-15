@@ -40,26 +40,26 @@ extension Timecode {
 // MARK: - TimecodeSource
 
 extension Timecode.SafeRandomComponents: _GuaranteedTimecodeSource {
-    func set(timecode: inout Timecode) {
+    package func set(timecode: inout Timecode) {
         let components: Timecode.Components = .random(using: timecode.properties)
         timecode.set(components, by: .allowingInvalid)
     }
 }
 
 extension Timecode.UnsafeRandomComponents: _TimecodeSource {
-    func set(timecode: inout Timecode) throws {
+    package func set(timecode: inout Timecode) throws {
         let components: Timecode.Components = .random(in: ranges)
         try timecode.set(components)
     }
     
-    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
+    package func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) {
         let components: Timecode.Components = .random(in: ranges)
         timecode.set(components, by: validation)
     }
 }
 
 extension Timecode.SafeRandomComponentsAndProperties: _GuaranteedRichTimecodeSource {
-    func set(timecode: inout Timecode) -> Timecode.Properties {
+    package func set(timecode: inout Timecode) -> Timecode.Properties {
         timecode.upperLimit = Timecode.UpperLimit.allCases.randomElement()!
         timecode.subFramesBase = Timecode.SubFramesBase.allCases.randomElement()!
         timecode.frameRate = TimecodeFrameRate.allCases.randomElement()!
@@ -72,7 +72,7 @@ extension Timecode.SafeRandomComponentsAndProperties: _GuaranteedRichTimecodeSou
 }
 
 extension Timecode.UnsafeRandomComponentsAndProperties: _RichTimecodeSource {
-    func set(timecode: inout Timecode) throws -> Timecode.Properties {
+    package func set(timecode: inout Timecode) throws -> Timecode.Properties {
         timecode.upperLimit = Timecode.UpperLimit.allCases.randomElement()!
         timecode.subFramesBase = Timecode.SubFramesBase.allCases.randomElement()!
         timecode.frameRate = TimecodeFrameRate.allCases.randomElement()!
@@ -83,7 +83,7 @@ extension Timecode.UnsafeRandomComponentsAndProperties: _RichTimecodeSource {
         return timecode.properties
     }
     
-    func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) -> Timecode.Properties {
+    package func set(timecode: inout Timecode, by validation: Timecode.ValidationRule) -> Timecode.Properties {
         timecode.upperLimit = Timecode.UpperLimit.allCases.randomElement()!
         timecode.subFramesBase = Timecode.SubFramesBase.allCases.randomElement()!
         timecode.frameRate = TimecodeFrameRate.allCases.randomElement()!

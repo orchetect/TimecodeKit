@@ -7,7 +7,7 @@
 // MARK: - TimecodeSource
 
 extension TimecodeInterval: _GuaranteedRichTimecodeSource {
-    func set(timecode: inout Timecode) -> Timecode.Properties {
+    package func set(timecode: inout Timecode) -> Timecode.Properties {
         timecode.set(self)
     }
 }
