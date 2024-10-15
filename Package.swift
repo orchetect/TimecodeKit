@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 // (be sure to update the .swift-version file when this Swift version changes)
 
 import PackageDescription
@@ -17,7 +17,7 @@ let package = Package(
         .library(
             name: "TimecodeKit",
             type: .static,
-            targets: ["TimecodeKitCore", "TimecodeKitUI"]
+            targets: ["TimecodeKit"]
         ),
         .library(
             name: "TimecodeKitCore",
@@ -35,6 +35,12 @@ let package = Package(
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ],
     targets: [
+        // umbrella target
+        .target(
+            name: "TimecodeKit",
+            dependencies: ["TimecodeKitCore", "TimecodeKitUI"]
+        ),
+        
         // core target
         .target(
             name: "TimecodeKitCore",
