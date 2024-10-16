@@ -2,19 +2,27 @@
 
 Documentation and guides to get the most out of TimecodeKit.
 
-Add the library to your app project or Swift package, and import it.
+## Import
+
+All modules in the library can be imported to your app project or Swift package using an umbrella import.
 
 ```swift
 import TimecodeKit
 ```
 
+If only certain modules are needed, they may instead be imported individually.
+
 The library provides UI components that may also be imported if desired.
 
 ```swift
+import TimecodeKitCore
+import TimecodeKitAV
 import TimecodeKitUI
 ```
 
-The documentation page for ``Timecode`` provides a quick overview of how to form timecode and convert to/from various other time values.
+## Using TimecodeKit
+
+The documentation page for ``TimecodeKitCore/Timecode`` provides a quick overview of how to form timecode and convert to/from various other time values.
 
 Example projects are located in the Examples folder to demonstrate usage of the library.
 

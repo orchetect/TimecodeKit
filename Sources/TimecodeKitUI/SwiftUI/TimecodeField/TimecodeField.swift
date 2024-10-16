@@ -52,11 +52,15 @@ import TimecodeKitCore
 ///
 /// ```swift
 /// TimecodeField(timecode: $timecode)
-///     .foregroundColor(.primary)
-///     .timecodeFormat([.showSubFrames])
-///     .timecodeHighlightStyle(.accentColor)
-///     .timecodeSeparatorStyle(.secondary)
-///     .timecodeValidationStyle(.red)
+///     .foregroundColor(.primary) // default text color
+///     .timecodeFormat([.showSubFrames]) // enable subframes component
+///     .timecodeSeparatorStyle(.secondary) // colorize separators
+///     .timecodeValidationStyle(.red) // colorize invalid components
+///     .timecodeFieldHighlightStyle(.accentColor) // component selection color
+///     .timecodeFieldInputStyle(.autoAdvance)
+///     .timecodeFieldInputWrapping(.noWrap)
+///     .timecodeFieldReturnAction(.endEditing)
+///     .timecodeFieldEscapeAction(.endEditing)
 /// ```
 ///
 /// ## Focus
@@ -213,7 +217,8 @@ public struct TimecodeField: View {
             if timecode.upperLimit != upperLimit { timecode.upperLimit = upperLimit }
         }
     }
-    public var timecodeBody: some View {
+    
+    private var timecodeBody: some View {
         HStack(spacing: 0) {
             if upperLimit == .max100Days {
                 TimecodeField.ComponentView(
@@ -351,7 +356,8 @@ public struct TimecodeField: View {
 
 // MARK: - Previews
 
-#if DEBUG
+// TODO: Find a way to conditionally build Preview. `#if DEBUG` isn't good enough because it's causing docc generation to fail. `#if ENABLE_PREVIEWS` no longer works in Xcode 16 either.
+#if false // set to true to enable previews
 
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)

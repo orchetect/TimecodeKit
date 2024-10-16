@@ -17,8 +17,8 @@ import TimecodeKitCore
 extension TimecodeField {
     /// An enum describing actions to perform in response to ``TimecodeField`` user input.
     ///
-    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldReturnAction`` and/or
-    /// ``SwiftUICore/EnvironmentValues/timecodeFieldEscapeAction`` view modifiers.
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldReturnAction(_:)`` and/or
+    /// ``SwiftUICore/View/timecodeFieldEscapeAction(_:)`` view modifiers.
     public enum FieldAction: Equatable, Hashable, Sendable {
         /// End editing.
         /// Removes focus from the timecode field.
@@ -56,7 +56,7 @@ extension TimecodeField.FieldAction: CaseIterable {
 extension TimecodeField {
     /// An enum describing numeric data entry input style cases for ``TimecodeField``.
     ///
-    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldInputStyle`` view modifier.
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputStyle(_:)`` view modifier.
     public enum InputStyle: Equatable, Hashable, CaseIterable, Sendable {
         /// Auto-advance focus to next timecode component once all digits for the currently-focused component are
         /// populated by user data entry.
@@ -95,7 +95,7 @@ extension TimecodeField.InputStyle: Identifiable {
 extension TimecodeField {
     /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
     ///
-    /// This type is passed to the ``SwiftUICore/EnvironmentValues/timecodeFieldInputWrapping`` view modifier.
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputWrapping(_:)`` view modifier.
     public enum InputWrapping: Equatable, Hashable, CaseIterable, Sendable {
         /// When the timecode field advances focus to the next timecode component, the focus should wrap around to the
         /// first visible timecode component when advancing focus from the last visible timecode component.

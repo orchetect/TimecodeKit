@@ -48,3 +48,8 @@ VideoFrameRate(rate: Fraction(30000, 1001), interlaced: false) // == .fps29_97p
 
 - ``CoreMedia/CMTime/init(_:)``
 - ``CoreMedia/CMTime/fractionValue``
+
+### CMTimeRange Extensions
+
+- ``CoreMedia/CMTimeRange/timecodeRange(at:base:limit:)``
+- ``CoreMedia/CMTimeRange/timecodeRange(using:)``

@@ -138,6 +138,7 @@ extension Timecode {
 
 extension Timecode {
     /// Calculates total frames from given values at the current frame rate.
+    @_documentation(visibility: internal)
     public static func frameCount(
         of values: Components,
         at frameRate: TimecodeFrameRate,
@@ -186,6 +187,7 @@ extension Timecode {
     
     /// Calculates resulting values from total frames at the current frame rate.
     /// (You can add subframes afterward to the `sf` property if needed.)
+    @_documentation(visibility: internal)
     public static func components(
         of frameCount: FrameCount,
         at frameRate: TimecodeFrameRate

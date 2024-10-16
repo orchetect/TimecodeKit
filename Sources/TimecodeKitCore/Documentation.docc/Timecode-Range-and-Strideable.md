@@ -59,10 +59,3 @@ Prints:
 01:00:00:05
 01:00:00:10
 ```
-
-## Topics
-
-### CMTimeRange Extensions
-
-- ``CoreMedia/CMTimeRange/timecodeRange(at:base:limit:)``
-- ``CoreMedia/CMTimeRange/timecodeRange(using:)``

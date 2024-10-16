@@ -24,7 +24,7 @@ extension AVAsset {
     ///   that may be contained in the asset. If `nil`, drop-frame information is contained in the
     ///   asset is used, defaulting to `false`.
     ///
-    /// - Throws: ``Timecode/MediaParseError``
+    /// - Throws: ``TimecodeKitAV/TimecodeKitCore/Timecode/MediaParseError``
     @_disfavoredOverload
     public func timecodeFrameRate(drop: Bool? = nil) async throws -> TimecodeFrameRate {
         // a timecode track does not contain frame rate information

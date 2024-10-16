@@ -1,6 +1,7 @@
 // swift-tools-version: 5.9
 // (be sure to update the .swift-version file when this Swift version changes)
 
+import Foundation
 import PackageDescription
 
 let package = Package(
@@ -22,7 +23,7 @@ let package = Package(
     dependencies: [
         // used only for Dev tests, not part of regular unit tests
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
-    ],
+    ] + doccPluginDependency(),
     targets: [
         // umbrella target
         .target(
@@ -82,3 +83,9 @@ let package = Package(
         )
     ]
 )
+
+func doccPluginDependency() -> [Package.Dependency] {
+    ProcessInfo.processInfo.environment["ENABLE_DOCC_PLUGIN"] != nil
+        ? [.package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.4.3")]
+        : []
+}

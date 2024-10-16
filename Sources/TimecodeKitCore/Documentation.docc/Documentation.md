@@ -1,6 +1,6 @@
-# ``TimecodeKit``
+# ``TimecodeKitCore``
 
-Value types for representing and working with SMPTE/EBU timecode.
+Value types and related logic for representing and working with SMPTE/EBU timecode.
 
 ![TimecodeKit](timecodekit-banner.png)
 
@@ -11,11 +11,6 @@ Value types for representing and working with SMPTE/EBU timecode.
 - Many more features are detailed in the documentation
 
 ## Topics
-
-### Welcome
-
-- <doc:Getting-Started>
-- <doc:TimecodeKit-2-Migration-Guide>
 
 ### Timecode
 
@@ -43,12 +38,6 @@ Value types for representing and working with SMPTE/EBU timecode.
 ### Encoding
 
 - <doc:Timecode-Encoding>
-
-### Formats
-
-- <doc:LTC-Linear-Timecode>
-- <doc:MTC-MIDI-Timecode>
-- <doc:AVAsset-Timecode-Track>
 
 ### Additional Value Types
 

@@ -61,6 +61,7 @@ extension Timecode.Components {
 extension Timecode {
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
+    @_documentation(visibility: internal)
     public static func invalidComponents(
         in components: Components,
         at frameRate: TimecodeFrameRate,
@@ -73,6 +74,7 @@ extension Timecode {
     
     /// Returns a set of invalid components, if any.
     /// A fully valid timecode will return an empty set.
+    @_documentation(visibility: internal)
     public static func invalidComponents(
         in components: Components,
         using properties: Timecode.Properties

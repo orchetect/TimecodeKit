@@ -6,6 +6,11 @@
 
 // Welcome to TimecodeKit :)
 
+@_documentation(visibility: internal)
 @_exported import TimecodeKitCore
+
+@_documentation(visibility: internal)
 @_exported import TimecodeKitAV
+
+@_documentation(visibility: internal)
 @_exported import TimecodeKitUI

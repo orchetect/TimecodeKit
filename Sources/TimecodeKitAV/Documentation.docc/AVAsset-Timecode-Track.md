@@ -76,7 +76,7 @@ try await exportSession.export(to: url, as: .mov)
 
 ## Topics
 
-### AVAsset Extensions
+### AVAsset Methods
 
 - ``AVFoundation/AVAsset/startTimecode(at:base:limit:)``
 - ``AVFoundation/AVAsset/durationTimecode(at:base:limit:)``
@@ -86,11 +86,16 @@ try await exportSession.export(to: url, as: .mov)
 - ``AVFoundation/AVAsset/videoFrameRate(interlaced:)``
 - ``AVFoundation/AVAsset/isVideoInterlaced``
 
-### AVAssetTrack Extensions
+### AVAssetTrack Methods
 
 - ``AVFoundation/AVAssetTrack/durationTimecode(at:limit:base:)``
 
-### AVMutableMovie Extensions
+### AVMutableMovie Methods
 
 - ``AVFoundation/AVMutableMovie/addTimecodeTrack(startTimecode:duration:extensions:fileType:)``
 - ``AVFoundation/AVMutableMovie/replaceTimecodeTrack(startTimecode:duration:extensions:fileType:)``
+
+### Errors
+
+- ``TimecodeKitCore/Timecode/MediaParseError``
+- ``TimecodeKitCore/Timecode/MediaWriteError``

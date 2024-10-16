@@ -1,4 +1,4 @@
-# ``TimecodeKit/Timecode``
+# ``TimecodeKitCore/Timecode``
 
 TimecodeKit is designed to work with Xcode's autocomplete fluidly. Beginning a ``Timecode`` initializer with a period will produce a list of all available source time value types.
 
@@ -200,12 +200,6 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 
 - ``TextFormatter``
 
-### Errors
+### String Errors
 
 - ``StringParseError``
-- ``MediaParseError``
-- ``MediaWriteError``
-
-### Internals
-
-- <doc:Timecode-Internals>

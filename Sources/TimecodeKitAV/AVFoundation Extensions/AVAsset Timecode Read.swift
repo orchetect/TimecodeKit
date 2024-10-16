@@ -21,7 +21,7 @@ extension AVAsset {
     /// Passing a value to `frameRate` will override frame rate detection.
     /// Passing `nil` will detect frame rate from the asset's contents if possible.
     ///
-    /// - Throws: ``Timecode/MediaParseError``
+    /// - Throws: ``TimecodeKitCore/Timecode/MediaParseError``
     @_disfavoredOverload
     public func startTimecode(
         at frameRate: TimecodeFrameRate? = nil,
@@ -44,7 +44,7 @@ extension AVAsset {
     /// Passing a value to `frameRate` will override frame rate detection.
     /// Passing `nil` will detect frame rate from the asset's contents if possible.
     ///
-    /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
+    /// - Throws: ``TimecodeKitAV/TimecodeKitCore/Timecode/MediaParseError`` or `Timecode.ValidationError`
     @_disfavoredOverload
     public func endTimecode(
         at frameRate: TimecodeFrameRate? = nil,
@@ -76,7 +76,7 @@ extension AVAsset {
     /// Passing a value to `frameRate` will override frame rate detection.
     /// Passing `nil` will detect frame rate from the asset's contents if possible.
     ///
-    /// - Throws: ``Timecode/MediaParseError`` or ``Timecode/ValidationError``
+    /// - Throws: ``TimecodeKitAV/TimecodeKitCore/Timecode/MediaParseError`` or `Timecode.ValidationError`
     @_disfavoredOverload
     public func durationTimecode(
         at frameRate: TimecodeFrameRate? = nil,
@@ -102,7 +102,7 @@ extension AVAsset {
     /// Passing a value to `frameRate` will override frame rate detection.
     /// Passing `nil` will detect frame rate from the asset's contents if possible.
     ///
-    /// - Throws: ``Timecode/MediaParseError``
+    /// - Throws: ``TimecodeKitAV/TimecodeKitCore/Timecode/MediaParseError``
     @_disfavoredOverload
     public func timecodes(
         at frameRate: TimecodeFrameRate? = nil,

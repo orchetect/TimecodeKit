@@ -18,6 +18,14 @@ extension AVMutableMovie {
     /// Add a timecode track containing one sample (start timecode).
     /// Existing timecode track(s) are left unaltered.
     /// If `duration` is omitted, the video's duration will be used.
+    ///
+    /// > IMPORTANT:
+    /// >
+    /// > This method will indiscriminately add a timecode track, even if one is already present in the movie. It is not
+    /// > recommended to have more than one timecode track in a movie, and movie player applications in most cases may
+    /// > only observe the first one found, as multiple timecode tracks is considered undefined.
+    /// >
+    /// > In most scenarios, using ``replaceTimecodeTrack(startTimecode:duration:extensions:fileType:)`` is preferable.
     @discardableResult
     public func addTimecodeTrack(
         startTimecode: Timecode,
@@ -170,6 +178,7 @@ extension Timecode {
     /// Returns a new Core Media format description based on the timecode `frameRate`.
     ///
     /// - Throws: Core Media error.
+    @_documentation(visibility: internal)
     public func cmFormatDescription(
         extensions: CMFormatDescription.Extensions? = nil
     ) throws -> CMTimeCodeFormatDescription {
