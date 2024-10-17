@@ -107,7 +107,6 @@ public struct TimecodeField: View {
     
     @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
-    @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle: (color: Color?, scale: Text.Scale)
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
     
@@ -221,7 +220,7 @@ public struct TimecodeField: View {
     }
     
     private var timecodeBody: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 0) {
+        HStack(spacing: 0) {
             if upperLimit == .max100Days {
                 TimecodeField.ComponentView(
                     component: .days,
@@ -231,8 +230,7 @@ public struct TimecodeField: View {
                     componentEditing: $componentEditing,
                     value: $components.days
                 )
-                Text(daysSeparator)
-                    .conditionalForegroundStyle(timecodeSeparatorStyle)
+                SeparatorView(text: daysSeparator)
             }
             
             TimecodeField.ComponentView(
@@ -244,8 +242,7 @@ public struct TimecodeField: View {
                 value: $components.hours
             )
             
-            Text(mainSeparator)
-                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            SeparatorView(text: mainSeparator)
             
             TimecodeField.ComponentView(
                 component: .minutes,
@@ -256,8 +253,7 @@ public struct TimecodeField: View {
                 value: $components.minutes
             )
             
-            Text(mainSeparator)
-                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            SeparatorView(text: mainSeparator)
             
             TimecodeField.ComponentView(
                 component: .seconds,
@@ -268,8 +264,7 @@ public struct TimecodeField: View {
                 value: $components.seconds
             )
             
-            Text(framesSeparator)
-                .conditionalForegroundStyle(timecodeSeparatorStyle)
+            SeparatorView(text: framesSeparator)
             
             TimecodeField.ComponentView(
                 component: .frames,
@@ -281,8 +276,7 @@ public struct TimecodeField: View {
             )
             
             if timecodeFormat.contains(.showSubFrames) {
-                Text(subFramesSeparator)
-                    .conditionalForegroundStyle(timecodeSeparatorStyle)
+                SeparatorView(text: subFramesSeparator)
                 
                 TimecodeField.ComponentView(
                     component: .subFrames,
