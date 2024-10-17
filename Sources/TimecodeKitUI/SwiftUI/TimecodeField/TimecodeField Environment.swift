@@ -38,7 +38,13 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldInputStyleKey: EnvironmentKey {
-    public static let defaultValue: TimecodeField.InputStyle = .autoAdvance
+    public static let defaultValue: TimecodeField.InputStyle = {
+        #if os(macOS)
+        .continuousWithinComponent
+        #else
+        .autoAdvance
+        #endif
+    }()
 }
 
 @_documentation(visibility: internal)
@@ -61,7 +67,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldInputWrappingKey: EnvironmentKey {
-    public static let defaultValue: TimecodeField.InputWrapping = .wrap
+    public static let defaultValue: TimecodeField.InputWrapping = .noWrap
 }
 
 @_documentation(visibility: internal)
