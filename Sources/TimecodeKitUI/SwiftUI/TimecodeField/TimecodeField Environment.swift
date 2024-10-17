@@ -267,4 +267,67 @@ extension EnvironmentValues {
     }
 }
 
+// MARK: - TimecodePasted (internal)
+
+@_documentation(visibility: internal)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+struct TimecodePastedAction {
+    typealias Action = (_ pasteResult: Result<Timecode, Error>) -> Void
+    let action: Action
+    
+    func callAsFunction(_ timecode: Timecode) {
+        action(.success(timecode))
+    }
+    
+    #if os(macOS)
+    @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
+    @MainActor
+    func callAsFunction(
+        itemProvider: NSItemProvider,
+        propertiesForString timecodeProperties: Timecode.Properties
+    ) async {
+        await callAsFunction(itemProviders: [itemProvider], propertiesForString: timecodeProperties)
+    }
+    
+    @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
+    @MainActor
+    func callAsFunction(
+        itemProviders: [NSItemProvider],
+        propertiesForString timecodeProperties: Timecode.Properties
+    ) async {
+        do {
+            let timecode = try await Timecode(
+                from: itemProviders,
+                propertiesForString: timecodeProperties
+            )
+            action(.success(timecode))
+        } catch {
+            action(.failure(error))
+            return
+        }
+    }
+    #endif
+    
+    enum ParseResult: Equatable, Hashable, Sendable {
+        case timecode(Timecode)
+        case invalid
+    }
+}
+
+@_documentation(visibility: internal)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+struct TimecodePastedKey: EnvironmentKey {
+    static let defaultValue: TimecodePastedAction? = nil
+}
+
+@_documentation(visibility: internal)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension EnvironmentValues {
+    /// Environment method used to propagate a user-pasted timecode.
+    var timecodePasted: TimecodePastedAction? {
+        get { self[TimecodePastedKey.self] }
+        set { self[TimecodePastedKey.self] = newValue }
+    }
+}
+
 #endif

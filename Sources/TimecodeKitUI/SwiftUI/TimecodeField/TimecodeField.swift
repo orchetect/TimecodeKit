@@ -106,16 +106,24 @@ public struct TimecodeField: View {
     @Binding private var upperLimit: Timecode.UpperLimit
     @Binding private var timecode: Timecode
     
-    // MARK: - Properties settable through custom view modifiers
+    // MARK: - Public view modifiers
     
     @Environment(\.timecodeFormat) private var timecodeFormat
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
+    @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
+    
+    // MARK: - Internal view modifiers
+    
+    @Environment(\.timecodePasted) private var timecodePasted
     
     // MARK: - Internal State
     
     @FocusState private var componentEditing: Timecode.Component?
+    @State private var shakeTrigger: Bool = false
+    
+    private let shakeIntensity: CGFloat = 5
     
     // MARK: - Init from Components and Properties
     
@@ -186,6 +194,16 @@ public struct TimecodeField: View {
         .monospacedDigit()
         .fixedSize()
         .compositingGroup()
+        .offset(x: shakeTrigger ? shakeIntensity : 0)
+        
+        // handle user-initiated paste event locally or propagated up from a child view
+        .onPasteCommandOfTimecode(propertiesForString: timecodeProperties) { pasteResult in
+            do {
+                timecode = try pasteResult.get()
+            } catch {
+                errorFeedback()
+            }
+        }
         
         // update focus if view is disabled
         .onChange(of: isEnabled, initial: false) { oldValue, newValue in
@@ -193,7 +211,6 @@ public struct TimecodeField: View {
                 componentEditing = nil
             }
         }
-        
         // sync components to/from `timecode` binding.
         .onChange(of: components) { oldValue, newValue in
             if timecode.components != components {
@@ -302,6 +319,12 @@ public struct TimecodeField: View {
     private var framesSeparator: String { frameRate.isDrop ? ";" : ":" }
     private var subFramesSeparator: String { "." }
     
+    // MARK: - View Model
+    
+    private var timecodeProperties: Timecode.Properties {
+        Timecode.Properties(rate: frameRate, base: subFramesBase, limit: upperLimit)
+    }
+    
     // MARK: - Sync Bindings
     
     private func timecodeBinding() -> Binding<Timecode> {
@@ -351,6 +374,21 @@ public struct TimecodeField: View {
             timecode.upperLimit
         } set: { newValue in
             timecode.upperLimit = newValue
+        }
+    }
+    
+    // MARK: - UI
+    
+    private func errorFeedback() {
+        beep()
+        
+        if timecodeFieldValidationAnimation {
+            shakeTrigger = true
+            withAnimation(
+                Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
+            ) {
+                shakeTrigger = false
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ extension TimecodeField {
         @FocusState.Binding var componentEditing: Timecode.Component?
         @Binding var value: Int
         
-        // MARK: - Properties settable through custom view modifiers
+        // MARK: - Public view modifiers
         
         @Environment(\.timecodeFormat) private var timecodeFormat
         @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
@@ -36,6 +36,10 @@ extension TimecodeField {
         @Environment(\.timecodeFieldInputWrapping) private var timecodeFieldInputWrapping
         @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
         @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
+        
+        // MARK: - Internal view modifiers
+        
+        @Environment(\.timecodePasted) private var timecodePasted
         
         // MARK: - Internal State
         
@@ -79,6 +83,10 @@ extension TimecodeField {
             .onDisappear {
                 endEditing()
             }
+            .onPasteCommandOfTimecode(
+                propertiesForString: timecodeProperties,
+                forwardTo: timecodePasted
+            )
             #elseif os(iOS) || os(visionOS)
             ZStack {
                 KeyboardInputView(
@@ -142,6 +150,10 @@ extension TimecodeField {
         
         // MARK: - View Model
         
+        private var timecodeProperties: Timecode.Properties {
+            Timecode.Properties(rate: frameRate, base: subFramesBase, limit: upperLimit)
+        }
+        
         private var valuePadded: String {
             var string = "\(value)"
             if string.count < numberOfDigits {
@@ -169,7 +181,7 @@ extension TimecodeField {
         
         private var invisibleComponents: Set<Timecode.Component> {
             var c: Set<Timecode.Component> = []
-            if upperLimit == ._24hours { c.insert(.days) }
+            if upperLimit == .max24Hours { c.insert(.days) }
             if !timecodeFormat.contains(.showSubFrames) { c.insert(.subFrames) }
             return c
         }

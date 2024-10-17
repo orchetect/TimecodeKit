@@ -172,7 +172,7 @@ extension View {
 // MARK: - TimecodeFormat
 
 /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFormatViewModifier: ViewModifier {
     let format: Timecode.StringFormat
     
@@ -181,7 +181,7 @@ struct TimecodeFormatViewModifier: ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension View {
     /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
     public func timecodeFormat(
@@ -198,7 +198,7 @@ extension View {
 ///
 /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
 ///   modifiers.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeSeparatorStyleViewModifier: ViewModifier {
     let color: Color?
     
@@ -207,7 +207,7 @@ struct TimecodeSeparatorStyleViewModifier: ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension View {
     /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
@@ -258,7 +258,7 @@ extension View {
 ///
 /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
 /// validation that may (or may not) be applied separately.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeValidationStyleViewModifier: ViewModifier {
     let color: Color?
     
@@ -267,7 +267,7 @@ struct TimecodeValidationStyleViewModifier: ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension View {
     /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
     ///
@@ -282,6 +282,51 @@ extension View {
         _ color: Color? = .red
     ) -> some View {
         modifier(TimecodeValidationStyleViewModifier(color: color))
+    }
+}
+
+// MARK: - TimecodePasted (internal)
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension View {
+    /// Environment method used to propagate a user-pasted timecode up the view hierarchy.
+    func onPastedTimecode(_ action: @escaping TimecodePastedAction.Action) -> some View {
+        self.environment(\.timecodePasted, TimecodePastedAction(action: action))
+    }
+}
+
+@available(macOS 13.0, *)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(visionOS, unavailable)
+extension View {
+    /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
+    func onPasteCommandOfTimecode(
+        propertiesForString: Timecode.Properties,
+        _ action: @escaping TimecodePastedAction.Action
+    ) -> some View {
+        self.onPastedTimecode(action)
+            .onPasteCommandOfTimecode(
+                propertiesForString: propertiesForString,
+                forwardTo: TimecodePastedAction(action: action)
+            )
+    }
+    
+    /// Implements `onPasteCommand` to catch paste events and forwards the pasteboard parse result to the given SwiftUI
+    /// environment method.
+    func onPasteCommandOfTimecode(
+        propertiesForString: Timecode.Properties,
+        forwardTo environmentMethod: TimecodePastedAction?
+    ) -> some View {
+        self.onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
+            Task {
+                await environmentMethod?(
+                    itemProviders: itemProviders,
+                    propertiesForString: propertiesForString
+                )
+            }
+        }
     }
 }
 
