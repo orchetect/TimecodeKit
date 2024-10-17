@@ -14,11 +14,11 @@ struct KeyboardInputView: UIViewRepresentable {
     typealias UIViewType = KeyboardInputTextField
     
     private var keyboardType: UIKeyboardType
-    private var keyPressed: (KeyEquivalent) -> Void
+    private var keyPressed: @MainActor (KeyEquivalent) -> Void
     
     init(
         keyboardType: UIKeyboardType = .default,
-        keyPressed: @escaping (KeyEquivalent) -> Void
+        keyPressed: @MainActor @escaping (KeyEquivalent) -> Void
     ) {
         self.keyboardType = keyboardType
         self.keyPressed = keyPressed
@@ -32,7 +32,10 @@ struct KeyboardInputView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: KeyboardInputTextField, context: Context) {
+        uiView.keyboardType = keyboardType
         
+        // we have to update the stored closure to reflect changes to the view's environment variables
+        uiView.keyPressed = keyPressed
     }
     
     // func makeCoordinator() -> Coordinator {
@@ -48,11 +51,11 @@ struct KeyboardInputView: UIViewRepresentable {
     // }
     
     class KeyboardInputTextField: UITextField, UITextFieldDelegate {
-        private var keyPressed: (KeyEquivalent) -> Void
+        var keyPressed: @MainActor (KeyEquivalent) -> Void
         
         init(
             keyboardType: UIKeyboardType,
-            keyPressed: @escaping (KeyEquivalent) -> Void
+            keyPressed: @MainActor @escaping (KeyEquivalent) -> Void
         ) {
             self.keyPressed = keyPressed
             super.init(frame: CGRect(origin: .zero, size: CGSize(width: 10, height: 10)))
