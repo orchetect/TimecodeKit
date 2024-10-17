@@ -72,6 +72,7 @@ import TimecodeKitCore
     
     // public func update() { }
     
+    @MainActor
     private final class Wrapper: ObservableObject {
         var timecode: Timecode {
             willSet {
@@ -80,9 +81,10 @@ import TimecodeKitCore
                     timecode.properties != newValue.properties
                 else { return }
                 
-                // DispatchQueue.main.async {
-                    self.objectWillChange.send()
-                // }
+                // DispatchQueue.main.async { [objectWillChange] in
+                Task { [objectWillChange] in
+                    objectWillChange.send()
+                }
             }
         }
         
