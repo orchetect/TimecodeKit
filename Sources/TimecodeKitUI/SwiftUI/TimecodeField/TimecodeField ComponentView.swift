@@ -211,21 +211,26 @@ extension TimecodeField {
                 }
                 
                 guard var proposedValue else { return .ignored }
+                var proposedTextInput = "\(textInput)\(key.character)"
                 
-                let proposedTextInput = "\(textInput)\(key.character)"
-                
-                switch timecodeFieldValidationPolicy {
-                case .allowInvalid:
-                    break
-                case .enforceValid:
-                    guard validRange.contains(proposedValue) else {
-                        errorFeedback()
-                        return .handled
+                func checkForValidation() -> KeyPress.Result? {
+                    switch timecodeFieldValidationPolicy {
+                    case .allowInvalid:
+                        break
+                    case .enforceValid:
+                        guard validRange.contains(proposedValue) else {
+                            errorFeedback()
+                            return .handled
+                        }
                     }
+                    
+                    return nil
                 }
                 
                 switch timecodeFieldInputStyle {
                 case .autoAdvance:
+                    if let result = checkForValidation() { return result }
+                    
                     let postDigitCount = proposedTextInput.count
                     let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
                     if postDigitCount > maxDigits {
@@ -248,11 +253,16 @@ extension TimecodeField {
                         }
                         proposedValue = int
                     }
+                    proposedTextInput = String(proposedTextInput.suffix(maxDigits))
+                    
+                    if let result = checkForValidation() { return result }
                     
                     value = proposedValue
-                    textInput = String(proposedTextInput.suffix(maxDigits))
+                    textInput = proposedTextInput
                     return .handled
                 case .unbounded:
+                    if let result = checkForValidation() { return result }
+                    
                     value = proposedValue
                     textInput = proposedTextInput
                     return .handled
