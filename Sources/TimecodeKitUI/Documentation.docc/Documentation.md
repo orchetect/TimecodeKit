@@ -24,7 +24,9 @@ UI controls and tools for formatting and displaying timecode, including user-edi
 - ``SwiftUICore/View/timecodeFieldInputWrapping(_:)``
 - ``SwiftUICore/View/timecodeFieldReturnAction(_:)``
 - ``SwiftUICore/View/timecodeFieldEscapeAction(_:)``
+- ``SwiftUICore/View/timecodeFieldValidationPolicy(_:animation:)``
 - ``SwiftUICore/View/timecodeSeparatorStyle(_:)``
+- ``SwiftUICore/View/timecodeSubFramesStyle(_:scale:)``
 - ``SwiftUICore/View/timecodeValidationStyle(_:)``
 
 ### SwiftUI State
