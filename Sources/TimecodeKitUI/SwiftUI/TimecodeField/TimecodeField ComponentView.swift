@@ -234,7 +234,7 @@ extension TimecodeField {
                     }
                     
                     value = proposedValue
-                    textInput = proposedTextInput
+                    textInput = String(proposedTextInput.suffix(maxDigits))
                     return .handled
                 case .unbounded:
                     value = proposedValue
