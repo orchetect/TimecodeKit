@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E21287892CBC839400C6AB7D /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E21287882CBC839400C6AB7D /* TimecodeKit */; };
-		E212878B2CBC839400C6AB7D /* TimecodeKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = E212878A2CBC839400C6AB7D /* TimecodeKitUI */; };
+		E2BCFBD82CC099DE00653C18 /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2BCFBD72CC099DE00653C18 /* TimecodeKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E21287892CBC839400C6AB7D /* TimecodeKit in Frameworks */,
-				E212878B2CBC839400C6AB7D /* TimecodeKitUI in Frameworks */,
+				E2BCFBD82CC099DE00653C18 /* TimecodeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +70,7 @@
 			);
 			name = TimecodeMath;
 			packageProductDependencies = (
-				E21287882CBC839400C6AB7D /* TimecodeKit */,
-				E212878A2CBC839400C6AB7D /* TimecodeKitUI */,
+				E2BCFBD72CC099DE00653C18 /* TimecodeKit */,
 			);
 			productName = TimecodeMath;
 			productReference = E263C4D52CBC805D003233F6 /* TimecodeMath.app */;
@@ -360,13 +357,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E21287882CBC839400C6AB7D /* TimecodeKit */ = {
+		E2BCFBD72CC099DE00653C18 /* TimecodeKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = E21287872CBC839400C6AB7D /* XCLocalSwiftPackageReference "../../../TimecodeKit" */;
 			productName = TimecodeKit;
-		};
-		E212878A2CBC839400C6AB7D /* TimecodeKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimecodeKitUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

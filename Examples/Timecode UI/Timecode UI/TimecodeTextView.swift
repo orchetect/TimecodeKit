@@ -66,6 +66,8 @@ struct TimecodeTextView: View {
     @State private var defaultStyle: DefaultStyle = .default
     @State private var separatorStyle: SeparatorStyle = .secondary
     @State private var validationStyle: ValidationStyle = .red
+    @State private var subFramesStyle: SubFramesStyle = .default
+    @State private var subFramesScale: TextScale = .default
     
     var body: some View {
         VStack(spacing: 20) {
@@ -73,6 +75,7 @@ struct TimecodeTextView: View {
                 .foregroundColor(defaultStyle.color)
                 .timecodeFormat(timecodeFormat)
                 .timecodeSeparatorStyle(separatorStyle.color)
+                .timecodeSubFramesStyle(subFramesStyle.color, scale: subFramesScale.scale)
                 .timecodeValidationStyle(validationStyle.color)
                 .font(.largeTitle)
                 .disabled(!isEnabled)
@@ -140,6 +143,16 @@ struct TimecodeTextView: View {
             Picker("Validation Style", selection: $validationStyle) {
                 ForEach(ValidationStyle.allCases) { validationType in
                     Text(validationType.name).tag(validationType)
+                }
+            }
+            Picker("SubFrames Color", selection: $subFramesStyle) {
+                ForEach(SubFramesStyle.allCases) { style in
+                    Text(style.name).tag(style)
+                }
+            }
+            Picker("SubFrames Scale", selection: $subFramesScale) {
+                ForEach(TextScale.allCases) { scale in
+                    Text(scale.name).tag(scale)
                 }
             }
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
@@ -226,6 +239,57 @@ extension TimecodeTextView {
             case .default: nil
             case .blue: .blue
             case .orange: .orange
+            }
+        }
+    }
+    
+    private enum SubFramesStyle: Int, CaseIterable, Identifiable {
+        case `default`
+        case primary
+        case secondary
+        case blue
+        case orange
+        
+        var id: RawValue { rawValue }
+        
+        var name: String {
+            switch self {
+            case .default: "Default"
+            case .primary: "Primary"
+            case .secondary: "Secondary"
+            case .blue: "Blue"
+            case .orange: "Orange"
+            }
+        }
+        
+        var color: Color? {
+            switch self {
+            case .default: nil
+            case .primary: .primary
+            case .secondary: .secondary
+            case .blue: .blue
+            case .orange: .orange
+            }
+        }
+    }
+    
+    private enum TextScale: String, CaseIterable, Identifiable {
+        case `default`
+        case secondary
+        
+        var id: RawValue { rawValue }
+        
+        var name: String {
+            switch self {
+            case .default: "Default"
+            case .secondary: "Secondary"
+            }
+        }
+        
+        var scale: Text.Scale {
+            switch self {
+            case .default: .default
+            case .secondary: .secondary
             }
         }
     }

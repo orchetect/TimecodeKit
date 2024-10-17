@@ -24,6 +24,7 @@ struct RemoveTimecodeTrackView: View {
                     Button("Export") {
                         isFolderPickerShown = true
                     }
+                    .keyboardShortcut(.defaultAction)
                 }
             }
             .formStyle(.grouped)

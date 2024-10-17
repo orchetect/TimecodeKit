@@ -40,6 +40,7 @@ struct AddOrReplaceTimecodeTrackView: View {
                     
                     TimecodeField(timecode: $newStartTimecode)
                         .timecodeFormat([.showSubFrames])
+                        .timecodeSubFramesStyle(.secondary, scale: .secondary)
                         .timecodeValidationStyle(.red)
                 }
                 
@@ -47,6 +48,7 @@ struct AddOrReplaceTimecodeTrackView: View {
                     Button("Export") {
                         isFolderPickerShown = true
                     }
+                    .keyboardShortcut(.defaultAction)
                     .disabled(!newStartTimecode.isValid)
                 }
             }

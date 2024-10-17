@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2B3ADBB2CB1E65700149DEF /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2B3ADBA2CB1E65700149DEF /* TimecodeKit */; };
-		E2B3ADBD2CB1E65700149DEF /* TimecodeKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = E2B3ADBC2CB1E65700149DEF /* TimecodeKitUI */; };
+		E212881E2CBDFD4200C6AB7D /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E212881D2CBDFD4200C6AB7D /* TimecodeKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,18 +23,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2B3ADBB2CB1E65700149DEF /* TimecodeKit in Frameworks */,
-				E2B3ADBD2CB1E65700149DEF /* TimecodeKitUI in Frameworks */,
+				E212881E2CBDFD4200C6AB7D /* TimecodeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E21287E22CBDEBF000C6AB7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2B3AD8D2CB1E50000149DEF = {
 			isa = PBXGroup;
 			children = (
 				E2B3AD982CB1E50000149DEF /* Movie Timecode */,
+				E21287E22CBDEBF000C6AB7D /* Frameworks */,
 				E2B3AD972CB1E50000149DEF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,8 +74,7 @@
 			);
 			name = "Movie Timecode";
 			packageProductDependencies = (
-				E2B3ADBA2CB1E65700149DEF /* TimecodeKit */,
-				E2B3ADBC2CB1E65700149DEF /* TimecodeKitUI */,
+				E212881D2CBDFD4200C6AB7D /* TimecodeKit */,
 			);
 			productName = "Movie Timecode";
 			productReference = E2B3AD962CB1E50000149DEF /* Movie Timecode.app */;
@@ -358,13 +363,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E2B3ADBA2CB1E65700149DEF /* TimecodeKit */ = {
+		E212881D2CBDFD4200C6AB7D /* TimecodeKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = E2B3ADB92CB1E65700149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */;
 			productName = TimecodeKit;
-		};
-		E2B3ADBC2CB1E65700149DEF /* TimecodeKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimecodeKitUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
