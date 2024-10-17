@@ -181,7 +181,7 @@ extension TimecodeField {
         }
         
         private func startEditing() {
-            componentEditing = component
+            focus(component: component)
         }
         
         private func endEditing() {
@@ -329,8 +329,14 @@ extension TimecodeField {
         
         // MARK: - UI
         
-        private func focusFirstComponent() {
-            componentEditing = Timecode.Component.first(excluding: invisibleComponents)
+        private var firstVisibleComponent: Timecode.Component {
+            Timecode.Component.first(excluding: invisibleComponents)
+        }
+        
+        private func focus(component: Timecode.Component) {
+            Task { // task avoids animation quirk
+                componentEditing = component
+            }
         }
         
         /// Returns true if component focus changed.
@@ -339,7 +345,9 @@ extension TimecodeField {
             let bool = wrap == .wrap
             let newComponent = component.previous(excluding: invisibleComponents, wrap: bool)
             let didChange = componentEditing != newComponent
-            componentEditing = newComponent
+            Task { // task avoids animation quirk
+                componentEditing = newComponent
+            }
             return didChange
         }
         
@@ -349,7 +357,9 @@ extension TimecodeField {
             let bool = wrap == .wrap
             let newComponent = component.next(excluding: invisibleComponents, wrap: bool)
             let didChange = componentEditing != newComponent
-            componentEditing = newComponent
+            Task { // task avoids animation quirk
+                componentEditing = newComponent
+            }
             return didChange
         }
         
@@ -363,9 +373,7 @@ extension TimecodeField {
                 return .ignored
                 
             case let .resetComponentFocus(component):
-                let component = component ??
-                    Timecode.Component.first(excluding: invisibleComponents)
-                componentEditing = component
+                focus(component: component ?? firstVisibleComponent)
                 // pass through to any receivers
                 return .ignored
                 
