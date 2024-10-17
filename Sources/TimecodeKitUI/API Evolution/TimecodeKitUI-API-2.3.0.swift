@@ -18,8 +18,8 @@ extension Timecode {
     @available(
         *,
         deprecated,
-        renamed: "Text(timecode:format:invalidModifiers:defaultModifiers:)",
-        message: "Method has been refactored as `Text()` init and string interpolation. To use custom validation style, see the new timecode view modifiers."
+        renamed: "TimecodeText(_:)",
+        message: "Method has been refactored as the new `TimecodeText()` type. To use custom validation style, see the new timecode view modifiers."
     )
     public func stringValueValidatedText(
         format: StringFormat = .default(),
