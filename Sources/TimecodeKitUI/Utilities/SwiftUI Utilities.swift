@@ -23,6 +23,7 @@ extension Text {
     }
 }
 
+/// Applies the given foreground style only if it is non-`nil`.
 @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 struct ConditionalForegroundStyleViewModifier<S: ShapeStyle>: ViewModifier {
     let style: S?
@@ -40,10 +41,23 @@ struct ConditionalForegroundStyleViewModifier<S: ShapeStyle>: ViewModifier {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension View {
+    /// Applies the given foreground style only if it is non-`nil`.
     func conditionalForegroundStyle<S: ShapeStyle>(_ style: S?) -> some View {
         modifier(ConditionalForegroundStyleViewModifier<S>(style: style))
+    }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension Text {
+    /// Applies the given foreground style only if it is non-`nil` and retains the view as `Text`.
+    nonisolated func conditionalForegroundStyle<S: ShapeStyle>(_ style: S?) -> Text {
+        if let style {
+            return foregroundStyle(style)
+        } else {
+            return self
+        }
     }
 }
 

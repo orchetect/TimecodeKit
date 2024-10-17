@@ -55,6 +55,7 @@ import TimecodeKitCore
 ///     .foregroundColor(.primary) // default text color
 ///     .timecodeFormat([.showSubFrames]) // enable subframes component
 ///     .timecodeSeparatorStyle(.secondary) // colorize separators
+///     .timecodeSubFramesStyle(.secondary, scale: .secondary) // colorize and/or set text size
 ///     .timecodeValidationStyle(.red) // colorize invalid components
 ///     .timecodeFieldHighlightStyle(.accentColor) // component selection color
 ///     .timecodeFieldInputStyle(.autoAdvance)
@@ -107,6 +108,7 @@ public struct TimecodeField: View {
     @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
     @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
+    @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle: (color: Color?, scale: Text.Scale)
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
     
     // MARK: - Internal State
@@ -219,7 +221,7 @@ public struct TimecodeField: View {
     }
     
     private var timecodeBody: some View {
-        HStack(spacing: 0) {
+        HStack(alignment: .firstTextBaseline, spacing: 0) {
             if upperLimit == .max100Days {
                 TimecodeField.ComponentView(
                     component: .days,
@@ -290,6 +292,8 @@ public struct TimecodeField: View {
                     componentEditing: $componentEditing,
                     value: $components.subFrames
                 )
+                .textScale(timecodeSubFramesStyle.scale)
+                .conditionalForegroundStyle(timecodeSubFramesStyle.color)
             }
         }
     }
@@ -627,6 +631,42 @@ public struct TimecodeField: View {
         .formStyle(.grouped)
     }
     .padding()
+    .frame(width: 400)
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+#Preview("SubFrames Scale Factor") {
+    @Previewable @TimecodeState var timecode = Timecode(
+        .components(d: 02, h: 04, m: 20, s: 30, f: 20, sf: 82),
+        using: Timecode.Properties(
+            rate: .fps24,
+            base: .max100SubFrames,
+            limit: .max100Days
+        ),
+        by: .allowingInvalid
+    )
+    
+    VStack(alignment: .trailing) {
+        TimecodeField(timecode: $timecode)
+        TimecodeField(timecode: $timecode)
+            .timecodeSubFramesStyle(scale: .default)
+        TimecodeField(timecode: $timecode)
+            .timecodeSubFramesStyle(.secondary, scale: .default)
+        TimecodeField(timecode: $timecode)
+            .timecodeSubFramesStyle(scale: .secondary)
+        TimecodeField(timecode: $timecode)
+            .timecodeSubFramesStyle(.secondary, scale: .secondary)
+        
+        LabeledContent("SubFrames Base") {
+            Button("80") { timecode.subFramesBase = .max80SubFrames }
+            Button("100") { timecode.subFramesBase = .max100SubFrames }
+        }
+    }
+    .padding()
+    .font(.largeTitle)
+    .timecodeFormat([.showSubFrames])
     .frame(width: 400)
 }
 

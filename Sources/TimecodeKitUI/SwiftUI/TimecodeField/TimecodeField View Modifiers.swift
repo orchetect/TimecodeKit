@@ -189,6 +189,32 @@ extension View {
     }
 }
 
+// MARK: - TimecodeSubFramesStyle
+
+/// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+/// If `color` is nil, the foreground style is used.
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+struct TimecodeSubFramesStyleViewModifier: ViewModifier {
+    let color: Color?
+    let scale: Text.Scale
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeSubFramesStyle, (color: color, scale: scale))
+    }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension View {
+    /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    public func timecodeSubFramesStyle(
+        _ color: Color? = nil,
+        scale: Text.Scale
+    ) -> some View {
+        modifier(TimecodeSubFramesStyleViewModifier(color: color, scale: scale))
+    }
+}
+
 // MARK: - TimecodeValidationStyle
 
 /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.

@@ -12,7 +12,7 @@ import TimecodeKitCore
 // MARK: API Changes in TimecodeKit 2.0.0 UI
 
 @_documentation(visibility: internal)
-@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension Timecode {
     @MainActor @_disfavoredOverload
     @available(

@@ -14,13 +14,13 @@ import TimecodeKitCore
 /// Sets the component highlight style for ``TimecodeField`` views.
 /// By default, the application's `accentColor` is used.
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFieldHighlightStyleKey: EnvironmentKey {
     public static let defaultValue: Color? = .accentColor
 }
 
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EnvironmentValues {
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
@@ -126,13 +126,13 @@ extension EnvironmentValues {
 
 /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeFormatKey: EnvironmentKey {
     public static let defaultValue: Timecode.StringFormat = .default()
 }
 
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EnvironmentValues {
     /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
     public var timecodeFormat: Timecode.StringFormat {
@@ -148,35 +148,55 @@ extension EnvironmentValues {
 ///
 /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view modifiers.
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeSeparatorStyleKey: EnvironmentKey {
     public static let defaultValue: Color? = nil
 }
 
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EnvironmentValues {
     /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
     ///
     /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view modifiers.
-    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
     public var timecodeSeparatorStyle: Color? {
         get { self[TimecodeSeparatorStyleKey.self] }
         set { self[TimecodeSeparatorStyleKey.self] = newValue }
     }
 }
 
+// MARK: - TimecodeSubFramesStyle
+
+/// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+/// If `color` is nil, the foreground style is used.
+@_documentation(visibility: internal)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+struct TimecodeSubFramesStyleKey: EnvironmentKey {
+    public static let defaultValue: (color: Color?, scale: Text.Scale) = (nil, .default)
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension EnvironmentValues {
+    /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    public var timecodeSubFramesStyle: (color: Color?, scale: Text.Scale) {
+        get { self[TimecodeSubFramesStyleKey.self] }
+        set { self[TimecodeSubFramesStyleKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeValidationStyle
 
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 struct TimecodeValidationStyleKey: EnvironmentKey {
     public static let defaultValue: Color? = .red
 }
 
 @_documentation(visibility: internal)
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EnvironmentValues {
     /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
     ///
@@ -187,7 +207,6 @@ extension EnvironmentValues {
     ///
     /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
     /// validation that may (or may not) be applied separately.
-    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
     public var timecodeValidationStyle: Color? {
         get { self[TimecodeValidationStyleKey.self] }
         set { self[TimecodeValidationStyleKey.self] = newValue }

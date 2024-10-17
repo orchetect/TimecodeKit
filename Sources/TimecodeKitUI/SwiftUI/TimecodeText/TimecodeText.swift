@@ -48,15 +48,17 @@ import TimecodeKitCore
 ///
 /// ```swift
 /// TimecodeText(timecode)
-///     .foregroundColor(.primary)
-///     .timecodeFormat([.showSubFrames])
-///     .timecodeSeparatorStyle(.secondary)
-///     .timecodeValidationStyle(.red)
+///     .foregroundColor(.primary) // default text color
+///     .timecodeFormat([.showSubFrames]) // enable subframes component
+///     .timecodeSeparatorStyle(.secondary) // colorize separators
+///     .timecodeSubFramesStyle(.secondary, scale: .secondary) // colorize and/or set text size
+///     .timecodeValidationStyle(.red) // colorize invalid components
 /// ```
-@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 public struct TimecodeText: View {
     @Environment(\.timecodeFormat) private var timecodeFormat
     @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle
+    @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
     
     var timecode: Timecode
@@ -69,6 +71,8 @@ public struct TimecodeText: View {
         timecode.text(
             format: timecodeFormat,
             separatorStyle: timecodeSeparatorStyle,
+            subFramesColor: timecodeSubFramesStyle.color,
+            subFramesScale: timecodeSubFramesStyle.scale,
             validationStyle: timecodeValidationStyle
         )
     }
@@ -81,10 +85,12 @@ extension Timecode {
     /// This method is not meant to be used directly, and is thus not exposed as public.
     /// Instead, instantiate a ``TimecodeText`` view and use the provided custom view modifiers to supply the format and
     /// style attributes.
-    @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+    @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     func text(
         format: Timecode.StringFormat = .default(),
         separatorStyle: Color? = nil,
+        subFramesColor: Color? = nil,
+        subFramesScale: Text.Scale = .default,
         validationStyle: Color? = .red
     ) -> Text {
         // proxy variables which makes it easier to copy/paste or refactor this code block
@@ -184,11 +190,15 @@ extension Timecode {
             output.append(sepSubFrames)
             
             let subframesText = String(format: "%0\(numberOfSubFramesDigits)ld", timecode.subFrames)
+            
+            let baseSubFramesText: Text
             if invalids.contains(.subFrames) {
-                output.append(invalidModifiers(subframesText))
+                baseSubFramesText = invalidModifiers(subframesText)
             } else {
-                output.append(Text(subframesText))
+                baseSubFramesText = Text(subframesText).conditionalForegroundStyle(subFramesColor)
             }
+            
+            output.append(baseSubFramesText.textScale(subFramesScale))
         }
         
         return output.monospacedDigit()
@@ -198,7 +208,7 @@ extension Timecode {
 // TODO: Find a way to conditionally build Preview. `#if DEBUG` isn't good enough because it's causing docc generation to fail. `#if ENABLE_PREVIEWS` no longer works in Xcode 16 either.
 #if false // set to true to enable previews
 
-@available(macOS 14, iOS 17, watchOS 10.0, *)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 #Preview {
     @Previewable @TimecodeState var timecode = Timecode(
         .components(d: 02, h: 04, m: 20, s: 30, f: 25, sf: 82),
@@ -217,6 +227,7 @@ extension Timecode {
             TimecodeText(timecode)
             TimecodeText(timecode)
                 .foregroundColor(.blue)
+                .timecodeSubFramesStyle(.secondary, scale: .secondary)
         }
         .font(.largeTitle)
         .timecodeFormat(timecodeFormat)
