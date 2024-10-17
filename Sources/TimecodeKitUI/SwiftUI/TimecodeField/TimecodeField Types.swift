@@ -24,12 +24,12 @@ extension TimecodeField {
         /// Removes focus from the timecode field.
         case endEditing
         
+        /// Advances the focus to the next timecode component.
+        case focusNextComponent
+        
         /// Resets component focus to the specified component.
         /// If `nil`, focus is reset to the first visible component.
         case resetComponentFocus(component: Timecode.Component? = nil)
-        
-        /// Advances the focus to the next timecode component.
-        case focusNextComponent
     }
 }
 
@@ -37,14 +37,14 @@ extension TimecodeField {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField.FieldAction: Identifiable {
-    public var id: Self { self }
+    public var id: RawValue { rawValue }
 }
 
 @available(macOS 14, iOS 17, *)
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField.FieldAction: CaseIterable {
-    public static let allCases: [Self] = [.endEditing]
+    public static let allCases: [Self] = [.endEditing, .focusNextComponent]
         + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
 }
 
@@ -64,14 +64,16 @@ extension TimecodeField.FieldAction: RawRepresentable {
     
     public var rawValue: String {
         switch self {
-        case .endEditing: "endEditing"
+        case .endEditing: 
+            "endEditing"
+        case .focusNextComponent: 
+            "focusNextComponent"
         case .resetComponentFocus(let component):
             if let component {
                 "resetComponentFocus-to-\(component)"
             } else {
                 "resetComponentFocus"
             }
-        case .focusNextComponent: "focusNextComponent"
         }
     }
 }
@@ -112,7 +114,7 @@ extension TimecodeField {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField.InputStyle: Identifiable {
-    public var id: Self { self }
+    public var id: RawValue { rawValue }
 }
 
 // MARK: - InputWrapping
@@ -125,12 +127,6 @@ extension TimecodeField {
     ///
     /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputWrapping(_:)`` view modifier.
     public enum InputWrapping: String, Equatable, Hashable, CaseIterable, Sendable {
-        /// When the timecode field advances focus to the next timecode component, the focus should wrap around to the
-        /// first visible timecode component when advancing focus from the last visible timecode component.
-        ///
-        /// For example, when HH:MM:SS:FF components are visible, focus will advance from frames back around to hours.
-        case wrap
-        
         /// When the timecode field advances focus to the next timecode component, do not wrap around to the first
         /// timecode component when attempting to advance focus from the last visible timecode component.
         ///
@@ -143,6 +139,12 @@ extension TimecodeField {
         /// - use the Delete (backspace) key twice to delete the contents of the component and then move focus to the
         ///   previous component, repeating as desired
         case noWrap
+        
+        /// When the timecode field advances focus to the next timecode component, the focus should wrap around to the
+        /// first visible timecode component when advancing focus from the last visible timecode component.
+        ///
+        /// For example, when HH:MM:SS:FF components are visible, focus will advance from frames back around to hours.
+        case wrap
     }
 }
 
