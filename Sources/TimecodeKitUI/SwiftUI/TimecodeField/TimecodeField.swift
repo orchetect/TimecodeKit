@@ -112,6 +112,7 @@ public struct TimecodeField: View {
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
+    @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
     @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
     
     // MARK: - Internal view modifiers
@@ -198,11 +199,7 @@ public struct TimecodeField: View {
         
         // handle user-initiated paste event locally or propagated up from a child view
         .onPasteCommandOfTimecode(propertiesForString: timecodeProperties) { pasteResult in
-            do {
-                timecode = try pasteResult.get()
-            } catch {
-                errorFeedback()
-            }
+            handle(pasteResult: pasteResult)
         }
         
         // update focus if view is disabled
@@ -323,6 +320,27 @@ public struct TimecodeField: View {
     
     private var timecodeProperties: Timecode.Properties {
         Timecode.Properties(rate: frameRate, base: subFramesBase, limit: upperLimit)
+    }
+    
+    private func handle(pasteResult: Result<Timecode, any Error>) {
+        do {
+            let pastedTimecode = try pasteResult.get()
+            
+            // validate if necessary before accepting the pasted timecode
+            switch timecodeFieldValidationPolicy {
+            case .allowInvalid:
+                timecode = pastedTimecode
+            case .enforceValid:
+                guard timecode.isValid else {
+                    errorFeedback()
+                    return
+                }
+                // TODO: handle additional case when configured to only paste values and not mutate timecode properties
+                timecode = pastedTimecode
+            }
+        } catch {
+            errorFeedback()
+        }
     }
     
     // MARK: - Sync Bindings
