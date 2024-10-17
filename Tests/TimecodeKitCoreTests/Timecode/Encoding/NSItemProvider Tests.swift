@@ -30,7 +30,7 @@ final class NSItemProviderTests: XCTestCase {
         
         let decoded = try await Timecode(
             from: itemProviders,
-            propertiesForTimecodeString: wrongProperties
+            propertiesForString: wrongProperties
         )
         
         XCTAssertEqual(decoded.components, timecode.components)
@@ -59,7 +59,7 @@ final class NSItemProviderTests: XCTestCase {
         // since the init uses `allowingInvalid` validation rule
         let decoded = try await Timecode(
             from: itemProvider,
-            propertiesForTimecodeString: newProperties
+            propertiesForString: newProperties
         )
         
         XCTAssertEqual(decoded.components, timecode.components)
@@ -86,7 +86,7 @@ final class NSItemProviderTests: XCTestCase {
         
         let decoded = try await Timecode(
             from: itemProvider,
-            propertiesForTimecodeString: wrongProperties
+            propertiesForString: wrongProperties
         )
         
         XCTAssertEqual(decoded.components, timecode.components)

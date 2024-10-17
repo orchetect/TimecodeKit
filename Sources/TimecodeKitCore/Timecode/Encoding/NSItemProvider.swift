@@ -30,16 +30,16 @@ extension Timecode {
     ///
     /// - Parameters:
     ///   - itemProvider: The item provider to decode.
-    ///   - propertiesForTimecodeString: Properties to apply to the newly formed ``Timecode`` instance
+    ///   - propertiesForString: Properties to apply to the newly formed ``Timecode`` instance
     ///     in the event the item provider contains a plain-text timecode string.
     @MainActor
     public init(
         from itemProvider: NSItemProvider,
-        propertiesForTimecodeString: Timecode.Properties
+        propertiesForString: Timecode.Properties
     ) async throws {
         try await self.init(
             from: [itemProvider],
-            propertiesForTimecodeString: propertiesForTimecodeString
+            propertiesForString: propertiesForString
         )
     }
     
@@ -61,13 +61,13 @@ extension Timecode {
     ///
     /// - Parameters:
     ///   - itemProviders: The item provider(s) to decode.
-    ///   - propertiesForTimecodeString: Properties to apply to the newly formed ``Timecode`` instance
+    ///   - propertiesForString: Properties to apply to the newly formed ``Timecode`` instance
     ///     in the event the item provider(s) contain a plain-text timecode string and no richer encoding
     ///     is present.
     @MainActor
     public init(
         from itemProviders: [NSItemProvider],
-        propertiesForTimecodeString: Timecode.Properties
+        propertiesForString: Timecode.Properties
     ) async throws {
         // 1. first try Codable decode from data
         
@@ -85,7 +85,7 @@ extension Timecode {
             $0.hasItemConformingToTypeIdentifier(Self.textUTType.identifier)
         }),
             let string = try? await provider._loadTransferable(type: String.self),
-            let timecode = try? Timecode(.string(string), using: propertiesForTimecodeString, by: .allowingInvalid)
+            let timecode = try? Timecode(.string(string), using: propertiesForString, by: .allowingInvalid)
         {
             self = timecode
             return

@@ -67,7 +67,7 @@ struct TimecodeListView: View {
         let properties = Timecode.Properties(rate: .fps24)
         let timecode = try await Timecode(
             from: itemProviders,
-            propertiesForTimecodeString: properties
+            propertiesForString: properties
         )
         
         // Timecode's default Identifiable implementation uses self
@@ -126,8 +126,8 @@ struct TimecodeListView: View {
 
 ### NSItemProvider
 
-- ``Timecode/init(from:propertiesForTimecodeString:)-34ph6``
-- ``Timecode/init(from:propertiesForTimecodeString:)-7fhcr``
+- ``Timecode/init(from:propertiesForString:)-34ph6``
+- ``Timecode/init(from:propertiesForString:)-7fhcr``
 - ``Timecode/itemProviders(stringFormat:)``
 
 ### Transferable
