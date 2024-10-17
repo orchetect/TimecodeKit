@@ -14,13 +14,15 @@ struct ContentView: View {
     @State private var operationType: OperationType = .addOrReplaceTimecodeTrack
     
     var body: some View {
-        Form {
-            sourceSection
-            operationsSection
+        NavigationStack {
+            Form {
+                sourceSection
+                operationsSection
+            }
+            .formStyle(.grouped)
+            .padding()
+            .navigationTitle("Movie Timecode")
         }
-        .formStyle(.grouped)
-        .padding()
-        
         .fileImporter(
             isPresented: $isFileImporterShown,
             allowedContentTypes: [.quickTimeMovie, .mpeg4Movie]

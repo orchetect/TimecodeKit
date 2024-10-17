@@ -135,7 +135,7 @@ extension EnvironmentValues {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 struct TimecodeFieldValidationPolicyKey: EnvironmentKey {
-    public static let defaultValue: TimecodeField.ValidationPolicy = .allowInvalid
+    public static let defaultValue: TimecodeField.ValidationPolicy = .enforceValid
 }
 
 @_documentation(visibility: internal)

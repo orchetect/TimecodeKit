@@ -61,9 +61,10 @@ struct ExpressionsView: View {
         .foregroundStyle(.primary)
         .timecodeFormat([.showSubFrames])
         .timecodeSeparatorStyle(.secondary)
-        .timecodeValidationStyle(.red)
+        .timecodeSubFramesStyle(.secondary, scale: .secondary)
         .timecodeFieldInputStyle(.autoAdvance)
         .timecodeFieldInputWrapping(.noWrap)
+        .timecodeFieldValidationPolicy(.enforceValid)
     }
 }
 

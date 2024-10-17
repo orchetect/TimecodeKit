@@ -16,14 +16,16 @@ struct TimecodeFieldView: View {
     
     @State private var isEnabled: Bool = true
     @State private var timecodeFormat: Timecode.StringFormat = [.showSubFrames]
-    @State private var inputStyle: TimecodeField.InputStyle = .autoAdvance
-    @State private var inputWrapping: TimecodeField.InputWrapping = .wrap
     @State private var defaultStyle: DefaultStyle = .default
     @State private var separatorStyle: SeparatorStyle = .secondary
-    @State private var highlightStyle: HighlightStyle = .default
-    @State private var validationStyle: ValidationStyle = .red
     @State private var subFramesStyle: SubFramesStyle = .default
     @State private var subFramesScale: TextScale = .default
+    @State private var validationStyle: ValidationStyle = .red
+    @State private var highlightStyle: HighlightStyle = .default
+    @State private var inputStyle: TimecodeField.InputStyle = .continuousWithinComponent
+    @State private var inputWrapping: TimecodeField.InputWrapping = .noWrap
+    @State private var validationPolicy: TimecodeField.ValidationPolicy = .allowInvalid
+    @State private var validationAnimation: Bool = true
     
     @FocusState private var isEditing: Bool
     
@@ -43,6 +45,7 @@ struct TimecodeFieldView: View {
             .timecodeFieldHighlightStyle(highlightStyle.color)
             .timecodeFieldInputStyle(inputStyle)
             .timecodeFieldInputWrapping(inputWrapping)
+            .timecodeFieldValidationPolicy(validationPolicy, animation: validationAnimation)
             .timecodeFieldReturnAction(.focusNextComponent)
             .timecodeFieldEscapeAction(.resetComponentFocus())
             .font(.largeTitle)
@@ -139,6 +142,15 @@ struct TimecodeFieldView: View {
                     Text(wrapping.name).tag(wrapping)
                 }
             }
+            Picker("Validation Policy", selection: $validationPolicy) {
+                ForEach(TimecodeField.ValidationPolicy.allCases) { policy in
+                    Text(policy.name).tag(policy)
+                }
+            }
+            Toggle(isOn: $validationAnimation) {
+                Text("Validation Feedback Animation")
+            }
+            .disabled(validationPolicy != .enforceValid)
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
                 Text("Show SubFrames")
             }
@@ -312,7 +324,7 @@ extension TimecodeFieldView {
         
         var name: String {
             switch self {
-            case .default: "Default (Accent Color)"
+            case .default: "Default (Accent)"
             case .secondary: "Secondary"
             case .blue: "Blue"
             }
@@ -367,6 +379,15 @@ extension TimecodeField.InputWrapping {
         switch self {
         case .noWrap: "No Wrap"
         case .wrap: "Wrap"
+        }
+    }
+}
+
+extension TimecodeField.ValidationPolicy {
+    var name: String {
+        switch self {
+        case .allowInvalid: "Allow Invalid"
+        case .enforceValid: "Enforce Valid"
         }
     }
 }
