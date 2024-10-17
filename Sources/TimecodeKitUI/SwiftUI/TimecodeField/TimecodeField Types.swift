@@ -150,7 +150,40 @@ extension TimecodeField {
 @available(watchOS, unavailable)
 @available(tvOS, unavailable)
 extension TimecodeField.InputWrapping: Identifiable {
-    public var id: Self { self }
+    public var id: RawValue { rawValue }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField {
+    /// An enum describing timecode validation policies in response to ``TimecodeField`` user input.
+    ///
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldValidationPolicy(_:animation:)`` view modifier.
+    public enum ValidationPolicy: String, Equatable, Hashable, CaseIterable, Sendable {
+        /// Invalid timecode component values are allowed.
+        /// Entry will accept arbitrarily large numbers for any individual timecode component.
+        ///
+        /// This is useful for testing purposes or non-standard timecode entry.
+        case allowInvalid
+        
+        /// Strictly enforce valid timecode component values at the given frame rate, subframes base, and upper limit
+        /// properties.
+        /// Invalid component values are rejected during user input and will revert to a valid value.
+        ///
+        /// Note that this method is unidirectional and not applied bidirectionally to the timecode binding.
+        /// This is to say that values entered by the user are validated, but values pushed to the binding will not be
+        /// corrected but merely displayed as-is. They are only then subsequently validated if the user edits the
+        /// component value.
+        case enforceValid
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.ValidationPolicy: Identifiable {
+    public var id: RawValue { rawValue }
 }
 
 #endif

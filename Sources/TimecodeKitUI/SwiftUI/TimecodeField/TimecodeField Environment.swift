@@ -128,6 +128,54 @@ extension EnvironmentValues {
     }
 }
 
+// MARK: - TimecodeFieldValidationPolicy
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldValidationPolicyKey: EnvironmentKey {
+    public static let defaultValue: TimecodeField.ValidationPolicy = .allowInvalid
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Sets timecode component validation policy for ``TimecodeField`` views.
+    public var timecodeFieldValidationPolicy: TimecodeField.ValidationPolicy {
+        get { self[TimecodeFieldValidationPolicyKey.self] }
+        set { self[TimecodeFieldValidationPolicyKey.self] = newValue }
+    }
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldValidationAnimationKey: EnvironmentKey {
+    public static let defaultValue: Bool = {
+        #if os(macOS)
+        false
+        #else
+        true
+        #endif
+    }()
+}
+
+@_documentation(visibility: internal)
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension EnvironmentValues {
+    /// Enables or disables validation animation for ``TimecodeField`` views.
+    public var timecodeFieldValidationAnimation: Bool {
+        get { self[TimecodeFieldValidationAnimationKey.self] }
+        set { self[TimecodeFieldValidationAnimationKey.self] = newValue }
+    }
+}
+
 // MARK: - TimecodeFormat
 
 /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.

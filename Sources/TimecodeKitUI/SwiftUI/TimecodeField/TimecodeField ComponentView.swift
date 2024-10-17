@@ -26,20 +26,25 @@ extension TimecodeField {
         
         // MARK: - Properties settable through custom view modifiers
         
-        @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
-        @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
-        @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
-        @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
-        @Environment(\.timecodeFieldReturnAction) private var timecodeFieldReturnAction: TimecodeField.FieldAction?
-        @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction: TimecodeField.FieldAction?
+        @Environment(\.timecodeFormat) private var timecodeFormat
+        @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
+        @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle
+        @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
+        @Environment(\.timecodeFieldReturnAction) private var timecodeFieldReturnAction
+        @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction
         @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
         @Environment(\.timecodeFieldInputWrapping) private var timecodeFieldInputWrapping
+        @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
+        @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
         
         // MARK: - Internal State
         
         @State private var isVirgin: Bool = true
         @State private var isHovering: Bool = false
         @State private var textInput: String = ""
+        @State private var shakeTrigger: Bool = false
+        
+        private let shakeIntensity: CGFloat = 5
         
         // MARK: - Body
         
@@ -56,9 +61,9 @@ extension TimecodeField {
                     .allowsTightening(false)
             }
             .background { background }
+            .offset(x: shakeTrigger ? shakeIntensity : 0)
             .focusable(interactions: [.edit])
             .focused($componentEditing, equals: component)
-            
             .onHover { state in
                 isHovering = state
             }
@@ -102,6 +107,7 @@ extension TimecodeField {
                     .allowsHitTesting(false)
             }
             .background { background }
+            .offset(x: shakeTrigger ? shakeIntensity : 0)
             .onTapGesture {
                 startEditing()
             }
@@ -208,6 +214,16 @@ extension TimecodeField {
                 
                 let proposedTextInput = "\(textInput)\(key.character)"
                 
+                switch timecodeFieldValidationPolicy {
+                case .allowInvalid:
+                    break
+                case .enforceValid:
+                    guard validRange.contains(proposedValue) else {
+                        errorFeedback()
+                        return .handled
+                    }
+                }
+                
                 switch timecodeFieldInputStyle {
                 case .autoAdvance:
                     let postDigitCount = proposedTextInput.count
@@ -301,6 +317,8 @@ extension TimecodeField {
             }
         }
         
+        // MARK: - UI
+        
         private func focusFirstComponent() {
             componentEditing = Timecode.Component.first(excluding: invisibleComponents)
         }
@@ -344,6 +362,19 @@ extension TimecodeField {
             case .focusNextComponent:
                 focusNextComponent(wrap: timecodeFieldInputWrapping)
                 return .handled
+            }
+        }
+        
+        private func errorFeedback() {
+            beep()
+            
+            if timecodeFieldValidationAnimation {
+                shakeTrigger = true
+                withAnimation(
+                    Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
+                ) {
+                    shakeTrigger = false
+                }
             }
         }
     }

@@ -52,16 +52,19 @@ import TimecodeKitCore
 ///
 /// ```swift
 /// TimecodeField(timecode: $timecode)
+///     // appearance
 ///     .foregroundColor(.primary) // default text color
 ///     .timecodeFormat([.showSubFrames]) // enable subframes component
 ///     .timecodeSeparatorStyle(.secondary) // colorize separators
 ///     .timecodeSubFramesStyle(.secondary, scale: .secondary) // colorize and/or set text size
 ///     .timecodeValidationStyle(.red) // colorize invalid components
 ///     .timecodeFieldHighlightStyle(.accentColor) // component selection color
+///     // behavior
 ///     .timecodeFieldInputStyle(.autoAdvance)
 ///     .timecodeFieldInputWrapping(.noWrap)
 ///     .timecodeFieldReturnAction(.endEditing)
 ///     .timecodeFieldEscapeAction(.endEditing)
+///     .timecodeFieldValidationPolicy(.enforceValid, animation: true)
 /// ```
 ///
 /// ## Focus
@@ -105,10 +108,10 @@ public struct TimecodeField: View {
     
     // MARK: - Properties settable through custom view modifiers
     
-    @Environment(\.timecodeFormat) private var timecodeFormat: Timecode.StringFormat
-    @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle: Color?
-    @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle: (color: Color?, scale: Text.Scale)
-    @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle: Color?
+    @Environment(\.timecodeFormat) private var timecodeFormat
+    @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
+    @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
+    @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
     
     // MARK: - Internal State
     

@@ -137,6 +137,38 @@ extension View {
     }
 }
 
+// MARK: - TimecodeFieldValidationPolicy
+
+/// Sets timecode component validation policy for ``TimecodeField`` views.
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+struct TimecodeFieldValidationPolicyViewModifier: ViewModifier {
+    @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
+    
+    let policy: TimecodeField.ValidationPolicy
+    let animation: Bool?
+    
+    func body(content: Content) -> some View {
+        content
+            .environment(\.timecodeFieldValidationPolicy, policy)
+            .environment(\.timecodeFieldValidationAnimation, animation ?? timecodeFieldValidationAnimation)
+    }
+}
+
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension View {
+    /// Sets timecode component validation policy for ``TimecodeField`` views.
+    public func timecodeFieldValidationPolicy(
+        _ policy: TimecodeField.ValidationPolicy,
+        animation: Bool? = nil
+    ) -> some View {
+        modifier(TimecodeFieldValidationPolicyViewModifier(policy: policy, animation: animation))
+    }
+}
+
 // MARK: - TimecodeFormat
 
 /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
