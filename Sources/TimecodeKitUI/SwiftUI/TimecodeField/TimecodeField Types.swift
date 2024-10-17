@@ -48,6 +48,34 @@ extension TimecodeField.FieldAction: CaseIterable {
         + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
 }
 
+@available(macOS 14, iOS 17, *)
+@available(watchOS, unavailable)
+@available(tvOS, unavailable)
+extension TimecodeField.FieldAction: RawRepresentable {
+    public typealias RawValue = String
+    
+    public init?(rawValue: String) {
+        guard let match = Self.allCases.first(where: { $0.rawValue == rawValue })
+        else {
+            return nil
+        }
+        self = match
+    }
+    
+    public var rawValue: String {
+        switch self {
+        case .endEditing: "endEditing"
+        case .resetComponentFocus(let component):
+            if let component {
+                "resetComponentFocus-to-\(component)"
+            } else {
+                "resetComponentFocus"
+            }
+        case .focusNextComponent: "focusNextComponent"
+        }
+    }
+}
+
 // MARK: - InputStyle
 
 @available(macOS 14, iOS 17, *)
@@ -57,7 +85,7 @@ extension TimecodeField {
     /// An enum describing numeric data entry input style cases for ``TimecodeField``.
     ///
     /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputStyle(_:)`` view modifier.
-    public enum InputStyle: Equatable, Hashable, CaseIterable, Sendable {
+    public enum InputStyle: String, Equatable, Hashable, CaseIterable, Sendable {
         /// Auto-advance focus to next timecode component once all digits for the currently-focused component are
         /// populated by user data entry.
         ///
@@ -96,7 +124,7 @@ extension TimecodeField {
     /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
     ///
     /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputWrapping(_:)`` view modifier.
-    public enum InputWrapping: Equatable, Hashable, CaseIterable, Sendable {
+    public enum InputWrapping: String, Equatable, Hashable, CaseIterable, Sendable {
         /// When the timecode field advances focus to the next timecode component, the focus should wrap around to the
         /// first visible timecode component when advancing focus from the last visible timecode component.
         ///
