@@ -105,18 +105,48 @@ extension Timecode.Component {
         base: Timecode.SubFramesBase
     ) -> Int {
         switch self {
-        case .days:
-            2
-        case .hours:
-            2
-        case .minutes:
-            2
-        case .seconds:
-            2
-        case .frames:
-            rate.numberOfDigits
-        case .subFrames:
-            base.numberOfDigits
+        case .days: 2
+        case .hours: 2
+        case .minutes: 2
+        case .seconds: 2
+        case .frames: rate.numberOfDigits
+        case .subFrames: base.numberOfDigits
+        }
+    }
+    
+    /// Returns the name of the component as a lowerCamelCase string (identical to case name).
+    public var nameLowerCamelCase: String {
+        switch self {
+        case .days: "days"
+        case .hours: "hours"
+        case .minutes: "minutes"
+        case .seconds: "seconds"
+        case .frames: "frames"
+        case .subFrames: "subFrames"
+        }
+    }
+    
+    /// Returns the name of the component as a capitalized string.
+    public var nameCapitalized: String {
+        switch self {
+        case .days: "Days"
+        case .hours: "Hours"
+        case .minutes: "Minutes"
+        case .seconds: "Seconds"
+        case .frames: "Frames"
+        case .subFrames: "SubFrames"
+        }
+    }
+    
+    /// Returns the name of the component as a lowercase string.
+    public var nameLowercased: String {
+        switch self {
+        case .days: "days"
+        case .hours: "hours"
+        case .minutes: "minutes"
+        case .seconds: "seconds"
+        case .frames: "frames"
+        case .subFrames: "subframes"
         }
     }
 }
