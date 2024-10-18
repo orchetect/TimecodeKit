@@ -27,85 +27,9 @@ extension Timecode {
     /// A fully valid timecode will return an empty set.
     /// Validation relies on `frameRate` and `upperLimit`.
     public var invalidComponents: Set<Component> {
-        Self.invalidComponents(
-            in: components,
+        components.invalidComponents(
             using: properties
         )
-    }
-}
-
-extension Timecode.Components {
-    /// Returns a set of invalid components, if any.
-    /// A fully valid timecode will return an empty set.
-    public func invalidComponents(
-        at frameRate: TimecodeFrameRate,
-        base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = .max24Hours
-    ) -> Set<Timecode.Component> {
-        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
-        return invalidComponents(using: properties)
-    }
-    
-    /// Returns a set of invalid components, if any.
-    /// A fully valid timecode will return an empty set.
-    public func invalidComponents(
-        using properties: Timecode.Properties
-    ) -> Set<Timecode.Component> {
-        Timecode.invalidComponents(
-            in: self,
-            using: properties
-        )
-    }
-}
-
-extension Timecode {
-    /// Returns a set of invalid components, if any.
-    /// A fully valid timecode will return an empty set.
-    @_documentation(visibility: internal)
-    public static func invalidComponents(
-        in components: Components,
-        at frameRate: TimecodeFrameRate,
-        base: Timecode.SubFramesBase = .default(),
-        limit: Timecode.UpperLimit = .max24Hours
-    ) -> Set<Component> {
-        let properties = Properties(rate: frameRate, base: base, limit: limit)
-        return invalidComponents(in: components, using: properties)
-    }
-    
-    /// Returns a set of invalid components, if any.
-    /// A fully valid timecode will return an empty set.
-    @_documentation(visibility: internal)
-    public static func invalidComponents(
-        in components: Components,
-        using properties: Timecode.Properties
-    ) -> Set<Component> {
-        var invalids: Set<Component> = []
-        
-        if !components.validRange(of: .days, using: properties)
-            .contains(components.days)
-        { invalids.insert(.days) }
-        
-        if !components.validRange(of: .hours, using: properties)
-            .contains(components.hours)
-        { invalids.insert(.hours) }
-        
-        if !components.validRange(of: .minutes, using: properties)
-            .contains(components.minutes)
-        { invalids.insert(.minutes) }
-        
-        if !components.validRange(of: .seconds, using: properties)
-            .contains(components.seconds)
-        { invalids.insert(.seconds) }
-        
-        if !components.validRange(of: .frames, using: properties)
-            .contains(components.frames)
-        { invalids.insert(.frames) }
-        
-        if !components.validRange(of: .subFrames, using: properties)
-            .contains(components.subFrames)
-        { invalids.insert(.subFrames) }
-        
-        return invalids
     }
 }
 

@@ -347,6 +347,53 @@ extension Timecode.Components: Sequence {
 // MARK: - Validation
 
 extension Timecode.Components {
+    /// Returns a set of invalid components, if any.
+    /// A fully valid timecode will return an empty set.
+    public func invalidComponents(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase = .default(),
+        limit: Timecode.UpperLimit = .max24Hours
+    ) -> Set<Timecode.Component> {
+        let properties = Timecode.Properties(rate: frameRate, base: base, limit: limit)
+        return invalidComponents(using: properties)
+    }
+    
+    /// Returns a set of invalid components, if any.
+    /// A fully valid timecode will return an empty set.
+    public func invalidComponents(
+        using properties: Timecode.Properties
+    ) -> Set<Timecode.Component> {
+        var invalids: Set<Timecode.Component> = []
+        
+        if !validRange(of: .days, using: properties)
+            .contains(days)
+        { invalids.insert(.days) }
+        
+        if !validRange(of: .hours, using: properties)
+            .contains(hours)
+        { invalids.insert(.hours) }
+        
+        if !validRange(of: .minutes, using: properties)
+            .contains(minutes)
+        { invalids.insert(.minutes) }
+        
+        if !validRange(of: .seconds, using: properties)
+            .contains(seconds)
+        { invalids.insert(.seconds) }
+        
+        if !validRange(of: .frames, using: properties)
+            .contains(frames)
+        { invalids.insert(.frames) }
+        
+        if !validRange(of: .subFrames, using: properties)
+            .contains(subFrames)
+        { invalids.insert(.subFrames) }
+        
+        return invalids
+    }
+}
+
+extension Timecode.Components {
     /// Returns `true` if all component values are within acceptable number of digit range based on the specified frame
     /// rate and subframes base.
     ///
