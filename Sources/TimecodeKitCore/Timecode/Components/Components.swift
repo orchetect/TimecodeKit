@@ -228,3 +228,41 @@ extension Timecode.Components {
         )
     }
 }
+
+// MARK: - Data Structures and Iterators
+
+extension Timecode.Components {
+    /// Get or set the timecode component values as a dictionary keyed by ``Timecode/Component``.
+    public var dictionary: [Timecode.Component: Int] {
+        get {
+            [
+                .days: days,
+                .hours: hours,
+                .minutes: minutes,
+                .seconds: seconds,
+                .frames: frames,
+                .subFrames: subFrames
+            ]
+        }
+        set {
+            set(from: newValue)
+        }
+    }
+    
+    /// Internal:
+    /// Sets component values from a dictionary keyed by ``Timecode/Component``.
+    mutating func set(from dictionary: [Timecode.Component: Int]) {
+        for component in Timecode.Component.allCases {
+            if let value = dictionary[component] {
+                switch component {
+                case .days: days = value
+                case .hours: hours = value
+                case .minutes: minutes = value
+                case .seconds: seconds = value
+                case .frames: frames = value
+                case .subFrames: subFrames = value
+                }
+            }
+        }
+    }
+}
