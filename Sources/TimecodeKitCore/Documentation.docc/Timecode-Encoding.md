@@ -126,8 +126,8 @@ struct TimecodeListView: View {
 
 ### NSItemProvider
 
-- ``Timecode/init(from:propertiesForString:)-34ph6``
-- ``Timecode/init(from:propertiesForString:)-7fhcr``
+- ``Timecode/init(from:propertiesForString:)-7hl9l``
+- ``Timecode/init(from:propertiesForString:)-1cqhu``
 - ``Timecode/itemProviders(stringFormat:)``
 
 ### Transferable

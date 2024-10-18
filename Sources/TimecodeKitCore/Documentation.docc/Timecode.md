@@ -187,7 +187,6 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 - ``ValidationRule``
 - ``ValidationError``
 - ``invalidComponents``
-- ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 - ``Component``
 - ``validRange(of:)``
 

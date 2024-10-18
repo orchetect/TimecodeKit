@@ -113,8 +113,8 @@ Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingIn
 ### Invalid Components
 
 - ``Timecode/invalidComponents``
-- ``Timecode/invalidComponents(in:at:base:limit:)``
-- ``Timecode/invalidComponents(in:using:)``
+- ``Timecode/Components/invalidComponents(at:base:limit:)``
+- ``Timecode/Components/invalidComponents(using:)``
 
 ### Formatted Attributed String
 
