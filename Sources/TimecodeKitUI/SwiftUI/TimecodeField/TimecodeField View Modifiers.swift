@@ -295,6 +295,7 @@ extension View {
     }
 }
 
+#if os(macOS)
 @available(macOS 13.0, *)
 @available(iOS, unavailable)
 @available(tvOS, unavailable)
@@ -330,5 +331,6 @@ extension View {
         }
     }
 }
+#endif
 
 #endif

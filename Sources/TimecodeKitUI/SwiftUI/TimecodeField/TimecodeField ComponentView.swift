@@ -120,7 +120,7 @@ extension TimecodeField {
             .onTapGesture {
                 startEditing()
             }
-            .onChange(of: componentEditing) { oldValue, newValue in
+            .onChange(of: focusedComponent) { oldValue, newValue in
                 setIsVirgin(true)
             }
             .onDisappear {
