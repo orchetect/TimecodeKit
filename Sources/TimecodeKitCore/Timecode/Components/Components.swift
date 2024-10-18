@@ -19,8 +19,7 @@ extension Timecode {
     /// ```
     ///
     /// ```swift
-    /// let components = try "01:12:20:05"
-    ///     .timecode(at: .fps23_976)
+    /// let components = try Timecode(.string("01:12:20:05"), at: .fps23_976)
     ///     .components // Timecode.Components
     ///
     /// components.days      // == 0
@@ -72,8 +71,11 @@ extension Timecode {
     /// can enable them:
     ///
     /// ```swift
-    /// var tc = try "01:12:20:05.62"
-    ///     .timecode(at: .fps24, base: .max80SubFrames)
+    /// var tc = try Timecode(
+    ///     .string("01:12:20:05.62"),
+    ///     at: .fps24,
+    ///     base: .max80SubFrames
+    /// )
     ///
     /// // string with default formatting
     /// tc.stringValue() // == "01:12:20:05"
@@ -87,8 +89,11 @@ extension Timecode {
     /// timecode string when not displaying subframes.
     ///
     /// ```swift
-    /// var tc = try "00:00:00:00.40"
-    ///     .timecode(at: .fps24, base: .max80SubFrames)
+    /// var tc = try Timecode(
+    ///     .string("00:00:00:00.40"),
+    ///     at: .fps24,
+    ///     base: .max80SubFrames
+    /// )
     ///
     /// tc.stringValue() // == "00:00:00:00"
     /// tc.stringValue(format: .showSubFrames) // == "00:00:00:00.40"
