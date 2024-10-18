@@ -14,9 +14,22 @@
 		E263C4D52CBC805D003233F6 /* TimecodeMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimecodeMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E25F7F7A2CC2584C00358023 /* Exceptions for "Timecode Math" folder in "TimecodeMath" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = E263C4D42CBC805D003233F6 /* TimecodeMath */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E263C4D72CBC805D003233F6 /* Timecode Math */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E25F7F7A2CC2584C00358023 /* Exceptions for "Timecode Math" folder in "TimecodeMath" target */,
+			);
 			path = "Timecode Math";
 			sourceTree = "<group>";
 		};
@@ -260,6 +273,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Timecode Math/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode Math";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -299,6 +313,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Timecode Math/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Timecode Math";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
