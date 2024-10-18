@@ -11,24 +11,24 @@ extension Timecode {
     /// This struct can be passed into many methods and initializers.
     ///
     /// ```swift
-    /// let tcc = Timecode.Components(h: 1)
-    /// Timecode(.components(tcc), at: .fps23_976)
+    /// let components = Timecode.Components(h: 1)
+    /// Timecode(.components(components), at: .fps23_976)
     ///
     /// // is the same as using the shorthand:
     /// Timecode(.components(h: 1), at: .fps23_976)
     /// ```
     ///
     /// ```swift
-    /// let cmp = try "01:12:20:05"
+    /// let components = try "01:12:20:05"
     ///     .timecode(at: .fps23_976)
     ///     .components // Timecode.Components
     ///
-    /// cmp.days      // == 0
-    /// cmp.hours     // == 1
-    /// cmp.minutes   // == 12
-    /// cmp.seconds   // == 20
-    /// cmp.frames    // == 5
-    /// cmp.subFrames // == 0
+    /// components.days      // == 0
+    /// components.hours     // == 1
+    /// components.minutes   // == 12
+    /// components.seconds   // == 20
+    /// components.frames    // == 5
+    /// components.subFrames // == 0
     /// ```
     ///
     /// Raw values are stored verbatim and are not implicitly validated or clamped.
