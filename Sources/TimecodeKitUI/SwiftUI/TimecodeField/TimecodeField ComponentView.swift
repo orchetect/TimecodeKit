@@ -21,8 +21,8 @@ extension TimecodeField {
         let frameRate: TimecodeFrameRate
         let subFramesBase: Timecode.SubFramesBase
         let upperLimit: Timecode.UpperLimit
-        @FocusState.Binding var componentEditing: Timecode.Component?
         @Binding var value: Int
+        @FocusState.Binding var focusedComponent: Timecode.Component?
         
         // MARK: - Public view modifiers
         
@@ -67,14 +67,19 @@ extension TimecodeField {
             .background { background }
             .offset(x: shakeTrigger ? shakeIntensity : 0)
             .focusable(interactions: [.edit])
-            .focused($componentEditing, equals: component)
+            .focused($focusedComponent, equals: component)
+            
+            .onPasteCommandOfTimecode(
+                propertiesForString: timecodeProperties,
+                forwardTo: timecodePasted
+            )
             .onHover { state in
                 isHovering = state
             }
             .onTapGesture {
                 startEditing()
             }
-            .onChange(of: componentEditing) { oldValue, newValue in
+            .onChange(of: focusedComponent) { oldValue, newValue in
                 setIsVirgin(true)
             }
             .onKeyPress(phases: [.down, .repeat]) { keyPress in
@@ -83,10 +88,6 @@ extension TimecodeField {
             .onDisappear {
                 endEditing()
             }
-            .onPasteCommandOfTimecode(
-                propertiesForString: timecodeProperties,
-                forwardTo: timecodePasted
-            )
             #elseif os(iOS) || os(visionOS)
             ZStack {
                 KeyboardInputView(
@@ -105,7 +106,7 @@ extension TimecodeField {
                     }
                     return handleKeyPress(key: keyPress.key)
                 }
-                .focused($componentEditing, equals: component)
+                .focused($focusedComponent, equals: component)
                 
                 Text(valuePadded)
                     .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
@@ -189,7 +190,7 @@ extension TimecodeField {
         // MARK: - Editing
         
         private var isEditing: Bool {
-            componentEditing == component
+            focusedComponent == component
         }
         
         private func startEditing() {
@@ -197,7 +198,7 @@ extension TimecodeField {
         }
         
         private func endEditing() {
-            componentEditing = nil
+            focusedComponent = nil
         }
         
         private func setIsVirgin(_ state: Bool) {
@@ -347,7 +348,7 @@ extension TimecodeField {
         
         private func focus(component: Timecode.Component) {
             Task { // task avoids animation quirk
-                componentEditing = component
+                focusedComponent = component
             }
         }
         
@@ -356,9 +357,9 @@ extension TimecodeField {
         private func focusPreviousComponent(wrap: TimecodeField.InputWrapping) -> Bool {
             let bool = wrap == .wrap
             let newComponent = component.previous(excluding: invisibleComponents, wrap: bool)
-            let didChange = componentEditing != newComponent
+            let didChange = focusedComponent != newComponent
             Task { // task avoids animation quirk
-                componentEditing = newComponent
+                focusedComponent = newComponent
             }
             return didChange
         }
@@ -368,9 +369,9 @@ extension TimecodeField {
         private func focusNextComponent(wrap: TimecodeField.InputWrapping) -> Bool {
             let bool = wrap == .wrap
             let newComponent = component.next(excluding: invisibleComponents, wrap: bool)
-            let didChange = componentEditing != newComponent
+            let didChange = focusedComponent != newComponent
             Task { // task avoids animation quirk
-                componentEditing = newComponent
+                focusedComponent = newComponent
             }
             return didChange
         }

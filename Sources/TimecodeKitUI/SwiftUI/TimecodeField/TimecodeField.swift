@@ -121,7 +121,7 @@ public struct TimecodeField: View {
     
     // MARK: - Internal State
     
-    @FocusState private var componentEditing: Timecode.Component?
+    @FocusState private var focusedComponent: Timecode.Component?
     @State private var shakeTrigger: Bool = false
     
     private let shakeIntensity: CGFloat = 5
@@ -205,7 +205,7 @@ public struct TimecodeField: View {
         // update focus if view is disabled
         .onChange(of: isEnabled, initial: false) { oldValue, newValue in
             if !isEnabled {
-                componentEditing = nil
+                focusedComponent = nil
             }
         }
         // sync components to/from `timecode` binding.
@@ -244,9 +244,10 @@ public struct TimecodeField: View {
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    componentEditing: $componentEditing,
-                    value: $components.days
+                    value: $components.days,
+                    focusedComponent: $focusedComponent
                 )
+                
                 SeparatorView(text: daysSeparator)
             }
             
@@ -255,8 +256,8 @@ public struct TimecodeField: View {
                 frameRate: frameRate,
                 subFramesBase: subFramesBase,
                 upperLimit: upperLimit,
-                componentEditing: $componentEditing,
-                value: $components.hours
+                value: $components.hours,
+                focusedComponent: $focusedComponent
             )
             
             SeparatorView(text: mainSeparator)
@@ -266,8 +267,8 @@ public struct TimecodeField: View {
                 frameRate: frameRate,
                 subFramesBase: subFramesBase,
                 upperLimit: upperLimit,
-                componentEditing: $componentEditing,
-                value: $components.minutes
+                value: $components.minutes,
+                focusedComponent: $focusedComponent
             )
             
             SeparatorView(text: mainSeparator)
@@ -277,8 +278,8 @@ public struct TimecodeField: View {
                 frameRate: frameRate,
                 subFramesBase: subFramesBase,
                 upperLimit: upperLimit,
-                componentEditing: $componentEditing,
-                value: $components.seconds
+                value: $components.seconds,
+                focusedComponent: $focusedComponent
             )
             
             SeparatorView(text: framesSeparator)
@@ -288,8 +289,8 @@ public struct TimecodeField: View {
                 frameRate: frameRate,
                 subFramesBase: subFramesBase,
                 upperLimit: upperLimit,
-                componentEditing: $componentEditing,
-                value: $components.frames
+                value: $components.frames,
+                focusedComponent: $focusedComponent
             )
             
             if timecodeFormat.contains(.showSubFrames) {
@@ -300,8 +301,8 @@ public struct TimecodeField: View {
                     frameRate: frameRate,
                     subFramesBase: subFramesBase,
                     upperLimit: upperLimit,
-                    componentEditing: $componentEditing,
-                    value: $components.subFrames
+                    value: $components.subFrames,
+                    focusedComponent: $focusedComponent
                 )
                 .textScale(timecodeSubFramesStyle.scale)
                 .conditionalForegroundStyle(timecodeSubFramesStyle.color)
