@@ -280,6 +280,13 @@ extension Timecode.Components {
 }
 
 extension Timecode.Components {
+    /// Initialize from a component key/value pair array keyed by ``Timecode/Component``.
+    public init(_ array: [(component: Timecode.Component, value: Int)]) {
+        // TODO: not the most performant, but by far the simplest way to achieve this
+        self.init()
+        set(from: array)
+    }
+    
     /// Get or set the timecode component values as an array of key/value pairs keyed by ``Timecode/Component``.
     public var array: [(component: Timecode.Component, value: Int)] {
         get {
