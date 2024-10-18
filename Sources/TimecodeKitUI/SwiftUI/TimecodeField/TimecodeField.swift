@@ -194,6 +194,7 @@ public struct TimecodeField: View {
         }
         .monospacedDigit()
         .fixedSize()
+        .textSelection(.disabled)
         .compositingGroup()
         .offset(x: shakeTrigger ? shakeIntensity : 0)
         

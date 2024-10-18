@@ -198,7 +198,7 @@ extension TimecodeField {
         }
         
         private func endEditing() {
-            focusedComponent = nil
+            focus(component: nil)
         }
         
         private func setIsVirgin(_ state: Bool) {
@@ -346,7 +346,7 @@ extension TimecodeField {
             Timecode.Component.first(excluding: invisibleComponents)
         }
         
-        private func focus(component: Timecode.Component) {
+        private func focus(component: Timecode.Component?) {
             Task { // task avoids animation quirk
                 focusedComponent = component
             }
