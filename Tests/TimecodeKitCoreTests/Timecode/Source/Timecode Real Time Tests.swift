@@ -7,7 +7,7 @@
 import TimecodeKitCore // do NOT import as @testable in this file
 import XCTest
 
-final class Timecode_RealTime_Tests: XCTestCase {
+final class Timecode_Source_RealTime_Tests: XCTestCase {
     // pre-computed constants
     
     // confirmed correct in PT and Cubase

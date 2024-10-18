@@ -7,7 +7,7 @@
 @testable import TimecodeKitCore
 import XCTest
 
-final class Timecode_String_Internal_Tests: XCTestCase {
+final class Timecode_Source_String_Internal_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     

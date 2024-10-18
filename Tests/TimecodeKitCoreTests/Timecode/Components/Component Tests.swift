@@ -13,6 +13,68 @@ final class Timecode_Component_Tests: XCTestCase {
     
     fileprivate typealias C = Timecode.Component
     
+    // MARK: - Comparable
+    
+    func testComparable() {
+        // baseline
+        
+        XCTAssertTrue(C.days < C.hours)
+        XCTAssertTrue(C.hours < C.minutes)
+        XCTAssertTrue(C.minutes < C.seconds)
+        XCTAssertTrue(C.seconds < C.frames)
+        XCTAssertTrue(C.frames < C.subFrames)
+        
+        XCTAssertTrue(C.hours > C.days)
+        XCTAssertTrue(C.minutes > C.hours)
+        XCTAssertTrue(C.seconds > C.minutes)
+        XCTAssertTrue(C.frames > C.seconds)
+        XCTAssertTrue(C.subFrames > C.frames)
+        
+        // exhaustive
+        
+        XCTAssertFalse(C.days < C.days)
+        XCTAssertTrue(C.days < C.hours)
+        XCTAssertTrue(C.days < C.minutes)
+        XCTAssertTrue(C.days < C.seconds)
+        XCTAssertTrue(C.days < C.frames)
+        XCTAssertTrue(C.days < C.subFrames)
+        
+        XCTAssertFalse(C.hours < C.days)
+        XCTAssertFalse(C.hours < C.hours)
+        XCTAssertTrue(C.hours < C.minutes)
+        XCTAssertTrue(C.hours < C.seconds)
+        XCTAssertTrue(C.hours < C.frames)
+        XCTAssertTrue(C.hours < C.subFrames)
+        
+        XCTAssertFalse(C.minutes < C.days)
+        XCTAssertFalse(C.minutes < C.hours)
+        XCTAssertFalse(C.minutes < C.minutes)
+        XCTAssertTrue(C.minutes < C.seconds)
+        XCTAssertTrue(C.minutes < C.frames)
+        XCTAssertTrue(C.minutes < C.subFrames)
+        
+        XCTAssertFalse(C.seconds < C.days)
+        XCTAssertFalse(C.seconds < C.hours)
+        XCTAssertFalse(C.seconds < C.minutes)
+        XCTAssertFalse(C.seconds < C.seconds)
+        XCTAssertTrue(C.seconds < C.frames)
+        XCTAssertTrue(C.seconds < C.subFrames)
+        
+        XCTAssertFalse(C.frames < C.days)
+        XCTAssertFalse(C.frames < C.hours)
+        XCTAssertFalse(C.frames < C.minutes)
+        XCTAssertFalse(C.frames < C.seconds)
+        XCTAssertFalse(C.frames < C.frames)
+        XCTAssertTrue(C.frames < C.subFrames)
+        
+        XCTAssertFalse(C.subFrames < C.days)
+        XCTAssertFalse(C.subFrames < C.hours)
+        XCTAssertFalse(C.subFrames < C.minutes)
+        XCTAssertFalse(C.subFrames < C.seconds)
+        XCTAssertFalse(C.subFrames < C.frames)
+        XCTAssertFalse(C.subFrames < C.subFrames)
+    }
+    
     // MARK: - Next
     
     func testNext_HHMMSSFF() throws {
