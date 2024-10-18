@@ -43,6 +43,15 @@ extension Timecode {
     /// Add a duration to the current timecode.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func add(_ other: AsyncTimecodeSourceValue) async throws {
+        let otherTC = try await Timecode(other, using: properties)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
     public mutating func add(_ other: FormattedTimecodeSourceValue) throws {
         let otherTC = try Timecode(other, using: properties)
         try add(otherTC)
@@ -53,6 +62,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public mutating func add(_ other: RichTimecodeSourceValue) throws {
         let otherTC = try Timecode(other)
+        try add(otherTC)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func add(_ other: AsyncRichTimecodeSourceValue) async throws {
+        let otherTC = try await Timecode(other)
         try add(otherTC)
     }
     
@@ -83,6 +101,15 @@ extension Timecode {
     /// Add a duration to the current timecode.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func add(_ other: AsyncTimecodeSourceValue, by validation: ValidationRule) async throws {
+        let otherTC = try await Timecode(other, using: properties)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
     public mutating func add(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
         let otherTC = try Timecode(other, using: properties)
         try add(otherTC, by: validation)
@@ -93,6 +120,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public mutating func add(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
         let otherTC = try Timecode(other)
+        try add(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func add(_ other: AsyncRichTimecodeSourceValue, by validation: ValidationRule) async throws {
+        let otherTC = try await Timecode(other)
         try add(otherTC, by: validation)
     }
     
@@ -180,6 +216,15 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func adding(_ other: AsyncTimecodeSourceValue) async throws -> Timecode {
+        let otherTC = try await Timecode(other, using: properties)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
     public func adding(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC)
@@ -190,6 +235,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public func adding(_ other: RichTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other)
+        return try adding(otherTC)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func adding(_ other: AsyncRichTimecodeSourceValue) async throws -> Timecode {
+        let otherTC = try await Timecode(other)
         return try adding(otherTC)
     }
     
@@ -220,6 +274,15 @@ extension Timecode {
     /// Add a duration to the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func adding(_ other: AsyncTimecodeSourceValue, by validation: ValidationRule) async throws -> Timecode {
+        let otherTC = try await Timecode(other, using: properties)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
     public func adding(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try adding(otherTC, by: validation)
@@ -230,6 +293,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public func adding(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other)
+        return try adding(otherTC, by: validation)
+    }
+    
+    /// Add a duration to the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func adding(_ other: AsyncRichTimecodeSourceValue, by validation: ValidationRule) async throws -> Timecode {
+        let otherTC = try await Timecode(other)
         return try adding(otherTC, by: validation)
     }
     
@@ -307,6 +379,15 @@ extension Timecode {
     /// Subtract a duration from the current timecode.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func subtract(_ other: AsyncTimecodeSourceValue) async throws {
+        let otherTC = try await Timecode(other, using: properties)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
     public mutating func subtract(_ other: FormattedTimecodeSourceValue) throws {
         let otherTC = try Timecode(other, using: properties)
         try subtract(otherTC)
@@ -317,6 +398,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public mutating func subtract(_ other: RichTimecodeSourceValue) throws {
         let otherTC = try Timecode(other)
+        try subtract(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func subtract(_ other: AsyncRichTimecodeSourceValue) async throws {
+        let otherTC = try await Timecode(other)
         try subtract(otherTC)
     }
     
@@ -347,6 +437,15 @@ extension Timecode {
     /// Subtract a duration from the current timecode.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func subtract(_ other: AsyncTimecodeSourceValue, by validation: ValidationRule) async throws {
+        let otherTC = try await Timecode(other, using: properties)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
     public mutating func subtract(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws {
         let otherTC = try Timecode(other, using: properties)
         try subtract(otherTC, by: validation)
@@ -357,6 +456,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public mutating func subtract(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws {
         let otherTC = try Timecode(other)
+        try subtract(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public mutating func subtract(_ other: AsyncRichTimecodeSourceValue, by validation: ValidationRule) async throws {
+        let otherTC = try await Timecode(other)
         try subtract(otherTC, by: validation)
     }
     
@@ -444,6 +552,15 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func subtracting(_ other: AsyncTimecodeSourceValue) async throws -> Timecode {
+        let otherTC = try await Timecode(other, using: properties)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
     public func subtracting(_ other: FormattedTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC)
@@ -454,6 +571,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public func subtracting(_ other: RichTimecodeSourceValue) throws -> Timecode {
         let otherTC = try Timecode(other)
+        return try subtracting(otherTC)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func subtracting(_ other: AsyncRichTimecodeSourceValue) async throws -> Timecode {
+        let otherTC = try await Timecode(other)
         return try subtracting(otherTC)
     }
     
@@ -484,6 +610,15 @@ extension Timecode {
     /// Subtract a duration from the current timecode and return a new instance.
     ///
     /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func subtracting(_ other: AsyncTimecodeSourceValue, by validation: ValidationRule) async throws -> Timecode {
+        let otherTC = try await Timecode(other, using: properties)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
     public func subtracting(_ other: FormattedTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other, using: properties)
         return try subtracting(otherTC, by: validation)
@@ -494,6 +629,15 @@ extension Timecode {
     /// - Throws: ``ValidationError``
     public func subtracting(_ other: RichTimecodeSourceValue, by validation: ValidationRule) throws -> Timecode {
         let otherTC = try Timecode(other)
+        return try subtracting(otherTC, by: validation)
+    }
+    
+    /// Subtract a duration from the current timecode and return a new instance.
+    ///
+    /// - Throws: ``ValidationError``
+    @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+    public func subtracting(_ other: AsyncRichTimecodeSourceValue, by validation: ValidationRule) async throws -> Timecode {
+        let otherTC = try await Timecode(other)
         return try subtracting(otherTC, by: validation)
     }
     
