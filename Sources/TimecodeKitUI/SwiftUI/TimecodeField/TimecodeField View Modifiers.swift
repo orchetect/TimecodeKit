@@ -301,27 +301,28 @@ extension View {
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
 extension View {
-    /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
-    func onPasteCommandOfTimecode(
-        propertiesForString: Timecode.Properties,
-        _ action: @escaping TimecodePastedAction.Action
-    ) -> some View {
-        self.onPastedTimecode(action)
-            .onPasteCommandOfTimecode(
-                propertiesForString: propertiesForString,
-                forwardTo: TimecodePastedAction(action: action)
-            )
-    }
+    // /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
+    // func onPasteCommandOfTimecode(
+    //     propertiesForString: Timecode.Properties,
+    //     _ action: @escaping TimecodePastedAction.Action
+    // ) -> some View {
+    //     self.onPastedTimecode(action)
+    //         .onPasteCommandOfTimecode(
+    //             propertiesForString: propertiesForString,
+    //             forwardTo: TimecodePastedAction(action: action)
+    //         )
+    // }
     
     /// Implements `onPasteCommand` to catch paste events and forwards the pasteboard parse result to the given SwiftUI
     /// environment method.
     func onPasteCommandOfTimecode(
         propertiesForString: Timecode.Properties,
-        forwardTo environmentMethod: TimecodePastedAction?
+        forwardTo block: sending @escaping @autoclosure () -> TimecodePastedAction?
     ) -> some View {
         self.onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
             Task {
-                await environmentMethod?(
+                guard let block = block() else { return }
+                await block(
                     itemProviders: itemProviders,
                     propertiesForString: propertiesForString
                 )

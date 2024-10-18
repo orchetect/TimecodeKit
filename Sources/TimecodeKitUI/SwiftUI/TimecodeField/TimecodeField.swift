@@ -111,6 +111,7 @@ public struct TimecodeField: View {
     @Environment(\.timecodeFormat) private var timecodeFormat
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
+    @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
     @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
     @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
@@ -198,10 +199,15 @@ public struct TimecodeField: View {
         .compositingGroup()
         .offset(x: shakeTrigger ? shakeIntensity : 0)
         
+        #if os(macOS)
+        // catch user-initiated paste event locally, forward to environment method
+        .onPasteCommandOfTimecode(
+            propertiesForString: timecodeProperties,
+            forwardTo: timecodePasted
+        )
         // handle user-initiated paste event locally or propagated up from a child view
-        .onPasteCommandOfTimecode(propertiesForString: timecodeProperties) { pasteResult in
-            handle(pasteResult: pasteResult)
-        }
+        .onPastedTimecode(handle(pasteResult:))
+        #endif
         
         // update focus if view is disabled
         .onChange(of: isEnabled, initial: false) { oldValue, newValue in
@@ -328,18 +334,32 @@ public struct TimecodeField: View {
         do {
             let pastedTimecode = try pasteResult.get()
             
-            // validate if necessary before accepting the pasted timecode
+            // validate against validation policy
             switch timecodeFieldValidationPolicy {
             case .allowInvalid:
-                timecode = pastedTimecode
+                break
             case .enforceValid:
                 guard timecode.isValid else {
                     errorFeedback()
                     return
                 }
-                // TODO: handle additional case when configured to only paste values and not mutate timecode properties
-                timecode = pastedTimecode
             }
+            
+            // validate against input style
+            switch timecodeFieldInputStyle {
+            case .autoAdvance, .continuousWithinComponent:
+                // ensure all timecode components as-is respect the max number of digits allowed for each
+                guard pastedTimecode.components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
+                else {
+                    errorFeedback()
+                    return
+                }
+            case .unbounded:
+                break
+            }
+            
+            // TODO: handle additional case when configured to only paste values and not mutate timecode properties
+            timecode = pastedTimecode
         } catch {
             errorFeedback()
         }
