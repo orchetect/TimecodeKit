@@ -266,3 +266,37 @@ extension Timecode.Components {
         }
     }
 }
+
+extension Timecode.Components {
+    /// Get or set the timecode component values as an array of key/value pairs keyed by ``Timecode/Component``.
+    public var array: [(component: Timecode.Component, value: Int)] {
+        get {
+            [
+                (.days, days),
+                (.hours, hours),
+                (.minutes, minutes),
+                (.seconds, seconds),
+                (.frames, frames),
+                (.subFrames, subFrames)
+            ]
+        }
+        set {
+            set(from: newValue)
+        }
+    }
+    
+    /// Internal:
+    /// Sets component values from an array of key/value pairs keyed by ``Timecode/Component``.
+    mutating func set(from array: [(component: Timecode.Component, value: Int)] ) {
+        for (component, value) in array {
+            switch component {
+            case .days: days = value
+            case .hours: hours = value
+            case .minutes: minutes = value
+            case .seconds: seconds = value
+            case .frames: frames = value
+            case .subFrames: subFrames = value
+            }
+        }
+    }
+}
