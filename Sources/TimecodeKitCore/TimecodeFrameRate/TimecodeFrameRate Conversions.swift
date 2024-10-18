@@ -40,9 +40,9 @@ extension TimecodeFrameRate {
     }
 }
 
+// MARK: - Rational
+
 extension TimecodeFrameRate {
-    // MARK: Rational
-    
     /// Initialize from a frame rate (fps) expressed as a rational number (fraction).
     ///
     /// - Note: Some file formats encode video frame rate and/or time locations (timecode) in
@@ -97,6 +97,8 @@ extension TimecodeFrameRate {
         self = foundMatch
     }
 }
+
+// MARK: - CMTime
 
 #if canImport(CoreMedia)
 import CoreMedia

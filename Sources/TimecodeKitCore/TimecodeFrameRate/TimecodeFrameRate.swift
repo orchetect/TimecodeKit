@@ -50,10 +50,6 @@
 /// - ``fps120``
 /// - ``fps120d``
 ///
-/// ### String Extensions
-///
-/// - ``Swift/String/timecodeFrameRate``
-///
 public enum TimecodeFrameRate: String, FrameRateProtocol {
     /// 23.976 fps (24/1.001)
     ///

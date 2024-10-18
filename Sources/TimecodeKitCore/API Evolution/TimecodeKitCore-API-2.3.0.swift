@@ -28,3 +28,11 @@ extension Timecode {
         try await self.init(from: itemProviders, propertiesForString: propertiesForTimecodeString)
     }
 }
+
+extension String {
+    @available(*, deprecated, renamed: "TimecodeFrameRate(stringValue:)")
+    @_disfavoredOverload
+    public var timecodeFrameRate: TimecodeFrameRate? {
+        TimecodeFrameRate(stringValue: self)
+    }
+}
