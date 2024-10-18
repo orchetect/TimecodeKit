@@ -4,14 +4,12 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI)
+#if canImport(SwiftUI) && !os(watchOS)
 
 import SwiftUI
 import TimecodeKitCore
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
     /// Individual timecode component view.
     struct ComponentView: View {
@@ -88,7 +86,7 @@ extension TimecodeField {
             .onDisappear {
                 endEditing()
             }
-            #elseif os(iOS) || os(visionOS)
+            #elseif os(iOS) || os(tvOS) || os(visionOS)
             ZStack {
                 KeyboardInputView(
                     keyboardType: .decimalPad // note that on iPadOS this also contains extended chars

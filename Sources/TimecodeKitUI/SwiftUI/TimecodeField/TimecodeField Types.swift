@@ -4,16 +4,14 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && (os(macOS) || os(iOS) || os(visionOS))
+#if canImport(SwiftUI) && !os(watchOS)
 
 import SwiftUI
 import TimecodeKitCore
 
 // MARK: - FieldAction
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
     /// An enum describing actions to perform in response to ``TimecodeField`` user input.
     ///
@@ -33,24 +31,18 @@ extension TimecodeField {
     }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.FieldAction: Identifiable {
     public var id: RawValue { rawValue }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.FieldAction: CaseIterable {
     public static let allCases: [Self] = [.endEditing, .focusNextComponent]
         + Timecode.Component.allCases.map { .resetComponentFocus(component: $0) }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.FieldAction: RawRepresentable {
     public typealias RawValue = String
     
@@ -80,9 +72,7 @@ extension TimecodeField.FieldAction: RawRepresentable {
 
 // MARK: - InputStyle
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
     /// An enum describing numeric data entry input style cases for ``TimecodeField``.
     ///
@@ -110,18 +100,14 @@ extension TimecodeField {
     }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.InputStyle: Identifiable {
     public var id: RawValue { rawValue }
 }
 
 // MARK: - InputWrapping
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
     /// An enum describing focus wrapping behavior in response to ``TimecodeField`` user input.
     ///
@@ -148,16 +134,12 @@ extension TimecodeField {
     }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.InputWrapping: Identifiable {
     public var id: RawValue { rawValue }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
     /// An enum describing timecode validation policies in response to ``TimecodeField`` user input.
     ///
@@ -181,9 +163,7 @@ extension TimecodeField {
     }
 }
 
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.ValidationPolicy: Identifiable {
     public var id: RawValue { rawValue }
 }

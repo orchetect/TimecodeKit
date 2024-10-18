@@ -4,12 +4,12 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && (os(iOS) || os(visionOS))
+#if canImport(SwiftUI) && (os(iOS) || os(tvOS) || os(visionOS))
 
 import SwiftUI
 
 /// An invisible view providing a native SwiftUI on-screen keyboard input experience.
-@available(iOS 14, *)
+@available(iOS 14, tvOS 17.0, *)
 struct KeyboardInputView: UIViewRepresentable {
     typealias UIViewType = KeyboardInputTextField
     

@@ -4,7 +4,7 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(SwiftUI) && (os(macOS) || os(iOS) || os(visionOS))
+#if canImport(SwiftUI) && !os(watchOS)
 
 import SwiftUI
 import TimecodeKitCore
@@ -90,9 +90,7 @@ import TimecodeKitCore
 /// | `Delete` (`Del` key, or `forwardDelete`) | Resets the component to zero. |
 ///
 /// For keys that navigate timecode component focus, see the Focus section above.
-@available(macOS 14, iOS 17, *)
-@available(watchOS, unavailable)
-@available(tvOS, unavailable)
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 public struct TimecodeField: View {
     // MARK: - Standard Environment
     
@@ -186,16 +184,18 @@ public struct TimecodeField: View {
         VStack(alignment: .trailing) {
             #if os(macOS)
             timecodeBody
-            #else
+                .textSelection(.disabled)
+            #elseif os(iOS) || os(visionOS)
             timecodeBody
                 .keyboardType(.decimalPad)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
+            #elseif os(watchOS) || os(tvOS)
+            timecodeBody
             #endif
         }
         .monospacedDigit()
         .fixedSize()
-        .textSelection(.disabled)
         .compositingGroup()
         .offset(x: shakeTrigger ? shakeIntensity : 0)
         

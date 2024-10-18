@@ -8,6 +8,7 @@
 
 import CoreMedia
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension CMTimeRange {
     /// Returns the time range as a timecode range.
     ///
