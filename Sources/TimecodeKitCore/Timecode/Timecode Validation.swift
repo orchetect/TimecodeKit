@@ -237,6 +237,23 @@ extension Timecode {
 }
 
 extension Timecode {
+    /// Returns `true` if all component values are within acceptable number of digit range based on the instance's frame
+    /// rate and subframes base.
+    ///
+    /// > NOTE:
+    /// > This method does not validate the values themselves, but merely the number of digit places they occupy.
+    /// >
+    /// > For example, the `frames` value could be `99` which is an invalid value at most frame rates, however it is
+    /// > still within the allowable digit count for those frame rates (2 digit places).
+    /// >
+    /// > To validate timecode component values, query the ``isValid`` property instead. Alternatively, the
+    /// > ``invalidComponents`` property can granularly return which individual components are invalid, if any.
+    public var isWithinValidComponentDigitCounts: Bool {
+        components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
+    }
+}
+
+extension Timecode {
     /// Returns the largest subframe value displayable before rolling over to the next frame.
     public var maxSubFramesExpressible: Int {
         validRange(of: .subFrames)
