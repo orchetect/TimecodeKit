@@ -6,6 +6,9 @@
 
 #if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#endif
 
 extension NSAttributedString {
     /// Initializes a new `NSAttributedString` instance using the specified format and style,
@@ -203,5 +206,3 @@ extension Timecode {
         return output
     }
 }
-
-#endif
