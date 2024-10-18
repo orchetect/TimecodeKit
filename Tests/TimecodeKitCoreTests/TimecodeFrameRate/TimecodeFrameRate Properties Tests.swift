@@ -86,4 +86,13 @@ final class TimecodeFrameRate_Properties_Tests: XCTestCase {
         
         XCTAssertEqual(frameRate.framesDroppedPerMinute, 0.0)
     }
+    
+    func testInitStringValue() {
+        XCTAssertEqual(TimecodeFrameRate(stringValue: "23.976"), .fps23_976)
+        XCTAssertEqual(TimecodeFrameRate(stringValue: "29.97d"), .fps29_97d)
+        
+        XCTAssertNil(TimecodeFrameRate(stringValue: ""))
+        XCTAssertNil(TimecodeFrameRate(stringValue: " "))
+        XCTAssertNil(TimecodeFrameRate(stringValue: "BogusString"))
+    }
 }
