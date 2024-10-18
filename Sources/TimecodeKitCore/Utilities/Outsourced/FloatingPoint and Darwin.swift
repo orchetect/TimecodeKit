@@ -19,14 +19,14 @@ extension FloatingPoint {
     /// Same as `ceil()`
     /// (Functional convenience method)
     @_disfavoredOverload
-    var ceiling: Self {
+    package var ceiling: Self {
         Darwin.ceil(self)
     }
     
     /// Same as `floor()`
     /// (Functional convenience method)
     @_disfavoredOverload
-    var floor: Self {
+    package var floor: Self {
         Darwin.floor(self)
     }
 }
@@ -39,7 +39,7 @@ extension Double: FloatingPointPowerComputable {
     /// Same as `pow()`
     /// (Functional convenience method)
     @_disfavoredOverload
-    func power(_ exponent: Double) -> Double {
+    package func power(_ exponent: Double) -> Double {
         pow(self, exponent)
     }
 }
@@ -48,7 +48,7 @@ extension Float: FloatingPointPowerComputable {
     /// Same as `powf()`
     /// (Functional convenience method)
     @_disfavoredOverload
-    func power(_ exponent: Float) -> Float {
+    package func power(_ exponent: Float) -> Float {
         powf(self, exponent)
     }
 }
@@ -58,7 +58,7 @@ extension Float80: FloatingPointPowerComputable {
     /// Same as `powl()`
     /// (Functional convenience method)
     @_disfavoredOverload
-    func power(_ exponent: Float80) -> Float80 {
+    package func power(_ exponent: Float80) -> Float80 {
         powl(self, exponent)
     }
 }
@@ -71,7 +71,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     ///
     /// If `decimalPlaces` <= 0, then `trunc(self)` is returned.
     @_disfavoredOverload
-    mutating func truncate(decimalPlaces: Int) {
+    package mutating func truncate(decimalPlaces: Int) {
         self = truncated(decimalPlaces: decimalPlaces)
     }
     
@@ -79,7 +79,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     ///
     /// If `decimalPlaces <= 0`, then `trunc(self)` is returned.
     @_disfavoredOverload
-    func truncated(decimalPlaces: Int) -> Self {
+    package func truncated(decimalPlaces: Int) -> Self {
         if decimalPlaces < 1 {
             return trunc(self)
         }
@@ -92,7 +92,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
 extension FloatingPoint {
     /// Similar to `Int.quotientAndRemainder(dividingBy:)` from the standard Swift library.
     @_disfavoredOverload
-    func quotientAndRemainder(dividingBy rhs: Self) -> (quotient: Self, remainder: Self) {
+    package func quotientAndRemainder(dividingBy rhs: Self) -> (quotient: Self, remainder: Self) {
         let calculation = self / rhs
         let integral = trunc(calculation)
         let fraction = self - (integral * rhs)
@@ -106,7 +106,7 @@ extension FloatingPoint {
     ///
     /// This method can result in a non-trivial loss of precision for the fractional part.
     @_disfavoredOverload
-    var integralAndFraction: (integral: Self, fraction: Self) {
+    package var integralAndFraction: (integral: Self, fraction: Self) {
         let integral = trunc(self)
         let fraction = self - integral
         return (integral: integral, fraction: fraction)
@@ -114,7 +114,7 @@ extension FloatingPoint {
     
     /// Returns the integral part (digits before the decimal point)
     @_disfavoredOverload
-    var integral: Self {
+    package var integral: Self {
         integralAndFraction.integral
     }
     
@@ -122,7 +122,7 @@ extension FloatingPoint {
     ///
     /// - Note: this method can result in a non-trivial loss of precision for the fractional part.
     @_disfavoredOverload
-    var fraction: Self {
+    package var fraction: Self {
         integralAndFraction.fraction
     }
 }

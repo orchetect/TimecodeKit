@@ -21,7 +21,7 @@ extension BinaryInteger {
     /// - for the integer 250, this would return 3
     @_documentation(visibility: internal)
     @_disfavoredOverload
-    public var numberOfDigits: Int {
+    package var numberOfDigits: Int {
         if self < 10 && self >= 0 || self > -10 && self < 0 {
             return 1
         } else {

@@ -20,7 +20,7 @@ import UIKit
 extension NSAttributedString {
     /// Convenience. Returns a new `NSAttributedString` with the attribute applied to the entire string.
     @_disfavoredOverload
-    func addingAttribute(alignment: NSTextAlignment) -> NSAttributedString {
+    package func addingAttribute(alignment: NSTextAlignment) -> NSAttributedString {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = alignment
         
@@ -42,7 +42,7 @@ extension NSAttributedString {
 extension NSMutableAttributedString {
     /// Convenience. Adds the attribute applied to the entire string.
     @_disfavoredOverload
-    func addAttribute(alignment: NSTextAlignment) {
+    package func addAttribute(alignment: NSTextAlignment) {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = alignment
         

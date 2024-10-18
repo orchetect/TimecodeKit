@@ -13,6 +13,6 @@
 
 /// Protocol allowing implementation of convenience method `.power(_ exponent:)`
 /// - warning: (Internal use. Do not use this protocol.)
-protocol FloatingPointPowerComputable {
+package protocol FloatingPointPowerComputable {
     func power(_ exponent: Self) -> Self
 }

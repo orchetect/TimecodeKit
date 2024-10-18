@@ -18,7 +18,7 @@ import Foundation
 extension StringProtocol {
     /// Returns an array of RegEx matches
     @_disfavoredOverload
-    func regexMatches(
+    package func regexMatches(
         pattern: String,
         options: NSRegularExpression.Options = [],
         matchesOptions: NSRegularExpression.MatchingOptions = [.withTransparentBounds]
@@ -63,7 +63,7 @@ extension StringProtocol {
     
     /// Returns a string from a tokenized string of RegEx matches
     @_disfavoredOverload
-    func regexMatches(
+    package func regexMatches(
         pattern: String,
         replacementTemplate: String,
         options: NSRegularExpression.Options = [],
@@ -108,7 +108,7 @@ extension StringProtocol {
     
     /// Returns capture groups from regex matches. If any capture group is not matched it will be `nil`.
     @_disfavoredOverload
-    func regexMatches(
+    package func regexMatches(
         captureGroupsFromPattern: String,
         options: NSRegularExpression.Options = [],
         matchesOptions: NSRegularExpression.MatchingOptions = [.withTransparentBounds]

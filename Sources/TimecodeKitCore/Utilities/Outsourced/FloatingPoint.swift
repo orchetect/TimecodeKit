@@ -16,7 +16,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     ///
     /// If `decimalPlaces` <= 0, trunc(self) is returned.
     @_disfavoredOverload
-    func rounded(
+    package func rounded(
         _ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero,
         decimalPlaces: Int
     ) -> Self {
@@ -33,7 +33,7 @@ extension FloatingPoint where Self: FloatingPointPowerComputable {
     ///
     /// If `decimalPlaces` <= 0, `trunc(self)` is used.
     @_disfavoredOverload
-    mutating func round(
+    package mutating func round(
         _ rule: FloatingPointRoundingRule = .toNearestOrAwayFromZero,
         decimalPlaces: Int
     ) {

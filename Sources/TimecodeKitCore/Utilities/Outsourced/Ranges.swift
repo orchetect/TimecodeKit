@@ -19,7 +19,7 @@ extension Comparable {
     // ie: "a".clamped(to: "b"..."h")
     /// Returns the value clamped to the passed range.
     @_disfavoredOverload
-    func clamped(to limits: ClosedRange<Self>) -> Self {
+    package func clamped(to limits: ClosedRange<Self>) -> Self {
         min(max(self, limits.lowerBound), limits.upperBound)
     }
     
@@ -28,7 +28,7 @@ extension Comparable {
     // ie: "a".clamped(to: "b"...)
     /// Returns the value clamped to the passed range.
     @_disfavoredOverload
-    func clamped(to limits: PartialRangeFrom<Self>) -> Self {
+    package func clamped(to limits: PartialRangeFrom<Self>) -> Self {
         max(self, limits.lowerBound)
     }
     
@@ -37,7 +37,7 @@ extension Comparable {
     // ie: "k".clamped(to: ..."h")
     /// Returns the value clamped to the passed range.
     @_disfavoredOverload
-    func clamped(to limits: PartialRangeThrough<Self>) -> Self {
+    package func clamped(to limits: PartialRangeThrough<Self>) -> Self {
         min(self, limits.upperBound)
     }
     
@@ -52,7 +52,7 @@ extension Strideable {
     // won't work for String
     /// Returns the value clamped to the passed range.
     @_disfavoredOverload
-    func clamped(to limits: PartialRangeUpTo<Self>) -> Self {
+    package func clamped(to limits: PartialRangeUpTo<Self>) -> Self {
         // advanced(by:) requires Strideable, not available on just Comparable
         min(self, limits.upperBound.advanced(by: -1))
     }
@@ -63,7 +63,7 @@ extension Strideable where Self.Stride: SignedInteger {
     // won't work for String
     /// Returns the value clamped to the passed range.
     @_disfavoredOverload
-    func clamped(to limits: Range<Self>) -> Self {
+    package func clamped(to limits: Range<Self>) -> Self {
         // index(before:) only available on SignedInteger
         min(
             max(self, limits.lowerBound),
