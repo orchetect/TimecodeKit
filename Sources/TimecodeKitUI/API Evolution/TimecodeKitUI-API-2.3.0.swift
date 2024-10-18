@@ -31,4 +31,30 @@ extension Timecode {
     }
 }
 
+#if canImport(AppKit)
+
+import AppKit
+
+extension Timecode {
+    @available(
+        *,
+        deprecated,
+        renamed: "nsAttributedString(format:defaultAttributes:invalidAttributes:)",
+        message: "Method has been renamed and moved to the TimecodeKitUI module."
+    )
+    public func stringValueValidated(
+        format: StringFormat = .default(),
+        invalidAttributes: [NSAttributedString.Key: Any]? = nil,
+        defaultAttributes: [NSAttributedString.Key: Any]? = nil
+    ) -> NSAttributedString {
+        nsAttributedString(
+            format: format,
+            defaultAttributes: defaultAttributes,
+            invalidAttributes: invalidAttributes
+        )
+    }
+}
+
+#endif
+
 #endif
