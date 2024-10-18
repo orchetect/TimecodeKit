@@ -15,9 +15,9 @@ extension Timecode {
     ///   - newFrameRate: New frame rate.
     ///     If the new rate is identical to the current rate, the timecode will be returned unchanged.
     ///
-    ///   - newSubFramesBase: New sub-frames base (optional).
+    ///   - newSubFramesBase: New subframes base (optional).
     ///
-    ///     If not specified, the current sub-frames base will be preserved.
+    ///     If not specified, the current subframes base will be preserved.
     ///
     ///   - preservingValues: Preserve literal timecode component values. (Default: `false`)
     ///
@@ -28,7 +28,7 @@ extension Timecode {
     ///
     /// - Throws: ``ValidationError``
     ///
-    /// - Returns: A new `Timecode` instance converted to the new frame rate and sub-frames base.
+    /// - Returns: A new `Timecode` instance converted to the new frame rate and subframes base.
     public func converted(
         to newFrameRate: TimecodeFrameRate,
         base newSubFramesBase: Timecode.SubFramesBase? = nil,

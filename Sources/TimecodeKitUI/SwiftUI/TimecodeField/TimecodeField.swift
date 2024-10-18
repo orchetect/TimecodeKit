@@ -14,7 +14,7 @@ import TimecodeKitCore
 ///
 /// ## Initializers
 ///
-/// The view may be initialized to a `Timecode` instance directly. In this case, it is required to store the
+/// The view may be initialized with a `Timecode` binding. In this case, it is required to store the
 /// `Timecode` instance in the view using the custom ``TimecodeState`` wrapper in place of the typical SwiftUI
 /// `@State` wrapper.
 ///
@@ -67,6 +67,8 @@ import TimecodeKitCore
 ///     .timecodeFieldValidationPolicy(.enforceValid, animation: true)
 /// ```
 ///
+/// For a demonstration, see the **Timecode UI** example project in this repo.
+///
 /// ## Focus
 ///
 /// Each timecode component individually receives focus one at a time.
@@ -86,10 +88,10 @@ import TimecodeKitCore
 /// | --- | --- |
 /// | Numeric digit keys | Enters digits for the currently focused timecode component. |
 /// | `Return` or `Escape` | Can be used to remove focus from the field. |
-/// | `Backspace` | Resets the timecode component to zero if it has freshly received focus. Once the user begins to enter digits into the component, the Backspace key will function as single digit delete akin to a text-entry field.
+/// | `Backspace` | Resets the timecode component to zero if it has freshly received focus. Once the user begins to enter digits into the component, the Backspace key will function as single digit delete akin to a typical text-entry field.
 /// | `Delete` (`Del` key, or `forwardDelete`) | Resets the component to zero. |
 ///
-/// For keys that navigate timecode component focus, see the Focus section above.
+/// For keys that navigate timecode component focus, see the <doc:#Focus> section above.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 public struct TimecodeField: View {
     // MARK: - Standard Environment

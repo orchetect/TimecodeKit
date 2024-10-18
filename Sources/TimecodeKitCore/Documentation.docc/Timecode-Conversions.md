@@ -6,8 +6,7 @@ Converting various time values to/from timecode.
 
 ```swift
 // convert between frame rates
-let tc = try "01:00:00;00"
-    .timecode(at: .fps29_97d)
+let tc = try Timecode(.string("01:00:00;00"), at: .fps29_97d)
     .converted(to: .fps29_97) // == 00:59:56:12
 ```
 
@@ -51,8 +50,7 @@ See <doc:Timecode-String> for more details.
 
 ```swift
 // timecode → elapsed real-world wall time in seconds
-try "01:00:00:00"
-    .timecode(at: .fps23_976)
+try Timecode(.string("01:00:00:00"), at: .fps23_976)
     .realTimeValue // == 3603.6 as TimeInterval (Double)
 ```
 
@@ -65,8 +63,7 @@ try Timecode(.realTime(seconds: 3603.6), at: .fps23_976)
 
 ```swift
 // timecode → elapsed audio samples
-try "01:00:00:00"
-    .timecode(at: .fps24)
+try Timecode(.string("01:00:00:00"), at: .fps24)
     .samplesValue(sampleRate: 48000) // == 172800000
 ```
 
@@ -83,8 +80,7 @@ See <doc:Rational-Numbers-and-CMTime> for more details.
 
 ```swift
 // timecode → feet+frames
-try "01:00:00:00"
-    .timecode(at: .fps23_976)
+try Timecode(.string("01:00:00:00"), at: .fps23_976)
     .feetAndFramesValue // 5400+00
 ```
 

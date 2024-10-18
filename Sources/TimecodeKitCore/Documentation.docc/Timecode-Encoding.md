@@ -38,12 +38,12 @@ This means that the end-user is able to:
 
 ```swift
 struct TimecodeListView: View {
-    @State var timecodes: [Timecode]
+    @State var model: [Timecode]
     @State var selection: Timecode
     
     var body: some View {
         List(selection: $selection) {
-            ForEach(timecodes) { item in
+            ForEach(model) { item in
                 Text(item.stringValue()).tag(item)
             }
         }
@@ -72,7 +72,7 @@ struct TimecodeListView: View {
         
         // Timecode's default Identifiable implementation uses self
         // which means we cannot have two identical timecodes in a SwiftUI array
-        if !timecodes.contains(timecode) { timecodes.append(timecode) }
+        if !model.contains(timecode) { model.append(timecode) }
     }
 }
 ```
@@ -85,12 +85,12 @@ The following example demonstrates a timecode list that supports copy and paste 
 
 ```swift
 struct TimecodeListView: View {
-    @State var timecodes: [Timecode]
+    @State var model: [Timecode]
     @State var selection: Timecode
     
     var body: some View {
         List(selection: $selection) {
-            ForEach(timecodes) { item in
+            ForEach(model) { item in
                 Text(item.stringValue()).tag(item)
             }
             .dropDestination(for: Timecode.self) { items, location in
@@ -108,7 +108,7 @@ struct TimecodeListView: View {
         // Timecode's default Identifiable implementation uses self
         // which means we cannot have two identical timecodes in a SwiftUI array
         items.forEach {
-            if !timecodes.contains($0) { timecodes.append($0) }
+            if !model.contains($0) { model.append($0) }
         }
     }
 }

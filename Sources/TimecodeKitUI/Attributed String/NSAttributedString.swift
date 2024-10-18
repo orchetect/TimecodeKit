@@ -17,6 +17,8 @@ extension NSAttributedString {
     /// For example, to colorize invalid timecode components values using red:
     ///
     /// ```swift
+    /// let timecode = try Timecode(.string("01:20:10:15"), at: .fps24)
+    ///
     /// // macOS (AppKit)
     /// NSAttributedString(
     ///     timecode,
@@ -59,6 +61,8 @@ extension Timecode {
     /// For example, to colorize invalid timecode components values using red:
     ///
     /// ```swift
+    /// let timecode = try Timecode(.string("01:20:10:15"), at: .fps24)
+    /// 
     /// // macOS (AppKit)
     /// timecode.nsAttributedString(
     ///     invalidAttributes: [.foregroundColor: NSColor.red]

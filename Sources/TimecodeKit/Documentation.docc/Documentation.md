@@ -1,6 +1,6 @@
 # ``TimecodeKit``
 
-Value types, AV methods and UI components for representing and working with SMPTE/EBU timecode.
+Umbrella module that imports the entire TimecodeKit library. Contains a Getting Started guide.
 
 ![TimecodeKit](timecodekit-banner.png)
 
@@ -17,13 +17,7 @@ For UI components, see <doc://TimecodeKit/TimecodeKitUI> documentation.
 - <doc:Getting-Started>
 - <doc:TimecodeKit-2-Migration-Guide>
 
-### Formats Addendum
+### Transport Formats
 
 - <doc:LTC-Linear-Timecode>
 - <doc:MTC-MIDI-Timecode>
-
-### Modules
-
-- <doc://TimecodeKit/TimecodeKitCore>
-- <doc://TimecodeKit/TimecodeKitAV>
-- <doc://TimecodeKit/TimecodeKitUI>

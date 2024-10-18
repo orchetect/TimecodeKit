@@ -26,6 +26,6 @@ The documentation page for <doc://TimecodeKit/TimecodeKitCore/Timecode-swift.str
 
 Example projects are located in the Examples folder to demonstrate usage of the library.
 
-The topics list in the sidebar give overviews of specific areas of concern.
+The topics list in the sidebar give overviews of specific areas of concern, broken down by module.
 
 If upgrading from TimecodeKit 1.x, see <doc:TimecodeKit-2-Migration-Guide>.
