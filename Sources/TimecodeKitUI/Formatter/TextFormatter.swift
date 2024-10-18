@@ -37,15 +37,7 @@ extension Timecode {
         ///
         /// Defaults to red foreground color.
         
-        public var validationAttributes: [NSAttributedString.Key: Any] = {
-            #if os(macOS)
-            return [.foregroundColor: NSColor.red]
-            #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
-            return [.foregroundColor: UIColor.red]
-            #else
-            return [:]
-            #endif
-        }()
+        public var invalidAttributes: [NSAttributedString.Key: Any] = [:]
         
         // MARK: init
         
@@ -57,7 +49,7 @@ extension Timecode {
             using properties: Timecode.Properties? = nil,
             stringFormat: StringFormat? = nil,
             showsValidation: Bool = false,
-            validationAttributes: [NSAttributedString.Key: Any]? = nil
+            invalidAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             super.init()
             
@@ -65,12 +57,8 @@ extension Timecode {
             upperLimit = properties?.upperLimit
             subFramesBase = properties?.subFramesBase
             self.stringFormat = stringFormat ?? .default()
-            
             self.showsValidation = showsValidation
-            
-            if let unwrappedValidationAttributes = validationAttributes {
-                self.validationAttributes = unwrappedValidationAttributes
-            }
+            self.invalidAttributes = invalidAttributes ?? [:]
         }
         
         /// Initializes with properties from an `Timecode` object.
@@ -78,13 +66,13 @@ extension Timecode {
             using timecode: Timecode,
             stringFormat: StringFormat? = nil,
             showsValidation: Bool = false,
-            validationAttributes: [NSAttributedString.Key: Any]? = nil
+            invalidAttributes: [NSAttributedString.Key: Any]? = nil
         ) {
             self.init(
                 using: timecode.properties,
                 stringFormat: stringFormat,
                 showsValidation: showsValidation,
-                validationAttributes: validationAttributes
+                invalidAttributes: invalidAttributes
             )
         }
         
@@ -96,7 +84,7 @@ extension Timecode {
             
             alignment = other.alignment
             showsValidation = other.showsValidation
-            validationAttributes = other.validationAttributes
+            invalidAttributes = other.invalidAttributes
         }
         
         // MARK: - Override methods
@@ -134,7 +122,7 @@ extension Timecode {
                     showsValidation
                         ? NSAttributedString(
                             string: stringForObj,
-                            attributes: validationAttributes
+                            attributes: invalidAttributes
                                 .merging(
                                     attrs ?? [:],
                                     uniquingKeysWith: { current, _ in current }
@@ -159,7 +147,7 @@ extension Timecode {
                 showsValidation
                     ? tc.nsAttributedString(
                         defaultAttributes: attrs,
-                        invalidAttributes: validationAttributes
+                        invalidAttributes: invalidAttributes
                     )
                     : NSAttributedString(string: stringForObj, attributes: attrs)
             )

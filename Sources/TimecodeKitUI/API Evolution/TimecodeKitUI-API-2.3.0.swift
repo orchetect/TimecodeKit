@@ -9,7 +9,15 @@
 import SwiftUI
 import TimecodeKitCore
 
-// MARK: API Changes in TimecodeKit 2.0.0 UI
+#if canImport(AppKit)
+import AppKit
+#endif
+
+#if canImport(UIKit)
+import UIKit
+#endif
+
+// MARK: API Changes in TimecodeKit 2.3.0 UI
 
 @_documentation(visibility: internal)
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
@@ -33,8 +41,6 @@ extension Timecode {
 
 #if canImport(AppKit)
 
-import AppKit
-
 @_documentation(visibility: internal)
 extension Timecode {
     @available(
@@ -57,5 +63,28 @@ extension Timecode {
 }
 
 #endif
+
+extension Timecode.TextFormatter {
+    @available(*, deprecated, renamed: "invalidAttributes")
+    public var validationAttributes: [NSAttributedString.Key: Any] {
+        get { invalidAttributes }
+        set { invalidAttributes = newValue }
+    }
+    
+    @available(*, deprecated, renamed: "init(using:stringFormat:showsValidation:invalidAttributes:)")
+    public convenience init(
+        using properties: Timecode.Properties? = nil,
+        stringFormat: Timecode.StringFormat? = nil,
+        showsValidation: Bool = false,
+        validationAttributes: [NSAttributedString.Key: Any]? = nil
+    ) {
+        self.init(
+            using: properties,
+            stringFormat: stringFormat,
+            showsValidation: showsValidation,
+            invalidAttributes: validationAttributes
+        )
+    }
+}
 
 #endif
