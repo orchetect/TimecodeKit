@@ -232,6 +232,18 @@ extension Timecode.Components {
 // MARK: - Data Structures and Iterators
 
 extension Timecode.Components {
+    /// Initialize from a component value dictionary keyed by ``Timecode/Component``.
+    public init(_ dictionary: [Timecode.Component: Int]) {
+        self.init(
+            d: dictionary[.days] ?? 0,
+            h: dictionary[.hours] ?? 0,
+            m: dictionary[.minutes] ?? 0,
+            s: dictionary[.seconds] ?? 0,
+            f: dictionary[.frames] ?? 0,
+            sf: dictionary[.subFrames] ?? 0
+        )
+    }
+    
     /// Get or set the timecode component values as a dictionary keyed by ``Timecode/Component``.
     public var dictionary: [Timecode.Component: Int] {
         get {
