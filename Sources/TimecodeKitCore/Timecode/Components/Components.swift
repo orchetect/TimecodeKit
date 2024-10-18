@@ -229,7 +229,7 @@ extension Timecode.Components {
     }
 }
 
-// MARK: - Data Structures and Iterators
+// MARK: - Data Structures
 
 extension Timecode.Components {
     /// Initialize from a component value dictionary keyed by ``Timecode/Component``.
@@ -339,4 +339,29 @@ extension Timecode.Components: Sequence {
     }
 }
 
+// MARK: - Validation
 
+extension Timecode.Components {
+    /// Returns `true` if all component values are within acceptable number of digit range based on the specified frame
+    /// rate and subframes base.
+    ///
+    /// > NOTE:
+    /// > This method does not validate the values themselves, but merely the number of digit places they occupy.
+    /// >
+    /// > For example, the `frames` value could be `99` which is an invalid value at most frame rates, however it is
+    /// > still within the allowable digit count for those frame rates (2 digit places).
+    /// >
+    /// > To validate timecode component values, construct a ``Timecode`` instance using the
+    /// > ``Timecode/ValidationRule/allowingInvalid`` validation rule and then query its ``Timecode/isValid`` property
+    /// > instead. Alternatively, the ``Timecode/invalidComponents`` property can granularly return which individual
+    /// > components are invalid, if any.
+    public func isWithinValidDigitCount(
+        at frameRate: TimecodeFrameRate,
+        base: Timecode.SubFramesBase
+    ) -> Bool {
+        allSatisfy { (component: Timecode.Component, value: Int) in
+            value.numberOfDigits <=
+            component.numberOfDigits(at: frameRate, base: base)
+        }
+    }
+}
