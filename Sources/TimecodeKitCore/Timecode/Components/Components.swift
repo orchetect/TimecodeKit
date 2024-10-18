@@ -319,3 +319,24 @@ extension Timecode.Components {
         }
     }
 }
+
+// MARK: - Iterators
+
+extension Timecode.Components: Sequence {
+    /// Returns an ordered iterator over timecode component key/value pairs.
+    ///
+    /// Example usage:
+    ///
+    /// ```swift
+    /// let components = Timecode.Components( ... )
+    ///
+    /// for (component, value) in components {
+    ///     // ...
+    /// }
+    /// ```
+    public func makeIterator() -> IndexingIterator<[(component: Timecode.Component, value: Int)]> {
+        array.makeIterator()
+    }
+}
+
+
