@@ -109,6 +109,7 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 - ``seconds``
 - ``frames``
 - ``subFrames``
+- ``Component``
 
 ### Properties
 
@@ -142,7 +143,6 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 - ``StringFormat``
 - ``StringFormatOption``
 - ``stringValue(format:)``
-- ``stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 
 ### Conversion
 
@@ -184,20 +184,17 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 
 ### Validation
 
+- ``isValid``
+- ``invalidComponents``
 - ``ValidationRule``
 - ``ValidationError``
-- ``invalidComponents``
-- ``Component``
+- ``isWithinValidComponentDigitCounts``
 - ``validRange(of:)``
 
 ### Transformer
 
 - ``transform(using:)``
 - ``transformed(using:)``
-
-### Formatter
-
-- ``TextFormatter``
 
 ### String Errors
 

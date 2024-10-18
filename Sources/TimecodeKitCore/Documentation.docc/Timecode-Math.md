@@ -2,97 +2,121 @@
 
 Math operations between two timecodes.
 
-See <doc:Math> in the Getting Started guide.
+See the <doc:Math> article for a guide on using math methods.
 
 ## Topics
 
 ### Addition
 
-- ``Timecode/add(_:)-9m8xq``
-- ``Timecode/add(_:by:)-42lw``
+- ``Timecode/add(_:)-35dhi``
+- ``Timecode/add(_:by:)-1z454``
 
-- ``Timecode/add(_:)-88aua``
-- ``Timecode/add(_:by:)-4lww7``
+- ``Timecode/add(_:)-915h3``
+- ``Timecode/add(_:by:)-1m7ah``
 
-- ``Timecode/add(_:)-857gw``
-- ``Timecode/add(_:by:)-1yniv``
+- ``Timecode/add(_:)-9ru9i``
+- ``Timecode/add(_:by:)-7ca02``
 
-- ``Timecode/add(_:)-14tde``
-- ``Timecode/add(_:by:)-2njan``
+- ``Timecode/add(_:)-7n3x6``
+- ``Timecode/add(_:by:)-5163j``
 
-- ``Timecode/add(_:)-71xxo``
-- ``Timecode/add(_:by:)-14dcw``
+- ``Timecode/add(_:)-1i0b6``
+- ``Timecode/add(_:by:)-80c69``
 
-- ``Timecode/add(_:)-3240f``
-- ``Timecode/add(_:by:)-4nkq8``
+- ``Timecode/add(_:)-5011j``
+- ``Timecode/add(_:by:)-7wdo4``
 
-- ``Timecode/add(_:)-55w29``
-- ``Timecode/add(_:by:)-6fwhs``
+- ``Timecode/add(_:)-780aj``
+- ``Timecode/add(_:by:)-1xjog``
 
-- ``Timecode/adding(_:)-904hr``
-- ``Timecode/adding(_:by:)-8pf7p``
+- ``Timecode/add(_:)-2v36p``
+- ``Timecode/add(_:by:)-3055l``
 
-- ``Timecode/adding(_:)-5bv1``
-- ``Timecode/adding(_:by:)-7fcyg``
+- ``Timecode/add(_:)-8mprr``
+- ``Timecode/add(_:by:)-34zg6``
 
-- ``Timecode/adding(_:)-1o83k``
-- ``Timecode/adding(_:by:)-74tzs``
+- ``Timecode/adding(_:)-972mh``
+- ``Timecode/adding(_:by:)-2fl7h``
 
-- ``Timecode/adding(_:)-z5j7``
-- ``Timecode/adding(_:by:)-6awjq``
+- ``Timecode/adding(_:)-1n8w6``
+- ``Timecode/adding(_:by:)-1op0e`` 
 
-- ``Timecode/adding(_:)-qlqv``
-- ``Timecode/adding(_:by:)-19lr1``
+- ``Timecode/adding(_:)-64k1i``
+- ``Timecode/adding(_:by:)-8egjm``
 
-- ``Timecode/adding(_:)-7b8yj``
-- ``Timecode/adding(_:by:)-9o39d``
+- ``Timecode/adding(_:)-19qjo``
+- ``Timecode/adding(_:by:)-73bh6``
 
-- ``Timecode/adding(_:)-8rxca``
-- ``Timecode/adding(_:by:)-91bfw``
+- ``Timecode/adding(_:)-1wwhe``
+- ``Timecode/adding(_:by:)-9wvjs``
+
+- ``Timecode/adding(_:)-29yhq``
+- ``Timecode/adding(_:by:)-7j36`` 
+
+- ``Timecode/adding(_:)-29yto``
+- ``Timecode/adding(_:by:)-27jkt``
+
+- ``Timecode/adding(_:)-462rx``
+- ``Timecode/adding(_:by:)-93tmz``
+
+- ``Timecode/adding(_:)-5xq6h``
+- ``Timecode/adding(_:by:)-9w4iw``
 
 ### Subtraction
 
-- ``Timecode/subtract(_:)-5gp46``
-- ``Timecode/subtract(_:by:)-4l96x``
+- ``Timecode/subtract(_:)-1f5mq``
+- ``Timecode/subtract(_:by:)-19vp0``
 
-- ``Timecode/subtract(_:)-7furw``
-- ``Timecode/subtract(_:by:)-9n8ue``
+- ``Timecode/subtract(_:)-9ctfn``
+- ``Timecode/subtract(_:by:)-9pl51``
 
-- ``Timecode/subtract(_:)-9oxpu``
-- ``Timecode/subtract(_:by:)-508dt``
+- ``Timecode/subtract(_:)-835rt``
+- ``Timecode/subtract(_:by:)-e94u``
 
-- ``Timecode/subtract(_:)-ocmj``
-- ``Timecode/subtract(_:by:)-3onj2``
+- ``Timecode/subtract(_:)-t638``
+- ``Timecode/subtract(_:by:)-uszg``
 
-- ``Timecode/subtract(_:)-1rf5l``
-- ``Timecode/subtract(_:by:)-857ne``
+- ``Timecode/subtract(_:)-8x9n7``
+- ``Timecode/subtract(_:by:)-2c2fx``
 
-- ``Timecode/subtract(_:)-9js9a``
-- ``Timecode/subtract(_:by:)-33g0h``
+- ``Timecode/subtract(_:)-3y14p``
+- ``Timecode/subtract(_:by:)-8zriq``
 
-- ``Timecode/subtract(_:)-3j57f``
-- ``Timecode/subtract(_:by:)-8cjf8``
+- ``Timecode/subtract(_:)-4eaq5``
+- ``Timecode/subtract(_:by:)-3y6tc``
 
-- ``Timecode/subtracting(_:)-9gs31``
-- ``Timecode/subtracting(_:by:)-4i08g``
+- ``Timecode/subtract(_:)-8unrb``
+- ``Timecode/subtract(_:by:)-61jc0``
 
-- ``Timecode/subtracting(_:)-4k13k``
-- ``Timecode/subtracting(_:by:)-17ava``
+- ``Timecode/subtract(_:)-2clhm``
+- ``Timecode/subtract(_:by:)-951oa``
 
-- ``Timecode/subtracting(_:)-3ovst``
-- ``Timecode/subtracting(_:by:)-p5la``
+- ``Timecode/subtracting(_:)-2ms69``
+- ``Timecode/subtracting(_:by:)-9eks5``
 
-- ``Timecode/subtracting(_:)-49fu``
-- ``Timecode/subtracting(_:by:)-2gt9c``
+- ``Timecode/subtracting(_:)-8nsmp``
+- ``Timecode/subtracting(_:by:)-6myzc``
 
-- ``Timecode/subtracting(_:)-1o05d``
-- ``Timecode/subtracting(_:by:)-42lpp``
+- ``Timecode/subtracting(_:)-wqfx``
+- ``Timecode/subtracting(_:by:)-1edym``
 
-- ``Timecode/subtracting(_:)-8mzxx``
-- ``Timecode/subtracting(_:by:)-92c0s``
+- ``Timecode/subtracting(_:)-15gui``
+- ``Timecode/subtracting(_:by:)-57buu``
 
-- ``Timecode/subtracting(_:)-29zr6``
-- ``Timecode/subtracting(_:by:)-3pd2x``
+- ``Timecode/subtracting(_:)-3i0pb``
+- ``Timecode/subtracting(_:by:)-6xzzi``
+
+- ``Timecode/subtracting(_:)-5jwl0``
+- ``Timecode/subtracting(_:by:)-7s2gd``
+
+- ``Timecode/subtracting(_:)-3yet8`` 
+- ``Timecode/subtracting(_:by:)-85imt``
+
+- ``Timecode/subtracting(_:)-2r7qo``
+- ``Timecode/subtracting(_:by:)-8g59b``
+
+- ``Timecode/subtracting(_:)-94lq9``
+- ``Timecode/subtracting(_:by:)-8wjgl``
 
 ### Multiplication
 
@@ -107,7 +131,7 @@ See <doc:Math> in the Getting Started guide.
 - ``Timecode/divide(_:)``
 - ``Timecode/divide(_:by:)``
 
-- ``Timecode/dividing(_:)-9pfge``
-- ``Timecode/dividing(_:)-96rdz``
-- ``Timecode/dividing(_:)-4bgmz``
+- ``Timecode/dividing(_:)-411cg``
 - ``Timecode/dividing(_:by:)``
+- ``Timecode/dividing(_:)-6wrjc``
+- ``Timecode/dividing(_:)-5xpva``

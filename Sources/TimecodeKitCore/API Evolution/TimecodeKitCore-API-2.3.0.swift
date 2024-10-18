@@ -8,6 +8,7 @@ import Foundation
 
 // MARK: API Changes in TimecodeKit 2.3.0
 
+@_documentation(visibility: internal)
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 extension Timecode {
     @available(*, deprecated, renamed: "init(from:propertiesForString:)")
@@ -29,6 +30,7 @@ extension Timecode {
     }
 }
 
+@_documentation(visibility: internal)
 extension String {
     @available(*, deprecated, renamed: "TimecodeFrameRate(stringValue:)")
     @_disfavoredOverload

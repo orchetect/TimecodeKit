@@ -34,7 +34,6 @@ try Timecode(.components(h: 01, m: 05, s: 20, f: 10), at: .fps29_97d)
 ## Topics
 
 - ``Timecode/stringValue(format:)``
-- ``Timecode/stringValueValidated(format:invalidAttributes:defaultAttributes:)``
 
 ### StringFormat Options
 

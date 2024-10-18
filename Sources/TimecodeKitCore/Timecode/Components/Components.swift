@@ -7,7 +7,8 @@
 extension Timecode {
     /// Primitive struct describing timecode component values, agnostic of frame rate.
     ///
-    /// In order to help facilitate defining a set of timecode component values, a simple ``Timecode/Components`` struct is implemented.
+    /// In order to help facilitate defining a set of timecode component values, a simple struct is provided.
+    /// 
     /// This struct can be passed into many methods and initializers.
     ///
     /// ```swift
@@ -405,8 +406,8 @@ extension Timecode.Components {
     /// >
     /// > To validate timecode component values, construct a ``Timecode`` instance using the
     /// > ``Timecode/ValidationRule/allowingInvalid`` validation rule and then query its ``Timecode/isValid`` property
-    /// > instead. Alternatively, the ``Timecode/invalidComponents`` property can granularly return which individual
-    /// > components are invalid, if any.
+    /// > instead. Alternatively, the ``Timecode/invalidComponents-swift.struct`` property can granularly return which
+    /// > individual components are invalid, if any.
     public func isWithinValidDigitCount(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase

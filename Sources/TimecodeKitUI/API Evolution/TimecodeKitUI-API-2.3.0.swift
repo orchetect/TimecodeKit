@@ -35,6 +35,7 @@ extension Timecode {
 
 import AppKit
 
+@_documentation(visibility: internal)
 extension Timecode {
     @available(
         *,

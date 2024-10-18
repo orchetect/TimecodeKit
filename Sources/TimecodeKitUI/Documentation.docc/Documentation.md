@@ -38,3 +38,7 @@ UI controls and tools for formatting and displaying timecode, including user-edi
 
 - ``Foundation/AttributedString/init(_:format:separatorStyle:validationStyle:)``
 - ``TimecodeKitCore/Timecode/stringValueValidatedText(format:invalidModifiers:defaultModifiers:)``
+
+### Formatter
+
+- ``TimecodeKitCore/Timecode/TextFormatter``

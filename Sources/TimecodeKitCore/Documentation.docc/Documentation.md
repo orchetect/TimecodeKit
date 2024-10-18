@@ -33,7 +33,7 @@ Value types and related logic for representing and working with SMPTE/EBU timeco
 - <doc:Timecode-Conversions>
 - <doc:Rational-Numbers-and-CMTime>
 - <doc:Timecode-Interval>
-- <doc:Timecode-Transformer>
+- ``TimecodeTransformer``
 
 ### Encoding
 

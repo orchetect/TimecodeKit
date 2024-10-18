@@ -28,14 +28,18 @@ Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingIn
 
 ## Formatted NSAttributedString
 
-This method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of attributes.
+When importing `TimecodeKitUI`, this method can produce an `NSAttributedString` highlighting individual invalid timecode components with a specified set of attributes.
 
 ```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    .stringValueValidated()
+let timecode = Timecode(
+    .components(h: 1, m: 20, s: 75, f: 60), 
+    at: .fps23_976,
+    by: .allowingInvalid
+)
+let attrString = timecode.nsAttributedString(
+    invalidAttributes: [.foregroundColor: NSColor.red]
+)
 ```
-
-The invalid formatting attributes defaults to applying `[.foregroundColor: NSColor.red]` to invalid components. You can alternatively supply your own invalid attributes by setting the `invalidAttributes` argument.
 
 You can also supply a set of default attributes to set as the baseline attributes for the entire string.
 
@@ -50,31 +54,36 @@ let defaultAttr: [NSAttributedString.Key: Any] = [
     .font: NSFont.systemFont(ofSize: 16)
 ]
 
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    .stringValueValidated(invalidAttributes: invalidAttr,
-                          defaultAttributes: defaultAttr)
+let timecode = Timecode(
+    .components(h: 1, m: 20, s: 75, f: 60),
+    at: .fps23_976,
+    by: .allowingInvalid
+)
+let attrString = timecode.nsAttributedString(
+    invalidAttributes: invalidAttr,
+    defaultAttributes: defaultAttr
+)
 ```
 
 ## NSFormatter
 
-A special string `Formatter` (`NSFormatter`) subclass can
+When importing `TimecodeKitUI`, a special string `Formatter` (`NSFormatter`) subclass can format timecode entry and colorize invalid components.
 
 - process user-entered timecode strings and format them in realtime in a TextField
 - optionally highlight individual invalid timecode components with a specified set of attributes (defaults to red foreground color)
 
-The invalid formatting attributes defaults to applying `[.foregroundColor: NSColor.red]` to invalid components. You can alternatively supply your own invalid attributes by setting the `validationAttributes` property on the formatter.
-
 ```swift
 // set up formatter
+let properties = Timecode.Properties(
+    rate: .fps23_976,
+    base: .max80SubFrames,
+    limit: .max24Hours
+)
 let formatter = Timecode.TextFormatter(
-    using: .init(
-        rate: .fps23_976,
-        base: .max80SubFrames,
-        limit: .max24Hours
-    )
+    using: properties
     stringFormat: [.showSubFrames],
-    showsValidation: true,    // enable invalid component highlighting
-    validationAttributes: nil // if nil, defaults to red foreground color
+    showsValidation: true, // enable invalid component highlighting
+    invalidAttributes: [.backgroundColor: NSColor.red]
 )
 
 // assign formatter to a TextField UI object, for example
@@ -84,42 +93,28 @@ textField.formatter = formatter
 
 ## Formatted SwiftUI Text
 
-When importing `TimecodeKitUI`, a SwiftUI `Text` view is available which highlights individual invalid timecode components with a specified set of modifiers.
+When importing `TimecodeKitUI`, a SwiftUI view is available which highlights individual invalid timecode components with a specified set of modifiers.
 
-The invalid formatting attributes defaults to applying `.foregroundColor(Color.red)` to invalid components.
-
-```swift
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    .stringValueValidatedText()
-```
-
-You can alternatively supply your own invalid modifiers by setting the `invalidModifiers` argument.
+Timecode-specific view modifiers can optionally configure colorization of invalid timecode components.
 
 ```swift
-import TimecodeKitUI
+@TimecodeState var timecode = Timecode(
+    .components(h: 1, m: 20, s: 75, f: 60),
+    at: .fps23_976,
+    by: .allowingInvalid
+)
 
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    .stringValueValidatedText(
-        invalidModifiers: {
-            $0.foregroundColor(.blue)
-        }, defaultModifiers: {
-            $0.foregroundColor(.black)
-        }
-    )
+var body: some View {
+    TimecodeText(timecode)
+        .timecodeValidationStyle(.red)
+}
 ```
+
 
 ## Topics
 
 ### Invalid Components
 
 - ``Timecode/invalidComponents``
-- ``Timecode/Components/invalidComponents(at:base:limit:)``
-- ``Timecode/Components/invalidComponents(using:)``
-
-### Formatted Attributed String
-
-- ``Timecode/stringValueValidated(format:invalidAttributes:defaultAttributes:)``
-
-### Formatter
-
-- ``Timecode/TextFormatter``
+- ``Timecode/Components-swift.struct/invalidComponents(at:base:limit:)``
+- ``Timecode/Components-swift.struct/invalidComponents(using:)``

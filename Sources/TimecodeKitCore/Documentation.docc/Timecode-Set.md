@@ -4,36 +4,45 @@ Set an existing ``Timecode`` instance to a new timecode.
 
 ## Topics
 
-- ``Timecode/set(_:)-5y7su``
-- ``Timecode/set(_:by:)-92yoi``
+### Source Value
 
-- ``Timecode/set(_:)-7b9qg``
-- ``Timecode/set(_:by:)-8glzs``
+- ``Timecode/set(_:)-7h1e3``
+- ``Timecode/set(_:by:)-924y6``
+- ``Timecode/setting(_:)-8fycr``
+- ``Timecode/setting(_:by:)-4xxpr``
 
-- ``Timecode/set(_:)-2rc5m``
+### Async Source Value
 
-- ``Timecode/set(_:)-4y2bh``
+- ``Timecode/set(_:)-78azr``
+- ``Timecode/set(_:by:)-6pcmt``
+- ``Timecode/setting(_:)-3p2sr``
+- ``Timecode/setting(_:by:)-9bsvo``
 
-- ``Timecode/set(_:)-22ndo``
-- ``Timecode/set(_:by:)-1goc0``
+### Guaranteed Source Value
 
-- ``Timecode/set(_:)-3p8ei``
+- ``Timecode/set(_:)-2nzja``
+- ``Timecode/setting(_:)-7duyt``
 
-- ``Timecode/set(_:)-89p8h``
+### Rich Source Value
 
-- ``Timecode/setting(_:)-3akbp``
-- ``Timecode/setting(_:by:)-42wj3``
+- ``Timecode/set(_:)-1zpbl``
+- ``Timecode/set(_:by:)-8094b``
+- ``Timecode/setting(_:)-9wz6a``
+- ``Timecode/setting(_:by:)-4atep``
 
-- ``Timecode/setting(_:)-2qd7a``
-- ``Timecode/setting(_:by:)-4oa78``
+### Async Rich Source Value
 
-- ``Timecode/setting(_:)-1dhd5``
+- ``Timecode/set(_:)-5uzz``
+- ``Timecode/setting(_:)-5tip1``
 
-- ``Timecode/setting(_:)-2d9ti``
+### Guaranteed Rich Source Value
 
-- ``Timecode/setting(_:)-95f3c``
-- ``Timecode/setting(_:by:)-2fpos``
+- ``Timecode/set(_:)-1qlc2``
+- ``Timecode/setting(_:)-3evhh``
 
-- ``Timecode/setting(_:)-81hub``
+### Formatted Source Value
 
-- ``Timecode/setting(_:)-5q0hp``
+- ``Timecode/set(_:)-3il64``
+- ``Timecode/set(_:by:)-2wk8a``
+- ``Timecode/setting(_:)-37k7d``
+- ``Timecode/setting(_:by:)-8zidz``
