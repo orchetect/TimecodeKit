@@ -15,8 +15,8 @@ import Foundation
 // MARK: - TextFormatter
 
 extension Timecode {
-    /// `Formatter` subclass. (`@objC` name `TimecodeTextFormatter`)
-    /// `Timecode` string formatter capable of displaying invalid timecode components with special formatting.
+    /// `Timecode` string `Formatter` subclass capable of displaying invalid timecode components with special
+    /// formatting.
     @objc(TimecodeTextFormatter)
     public class TextFormatter: Formatter {
         // MARK: properties
@@ -157,9 +157,9 @@ extension Timecode {
             
             return (
                 showsValidation
-                    ? tc.stringValueValidated(
-                        invalidAttributes: validationAttributes,
-                        defaultAttributes: attrs
+                    ? tc.nsAttributedString(
+                        defaultAttributes: attrs,
+                        invalidAttributes: validationAttributes
                     )
                     : NSAttributedString(string: stringForObj, attributes: attrs)
             )
