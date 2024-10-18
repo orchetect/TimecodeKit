@@ -64,6 +64,7 @@ extension Timecode {
 
 #endif
 
+@_documentation(visibility: internal)
 extension Timecode.TextFormatter {
     @available(*, deprecated, renamed: "invalidAttributes")
     public var validationAttributes: [NSAttributedString.Key: Any] {

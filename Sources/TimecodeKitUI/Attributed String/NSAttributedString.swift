@@ -33,10 +33,10 @@ extension NSAttributedString {
     /// - Parameters:
     ///   - timecode: Timecode instance.
     ///   - format: String format options.
-    ///   - defaultAttributes: The base attributes applied to the entire string before ``invalidAttributes`` are
+    ///   - defaultAttributes: The base attributes applied to the entire string before `invalidAttributes` are
     ///     applied.
     ///   - invalidAttributes: The attributes applied to invalid values. This attribute overrides any
-    ///     ``defaultAttributes``.
+    ///     `defaultAttributes`.
     public convenience init(
         _ timecode: Timecode,
         format: Timecode.StringFormat = .default(),
@@ -71,12 +71,11 @@ extension Timecode {
     /// ```
     ///
     /// - Parameters:
-    ///   - timecode: Timecode instance.
     ///   - format: String format options.
-    ///   - defaultAttributes: The base attributes applied to the entire string before ``invalidAttributes`` are
+    ///   - defaultAttributes: The base attributes applied to the entire string before `invalidAttributes` are
     ///     applied.
     ///   - invalidAttributes: The attributes applied to invalid values. This attribute overrides any
-    ///     ``defaultAttributes``.
+    ///     `defaultAttributes`.
     public func nsAttributedString(
         format: StringFormat = .default(),
         defaultAttributes: [NSAttributedString.Key: Any]?,

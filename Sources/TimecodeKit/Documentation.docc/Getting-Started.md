@@ -22,7 +22,7 @@ import TimecodeKitUI
 
 ## Using TimecodeKit
 
-The documentation page for ``TimecodeKitCore/Timecode`` provides a quick overview of how to form timecode and convert to/from various other time values.
+The documentation page for <doc://TimecodeKit/TimecodeKitCore/Timecode-swift.struct> provides a quick overview of how to form timecode and convert to/from various other time values.
 
 Example projects are located in the Examples folder to demonstrate usage of the library.
 

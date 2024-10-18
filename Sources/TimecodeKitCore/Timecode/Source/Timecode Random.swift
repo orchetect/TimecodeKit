@@ -8,11 +8,13 @@
 
 extension Timecode {
     /// Constrains component values to only valid values at the given frame rate, subframes base and upper limit.
+    @_documentation(visibility: internal)
     public struct SafeRandomComponents {
         init() { }
     }
     
     /// Randomize timecode components within the given ranges, allowing potential invalid values.
+    @_documentation(visibility: internal)
     public struct UnsafeRandomComponents {
         let ranges: Timecode.ComponentRanges
         
@@ -23,11 +25,13 @@ extension Timecode {
     
     /// Randomizes timecode properties and generates random component values constrained to only valid values at the
     /// generated frame rate, subframes base and upper limit.
+    @_documentation(visibility: internal)
     public struct SafeRandomComponentsAndProperties {
         init() { }
     }
     
     /// Randomizes timecode properties and generates random component values, allowing potential invalid values.
+    @_documentation(visibility: internal)
     public struct UnsafeRandomComponentsAndProperties {
         let ranges: Timecode.ComponentRanges
         

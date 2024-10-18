@@ -72,8 +72,8 @@ Timecode(.string("01:00:00:00"), at: .fps24, by: .allowingInvalid)
 
 ## Timecode String Value
 
-- The `stringValue` property is now the ``TimecodeKitCore/Timecode/stringValue(format:)`` method.
-- The Timecode struct no longer stores string formatting properties. Instead, formatting options are now optionally passed when calling ``TimecodeKitCore/Timecode/stringValue(format:)``.
+- The `stringValue` property is now the <doc://TimecodeKit/TimecodeKitCore/Timecode/stringValue(format:)> method.
+- The Timecode struct no longer stores string formatting properties. Instead, formatting options are now optionally passed when calling <doc://TimecodeKit/TimecodeKitCore/Timecode/stringValue(format:)>.
 
 ```swift
 // 1.x API
@@ -106,7 +106,7 @@ let timecode = try Timecode(
 )
 ```
 
-Timecode metadata can now also be constructed and passed using a new ``TimecodeKitCore/Timecode/Properties-swift.struct`` struct. It contains:
+Timecode metadata can now also be constructed and passed using a new <doc://TimecodeKit/TimecodeKitCore/Timecode/Properties-swift.struct> struct. It contains:
 
 - `frameRate`
 - `subFramesBase`
@@ -168,17 +168,17 @@ try "01:00:00:00".toTimecode(at: ._24)
 
 Some enum cases have been renamed to conform to lowerCamelCase and replace underscore prefixes.
 
-- ``TimecodeKitCore/TimecodeFrameRate`` cases have been renamed.
+- <doc://TimecodeKit/TimecodeKitCore/TimecodeFrameRate> cases have been renamed.
   - `._24` is now `.fps24` and so on
-- ``TimecodeKitCore/VideoFrameRate`` cases have been renamed.
+- <doc://TimecodeKit/TimecodeKitCore/VideoFrameRate> cases have been renamed.
   - `._24p` is now `.fps24p` and so on
-- ``TimecodeKitCore/Timecode/UpperLimit-swift.enum`` cases have been renamed.
+- <doc://TimecodeKit/TimecodeKitCore/Timecode/UpperLimit-swift.enum> cases have been renamed.
   - `._24hours` is now `.max24Hours`
   - `._100days` is now `.max100Days`
-- ``TimecodeKitCore/Timecode/SubFramesBase-swift.enum`` cases have been renamed.
+- <doc://TimecodeKit/TimecodeKitCore/Timecode/SubFramesBase-swift.enum> cases have been renamed.
   - `._80SubFrames` is now `.max80SubFrames`
   - `._100SubFrames` is now `.max100SubFrames`
-- ``TimecodeKitCore/TimecodeFrameRate/CompatibleGroup-swift.enum`` cases have been renamed.
+- <doc://TimecodeKit/TimecodeKitCore/TimecodeFrameRate/CompatibleGroup-swift.enum> cases have been renamed.
   - `.NTSC` is now `.ntscColor`
   - `.NTSC_drop` is now `.ntscDrop`
   - `.ATSC` is now `.whole`
