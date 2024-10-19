@@ -66,11 +66,10 @@ The following video frame rates are supported. (Video rates)
 
 1. Add TimecodeKit as a dependency using Swift Package Manager.
    - In an app project or framework, in Xcode:
-     - Select the menu: **File → Swift Packages → Add Package Dependency...**
-     - Enter this URL: `https://github.com/orchetect/TimecodeKit`
+     Add the package to your target using this URL: `https://github.com/orchetect/TimecodeKit`
    - In a Swift Package, add it to the Package.swift dependencies:
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.2.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.0")
      ```
 2. Import the library:
    ```swift
