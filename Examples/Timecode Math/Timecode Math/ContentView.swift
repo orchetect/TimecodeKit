@@ -103,7 +103,7 @@ struct TimecodeMathExpressionView: View {
                     Color.clear
                         .gridCellUnsizedAxes([.horizontal, .vertical])
                     TimecodeText(result)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(.tint)
                 }
             }
         }
@@ -176,7 +176,7 @@ struct DoubleMathExpressionView: View {
                     Color.clear
                         .gridCellUnsizedAxes([.horizontal, .vertical])
                     TimecodeText(result)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(.tint)
                 }
             }
         }

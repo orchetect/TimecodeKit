@@ -332,7 +332,7 @@ extension TimecodeFieldView {
         
         var color: Color? {
             switch self {
-            case .default: .accentColor
+            case .default: .tint
             case .secondary: .secondary
             case .blue: .blue
             }
