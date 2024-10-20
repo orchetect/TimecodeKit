@@ -20,13 +20,16 @@ extension TimecodeField {
     public enum FieldAction: Equatable, Hashable, Sendable {
         /// End editing.
         /// Removes focus from the timecode field.
+        /// Passes the key event through the receiver chain and does not capture it.
         case endEditing
         
         /// Advances the focus to the next timecode component.
+        /// Passes the key event through the receiver chain and does not capture it.
         case focusNextComponent
         
         /// Resets component focus to the specified component.
         /// If `nil`, focus is reset to the first visible component.
+        /// Captures the key event and does not pass it through to the receiver chain.
         case resetComponentFocus(component: Timecode.Component? = nil)
     }
 }
