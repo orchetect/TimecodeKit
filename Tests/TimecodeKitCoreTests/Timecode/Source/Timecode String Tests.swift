@@ -299,4 +299,15 @@ final class Timecode_Source_String_Tests: XCTestCase {
             "1234567891234564567 1234567891234564567:1234567891234564567:1234567891234564567:1234567891234564567.1234567891234564567"
         )
     }
+    
+    func testVerboseStringValue() throws {
+        var tc = Timecode(.zero, at: .fps23_976)
+        
+        try tc.set(.string("01:05:20:14"))
+        XCTAssertEqual(tc.verboseStringValue, "01:05:20:14.00 @ 23.976 fps")
+        
+        try tc.set(.string("02:07:08:10.20"))
+        XCTAssertEqual(tc.verboseStringValue, "02:07:08:10.20 @ 23.976 fps")
+        
+    }
 }

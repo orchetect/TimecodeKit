@@ -18,10 +18,8 @@ final class Timecode_CustomStringConvertible_Tests: XCTestCase {
             limit: .max100Days
         )
         
-        XCTAssertNotEqual(tc.description, "")
-        
-        XCTAssertNotEqual(tc.debugDescription, "")
-        
-        XCTAssertNotEqual(tc.verboseDescription, "")
+        XCTAssertNotEqual(tc.description, "1 02:03:04:05.06")
+        XCTAssertNotEqual(tc.debugDescription, "1 02:03:04:05.06")
+        XCTAssertNotEqual(tc.verboseStringValue, "1 02:03:04:05.06")
     }
 }
