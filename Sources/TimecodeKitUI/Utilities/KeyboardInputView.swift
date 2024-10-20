@@ -19,7 +19,9 @@ struct KeyboardInputView: View {
     var body: some View {
         TextField("", text: $text)
             .textFieldStyle(.plain)
+            #if !os(tvOS)
             .textSelection(.disabled)
+            #endif
             .autocorrectionDisabled()
             .textInputAutocapitalization(.never)
             .keyboardType(.decimalPad)
