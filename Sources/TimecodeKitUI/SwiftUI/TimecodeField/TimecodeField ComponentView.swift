@@ -88,11 +88,15 @@ extension TimecodeField {
             }
             #elseif os(iOS) || os(tvOS) || os(visionOS)
             ZStack {
-                KeyboardInputView(
-                    keyboardType: .decimalPad // note that on iPadOS this also contains extended chars
-                ) { keyEquivalent in
-                    _ = handleKeyPress(key: keyEquivalent)
+                // KeyboardInputView(
+                //     keyboardType: .decimalPad // note that on iPadOS this also contains extended chars
+                // ) { keyEquivalent in
+                //     handleKeyPress(key: keyEquivalent)
+                // }
+                KeyboardInputView { keyEquivalent in
+                    handleKeyPress(key: keyEquivalent)
                 }
+                .focused($focusedComponent, equals: component)
                 .onKeyPress(phases: [.down, .repeat]) { keyPress in
                     // only handle hardware keyboard keys that aren't already handled by KeyboardInputView.
                     // basically, anything that isn't a numeric digit or a period.
@@ -104,7 +108,6 @@ extension TimecodeField {
                     }
                     return handleKeyPress(key: keyPress.key)
                 }
-                .focused($focusedComponent, equals: component)
                 
                 Text(valuePadded)
                     .conditionalForegroundStyle(isValueValid ? nil : timecodeValidationStyle)
@@ -209,6 +212,7 @@ extension TimecodeField {
             textInput = ""
         }
         
+        @discardableResult
         private func handleKeyPress(key: KeyEquivalent) -> KeyPress.Result {
             switch key {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
