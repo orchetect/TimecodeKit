@@ -9,10 +9,12 @@
 import SwiftUI
 
 /// An invisible view providing a native SwiftUI on-screen keyboard input experience.
+/// Note that `return` key is not passed to the `onKeyPress` closure. Instead, handle that with an `onSubmit { }` view modifier.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 struct KeyboardInputView: View {
     var onKeyPress: (_ keyEquivalent: KeyEquivalent) -> Void
-    @State private var text = ""
+    
+    @State private var text = " "
     
     var body: some View {
         TextField("", text: $text)
@@ -25,12 +27,27 @@ struct KeyboardInputView: View {
             .foregroundStyle(.clear)
         
             .onChange(of: text) { oldValue, newValue in
-                guard let char = text.first else { return }
-                Task { text = "" }
+                // backspace
+                if text.isEmpty {
+                    onKeyPress(.delete)
+                    reset()
+                    return
+                }
+                
+                // otherwise new printable character will be added at end of string
+                guard let char = text.last else { return }
+                
+                // reset to neutral string
+                Task { reset() }
+                
                 // not a universal solution, but it works for the keys we care about
                 let keyEquivalent = KeyEquivalent(char)
                 onKeyPress(keyEquivalent)
             }
+    }
+    
+    func reset() {
+        text = " "
     }
 }
 
