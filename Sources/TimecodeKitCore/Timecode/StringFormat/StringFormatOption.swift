@@ -7,6 +7,13 @@
 extension Timecode {
     /// `Timecode` string output format option.
     public enum StringFormatOption: Equatable, Hashable, CaseIterable {
+        /// Determines whether days are always included.
+        ///
+        /// By default when this option is omitted, the days component is only included in the string if the days value is non-zero.
+        ///
+        /// By passing this option, days are always included even if the value is zero.
+        case alwaysShowDays
+        
         /// Determines whether subframes are included.
         ///
         /// This does not disable subframes from being stored or calculated, only whether it is present in the string.
@@ -25,6 +32,7 @@ extension Timecode.StringFormatOption: Sendable { }
 
 extension Timecode.StringFormatOption: Codable {
     private enum CodingKeys: String, CodingKey {
+        case alwaysShowDays
         case showSubFrames
         case filenameCompatible
     }
@@ -43,6 +51,8 @@ extension Timecode.StringFormatOption: Codable {
         }
         
         switch keyFromString {
+        case .alwaysShowDays:
+            self = .alwaysShowDays
         case .showSubFrames:
             self = .showSubFrames
         case .filenameCompatible:
@@ -54,6 +64,8 @@ extension Timecode.StringFormatOption: Codable {
         var container = encoder.singleValueContainer()
         
         switch self {
+        case .alwaysShowDays:
+            try container.encode(CodingKeys.alwaysShowDays.rawValue)
         case .showSubFrames:
             try container.encode(CodingKeys.showSubFrames.rawValue)
         case .filenameCompatible:

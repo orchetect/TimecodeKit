@@ -108,7 +108,8 @@ extension Timecode {
         
         var output = ""
         
-        output += "\(days != 0 ? "\(days)\(sepDays)" : "")"
+        let showDays = format.contains(.alwaysShowDays) || days != 0
+        output += "\(showDays ? "\(days)\(sepDays)" : "")"
         output += "\(String(format: "%02ld", hours))\(sepMain)"
         output += "\(String(format: "%02ld", minutes))\(sepMain)"
         output += "\(String(format: "%02ld", seconds))\(sepFrames)"

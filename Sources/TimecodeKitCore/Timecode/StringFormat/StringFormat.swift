@@ -20,6 +20,17 @@ extension Timecode.StringFormat {
 }
 
 extension Timecode.StringFormat {
+    /// Get or set ``Timecode/StringFormatOption/alwaysShowDays`` state.
+    public var alwaysShowDays: Bool {
+        get {
+            contains(.alwaysShowDays)
+        }
+        set {
+            if newValue { insert(.alwaysShowDays) }
+            else { remove(.alwaysShowDays) }
+        }
+    }
+    
     /// Get or set ``Timecode/StringFormatOption/showSubFrames`` state.
     public var showSubFrames: Bool {
         get {

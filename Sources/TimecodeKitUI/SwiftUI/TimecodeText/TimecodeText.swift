@@ -129,7 +129,7 @@ extension Timecode {
         var output = Text("")
         
         // days
-        if timecode.days != 0 {
+        if timecode.days != 0 || format.contains(.alwaysShowDays) {
             let daysText = "\(timecode.days)"
             if invalids.contains(.days) {
                 output.append(invalidModifiers(daysText))

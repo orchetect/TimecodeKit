@@ -13,6 +13,15 @@ try Timecode(.components(h: 01, m: 00, s: 00, f: 05), at: .fps29_97d)
 
 Additionally, formatting options may be provided. These options may by combined.
 
+### Always Show Days
+
+By default, days are not expressed in the string value unless the days value is non-zero. It can be enabled by passing the ``Timecode/StringFormatOption/alwaysShowDays`` option.
+
+```swift
+try Timecode(.components(h: 01, m: 00, s: 00, f: 00), at: .fps24)
+    .stringValue(format: [.alwaysShowDays]) // == "0 01:00:00:00"
+```
+
 ### Show Subframes
 
 By default, subframes are not expressed in the string value. It can be enabled by passing the ``Timecode/StringFormatOption/showSubFrames`` option.
