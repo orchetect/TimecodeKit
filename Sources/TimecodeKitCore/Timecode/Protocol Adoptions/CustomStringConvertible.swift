@@ -11,11 +11,8 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
     
     public var debugDescription: String {
         // include Days even if it's 0 if we have a mode set that enables Days
-        let daysString =
-            upperLimit == .max100Days
-                ? "\(days):"
-                : ""
-        
-        return "Timecode<\(daysString)\(stringValue(format: .showSubFrames)) @ \(frameRate.stringValueVerbose)>"
+        var format: Timecode.StringFormat = [.showSubFrames]
+        if upperLimit == .max100Days { format.insert(.alwaysShowDays) }
+        return "Timecode<\(stringValue(format: format)) @ \(frameRate.stringValueVerbose)>"
     }
 }
