@@ -1,5 +1,5 @@
 //
-//  TimecodeKit-API-2.3.0.swift
+//  TimecodeKitCore-API-2.3.0.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //

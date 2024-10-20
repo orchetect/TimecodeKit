@@ -18,8 +18,4 @@ extension Timecode: CustomStringConvertible, CustomDebugStringConvertible {
         
         return "Timecode<\(daysString)\(stringValue(format: .showSubFrames)) @ \(frameRate.stringValueVerbose)>"
     }
-    
-    public var verboseDescription: String {
-        "\(stringValue(format: .showSubFrames)) @ \(frameRate.stringValueVerbose)"
-    }
 }

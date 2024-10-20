@@ -129,6 +129,12 @@ extension Timecode {
             return output
         }
     }
+    
+    /// Returns a more verbose output of the timecode's string representation including frame rate information.
+    /// ie: "`01:00:00:00.00 @ 24 fps`"
+    public var verboseStringValue: String {
+        "\(stringValue(format: [.showSubFrames])) @ \(frameRate.stringValueVerbose)"
+    }
 }
 
 // MARK: - Set
