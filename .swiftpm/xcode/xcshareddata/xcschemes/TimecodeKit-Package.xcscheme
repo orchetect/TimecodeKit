@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1220"
-   version = "1.3">
+   LastUpgradeVersion = "1600"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -22,15 +23,43 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TimecodeKitUITests"
-               BuildableName = "TimecodeKitUITests"
-               BlueprintName = "TimecodeKitUITests"
+               BlueprintIdentifier = "TimecodeKitCore"
+               BuildableName = "TimecodeKitCore"
+               BlueprintName = "TimecodeKitCore"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TimecodeKitUI"
+               BuildableName = "TimecodeKitUI"
+               BlueprintName = "TimecodeKitUI"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TimecodeKitAV"
+               BuildableName = "TimecodeKitAV"
+               BlueprintName = "TimecodeKitAV"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,8 +69,13 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:.swiftpm/TimecodeKit-Package.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -61,6 +95,16 @@
                BlueprintIdentifier = "TimecodeKitCoreTests"
                BuildableName = "TimecodeKitCoreTests"
                BlueprintName = "TimecodeKitCoreTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TimecodeKitDevTests"
+               BuildableName = "TimecodeKitDevTests"
+               BlueprintName = "TimecodeKitDevTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

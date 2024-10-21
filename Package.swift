@@ -21,55 +21,41 @@ let package = Package(
         // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
     ] + doccPluginDependency(),
     targets: [
-        // umbrella target
         .target(
             name: "TimecodeKit",
             dependencies: ["TimecodeKitCore", "TimecodeKitAV", "TimecodeKitUI"]
         ),
-        
-        // core target
         .target(
             name: "TimecodeKitCore",
             dependencies: []
         ),
-        
-        // AVFoundation target
         .target(
             name: "TimecodeKitAV",
             dependencies: ["TimecodeKitCore"]
         ),
-        
-        // UI components
         .target(
             name: "TimecodeKitUI",
             dependencies: ["TimecodeKitCore"],
             linkerSettings: [
-                .linkedFramework(
-                    "SwiftUI",
-                    .when(platforms: {
-                        #if swift(>=5.9)
-                        [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]
-                        #else
-                        [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS]
-                        #endif
-                    }())
-                )
+                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]))
             ]
         ),
-
-        // core unit tests
         .testTarget(
             name: "TimecodeKitCoreTests",
             dependencies: ["TimecodeKitCore"]
         ),
-        
-        // AV tests
         .testTarget(
             name: "TimecodeKitAVTests",
             dependencies: ["TimecodeKitAV"],
             resources: [.copy("TestResource/Media Files")]
         ),
-        
+        .testTarget(
+            name: "TimecodeKitUITests",
+            dependencies: ["TimecodeKitUI"],
+            linkerSettings: [
+                .linkedFramework("SwiftUI", .when(platforms: [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]))
+            ]
+        ),
         // dev tests
         // (not meant to be run as unit tests, but only to verify library's computational integrity
         // when making major changes to the library, as these tests require modification to be meaningful)
