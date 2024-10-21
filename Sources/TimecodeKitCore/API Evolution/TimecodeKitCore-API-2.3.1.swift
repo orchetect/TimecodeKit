@@ -10,8 +10,8 @@ import Foundation
 
 @_documentation(visibility: internal)
 extension Timecode {
-    @available(*, deprecated, renamed: "verboseStringValue")
+    @available(*, deprecated, renamed: "stringValueVerbose")
     public var verboseDescription: String {
-        verboseStringValue
+        stringValueVerbose
     }
 }
