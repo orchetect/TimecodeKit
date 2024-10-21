@@ -71,7 +71,7 @@ public struct TimecodeText: View {
         timecode.text(
             format: timecodeFormat,
             separatorStyle: timecodeSeparatorStyle,
-            subFramesColor: timecodeSubFramesStyle.color,
+            subFramesStyle: timecodeSubFramesStyle.style,
             subFramesScale: timecodeSubFramesStyle.scale,
             validationStyle: timecodeValidationStyle
         )
@@ -88,10 +88,10 @@ extension Timecode {
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     func text(
         format: Timecode.StringFormat = .default(),
-        separatorStyle: Color? = nil,
-        subFramesColor: Color? = nil,
+        separatorStyle: (some ShapeStyle)? = nil,
+        subFramesStyle: (some ShapeStyle)? = nil,
         subFramesScale: Text.Scale = .default,
-        validationStyle: Color? = .red
+        validationStyle: (some ShapeStyle)? = nil
     ) -> Text {
         // proxy variables which makes it easier to copy/paste or refactor this code block
         let timecode = self
@@ -102,7 +102,7 @@ extension Timecode {
         let invalidModifiers: (String) -> Text = {
             var str = Text($0)
             if let timecodeValidationStyle {
-                str = str.foregroundColor(timecodeValidationStyle)
+                str = str.foregroundStyle(timecodeValidationStyle)
             }
             return str
         }
@@ -110,7 +110,7 @@ extension Timecode {
         let separatorModifiers: (String) -> Text = {
             var str = Text($0)
             if let timecodeSeparatorStyle {
-                str = str.foregroundColor(timecodeSeparatorStyle)
+                str = str.foregroundStyle(timecodeSeparatorStyle)
             }
             return str
         }
@@ -195,7 +195,7 @@ extension Timecode {
             if invalids.contains(.subFrames) {
                 baseSubFramesText = invalidModifiers(subframesText)
             } else {
-                baseSubFramesText = Text(subframesText).conditionalForegroundStyle(subFramesColor)
+                baseSubFramesText = Text(subframesText).conditionalForegroundStyle(subFramesStyle)
             }
             
             output.append(baseSubFramesText.textScale(subFramesScale))

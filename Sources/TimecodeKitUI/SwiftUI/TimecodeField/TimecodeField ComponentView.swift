@@ -133,22 +133,24 @@ extension TimecodeField {
         // MARK: - Styling
         
         private var background: some View {
-            backgroundColor.mask(alignment: .center) { backgroundMask }
+            // backgroundColor.mask(alignment: .center) { backgroundMask }
+            RoundedRectangle(cornerSize: CGSize(width: 2, height: 2))
+                .fill(backgroundStyle)
         }
         
-        private var backgroundColor: Color {
+        private var backgroundStyle: AnyShapeStyle {
             if isEditing, let timecodeHighlightStyle {
                 timecodeHighlightStyle
             } else if isHovering {
-                Color.secondary
+                AnyShapeStyle(Color.secondary)
             } else {
-                Color.clear
+                AnyShapeStyle(Color.clear)
             }
         }
         
-        private var backgroundMask: some View {
-            RoundedRectangle(cornerSize: CGSize(width: 2, height: 2))
-        }
+        // private var backgroundMask: some View {
+        //     RoundedRectangle(cornerSize: CGSize(width: 2, height: 2))
+        // }
         
         // MARK: - View Model
         

@@ -41,26 +41,59 @@ extension View {
 ///
 /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
 ///   modifiers.
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 struct TimecodeSeparatorStyleViewModifier: ViewModifier {
-    let color: Color?
+    let style: AnyShapeStyle?
+    
+    init(style: AnyShapeStyle?) {
+        self.style = style
+    }
+    
+    @_disfavoredOverload
+    init<S: ShapeStyle>(style: S?) {
+        self.style = style?.asAnyShapeStyle()
+    }
     
     func body(content: Content) -> some View {
-        content.environment(\.timecodeSeparatorStyle, color)
+        content.environment(\.timecodeSeparatorStyle, style)
     }
 }
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 extension View {
     /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
     ///
     /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
     ///   modifiers.
-    public func timecodeSeparatorStyle(
-        _ color: Color? = nil
+    public func timecodeSeparatorStyle<S: ShapeStyle>(
+        _ style: S
     ) -> some View {
-        modifier(TimecodeSeparatorStyleViewModifier(color: color))
+        modifier(TimecodeSeparatorStyleViewModifier(style: style))
+    }
+    
+    /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    ///
+    /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
+    ///   modifiers.
+    @_disfavoredOverload
+    public func timecodeSeparatorStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View {
+        modifier(TimecodeSeparatorStyleViewModifier(style: style))
+    }
+    
+    /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    ///
+    /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
+    ///   modifiers.
+    @_disfavoredOverload
+    public func timecodeSeparatorStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View where S == Never {
+        modifier(TimecodeSeparatorStyleViewModifier(style: nil))
     }
 }
 
@@ -70,11 +103,22 @@ extension View {
 /// If `color` is nil, the foreground style is used.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 struct TimecodeSubFramesStyleViewModifier: ViewModifier {
-    let color: Color?
+    let style: AnyShapeStyle?
     let scale: Text.Scale
     
+    init(style: AnyShapeStyle?, scale: Text.Scale) {
+        self.style = style
+        self.scale = scale
+    }
+    
+    @_disfavoredOverload
+    init<S: ShapeStyle>(style: S?, scale: Text.Scale) {
+        self.style = style?.asAnyShapeStyle()
+        self.scale = scale
+    }
+    
     func body(content: Content) -> some View {
-        content.environment(\.timecodeSubFramesStyle, (color: color, scale: scale))
+        content.environment(\.timecodeSubFramesStyle, (style: style, scale: scale))
     }
 }
 
@@ -82,11 +126,31 @@ struct TimecodeSubFramesStyleViewModifier: ViewModifier {
 extension View {
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
-    public func timecodeSubFramesStyle(
-        _ color: Color? = nil,
+    public func timecodeSubFramesStyle<S: ShapeStyle>(
+        _ style: S,
         scale: Text.Scale
     ) -> some View {
-        modifier(TimecodeSubFramesStyleViewModifier(color: color, scale: scale))
+        modifier(TimecodeSubFramesStyleViewModifier(style: style, scale: scale))
+    }
+    
+    /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    @_disfavoredOverload
+    public func timecodeSubFramesStyle<S: ShapeStyle>(
+        _ style: S?,
+        scale: Text.Scale
+    ) -> some View {
+        modifier(TimecodeSubFramesStyleViewModifier(style: style, scale: scale))
+    }
+    
+    /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `color` is nil, the foreground style is used.
+    @_disfavoredOverload
+    public func timecodeSubFramesStyle<S: ShapeStyle>(
+        _ style: S? = nil,
+        scale: Text.Scale
+    ) -> some View where S == Never {
+        modifier(TimecodeSubFramesStyleViewModifier(style: nil, scale: scale))
     }
 }
 
@@ -101,16 +165,25 @@ extension View {
 ///
 /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
 /// validation that may (or may not) be applied separately.
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 struct TimecodeValidationStyleViewModifier: ViewModifier {
-    let color: Color?
+    let style: AnyShapeStyle?
+    
+    init(style: AnyShapeStyle?) {
+        self.style = style
+    }
+    
+    @_disfavoredOverload
+    init<S: ShapeStyle>(style: S?) {
+        self.style = style?.asAnyShapeStyle()
+    }
     
     func body(content: Content) -> some View {
-        content.environment(\.timecodeValidationStyle, color)
+        content.environment(\.timecodeValidationStyle, style)
     }
 }
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 extension View {
     /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
     ///
@@ -121,10 +194,40 @@ extension View {
     ///
     /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
     /// validation that may (or may not) be applied separately.
-    public func timecodeValidationStyle(
-        _ color: Color? = .red
+    public func timecodeValidationStyle<S: ShapeStyle>(
+        _ style: S
     ) -> some View {
-        modifier(TimecodeValidationStyleViewModifier(color: color))
+        modifier(TimecodeValidationStyleViewModifier(style: style))
+    }
+    
+    /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
+    ///
+    /// This foreground color will be used only for any timecode component values that are invalid based on the given
+    /// properties (frame rate, subframes base, and upper limit).
+    ///
+    /// If `nil`, validation rendering is disabled and invalid components will not be colorized.
+    ///
+    /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
+    /// validation that may (or may not) be applied separately.
+    public func timecodeValidationStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View {
+        modifier(TimecodeValidationStyleViewModifier(style: style))
+    }
+    
+    /// Sets timecode component validation rendering style for ``TimecodeField`` and ``TimecodeText`` views.
+    ///
+    /// This foreground color will be used only for any timecode component values that are invalid based on the given
+    /// properties (frame rate, subframes base, and upper limit).
+    ///
+    /// If `nil`, validation rendering is disabled and invalid components will not be colorized.
+    ///
+    /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
+    /// validation that may (or may not) be applied separately.
+    public func timecodeValidationStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View where S == Never {
+        modifier(TimecodeValidationStyleViewModifier(style: nil))
     }
 }
 

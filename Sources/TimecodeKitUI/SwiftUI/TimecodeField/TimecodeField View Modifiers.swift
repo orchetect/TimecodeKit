@@ -13,23 +13,50 @@ import TimecodeKitCore
 
 /// Sets the component highlight style for ``TimecodeField`` views.
 /// By default, the application's `accentColor` is used.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 struct TimecodeFieldHighlightStyleViewModifier: ViewModifier {
-    let color: Color?
+    let style: AnyShapeStyle?
+    
+    init(style: AnyShapeStyle?) {
+        self.style = style
+    }
+    
+    @_disfavoredOverload
+    init<S: ShapeStyle>(style: S?) {
+        self.style = style?.asAnyShapeStyle()
+    }
     
     func body(content: Content) -> some View {
-        content.environment(\.timecodeFieldHighlightStyle, color)
+        content.environment(\.timecodeFieldHighlightStyle, style)
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
 extension View {
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
-    public func timecodeFieldHighlightStyle(
-        _ color: Color?
+    public func timecodeFieldHighlightStyle<S: ShapeStyle>(
+        _ style: S
     ) -> some View {
-        modifier(TimecodeFieldHighlightStyleViewModifier(color: color))
+        modifier(TimecodeFieldHighlightStyleViewModifier(style: style))
+    }
+    
+    /// Sets the component highlight style for ``TimecodeField`` views.
+    /// By default, the application's `accentColor` is used.
+    @_disfavoredOverload
+    public func timecodeFieldHighlightStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View {
+        modifier(TimecodeFieldHighlightStyleViewModifier(style: style))
+    }
+    
+    /// Sets the component highlight style for ``TimecodeField`` views.
+    /// By default, the application's `accentColor` is used.
+    @_disfavoredOverload
+    public func timecodeFieldHighlightStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View where S == Never {
+        modifier(TimecodeFieldHighlightStyleViewModifier(style: nil))
     }
 }
 

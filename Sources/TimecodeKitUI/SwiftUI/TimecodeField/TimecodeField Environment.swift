@@ -18,7 +18,8 @@ extension EnvironmentValues {
     
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
-    @Entry public var timecodeFieldHighlightStyle: Color? = .accentColor
+    @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+    @Entry public var timecodeFieldHighlightStyle: AnyShapeStyle? = AnyShapeStyle(.tint)
     
     // MARK: - TimecodeFieldInputStyle
     

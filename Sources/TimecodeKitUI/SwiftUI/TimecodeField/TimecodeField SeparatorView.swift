@@ -19,7 +19,7 @@ extension TimecodeField {
         
         // MARK: - Properties settable through custom view modifiers
         
-        @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle: Color?
+        @Environment(\.timecodeSeparatorStyle) private var timecodeSeparatorStyle
         
         // MARK: - Body
         

@@ -26,14 +26,15 @@ extension EnvironmentValues {
     /// If `color` is nil, the foreground style is used.
     ///
     /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view modifiers.
-    @Entry public var timecodeSeparatorStyle: Color? = nil
+    @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+    @Entry public var timecodeSeparatorStyle: AnyShapeStyle? = nil
     
     // MARK: - TimecodeSubFramesStyle
     
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-    @Entry public var timecodeSubFramesStyle: (color: Color?, scale: Text.Scale) = (nil, .default)
+    @Entry public var timecodeSubFramesStyle: (style: AnyShapeStyle?, scale: Text.Scale) = (nil, .default)
     
     // MARK: - TimecodeValidationStyle
     
@@ -46,7 +47,8 @@ extension EnvironmentValues {
     ///
     /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
     /// validation that may (or may not) be applied separately.
-    @Entry var timecodeValidationStyle: Color? = .red
+    @available(macOS 12.0, iOS 15.0, tvOS 15.0, watchOS 8.0, *)
+    @Entry var timecodeValidationStyle: AnyShapeStyle? = AnyShapeStyle(.red)
 }
 
 // MARK: - Environment Methods

@@ -314,7 +314,7 @@ public struct TimecodeField: View {
                     focusedComponent: $focusedComponent
                 )
                 .textScale(timecodeSubFramesStyle.scale)
-                .conditionalForegroundStyle(timecodeSubFramesStyle.color)
+                .conditionalForegroundStyle(timecodeSubFramesStyle.style)
             }
         }
     }
