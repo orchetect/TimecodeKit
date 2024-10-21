@@ -136,8 +136,47 @@ struct TimecodeSubFramesScaleViewModifier: ViewModifier {
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension View {
+    // MARK: - Style Only
+    
+    /// Sets the subframes timecode component foreground style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `style` is nil, the foreground style is used.
+    public func timecodeSubFramesStyle<S: ShapeStyle>(
+        _ style: S
+    ) -> some View {
+        modifier(TimecodeSubFramesStyleViewModifier(style: style))
+    }
+    
+    /// Sets the subframes timecode component foreground style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `style` is nil, the foreground style is used.
+    @_disfavoredOverload
+    public func timecodeSubFramesStyle<S: ShapeStyle>(
+        _ style: S?
+    ) -> some View {
+        modifier(TimecodeSubFramesStyleViewModifier(style: style))
+    }
+    
+    /// Sets the subframes timecode component foreground style for ``TimecodeField`` and ``TimecodeText`` views.
+    /// If `style` is nil, the foreground style is used.
+    @_disfavoredOverload
+    public func timecodeSubFramesStyle(
+        _ style: Never?
+    ) -> some View {
+        modifier(TimecodeSubFramesStyleViewModifier(style: nil))
+    }
+    
+    // MARK: - Scale Only
+    
+    /// Sets the subframes timecode component text scale for ``TimecodeField`` and ``TimecodeText`` views.
+    public func timecodeSubFramesStyle(
+        scale: Text.Scale
+    ) -> some View {
+        modifier(TimecodeSubFramesScaleViewModifier(scale: scale))
+    }
+    
+    // MARK: - Style and Scale
+    
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
-    /// If `color` is nil, the foreground style is used.
+    /// If `style` is nil, the foreground style is used.
     public func timecodeSubFramesStyle<S: ShapeStyle>(
         _ style: S,
         scale: Text.Scale
@@ -147,15 +186,7 @@ extension View {
     }
     
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
-    /// If `color` is nil, the foreground style is used.
-    public func timecodeSubFramesStyle<S: ShapeStyle>(
-        _ style: S
-    ) -> some View {
-        modifier(TimecodeSubFramesStyleViewModifier(style: style))
-    }
-    
-    /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
-    /// If `color` is nil, the foreground style is used.
+    /// If `style` is nil, the foreground style is used.
     public func timecodeSubFramesStyle<S: ShapeStyle>(
         _ style: S?,
         scale: Text.Scale
@@ -165,11 +196,14 @@ extension View {
     }
     
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
-    /// If `color` is nil, the foreground style is used.
+    /// If `style` is nil, the foreground style is used.
+    @_disfavoredOverload
     public func timecodeSubFramesStyle(
+        _ style: Never?,
         scale: Text.Scale
     ) -> some View {
-        modifier(TimecodeSubFramesScaleViewModifier(scale: scale))
+        modifier(TimecodeSubFramesStyleViewModifier(style: nil))
+            .modifier(TimecodeSubFramesScaleViewModifier(scale: scale))
     }
 }
 
