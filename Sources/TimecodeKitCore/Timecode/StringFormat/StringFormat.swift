@@ -14,9 +14,6 @@ extension Timecode.StringFormat {
     public static func `default`() -> Self {
         []
     }
-    
-    /// Initialize with Show Subframes option enabled.
-    public static let showSubFrames: Self = [.showSubFrames]
 }
 
 extension Timecode.StringFormat {

@@ -48,7 +48,7 @@ final class Timecode_init_Tests: XCTestCase {
             
             let frSep = item.isDrop ? ";" : ":"
             
-            XCTAssertEqual(tc.stringValue(format: .showSubFrames), "00:00:00\(frSep)\(frm).00")
+            XCTAssertEqual(tc.stringValue(format: [.showSubFrames]), "00:00:00\(frSep)\(frm).00")
         }
     }
 }

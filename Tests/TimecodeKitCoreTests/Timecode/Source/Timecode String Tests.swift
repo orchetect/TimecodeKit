@@ -227,12 +227,12 @@ final class Timecode_Source_String_Tests: XCTestCase {
             let t = item.numberOfDigits == 2 ? "" : "0"
             
             // still produces days since we have not clamped it yet
-            var sv = tc.stringValue(format: .showSubFrames)
+            var sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "2 01:02:03:\(t)04.12", "for \(item)")
             
             // now omits days since our limit is 24hr and clamped
             tc.clampComponents()
-            sv = tc.stringValue(format: .showSubFrames)
+            sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "01:02:03:\(t)04.12", "for \(item)")
         }
         
@@ -245,12 +245,12 @@ final class Timecode_Source_String_Tests: XCTestCase {
             let t = item.numberOfDigits == 2 ? "" : "0"
             
             // still produces days since we have not clamped it yet
-            var sv = tc.stringValue(format: .showSubFrames)
+            var sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "2 01:02:03;\(t)04.12", "for \(item)")
             
             // now omits days since our limit is 24hr and clamped
             tc.clampComponents()
-            sv = tc.stringValue(format: .showSubFrames)
+            sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "01:02:03;\(t)04.12", "for \(item)")
         }
         
@@ -263,7 +263,7 @@ final class Timecode_Source_String_Tests: XCTestCase {
             
             let t = item.numberOfDigits == 2 ? "" : "0"
             
-            let sv = tc.stringValue(format: .showSubFrames)
+            let sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "2 01:02:03:\(t)04.12", "for \(item)")
         }
         
@@ -274,7 +274,7 @@ final class Timecode_Source_String_Tests: XCTestCase {
             
             let t = item.numberOfDigits == 2 ? "" : "0"
             
-            let sv = tc.stringValue(format: .showSubFrames)
+            let sv = tc.stringValue(format: [.showSubFrames])
             XCTAssertEqual(sv, "2 01:02:03;\(t)04.12", "for \(item)")
         }
     }
