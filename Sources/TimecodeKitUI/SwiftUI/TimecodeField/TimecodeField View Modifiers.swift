@@ -53,9 +53,9 @@ extension View {
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
     @_disfavoredOverload
-    public func timecodeFieldHighlightStyle<S: ShapeStyle>(
-        _ style: S?
-    ) -> some View where S == Never {
+    public func timecodeFieldHighlightStyle(
+        _ style: Never?
+    ) -> some View {
         modifier(TimecodeFieldHighlightStyleViewModifier(style: nil))
     }
 }
