@@ -43,18 +43,8 @@ try Timecode(.components(h: 01, m: 05, s: 20, f: 10, sf: 08), at: .fps29_97d)
 ## Topics
 
 - ``Timecode/stringValue(format:)``
+- ``Timecode/stringValueVerbose``
 
-### StringFormat Options
+### String Format Options
 
-- ``Timecode/StringFormatOption/showSubFrames``
-- ``Timecode/StringFormatOption/filenameCompatible``
-
-### StringFormat Static Constructors
-
-- ``Swift/Set/default()``
-- ``Swift/Set/showSubFrames-type.property``
-
-### StringFormat Extensions
-
-- ``Swift/Set/showSubFrames-property``
-- ``Swift/Set/filenameCompatible-property``
+- ``Timecode/StringFormat``

@@ -89,6 +89,7 @@ extension View {
     ///
     /// - Note: To set the default color of the component values, use `foregroundColor` or `foregroundStyle` view
     ///   modifiers.
+    @_documentation(visibility: internal)
     @_disfavoredOverload
     public func timecodeSeparatorStyle(
         _ style: Never?
@@ -145,6 +146,7 @@ extension View {
     
     /// Sets the subframes timecode component foreground style and text scale for ``TimecodeField`` and ``TimecodeText`` views.
     /// If `color` is nil, the foreground style is used.
+    @_documentation(visibility: internal)
     @_disfavoredOverload
     public func timecodeSubFramesStyle(
         _ style: Never? = nil,
@@ -209,6 +211,7 @@ extension View {
     ///
     /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
     /// validation that may (or may not) be applied separately.
+    @_disfavoredOverload
     public func timecodeValidationStyle<S: ShapeStyle>(
         _ style: S?
     ) -> some View {
@@ -224,6 +227,8 @@ extension View {
     ///
     /// This modifier only affects visual representation of invalid timecode, and does not have any effect on logical
     /// validation that may (or may not) be applied separately.
+    @_documentation(visibility: internal)
+    @_disfavoredOverload
     public func timecodeValidationStyle(
         _ style: Never?
     ) -> some View {

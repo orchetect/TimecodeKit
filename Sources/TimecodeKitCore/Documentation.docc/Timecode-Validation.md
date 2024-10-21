@@ -18,12 +18,18 @@ Timecode can be tested as:
 
 // non-granular validation
 try Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976)
-// == throws error; cannot form a valid timecode
+    // == throws error; cannot form a valid timecode
 
 // granular validation
-// allowingInvalid allows invalid values; does not throw errors so 'try' is not needed
-Timecode(.components(h: 1, m: 20, s: 75, f: 60), at: .fps23_976, by: .allowingInvalid)
-    .invalidComponents // == [.seconds, .frames]
+// `allowingInvalid` allows invalid values; does not throw errors so 'try' is not needed
+let timecode = Timecode(
+    .components(h: 1, m: 20, s: 75, f: 60), 
+    at: .fps23_976,
+    by: .allowingInvalid
+)
+
+timecode.isValid // == false
+timecode.invalidComponents // == [.seconds, .frames]
 ```
 
 ## Formatted NSAttributedString
@@ -110,11 +116,14 @@ var body: some View {
 }
 ```
 
-
 ## Topics
 
-### Invalid Components
+### Timecode Properties
 
+- ``Timecode/isValid``
 - ``Timecode/invalidComponents``
+
+### Timecode.Components Methods
+
 - ``Timecode/Components-swift.struct/invalidComponents(at:base:limit:)``
 - ``Timecode/Components-swift.struct/invalidComponents(using:)``

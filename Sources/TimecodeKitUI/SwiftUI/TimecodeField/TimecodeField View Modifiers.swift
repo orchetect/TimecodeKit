@@ -52,6 +52,7 @@ extension View {
     
     /// Sets the component highlight style for ``TimecodeField`` views.
     /// By default, the application's `accentColor` is used.
+    @_documentation(visibility: internal)
     @_disfavoredOverload
     public func timecodeFieldHighlightStyle(
         _ style: Never?

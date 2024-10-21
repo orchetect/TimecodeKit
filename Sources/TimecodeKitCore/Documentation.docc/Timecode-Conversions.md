@@ -6,7 +6,7 @@ Converting various time values to/from timecode.
 
 ```swift
 // convert between frame rates
-let tc = try Timecode(.string("01:00:00;00"), at: .fps29_97d)
+try Timecode(.string("01:00:00;00"), at: .fps29_97d)
     .converted(to: .fps29_97) // == 00:59:56:12
 ```
 
@@ -18,8 +18,6 @@ try Timecode(.components(h: 1), at: .fps23_976)
     .frameCount // == 86400
 ```
 
-Useful `.frameCount` properties are also available. See ``Timecode/FrameCount-swift.struct`` for more details.
-
 ```swift
 // frame number → timecode
 try Timecode(.frames(86400), at: .fps23_976)
@@ -30,6 +28,8 @@ try Timecode(.frames(86400.25), at: .fps23_976)
 // frame number + subframes unit interval → timecode
 try Timecode(.frames(86400, subFramesUnitInterval: 0.25), at: .fps23_976)
 ```
+
+See ``Timecode/FrameCount-swift.struct`` for more details.
 
 ## String
 
