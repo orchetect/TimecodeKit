@@ -7,13 +7,9 @@ import PackageDescription
 let package = Package(
     name: "TimecodeKit",
     defaultLocalization: "en",
-    platforms: {
-        #if swift(>=5.9)
-        [.macOS(.v10_13), .iOS(.v12), .tvOS(.v12), .watchOS(.v4), .visionOS(.v1)]
-        #else
-        [.macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)]
-        #endif
-    }(),
+    platforms: [
+        .macOS(.v10_13), .iOS(.v12), .tvOS(.v12), .watchOS(.v4), .visionOS(.v1)
+    ],
     products: [
         .library(name: "TimecodeKit", targets: ["TimecodeKit"]),
         .library(name: "TimecodeKitCore", type: .static, targets: ["TimecodeKitCore"]),
@@ -60,7 +56,7 @@ let package = Package(
                 )
             ]
         ),
-        
+
         // core unit tests
         .testTarget(
             name: "TimecodeKitCoreTests",
