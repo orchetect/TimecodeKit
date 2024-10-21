@@ -40,18 +40,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E21287E22CBDEBF000C6AB7D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		E2B3AD8D2CB1E50000149DEF = {
 			isa = PBXGroup;
 			children = (
 				E2B3AD982CB1E50000149DEF /* Movie Timecode */,
-				E21287E22CBDEBF000C6AB7D /* Frameworks */,
 				E2B3AD972CB1E50000149DEF /* Products */,
 			);
 			sourceTree = "<group>";

@@ -40,7 +40,6 @@ struct ContentView: View {
             .presentationSizing(.fitted)
             .interactiveDismissDisabled(true)
         }
-        
         .alert(isPresented: .constant(model.error != nil), error: model.error) {
             Button("OK") {
                 model.error = nil
@@ -49,7 +48,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    var sourceSection: some View {
+    private var sourceSection: some View {
         Section("Source") {
             LabeledContent("Movie") {
                 MultiplatformPathView(url: model.movieURL, isFileImporterShown: $isFileImporterShown)
@@ -70,7 +69,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    var operationsSection: some View {
+    private var operationsSection: some View {
         Section("Timecode Track Operations") {
             if model.movie != nil {
                 TabView(selection: $operationType) {
@@ -83,7 +82,6 @@ struct ContentView: View {
                             newStartTimecode: model.movieStartTimecode ?? model.defaultTimecode,
                             isExportProgressShown: $isExportProgressShown
                         )
-                        .environment(model)
                     }
                     
                     Tab(
@@ -94,11 +92,11 @@ struct ContentView: View {
                         RemoveTimecodeTrackView(
                             isExportProgressShown: $isExportProgressShown
                         )
-                        .environment(model)
                     }
                 }
                 .tabViewStyle(.tabBarOnly)
                 .frame(minHeight: 400)
+                .environment(model)
             } else {
                 ZStack {
                     Text("Load a movie.")

@@ -140,7 +140,7 @@ struct TimecodeTextView: View {
                     Text(color.name).tag(color)
                 }
             }
-            Picker("Validation Style", selection: $validationStyle) {
+            Picker("Validation Color", selection: $validationStyle) {
                 ForEach(ValidationStyle.allCases) { validationType in
                     Text(validationType.name).tag(validationType)
                 }

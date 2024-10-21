@@ -42,7 +42,7 @@ struct TimecodeFieldView: View {
             .timecodeSeparatorStyle(separatorStyle.color)
             .timecodeSubFramesStyle(subFramesStyle.color, scale: subFramesScale.scale)
             .timecodeValidationStyle(validationStyle.color)
-            .timecodeFieldHighlightStyle(highlightStyle.color)
+            .timecodeFieldHighlightStyle(highlightStyle.style)
             .timecodeFieldInputStyle(inputStyle)
             .timecodeFieldInputWrapping(inputWrapping)
             .timecodeFieldValidationPolicy(validationPolicy, animation: validationAnimation)
@@ -112,7 +112,7 @@ struct TimecodeFieldView: View {
                     Text(color.name).tag(color)
                 }
             }
-            Picker("Validation Style", selection: $validationStyle) {
+            Picker("Validation Color", selection: $validationStyle) {
                 ForEach(ValidationStyle.allCases) { validationType in
                     Text(validationType.name).tag(validationType)
                 }
@@ -330,11 +330,11 @@ extension TimecodeFieldView {
             }
         }
         
-        var color: Color? {
+        var style: AnyShapeStyle? {
             switch self {
-            case .default: .tint
-            case .secondary: .secondary
-            case .blue: .blue
+            case .default: AnyShapeStyle(.tint)
+            case .secondary: AnyShapeStyle(.secondary)
+            case .blue: AnyShapeStyle(.blue)
             }
         }
     }

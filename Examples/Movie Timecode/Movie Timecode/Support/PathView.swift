@@ -52,9 +52,8 @@ struct PathView: NSViewRepresentable {
         @objc
         func action(sender: NSPathControl) {
             // reveal file/folder in Finder
-            if let url = sender.clickedPathItem?.url {
-                NSWorkspace.shared.selectFile(url.path, inFileViewerRootedAtPath: url.path)
-            }
+            let url = sender.clickedPathItem?.url
+            try? url?.revealInFinder()
         }
     }
 }

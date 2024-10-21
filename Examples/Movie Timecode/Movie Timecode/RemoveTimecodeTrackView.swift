@@ -41,8 +41,9 @@ struct RemoveTimecodeTrackView: View {
     }
     
     private func handleResult(_ result: Result<URL, Error>) async {
-        switch result {
-        case let .success(folderURL):
+        do {
+            let folderURL = try result.get()
+            
             isExportProgressShown = true
             guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
             print("Exporting to \(fileURL.path)")
@@ -52,7 +53,7 @@ struct RemoveTimecodeTrackView: View {
                 revealInFinderOnCompletion: true
             )
             isExportProgressShown = false
-        case let .failure(error):
+        } catch {
             model.error = ModelError.exportError(error)
         }
     }
