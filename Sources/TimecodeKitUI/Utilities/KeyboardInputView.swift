@@ -27,6 +27,7 @@ struct KeyboardInputView: View {
             .keyboardType(.decimalPad)
             .labelsHidden()
             .foregroundStyle(.clear)
+            .tint(.clear) // hide text input caret
         
             .onChange(of: text) { oldValue, newValue in
                 // backspace
