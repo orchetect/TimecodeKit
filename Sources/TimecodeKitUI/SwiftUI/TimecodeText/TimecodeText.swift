@@ -191,11 +191,10 @@ extension Timecode {
             
             let subframesText = String(format: "%0\(numberOfSubFramesDigits)ld", timecode.subFrames)
             
-            let baseSubFramesText: Text
-            if invalids.contains(.subFrames) {
-                baseSubFramesText = invalidModifiers(subframesText)
+            let baseSubFramesText: Text = if invalids.contains(.subFrames) {
+                invalidModifiers(subframesText)
             } else {
-                baseSubFramesText = Text(subframesText).conditionalForegroundStyle(subFramesStyle)
+                Text(subframesText).conditionalForegroundStyle(subFramesStyle)
             }
             
             output.append(baseSubFramesText.textScale(subFramesScale))

@@ -308,6 +308,5 @@ final class Timecode_Source_String_Tests: XCTestCase {
         
         try tc.set(.string("02:07:08:10.20"))
         XCTAssertEqual(tc.stringValueVerbose, "02:07:08:10.20 @ 23.976 fps")
-        
     }
 }

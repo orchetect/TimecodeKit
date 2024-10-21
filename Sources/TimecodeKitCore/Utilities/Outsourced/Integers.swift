@@ -23,9 +23,9 @@ extension BinaryInteger {
     @_disfavoredOverload
     package var numberOfDigits: Int {
         if self < 10 && self >= 0 || self > -10 && self < 0 {
-            return 1
+            1
         } else {
-            return 1 + (self / 10).numberOfDigits
+            1 + (self / 10).numberOfDigits
         }
     }
 }

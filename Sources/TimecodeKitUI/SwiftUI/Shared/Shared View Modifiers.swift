@@ -242,7 +242,7 @@ extension View {
 extension View {
     /// Environment method used to propagate a user-pasted timecode up the view hierarchy.
     func onPastedTimecode(_ action: @escaping TimecodePastedAction.Action) -> some View {
-        self.environment(\.timecodePasted, TimecodePastedAction(action: action))
+        environment(\.timecodePasted, TimecodePastedAction(action: action))
     }
 }
 
@@ -271,7 +271,7 @@ extension View {
         propertiesForString: Timecode.Properties,
         forwardTo block: sending @escaping @autoclosure () -> TimecodePastedAction?
     ) -> some View {
-        self.onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
+        onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
             Task {
                 guard let block = block() else { return }
                 await block(

@@ -20,9 +20,9 @@ extension FileManager {
     @_disfavoredOverload
     package var temporaryDirectoryCompat: URL {
         if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
-            return temporaryDirectory
+            temporaryDirectory
         } else {
-            return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+            URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         }
     }
 }

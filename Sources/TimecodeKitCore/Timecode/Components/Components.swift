@@ -8,7 +8,7 @@ extension Timecode {
     /// Primitive struct describing timecode component values, agnostic of frame rate.
     ///
     /// In order to help facilitate defining a set of timecode component values, a simple struct is provided.
-    /// 
+    ///
     /// This struct can be passed into many methods and initializers.
     ///
     /// ```swift
@@ -312,7 +312,7 @@ extension Timecode.Components {
     
     /// Internal:
     /// Sets component values from an array of key/value pairs keyed by ``Timecode/Component``.
-    mutating func set(from array: [(component: Timecode.Component, value: Int)] ) {
+    mutating func set(from array: [(component: Timecode.Component, value: Int)]) {
         for (component, value) in array {
             switch component {
             case .days: days = value
@@ -414,7 +414,7 @@ extension Timecode.Components {
     ) -> Bool {
         allSatisfy { (component: Timecode.Component, value: Int) in
             value.numberOfDigits <=
-            component.numberOfDigits(at: frameRate, base: base)
+                component.numberOfDigits(at: frameRate, base: base)
         }
     }
 }

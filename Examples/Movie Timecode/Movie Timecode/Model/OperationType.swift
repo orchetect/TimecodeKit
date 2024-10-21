@@ -12,7 +12,7 @@ enum OperationType: Int, Identifiable, CaseIterable {
     
     var title: String {
         switch self {
-        case .addOrReplaceTimecodeTrack: 
+        case .addOrReplaceTimecodeTrack:
             "Add or Replace"
         case .removeTimecodeTrack:
             "Remove"

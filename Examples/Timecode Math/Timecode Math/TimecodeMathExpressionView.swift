@@ -19,7 +19,7 @@ struct TimecodeMathExpressionView: View {
         self.operation = operation
         self.lhs = lhs
         self.rhs = rhs
-        self.result = operation.result(lhs: lhs, rhs: rhs)
+        result = operation.result(lhs: lhs, rhs: rhs)
     }
     
     var body: some View {
@@ -71,9 +71,9 @@ extension TimecodeMathExpressionView {
         func result(lhs: Timecode, rhs: Timecode) -> Timecode {
             switch self {
             case .add:
-                return lhs + rhs
+                lhs + rhs
             case .subtract:
-                return lhs - rhs
+                lhs - rhs
             }
         }
     }

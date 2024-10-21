@@ -19,8 +19,7 @@ struct TimecodeMathApp: App {
 extension Scene {
     func windowModifiersForMacOS() -> some Scene {
         #if os(macOS)
-        self
-            .defaultSize(width: 360, height: 530)
+        defaultSize(width: 360, height: 530)
             .windowResizability(.contentSize)
             .defaultPosition(.center)
         #else

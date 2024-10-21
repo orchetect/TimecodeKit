@@ -22,8 +22,7 @@ struct TimecodeUIApp: App {
 extension Scene {
     func windowModifiersForMacOS() -> some Scene {
         #if os(macOS)
-        self
-            .defaultSize(width: 920, height: 950)
+        defaultSize(width: 920, height: 950)
             .defaultPosition(.center)
         #else
         self

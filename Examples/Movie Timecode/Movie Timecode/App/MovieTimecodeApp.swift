@@ -19,8 +19,7 @@ struct MovieTimecodeApp: App {
 extension Scene {
     func windowModifiersForMacOS() -> some Scene {
         #if os(macOS)
-        self
-            .defaultSize(width: 680, height: 750)
+        defaultSize(width: 680, height: 750)
             .defaultPosition(.center)
         #else
         self

@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Image {
     func sizeForOperation() -> some View {
-        self.resizable()
+        resizable()
             .frame(width: 30, height: 30)
     }
 }

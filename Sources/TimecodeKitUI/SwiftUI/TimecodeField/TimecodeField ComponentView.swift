@@ -66,7 +66,6 @@ extension TimecodeField {
             .offset(x: shakeTrigger ? shakeIntensity : 0)
             .focusable(interactions: [.edit])
             .focused($focusedComponent, equals: component)
-            
             .onPasteCommandOfTimecode(
                 propertiesForString: timecodeProperties,
                 forwardTo: timecodePasted

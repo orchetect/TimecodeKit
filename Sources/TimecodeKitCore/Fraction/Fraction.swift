@@ -18,7 +18,7 @@ public struct Fraction {
     /// Returns `true` if the fraction is reduced to its simplest form and can not be reduced any
     /// further.
     public var isReduced: Bool {
-        if let _isReduced = _isReduced, _isReduced { return _isReduced }
+        if let _isReduced, _isReduced { return _isReduced }
         let reduced = reduced()
         
         return isIdentical(to: reduced)

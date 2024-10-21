@@ -59,11 +59,11 @@ extension TimecodeField.FieldAction: RawRepresentable {
     
     public var rawValue: String {
         switch self {
-        case .endEditing: 
+        case .endEditing:
             "endEditing"
-        case .focusNextComponent: 
+        case .focusNextComponent:
             "focusNextComponent"
-        case .resetComponentFocus(let component):
+        case let .resetComponentFocus(component):
             if let component {
                 "resetComponentFocus-to-\(component)"
             } else {

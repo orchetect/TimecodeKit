@@ -19,7 +19,7 @@ struct DoubleMathExpressionView: View {
         self.operation = operation
         self.rhs = rhs
         self.lhs = lhs
-        self.result = operation.result(lhs: lhs, rhs: rhs)
+        result = operation.result(lhs: lhs, rhs: rhs)
     }
     
     var body: some View {
