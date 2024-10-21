@@ -2,7 +2,7 @@
 
 # TimecodeKit
 
-[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.12 | iOS 9 | tvOS 9 | watchOS 2 | visionOS 1](https://img.shields.io/badge/Platforms-macOS%2010.12%20|%20iOS%209%20|%20tvOS%209%20|%20watchOS%202%20|%20visionOS%201-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.9-6](https://img.shields.io/badge/Swift-5.9–6-orange.svg?style=flat) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![CI Build Status](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml/badge.svg)](https://github.com/orchetect/TimecodeKit/actions/workflows/build.yml) [![Platforms - macOS 10.13 | iOS 12 | tvOS 12 | watchOS 4 | visionOS 1](https://img.shields.io/badge/Platforms-macOS%2010.13%20|%20iOS%2012%20|%20tvOS%2012%20|%20watchOS%204%20|%20visionOS%201-lightgrey.svg?style=flat)](https://developer.apple.com/swift) ![Swift 5.9-6](https://img.shields.io/badge/Swift-5.9–6-orange.svg?style=flat) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
 The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 22 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
@@ -69,7 +69,7 @@ The following video frame rates are supported. (Video rates)
      Add the package to your target using this URL: `https://github.com/orchetect/TimecodeKit`
    - In a Swift Package, add it to the Package.swift dependencies:
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.0")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.1")
      ```
 2. Import the library:
    ```swift
