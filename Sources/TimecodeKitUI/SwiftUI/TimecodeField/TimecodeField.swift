@@ -69,6 +69,36 @@ import TimecodeKitCore
 ///
 /// For a demonstration, see the **Timecode UI** example project in this repo.
 ///
+/// ## Submitting the Field
+///
+/// ### macOS
+///
+/// On macOS, to perform an action when the user submits the timecode (typically by pressing the Return key), use a
+/// button in the view or in a parent view with the default action key command.
+///
+/// ```swift
+/// TimecodeField(timecode: $timecode)
+///
+/// Button("Submit") {
+///     // ...
+/// }
+/// .keyboardShortcut(.defaultAction)
+/// ```
+///
+/// Note that the `onSubmit { }` view modifier will not be called on macOS.
+///
+/// ### iOS
+///
+/// On iOS, to perform an action when the user submits the timecode (typically by pressing the Return key on a hardware
+/// keyboard), use the `onSubmit { }` view modifier in the view or in a parent view.
+///
+/// ```swift
+/// TimecodeField(timecode: $timecode)
+///     .onSubmit {
+///         // ...
+///     }
+/// ```
+///
 /// ## Focus
 ///
 /// Each timecode component individually receives focus one at a time.
