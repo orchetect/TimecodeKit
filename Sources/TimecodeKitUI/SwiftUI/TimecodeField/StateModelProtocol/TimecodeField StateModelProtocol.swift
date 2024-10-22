@@ -54,6 +54,35 @@ extension TimecodeField._StateModelProtocol {
     ) -> TimecodeField.KeyResult {
         typealias KeyResult = TimecodeField.KeyResult
         
+        //   KEY                                          ASCII/Scalar           KeyEquivalent
+        // ---------------------------------------------- ---------------------- ------------------------
+        // MacBook Pro (2021 16") Built-in Keyboard:
+        // - Return key                                   == ASCII 13            .return
+        // - Delete key (traditionally Backspace)         == ASCII 127           .asciiDEL (custom)
+        //
+        // Apple Keyboard with Keypad (Wired USB, model A1243):
+        // - Return key                                   == ASCII 13            .return
+        // - Delete key (traditionally Backspace)         == ASCII 127           .asciiDEL (custom)
+        // - DEL key ("forward Delete")                   == Scalar 63272 (F728) .deleteForward
+        // - Numpad Enter key                             == ASCII 3             .asciiEndOfText (custom)
+        //
+        // Apple Magic Keyboard with Keypad (Bluetooth, model A1843):
+        // - Return key                                   == ASCII 13            .return
+        // - Delete key (traditionally Backspace)         == ASCII 127           .asciiDEL (custom)
+        // - DEL key ("forward Delete")                   == Scalar 63272 (F728) .deleteForward
+        // - Numpad Enter key                             == ASCII 3             .asciiEndOfText (custom)
+        //
+        
+        // #if DEBUG
+        // print("KEY: '\(key.character)' (ASCII: \(key.character.asciiValue?.description ?? "<nil>"), Scalars: \(key.character.unicodeScalars.map(\.value))")
+        // print("  .delete", key == .delete)
+        // print("  .deleteForward", key == .deleteForward)
+        // print("  .return", key == .return)
+        // print("  .asciiDEL", key == .asciiDEL)
+        // print("  .asciiEndOfText", key == .asciiEndOfText)
+        // print()
+        // #endif
+        
         switch key {
         case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
             let proposedValue: Int?
@@ -121,7 +150,7 @@ extension TimecodeField._StateModelProtocol {
                 return KeyResult(.handled)
             }
             
-        case "+", "=", .upArrow: // increment
+        case "+", .upArrow: // increment
             let newValue = value + 1
             if validRange.contains(newValue) {
                 value = newValue
@@ -141,7 +170,8 @@ extension TimecodeField._StateModelProtocol {
             setIsVirgin(true)
             return KeyResult(.handled)
             
-        case .delete, .deleteScalar: // backspace
+        case .delete, // weirdly this case is never called, on all the physical keyboard I've tried
+             .asciiDEL: // "Delete" key at the end of the number line, traditionally the Backspace key
             let shouldFocusPreviousComponent = value == 0
             if isVirgin {
                 resetToZero()
@@ -155,7 +185,8 @@ extension TimecodeField._StateModelProtocol {
                 shouldFocusPreviousComponent ? .focusPreviousComponent : nil
             )
             
-        case .deleteForward:
+        case .deleteForward, // on full-size keyboard with numpad, this is the DEL key above the arrow keys. it can also be triggered by `Control+D` or `fn+Delete` key commands.
+             .clear: // Clear key on full-size keyboard with numpad, in the numpad area
             resetToZero()
             setIsVirgin(false)
             return KeyResult(.handled)
@@ -170,7 +201,8 @@ extension TimecodeField._StateModelProtocol {
             // pass through to any receivers that accept cancel action
             return KeyResult(.performEscapeAction)
             
-        case .return:
+        case .return, // Return key on main keyboard area
+             .asciiEndOfText: // Enter key on full-size keyboard in the numpad area
             // pass through to any receivers that accept default action
             return KeyResult(.performReturnAction)
             

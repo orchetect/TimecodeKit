@@ -73,8 +73,13 @@ extension ShapeStyle {
 extension KeyEquivalent {
     /// Delete (ASCII 127)
     ///
-    /// Returns the Delete key by being formed using Unicode scalar 127.
-    static let deleteScalar = KeyEquivalent(Character(UnicodeScalar(127)))
+    /// Returns the `DEL` key by being formed using Unicode scalar 127.
+    static let asciiDEL = KeyEquivalent(Character(UnicodeScalar(127)))
+    
+    /// End of Text (ASCII 3)
+    ///
+    /// The keyboard number-pad `Enter` key is received as this key equivalent.
+    static let asciiEndOfText = KeyEquivalent(Character(UnicodeScalar(3)))
 }
 
 #endif
