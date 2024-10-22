@@ -14,7 +14,9 @@ import SwiftUI
 struct KeyboardInputView: View {
     var onKeyPress: (_ keyEquivalent: KeyEquivalent) -> Void
     
-    @State private var text = " "
+    @State private var text = neutralText
+    
+    private static let neutralText = " "
     
     var body: some View {
         TextField("", text: $text)
@@ -36,6 +38,9 @@ struct KeyboardInputView: View {
                     return
                 }
                 
+                // avoid catching the default string
+                guard text != Self.neutralText else { return }
+                
                 // otherwise new printable character will be added at end of string
                 guard let char = text.last else { return }
                 
@@ -48,8 +53,8 @@ struct KeyboardInputView: View {
             }
     }
     
-    func reset() {
-        text = " "
+    private func reset() {
+        text = Self.neutralText
     }
 }
 

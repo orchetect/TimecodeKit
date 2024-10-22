@@ -158,8 +158,10 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     
     @FocusState private var focusedComponent: Timecode.Component?
     @State private var shakeTrigger: Bool = false
+    @State private var pulseTrigger: Bool = false
     
     private let shakeIntensity: CGFloat = 5
+    private let pulseIntensity: Double = 0.7 // 0.0 ... 1.0
     
     // MARK: - Init from Components and Properties
     
@@ -234,6 +236,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
         .fixedSize()
         .compositingGroup()
         .offset(x: shakeTrigger ? shakeIntensity : 0)
+        .brightness(pulseTrigger ? pulseIntensity : 0)
         
         #if os(macOS)
         // catch user-initiated paste event locally, forward to environment method
@@ -444,12 +447,18 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField: RejectedInputFeedbackable {
-    func shake() {
-        shakeTrigger = true
-        withAnimation(
-            Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
-        ) {
-            shakeTrigger = false
+    func perform(rejectionAnimation: TimecodeField.InputRejectionFeedback.RejectionAnimation) {
+        switch rejectionAnimation {
+        case .shake:
+            shakeTrigger = true
+            withAnimation(Self.shakeAnimation) {
+                shakeTrigger = false
+            }
+        case .pulse:
+            pulseTrigger = true
+            withAnimation(Self.pulseAnimation) {
+                pulseTrigger = false
+            }
         }
     }
 }

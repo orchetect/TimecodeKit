@@ -20,9 +20,9 @@ extension EnvironmentValues {
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     @Entry public var timecodeFieldInputRejectionFeedback: TimecodeField.InputRejectionFeedback? = {
         #if os(macOS)
-        .validationBased(animation: false)
+        .validationBased(animation: .pulse)
         #else
-        .validationBased(animation: true)
+        .validationBased(animation: .shake)
         #endif
     }()
     

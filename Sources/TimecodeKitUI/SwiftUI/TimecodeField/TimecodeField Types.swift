@@ -155,11 +155,11 @@ extension TimecodeField {
     /// This type is passed to the ``SwiftUICore/View/timecodeFieldInputRejectionFeedback(_:)`` view modifier.
     public enum InputRejectionFeedback: Sendable {
         /// Error feedback is based on invalid input based on the field's validation rule.
-        case validationBased(animation: Bool = true)
+        case validationBased(animation: RejectionAnimation? = .shake)
         
         /// Error feedback is based on invalid input based on the field's validation rule as well as all undefined keys.
         /// Use this if you know that none of the field's parent views
-        case validationBasedAndUndefinedKeys(animation: Bool = true)
+        case validationBasedAndUndefinedKeys(animation: RejectionAnimation? = .shake)
         
         /// Custom error feedback closure.
         ///
@@ -203,16 +203,21 @@ extension TimecodeField.InputRejectionFeedback {
         case undefinedKey
     }
     
+    public enum RejectionAnimation: String, Equatable, Hashable, Sendable, CaseIterable {
+        case shake
+        case pulse
+    }
+    
     /// Returns `true` if the case specifies the feedback should be animated.
     /// The ``custom(action:)`` case always returns `false`.
-    var isAnimated: Bool {
+    var rejectionAnimation: RejectionAnimation? {
         switch self {
         case let .validationBased(animation):
             animation
         case let .validationBasedAndUndefinedKeys(animation):
             animation
         case .custom:
-            false
+            nil
         }
     }
 }
