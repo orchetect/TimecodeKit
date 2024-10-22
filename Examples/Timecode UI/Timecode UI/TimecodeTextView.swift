@@ -150,7 +150,7 @@ struct TimecodeTextView: View {
                     Text(style.name).tag(style)
                 }
             }
-            Picker("SubFrames Scale", selection: $subFramesScale) {
+            Picker("SubFrames Text Scale", selection: $subFramesScale) {
                 ForEach(TextScale.allCases) { scale in
                     Text(scale.name).tag(scale)
                 }

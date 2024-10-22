@@ -24,8 +24,8 @@ struct TimecodeFieldView: View {
     @State private var highlightStyle: HighlightStyle = .default
     @State private var inputStyle: TimecodeField.InputStyle = .continuousWithinComponent
     @State private var inputWrapping: TimecodeField.InputWrapping = .noWrap
-    @State private var validationPolicy: TimecodeField.ValidationPolicy = .allowInvalid
-    @State private var validationAnimation: Bool = true
+    @State private var validationPolicy: TimecodeField.ValidationPolicy = .enforceValid
+    @State private var inputRejectionFeedback: InputRejectionFeedbackStyle = .beepAndAnimation
     
     @FocusState private var isEditing: Bool
     
@@ -45,7 +45,8 @@ struct TimecodeFieldView: View {
             .timecodeFieldHighlightStyle(highlightStyle.style)
             .timecodeFieldInputStyle(inputStyle)
             .timecodeFieldInputWrapping(inputWrapping)
-            .timecodeFieldValidationPolicy(validationPolicy, animation: validationAnimation)
+            .timecodeFieldInputRejectionFeedback(inputRejectionFeedback.feedback)
+            .timecodeFieldValidationPolicy(validationPolicy)
             .timecodeFieldReturnAction(.focusNextComponent)
             .timecodeFieldEscapeAction(.resetComponentFocus())
             .font(.largeTitle)
@@ -122,7 +123,7 @@ struct TimecodeFieldView: View {
                     Text(style.name).tag(style)
                 }
             }
-            Picker("SubFrames Scale", selection: $subFramesScale) {
+            Picker("SubFrames Text Scale", selection: $subFramesScale) {
                 ForEach(TextScale.allCases) { scale in
                     Text(scale.name).tag(scale)
                 }
@@ -147,8 +148,10 @@ struct TimecodeFieldView: View {
                     Text(policy.name).tag(policy)
                 }
             }
-            Toggle(isOn: $validationAnimation) {
-                Text("Validation Feedback Animation")
+            Picker("Rejection Feedback", selection: $inputRejectionFeedback) {
+                ForEach(InputRejectionFeedbackStyle.allCases) { feedback in
+                    Text(feedback.name).tag(feedback)
+                }
             }
             .disabled(validationPolicy != .enforceValid)
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
@@ -359,6 +362,30 @@ extension TimecodeFieldView {
             case .none: nil
             case .red: .red
             case .purple: .purple
+            }
+        }
+    }
+    
+    private enum InputRejectionFeedbackStyle: Int, CaseIterable, Identifiable {
+        case none
+        case beep
+        case beepAndAnimation
+        
+        var id: RawValue { rawValue }
+        
+        var name: String {
+            switch self {
+            case .none: "None"
+            case .beep: "Beep"
+            case .beepAndAnimation: "Beep and Animation"
+            }
+        }
+        
+        var feedback: TimecodeField.InputRejectionFeedback? {
+            switch self {
+            case .none: nil
+            case .beep: .validationBased(animation: false)
+            case .beepAndAnimation: .validationBased(animation: true)
             }
         }
     }
