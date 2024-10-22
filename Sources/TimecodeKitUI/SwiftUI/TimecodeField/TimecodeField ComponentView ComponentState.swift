@@ -22,7 +22,7 @@ extension TimecodeField.ComponentView {
         var value: Int
         
         // internal state
-        var textInput: String = ""
+        @ObservationIgnored var textInput: String = ""
         var isVirgin: Bool = true
         
         init(

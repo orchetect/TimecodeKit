@@ -39,9 +39,6 @@ protocol TimecodeComponentStateProtocol where Self: AnyObject, Self: Observable 
 protocol _TimecodeComponentStateProtocol: TimecodeComponentStateProtocol {
     // private local properties
     var textInput: String { get set }
-    
-    // computed properties
-    var validRange: ClosedRange<Int> { get }
 }
 
 // MARK: - Key Input Processor
