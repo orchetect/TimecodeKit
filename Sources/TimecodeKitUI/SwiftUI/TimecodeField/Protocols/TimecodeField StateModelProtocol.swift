@@ -10,41 +10,42 @@ import SwiftUI
 import TimecodeKitCore
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
-protocol TimecodeComponentStateProtocol where Self: AnyObject, Self: Observable {
-    // injected properties
-    var component: Timecode.Component { get }
-    var frameRate: TimecodeFrameRate { get }
-    var subFramesBase: Timecode.SubFramesBase { get }
-    var upperLimit: Timecode.UpperLimit { get }
+extension TimecodeField {
+    protocol StateModelProtocol where Self: AnyObject, Self: Observable {
+        // injected properties
+        var component: Timecode.Component { get }
+        var frameRate: TimecodeFrameRate { get }
+        var subFramesBase: Timecode.SubFramesBase { get }
+        var upperLimit: Timecode.UpperLimit { get }
+        
+        // local state
+        var value: Int { get set }
+        var isVirgin: Bool { get set }
+        
+        // local methods
+        @discardableResult func handleKeyPress(
+            key: KeyEquivalent,
+            inputStyle: TimecodeField.InputStyle,
+            validationPolicy: TimecodeField.ValidationPolicy
+        ) -> TimecodeComponentStateResult
+        
+        func setIsVirgin(_ isVirgin: Bool)
+        func resetToZero()
+        
+        // local computed properties
+        var validRange: ClosedRange<Int> { get }
+    }
     
-    // local state
-    var value: Int { get set }
-    var isVirgin: Bool { get set }
-    
-    // local methods
-    @discardableResult func handleKeyPress(
-        key: KeyEquivalent,
-        inputStyle: TimecodeField.InputStyle,
-        validationPolicy: TimecodeField.ValidationPolicy
-    ) -> TimecodeComponentStateResult
-    
-    func setIsVirgin(_ isVirgin: Bool)
-    func resetToZero()
-    
-    // local computed properties
-    var validRange: ClosedRange<Int> { get }
-}
-
-@available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
-protocol _TimecodeComponentStateProtocol: TimecodeComponentStateProtocol {
-    // private local properties
-    var textInput: String { get set }
+    protocol _StateModelProtocol: StateModelProtocol {
+        // private local properties
+        var textInput: String { get set }
+    }
 }
 
 // MARK: - Key Input Processor
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
-extension _TimecodeComponentStateProtocol {
+extension TimecodeField._StateModelProtocol {
     @discardableResult
     public func handleKeyPress(
         key: KeyEquivalent,
@@ -180,7 +181,7 @@ extension _TimecodeComponentStateProtocol {
 // MARK: - View Model
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
-extension TimecodeComponentStateProtocol {
+extension TimecodeField.StateModelProtocol {
     public var validRange: ClosedRange<Int> {
         Timecode(.zero, at: frameRate, base: subFramesBase, limit: upperLimit)
             .validRange(of: component)
@@ -210,7 +211,7 @@ extension TimecodeComponentStateProtocol {
 // MARK: - Methods
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
-extension _TimecodeComponentStateProtocol {
+extension TimecodeField._StateModelProtocol {
     public func setIsVirgin(_ state: Bool) {
         isVirgin = state
         if isVirgin { textInput = "" }
