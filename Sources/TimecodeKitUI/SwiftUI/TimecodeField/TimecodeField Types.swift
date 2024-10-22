@@ -163,9 +163,6 @@ extension TimecodeField {
         
         /// Custom error feedback closure.
         ///
-        /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
-        /// receiver chain.
-        ///
         /// Note that this closure is only called in the event of rejected input due to violation of the timecode
         /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
         /// field.
@@ -176,9 +173,6 @@ extension TimecodeField {
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField.InputRejectionFeedback {
     /// Custom error feedback closure used with the ``custom(action:)`` enum case.
-    ///
-    /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
-    /// receiver chain.
     ///
     /// Note that this closure is only called in the event of rejected input due to violation of the timecode
     /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
