@@ -1,5 +1,5 @@
 //
-//  TimecodeField ComponentState Tests.swift
+//  TimecodeField ComponentView StateModel Tests.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
@@ -11,7 +11,7 @@ import SwiftUI
 import XCTest
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-final class TimecodeField_ComponentState_Tests: XCTestCase {
+final class TimecodeField_ComponentView_StateModel_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
@@ -1031,6 +1031,36 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num3), .init(.handled, .focusNextComponent))
         XCTAssertEqual(state.value, 23)
     }
+    
+    // MARK: - Edge Case: Brute force invalid keys
+    
+    func testBruteForceInvalidKeys() {
+        let validChars: CharacterSet = .decimalDigits
+            .union(.newlines)
+            .union(.init(".", ",", ":", ";"))
+            .union(.init("-", "=", "+"))
+            .union(.init([KeyEquivalent.escape.character]))
+            .union(.init([KeyEquivalent.return.character, KeyEquivalent.asciiEndOfText.character]))
+            .union(.init([KeyEquivalent.upArrow.character, KeyEquivalent.downArrow.character]))
+            .union(.init([KeyEquivalent.leftArrow.character, KeyEquivalent.rightArrow.character]))
+            .union(.init([KeyEquivalent.delete.character, KeyEquivalent.asciiDEL.character, KeyEquivalent.deleteForward.character]))
+        
+        let invalidChars = (0x00 ... 0x7F) // ASCII charset
+            .map { UnicodeScalar($0) }
+            .filter { !validChars.contains($0) }
+            .map { Character($0) }
+        
+        for char in invalidChars {
+            let state = stateModelFactory(
+                component: .hours,
+                inputStyle: .autoAdvance,
+                policy: .enforceValid,
+                initialValue: 0
+            )
+            let result = state.press(KeyEquivalent(char))
+            XCTAssertEqual(result, .init(.ignored, rejection: .undefinedKey), "char # \(char.unicodeScalars.map(\.value))")
+        }
+    }
 }
 
 // MARK: - Test Utilities
@@ -1065,28 +1095,6 @@ fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
     func press(_ key: KeyEquivalent) -> TimecodeField.KeyResult {
         handleKeyPress(key: key, inputStyle: inputStyle, validationPolicy: policy)
     }
-}
-
-@available(iOS 14.0, macOS 11.0, tvOS 17.0, *)
-@available(watchOS, unavailable)
-extension KeyEquivalent {
-    fileprivate static let num0 = Self("0")
-    fileprivate static let num1 = Self("1")
-    fileprivate static let num2 = Self("2")
-    fileprivate static let num3 = Self("3")
-    fileprivate static let num4 = Self("4")
-    fileprivate static let num5 = Self("5")
-    fileprivate static let num6 = Self("6")
-    fileprivate static let num7 = Self("7")
-    fileprivate static let num8 = Self("8")
-    fileprivate static let num9 = Self("9")
-    
-    fileprivate static let period = Self(".")
-    fileprivate static let comma = Self(",")
-    fileprivate static let colon = Self(":")
-    fileprivate static let semicolon = Self(";")
-    
-    fileprivate static let a = Self("A")
 }
 
 #endif
