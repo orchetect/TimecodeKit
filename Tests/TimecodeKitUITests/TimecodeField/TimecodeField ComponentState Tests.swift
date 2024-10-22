@@ -97,7 +97,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
             initialValue: 0
         )
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 0)
         
         XCTAssertEqual(state.press(.num1), .init(.handled))
@@ -118,7 +118,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num1), .init(.handled))
         XCTAssertEqual(state.value, 1)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 1)
         
         XCTAssertEqual(state.press(.num2), .init(.handled, .focusNextComponent))
@@ -136,7 +136,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num2), .init(.handled))
         XCTAssertEqual(state.value, 2)
         
-        XCTAssertEqual(state.press(.num9), .init(.handled, errorFeedback: true))
+        XCTAssertEqual(state.press(.num9), .init(.handled, rejection: .invalid))
         XCTAssertEqual(state.value, 2)
         
         XCTAssertEqual(state.press(.num3), .init(.handled, .focusNextComponent))
@@ -252,7 +252,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
             initialValue: 0
         )
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 0)
         
         XCTAssertEqual(state.press(.num1), .init(.handled))
@@ -261,7 +261,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num2), .init(.handled))
         XCTAssertEqual(state.value, 12)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 12)
         
         XCTAssertEqual(state.press(.num3), .init(.handled))
@@ -279,7 +279,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num1), .init(.handled))
         XCTAssertEqual(state.value, 1)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 1)
         
         XCTAssertEqual(state.press(.num2), .init(.handled))
@@ -297,7 +297,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num2), .init(.handled))
         XCTAssertEqual(state.value, 2)
         
-        XCTAssertEqual(state.press(.num9), .init(.handled, errorFeedback: true))
+        XCTAssertEqual(state.press(.num9), .init(.handled, rejection: .invalid))
         XCTAssertEqual(state.value, 2)
         
         XCTAssertEqual(state.press(.num3), .init(.handled))
@@ -434,7 +434,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
             initialValue: 0
         )
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 0)
         
         XCTAssertEqual(state.press(.num1), .init(.handled))
@@ -455,7 +455,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num1), .init(.handled))
         XCTAssertEqual(state.value, 1)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 1)
         
         XCTAssertEqual(state.press(.num2), .init(.handled, .focusNextComponent))
@@ -592,7 +592,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
             initialValue: 0
         )
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 0)
         
         XCTAssertEqual(state.press(.num1), .init(.handled))
@@ -601,7 +601,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num2), .init(.handled))
         XCTAssertEqual(state.value, 12)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 12)
         
         XCTAssertEqual(state.press(.num3), .init(.handled))
@@ -619,7 +619,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num1), .init(.handled))
         XCTAssertEqual(state.value, 1)
         
-        XCTAssertEqual(state.press(.a), .init(.ignored, errorFeedback: true))
+        XCTAssertEqual(state.press(.a), .init(.ignored, rejection: .undefinedKey))
         XCTAssertEqual(state.value, 1)
         
         XCTAssertEqual(state.press(.num2), .init(.handled))
@@ -943,7 +943,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.press(.num2), .init(.handled))
         XCTAssertEqual(state.value, 12)
         
-        XCTAssertEqual(state.press(.num0), .init(.handled, errorFeedback: true))
+        XCTAssertEqual(state.press(.num0), .init(.handled, rejection: .invalid))
         XCTAssertEqual(state.value, 12)
     }
     
