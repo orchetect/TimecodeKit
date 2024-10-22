@@ -74,7 +74,7 @@ extension TimecodeField._StateModelProtocol {
                     break
                 case .enforceValid:
                     guard validRange.contains(proposedValue) else {
-                        return KeyResult(.handled, errorFeedback: true)
+                        return KeyResult(.handled, rejection: .invalid)
                     }
                 }
                 
@@ -178,7 +178,7 @@ extension TimecodeField._StateModelProtocol {
             // don't send error feedback, because we can't know for sure what undefined keys should be
             // considered unhandled by the entire parent view stack outside of our control.
             // so we should only provide error feedback for keys that we actually define in our handler.
-            return KeyResult(.ignored)
+            return KeyResult(.ignored, rejection: .undefinedKey)
         }
     }
 }

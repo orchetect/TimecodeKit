@@ -29,7 +29,7 @@ extension TimecodeField {
         @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction
         @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
         @Environment(\.timecodeFieldInputWrapping) private var timecodeFieldInputWrapping
-        @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
+        @Environment(\.timecodeFieldRejectedInputFeedback) var timecodeFieldRejectedInputFeedback
         @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
         
         // MARK: - Internal view modifiers
@@ -39,7 +39,7 @@ extension TimecodeField {
         // MARK: - Internal State
         
         @State private var stateModel: StateModel
-        @State private var viewModel: ViewModel
+        @State var viewModel: ViewModel
         
         @State private var isHovering: Bool = false
         @State private var shakeTrigger: Bool = false
@@ -243,8 +243,10 @@ extension TimecodeField {
                     }
                 }
                 
-                if handlerResult.errorFeedback {
-                    errorFeedback()
+                if let reason = handlerResult.rejection {
+                    rejectedInputFeedback(
+                        .keyRejected(component: viewModel.component, key: key, reason: reason)
+                    )
                 }
             }
             
@@ -296,18 +298,17 @@ extension TimecodeField {
                 return .handled
             }
         }
-        
-        private func errorFeedback() {
-            beep()
-            
-            if timecodeFieldValidationAnimation {
-                shakeTrigger = true
-                withAnimation(
-                    Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
-                ) {
-                    shakeTrigger = false
-                }
-            }
+    }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension TimecodeField.ComponentView: RejectedInputFeedbackable {
+    func shake() {
+        shakeTrigger = true
+        withAnimation(
+            Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
+        ) {
+            shakeTrigger = false
         }
     }
 }

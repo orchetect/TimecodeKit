@@ -123,7 +123,7 @@ import TimecodeKitCore
 ///
 /// For keys that navigate timecode component focus, see the <doc:#Focus> section above.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-public struct TimecodeField: View {
+public struct TimecodeField: View, RejectedInputFeedbackable {
     // MARK: - Standard Environment
     
     @Environment(\.isEnabled) private var isEnabled
@@ -146,8 +146,8 @@ public struct TimecodeField: View {
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
     @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
+    @Environment(\.timecodeFieldRejectedInputFeedback) var timecodeFieldRejectedInputFeedback
     @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
-    @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
     
     // MARK: - Internal view modifiers
     
@@ -363,7 +363,7 @@ public struct TimecodeField: View {
                 break
             case .enforceValid:
                 guard timecode.isValid else {
-                    errorFeedback()
+                    rejectedInputFeedback(.fieldPasteRejected)
                     return
                 }
             }
@@ -374,7 +374,7 @@ public struct TimecodeField: View {
                 // ensure all timecode components as-is respect the max number of digits allowed for each
                 guard pastedTimecode.components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
                 else {
-                    errorFeedback()
+                    rejectedInputFeedback(.fieldPasteRejected)
                     return
                 }
             case .unbounded:
@@ -384,7 +384,7 @@ public struct TimecodeField: View {
             // TODO: handle additional case when configured to only paste values and not mutate timecode properties
             timecode = pastedTimecode
         } catch {
-            errorFeedback()
+            rejectedInputFeedback(.fieldPasteRejected)
         }
     }
     
@@ -439,19 +439,16 @@ public struct TimecodeField: View {
             timecode.upperLimit = newValue
         }
     }
-    
-    // MARK: - UI
-    
-    private func errorFeedback() {
-        beep()
-        
-        if timecodeFieldValidationAnimation {
-            shakeTrigger = true
-            withAnimation(
-                Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
-            ) {
-                shakeTrigger = false
-            }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension TimecodeField: RejectedInputFeedbackable {
+    func shake() {
+        shakeTrigger = true
+        withAnimation(
+            Animation.spring(response: 0.2, dampingFraction: 0.2, blendDuration: 0.2)
+        ) {
+            shakeTrigger = false
         }
     }
 }

@@ -180,15 +180,10 @@ extension View {
 /// Sets timecode component validation policy for ``TimecodeField`` views.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 struct TimecodeFieldValidationPolicyViewModifier: ViewModifier {
-    @Environment(\.timecodeFieldValidationAnimation) private var timecodeFieldValidationAnimation
-    
     let policy: TimecodeField.ValidationPolicy
-    let animation: Bool?
     
     func body(content: Content) -> some View {
-        content
-            .environment(\.timecodeFieldValidationPolicy, policy)
-            .environment(\.timecodeFieldValidationAnimation, animation ?? timecodeFieldValidationAnimation)
+        content.environment(\.timecodeFieldValidationPolicy, policy)
     }
 }
 
@@ -196,10 +191,9 @@ struct TimecodeFieldValidationPolicyViewModifier: ViewModifier {
 extension View {
     /// Sets timecode component validation policy for ``TimecodeField`` views.
     public func timecodeFieldValidationPolicy(
-        _ policy: TimecodeField.ValidationPolicy,
-        animation: Bool? = nil
+        _ policy: TimecodeField.ValidationPolicy
     ) -> some View {
-        modifier(TimecodeFieldValidationPolicyViewModifier(policy: policy, animation: animation))
+        modifier(TimecodeFieldValidationPolicyViewModifier(policy: policy))
     }
 }
 

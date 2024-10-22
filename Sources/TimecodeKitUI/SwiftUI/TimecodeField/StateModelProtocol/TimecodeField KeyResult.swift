@@ -14,16 +14,16 @@ extension TimecodeField {
     struct KeyResult: Equatable, Hashable, Sendable {
         let result: Result
         let updateFocus: FocusResult?
-        let errorFeedback: Bool
+        let rejection: TimecodeField.RejectedInputFeedback.Reason?
         
         init(
             _ result: Result,
             _ updateFocus: FocusResult? = nil,
-            errorFeedback: Bool = false
+            rejection: TimecodeField.RejectedInputFeedback.Reason? = nil
         ) {
             self.result = result
-            self.errorFeedback = errorFeedback
             self.updateFocus = updateFocus
+            self.rejection = rejection
         }
         
         enum Result: String, Sendable, CaseIterable {
@@ -59,8 +59,8 @@ extension TimecodeField.KeyResult: CustomStringConvertible {
         if let updateFocus {
             str += " \(updateFocus)"
         }
-        if errorFeedback {
-            str += " errorFeedback"
+        if let rejection {
+            str += " \(rejection)"
         }
         str += ">"
         return str

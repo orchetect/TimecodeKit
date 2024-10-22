@@ -18,7 +18,13 @@ extension EnvironmentValues {
     
     /// Sets the rejected input feedback behavior (visual & audible) for ``TimecodeField`` views.
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-    @Entry public var timecodeFieldRejectedInputFeedback: TimecodeField.RejectedInputFeedback? = .validationBased
+    @Entry public var timecodeFieldRejectedInputFeedback: TimecodeField.RejectedInputFeedback? = {
+        #if os(macOS)
+        .validationBased(animation: false)
+        #else
+        .validationBased(animation: true)
+        #endif
+    }()
     
     // MARK: - TimecodeFieldHighlightStyle
     
@@ -62,18 +68,6 @@ extension EnvironmentValues {
     /// Sets timecode component validation policy for ``TimecodeField`` views.
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     @Entry public var timecodeFieldValidationPolicy: TimecodeField.ValidationPolicy = .enforceValid
-    
-    // MARK: - timecodeFieldValidationAnimation Bool
-    
-    /// Enables or disables validation animation for ``TimecodeField`` views.
-    @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-    @Entry public var timecodeFieldValidationAnimation: Bool = {
-        #if os(macOS)
-        false
-        #else
-        true
-        #endif
-    }()
 }
 
 #endif

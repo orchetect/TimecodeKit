@@ -9,52 +9,6 @@
 import SwiftUI
 import TimecodeKitCore
 
-// MARK: - ErrorFeedback
-
-@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-extension TimecodeField {
-    /// An enum describing rejected input feedback behaviors (visual & audible) in response to invalid ``TimecodeField``
-    /// user input.
-    ///
-    /// This setting does not affect user input or validation at all. It only determines the style of visual & audible
-    /// feedback to provide to the user in the event of the field rejecting invalid user input.
-    ///
-    /// This type is passed to the ``SwiftUICore/View/timecodeFieldRejectedInputFeedback(_:)`` view modifier.
-    public enum RejectedInputFeedback: Sendable {
-        /// Error feedback is based on invalid input based on the field's validation rule.
-        case validationBased
-        
-        /// Error feedback is based on invalid input based on the field's validation rule as well as all undefined keys.
-        /// Use this if you know that none of the field's parent views
-        case validationBasedAndUndefinedKeys
-        
-        /// Custom error feedback closure.
-        ///
-        /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
-        /// receiver chain.
-        ///
-        /// Note that this closure is only called in the event of rejected input due to violation of the timecode
-        /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
-        /// field.
-        case custom(action: CustomRejectedInputFeedback)
-        
-        // MARK: Typealiases
-        
-        /// Custom error feedback closure used with the ``custom(action:)`` enum case.
-        ///
-        /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
-        /// receiver chain.
-        ///
-        /// Note that this closure is only called in the event of rejected input due to violation of the timecode
-        /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
-        /// field.
-        public typealias CustomRejectedInputFeedback = @Sendable (
-            _ component: Timecode.Component,
-            _ key: KeyEquivalent
-        ) -> KeyPress.Result
-    }
-}
-
 // MARK: - FieldAction
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
@@ -187,6 +141,83 @@ extension TimecodeField {
 extension TimecodeField.InputWrapping: Identifiable {
     public var id: RawValue { rawValue }
 }
+
+// MARK: - RejectedInputFeedback
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension TimecodeField {
+    /// An enum describing rejected input feedback behaviors (visual & audible) in response to invalid ``TimecodeField``
+    /// user input.
+    ///
+    /// This setting does not affect user input or validation at all. It only determines the style of visual & audible
+    /// feedback to provide to the user in the event of the field rejecting invalid user input.
+    ///
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldRejectedInputFeedback(_:)`` view modifier.
+    public enum RejectedInputFeedback: Sendable {
+        /// Error feedback is based on invalid input based on the field's validation rule.
+        case validationBased(animation: Bool = true)
+        
+        /// Error feedback is based on invalid input based on the field's validation rule as well as all undefined keys.
+        /// Use this if you know that none of the field's parent views
+        case validationBasedAndUndefinedKeys(animation: Bool = true)
+        
+        /// Custom error feedback closure.
+        ///
+        /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
+        /// receiver chain.
+        ///
+        /// Note that this closure is only called in the event of rejected input due to violation of the timecode
+        /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
+        /// field.
+        case custom(action: CustomRejectedInputFeedback)
+    }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension TimecodeField.RejectedInputFeedback {
+    /// Custom error feedback closure used with the ``custom(action:)`` enum case.
+    ///
+    /// Return `handled` if you handle the key, or `ignored` if you want the key to be passed through to the
+    /// receiver chain.
+    ///
+    /// Note that this closure is only called in the event of rejected input due to violation of the timecode
+    /// field's validation rule or if the user presses a key that is not designated to be handled by the timecode
+    /// field.
+    public typealias CustomRejectedInputFeedback = @Sendable (
+        _ rejectedUserAction: UserAction
+    ) -> Void
+    
+    public enum UserAction: Equatable, Hashable, Sendable {
+        /// User keyboard input was rejected.
+        case keyRejected(component: Timecode.Component, key: KeyEquivalent, reason: Reason)
+        
+        /// User pasted pasteboard contents but it was rejected.
+        case fieldPasteRejected
+    }
+    
+    public enum Reason: String, Equatable, Hashable, Sendable, CaseIterable {
+        /// Rejected because accepting the key would have violated the validation policy.
+        case invalid
+        
+        /// Rejected because the key is not defined by the timecode field.
+        case undefinedKey
+    }
+    
+    /// Returns `true` if the case specifies the feedback should be animated.
+    /// The ``custom(action:)`` case always returns `false`.
+    var isAnimated: Bool {
+        switch self {
+        case let .validationBased(animation):
+            animation
+        case let .validationBasedAndUndefinedKeys(animation):
+            animation
+        case .custom:
+            false
+        }
+    }
+}
+
+// MARK: - ValidationPolicy
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
