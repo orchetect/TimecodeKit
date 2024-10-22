@@ -1062,7 +1062,7 @@ fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
     }
     
     /// Convenience caller for `handleKeyPress` for unit tests.
-    func press(_ key: KeyEquivalent) -> TimecodeComponentStateResult {
+    func press(_ key: KeyEquivalent) -> TimecodeField.KeyResult {
         handleKeyPress(key: key, inputStyle: inputStyle, validationPolicy: policy)
     }
 }

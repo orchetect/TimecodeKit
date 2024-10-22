@@ -27,7 +27,7 @@ extension TimecodeField {
             key: KeyEquivalent,
             inputStyle: TimecodeField.InputStyle,
             validationPolicy: TimecodeField.ValidationPolicy
-        ) -> TimecodeComponentStateResult
+        ) -> TimecodeField.KeyResult
         
         func setIsVirgin(_ isVirgin: Bool)
         func resetToZero()
@@ -51,7 +51,9 @@ extension TimecodeField._StateModelProtocol {
         key: KeyEquivalent,
         inputStyle: TimecodeField.InputStyle,
         validationPolicy: TimecodeField.ValidationPolicy
-    ) -> TimecodeComponentStateResult {
+    ) -> TimecodeField.KeyResult {
+        typealias KeyResult = TimecodeField.KeyResult
+        
         switch key {
         case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
             let proposedValue: Int?
@@ -63,16 +65,16 @@ extension TimecodeField._StateModelProtocol {
                 proposedValue = Int("\(value)\(key.character)")
             }
             
-            guard var proposedValue else { return TimecodeComponentStateResult(.ignored) }
+            guard var proposedValue else { return KeyResult(.ignored) }
             var proposedTextInput = "\(textInput)\(key.character)"
             
-            func checkForValidation() -> TimecodeComponentStateResult? {
+            func checkForValidation() -> KeyResult? {
                 switch validationPolicy {
                 case .allowInvalid:
                     break
                 case .enforceValid:
                     guard validRange.contains(proposedValue) else {
-                        return TimecodeComponentStateResult(.handled, errorFeedback: true)
+                        return KeyResult(.handled, errorFeedback: true)
                     }
                 }
                 
@@ -86,21 +88,21 @@ extension TimecodeField._StateModelProtocol {
                 let postDigitCount = proposedTextInput.count
                 let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
                 if postDigitCount > maxDigits {
-                    return TimecodeComponentStateResult(.handled, .focusNextComponent)
+                    return KeyResult(.handled, .focusNextComponent)
                 }
                 value = proposedValue
                 textInput = proposedTextInput
                 if postDigitCount == maxDigits {
-                    return TimecodeComponentStateResult(.handled, .focusNextComponent)
+                    return KeyResult(.handled, .focusNextComponent)
                 }
                 
-                return TimecodeComponentStateResult(.handled)
+                return KeyResult(.handled)
             case .continuousWithinComponent:
                 let postDigitCount = proposedValue.numberOfDigits
                 let maxDigits = component.numberOfDigits(at: frameRate, base: subFramesBase)
                 if postDigitCount > maxDigits {
                     guard let int = Int("\(proposedValue)".suffix(maxDigits)) else {
-                        return TimecodeComponentStateResult(.handled)
+                        return KeyResult(.handled)
                     }
                     proposedValue = int
                 }
@@ -110,13 +112,13 @@ extension TimecodeField._StateModelProtocol {
                 
                 value = proposedValue
                 textInput = proposedTextInput
-                return TimecodeComponentStateResult(.handled)
+                return KeyResult(.handled)
             case .unbounded:
                 if let result = checkForValidation() { return result }
                 
                 value = proposedValue
                 textInput = proposedTextInput
-                return TimecodeComponentStateResult(.handled)
+                return KeyResult(.handled)
             }
             
         case "+", "=", .upArrow: // increment
@@ -127,7 +129,7 @@ extension TimecodeField._StateModelProtocol {
                 value = validRange.lowerBound
             }
             setIsVirgin(true)
-            return TimecodeComponentStateResult(.handled)
+            return KeyResult(.handled)
             
         case "-", .downArrow: // decrement
             let newValue = value - 1
@@ -137,7 +139,7 @@ extension TimecodeField._StateModelProtocol {
                 value = validRange.upperBound
             }
             setIsVirgin(true)
-            return TimecodeComponentStateResult(.handled)
+            return KeyResult(.handled)
             
         case .delete, .deleteScalar: // backspace
             let shouldFocusPreviousComponent = value == 0
@@ -148,7 +150,7 @@ extension TimecodeField._StateModelProtocol {
                 textInput = String(textInput.dropLast())
                 value = Int("\(textInput)") ?? 0
             }
-            return TimecodeComponentStateResult(
+            return KeyResult(
                 .handled,
                 shouldFocusPreviousComponent ? .focusPreviousComponent : nil
             )
@@ -156,24 +158,24 @@ extension TimecodeField._StateModelProtocol {
         case .deleteForward:
             resetToZero()
             setIsVirgin(false)
-            return TimecodeComponentStateResult(.handled)
+            return KeyResult(.handled)
             
         case .leftArrow:
-            return TimecodeComponentStateResult(.handled, .focusPreviousComponent)
+            return KeyResult(.handled, .focusPreviousComponent)
             
         case ".", ":", ";", ",", /* .tab, */ .rightArrow:
-            return TimecodeComponentStateResult(.handled, .focusNextComponent)
+            return KeyResult(.handled, .focusNextComponent)
             
         case .escape:
             // pass through to any receivers that accept cancel action
-            return TimecodeComponentStateResult(.performEscapeAction)
+            return KeyResult(.performEscapeAction)
             
         case .return:
             // pass through to any receivers that accept default action
-            return TimecodeComponentStateResult(.performReturnAction)
+            return KeyResult(.performReturnAction)
             
         default:
-            return TimecodeComponentStateResult(.ignored)
+            return KeyResult(.ignored)
         }
     }
 }
