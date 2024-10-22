@@ -63,9 +63,9 @@ import TimecodeKitCore
 ///     .timecodeFieldInputStyle(.autoAdvance)
 ///     .timecodeFieldInputWrapping(.noWrap)
 ///     .timecodeFieldInputRejectionFeedback(.validationBased())
-///     .timecodeFieldValidationPolicy(.enforceValid, animation: true)
-///     .timecodeFieldReturnAction(.endEditing)
+///     .timecodeFieldValidationPolicy(.enforceValid)
 ///     .timecodeFieldEscapeAction(.endEditing)
+///     .timecodeFieldReturnAction(.endEditing)
 /// ```
 ///
 /// For a demonstration, see the **Timecode UI** example project in this repo.
