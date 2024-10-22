@@ -29,7 +29,7 @@ extension TimecodeField {
         @Environment(\.timecodeFieldEscapeAction) private var timecodeFieldEscapeAction
         @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
         @Environment(\.timecodeFieldInputWrapping) private var timecodeFieldInputWrapping
-        @Environment(\.timecodeFieldRejectedInputFeedback) var timecodeFieldRejectedInputFeedback
+        @Environment(\.timecodeFieldInputRejectionFeedback) var timecodeFieldInputRejectionFeedback
         @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
         
         // MARK: - Internal view modifiers
@@ -244,7 +244,7 @@ extension TimecodeField {
                 }
                 
                 if let reason = handlerResult.rejection {
-                    rejectedInputFeedback(
+                    inputRejectionFeedback(
                         .keyRejected(component: viewModel.component, key: key, reason: reason)
                     )
                 }

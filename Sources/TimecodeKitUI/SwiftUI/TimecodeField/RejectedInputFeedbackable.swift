@@ -12,21 +12,21 @@ import TimecodeKitCore
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, *)
 @available(watchOS, unavailable)
 protocol RejectedInputFeedbackable where Self: View {
-    var timecodeFieldRejectedInputFeedback: TimecodeField.RejectedInputFeedback? { get }
+    var timecodeFieldInputRejectionFeedback: TimecodeField.InputRejectionFeedback? { get }
     func shake()
 }
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 @available(watchOS, unavailable)
 extension RejectedInputFeedbackable {
-    func rejectedInputFeedback(
-        _ rejectedUserAction: TimecodeField.RejectedInputFeedback.UserAction
+    func inputRejectionFeedback(
+        _ rejectedUserAction: TimecodeField.InputRejectionFeedback.UserAction
     ) {
-        guard let timecodeFieldRejectedInputFeedback else { return }
+        guard let timecodeFieldInputRejectionFeedback else { return }
         
         var shouldAnimate = false
         
-        switch timecodeFieldRejectedInputFeedback {
+        switch timecodeFieldInputRejectionFeedback {
         case let .validationBased(animation: isAnimated):
             shouldAnimate = isAnimated
         case let .validationBasedAndUndefinedKeys(animation: isAnimated):
@@ -42,7 +42,7 @@ extension RejectedInputFeedbackable {
     private func performErrorFeedback(shouldAnimate: Bool? = nil) {
         beep()
         
-        guard shouldAnimate ?? (timecodeFieldRejectedInputFeedback?.isAnimated ?? false)
+        guard shouldAnimate ?? (timecodeFieldInputRejectionFeedback?.isAnimated ?? false)
         else { return }
         
         shake()

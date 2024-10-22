@@ -62,9 +62,10 @@ import TimecodeKitCore
 ///     // behavior
 ///     .timecodeFieldInputStyle(.autoAdvance)
 ///     .timecodeFieldInputWrapping(.noWrap)
+///     .timecodeFieldInputRejectionFeedback(.validationBased())
+///     .timecodeFieldValidationPolicy(.enforceValid, animation: true)
 ///     .timecodeFieldReturnAction(.endEditing)
 ///     .timecodeFieldEscapeAction(.endEditing)
-///     .timecodeFieldValidationPolicy(.enforceValid, animation: true)
 /// ```
 ///
 /// For a demonstration, see the **Timecode UI** example project in this repo.
@@ -146,7 +147,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     @Environment(\.timecodeSubFramesStyle) private var timecodeSubFramesStyle
     @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
     @Environment(\.timecodeValidationStyle) private var timecodeValidationStyle
-    @Environment(\.timecodeFieldRejectedInputFeedback) var timecodeFieldRejectedInputFeedback
+    @Environment(\.timecodeFieldInputRejectionFeedback) var timecodeFieldInputRejectionFeedback
     @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
     
     // MARK: - Internal view modifiers
@@ -363,7 +364,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
                 break
             case .enforceValid:
                 guard timecode.isValid else {
-                    rejectedInputFeedback(.fieldPasteRejected)
+                    inputRejectionFeedback(.fieldPasteRejected)
                     return
                 }
             }
@@ -374,7 +375,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
                 // ensure all timecode components as-is respect the max number of digits allowed for each
                 guard pastedTimecode.components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
                 else {
-                    rejectedInputFeedback(.fieldPasteRejected)
+                    inputRejectionFeedback(.fieldPasteRejected)
                     return
                 }
             case .unbounded:
@@ -384,7 +385,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
             // TODO: handle additional case when configured to only paste values and not mutate timecode properties
             timecode = pastedTimecode
         } catch {
-            rejectedInputFeedback(.fieldPasteRejected)
+            inputRejectionFeedback(.fieldPasteRejected)
         }
     }
     

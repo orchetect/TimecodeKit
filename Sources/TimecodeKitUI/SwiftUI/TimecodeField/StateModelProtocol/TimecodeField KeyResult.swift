@@ -14,12 +14,12 @@ extension TimecodeField {
     struct KeyResult: Equatable, Hashable, Sendable {
         let result: Result
         let updateFocus: FocusResult?
-        let rejection: TimecodeField.RejectedInputFeedback.Reason?
+        let rejection: TimecodeField.InputRejectionFeedback.Reason?
         
         init(
             _ result: Result,
             _ updateFocus: FocusResult? = nil,
-            rejection: TimecodeField.RejectedInputFeedback.Reason? = nil
+            rejection: TimecodeField.InputRejectionFeedback.Reason? = nil
         ) {
             self.result = result
             self.updateFocus = updateFocus

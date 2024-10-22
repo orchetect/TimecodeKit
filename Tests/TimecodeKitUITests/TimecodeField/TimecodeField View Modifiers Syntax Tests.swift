@@ -269,28 +269,28 @@ final class TimecodeField_View_Modifiers_Syntax_Tests: XCTestCase {
             .timecodeValidationStyle(isFoo ? optionalConcreteStyle : nil)
     }
     
-    // MARK: - .timecodeFieldRejectedInputFeedback
+    // MARK: - .timecodeFieldInputRejectionFeedback
     
-    func testViewModifier_timecodeFieldRejectedInputFeedback() {
+    func testViewModifier_timecodeFieldInputRejectionFeedback() {
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(.validationBased(animation: true))
+            .timecodeFieldInputRejectionFeedback(.validationBased(animation: true))
         
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(.validationBased())
+            .timecodeFieldInputRejectionFeedback(.validationBased())
         
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(.validationBasedAndUndefinedKeys(animation: true))
+            .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys(animation: true))
         
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(.validationBasedAndUndefinedKeys())
+            .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys())
         
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(.custom { rejectedUserAction in
+            .timecodeFieldInputRejectionFeedback(.custom { rejectedUserAction in
                 _ = rejectedUserAction
             })
         
         _ = timecodeField
-            .timecodeFieldRejectedInputFeedback(nil)
+            .timecodeFieldInputRejectionFeedback(nil)
     }
 }
 

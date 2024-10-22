@@ -9,15 +9,15 @@
 import SwiftUI
 import TimecodeKitCore
 
-// MARK: - TimecodeFieldRejectedInputFeedback
+// MARK: - TimecodeFieldInputRejectionFeedback
 
 /// Sets the rejected input feedback behavior (visual & audible) for ``TimecodeField`` views.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-struct TimecodeFieldRejectedInputFeedbackViewModifier: ViewModifier {
-    let feedback: TimecodeField.RejectedInputFeedback?
+struct TimecodeFieldInputRejectionFeedbackViewModifier: ViewModifier {
+    let feedback: TimecodeField.InputRejectionFeedback?
     
     func body(content: Content) -> some View {
-        content.environment(\.timecodeFieldRejectedInputFeedback, feedback)
+        content.environment(\.timecodeFieldInputRejectionFeedback, feedback)
     }
 }
 
@@ -28,10 +28,10 @@ extension View {
     ///
     /// This setting does not affect user input or validation at all. It only determines the style of visual & audible
     /// feedback to provide to the user in the event of the field rejecting invalid user input.
-    public func timecodeFieldRejectedInputFeedback(
-        _ feedback: TimecodeField.RejectedInputFeedback?
+    public func timecodeFieldInputRejectionFeedback(
+        _ feedback: TimecodeField.InputRejectionFeedback?
     ) -> some View {
-        modifier(TimecodeFieldRejectedInputFeedbackViewModifier(feedback: feedback))
+        modifier(TimecodeFieldInputRejectionFeedbackViewModifier(feedback: feedback))
     }
 }
 
