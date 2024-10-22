@@ -22,17 +22,20 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     private let testUpperLimit: Timecode.UpperLimit = .max24Hours
     
     /// Returns a new component state instance using the timecode properties constants.
-    private func mockFactory(
+    private func stateModelFactory(
         component: Timecode.Component,
+        rate: TimecodeFrameRate? = nil,
+        base: Timecode.SubFramesBase? = nil,
+        limit: Timecode.UpperLimit? = nil,
         inputStyle: TimecodeField.InputStyle,
         policy: TimecodeField.ValidationPolicy,
         initialValue: Int
-    ) -> MockComponentState {
-        MockComponentState(
+    ) -> MockStateModel {
+        MockStateModel(
             component: component,
-            rate: testFrameRate,
-            base: testSubFramesBase,
-            limit: testUpperLimit,
+            rate: rate ?? testFrameRate,
+            base: base ?? testSubFramesBase,
+            limit: limit ?? testUpperLimit,
             inputStyle: inputStyle,
             policy: policy,
             initialValue: initialValue
@@ -42,7 +45,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     // MARK: - autoAdvance / enforceValid
     
     func testAutoAdvance_EnforceValid_Hours_00() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -57,7 +60,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_01() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -72,7 +75,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_12() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -87,7 +90,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_a12() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -105,7 +108,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_1a2() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -123,7 +126,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_293() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -141,7 +144,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -153,7 +156,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_1period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -168,7 +171,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -180,7 +183,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_EnforceValid_Hours_1colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .enforceValid,
@@ -197,7 +200,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     // MARK: - continuousWithinComponent / enforceValid
     
     func testContinuousWithinComponent_EnforceValid_Hours_00() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -215,7 +218,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_012200() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -242,7 +245,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_a12a3() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -266,7 +269,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_1a2() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -284,7 +287,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_293() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -302,7 +305,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -314,7 +317,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_1period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -329,7 +332,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -341,7 +344,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_1colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -356,7 +359,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_EnforceValid_Hours_123colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .enforceValid,
@@ -379,7 +382,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     // MARK: - autoAdvance / allowInvalid
     
     func testAutoAdvance_AllowInvalid_Hours_00() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -394,7 +397,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_01() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -409,7 +412,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_12() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -424,7 +427,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_a12() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -442,7 +445,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_1a2() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -460,7 +463,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_29() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -475,7 +478,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -487,7 +490,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_1period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -502,7 +505,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -514,7 +517,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testAutoAdvance_AllowInvalid_Hours_1colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .autoAdvance,
             policy: .allowInvalid,
@@ -531,7 +534,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     // MARK: - continuousWithinComponent / allowInvalid
     
     func testContinuousWithinComponent_AllowInvalid_Hours_00() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -549,7 +552,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_01228900() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -582,7 +585,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_a12a3() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -606,7 +609,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_1a2() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -624,7 +627,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -636,7 +639,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_1period() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -651,7 +654,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -663,7 +666,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_1colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -678,7 +681,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_123colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -699,7 +702,7 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
     }
     
     func testContinuousWithinComponent_AllowInvalid_Hours_98colon() {
-        let state = mockFactory(
+        let state = stateModelFactory(
             component: .hours,
             inputStyle: .continuousWithinComponent,
             policy: .allowInvalid,
@@ -716,16 +719,324 @@ final class TimecodeField_ComponentState_Tests: XCTestCase {
         XCTAssertEqual(state.value, 98)
     }
     
-    #warning("> TODO: test up/down arrow keys keys with all style/policy combinations")
-    #warning("> TODO: test left/right arrow keys with all style/policy combinations, and when days/subframes are visible")
-    #warning("> TODO: test return/escape keys keys with all style/policy combinations, and when days/subframes are visible")
-    #warning("> TODO: test edge cases with a 3-digit frame rate")
+    // MARK: - Up/Down Arrow Keys
+    
+    func testAutoAdvance_EnforceValid_Hours_UpDownArrows() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 2)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 3)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 2)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 23)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 22)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 23)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+    }
+    
+    /// Even when allowing invalid values, increment/decrement should wrap around valid values.
+    func testAutoAdvance_AllowInvalid_Hours_UpDownArrows() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .allowInvalid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 2)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 3)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 2)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 23)
+        
+        XCTAssertEqual(state.press(.downArrow), .init(.handled))
+        XCTAssertEqual(state.value, 22)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 23)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.upArrow), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+    }
+    
+    // MARK: - Left/Right Arrow Keys
+    
+    func testAutoAdvance_Days_LeftArrow() {
+        let state = stateModelFactory(
+            component: .days,
+            inputStyle: .autoAdvance,
+            policy: .allowInvalid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.leftArrow), .init(.handled, .focusPreviousComponent))
+    }
+    
+    func testAutoAdvance_Days_RightArrow() {
+        let state = stateModelFactory(
+            component: .days,
+            inputStyle: .autoAdvance,
+            policy: .allowInvalid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.rightArrow), .init(.handled, .focusNextComponent))
+    }
+    
+    // MARK: - Return/Escape Keys
+    
+    func testAutoAdvance_Days_Return() {
+        let state = stateModelFactory(
+            component: .days,
+            inputStyle: .autoAdvance,
+            policy: .allowInvalid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.return), .init(.performReturnAction))
+    }
+    
+    func testAutoAdvance_Days_Escape() {
+        let state = stateModelFactory(
+            component: .days,
+            inputStyle: .autoAdvance,
+            policy: .allowInvalid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.escape), .init(.performEscapeAction))
+    }
+    
+    // MARK: - Edge Case: 3-digit frame rate
+    
+    func testAutoAdvance_EnforceValid_Frames_000() {
+        let state = stateModelFactory(
+            component: .frames,
+            rate: .fps120,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled, .focusNextComponent))
+        XCTAssertEqual(state.value, 0)
+    }
+    
+    func testAutoAdvance_EnforceValid_Frames_102() {
+        let state = stateModelFactory(
+            component: .frames,
+            rate: .fps120,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 10)
+        
+        XCTAssertEqual(state.press(.num2), .init(.handled, .focusNextComponent))
+        XCTAssertEqual(state.value, 102)
+    }
+    
+    func testContinuousWithinComponent_EnforceValid_Frames_01100102() {
+        let state = stateModelFactory(
+            component: .frames,
+            rate: .fps120,
+            inputStyle: .continuousWithinComponent,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 11)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 110)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 100)
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled))
+        XCTAssertEqual(state.value, 10)
+        
+        XCTAssertEqual(state.press(.num2), .init(.handled))
+        XCTAssertEqual(state.value, 102)
+    }
+    
+    func testContinuousWithinComponent_EnforceValid_Frames_120() {
+        let state = stateModelFactory(
+            component: .frames,
+            rate: .fps120,
+            inputStyle: .continuousWithinComponent,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num2), .init(.handled))
+        XCTAssertEqual(state.value, 12)
+        
+        XCTAssertEqual(state.press(.num0), .init(.handled, errorFeedback: true))
+        XCTAssertEqual(state.value, 12)
+    }
+    
+    // MARK: - Backspace (Delete)
+    
+    func testAutoAdvance_EnforceValid_Hours_Delete_ZeroStartValue_WithValueEntry() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.num1), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num2), .init(.handled, .focusNextComponent))
+        XCTAssertEqual(state.value, 12)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.num3), .init(.handled, .focusNextComponent))
+        XCTAssertEqual(state.value, 13)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled))
+        XCTAssertEqual(state.value, 1)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled, .focusPreviousComponent))
+        XCTAssertEqual(state.value, 0)
+    }
+    
+    func testAutoAdvance_EnforceValid_Hours_Delete_ZeroStartValue_NoValueEntry() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 0
+        )
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled, .focusPreviousComponent))
+        XCTAssertEqual(state.value, 0)
+    }
+    
+    func testAutoAdvance_EnforceValid_Hours_Delete_WithStartValue_NoValueEntry() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 12
+        )
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled))
+        XCTAssertEqual(state.value, 0)
+        
+        XCTAssertEqual(state.press(.delete), .init(.handled, .focusPreviousComponent))
+        XCTAssertEqual(state.value, 0)
+    }
+    
+    // MARK: - Edge Case: Entering digits on fresh focus with a pre-existing value
+    
+    func testAutoAdvance_EnforceValid_Hours_WithStartValue_WithValueEntry() {
+        let state = stateModelFactory(
+            component: .hours,
+            inputStyle: .autoAdvance,
+            policy: .enforceValid,
+            initialValue: 10
+        )
+        
+        XCTAssertEqual(state.isVirgin, true)
+        
+        XCTAssertEqual(state.press(.num2), .init(.handled))
+        XCTAssertEqual(state.value, 2)
+        XCTAssertEqual(state.isVirgin, false)
+        
+        XCTAssertEqual(state.press(.num3), .init(.handled, .focusNextComponent))
+        XCTAssertEqual(state.value, 23)
+    }
 }
 
 // MARK: - Test Utilities
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-fileprivate class MockComponentState: TimecodeField.ComponentView.ComponentState {
+fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
     var inputStyle: TimecodeField.InputStyle
     var policy: TimecodeField.ValidationPolicy
     
@@ -743,9 +1054,9 @@ fileprivate class MockComponentState: TimecodeField.ComponentView.ComponentState
         
         super.init(
             component: component,
-            frameRate: rate,
-            subFramesBase: base,
-            upperLimit: limit,
+            initialRate: rate,
+            initialBase: base,
+            initialLimit: limit,
             initialValue: initialValue
         )
     }
