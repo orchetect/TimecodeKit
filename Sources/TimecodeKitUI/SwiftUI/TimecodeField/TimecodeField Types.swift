@@ -209,7 +209,7 @@ extension TimecodeField.InputRejectionFeedback {
     }
     
     /// Returns `true` if the case specifies the feedback should be animated.
-    /// The ``custom(action:)`` case always returns `false`.
+    /// The ``custom(action:)`` case always returns `nil`.
     var rejectionAnimation: RejectionAnimation? {
         switch self {
         case let .validationBased(animation):
@@ -228,7 +228,7 @@ extension TimecodeField.InputRejectionFeedback {
 extension TimecodeField {
     /// An enum describing timecode validation policies in response to ``TimecodeField`` user input.
     ///
-    /// This type is passed to the ``SwiftUICore/View/timecodeFieldValidationPolicy(_:animation:)`` view modifier.
+    /// This type is passed to the ``SwiftUICore/View/timecodeFieldValidationPolicy(_:)`` view modifier.
     public enum ValidationPolicy: String, Equatable, Hashable, CaseIterable, Sendable {
         /// Invalid timecode component values are allowed.
         /// Entry will accept arbitrarily large numbers for any individual timecode component.

@@ -23,13 +23,19 @@ UI controls and tools for formatting and displaying timecode, including user-edi
 - ``SwiftUICore/View/timecodeFieldHighlightStyle(_:)-7ivkv``
 - ``SwiftUICore/View/timecodeFieldInputStyle(_:)``
 - ``SwiftUICore/View/timecodeFieldInputWrapping(_:)``
-- ``SwiftUICore/View/timecodeFieldReturnAction(_:)``
 - ``SwiftUICore/View/timecodeFieldEscapeAction(_:)``
-- ``SwiftUICore/View/timecodeFieldValidationPolicy(_:animation:)``
+- ``SwiftUICore/View/timecodeFieldReturnAction(_:)``
+- ``SwiftUICore/View/timecodeFieldValidationPolicy(_:)``
+- ``SwiftUICore/View/timecodeFieldInputRejectionFeedback(_:)``
 - ``SwiftUICore/View/timecodeSeparatorStyle(_:)-5y6h3``
 - ``SwiftUICore/View/timecodeSeparatorStyle(_:)-2850h``
+- ``SwiftUICore/View/timecodeSubFramesStyle(_:)-8kd5i``
+- ``SwiftUICore/View/timecodeSubFramesStyle(_:)-9bqix``
+- ``SwiftUICore/View/timecodeSubFramesStyle(_:)-7bmto``
+- ``SwiftUICore/View/timecodeSubFramesStyle(scale:)``
 - ``SwiftUICore/View/timecodeSubFramesStyle(_:scale:)-98maf``
 - ``SwiftUICore/View/timecodeSubFramesStyle(_:scale:)-29j63``
+- ``SwiftUICore/View/timecodeSubFramesStyle(_:scale:)-3c006``
 - ``SwiftUICore/View/timecodeValidationStyle(_:)-5jgaa``
 - ``SwiftUICore/View/timecodeValidationStyle(_:)-483yi``
 

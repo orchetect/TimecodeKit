@@ -16,6 +16,7 @@ extension Timecode {
     }
 }
 
+@_documentation(visibility: internal)
 extension Timecode.StringFormat {
     @available(*, deprecated, message: "Use [.showSubFrames] instead.")
     public static let showSubFrames: Self = [.showSubFrames]
