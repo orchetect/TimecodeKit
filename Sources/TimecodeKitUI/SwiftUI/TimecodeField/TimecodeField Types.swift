@@ -206,6 +206,15 @@ extension TimecodeField.InputRejectionFeedback {
     public enum RejectionAnimation: String, Equatable, Hashable, Sendable, CaseIterable {
         case shake
         case pulse
+        
+        /// Returns the best default for the current platform.
+        static let platformDefault: Self = {
+            #if os(macOS)
+            .pulse
+            #else
+            .shake
+            #endif
+        }()
     }
     
     /// Returns `true` if the case specifies the feedback should be animated.
@@ -220,6 +229,9 @@ extension TimecodeField.InputRejectionFeedback {
             nil
         }
     }
+    
+    /// Returns the best default for the current platform.
+    static let platformDefault: Self = .validationBased(animation: .platformDefault)
 }
 
 // MARK: - ValidationPolicy
