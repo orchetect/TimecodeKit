@@ -130,10 +130,13 @@ public struct TimecodeField: View {
     
     // MARK: - Properties settable through view initializers
     
+    // bindings for individual timecode constituents
     @Binding private var components: Timecode.Components
     @Binding private var frameRate: TimecodeFrameRate
     @Binding private var subFramesBase: Timecode.SubFramesBase
     @Binding private var upperLimit: Timecode.UpperLimit
+    
+    // binding for unified timecode instance
     @Binding private var timecode: Timecode
     
     // MARK: - Public view modifiers
@@ -280,9 +283,7 @@ public struct TimecodeField: View {
             if upperLimit == .max100Days {
                 TimecodeField.ComponentView(
                     component: .days,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
+                    timecodeProperties: $timecode.properties,
                     value: $components.days,
                     focusedComponent: $focusedComponent
                 )
@@ -292,9 +293,7 @@ public struct TimecodeField: View {
             
             TimecodeField.ComponentView(
                 component: .hours,
-                frameRate: frameRate,
-                subFramesBase: subFramesBase,
-                upperLimit: upperLimit,
+                timecodeProperties: $timecode.properties,
                 value: $components.hours,
                 focusedComponent: $focusedComponent
             )
@@ -303,9 +302,7 @@ public struct TimecodeField: View {
             
             TimecodeField.ComponentView(
                 component: .minutes,
-                frameRate: frameRate,
-                subFramesBase: subFramesBase,
-                upperLimit: upperLimit,
+                timecodeProperties: $timecode.properties,
                 value: $components.minutes,
                 focusedComponent: $focusedComponent
             )
@@ -314,9 +311,7 @@ public struct TimecodeField: View {
             
             TimecodeField.ComponentView(
                 component: .seconds,
-                frameRate: frameRate,
-                subFramesBase: subFramesBase,
-                upperLimit: upperLimit,
+                timecodeProperties: $timecode.properties,
                 value: $components.seconds,
                 focusedComponent: $focusedComponent
             )
@@ -325,9 +320,7 @@ public struct TimecodeField: View {
             
             TimecodeField.ComponentView(
                 component: .frames,
-                frameRate: frameRate,
-                subFramesBase: subFramesBase,
-                upperLimit: upperLimit,
+                timecodeProperties: $timecode.properties,
                 value: $components.frames,
                 focusedComponent: $focusedComponent
             )
@@ -337,9 +330,7 @@ public struct TimecodeField: View {
                 
                 TimecodeField.ComponentView(
                     component: .subFrames,
-                    frameRate: frameRate,
-                    subFramesBase: subFramesBase,
-                    upperLimit: upperLimit,
+                    timecodeProperties: $timecode.properties,
                     value: $components.subFrames,
                     focusedComponent: $focusedComponent
                 )

@@ -15,7 +15,7 @@ extension TimecodeField {
     struct ComponentView: View {
         // MARK: - Properties settable through view initializers
         
-        let component: Timecode.Component
+        @Binding var timecodeProperties: Timecode.Properties
         @Binding var value: Int
         @FocusState.Binding var focusedComponent: Timecode.Component?
         
@@ -38,10 +38,11 @@ extension TimecodeField {
         
         // MARK: - Internal State
         
-        @State private var state: ComponentState
+        @State private var stateModel: StateModel
+        @State private var viewModel: ViewModel
         
-        @State var isHovering: Bool = false
-        @State var shakeTrigger: Bool = false
+        @State private var isHovering: Bool = false
+        @State private var shakeTrigger: Bool = false
         
         private let shakeIntensity: CGFloat = 5
         
@@ -49,23 +50,22 @@ extension TimecodeField {
         
         init(
             component: Timecode.Component,
-            frameRate: TimecodeFrameRate,
-            subFramesBase: Timecode.SubFramesBase,
-            upperLimit: Timecode.UpperLimit,
+            timecodeProperties: Binding<Timecode.Properties>,
             value: Binding<Int>,
             focusedComponent: FocusState<Timecode.Component?>.Binding
         ) {
-            self.component = component
-            self._value = value
+            self._timecodeProperties = timecodeProperties
             self._focusedComponent = focusedComponent
             self._value = value
             
-            self.state = ComponentState(
+            stateModel = StateModel(
                 component: component,
-                frameRate: frameRate,
-                subFramesBase: subFramesBase,
-                upperLimit: upperLimit,
+                initialTimecodeProperties: timecodeProperties.wrappedValue,
                 initialValue: value.wrappedValue
+            )
+            viewModel = ViewModel(
+                component: component,
+                initialTimecodeProperties: timecodeProperties.wrappedValue
             )
         }
         
@@ -80,15 +80,22 @@ extension TimecodeField {
                 // multiplatform focus logic
                 // (`focusable()` and `focused()` are implemented in platform-specific body
                 .onChange(of: focusedComponent) { oldValue, newValue in
-                    state.setIsVirgin(true)
+                    stateModel.setIsVirgin(true)
+                }
+            
+                // properties binding synchronization
+                // only need binding -> models sync.
+                // no need for models -> binding sync because the models only read the values.
+                .onChange(of: timecodeProperties) { oldValue, newValue in
+                    updateModelsTimecodeProperties()
                 }
             
                 // value binding synchronization
                 .onChange(of: value) { oldValue, newValue in
-                    state.value = value
+                    stateModel.value = value
                 }
-                .onChange(of: state.value) { oldValue, newValue in
-                    value = state.value
+                .onChange(of: stateModel.value) { oldValue, newValue in
+                    value = stateModel.value
                 }
             
                 // multiplatform user interaction
@@ -108,8 +115,8 @@ extension TimecodeField {
             // The `conditionalForegroundStyle` modifier causes the view to be recreated
             // when `isValueValid` changes which in turn would cause focus to be lost.
             ZStack {
-                Text(state.valuePadded)
-                    .conditionalForegroundStyle(state.isValueValid ? nil : timecodeValidationStyle)
+                Text(stateModel.valuePadded)
+                    .conditionalForegroundStyle(stateModel.isValueValid ? nil : timecodeValidationStyle)
                     .lineLimit(1)
                     .fixedSize()
                     .allowsTightening(false)
@@ -118,11 +125,11 @@ extension TimecodeField {
             
             // focus
             .focusable(interactions: [.edit])
-            .focused($focusedComponent, equals: component)
+            .focused($focusedComponent, equals: viewModel.component)
             
             // pasteboard
             .onPasteCommandOfTimecode(
-                propertiesForString: state.timecodeProperties,
+                propertiesForString: viewModel.timecodeProperties,
                 forwardTo: timecodePasted
             )
             
@@ -146,7 +153,7 @@ extension TimecodeField {
                 KeyboardInputView { keyEquivalent in
                     handleKeyPress(key: keyEquivalent)
                 }
-                .focused($focusedComponent, equals: component)
+                .focused($focusedComponent, equals: viewModel.component)
                 .onKeyPress(phases: [.down, .repeat]) { keyPress in
                     // only handle hardware keyboard keys that aren't already handled by KeyboardInputView.
                     // basically, anything that isn't a numeric digit or a period.
@@ -159,8 +166,8 @@ extension TimecodeField {
                     return handleKeyPress(key: keyPress.key)
                 }
                 
-                Text(state.valuePadded)
-                    .conditionalForegroundStyle(state.isValueValid ? nil : timecodeValidationStyle)
+                Text(stateModel.valuePadded)
+                    .conditionalForegroundStyle(stateModel.isValueValid ? nil : timecodeValidationStyle)
                     .lineLimit(1)
                     .fixedSize()
                     .allowsTightening(false)
@@ -173,7 +180,6 @@ extension TimecodeField {
         // MARK: - Styling
         
         private var background: some View {
-            // backgroundColor.mask(alignment: .center) { backgroundMask }
             RoundedRectangle(cornerSize: CGSize(width: 2, height: 2))
                 .fill(backgroundStyle)
         }
@@ -188,29 +194,28 @@ extension TimecodeField {
             }
         }
         
-        // private var backgroundMask: some View {
-        //     RoundedRectangle(cornerSize: CGSize(width: 2, height: 2))
-        // }
-        
         // MARK: - Editing
         
         private var isEditing: Bool {
-            focusedComponent == component
+            focusedComponent == viewModel.component
         }
         
         private func startEditing() {
-            focus(component: component)
+            focus(component: viewModel.component)
         }
         
         private func endEditing() {
             focus(component: nil)
         }
         
-        // MARK: - UI
+        // MARK: - Models
         
-        private var firstVisibleComponent: Timecode.Component {
-            Timecode.Component.first(excluding: state.invisibleComponents(using: timecodeFormat))
+        private func updateModelsTimecodeProperties() {
+            stateModel.timecodeProperties = timecodeProperties
+            viewModel.timecodeProperties = timecodeProperties
         }
+        
+        // MARK: - UI
         
         private func focus(component: Timecode.Component?) {
             Task { // task avoids animation quirk
@@ -221,7 +226,7 @@ extension TimecodeField {
         /// Perform UI updates in response to a keyboard key event.
         @discardableResult
         private func handleKeyPress(key: KeyEquivalent) -> KeyPress.Result {
-            let handlerResult = state.handleKeyPress(
+            let handlerResult = stateModel.handleKeyPress(
                 key: key,
                 inputStyle: timecodeFieldInputStyle,
                 validationPolicy: timecodeFieldValidationPolicy
@@ -255,34 +260,18 @@ extension TimecodeField {
             }
         }
         
-        /// Returns true if component focus changed.
-        @discardableResult
-        private func focusPreviousComponent(wrap: TimecodeField.InputWrapping) -> Bool {
-            let bool = wrap == .wrap
-            let newComponent = component.previous(
-                excluding: state.invisibleComponents(using: timecodeFormat),
-                wrap: bool
-            )
-            let didChange = focusedComponent != newComponent
+        private func focusPreviousComponent(wrap: TimecodeField.InputWrapping){
+            let newComponent = viewModel.previousComponent(timecodeFormat: timecodeFormat, wrap: wrap)
             Task { // task avoids animation quirk
                 focusedComponent = newComponent
             }
-            return didChange
         }
         
-        /// Returns true if component focus changed.
-        @discardableResult
-        private func focusNextComponent(wrap: TimecodeField.InputWrapping) -> Bool {
-            let bool = wrap == .wrap
-            let newComponent = component.next(
-                excluding: state.invisibleComponents(using: timecodeFormat),
-                wrap: bool
-            )
-            let didChange = focusedComponent != newComponent
+        private func focusNextComponent(wrap: TimecodeField.InputWrapping) {
+            let newComponent = viewModel.nextComponent(timecodeFormat: timecodeFormat, wrap: wrap)
             Task { // task avoids animation quirk
                 focusedComponent = newComponent
             }
-            return didChange
         }
         
         private func perform(fieldAction: TimecodeField.FieldAction?) -> KeyPress.Result {
@@ -295,7 +284,10 @@ extension TimecodeField {
                 return .ignored
                 
             case let .resetComponentFocus(component):
-                focus(component: component ?? firstVisibleComponent)
+                let targetComponent = component
+                    ?? viewModel.firstVisibleComponent(timecodeFormat: timecodeFormat)
+                focus(component: targetComponent)
+                
                 // pass through to any receivers
                 return .ignored
                 

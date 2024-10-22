@@ -51,12 +51,6 @@ extension _TimecodeComponentStateProtocol {
         inputStyle: TimecodeField.InputStyle,
         validationPolicy: TimecodeField.ValidationPolicy
     ) -> TimecodeComponentStateResult {
-        // not a critical error, but it may result in unexpected behavior for the user if this asserts false
-        assert(
-            textInput.isEmpty ? value == 0 : value == Int(textInput),
-            "Value and Internal Text Input must match"
-        )
-        
         switch key {
         case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
             let proposedValue: Int?
@@ -192,10 +186,6 @@ extension TimecodeComponentStateProtocol {
             .validRange(of: component)
     }
     
-    public var timecodeProperties: Timecode.Properties {
-        Timecode.Properties(rate: frameRate, base: subFramesBase, limit: upperLimit)
-    }
-    
     public var valuePadded: String {
         var string = "\(value)"
         if string.count < numberOfDigits {
@@ -214,15 +204,6 @@ extension TimecodeComponentStateProtocol {
     
     public var numberOfDigits: Int {
         component.numberOfDigits(at: frameRate, base: subFramesBase)
-    }
-    
-    public func invisibleComponents(
-        using timecodeFormat: Timecode.StringFormat
-    ) -> Set<Timecode.Component> {
-        var c: Set<Timecode.Component> = []
-        if upperLimit == .max24Hours { c.insert(.days) }
-        if !timecodeFormat.contains(.showSubFrames) { c.insert(.subFrames) }
-        return c
     }
 }
 
