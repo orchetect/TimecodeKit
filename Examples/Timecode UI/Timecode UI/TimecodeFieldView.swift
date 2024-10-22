@@ -25,7 +25,7 @@ struct TimecodeFieldView: View {
     @State private var inputStyle: TimecodeField.InputStyle = .continuousWithinComponent
     @State private var inputWrapping: TimecodeField.InputWrapping = .noWrap
     @State private var validationPolicy: TimecodeField.ValidationPolicy = .enforceValid
-    @State private var inputRejectionFeedback: InputRejectionFeedbackStyle = .beepAndAnimation
+    @State private var inputRejectionFeedback: InputRejectionFeedbackStyle = .beepAndShake
     
     @FocusState private var isEditing: Bool
     
@@ -138,7 +138,7 @@ struct TimecodeFieldView: View {
                     Text(style.name).tag(style)
                 }
             }
-            Picker("Input Wrapping", selection: $inputWrapping) {
+            Picker("Component Wrapping", selection: $inputWrapping) {
                 ForEach(TimecodeField.InputWrapping.allCases) { wrapping in
                     Text(wrapping.name).tag(wrapping)
                 }
@@ -369,23 +369,42 @@ extension TimecodeFieldView {
     private enum InputRejectionFeedbackStyle: Int, CaseIterable, Identifiable {
         case none
         case beep
-        case beepAndAnimation
+        case beepAndShake
+        case beepAndPulse
         
         var id: RawValue { rawValue }
         
         var name: String {
             switch self {
-            case .none: "None"
-            case .beep: "Beep"
-            case .beepAndAnimation: "Beep and Animation"
+            case .none: 
+                "None"
+            case .beep:
+                #if os(macOS)
+                "Beep"
+                #else
+                "Beep (macOS Only)"
+                #endif
+            case .beepAndShake:
+                #if os(macOS)
+                "Beep and Shake"
+                #else
+                "Shake"
+                #endif
+            case .beepAndPulse:
+                #if os(macOS)
+                "Beep and Pulse"
+                #else
+                "Pulse"
+                #endif
             }
         }
         
         var feedback: TimecodeField.InputRejectionFeedback? {
             switch self {
             case .none: nil
-            case .beep: .validationBased(animation: false)
-            case .beepAndAnimation: .validationBased(animation: true)
+            case .beep: .validationBased(animation: nil)
+            case .beepAndShake: .validationBased(animation: .shake)
+            case .beepAndPulse: .validationBased(animation: .pulse)
             }
         }
     }

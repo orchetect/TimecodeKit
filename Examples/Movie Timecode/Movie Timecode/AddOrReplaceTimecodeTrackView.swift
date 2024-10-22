@@ -42,7 +42,6 @@ struct AddOrReplaceTimecodeTrackView: View {
                         .timecodeFormat([.showSubFrames])
                         .timecodeSubFramesStyle(.secondary, scale: .secondary)
                         .timecodeFieldValidationPolicy(.enforceValid)
-                        .timecodeFieldInputRejectionFeedback(.validationBased(animation: true))
                 }
                 
                 LabeledContent("") {
