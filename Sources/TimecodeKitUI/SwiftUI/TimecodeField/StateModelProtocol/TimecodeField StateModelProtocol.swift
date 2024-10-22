@@ -175,6 +175,9 @@ extension TimecodeField._StateModelProtocol {
             return KeyResult(.performReturnAction)
             
         default:
+            // don't send error feedback, because we can't know for sure what undefined keys should be
+            // considered unhandled by the entire parent view stack outside of our control.
+            // so we should only provide error feedback for keys that we actually define in our handler.
             return KeyResult(.ignored)
         }
     }
