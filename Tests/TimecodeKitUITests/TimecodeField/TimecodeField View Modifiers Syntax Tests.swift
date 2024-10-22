@@ -273,13 +273,19 @@ final class TimecodeField_View_Modifiers_Syntax_Tests: XCTestCase {
     
     func testViewModifier_timecodeFieldInputRejectionFeedback() {
         _ = timecodeField
-            .timecodeFieldInputRejectionFeedback(.validationBased(animation: true))
+            .timecodeFieldInputRejectionFeedback(.validationBased(animation: .shake))
+        
+        _ = timecodeField
+            .timecodeFieldInputRejectionFeedback(.validationBased(animation: nil))
         
         _ = timecodeField
             .timecodeFieldInputRejectionFeedback(.validationBased())
         
         _ = timecodeField
-            .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys(animation: true))
+            .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys(animation: .shake))
+        
+        _ = timecodeField
+            .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys(animation: nil))
         
         _ = timecodeField
             .timecodeFieldInputRejectionFeedback(.validationBasedAndUndefinedKeys())
