@@ -51,6 +51,12 @@ extension _TimecodeComponentStateProtocol {
         inputStyle: TimecodeField.InputStyle,
         validationPolicy: TimecodeField.ValidationPolicy
     ) -> TimecodeComponentStateResult {
+        // not a critical error, but it may result in unexpected behavior for the user if this asserts false
+        assert(
+            textInput.isEmpty ? value == 0 : value == Int(textInput),
+            "Value and Internal Text Input must match"
+        )
+        
         switch key {
         case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
             let proposedValue: Int?
