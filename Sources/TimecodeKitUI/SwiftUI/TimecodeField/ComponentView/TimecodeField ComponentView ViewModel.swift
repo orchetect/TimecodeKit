@@ -31,7 +31,9 @@ extension TimecodeField.ComponentView {
             timecodeFormat: Timecode.StringFormat
         ) -> Set<Timecode.Component> {
             var invisibles: Set<Timecode.Component> = []
-            if upperLimit == .max24Hours { invisibles.insert(.days) }
+            if !timecodeFormat.contains(.alwaysShowDays) {
+                if upperLimit == .max24Hours { invisibles.insert(.days) }
+            }
             if !timecodeFormat.contains(.showSubFrames) { invisibles.insert(.subFrames) }
             return invisibles
         }
@@ -73,6 +75,19 @@ extension TimecodeField.ComponentView {
                 wrap: bool
             )
             return newComponent
+        }
+        
+        // MARK: Static Methods
+        
+        static func isDaysVisible(
+            format: Timecode.StringFormat,
+            limit: Timecode.UpperLimit
+        ) -> Bool {
+            limit == .max100Days || format.contains(.alwaysShowDays)
+        }
+        
+        static func isSubFramesVisible(format: Timecode.StringFormat) -> Bool {
+            format.contains(.showSubFrames)
         }
     }
 }

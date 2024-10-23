@@ -284,7 +284,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     
     private var timecodeBody: some View {
         HStack(spacing: 0) {
-            if upperLimit == .max100Days {
+            if ComponentView.ViewModel.isDaysVisible(format: timecodeFormat, limit: upperLimit) {
                 TimecodeField.ComponentView(
                     component: .days,
                     timecodeProperties: $timecode.properties,
@@ -329,7 +329,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
                 focusedComponent: $focusedComponent
             )
             
-            if timecodeFormat.contains(.showSubFrames) {
+            if ComponentView.ViewModel.isSubFramesVisible(format: timecodeFormat) {
                 SeparatorView(text: subFramesSeparator)
                 
                 TimecodeField.ComponentView(
