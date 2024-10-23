@@ -24,11 +24,13 @@ extension AttributedString {
         _ timecode: Timecode,
         format: Timecode.StringFormat = .default(),
         separatorStyle: Color? = nil,
+        subFramesStyle: Color? = nil,
         validationStyle: Color? = .red
     ) {
         self = timecode.attributedString(
             format: format,
             separatorStyle: separatorStyle,
+            subFramesStyle: subFramesStyle,
             validationStyle: validationStyle
         )
     }
@@ -44,6 +46,7 @@ extension Timecode {
     func attributedString(
         format: Timecode.StringFormat = .default(),
         separatorStyle: Color? = nil,
+        subFramesStyle: Color? = nil,
         validationStyle: Color? = .red
     ) -> AttributedString {
         // proxy variables which makes it easier to copy/paste or refactor this code block
@@ -52,18 +55,26 @@ extension Timecode {
         let timecodeSeparatorStyle = separatorStyle
         let timecodeValidationStyle = validationStyle
         
-        let invalidModifiers: (String) -> AttributedString = {
-            var str = AttributedString($0)
-            if let timecodeValidationStyle {
-                str.foregroundColor = timecodeValidationStyle
-            }
-            return str
-        }
-        
         let separatorModifiers: (String) -> AttributedString = {
             var str = AttributedString($0)
             if let timecodeSeparatorStyle {
                 str.foregroundColor = timecodeSeparatorStyle
+            }
+            return str
+        }
+        
+        let subFramesModifiers: (String) -> AttributedString = {
+            var str = AttributedString($0)
+            if let subFramesStyle {
+                str.foregroundColor = subFramesStyle
+            }
+            return str
+        }
+        
+        let invalidModifiers: (String) -> AttributedString = {
+            var str = AttributedString($0)
+            if let timecodeValidationStyle {
+                str.foregroundColor = timecodeValidationStyle
             }
             return str
         }
@@ -146,7 +157,7 @@ extension Timecode {
             if invalids.contains(.subFrames) {
                 output.append(invalidModifiers(subframesText))
             } else {
-                output.append(AttributedString(subframesText))
+                output.append(subFramesModifiers(subframesText))
             }
         }
         
