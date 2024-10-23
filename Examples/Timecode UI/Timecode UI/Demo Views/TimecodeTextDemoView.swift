@@ -83,9 +83,8 @@ struct TimecodeTextView: View {
                 
                 #if os(macOS)
                 .copyable([timecode])
-                .pasteDestination(for: Timecode.self) { items in
-                    guard let item = items.first else { return }
-                    timecode = item
+                .onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
+                    handlePaste(of: itemProviders)
                 }
                 #endif
                 
@@ -106,6 +105,16 @@ struct TimecodeTextView: View {
             .formStyle(.grouped)
         }
         .padding()
+    }
+    
+    private func handlePaste(of itemProviders: [NSItemProvider]) {
+        Task {
+            guard let pastedTimecode = try? await Timecode(
+                from: itemProviders,
+                propertiesForString: timecode.properties
+            ) else { return }
+            timecode = pastedTimecode
+        }
     }
     
     private var propertiesSection: some View {
