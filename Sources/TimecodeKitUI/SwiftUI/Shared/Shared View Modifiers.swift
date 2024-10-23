@@ -328,10 +328,13 @@ extension View {
 extension View {
     /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
     public func onPasteCommandOfTimecode(
+        policy: TimecodePastePolicy = .preserveLocalProperties,
         propertiesForString: Timecode.Properties,
         _ action: @escaping TimecodePasteAction.Action
     ) -> some View {
-        self.onPastedTimecode(action)
+        self
+            .timecodePastePolicy(policy)
+            .onPastedTimecode(action)
             .onPasteCommandOfTimecode(
                 propertiesForString: propertiesForString,
                 forwardTo: TimecodePasteAction(action: action)

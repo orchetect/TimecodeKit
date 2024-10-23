@@ -13,13 +13,10 @@ import SwiftUI
 import TimecodeKitCore
 
 public enum TimecodePastePolicy: String, Equatable, Hashable, Sendable, CaseIterable {
-    /// Only allow pasted timecode that strictly complies with the validation rules.
-    ///
-    /// - Invalid values will cause the paste event to be rejected.
-    /// - In the event rich timecode is pasted that includes properties (frame rate, subframes base, upper limit), the
-    ///   paste event will only be allowed if all properties match or if the pasted timecode is compatible with the
-    ///   local properties.
-    case followValidationPreservingLocalProperties
+    /// (Recommended)
+    /// Only allow pasted timecode that matches local properties can conform to local properties.
+    /// Validation policy set by ``SwiftUICore/View/timecodeFieldValidationPolicy(_:)`` is still also applied.
+    case preserveLocalProperties
     
     // /// Only allow pasted timecode that strictly complies with the validation rules, converting from different frame rate if necessary.
     // ///
@@ -31,15 +28,16 @@ public enum TimecodePastePolicy: String, Equatable, Hashable, Sendable, CaseIter
     // ///   timecode will be converted to the local properties.
     // case convertIfNeeded
     
-    /// Allow pasted timecode to overwrite local timecode properties.
+    /// Allow pasted timecode to overwrite local timecode properties if it contains properties.
+    /// Validation policy set by ``SwiftUICore/View/timecodeFieldValidationPolicy(_:)`` is still also applied.
     ///
     /// - Pasting a timecode string will preserve local timecode properties, pasting only component values if they are
     ///   valid based on the validation rules.
     /// - In the event rich timecode is pasted that includes properties (frame rate, subframes base, upper limit), the
     ///   local properties will be overridden by the new properties. The benefit of this is that the pasted timecode's
-    ///   context is maintained. However, if local context needs to remain stable, it is recommended to use ``strict``
-    ///   instead.
-    case followValidationAllowingNewProperties
+    ///   context is maintained. However, if local context needs to remain stable, it is recommended to use
+    ///   ``preserveLocalProperties`` instead.
+    case allowNewProperties
     
     /// Pasted timecode will paste component values only, discarding the pasted timecode properties, if any.
     ///
@@ -50,7 +48,7 @@ public enum TimecodePastePolicy: String, Equatable, Hashable, Sendable, CaseIter
     /// >
     /// > Stripping timecode properties and allowing component values to be pasted as-is will allow timecode from
     /// > differing contexts to be mixed, which could create inconsistency in both logic and user experience.
-    case componentValuesOnlyAllowingInvalid
+    case discardProperties
 }
 
 extension TimecodePastePolicy: Identifiable {

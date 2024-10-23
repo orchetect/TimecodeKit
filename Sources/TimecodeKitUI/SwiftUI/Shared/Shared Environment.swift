@@ -23,7 +23,7 @@ extension EnvironmentValues {
     // MARK: - TimecodePastePolicy
     
     /// Sets the timecode paste policy for the view.
-    @Entry public var timecodePastePolicy: TimecodePastePolicy = .followValidationPreservingLocalProperties
+    @Entry public var timecodePastePolicy: TimecodePastePolicy = .preserveLocalProperties
     
     // MARK: - TimecodeSeparatorStyle
     

@@ -158,8 +158,6 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     
     // MARK: - Internal State
     
-    @State private var viewModel = ViewModel()
-    
     @FocusState private var focusedComponent: Timecode.Component?
     @State private var shakeTrigger: Bool = false
     @State private var pulseTrigger: Bool = false
@@ -362,7 +360,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     }
     
     private func handle(pasteResult: Result<Timecode, any Error>) {
-        let result = viewModel.validate(
+        let result = TimecodeField.validate(
             pasteResult: pasteResult,
             inputStyle: timecodeFieldInputStyle,
             validationPolicy: timecodeFieldValidationPolicy,
