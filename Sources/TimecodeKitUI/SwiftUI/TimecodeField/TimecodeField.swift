@@ -156,6 +156,8 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     
     // MARK: - Internal State
     
+    @State private var viewModel = ViewModel()
+    
     @FocusState private var focusedComponent: Timecode.Component?
     @State private var shakeTrigger: Bool = false
     @State private var pulseTrigger: Bool = false
@@ -358,37 +360,18 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     }
     
     private func handle(pasteResult: Result<Timecode, any Error>) {
-        do {
-            let pastedTimecode = try pasteResult.get()
-            
-            // validate against validation policy
-            switch timecodeFieldValidationPolicy {
-            case .allowInvalid:
-                break
-            case .enforceValid:
-                guard timecode.isValid else {
-                    inputRejectionFeedback(.fieldPasteRejected)
-                    return
-                }
-            }
-            
-            // validate against input style
-            switch timecodeFieldInputStyle {
-            case .autoAdvance, .continuousWithinComponent:
-                // ensure all timecode components as-is respect the max number of digits allowed for each
-                guard pastedTimecode.components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
-                else {
-                    inputRejectionFeedback(.fieldPasteRejected)
-                    return
-                }
-            case .unbounded:
-                break
-            }
-            
-            // TODO: handle additional case when configured to only paste values and not mutate timecode properties
-            timecode = pastedTimecode
-        } catch {
-            inputRejectionFeedback(.fieldPasteRejected)
+        let result = viewModel.validate(
+            pasteResult: pasteResult,
+            inputStyle: timecodeFieldInputStyle,
+            validationPolicy: timecodeFieldValidationPolicy,
+            currentTimecodeProperties: timecodeProperties
+        )
+        
+        switch result {
+        case .setTimecode(let newTimecode):
+            timecode = newTimecode
+        case .inputRejectionFeedback(let action):
+            inputRejectionFeedback(action)
         }
     }
     
