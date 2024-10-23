@@ -33,9 +33,9 @@ struct TimecodeFieldDemoView: View {
         VStack(spacing: 20) {
             TimecodeField(
                 components: $components,
-                at: frameRate,
-                base: subFramesBase,
-                limit: upperLimit
+                at: $frameRate,
+                base: $subFramesBase,
+                limit: $upperLimit
             )
             .foregroundColor(defaultStyle.color)
             .timecodeFormat(timecodeFormat)
@@ -46,6 +46,7 @@ struct TimecodeFieldDemoView: View {
             .timecodeFieldInputStyle(inputStyle)
             .timecodeFieldInputWrapping(inputWrapping)
             .timecodeFieldInputRejectionFeedback(inputRejectionFeedback.feedback)
+            .timecodeFieldPastePolicy(.allowNewProperties) // not typical but useful for our demo app
             .timecodeFieldValidationPolicy(validationPolicy)
             .timecodeFieldReturnAction(.focusNextComponent)
             .timecodeFieldEscapeAction(.resetComponentFocus())

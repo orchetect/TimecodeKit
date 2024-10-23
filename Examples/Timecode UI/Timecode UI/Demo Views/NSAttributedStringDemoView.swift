@@ -175,11 +175,22 @@ extension NSAttributedStringDemoView {
             }
         }
         
+        
+        #if os(macOS)
         var color: NSColor? {
+            if let _color { NSColor(_color) } else { nil }
+        }
+        #else
+        var color: UIColor? {
+            if let _color { UIColor(_color) } else { nil }
+        }
+        #endif
+        
+        var _color: Color? {
             switch self {
             case .default: nil
-            case .blue: NSColor(Color.blue)
-            case .orange: NSColor(Color.orange)
+            case .blue: .blue
+            case .orange: .orange
             }
         }
     }
@@ -203,13 +214,23 @@ extension NSAttributedStringDemoView {
             }
         }
         
+        #if os(macOS)
         var color: NSColor? {
+            if let _color { NSColor(_color) } else { nil }
+        }
+        #else
+        var color: UIColor? {
+            if let _color { UIColor(_color) } else { nil }
+        }
+        #endif
+        
+        var _color: Color? {
             switch self {
             case .default: nil
-            case .primary: NSColor(Color.primary)
-            case .secondary: NSColor(Color.secondary)
-            case .blue: NSColor(Color.blue)
-            case .orange: NSColor(Color.orange)
+            case .primary: .primary
+            case .secondary: .secondary
+            case .blue: .blue
+            case .orange: .orange
             }
         }
     }
@@ -233,13 +254,23 @@ extension NSAttributedStringDemoView {
             }
         }
         
+        #if os(macOS)
         var color: NSColor? {
+            if let _color { NSColor(_color) } else { nil }
+        }
+        #else
+        var color: UIColor? {
+            if let _color { UIColor(_color) } else { nil }
+        }
+        #endif
+        
+        var _color: Color? {
             switch self {
             case .default: nil
-            case .primary: NSColor(Color.primary)
-            case .secondary: NSColor(Color.secondary)
-            case .blue: NSColor(Color.blue)
-            case .orange: NSColor(Color.orange)
+            case .primary: .primary
+            case .secondary: .secondary
+            case .blue: .blue
+            case .orange: .orange
             }
         }
     }
@@ -259,11 +290,21 @@ extension NSAttributedStringDemoView {
             }
         }
         
+        #if os(macOS)
         var color: NSColor? {
+            if let _color { NSColor(_color) } else { nil }
+        }
+        #else
+        var color: UIColor? {
+            if let _color { UIColor(_color) } else { nil }
+        }
+        #endif
+        
+        var _color: Color? {
             switch self {
             case .none: nil
-            case .red: NSColor(Color.red)
-            case .purple: NSColor(Color.purple)
+            case .red: .red
+            case .purple: .purple
             }
         }
     }

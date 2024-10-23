@@ -5,6 +5,8 @@
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
+			<key>UTTypeConformsTo</key>
+			<array/>
 			<key>UTTypeDescription</key>
 			<string>Timecode</string>
 			<key>UTTypeIcons</key>
