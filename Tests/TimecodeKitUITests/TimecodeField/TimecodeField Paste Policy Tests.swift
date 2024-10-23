@@ -27,9 +27,9 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
+                currentTimecodeProperties: timecode.properties,
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties
             ),
             .allowed(timecode)
@@ -42,9 +42,9 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
+                currentTimecodeProperties: timecode.properties,
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties
             ),
             .inputRejectionFeedback(.fieldPasteRejected)
@@ -57,9 +57,9 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
+                currentTimecodeProperties: timecode.properties,
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties
             ),
             .allowed(timecode)

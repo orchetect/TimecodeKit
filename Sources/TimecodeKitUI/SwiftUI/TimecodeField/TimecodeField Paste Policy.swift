@@ -11,18 +11,80 @@ import TimecodeKitCore
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
 extension TimecodeField {
+    // MARK: - Internal Method (Called internally by TimecodeField)
+    
     /// Determines whether timecode pasted from the pasteboard by the user is appropriate to accept in the current
     /// field context.
-    public static func validate(
+    ///
+    /// Policy is evaluated in cascading order of `pastePolicy` first, then `validationPolicy`, then `inputStyle`.
+    ///
+    /// - Parameters:
+    ///   - pasteResult: The result passed in from `TimecodePasteAction.Action`.
+    ///   - currentTimecodeProperties: Local timecode properties on the timecode field.
+    ///   - pastePolicy: Paste policy injected from the SwiftUI environment.
+    ///   - validationPolicy: Validation policy injected from the SwiftUI environment.
+    ///   - inputStyle: Input style injected from the SwiftUI environment.
+    ///
+    /// - Returns: Paste result determining whether the input timecode passes all of the validation conditions and the
+    ///   receiver should accept the new timecode.
+    ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
+    ///   For this reason, when accepting the pasted timecode after this method returns an
+    ///   ``PasteValidationResult/allowed(_:)`` case, you should accept the timecode contained in this case and not the
+    ///   timecode input into this method.
+    static func validate(
         pasteResult: Result<Timecode, any Error>,
-        inputStyle: InputStyle,
-        validationPolicy: ValidationPolicy,
         currentTimecodeProperties: Timecode.Properties,
-        pastePolicy: PastePolicy
+        pastePolicy: PastePolicy,
+        validationPolicy: ValidationPolicy,
+        inputStyle: InputStyle
     ) -> PasteValidationResult {
-        guard var pastedTimecode = try? pasteResult.get() else {
+        guard let pastedTimecode = try? pasteResult.get() else {
             return .inputRejectionFeedback(.fieldPasteRejected)
         }
+        
+        return validate(
+            pastedTimecode: pastedTimecode,
+            currentTimecodeProperties: currentTimecodeProperties,
+            pastePolicy: pastePolicy,
+            validationPolicy: validationPolicy,
+            inputStyle: inputStyle
+        )
+    }
+    
+    // MARK: - Public Utility Method
+    
+    /// Determines whether timecode pasted from the pasteboard by the user is appropriate to accept in the current
+    /// field context.
+    ///
+    /// Policy is evaluated in cascading order of `pastePolicy` first, then `validationPolicy`, then `inputStyle`.
+    ///
+    /// - Parameters:
+    ///   - pastedTimecode: The timecode instance received from the pasteboard after decoding its contents.
+    ///
+    ///     Typically this will be the timecode returned in SwiftUI from:
+    ///     - `pasteDestination()` view modifier, or
+    ///     - `onPasteCommand()` view modifier after parsing the `NSItemProvider`s using
+    ///       `Timecode(from:propertiesForString:)`.
+    ///
+    ///   - currentTimecodeProperties: Local timecode properties on the timecode field.
+    ///   - pastePolicy: Paste policy. The default is the safest and most common option.
+    ///   - validationPolicy: Validation policy. The default is the safest and most common option.
+    ///   - inputStyle: Input style, if applicable. The default is the safest and most common option.
+    ///
+    /// - Returns: Paste result determining whether the input timecode passes all of the validation conditions and the
+    ///   receiver should accept the new timecode.
+    ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
+    ///   For this reason, when accepting the pasted timecode after this method returns an
+    ///   ``PasteValidationResult/allowed(_:)`` case, you should accept the timecode contained in this case and not the
+    ///   timecode input into this method.
+    public static func validate(
+        pastedTimecode: Timecode,
+        currentTimecodeProperties: Timecode.Properties,
+        pastePolicy: PastePolicy = .preserveLocalProperties,
+        validationPolicy: ValidationPolicy = .enforceValid,
+        inputStyle: InputStyle = .autoAdvance
+    ) -> PasteValidationResult {
+        var pastedTimecode = pastedTimecode
         
         switch pastePolicy {
         case .preserveLocalProperties:
@@ -58,19 +120,21 @@ extension TimecodeField {
         
         return _validate(
             pastedTimecode: pastedTimecode,
-            inputStyle: inputStyle,
-            validationPolicy: validationPolicy,
             currentTimecodeProperties: currentTimecodeProperties,
-            pastePolicy: pastePolicy
+            pastePolicy: pastePolicy,
+            validationPolicy: validationPolicy,
+            inputStyle: inputStyle
         )
     }
     
+    // MARK: - Private Chaining Handler
+    
     private static func _validate(
         pastedTimecode: Timecode,
-        inputStyle: InputStyle,
-        validationPolicy: ValidationPolicy,
         currentTimecodeProperties: Timecode.Properties,
-        pastePolicy: PastePolicy
+        pastePolicy: PastePolicy,
+        validationPolicy: ValidationPolicy,
+        inputStyle: InputStyle
     ) -> PasteValidationResult {
         // validate against validation policy
         switch validationPolicy {

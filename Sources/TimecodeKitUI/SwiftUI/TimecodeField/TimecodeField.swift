@@ -63,7 +63,7 @@ import TimecodeKitCore
 ///     .timecodeFieldInputStyle(.autoAdvance)
 ///     .timecodeFieldInputWrapping(.noWrap)
 ///     .timecodeFieldInputRejectionFeedback(.validationBased())
-///     .timecodeFieldPastePolicy(.followValidationPreservingLocalProperties)
+///     .timecodeFieldPastePolicy(.preserveLocalProperties)
 ///     .timecodeFieldValidationPolicy(.enforceValid)
 ///     .timecodeFieldEscapeAction(.endEditing)
 ///     .timecodeFieldReturnAction(.endEditing)
@@ -378,10 +378,10 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     private func handle(pasteResult: Result<Timecode, any Error>) {
         let result = TimecodeField.validate(
             pasteResult: pasteResult,
-            inputStyle: timecodeFieldInputStyle,
-            validationPolicy: timecodeFieldValidationPolicy,
             currentTimecodeProperties: timecodeProperties,
-            pastePolicy: timecodeFieldPastePolicy
+            pastePolicy: timecodeFieldPastePolicy,
+            validationPolicy: timecodeFieldValidationPolicy,
+            inputStyle: timecodeFieldInputStyle
         )
         
         switch result {
