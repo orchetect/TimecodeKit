@@ -43,11 +43,15 @@ extension NSAttributedString {
         _ timecode: Timecode,
         format: Timecode.StringFormat = .default(),
         defaultAttributes: [NSAttributedString.Key: Any]? = nil,
+        separatorAttributes: [NSAttributedString.Key: Any]? = nil,
+        subFramesAttributes: [NSAttributedString.Key: Any]? = nil,
         invalidAttributes: [NSAttributedString.Key: Any]? = nil
     ) {
         let attrString = timecode.nsAttributedString(
             format: format,
             defaultAttributes: defaultAttributes,
+            separatorAttributes: separatorAttributes,
+            subFramesAttributes: subFramesAttributes,
             invalidAttributes: invalidAttributes
         )
         self.init(attributedString: attrString)
@@ -83,12 +87,14 @@ extension Timecode {
     public func nsAttributedString(
         format: StringFormat = .default(),
         defaultAttributes: [NSAttributedString.Key: Any]?,
+        separatorAttributes: [NSAttributedString.Key: Any]? = nil,
+        subFramesAttributes: [NSAttributedString.Key: Any]? = nil,
         invalidAttributes: [NSAttributedString.Key: Any]?
     ) -> NSAttributedString {
-        let sepDays = NSAttributedString(string: " ", attributes: defaultAttributes)
-        let sepMain = NSAttributedString(string: ":", attributes: defaultAttributes)
-        let sepFrames = NSAttributedString(string: frameRate.isDrop ? ";" : ":", attributes: defaultAttributes)
-        let sepSubFrames = NSAttributedString(string: ".", attributes: defaultAttributes)
+        let sepDays = NSAttributedString(string: " ", attributes: separatorAttributes ?? defaultAttributes)
+        let sepMain = NSAttributedString(string: ":", attributes: separatorAttributes ?? defaultAttributes)
+        let sepFrames = NSAttributedString(string: frameRate.isDrop ? ";" : ":", attributes: separatorAttributes ?? defaultAttributes)
+        let sepSubFrames = NSAttributedString(string: ".", attributes: separatorAttributes ?? defaultAttributes)
         
         let invalids = invalidComponents
         
@@ -183,7 +189,7 @@ extension Timecode {
         
         // subframes
         
-        if format.showSubFrames {
+        if format.contains(.showSubFrames) {
             let numberOfSubFramesDigits = validRange(of: .subFrames).upperBound.numberOfDigits
             
             output.append(sepSubFrames)
@@ -199,6 +205,11 @@ extension Timecode {
             if let invalidAttributes, invalids.contains(.subFrames) {
                 piece.addAttributes(
                     invalidAttributes,
+                    range: NSRange(location: 0, length: piece.string.count)
+                )
+            } else if let subFramesAttributes {
+                piece.addAttributes(
+                    subFramesAttributes,
                     range: NSRange(location: 0, length: piece.string.count)
                 )
             }
