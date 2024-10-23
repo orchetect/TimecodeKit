@@ -141,7 +141,7 @@ final class Timecode_Source_FrameCount_Tests: XCTestCase {
     }
     
     func testSetTimecodeExactly() throws {
-        // this is not meant to test the underlying logic, simply that .setTimecode produces the intended outcome
+        // this is not meant to test the underlying logic, simply that `.set()` produces the intended outcome
         
         var tc = Timecode(.zero, at: .fps30, base: .max80SubFrames)
         

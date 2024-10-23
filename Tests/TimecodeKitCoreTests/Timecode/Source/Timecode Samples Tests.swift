@@ -275,7 +275,7 @@ final class Timecode_Source_Samples_Tests: XCTestCase {
                     frameRatesWithSetTimecodeErrorsCount += 1
                     if logErrors {
                         let fr = "\(item)".padding(toLength: 8, withPad: " ", startingAt: 0)
-                        print("setTimecode(samples:sampleRate:) failed @ \(fr)")
+                        print("set(.samples(:sampleRate:)) failed @ \(fr)")
                     }
                 }
                 
