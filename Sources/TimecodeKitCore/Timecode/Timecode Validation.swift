@@ -173,7 +173,7 @@ extension Timecode {
     /// > To validate timecode component values, query the ``isValid`` property instead. Alternatively, the
     /// > ``invalidComponents`` property can granularly return which individual components are invalid, if any.
     public var isWithinValidComponentDigitCounts: Bool {
-        components.isWithinValidDigitCount(at: frameRate, base: subFramesBase)
+        components.isWithinValidDigitCounts(at: frameRate, base: subFramesBase)
     }
 }
 

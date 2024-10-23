@@ -408,7 +408,7 @@ extension Timecode.Components {
     /// > ``Timecode/ValidationRule/allowingInvalid`` validation rule and then query its ``Timecode/isValid`` property
     /// > instead. Alternatively, the ``Timecode/invalidComponents-swift.struct`` property can granularly return which
     /// > individual components are invalid, if any.
-    public func isWithinValidDigitCount(
+    public func isWithinValidDigitCounts(
         at frameRate: TimecodeFrameRate,
         base: Timecode.SubFramesBase
     ) -> Bool {

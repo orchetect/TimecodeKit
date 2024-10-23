@@ -266,74 +266,74 @@ final class Timecode_Components_Tests: XCTestCase {
     // MARK: - Validation
     
     /// Baseline test that should be valid at all frame rates and subframes bases.
-    func testIsWithinValidDigitCountA() {
+    func testIsWithinValidDigitCountsA() {
         let components = Timecode.Components(d: 2, h: 3, m: 4, s: 5, f: 6, sf: 7)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertTrue(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertTrue(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
     /// Baseline test that should be valid at all frame rates and subframes bases.
-    func testIsWithinValidDigitCountB() {
+    func testIsWithinValidDigitCountsB() {
         let components = Timecode.Components(d: 99, h: 99, m: 99, s: 99, f: 99, sf: 9)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertTrue(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertTrue(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
-    func testIsWithinValidDigitCountC() {
+    func testIsWithinValidDigitCountsC() {
         let components = Timecode.Components(d: 100)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
-    func testIsWithinValidDigitCountD() {
+    func testIsWithinValidDigitCountsD() {
         let components = Timecode.Components(h: 100)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
-    func testIsWithinValidDigitCountE() {
+    func testIsWithinValidDigitCountsE() {
         let components = Timecode.Components(m: 100)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
-    func testIsWithinValidDigitCountF() {
+    func testIsWithinValidDigitCountsF() {
         let components = Timecode.Components(s: 100)
         
         for fRate in TimecodeFrameRate.allCases {
             for base in Timecode.SubFramesBase.allCases {
-                XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
             }
         }
     }
     
-    func testIsWithinValidDigitCountG() {
+    func testIsWithinValidDigitCountsG() {
         do {
             let components = Timecode.Components(f: 100)
             
             for fRate in TimecodeFrameRate.allCases.filter({ $0.numberOfDigits == 2 }) {
                 for base in Timecode.SubFramesBase.allCases {
-                    XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                    XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
                 }
             }
         }
@@ -342,7 +342,7 @@ final class Timecode_Components_Tests: XCTestCase {
             
             for fRate in TimecodeFrameRate.allCases.filter({ $0.numberOfDigits == 3 }) {
                 for base in Timecode.SubFramesBase.allCases {
-                    XCTAssertFalse(components.isWithinValidDigitCount(at: fRate, base: base))
+                    XCTAssertFalse(components.isWithinValidDigitCounts(at: fRate, base: base))
                 }
             }
         }

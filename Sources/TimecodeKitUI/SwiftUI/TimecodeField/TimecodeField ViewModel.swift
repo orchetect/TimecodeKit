@@ -37,7 +37,7 @@ extension TimecodeField {
                 switch inputStyle {
                 case .autoAdvance, .continuousWithinComponent:
                     // ensure all timecode components as-is respect the max number of digits allowed for each
-                    guard pastedTimecode.components.isWithinValidDigitCount(
+                    guard pastedTimecode.components.isWithinValidDigitCounts(
                         at: currentTimecodeProperties.frameRate,
                         base: currentTimecodeProperties.subFramesBase
                     )

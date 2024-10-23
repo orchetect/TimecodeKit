@@ -35,6 +35,6 @@ Primitive storage type for timecode component values.
 
 ### Validation
 
-- ``isWithinValidDigitCount(at:base:)``
+- ``isWithinValidDigitCounts(at:base:)``
 - ``validRange(of:using:)``
 - ``validRange(of:at:base:limit:)``
