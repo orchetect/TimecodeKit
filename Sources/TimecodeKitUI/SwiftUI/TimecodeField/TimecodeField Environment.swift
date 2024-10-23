@@ -45,6 +45,12 @@ extension EnvironmentValues {
     @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
     @Entry public var timecodeFieldInputWrapping: TimecodeField.InputWrapping = .noWrap
     
+    // MARK: - TimecodeFieldPastePolicy
+    
+    /// Sets the timecode paste policy for the view.
+    @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+    @Entry public var timecodeFieldPastePolicy: TimecodeField.PastePolicy = .preserveLocalProperties
+    
     // MARK: - TimecodeFieldReturnAction
     
     /// Sets the `Return` key action for ``TimecodeField`` views.

@@ -13,12 +13,12 @@ import TimecodeKitCore
 extension TimecodeField {
     /// Determines whether timecode pasted from the pasteboard by the user is appropriate to accept in the current
     /// field context.
-    static func validate(
+    public static func validate(
         pasteResult: Result<Timecode, any Error>,
-        inputStyle: TimecodeField.InputStyle,
-        validationPolicy: TimecodeField.ValidationPolicy,
+        inputStyle: InputStyle,
+        validationPolicy: ValidationPolicy,
         currentTimecodeProperties: Timecode.Properties,
-        pastePolicy: TimecodePastePolicy
+        pastePolicy: PastePolicy
     ) -> PasteValidationResult {
         guard var pastedTimecode = try? pasteResult.get() else {
             return .inputRejectionFeedback(.fieldPasteRejected)
@@ -60,15 +60,17 @@ extension TimecodeField {
             pastedTimecode: pastedTimecode,
             inputStyle: inputStyle,
             validationPolicy: validationPolicy,
-            currentTimecodeProperties: currentTimecodeProperties
+            currentTimecodeProperties: currentTimecodeProperties,
+            pastePolicy: pastePolicy
         )
     }
     
     private static func validate(
         pastedTimecode: Timecode,
-        inputStyle: TimecodeField.InputStyle,
-        validationPolicy: TimecodeField.ValidationPolicy,
-        currentTimecodeProperties: Timecode.Properties
+        inputStyle: InputStyle,
+        validationPolicy: ValidationPolicy,
+        currentTimecodeProperties: Timecode.Properties,
+        pastePolicy: PastePolicy
     ) -> PasteValidationResult {
         // validate against validation policy
         switch validationPolicy {
@@ -80,13 +82,23 @@ extension TimecodeField {
             }
         }
         
+        var timecodeProperties = currentTimecodeProperties
+        switch pastePolicy {
+        case .allowNewProperties:
+            timecodeProperties = pastedTimecode.properties
+        case .discardProperties:
+            break
+        case .preserveLocalProperties:
+            break
+        }
+        
         // validate against input style
         switch inputStyle {
         case .autoAdvance, .continuousWithinComponent:
             // ensure all timecode components as-is respect the max number of digits allowed for each
             guard pastedTimecode.components.isWithinValidDigitCounts(
-                at: currentTimecodeProperties.frameRate,
-                base: currentTimecodeProperties.subFramesBase
+                at: timecodeProperties.frameRate,
+                base: timecodeProperties.subFramesBase
             )
             else {
                 return .inputRejectionFeedback(.fieldPasteRejected)
@@ -98,10 +110,10 @@ extension TimecodeField {
         return .setTimecode(pastedTimecode)
     }
     
-    enum PasteValidationResult: Equatable, Hashable, Sendable {
+    public enum PasteValidationResult: Equatable, Hashable, Sendable {
         case setTimecode(_ newTimecode: Timecode)
         case inputRejectionFeedback(
-            _ rejectedUserAction: TimecodeField.InputRejectionFeedback.UserAction
+            _ rejectedUserAction: InputRejectionFeedback.UserAction
         )
     }
 }

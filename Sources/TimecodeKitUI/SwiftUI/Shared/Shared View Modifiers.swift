@@ -34,28 +34,6 @@ extension View {
     }
 }
 
-// MARK: - TimecodePastePolicy
-
-/// Sets the timecode paste policy for the view.
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-struct TimecodePastePolicyViewModifier: ViewModifier {
-    let policy: TimecodePastePolicy
-    
-    func body(content: Content) -> some View {
-        content.environment(\.timecodePastePolicy, policy)
-    }
-}
-
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-extension View {
-    /// Sets the timecode paste policy for the view.
-    public func timecodePastePolicy(
-        _ policy: TimecodePastePolicy
-    ) -> some View {
-        modifier(TimecodePastePolicyViewModifier(policy: policy))
-    }
-}
-
 // MARK: - TimecodeSeparatorStyle
 
 /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
@@ -326,27 +304,16 @@ extension View {
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
 extension View {
-    /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
-    public func onPasteCommandOfTimecode(
-        policy: TimecodePastePolicy = .preserveLocalProperties,
-        propertiesForString: Timecode.Properties,
-        _ action: @escaping TimecodePasteAction.Action
-    ) -> some View {
-        self
-            .timecodePastePolicy(policy)
-            .onPastedTimecode(action)
-            .onPasteCommandOfTimecode(
-                propertiesForString: propertiesForString,
-                forwardTo: TimecodePasteAction(action: action)
-            )
-    }
-    
     /// Implements `onPasteCommand` to catch paste events and forwards the pasteboard parse result to the given SwiftUI
     /// environment method.
     func onPasteCommandOfTimecode(
         propertiesForString: Timecode.Properties,
         forwardTo block: sending @escaping @autoclosure () -> TimecodePasteAction?
     ) -> some View {
+        // NOTE - Apple Docs says:
+        // Pass an array of uniform type identifiers to the supportedContentTypes parameter. Place the higher priority
+        // types closer to the beginning of the array. The Clipboard items that the action closure receives have the
+        // most preferred type out of all the types the source supports.
         onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
             Task {
                 guard let block = block() else { return }

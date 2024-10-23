@@ -63,10 +63,10 @@ import TimecodeKitCore
 ///     .timecodeFieldInputStyle(.autoAdvance)
 ///     .timecodeFieldInputWrapping(.noWrap)
 ///     .timecodeFieldInputRejectionFeedback(.validationBased())
+///     .timecodeFieldPastePolicy(.followValidationPreservingLocalProperties)
 ///     .timecodeFieldValidationPolicy(.enforceValid)
 ///     .timecodeFieldEscapeAction(.endEditing)
 ///     .timecodeFieldReturnAction(.endEditing)
-///     .timecodePastePolicy(.followValidationPreservingLocalProperties)
 /// ```
 ///
 /// For a demonstration, see the **Timecode UI** example project in this repo.
@@ -149,8 +149,8 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     @Environment(\.timecodeFieldHighlightStyle) private var timecodeHighlightStyle
     @Environment(\.timecodeFieldInputStyle) private var timecodeFieldInputStyle
     @Environment(\.timecodeFieldInputRejectionFeedback) var timecodeFieldInputRejectionFeedback
+    @Environment(\.timecodeFieldPastePolicy) private var timecodeFieldPastePolicy
     @Environment(\.timecodeFieldValidationPolicy) private var timecodeFieldValidationPolicy
-    @Environment(\.timecodePastePolicy) private var timecodePastePolicy
     
     // MARK: - Internal view modifiers
     
@@ -381,7 +381,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
             inputStyle: timecodeFieldInputStyle,
             validationPolicy: timecodeFieldValidationPolicy,
             currentTimecodeProperties: timecodeProperties,
-            pastePolicy: timecodePastePolicy
+            pastePolicy: timecodeFieldPastePolicy
         )
         
         switch result {

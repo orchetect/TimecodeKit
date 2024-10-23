@@ -175,6 +175,28 @@ extension View {
     }
 }
 
+// MARK: - TimecodeFieldPastePolicy
+
+/// Sets the timecode paste policy for the view.
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+struct TimecodeFieldPastePolicyViewModifier: ViewModifier {
+    let policy: TimecodeField.PastePolicy
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodeFieldPastePolicy, policy)
+    }
+}
+
+@available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
+extension View {
+    /// Sets the timecode paste policy for the view.
+    public func timecodeFieldPastePolicy(
+        _ policy: TimecodeField.PastePolicy
+    ) -> some View {
+        modifier(TimecodeFieldPastePolicyViewModifier(policy: policy))
+    }
+}
+
 // MARK: - TimecodeFieldValidationPolicy
 
 /// Sets timecode component validation policy for ``TimecodeField`` views.

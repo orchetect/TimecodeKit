@@ -20,11 +20,6 @@ extension EnvironmentValues {
     /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
     @Entry public var timecodeFormat: Timecode.StringFormat = .default()
     
-    // MARK: - TimecodePastePolicy
-    
-    /// Sets the timecode paste policy for the view.
-    @Entry public var timecodePastePolicy: TimecodePastePolicy = .preserveLocalProperties
-    
     // MARK: - TimecodeSeparatorStyle
     
     /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
@@ -61,23 +56,23 @@ extension EnvironmentValues {
 // MARK: - TimecodePasted (internal)
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-public struct TimecodePasteAction {
-    public typealias Action = (_ pasteResult: Result<Timecode, Error>) -> Void
+struct TimecodePasteAction {
+    typealias Action = (_ pasteResult: Result<Timecode, Error>) -> Void
     let action: Action
     
-    public enum ParseResult: Equatable, Hashable, Sendable {
+     enum ParseResult: Equatable, Hashable, Sendable {
         case timecode(Timecode)
         case invalid
     }
     
-    public func callAsFunction(_ timecode: Timecode) {
+    func callAsFunction(_ timecode: Timecode) {
         action(.success(timecode))
     }
     
     #if os(macOS)
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @MainActor
-    public func callAsFunction(
+    func callAsFunction(
         itemProvider: NSItemProvider,
         propertiesForString timecodeProperties: Timecode.Properties
     ) async {
@@ -86,7 +81,7 @@ public struct TimecodePasteAction {
     
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @MainActor
-    public func callAsFunction(
+    func callAsFunction(
         itemProviders: [NSItemProvider],
         propertiesForString timecodeProperties: Timecode.Properties
     ) async {
