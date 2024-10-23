@@ -97,7 +97,7 @@ extension Timecode {
         var piece: NSMutableAttributedString
         
         // days
-        if days != 0 {
+        if days != 0 || format.contains(.alwaysShowDays) {
             piece = NSMutableAttributedString(string: "\(days)", attributes: defaultAttributes)
             if let invalidAttributes, invalids.contains(.days) {
                 piece.addAttributes(
