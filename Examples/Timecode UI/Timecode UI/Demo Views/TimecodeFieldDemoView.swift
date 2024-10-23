@@ -1,5 +1,5 @@
 //
-//  TimecodeFieldView.swift
+//  TimecodeFieldDemoView.swift
 //  TimecodeKit • https://github.com/orchetect/TimecodeKit
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
@@ -8,7 +8,7 @@ import SwiftUI
 import TimecodeKit
 import TimecodeKitUI
 
-struct TimecodeFieldView: View {
+struct TimecodeFieldDemoView: View {
     @State var components: Timecode.Components = .random(in: .unsafeRandomRanges)
     @State var frameRate: TimecodeFrameRate = .fps24
     @State var subFramesBase: Timecode.SubFramesBase = .max80SubFrames
@@ -77,23 +77,11 @@ struct TimecodeFieldView: View {
     }
     
     private var propertiesSection: some View {
-        Section("Timecode Properties") {
-            Picker("Frame Rate", selection: $frameRate) {
-                ForEach(TimecodeFrameRate.allCases) { frameRate in
-                    Text(frameRate.stringValueVerbose).tag(frameRate)
-                }
-            }
-            Picker("SubFrames Base", selection: $subFramesBase) {
-                ForEach(Timecode.SubFramesBase.allCases) { subFramesBase in
-                    Text("\(subFramesBase.stringValueVerbose)").tag(subFramesBase)
-                }
-            }
-            Picker("Upper Limit", selection: $upperLimit) {
-                ForEach(Timecode.UpperLimit.allCases) { upperLimit in
-                    Text(upperLimit.rawValue).tag(upperLimit)
-                }
-            }
-        }
+        TimecodePropertiesSectionView(
+            frameRate: $frameRate,
+            subFramesBase: $subFramesBase,
+            upperLimit: $upperLimit
+        )
     }
     
     private var appearanceSection: some View {
@@ -215,7 +203,7 @@ struct TimecodeFieldView: View {
 
 // MARK: - View Property Types
 
-extension TimecodeFieldView {
+extension TimecodeFieldDemoView {
     private enum DefaultStyle: Int, CaseIterable, Identifiable {
         case `default`
         case blue
@@ -442,6 +430,6 @@ extension TimecodeField.ValidationPolicy {
 }
 
 #Preview {
-    TimecodeFieldView()
+    TimecodeFieldDemoView()
         .frame(minHeight: 700)
 }

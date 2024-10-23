@@ -19,8 +19,10 @@ struct ContentView: View {
             .frame(minWidth: 180)
         } detail: {
             switch sideBarItem {
-            case .timecodeField: TimecodeFieldView()
+            case .timecodeField: TimecodeFieldDemoView()
             case .timecodeText: TimecodeTextDemoView()
+            case .attributedString: AttributedStringDemoView()
+            case .nsAttributedString: NSAttributedStringDemoView()
             case nil: Text("Select a sidebar entry.")
             }
         }
@@ -34,6 +36,8 @@ struct ContentView: View {
     enum SideBarItem: Int, CaseIterable, Identifiable {
         case timecodeField
         case timecodeText
+        case attributedString
+        case nsAttributedString
         
         var id: RawValue { rawValue }
         
@@ -43,6 +47,10 @@ struct ContentView: View {
                 Label("TimecodeField", systemImage: "numbers.rectangle")
             case .timecodeText:
                 Label("TimecodeText", systemImage: "numbers")
+            case .attributedString:
+                Label("AttributedString", systemImage: "numbers")
+            case .nsAttributedString:
+                Label("NSAttributedString", systemImage: "numbers")
             }
         }
     }
