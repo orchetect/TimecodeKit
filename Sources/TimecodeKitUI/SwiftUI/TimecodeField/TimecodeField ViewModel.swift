@@ -18,7 +18,8 @@ extension TimecodeField {
             pasteResult: Result<Timecode, any Error>,
             inputStyle: TimecodeField.InputStyle,
             validationPolicy: TimecodeField.ValidationPolicy,
-            currentTimecodeProperties: Timecode.Properties
+            currentTimecodeProperties: Timecode.Properties,
+            pastePolicy: TimecodePastePolicy
         ) -> PasteValidationResult {
             do {
                 let pastedTimecode = try pasteResult.get()
@@ -55,7 +56,7 @@ extension TimecodeField {
             }
         }
         
-        enum PasteValidationResult {
+        enum PasteValidationResult: Equatable, Hashable, Sendable {
             case setTimecode(_ newTimecode: Timecode)
             case inputRejectionFeedback(
                 _ rejectedUserAction: TimecodeField.InputRejectionFeedback.UserAction

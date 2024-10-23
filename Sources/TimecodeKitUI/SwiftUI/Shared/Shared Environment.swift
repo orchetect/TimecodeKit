@@ -20,6 +20,11 @@ extension EnvironmentValues {
     /// Sets the timecode string format for ``TimecodeField`` and ``TimecodeText`` views.
     @Entry public var timecodeFormat: Timecode.StringFormat = .default()
     
+    // MARK: - TimecodePastePolicy
+    
+    /// Sets the timecode paste policy for the view.
+    @Entry public var timecodePastePolicy: TimecodePastePolicy = .followValidationPreservingLocalProperties
+    
     // MARK: - TimecodeSeparatorStyle
     
     /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.

@@ -34,7 +34,8 @@ final class TimecodeField_ViewModel_Tests: XCTestCase {
                 pasteResult: .success(timecode),
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties
+                currentTimecodeProperties: timecode.properties,
+                pastePolicy: .followValidationPreservingLocalProperties
             ),
             .setTimecode(timecode)
         )
@@ -50,7 +51,8 @@ final class TimecodeField_ViewModel_Tests: XCTestCase {
                 pasteResult: .success(timecode),
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties
+                currentTimecodeProperties: timecode.properties,
+                pastePolicy: .followValidationPreservingLocalProperties
             ),
             .inputRejectionFeedback(.fieldPasteRejected)
         )
@@ -66,7 +68,8 @@ final class TimecodeField_ViewModel_Tests: XCTestCase {
                 pasteResult: .success(timecode),
                 inputStyle: .autoAdvance,
                 validationPolicy: .enforceValid,
-                currentTimecodeProperties: timecode.properties
+                currentTimecodeProperties: timecode.properties,
+                pastePolicy: .followValidationPreservingLocalProperties
             ),
             .setTimecode(timecode)
         )

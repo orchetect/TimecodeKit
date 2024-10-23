@@ -34,6 +34,28 @@ extension View {
     }
 }
 
+// MARK: - TimecodePastePolicy
+
+/// Sets the timecode paste policy for the view.
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+struct TimecodePastePolicyViewModifier: ViewModifier {
+    let policy: TimecodePastePolicy
+    
+    func body(content: Content) -> some View {
+        content.environment(\.timecodePastePolicy, policy)
+    }
+}
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension View {
+    /// Sets the timecode paste policy for the view.
+    public func timecodePastePolicy(
+        _ policy: TimecodePastePolicy
+    ) -> some View {
+        modifier(TimecodePastePolicyViewModifier(policy: policy))
+    }
+}
+
 // MARK: - TimecodeSeparatorStyle
 
 /// Sets the text separator style for ``TimecodeField`` and ``TimecodeText`` views.
