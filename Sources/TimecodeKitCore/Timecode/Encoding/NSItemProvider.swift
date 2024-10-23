@@ -69,6 +69,14 @@ extension Timecode {
         from itemProviders: [NSItemProvider],
         propertiesForString: Timecode.Properties
     ) async throws {
+        // NOTE - Apple Docs says:
+        // > The Clipboard items that the action closure receives have the most preferred type out of all the types the
+        // > source supports.
+        //
+        // Which means technically there will only ever be one item provider in the array, and it could either be Timecode data
+        // or a plain-text timecode string. But never both.
+        // In any case, we'll iterate through the array just in case as a failsafe.
+        
         // 1. first try Codable decode from data
         
         if let provider = itemProviders.first(where: {
