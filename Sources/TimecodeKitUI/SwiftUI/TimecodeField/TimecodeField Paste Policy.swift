@@ -56,7 +56,7 @@ extension TimecodeField {
             pastedTimecode.properties = currentTimecodeProperties
         }
         
-        return validate(
+        return _validate(
             pastedTimecode: pastedTimecode,
             inputStyle: inputStyle,
             validationPolicy: validationPolicy,
@@ -65,7 +65,7 @@ extension TimecodeField {
         )
     }
     
-    private static func validate(
+    private static func _validate(
         pastedTimecode: Timecode,
         inputStyle: InputStyle,
         validationPolicy: ValidationPolicy,

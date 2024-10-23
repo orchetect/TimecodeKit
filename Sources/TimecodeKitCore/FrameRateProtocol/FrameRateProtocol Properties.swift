@@ -8,7 +8,7 @@
 
 extension FrameRateProtocol {
     /// Internal: uses `allCases` to determine sort order.
-    fileprivate var sortOrderIndex: Int {
+    fileprivate var _sortOrderIndex: Int {
         Self.allCases.firstIndex(of: self) ?? 0
     }
 }
@@ -16,7 +16,7 @@ extension FrameRateProtocol {
 extension Collection where Element: FrameRateProtocol {
     /// Returns an array containing Elements logically sorted.
     public func sorted() -> [Element] {
-        sorted { $0.sortOrderIndex < $1.sortOrderIndex }
+        sorted { $0._sortOrderIndex < $1._sortOrderIndex }
     }
 }
 

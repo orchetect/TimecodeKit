@@ -94,14 +94,14 @@ extension AVAssetTrack {
         // representing the frame number
         var samples: [CMTimeCode] = []
         while let sampleBuffer = readerOutput.copyNextSampleBuffer() {
-            let bufferSamples = try? Self.readTimecodeSamples(sampleBuffer: sampleBuffer)
+            let bufferSamples = try? Self._readTimecodeSamples(sampleBuffer: sampleBuffer)
             samples.append(contentsOf: bufferSamples ?? [])
         }
         
         return samples
     }
     
-    private static func readTimecodeSamples(sampleBuffer: CMSampleBuffer) throws -> [CMTimeCode] {
+    private static func _readTimecodeSamples(sampleBuffer: CMSampleBuffer) throws -> [CMTimeCode] {
         // FYI: on macOS 10.15/iOS 13 and later, you can use
         // sampleBuffer.formatDescription instead of CMSampleBufferGetFormatDescription
         guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer),
@@ -125,7 +125,7 @@ extension AVAssetTrack {
         switch type {
         case .timeCode32: // kCMTimeCodeFormatType_TimeCode32
             var samples: [CMTimeCode32] = []
-            while let tc = readTimecode32Sample(blockBuffer: blockBuffer, offset: offset) {
+            while let tc = _readTimecode32Sample(blockBuffer: blockBuffer, offset: offset) {
                 samples.append(tc)
                 offset += CMTimeCode32.byteLength
             }
@@ -133,7 +133,7 @@ extension AVAssetTrack {
             
         case .timeCode64: // kCMTimeCodeFormatType_TimeCode64
             var samples: [CMTimeCode64] = []
-            while let tc = readTimecode64Sample(blockBuffer: blockBuffer, offset: offset) {
+            while let tc = _readTimecode64Sample(blockBuffer: blockBuffer, offset: offset) {
                 samples.append(tc)
                 offset += CMTimeCode64.byteLength
             }
@@ -146,7 +146,7 @@ extension AVAssetTrack {
     }
     
     /// Timecode32 is a single number representing the frame number.
-    private static func readTimecode32Sample(
+    private static func _readTimecode32Sample(
         blockBuffer: CMBlockBuffer,
         offset: Int
     ) -> CMTimeCode32? {
@@ -175,7 +175,7 @@ extension AVAssetTrack {
     }
     
     /// Timecode64 is big-endian SInt64 encoding 4 x 16-bit integers for h, m, s, f.
-    private static func readTimecode64Sample(
+    private static func _readTimecode64Sample(
         blockBuffer: CMBlockBuffer,
         offset: Int
     ) -> CMTimeCode64? {

@@ -44,10 +44,10 @@ extension RejectedInputFeedbackable {
             return
         }
         
-        inputRejectionFeedback(rejectionAnimation: rejectionAnimation)
+        _inputRejectionFeedback(rejectionAnimation: rejectionAnimation)
     }
     
-    private func inputRejectionFeedback(
+    private func _inputRejectionFeedback(
         rejectionAnimation: TimecodeField.InputRejectionFeedback.RejectionAnimation? = nil
     ) {
         beep()

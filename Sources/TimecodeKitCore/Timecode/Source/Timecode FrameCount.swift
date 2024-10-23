@@ -277,7 +277,7 @@ extension Timecode {
         
         // only apply negative sign to largest non-zero value
         if isNegative {
-            newComponents.negate()
+            newComponents._negate()
         }
         
         return newComponents
@@ -286,7 +286,7 @@ extension Timecode {
 
 extension Timecode.Components {
     /// Negates the largest non-zero component.
-    fileprivate mutating func negate() {
+    fileprivate mutating func _negate() {
         if days != 0 { days.negate(); return }
         if hours != 0 { hours.negate(); return }
         if minutes != 0 { minutes.negate(); return }

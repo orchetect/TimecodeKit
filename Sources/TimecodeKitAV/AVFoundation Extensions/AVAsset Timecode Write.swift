@@ -109,7 +109,7 @@ extension AVMutableMovie {
     
     /// Internal helper.
     /// Returns the format description of the first timecode track.
-    private func getTimecodeFormatDescription() async throws -> CMTimeCodeFormatDescription? {
+    private func _getTimecodeFormatDescription() async throws -> CMTimeCodeFormatDescription? {
         try await loadTracks(withMediaType: .timecode)
             .first?
             .formatDescriptions
@@ -189,14 +189,14 @@ extension Timecode {
             timeCodeFormatType: .timeCode32, // one that exists in CMTimeCodeFormatType
             frameDuration: frameRate.frameDurationCMTime,
             frameQuanta: frameRate.maxFrames,
-            flags: cmFormatDescriptionTimeCodeFlags,
+            flags: _cmFormatDescriptionTimeCodeFlags,
             extensions: extensions
         )
     }
     
     /// Internal:
     /// Assembles timecode flags for use in `CMFormatDescription`
-    private var cmFormatDescriptionTimeCodeFlags: CMFormatDescription.TimeCode.Flag {
+    private var _cmFormatDescriptionTimeCodeFlags: CMFormatDescription.TimeCode.Flag {
         var flags: CMFormatDescription.TimeCode.Flag = []
         if upperLimit == .max24Hours { flags.insert(.twentyFourHourMax) }
         if frameRate.isDrop { flags.insert(.dropFrame) }
