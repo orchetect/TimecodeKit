@@ -188,6 +188,22 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     
     public init(
         components: Binding<Timecode.Components>,
+        at frameRate: Binding<TimecodeFrameRate>,
+        base: Binding<Timecode.SubFramesBase>,
+        limit: Binding<Timecode.UpperLimit>
+    ) {
+        _components = components
+        _frameRate = frameRate
+        _subFramesBase = base
+        _upperLimit = limit
+        
+        // need to set this first or compiler complains about accessing self before initialization
+        _timecode = .constant(Timecode(.zero, using: .init(rate: .fps24))) // unused
+        _timecode = timecodeBinding() // unused
+    }
+    
+    public init(
+        components: Binding<Timecode.Components>,
         using properties: Timecode.Properties
     ) {
         _components = components
