@@ -287,13 +287,13 @@ extension View {
     }
 }
 
-// MARK: - TimecodePasted (internal)
+// MARK: - TimecodePastedAction
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension View {
     /// Environment method used to propagate a user-pasted timecode up the view hierarchy.
-    func onPastedTimecode(_ action: @escaping TimecodePastedAction.Action) -> some View {
-        environment(\.timecodePasted, TimecodePastedAction(action: action))
+    func onPastedTimecode(_ action: @escaping TimecodePasteAction.Action) -> some View {
+        environment(\.timecodePasted, TimecodePasteAction(action: action))
     }
 }
 
@@ -304,23 +304,23 @@ extension View {
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
 extension View {
-    // /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
-    // func onPasteCommandOfTimecode(
-    //     propertiesForString: Timecode.Properties,
-    //     _ action: @escaping TimecodePastedAction.Action
-    // ) -> some View {
-    //     self.onPastedTimecode(action)
-    //         .onPasteCommandOfTimecode(
-    //             propertiesForString: propertiesForString,
-    //             forwardTo: TimecodePastedAction(action: action)
-    //         )
-    // }
+    /// Implements `onPasteCommand` to catch paste events and calls the action closure with the pasteboard parse result.
+    public func onPasteCommandOfTimecode(
+        propertiesForString: Timecode.Properties,
+        _ action: @escaping TimecodePasteAction.Action
+    ) -> some View {
+        self.onPastedTimecode(action)
+            .onPasteCommandOfTimecode(
+                propertiesForString: propertiesForString,
+                forwardTo: TimecodePasteAction(action: action)
+            )
+    }
     
     /// Implements `onPasteCommand` to catch paste events and forwards the pasteboard parse result to the given SwiftUI
     /// environment method.
     func onPasteCommandOfTimecode(
         propertiesForString: Timecode.Properties,
-        forwardTo block: sending @escaping @autoclosure () -> TimecodePastedAction?
+        forwardTo block: sending @escaping @autoclosure () -> TimecodePasteAction?
     ) -> some View {
         onPasteCommand(of: Timecode.pasteUTTypes) { itemProviders in
             Task {

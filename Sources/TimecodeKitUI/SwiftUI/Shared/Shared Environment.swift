@@ -56,23 +56,23 @@ extension EnvironmentValues {
 // MARK: - TimecodePasted (internal)
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-struct TimecodePastedAction {
-    typealias Action = (_ pasteResult: Result<Timecode, Error>) -> Void
+public struct TimecodePasteAction {
+    public typealias Action = (_ pasteResult: Result<Timecode, Error>) -> Void
     let action: Action
     
-    enum ParseResult: Equatable, Hashable, Sendable {
+    public enum ParseResult: Equatable, Hashable, Sendable {
         case timecode(Timecode)
         case invalid
     }
     
-    func callAsFunction(_ timecode: Timecode) {
+    public func callAsFunction(_ timecode: Timecode) {
         action(.success(timecode))
     }
     
     #if os(macOS)
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @MainActor
-    func callAsFunction(
+    public func callAsFunction(
         itemProvider: NSItemProvider,
         propertiesForString timecodeProperties: Timecode.Properties
     ) async {
@@ -81,7 +81,7 @@ struct TimecodePastedAction {
     
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @MainActor
-    func callAsFunction(
+    public func callAsFunction(
         itemProviders: [NSItemProvider],
         propertiesForString timecodeProperties: Timecode.Properties
     ) async {
@@ -102,7 +102,7 @@ struct TimecodePastedAction {
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EnvironmentValues {
     /// Environment method used to propagate a user-pasted timecode.
-    @Entry var timecodePasted: TimecodePastedAction? = nil
+    @Entry var timecodePasted: TimecodePasteAction? = nil
 }
 
 #endif
