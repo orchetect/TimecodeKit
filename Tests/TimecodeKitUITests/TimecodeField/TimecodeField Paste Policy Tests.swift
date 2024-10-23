@@ -32,7 +32,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 currentTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties
             ),
-            .setTimecode(timecode)
+            .allowed(timecode)
         )
     }
     
@@ -62,7 +62,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 currentTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties
             ),
-            .setTimecode(timecode)
+            .allowed(timecode)
         )
     }
     

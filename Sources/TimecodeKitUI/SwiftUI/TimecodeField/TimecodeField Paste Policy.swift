@@ -107,11 +107,11 @@ extension TimecodeField {
             break
         }
         
-        return .setTimecode(pastedTimecode)
+        return .allowed(pastedTimecode)
     }
     
     public enum PasteValidationResult: Equatable, Hashable, Sendable {
-        case setTimecode(_ newTimecode: Timecode)
+        case allowed(_ newTimecode: Timecode)
         case inputRejectionFeedback(
             _ rejectedUserAction: InputRejectionFeedback.UserAction
         )
