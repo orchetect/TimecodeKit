@@ -157,6 +157,9 @@ struct TimecodeFieldView: View {
             Toggle(isOn: $timecodeFormat.option(.showSubFrames)) {
                 Text("Show SubFrames")
             }
+            Toggle(isOn: $timecodeFormat.option(.alwaysShowDays)) {
+                Text("Always Show Days")
+            }
             Toggle(isOn: $isEnabled) {
                 Text("Enabled")
             }
