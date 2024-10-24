@@ -376,20 +376,19 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     }
     
     private func handle(pasteResult: Result<Timecode, any Error>) {
-        let result = TimecodeField.validate(
+        guard let newTimecode = TimecodeField.validate(
             pasteResult: pasteResult,
             localTimecodeProperties: timecodeProperties,
             pastePolicy: timecodeFieldPastePolicy,
             validationPolicy: timecodeFieldValidationPolicy,
             inputStyle: timecodeFieldInputStyle
         )
-        
-        switch result {
-        case .allowed(let newTimecode):
-            timecode = newTimecode
-        case .rejected(let action):
-            inputRejectionFeedback(action)
+        else {
+            inputRejectionFeedback(.pasteRejected)
+            return
         }
+        
+        timecode = newTimecode
     }
     
     // MARK: - Sync Bindings

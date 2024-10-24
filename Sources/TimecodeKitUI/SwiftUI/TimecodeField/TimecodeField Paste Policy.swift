@@ -25,21 +25,20 @@ extension TimecodeField {
     ///   - validationPolicy: Validation policy injected from the SwiftUI environment.
     ///   - inputStyle: Input style injected from the SwiftUI environment.
     ///
-    /// - Returns: Paste result determining whether the input timecode passes all of the validation conditions and the
+    /// - Returns: New timecode instance if the input timecode passes all of the validation conditions and the
     ///   receiver should accept the new timecode.
     ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
-    ///   For this reason, when accepting the pasted timecode after this method returns an
-    ///   ``PasteValidationResult/allowed(_:)`` case, you should accept the timecode contained in this case and not the
-    ///   timecode input into this method.
+    ///   For this reason, you should accept the timecode returned from this method and not the timecode input into this
+    ///   method.
     static func validate(
         pasteResult: Result<Timecode, any Error>,
         localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy,
         validationPolicy: ValidationPolicy,
         inputStyle: InputStyle
-    ) -> PasteValidationResult {
+    ) -> Timecode? {
         guard let pastedTimecode = try? pasteResult.get() else {
-            return .rejected(.pasteRejected)
+            return nil
         }
         
         return validate(
@@ -71,19 +70,18 @@ extension TimecodeField {
     ///   - validationPolicy: Validation policy. The default is the safest and most common option.
     ///   - inputStyle: Input style, if applicable. The default is the safest and most common option.
     ///
-    /// - Returns: Paste result determining whether the input timecode passes all of the validation conditions and the
+    /// - Returns: New timecode instance if the input timecode passes all of the validation conditions and the
     ///   receiver should accept the new timecode.
     ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
-    ///   For this reason, when accepting the pasted timecode after this method returns an
-    ///   ``PasteValidationResult/allowed(_:)`` case, you should accept the timecode contained in this case and not the
-    ///   timecode input into this method.
+    ///   For this reason, you should accept the timecode returned from this method and not the timecode input into this
+    ///   method.
     public static func validate(
         pastedTimecode: Timecode,
         localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy = .preserveLocalProperties,
         validationPolicy: ValidationPolicy = .enforceValid,
         inputStyle: InputStyle = .autoAdvance
-    ) -> PasteValidationResult {
+    ) -> Timecode? {
         var pastedTimecode = pastedTimecode
         
         switch pastePolicy {
@@ -91,7 +89,7 @@ extension TimecodeField {
             // ensure that the newly pasted timecode is compatible with local properties.
             guard pastedTimecode.frameRate == localTimecodeProperties.frameRate
             else {
-                return .rejected(.pasteRejected)
+                return nil
             }
             
             switch validationPolicy {
@@ -103,7 +101,7 @@ extension TimecodeField {
                 // ensure other properties (subframes base, upper limit) are compatible
                 guard let transplantedTimecode = try? pastedTimecode.setting(.components(pastedTimecode.components))
                 else {
-                    return .rejected(.pasteRejected)
+                    return nil
                 }
                 pastedTimecode = transplantedTimecode
             }
@@ -135,14 +133,14 @@ extension TimecodeField {
         pastePolicy: PastePolicy,
         validationPolicy: ValidationPolicy,
         inputStyle: InputStyle
-    ) -> PasteValidationResult {
+    ) -> Timecode? {
         // validate against validation policy
         switch validationPolicy {
         case .allowInvalid:
             break
         case .enforceValid:
             guard pastedTimecode.isValid else {
-                return .rejected(.pasteRejected)
+                return nil
             }
         }
         
@@ -165,13 +163,13 @@ extension TimecodeField {
                 base: timecodeProperties.subFramesBase
             )
             else {
-                return .rejected(.pasteRejected)
+                return nil
             }
         case .unbounded:
             break
         }
         
-        return .allowed(pastedTimecode)
+        return pastedTimecode
     }
     
     public enum PasteValidationResult: Equatable, Hashable, Sendable {
