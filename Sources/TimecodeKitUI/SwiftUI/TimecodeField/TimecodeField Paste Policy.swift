@@ -39,7 +39,7 @@ extension TimecodeField {
         inputStyle: InputStyle
     ) -> PasteValidationResult {
         guard let pastedTimecode = try? pasteResult.get() else {
-            return .inputRejectionFeedback(.fieldPasteRejected)
+            return .rejected(.fieldPasteRejected)
         }
         
         return validate(
@@ -91,7 +91,7 @@ extension TimecodeField {
             // ensure that the newly pasted timecode is compatible with local properties.
             guard pastedTimecode.frameRate == localTimecodeProperties.frameRate
             else {
-                return .inputRejectionFeedback(.fieldPasteRejected)
+                return .rejected(.fieldPasteRejected)
             }
             
             switch validationPolicy {
@@ -103,7 +103,7 @@ extension TimecodeField {
                 // ensure other properties (subframes base, upper limit) are compatible
                 guard let transplantedTimecode = try? pastedTimecode.setting(.components(pastedTimecode.components))
                 else {
-                    return .inputRejectionFeedback(.fieldPasteRejected)
+                    return .rejected(.fieldPasteRejected)
                 }
                 pastedTimecode = transplantedTimecode
             }
@@ -142,7 +142,7 @@ extension TimecodeField {
             break
         case .enforceValid:
             guard pastedTimecode.isValid else {
-                return .inputRejectionFeedback(.fieldPasteRejected)
+                return .rejected(.fieldPasteRejected)
             }
         }
         
@@ -165,7 +165,7 @@ extension TimecodeField {
                 base: timecodeProperties.subFramesBase
             )
             else {
-                return .inputRejectionFeedback(.fieldPasteRejected)
+                return .rejected(.fieldPasteRejected)
             }
         case .unbounded:
             break
@@ -175,8 +175,18 @@ extension TimecodeField {
     }
     
     public enum PasteValidationResult: Equatable, Hashable, Sendable {
+        /// The input timecode passed validation and is allowed to be pasted.
+        ///
+        /// > Note:
+        /// >
+        /// > The timecode may have mutated properties depending on which policies were applied, so when accepting the
+        /// > pasted timecode, use the timecode instance contained within this enum case and not the input timecode
+        /// > supplied to the ``TimecodeField/validate(pastedTimecode:localTimecodeProperties:pastePolicy:validationPolicy:inputStyle:)``
+        /// > method.
         case allowed(_ newTimecode: Timecode)
-        case inputRejectionFeedback(
+        
+        /// The pasted timecode failed validation based on the supplied policies.
+        case rejected(
             _ rejectedUserAction: InputRejectionFeedback.UserAction
         )
     }

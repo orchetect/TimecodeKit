@@ -56,7 +56,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid, // could be anything
                 inputStyle: .autoAdvance // could be anything
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -95,7 +95,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -113,7 +113,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -130,7 +130,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -169,7 +169,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -212,7 +212,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -251,7 +251,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -270,7 +270,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -287,7 +287,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -344,7 +344,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -362,7 +362,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -572,7 +572,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .unbounded
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
         
     }
@@ -659,7 +659,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     
@@ -677,7 +677,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .inputRejectionFeedback(.fieldPasteRejected)
+            .rejected(.fieldPasteRejected)
         )
     }
     

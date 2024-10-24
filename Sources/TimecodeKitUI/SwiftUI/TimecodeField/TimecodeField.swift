@@ -387,7 +387,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
         switch result {
         case .allowed(let newTimecode):
             timecode = newTimecode
-        case .inputRejectionFeedback(let action):
+        case .rejected(let action):
             inputRejectionFeedback(action)
         }
     }
