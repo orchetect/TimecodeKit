@@ -56,32 +56,27 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid, // could be anything
                 inputStyle: .autoAdvance // could be anything
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - preserveLocalProperties / enforceValid / autoAdvance
     
-    func testValidatePasteResult_Preserve_EnforceValid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_Preserve_EnforceValid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     func testValidatePasteResult_Preserve_EnforceValid_AutoAdvance_SameProperties_InvalidValues() {
@@ -95,7 +90,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -113,7 +108,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -130,32 +125,27 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - allowNewProperties / enforceValid / autoAdvance
     
-    func testValidatePasteResult_AllowNewProperties_EnforceValid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_EnforceValid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     func testValidatePasteResult_AllowNewProperties_EnforceValid_AutoAdvance_SameProperties_InvalidValues() {
@@ -169,33 +159,28 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
-    func testValidatePasteResult_AllowNewProperties_EnforceValid_AutoAdvance_DifferentProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_EnforceValid_AutoAdvance_DifferentProperties_ValidValues() throws {
         // frames value of 46 is invalid at local 24fps but valid at new frame rate of 48fps
         let timecode = Timecode(.components(f: 46), at: .fps48, base: .max80SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 46))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max80SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 46))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max80SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     /// Allow new properties, but the new timecode itself is invalid.
@@ -212,32 +197,27 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - discardProperties / enforceValid / autoAdvance
     
-    func testValidatePasteResult_DiscardProperties_EnforceValid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_DiscardProperties_EnforceValid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     func testValidatePasteResult_DiscardProperties_EnforceValid_AutoAdvance_SameProperties_InvalidValues() {
@@ -251,7 +231,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -270,7 +250,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -287,32 +267,27 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - preserveLocalProperties / allowInvalid / autoAdvance
     
-    func testValidatePasteResult_Preserve_AllowInvalid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_Preserve_AllowInvalid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     func testValidatePasteResult_Preserve_AllowInvalid_AutoAdvance_SameProperties_InvalidValues() {
@@ -326,7 +301,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .allowed(timecode)
+            timecode
         )
     }
     
@@ -344,7 +319,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -362,198 +337,158 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - allowNewProperties / allowInvalid / autoAdvance
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_SameProperties_InvalidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_SameProperties_InvalidValues() throws {
         let timecode = Timecode(.components(f: 30), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 30))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 30))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_DifferentProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_DifferentProperties_ValidValues() throws {
         // frames value of 46 is invalid at local 24fps but valid at new frame rate of 48fps
         let timecode = Timecode(.components(f: 46), at: .fps48, base: .max80SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 46))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max80SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 46))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max80SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     /// Allow new properties, but the new timecode itself is invalid.
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_DifferentProperties_InvalidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_AutoAdvance_DifferentProperties_InvalidValues() throws {
         let timecode = Timecode(.components(f: 50), at: .fps48, base: .max100SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 50))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max100SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 50))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max100SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     // MARK: - discardProperties / allowInvalid / autoAdvance
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_SameProperties_ValidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_SameProperties_InvalidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_SameProperties_InvalidValues() throws {
         let timecode = Timecode(.components(f: 30), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 30))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 30))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_DifferentProperties_ValidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_DifferentProperties_ValidValues() throws {
         let timecode = Timecode(.components(f: 46), at: .fps48, base: .max80SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 46))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 46))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_DifferentProperties_InvalidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_AutoAdvance_DifferentProperties_InvalidValues() throws {
         let timecode = Timecode(.components(f: 50), at: .fps48, base: .max100SubFrames, limit: .max24Hours, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 50))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 50))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     // MARK: - preserveLocalProperties / enforceValid / unbounded
@@ -572,77 +507,62 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .unbounded
             ),
-            .rejected(.pasteRejected)
+            nil
         )
         
     }
     
     // MARK: - preserveLocalProperties / allowInvalid / unbounded
     
-    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_ValidValues() {
+    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_ValidValues() throws {
         let timecode = Timecode(.components(f: 12), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 12))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 12))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() {
+    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() throws {
         let timecode = Timecode(.components(f: 30), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 30))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 30))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() {
+    func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() throws {
         let timecode = Timecode(.components(f: 234), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 234))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 234))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
     func testValidatePasteResult_Preserve_AllowInvalid_Unbounded_DifferentProperties_ValidValues() {
@@ -659,7 +579,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
@@ -677,291 +597,231 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .rejected(.pasteRejected)
+            nil
         )
     }
     
     // MARK: - allowNewProperties / allowInvalid / unbounded
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() throws {
         let timecode = Timecode(.components(f: 30), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 30))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 30))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() throws {
         let timecode = Timecode(.components(f: 234), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 234))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 234))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_ValidValues() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_ValidValues() throws {
         // frames value of 46 is invalid at local 24fps but valid at new frame rate of 48fps
         let timecode = Timecode(.components(f: 46), at: .fps48, base: .max80SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 46))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max80SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 46))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max80SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     /// Allow new properties, but the new timecode itself is invalid.
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesWithinDigitBounds() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesWithinDigitBounds() throws {
         let timecode = Timecode(.components(f: 50), at: .fps48, base: .max100SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 50))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max100SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 50))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max100SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     /// Allow new properties, but the new timecode itself is invalid.
-    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesOutsideDigitBounds() {
+    func testValidatePasteResult_AllowNewProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesOutsideDigitBounds()throws  {
         let timecode = Timecode(.components(f: 234), at: .fps48, base: .max100SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 234))
-        XCTAssertEqual(timecode.frameRate, .fps48)
-        XCTAssertEqual(timecode.subFramesBase, .max100SubFrames)
-        XCTAssertEqual(timecode.upperLimit, .max100Days)
+        XCTAssertEqual(validated.components, .init(f: 234))
+        XCTAssertEqual(validated.frameRate, .fps48)
+        XCTAssertEqual(validated.subFramesBase, .max100SubFrames)
+        XCTAssertEqual(validated.upperLimit, .max100Days)
     }
     
     // MARK: - discardProperties / allowInvalid / unbounded
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_ValidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_ValidValues() throws {
         let timecode = Timecode(.zero, at: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .zero)
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .zero)
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesWithinDigitBounds() throws {
         let timecode = Timecode(.components(f: 30), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 30))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 30))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_SameProperties_InvalidValuesOutsideDigitBounds() throws {
         let timecode = Timecode(.components(f: 234), at: testFrameRate, base: testSubFramesBase, limit: .max24Hours, by: .allowingInvalid)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 234))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 234))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_ValidValues() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_ValidValues() throws {
         let timecode = Timecode(.components(f: 46), at: .fps48, base: .max80SubFrames, limit: .max100Days, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 46))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 46))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesWithinDigitBounds() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesWithinDigitBounds() throws {
         let timecode = Timecode(.components(f: 50), at: .fps48, base: .max100SubFrames, limit: .max24Hours, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 50))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 50))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
     
-    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesOutsideDigitBounds() {
+    func testValidatePasteResult_DiscardProperties_AllowInvalid_Unbounded_DifferentProperties_InvalidValuesOutsideDigitBounds() throws {
         let timecode = Timecode(.components(f: 234), at: .fps48, base: .max100SubFrames, limit: .max24Hours, by: .allowingInvalid)
         
         let localProperties = Timecode.Properties(rate: testFrameRate, base: testSubFramesBase, limit: .max24Hours)
         
-        let validated = TimecodeField.validate(
+        let validated = try XCTUnwrap(TimecodeField.validate(
             pasteResult: .success(timecode),
             localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
-        )
+        ))
         
-        guard case let .allowed(timecode) = validated else {
-            XCTFail("Unexpected enum case")
-            return
-        }
-        
-        XCTAssertEqual(timecode.components, .init(f: 234))
-        XCTAssertEqual(timecode.frameRate, testFrameRate)
-        XCTAssertEqual(timecode.subFramesBase, testSubFramesBase)
-        XCTAssertEqual(timecode.upperLimit, .max24Hours)
+        XCTAssertEqual(validated.components, .init(f: 234))
+        XCTAssertEqual(validated.frameRate, testFrameRate)
+        XCTAssertEqual(validated.subFramesBase, testSubFramesBase)
+        XCTAssertEqual(validated.upperLimit, .max24Hours)
     }
 }
 
