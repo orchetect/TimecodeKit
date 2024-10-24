@@ -48,6 +48,7 @@ import TimecodeKitCore
 ///
 /// ```swift
 /// TimecodeText(timecode)
+///     .font(.title) // font size and family may be set as usual
 ///     .foregroundColor(.primary) // default text color
 ///     .timecodeFormat([.showSubFrames]) // enable subframes component
 ///     .timecodeSeparatorStyle(.secondary) // colorize separators

@@ -38,3 +38,4 @@ Primitive storage type for timecode component values.
 - ``isWithinValidDigitCounts(at:base:)``
 - ``validRange(of:using:)``
 - ``validRange(of:at:base:limit:)``
+- ``ComponentRanges``
