@@ -84,8 +84,10 @@ extension Timecode {
     ///   - format: String format options.
     ///   - defaultAttributes: The base attributes applied to the entire string before `invalidAttributes` are
     ///     applied.
+    ///   - separatorAttributes: The attributes applied to separator characters.
+    ///   - subFramesAttributes: The attributes applied to valid subframes.
     ///   - invalidAttributes: The attributes applied to invalid values. This attribute overrides any
-    ///     `defaultAttributes`.
+    ///     `defaultAttributes` and `subFramesAttributes`.
     public func nsAttributedString(
         format: StringFormat = .default(),
         defaultAttributes: [NSAttributedString.Key: Any]?,
