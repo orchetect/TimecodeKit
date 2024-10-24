@@ -20,7 +20,7 @@ extension TimecodeField {
     ///
     /// - Parameters:
     ///   - pasteResult: The result passed in from `TimecodePasteAction.Action`.
-    ///   - currentTimecodeProperties: Local timecode properties on the timecode field.
+    ///   - localTimecodeProperties: Local timecode properties on the timecode field.
     ///   - pastePolicy: Paste policy injected from the SwiftUI environment.
     ///   - validationPolicy: Validation policy injected from the SwiftUI environment.
     ///   - inputStyle: Input style injected from the SwiftUI environment.
@@ -33,7 +33,7 @@ extension TimecodeField {
     ///   timecode input into this method.
     static func validate(
         pasteResult: Result<Timecode, any Error>,
-        currentTimecodeProperties: Timecode.Properties,
+        localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy,
         validationPolicy: ValidationPolicy,
         inputStyle: InputStyle
@@ -44,7 +44,7 @@ extension TimecodeField {
         
         return validate(
             pastedTimecode: pastedTimecode,
-            currentTimecodeProperties: currentTimecodeProperties,
+            localTimecodeProperties: localTimecodeProperties,
             pastePolicy: pastePolicy,
             validationPolicy: validationPolicy,
             inputStyle: inputStyle
@@ -66,7 +66,7 @@ extension TimecodeField {
     ///     - `onPasteCommand()` view modifier after parsing the `NSItemProvider`s using
     ///       `Timecode(from:propertiesForString:)`.
     ///
-    ///   - currentTimecodeProperties: Local timecode properties on the timecode field.
+    ///   - localTimecodeProperties: Local timecode properties on the timecode field.
     ///   - pastePolicy: Paste policy. The default is the safest and most common option.
     ///   - validationPolicy: Validation policy. The default is the safest and most common option.
     ///   - inputStyle: Input style, if applicable. The default is the safest and most common option.
@@ -79,7 +79,7 @@ extension TimecodeField {
     ///   timecode input into this method.
     public static func validate(
         pastedTimecode: Timecode,
-        currentTimecodeProperties: Timecode.Properties,
+        localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy = .preserveLocalProperties,
         validationPolicy: ValidationPolicy = .enforceValid,
         inputStyle: InputStyle = .autoAdvance
@@ -89,7 +89,7 @@ extension TimecodeField {
         switch pastePolicy {
         case .preserveLocalProperties:
             // ensure that the newly pasted timecode is compatible with local properties.
-            guard pastedTimecode.frameRate == currentTimecodeProperties.frameRate
+            guard pastedTimecode.frameRate == localTimecodeProperties.frameRate
             else {
                 return .inputRejectionFeedback(.fieldPasteRejected)
             }
@@ -98,7 +98,7 @@ extension TimecodeField {
             case .allowInvalid:
                 // other properties (subframes base, upper limit) can be ignored at this stage.
                 // just ensure Timecode instance has identical local properties.
-                pastedTimecode.properties = currentTimecodeProperties
+                pastedTimecode.properties = localTimecodeProperties
             case .enforceValid:
                 // ensure other properties (subframes base, upper limit) are compatible
                 guard let transplantedTimecode = try? pastedTimecode.setting(.components(pastedTimecode.components))
@@ -115,12 +115,12 @@ extension TimecodeField {
         case .discardProperties:
             // ensure Timecode instance has identical local properties.
             // at this stage we don't care if the timecode is valid or not.
-            pastedTimecode.properties = currentTimecodeProperties
+            pastedTimecode.properties = localTimecodeProperties
         }
         
         return _validate(
             pastedTimecode: pastedTimecode,
-            currentTimecodeProperties: currentTimecodeProperties,
+            localTimecodeProperties: localTimecodeProperties,
             pastePolicy: pastePolicy,
             validationPolicy: validationPolicy,
             inputStyle: inputStyle
@@ -131,7 +131,7 @@ extension TimecodeField {
     
     private static func _validate(
         pastedTimecode: Timecode,
-        currentTimecodeProperties: Timecode.Properties,
+        localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy,
         validationPolicy: ValidationPolicy,
         inputStyle: InputStyle
@@ -146,7 +146,7 @@ extension TimecodeField {
             }
         }
         
-        var timecodeProperties = currentTimecodeProperties
+        var timecodeProperties = localTimecodeProperties
         switch pastePolicy {
         case .allowNewProperties:
             timecodeProperties = pastedTimecode.properties

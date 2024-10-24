@@ -378,7 +378,7 @@ public struct TimecodeField: View, RejectedInputFeedbackable {
     private func handle(pasteResult: Result<Timecode, any Error>) {
         let result = TimecodeField.validate(
             pasteResult: pasteResult,
-            currentTimecodeProperties: timecodeProperties,
+            localTimecodeProperties: timecodeProperties,
             pastePolicy: timecodeFieldPastePolicy,
             validationPolicy: timecodeFieldValidationPolicy,
             inputStyle: timecodeFieldInputStyle

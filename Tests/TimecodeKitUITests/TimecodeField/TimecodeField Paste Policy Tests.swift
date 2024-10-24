@@ -51,7 +51,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .failure(Timecode.ValidationError.invalid),
-                currentTimecodeProperties: timecode.properties, // could be anything
+                localTimecodeProperties: timecode.properties, // could be anything
                 pastePolicy: .preserveLocalProperties, // could be anything
                 validationPolicy: .enforceValid, // could be anything
                 inputStyle: .autoAdvance // could be anything
@@ -67,7 +67,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
@@ -90,7 +90,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: timecode.properties,
+                localTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -108,7 +108,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -125,7 +125,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -141,7 +141,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
@@ -164,7 +164,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: timecode.properties,
+                localTimecodeProperties: timecode.properties,
                 pastePolicy: .allowNewProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -181,7 +181,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
@@ -207,7 +207,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .allowNewProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -223,7 +223,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .enforceValid,
             inputStyle: .autoAdvance
@@ -246,7 +246,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: timecode.properties,
+                localTimecodeProperties: timecode.properties,
                 pastePolicy: .discardProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -265,7 +265,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .discardProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -282,7 +282,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .discardProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
@@ -298,7 +298,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -321,7 +321,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: timecode.properties,
+                localTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
@@ -339,7 +339,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
@@ -357,7 +357,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
@@ -373,7 +373,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -395,7 +395,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -420,7 +420,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -445,7 +445,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -469,7 +469,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -491,7 +491,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -515,7 +515,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -539,7 +539,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .autoAdvance
@@ -567,7 +567,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: timecode.properties,
+                localTimecodeProperties: timecode.properties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .enforceValid,
                 inputStyle: .unbounded
@@ -584,7 +584,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -606,7 +606,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -628,7 +628,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .preserveLocalProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -654,7 +654,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
@@ -672,7 +672,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         XCTAssertEqual(
             TimecodeField.validate(
                 pasteResult: .success(timecode),
-                currentTimecodeProperties: localProperties,
+                localTimecodeProperties: localProperties,
                 pastePolicy: .preserveLocalProperties,
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
@@ -688,7 +688,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -710,7 +710,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -732,7 +732,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -757,7 +757,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -782,7 +782,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -807,7 +807,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .allowNewProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -831,7 +831,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -853,7 +853,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -875,7 +875,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: timecode.properties,
+            localTimecodeProperties: timecode.properties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -899,7 +899,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -923,7 +923,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
@@ -947,7 +947,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
         
         let validated = TimecodeField.validate(
             pasteResult: .success(timecode),
-            currentTimecodeProperties: localProperties,
+            localTimecodeProperties: localProperties,
             pastePolicy: .discardProperties,
             validationPolicy: .allowInvalid,
             inputStyle: .unbounded
