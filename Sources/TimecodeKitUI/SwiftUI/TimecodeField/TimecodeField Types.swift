@@ -235,7 +235,7 @@ extension TimecodeField.InputRejectionFeedback {
         case keyRejected(component: Timecode.Component, key: KeyEquivalent, reason: Reason)
         
         /// User pasted pasteboard contents but it was rejected.
-        case fieldPasteRejected
+        case pasteRejected
     }
     
     public enum Reason: String, Equatable, Hashable, Sendable, CaseIterable {

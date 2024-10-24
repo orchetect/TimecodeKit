@@ -56,7 +56,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid, // could be anything
                 inputStyle: .autoAdvance // could be anything
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -95,7 +95,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -113,7 +113,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -130,7 +130,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -169,7 +169,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -212,7 +212,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -251,7 +251,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -270,7 +270,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -287,7 +287,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -344,7 +344,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -362,7 +362,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .autoAdvance
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -572,7 +572,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .enforceValid,
                 inputStyle: .unbounded
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
         
     }
@@ -659,7 +659,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     
@@ -677,7 +677,7 @@ final class TimecodeField_Paste_Policy_Tests: XCTestCase {
                 validationPolicy: .allowInvalid,
                 inputStyle: .unbounded
             ),
-            .rejected(.fieldPasteRejected)
+            .rejected(.pasteRejected)
         )
     }
     

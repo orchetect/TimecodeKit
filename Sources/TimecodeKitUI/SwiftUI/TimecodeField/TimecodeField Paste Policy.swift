@@ -39,7 +39,7 @@ extension TimecodeField {
         inputStyle: InputStyle
     ) -> PasteValidationResult {
         guard let pastedTimecode = try? pasteResult.get() else {
-            return .rejected(.fieldPasteRejected)
+            return .rejected(.pasteRejected)
         }
         
         return validate(
@@ -91,7 +91,7 @@ extension TimecodeField {
             // ensure that the newly pasted timecode is compatible with local properties.
             guard pastedTimecode.frameRate == localTimecodeProperties.frameRate
             else {
-                return .rejected(.fieldPasteRejected)
+                return .rejected(.pasteRejected)
             }
             
             switch validationPolicy {
@@ -103,7 +103,7 @@ extension TimecodeField {
                 // ensure other properties (subframes base, upper limit) are compatible
                 guard let transplantedTimecode = try? pastedTimecode.setting(.components(pastedTimecode.components))
                 else {
-                    return .rejected(.fieldPasteRejected)
+                    return .rejected(.pasteRejected)
                 }
                 pastedTimecode = transplantedTimecode
             }
@@ -142,7 +142,7 @@ extension TimecodeField {
             break
         case .enforceValid:
             guard pastedTimecode.isValid else {
-                return .rejected(.fieldPasteRejected)
+                return .rejected(.pasteRejected)
             }
         }
         
@@ -165,7 +165,7 @@ extension TimecodeField {
                 base: timecodeProperties.subFramesBase
             )
             else {
-                return .rejected(.fieldPasteRejected)
+                return .rejected(.pasteRejected)
             }
         case .unbounded:
             break
