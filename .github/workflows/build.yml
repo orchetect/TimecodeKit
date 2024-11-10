@@ -63,7 +63,7 @@ jobs:
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=iOS Simulator,name=Any iOS Device" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
-      shell: zsh
+      shell: bash
       run: |
         DESTNAME=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" | perl -nle 'if (m/iOS\sSimulator.*(iPhone.*)\s\}\.*/g) { print $1; }' | head -n 1)
         echo Using device \"$destName\"
@@ -82,7 +82,7 @@ jobs:
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=tvOS Simulator,name=Any tvOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
-      shell: zsh
+      shell: bash
       run: |
         DESTNAME=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" | perl -nle 'if (m/tvOS\sSimulator.*(Apple\sTV.*)\s\}\.*/g) { print $1; }' | head -n 1)
         echo Using device \"$destName\"
@@ -101,7 +101,7 @@ jobs:
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=watchOS Simulator,name=Any watchOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
-      shell: zsh
+      shell: bash
       run: |
         DESTNAME=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" | perl -nle 'if (m/watchOS\sSimulator.*(Apple\sWatch.*)\s\}\.*/g) { print $1; }' | head -n 1)
         echo Using device \"$destName\"
