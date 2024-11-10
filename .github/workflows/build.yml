@@ -138,6 +138,3 @@ jobs:
       run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
     - name: Timecode Math - Build (iOS)
       run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
-
-# xcodebuild test reference:
-# https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/08-automation.html
