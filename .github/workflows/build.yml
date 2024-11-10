@@ -59,8 +59,9 @@ jobs:
         xcode-version: latest-stable
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=iOS Simulator,name=Any iOS Device" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Destination Device Name
+      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/iOS\sSimulator.*(iPhone.*)\s\}\.*/g) { print $1; }' | head -n 1)
     - name: Unit Tests
-      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/iOS\sSimulator.*(iPhone.*)\s\.*/g) { print $1; }' | head -n 1)
       run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=iOS Simulator,name=${destName}" | xcpretty && exit ${PIPESTATUS[0]}
 
   tvOS:
@@ -73,8 +74,9 @@ jobs:
         xcode-version: latest-stable
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=tvOS Simulator,name=Any tvOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Destination Device Name
+      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/tvOS\sSimulator.*(Apple\sTV.*)\s\}\.*/g) { print $1; }' | head -n 1)
     - name: Unit Tests
-      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/tvOS\sSimulator.*(Apple\sTV.*)\s\.*/g) { print $1; }' | head -n 1)
       run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=tvOS Simulator,name=${destName}" | xcpretty && exit ${PIPESTATUS[0]}
       
   watchOS:
@@ -87,8 +89,9 @@ jobs:
         xcode-version: latest-stable
     - name: Build
       run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "generic/platform=watchOS Simulator,name=Any watchOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+    - name: Destination Device Name
+      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/watchOS\sSimulator.*(Apple\sWatch.*)\s\}\.*/g) { print $1; }' | head -n 1)
     - name: Unit Tests
-      run: destName=$(xcodebuild -showdestinations -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" | perl -nle 'if (m/watchOS\sSimulator.*(Apple\sWatch.*)\s\.*/g) { print $1; }' | head -n 1)
       run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "TimecodeKit-CI" -destination "platform=watchOS Simulator,name=${destName}" | xcpretty && exit ${PIPESTATUS[0]}
 
   examples:
