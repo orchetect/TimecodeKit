@@ -42,6 +42,7 @@ import Foundation
 /// - ``fps59_94i``
 /// - ``fps60p``
 /// - ``fps60i``
+/// - ``fps90p``
 /// - ``fps95_9p``
 /// - ``fps96p``
 /// - ``fps100p``
@@ -54,7 +55,7 @@ import Foundation
 ///
 public enum VideoFrameRate: String, FrameRateProtocol {
     // TODO: Seen in professional gear: 1, 2, 3, 4, 5, 6, 8, 10, 12, 12.5, 14.98, 15, 20
-    // TODO: Triple rates seen in professional gear: 71.9928, 72, 75, 89.91, 90
+    // TODO: Triple rates seen in professional gear: 71.9928, 72, 75, 89.91
     // TODO: Adobe Premiere offers 10, 12, 12.5 and 15.
     
     /// 23.98 fps (23.976) progressive.
@@ -110,6 +111,9 @@ public enum VideoFrameRate: String, FrameRateProtocol {
     /// 60 fps interlaced.
     /// (120 fields producing 60 frames.)
     case fps60i = "60i"
+    
+    /// 90 fps progressive.
+    case fps90p = "90p"
     
     /// 95.9 fps (95.904) progressive.
     case fps95_9p = "95.9p"

@@ -29,6 +29,7 @@ extension VideoFrameRate {
         case .fps59_94i:  drop ? .fps59_94d  : .fps59_94
         case .fps60p:     drop ? .fps60d     : .fps60
         case .fps60i:     drop ? nil         : .fps60
+        case .fps90p:     drop ? nil         : .fps90
         case .fps95_9p:   drop ? nil         : .fps95_904
         case .fps96p:     drop ? nil         : .fps96
         case .fps100p:    drop ? nil         : .fps100

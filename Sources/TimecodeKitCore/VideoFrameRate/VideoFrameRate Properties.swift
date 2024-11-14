@@ -25,6 +25,7 @@ extension VideoFrameRate {
         case .fps59_94i:  "59.94i"
         case .fps60p:     "60p"
         case .fps60i:     "60i"
+        case .fps90p:     "90p"
         case .fps95_9p:   "95.9p"
         case .fps96p:     "96p"
         case .fps100p:    "100p"
@@ -78,6 +79,7 @@ extension VideoFrameRate {
         case .fps59_94i:  Fraction(60000,  1001)
         case .fps60p:     Fraction(60,     1)
         case .fps60i:     Fraction(60,     1)
+        case .fps90p:     Fraction(90,     1)
         case .fps95_9p:   Fraction(96000,  1001)
         case .fps96p:     Fraction(96,     1)
         case .fps100p:    Fraction(100,    1)
@@ -96,21 +98,22 @@ extension VideoFrameRate {
     ///         Potentially compatible outside of that range but untested.
     public var frameDuration: Fraction {
         switch self {
-        case .fps23_98p:  Fraction(1001, 24000)  // confirmed in FCP XML
-        case .fps24p:     Fraction(100,  2400)   // confirmed in FCP XML
-        case .fps25p:     Fraction(100,  2500)   // confirmed in FCP XML
-        case .fps25i:     Fraction(200,  5000)   // confirmed in FCP XML
-        case .fps29_97p:  Fraction(1001, 30000)  // confirmed in FCP XML
-        case .fps29_97i:  Fraction(2002, 60000)  // confirmed in FCP XML & QT tc track
-        case .fps30p:     Fraction(100,  3000)   // confirmed in FCP XML
+        case .fps23_98p:  Fraction(1001, 24000)  // confirmed in FCP XML 1.12
+        case .fps24p:     Fraction(100,  2400)   // confirmed in FCP XML 1.12
+        case .fps25p:     Fraction(100,  2500)   // confirmed in FCP XML 1.12
+        case .fps25i:     Fraction(200,  5000)   // confirmed in FCP XML 1.12
+        case .fps29_97p:  Fraction(1001, 30000)  // confirmed in FCP XML 1.12
+        case .fps29_97i:  Fraction(2002, 60000)  // confirmed in FCP XML 1.12 & QT timecode track
+        case .fps30p:     Fraction(100,  3000)   // confirmed in FCP XML 1.12
         case .fps47_95p:  Fraction(1001, 48000)  // inferred
         case .fps48p:     Fraction(100,  4800)   // inferred
-        case .fps50p:     Fraction(100,  5000)   // confirmed in FCP XML
+        case .fps50p:     Fraction(100,  5000)   // confirmed in FCP XML 1.12
         case .fps50i:     Fraction(200,  10000)  // inferred
-        case .fps59_94p:  Fraction(1001, 60000)  // confirmed in FCP XML
+        case .fps59_94p:  Fraction(1001, 60000)  // confirmed in FCP XML 1.12
         case .fps59_94i:  Fraction(2002, 120000) // inferred
-        case .fps60p:     Fraction(100,  6000)   // confirmed in FCP XML
+        case .fps60p:     Fraction(100,  6000)   // confirmed in FCP XML 1.12
         case .fps60i:     Fraction(200,  12000)  // inferred
+        case .fps90p:     Fraction(100,  9000)   // confirmed in FCP XML 1.13
         case .fps95_9p:   Fraction(1001, 96000)  // inferred
         case .fps96p:     Fraction(100,  9600)   // inferred
         case .fps100p:    Fraction(100,  10000)  // inferred
@@ -136,6 +139,7 @@ extension VideoFrameRate {
         case .fps59_94i:  Fraction(2000, 119880) // inferred
         case .fps60p:     nil
         case .fps60i:     nil
+        case .fps90p:     nil
         case .fps95_9p:   Fraction(1000, 95904)
         case .fps96p:     nil
         case .fps100p:    nil
@@ -168,6 +172,7 @@ extension VideoFrameRate {
         case .fps59_94i:  true
         case .fps60p:     false
         case .fps60i:     true
+        case .fps90p:     false
         case .fps95_9p:   false
         case .fps96p:     false
         case .fps100p:    false
