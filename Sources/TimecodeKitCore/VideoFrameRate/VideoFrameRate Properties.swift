@@ -26,7 +26,7 @@ extension VideoFrameRate {
         case .fps60p:     "60p"
         case .fps60i:     "60i"
         case .fps95_9p:   "95.9p"
-        case .fps96p:     "96"
+        case .fps96p:     "96p"
         case .fps100p:    "100p"
         case .fps119_88p: "119.88pp"
         case .fps120p:    "120p"
