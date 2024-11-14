@@ -94,6 +94,11 @@ final class Timecode_Source_Rational_Tests: XCTestCase {
                 )
             case .fps60d:
                 break // TODO: finish this
+            case .fps90:
+                XCTAssertEqual(
+                    try Timecode(.rational(Fraction(90000, 9000)), at: fRate).components,
+                    Timecode.Components(h: 00, m: 00, s: 10, f: 00)
+                )
             case .fps95_904:
                 break // TODO: finish this
             case .fps96:

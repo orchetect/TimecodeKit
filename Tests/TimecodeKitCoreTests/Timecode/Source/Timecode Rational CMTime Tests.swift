@@ -96,6 +96,11 @@ final class Timecode_Source_Rational_CMTime_Tests: XCTestCase {
                 )
             case .fps60d:
                 break // TODO: finish this
+            case .fps90:
+                XCTAssertEqual(
+                    try Timecode(.cmTime(CMTime(value: 90000, timescale: 9000)), at: fRate).components,
+                    Timecode.Components(h: 00, m: 00, s: 10, f: 00)
+                )
             case .fps95_904:
                 break // TODO: finish this
             case .fps96:

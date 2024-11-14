@@ -86,6 +86,7 @@ final class Timecode_Source_FrameCount_Tests: XCTestCase {
             case .fps59_94d: 5_178_816
             case .fps60: 5_184_000
             case .fps60d: 5_178_816
+            case .fps90: 7_776_000
             case .fps95_904: 8_294_400
             case .fps96: 8_294_400
             case .fps100: 8_640_000
@@ -123,6 +124,7 @@ final class Timecode_Source_FrameCount_Tests: XCTestCase {
             case .fps59_94d: 5_178_816 - 1
             case .fps60: 5_184_000 - 1
             case .fps60d: 5_178_816 - 1
+            case .fps90: 7_776_000 - 1
             case .fps95_904: 8_294_400 - 1
             case .fps96: 8_294_400 - 1
             case .fps100: 8_640_000 - 1

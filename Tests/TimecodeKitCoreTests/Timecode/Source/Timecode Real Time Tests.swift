@@ -110,6 +110,7 @@ final class Timecode_Source_RealTime_Tests: XCTestCase {
                  .fps48,
                  .fps50,
                  .fps60,
+                 .fps90,
                  .fps96,
                  .fps100,
                  .fps120:
@@ -173,6 +174,7 @@ final class Timecode_Source_RealTime_Tests: XCTestCase {
                  .fps48,
                  .fps50,
                  .fps60,
+                 .fps90,
                  .fps96,
                  .fps100,
                  .fps120:
