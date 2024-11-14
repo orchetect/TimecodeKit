@@ -32,8 +32,9 @@ The following video frame rates are supported. (Video rates)
 | 24p       | 50p / 50i | 30p             |
 | 47.95p    | 100p      | 59.94p / 59.94i |
 | 48p       |           | 60p / 60i       |
-| 95.9p     |           | 119.88p         |
-| 96p       |           | 120p            |
+| 95.9p     |           | 90p             |
+| 96p       |           | 119.88p         |
+|           |           | 120p            |
 
 ## Core Features
 
