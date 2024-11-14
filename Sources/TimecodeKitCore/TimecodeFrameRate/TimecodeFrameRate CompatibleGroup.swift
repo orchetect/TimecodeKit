@@ -67,6 +67,7 @@ extension TimecodeFrameRate {
                 .fps48,
                 .fps50,
                 .fps60,
+                .fps90,
                 .fps96,
                 .fps100,
                 .fps120

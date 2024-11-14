@@ -42,6 +42,7 @@
 /// - ``fps59_94d``
 /// - ``fps60``
 /// - ``fps60d``
+/// - ``fps90``
 /// - ``fps95_904``
 /// - ``fps96``
 /// - ``fps100``
@@ -142,6 +143,14 @@ public enum TimecodeFrameRate: String, FrameRateProtocol {
     ///
     /// See the description for 30 drop for more info.
     case fps60d = "60d"
+    
+    /// 90 fps
+    ///
+    /// Triple 30 fps.
+    ///
+    /// This video frame rate is supported by some high definition cameras and modern smartphones such as the iPhone 16
+    /// Pro.
+    case fps90 = "90"
     
     /// 95.904 fps (96/1.001)
     ///

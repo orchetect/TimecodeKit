@@ -25,6 +25,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  "59.94d"
         case .fps60:      "60"
         case .fps60d:     "60d"
+        case .fps90:      "90"
         case .fps95_904:  "95.904"
         case .fps96:      "96"
         case .fps100:     "100"
@@ -53,6 +54,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  "59.94 fps drop"
         case .fps60:      "60 fps"
         case .fps60d:     "60 fps drop"
+        case .fps90:      "90 fps"
         case .fps95_904:  "95.904 fps"
         case .fps96:      "96 fps"
         case .fps100:     "100 fps"
@@ -108,6 +110,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  Fraction(60000,   1001)
         case .fps60:      Fraction(60,      1)
         case .fps60d:     Fraction(60,      1)
+        case .fps90:      Fraction(90,      1)
         case .fps95_904:  Fraction(96000,   1001)
         case .fps96:      Fraction(96,      1)
         case .fps100:     Fraction(100,     1)
@@ -143,6 +146,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  Fraction(1001, 60000) // TODO: inferred
         case .fps60:      Fraction(100,  6000)
         case .fps60d:     Fraction(100,  6000) // TODO: needs checking
+        case .fps90:      Fraction(100,  9000)
         case .fps95_904:  Fraction(1001, 96000) // TODO: inferred
         case .fps96:      Fraction(100,  9600) // TODO: inferred
         case .fps100:     Fraction(100,  10000)
@@ -155,7 +159,7 @@ extension TimecodeFrameRate {
     
     /// Alternate frame durations used, such as QuickTime timecode track.
     /// Some encoders errantly encode frame rate fractions,
-    /// so we can fall back to these values a secondary checks.
+    /// so we can fall back to these values as secondary checks.
     public var alternateFrameDuration: Fraction? {
         switch self {
         case .fps23_976:  Fraction(1000, 23976) // seen in the wild
@@ -173,6 +177,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  Fraction(1000, 59940) // TODO: inferred
         case .fps60:      nil
         case .fps60d:     nil // TODO: needs checking
+        case .fps90:      nil
         case .fps95_904:  Fraction(1000, 95904) // TODO: inferred
         case .fps96:      nil
         case .fps100:     nil
@@ -201,6 +206,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  true
         case .fps60:      false
         case .fps60d:     true
+        case .fps90:      false
         case .fps95_904:  false
         case .fps96:      false
         case .fps100:     false
@@ -231,6 +237,7 @@ extension TimecodeFrameRate {
              .fps59_94d,
              .fps60,
              .fps60d,
+             .fps90,
              .fps95_904,
              .fps96,
              .fps100:
@@ -271,6 +278,7 @@ extension TimecodeFrameRate {
             case .fps59_94d:  5_178_816  // @ 24hours (.fps29_97d * 2, in theory)
             case .fps60:      5_184_000  // @ 24hours
             case .fps60d:     5_178_816  // @ 24hours
+            case .fps90:      7_776_000  // @ 24hours
             case .fps95_904:  8_294_400  // @ 24hours
             case .fps96:      8_294_400  // @ 24hours
             case .fps100:     8_640_000  // @ 24hours
@@ -331,6 +339,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  60
         case .fps60:      60
         case .fps60d:     60
+        case .fps90:      90
         case .fps95_904:  96
         case .fps96:      96
         case .fps100:     100
@@ -360,6 +369,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  59.94
         case .fps60:      60.0
         case .fps60d:     59.94
+        case .fps90:      90.0
         case .fps95_904:  96.0
         case .fps96:      96.0
         case .fps100:     100.0
@@ -389,6 +399,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  60.0 / 1.001
         case .fps60:      60.0
         case .fps60d:     60.0
+        case .fps90:      90.0
         case .fps95_904:  96.0 / 1.001
         case .fps96:      96.0
         case .fps100:     100.0
@@ -419,6 +430,7 @@ extension TimecodeFrameRate {
              .fps50,
              .fps59_94,
              .fps60,
+             .fps90,
              .fps95_904,
              .fps96,
              .fps100,

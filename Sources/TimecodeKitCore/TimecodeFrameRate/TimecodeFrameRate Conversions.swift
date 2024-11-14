@@ -29,6 +29,7 @@ extension TimecodeFrameRate {
         case .fps59_94d:  interlaced ? nil        : .fps59_94p  // TODO: 59.94i exists
         case .fps60:      interlaced ? .fps60i    : .fps60p
         case .fps60d:     interlaced ? nil        : .fps60p
+        case .fps90:      interlaced ? nil        : .fps90p
         case .fps95_904:  interlaced ? nil        : .fps95_9p
         case .fps96:      interlaced ? nil        : .fps96p
         case .fps100:     interlaced ? nil        : .fps100p
