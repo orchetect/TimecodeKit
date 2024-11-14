@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 22 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
+The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 23 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
 Timecode is a broadcast and post-production standard for addressing video frames. It is used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
 
@@ -12,15 +12,15 @@ Timecode is a broadcast and post-production standard for addressing video frames
 
 The following timecode rates and formats are supported.
 
-| Film / ATSC / HD | PAL / SECAM / DVB / ATSC | NTSC / ATSC / PAL-M | NTSC Non-Standard | ATSC |
-| ---------------- | ------------------------ | ------------------- | ----------------- | ---- |
-| 23.976           | 25                       | 29.97               | 30 DF             | 30   |
-| 24               | 50                       | 29.97 DF            | 60 DF             | 60   |
-| 24.98            | 100                      | 59.94               | 120 DF            | 120  |
-| 47.952           |                          | 59.94 DF            |                   |      |
-| 48               |                          | 119.88              |                   |      |
-| 95.904           |                          | 119.88 DF           |                   |      |
-| 96               |                          |                     |                   |      |
+| Film / ATSC / HD | PAL / SECAM / DVB / ATSC | NTSC / ATSC / PAL-M | NTSC Non-Standard | ATSC / HD |
+| ---------------- | ------------------------ | ------------------- | ----------------- | --------- |
+| 23.976           | 25                       | 29.97               | 30 DF             | 30        |
+| 24               | 50                       | 29.97 DF            | 60 DF             | 60        |
+| 24.98            | 100                      | 59.94               | 120 DF            | 90        |
+| 47.952           |                          | 59.94 DF            |                   | 120       |
+| 48               |                          | 119.88              |                   |           |
+| 95.904           |                          | 119.88 DF           |                   |           |
+| 96               |                          |                     |                   |           |
 
 ## Supported Video Frame Rates
 
