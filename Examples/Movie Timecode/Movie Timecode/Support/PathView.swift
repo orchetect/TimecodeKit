@@ -34,6 +34,8 @@ struct PathView: NSViewRepresentable {
         pathControl.focusRingType = .none
         pathControl.pathStyle = style
         pathControl.isEditable = isEditable
+        pathControl.translatesAutoresizingMaskIntoConstraints = false
+        
         return pathControl
     }
     
@@ -42,6 +44,13 @@ struct PathView: NSViewRepresentable {
         context: NSViewRepresentableContext<PathView>
     ) {
         nsView.url = url
+    }
+    
+    public func sizeThatFits(_ proposal: ProposedViewSize, nsView: NSPathControl, context: Context) -> CGSize? {
+        var size = nsView.sizeThatFits(NSSize(width: proposal.width ?? 1, height: proposal.height ?? 10))
+        size.width = min(size.width, proposal.width ?? 1)
+        size.height = min(size.height, proposal.height ?? 1)
+        return size
     }
     
     func makeCoordinator() -> Coordinator {

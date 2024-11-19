@@ -15,9 +15,7 @@ struct MultiplatformPathView: View {
             if let url {
                 #if os(macOS)
                 Spacer()
-                    .layoutPriority(0)
                 PathView(url: url, style: .popUp)
-                    .layoutPriority(-1)
                 #else
                 Text(url.lastPathComponent)
                 #endif
