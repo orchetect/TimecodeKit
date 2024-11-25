@@ -30,7 +30,7 @@ extension TimecodeField {
     ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
     ///   For this reason, you should accept the timecode returned from this method and not the timecode input into this
     ///   method.
-    static func validate(
+    nonisolated static func validate(
         pasteResult: Result<Timecode, any Error>,
         localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy,
@@ -75,7 +75,7 @@ extension TimecodeField {
     ///   Note that the timecode returned in this result may have properties that are different from the input timecode.
     ///   For this reason, you should accept the timecode returned from this method and not the timecode input into this
     ///   method.
-    public static func validate(
+    nonisolated public static func validate(
         pastedTimecode: Timecode,
         localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy = .preserveLocalProperties,
@@ -127,7 +127,7 @@ extension TimecodeField {
     
     // MARK: - Private Chaining Handler
     
-    private static func _validate(
+    nonisolated private static func _validate(
         pastedTimecode: Timecode,
         localTimecodeProperties: Timecode.Properties,
         pastePolicy: PastePolicy,

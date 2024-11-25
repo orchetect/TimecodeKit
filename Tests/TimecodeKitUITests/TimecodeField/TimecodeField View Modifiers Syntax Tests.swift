@@ -18,7 +18,7 @@ import XCTest
 /// If intentional changes occur to view modifiers during a refactor, this can help indicate
 /// the need to add API evolution deprecations or renames.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-final class TimecodeField_View_Modifiers_Syntax_Tests: XCTestCase {
+@MainActor final class TimecodeField_View_Modifiers_Syntax_Tests: XCTestCase {
     override func setUp() { }
     override func tearDown() { }
     
