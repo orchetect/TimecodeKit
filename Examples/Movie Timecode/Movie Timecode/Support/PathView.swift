@@ -10,7 +10,7 @@ import AppKit
 import SwiftUI
 
 /// SwiftUI view wrapper for `NSPathControl`.
-struct PathView: NSViewRepresentable {
+@MainActor struct PathView: NSViewRepresentable {
     public let url: URL?
     public let style: NSPathControl.Style
     public let isEditable: Bool
@@ -57,7 +57,7 @@ struct PathView: NSViewRepresentable {
         Coordinator()
     }
     
-    class Coordinator: NSObject, NSPathControlDelegate {
+    @MainActor class Coordinator: NSObject, NSPathControlDelegate {
         @objc
         func action(sender: NSPathControl) {
             // reveal file/folder in Finder

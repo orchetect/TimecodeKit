@@ -21,18 +21,13 @@ extension AVMutableMovie {
         return self
     }
     
-    func export(
-        to url: URL,
-        _ configuration: ((AVAssetExportSession) -> Void)? = nil
-    ) async throws {
+    func export(to url: URL) async throws {
         guard let exportSession = AVAssetExportSession(
             asset: self,
             presetName: AVAssetExportPresetPassthrough
         ) else {
             throw ModelError.exportError(nil)
         }
-        
-        configuration?(exportSession)
         
         try await exportSession.export(to: url, as: .mov)
     }

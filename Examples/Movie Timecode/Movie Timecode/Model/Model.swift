@@ -4,17 +4,17 @@
 //  © 2020-2024 Steffan Andrews • Licensed under MIT License
 //
 
-import AVFoundation
+@preconcurrency import AVFoundation
 import Observation
 import TimecodeKit
 
-@Observable class Model {
+@Observable @MainActor class Model {
     private(set) var movie: Movie?
     var error: ModelError?
 }
 
 extension Model {
-    struct Movie {
+    @MainActor struct Movie {
         private(set) var avMovie: AVMovie
         private(set) var frameRate: TimecodeFrameRate?
         private(set) var timecodeStart: Timecode?
@@ -191,7 +191,7 @@ extension Model {
     private func export(
         to url: URL,
         revealInFinderOnCompletion: Bool,
-        _ mutation: (_ mutableMovie: AVMutableMovie) async throws -> Void
+        _ mutation: @Sendable (_ mutableMovie: AVMutableMovie) async throws -> Void
     ) async {
         do {
             let mutableMovie = try getMutableCopy()
