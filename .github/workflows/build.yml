@@ -35,9 +35,9 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS" | xcbeautify && exit ${PIPESTATUS[0]}
   
   macOS-swift6:
     name: macOS (Swift 6)
@@ -50,9 +50,9 @@ jobs:
     - name: Set Package to Swift 6.0
       run: swift package tools-version --set "6.0"
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS" | xcbeautify && exit ${PIPESTATUS[0]}
       
   macCatalyst:
     name: macCatalyst
@@ -63,9 +63,9 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,variant=Mac Catalyst,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=macOS,variant=Mac Catalyst,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS,variant=Mac Catalyst" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=macOS,variant=Mac Catalyst" | xcbeautify && exit ${PIPESTATUS[0]}
 
   iOS:
     name: iOS
@@ -76,7 +76,7 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=iOS Simulator,name=Any iOS Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=iOS Simulator,name=Any iOS Device" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
       shell: bash
       run: |
@@ -84,7 +84,7 @@ jobs:
         echo Using device \"$DESTNAME\"
         echo "DESTNAME=$DESTNAME" >> "$GITHUB_ENV"
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=iOS Simulator,name=$DESTNAME" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=iOS Simulator,name=$DESTNAME" | xcbeautify && exit ${PIPESTATUS[0]}
 
   tvOS:
     name: tvOS
@@ -95,7 +95,7 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=tvOS Simulator,name=Any tvOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=tvOS Simulator,name=Any tvOS Simulator Device" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
       shell: bash
       run: |
@@ -103,7 +103,7 @@ jobs:
         echo Using device \"$DESTNAME\"
         echo "DESTNAME=$DESTNAME" >> "$GITHUB_ENV"
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=tvOS Simulator,name=$DESTNAME" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=tvOS Simulator,name=$DESTNAME" | xcbeautify && exit ${PIPESTATUS[0]}
       
   watchOS:
     name: watchOS
@@ -114,7 +114,7 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Build
-      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=watchOS Simulator,name=Any watchOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "generic/platform=watchOS Simulator,name=Any watchOS Simulator Device" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Prepare Destination Device Name
       shell: bash
       run: |
@@ -122,7 +122,7 @@ jobs:
         echo Using device \"$DESTNAME\"
         echo "DESTNAME=$DESTNAME" >> "$GITHUB_ENV"
     - name: Unit Tests
-      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=watchOS Simulator,name=$DESTNAME" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -workspace ".swiftpm/xcode/package.xcworkspace" -scheme "$SCHEME" -destination "platform=watchOS Simulator,name=$DESTNAME" | xcbeautify && exit ${PIPESTATUS[0]}
 
   examples:
     name: Examples
@@ -134,22 +134,22 @@ jobs:
         xcode-version: latest-stable
     
     - name: Movie Timecode - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
-      run: xcodebuild -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -resolvePackageDependencies | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Movie Timecode - Build (macOS)
-      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Movie Timecode - Build (iOS)
-      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Movie Timecode/Movie Timecode.xcodeproj" -scheme "Movie Timecode" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcbeautify && exit ${PIPESTATUS[0]}
     
     - name: Timecode UI - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
-      run: xcodebuild -project "Examples/Timecode UI/Timecode UI.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild -project "Examples/Timecode UI/Timecode UI.xcodeproj" -resolvePackageDependencies | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Timecode UI - Build (macOS)
-      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Timecode UI - Build (iOS)
-      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Timecode UI/Timecode UI.xcodeproj" -scheme "Timecode UI" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcbeautify && exit ${PIPESTATUS[0]}
     
     - name: Timecode Math - Resolve Package Dependencies # needed because sometimes xcodebuild fails otherwise
-      run: xcodebuild -project "Examples/Timecode Math/Timecode Math.xcodeproj" -resolvePackageDependencies | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild -project "Examples/Timecode Math/Timecode Math.xcodeproj" -resolvePackageDependencies | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Timecode Math - Build (macOS)
-      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=macOS,name=Any Mac" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify && exit ${PIPESTATUS[0]}
     - name: Timecode Math - Build (iOS)
-      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild build -project "Examples/Timecode Math/Timecode Math.xcodeproj" -scheme "Timecode Math" -destination "generic/platform=iOS Simulator,name=Any iOS Simulator Device" | xcbeautify && exit ${PIPESTATUS[0]}
