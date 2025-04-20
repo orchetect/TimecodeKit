@@ -7,7 +7,7 @@
 import TimecodeKitCore
 import XCTest
 
-final class TimecodeIntegrationTests: XCTestCase {
+final class TimecodeAdHocTests: XCTestCase {
     func testTimecode_Clamping() {
         // 24 hour
         
