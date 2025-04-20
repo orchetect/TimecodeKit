@@ -194,6 +194,23 @@ final class Timecode_Math_Public_Tests: XCTestCase {
         XCTAssertEqual(tc.components, Timecode.Components(h: 22, m: 00, s: 00, f: 00))
     }
     
+    func testSubtractTimecodeByAllowingInvalid() throws {
+        var tc = try Timecode(
+            .components(h: 00, m: 00, s: 00, f: 00),
+            at: .fps24,
+            limit: .max100Days
+        )
+        
+        let tc1 = try Timecode(
+            .components(h: 00, m: 00, s: 00, f: 01),
+            at: .fps24,
+            limit: .max100Days
+        )
+        
+        try tc.subtract(tc1, by: .allowingInvalid)
+        XCTAssertEqual(tc.components, Timecode.Components(d: -1, h: 23, m: 59, s: 59, f: 23))
+    }
+    
     func testSubtractDifferingFrameRates() throws {
         var tc = try Timecode(.components(h: 2), at: .fps25)
         let tc1 = try Timecode(.components(h: 1), at: .fps29_97) // 1:00:03:15 @ 25fps
