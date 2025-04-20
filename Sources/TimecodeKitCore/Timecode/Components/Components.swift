@@ -406,7 +406,7 @@ extension Timecode.Components {
     /// >
     /// > To validate timecode component values, construct a ``Timecode`` instance using the
     /// > ``Timecode/ValidationRule/allowingInvalid`` validation rule and then query its ``Timecode/isValid`` property
-    /// > instead. Alternatively, the ``Timecode/invalidComponents-swift.struct`` property can granularly return which
+    /// > instead. Alternatively, the ``Timecode/invalidComponents`` property can granularly return which
     /// > individual components are invalid, if any.
     public func isWithinValidDigitCounts(
         at frameRate: TimecodeFrameRate,

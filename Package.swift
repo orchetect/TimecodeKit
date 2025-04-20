@@ -66,6 +66,7 @@ let package = Package(
     ]
 )
 
+/// Conditionally opt-in to Swift DocC Plugin when an environment flag is present.
 func doccPluginDependency() -> [Package.Dependency] {
     ProcessInfo.processInfo.environment["ENABLE_DOCC_PLUGIN"] != nil
         ? [.package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.4.3")]
