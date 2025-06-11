@@ -101,11 +101,11 @@ If you enjoy using TimecodeKit and want to contribute to open-source financially
 
 ## Community & Support
 
-Please do not email maintainers for technical support. Several options are available for questions and feature ideas:
+Please do not email maintainers for technical support. Several options are available for issues and questions:
 
 - Questions and feature ideas can be posted to [Discussions](https://github.com/orchetect/TimecodeKit/discussions).
 - If an issue is a verifiable bug with reproducible steps it may be posted in [Issues](https://github.com/orchetect/TimecodeKit/issues).
 
 ## Contributions
 
-Contributions are welcome. Feel free to post in Discussions first before submitting a PR.
+Contributions are welcome. Posting in [Discussions](https://github.com/orchetect/TimecodeKit/discussions) first prior to new submitting PRs for features or modifications is encouraged.
