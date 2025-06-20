@@ -16,7 +16,7 @@ extension URL {
     /// Has no effect on non-macOS platforms.
     func openFile() throws {
         #if os(macOS)
-        if !NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path()) {
+        if !NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path(percentEncoded: false)) {
             throw CocoaError(.fileNoSuchFile)
         }
         #endif
@@ -26,7 +26,7 @@ extension URL {
     /// Has no effect on non-macOS platforms.
     func revealInFinder() throws {
         #if os(macOS)
-        if !NSWorkspace.shared.selectFile(path(), inFileViewerRootedAtPath: "/") {
+        if !NSWorkspace.shared.selectFile(path(percentEncoded: false), inFileViewerRootedAtPath: "/") {
             throw CocoaError(.fileNoSuchFile)
         }
         #endif
