@@ -4,9 +4,9 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
 
-The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 23 industry timecode frame rates, with a suite of conversions, calculations and integrations with Apple AV frameworks.
+The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 23 industry-standard timecode frame rates with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
-Timecode is a broadcast and post-production standard for addressing video frames. It is used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
+Timecode is a broadcast and post-production standard for addressing video frames. It is often used for video burn-in timecode (BITC), and display in a DAW (Digital Audio Workstation) or video playback/editing applications.
 
 ## Supported Timecode Frame Rates
 
