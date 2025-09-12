@@ -1066,7 +1066,9 @@ final class TimecodeField_ComponentView_StateModel_Tests: XCTestCase {
 // MARK: - Test Utilities
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
+fileprivate class MockStateModel {
+    private var stateModel: TimecodeField.ComponentView.StateModel
+    
     var inputStyle: TimecodeField.InputStyle
     var policy: TimecodeField.ValidationPolicy
     
@@ -1082,7 +1084,7 @@ fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
         self.inputStyle = inputStyle
         self.policy = policy
         
-        super.init(
+        stateModel = .init(
             component: component,
             initialRate: rate,
             initialBase: base,
@@ -1093,8 +1095,17 @@ fileprivate class MockStateModel: TimecodeField.ComponentView.StateModel {
     
     /// Convenience caller for `handleKeyPress` for unit tests.
     func press(_ key: KeyEquivalent) -> TimecodeField.KeyResult {
-        handleKeyPress(key: key, inputStyle: inputStyle, validationPolicy: policy)
+        stateModel.handleKeyPress(key: key, inputStyle: inputStyle, validationPolicy: policy)
     }
+    
+    // Proxy property accessors
+    var component: Timecode.Component { stateModel.component }
+    var timecodeProperties: Timecode.Properties { stateModel.timecodeProperties }
+    var frameRate: TimecodeFrameRate { stateModel.frameRate }
+    var subFramesBase: Timecode.SubFramesBase { stateModel.subFramesBase }
+    var upperLimit: Timecode.UpperLimit { stateModel.upperLimit }
+    var value: Int { stateModel.value }
+    var isVirgin: Bool { stateModel.isVirgin }
 }
 
 #endif
