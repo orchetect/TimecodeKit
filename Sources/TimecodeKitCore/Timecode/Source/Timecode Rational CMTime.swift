@@ -11,8 +11,18 @@ import Foundation
 
 // MARK: - TimecodeSource
 
+#if compiler(>=6.2)
+// CMTime conforms to Sendable in Swift 6.2 / Xcode 26.0
+#elseif compiler(>=6.0)
+// `@retroactive` keyword was introduced in Swift 6.0 and helps silence compiler warnings
 @available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
-extension CMTime: /* @retroactive */ _TimecodeSource, @unchecked Sendable {
+extension CMTime: @unchecked @retroactive Sendable { }
+#else
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
+extension CMTime: @unchecked Sendable { }
+#endif
+
+extension CMTime: _TimecodeSource {
     package func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
     }
