@@ -22,6 +22,7 @@ extension CMTime: @unchecked @retroactive Sendable { }
 extension CMTime: @unchecked Sendable { }
 #endif
 
+@available(macOS 10.7, iOS 4.0, tvOS 9.0, watchOS 6.0, *)
 extension CMTime: _TimecodeSource {
     package func set(timecode: inout Timecode) throws {
         try timecode._setTimecode(exactly: self)
