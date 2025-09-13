@@ -126,7 +126,7 @@ import TimecodeKitCore
 ///
 /// For keys that navigate timecode component focus, see the <doc:#Focus> section above.
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, *)
-public struct TimecodeField: View, RejectedInputFeedbackable {
+public struct TimecodeField: View {
     // MARK: - Standard Environment
     
     @Environment(\.isEnabled) private var isEnabled
