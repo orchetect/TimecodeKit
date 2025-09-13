@@ -32,7 +32,7 @@ struct TimecodeTextDemoView: View {
                 Grid(alignment: .topLeading, verticalSpacing: 10) {
                     GridRow {
                         Image(systemName: "lightbulb.fill")
-                        Text("Try drag & drop between the timecode text instances, or select one and copy one then select the other and paste.")
+                        Text("Try drag & drop between the timecode text instances.")
                             .gridColumnAlignment(.leading)
                     }
                     GridRow {
