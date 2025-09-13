@@ -95,11 +95,15 @@ struct ContentView: View {
                     }
                 }
                 .tabViewStyle(.tabBarOnly)
+                #if os(macOS)
                 .frame(minHeight: 400)
+                #else
+                .frame(minHeight: 600)
+                #endif
                 .environment(model)
             } else {
                 ZStack {
-                    Text("Load a movie.")
+                    Text("Load a movie using the panel above.")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }

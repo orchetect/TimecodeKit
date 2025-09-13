@@ -30,6 +30,23 @@ struct RemoveTimecodeTrackView: View {
             .formStyle(.grouped)
         }
         .padding()
+        
+        #if os(macOS)
+        // note that SwiftUI's .fileImporter does not produce a security-scoped URL suitable for writing to on macOS (but seems fine on iOS).
+        // also, SwiftUI's .fileExporter insists on writing the data to disk for us with no way to write to the URL manually.
+        // hence, our workaround is to use a custom NSOpenPanel wrapper.
+        .fileOpenPanel(isPresented: $isFolderPickerShown) { openPanel in
+            openPanel.canCreateDirectories = true
+            openPanel.canChooseDirectories = true
+            openPanel.canChooseFiles = false
+            openPanel.allowsMultipleSelection = false
+            openPanel.title = "Export"
+            openPanel.directoryURL = model.defaultFolder
+        } completion: { urls in
+            guard let url = urls?.first else { return }
+            Task { await handleResult(.success(url)) }
+        }
+        #else
         .fileImporter(
             isPresented: $isFolderPickerShown,
             allowedContentTypes: [.folder]
@@ -38,6 +55,7 @@ struct RemoveTimecodeTrackView: View {
         }
         .fileDialogDefaultDirectory(model.defaultFolder)
         .fileDialogConfirmationLabel("Export")
+        #endif
     }
     
     private func handleResult(_ result: Result<URL, Error>) async {
@@ -45,16 +63,15 @@ struct RemoveTimecodeTrackView: View {
             let folderURL = try result.get()
             
             isExportProgressShown = true
-            guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
-            print("Exporting to \(fileURL.path)")
+            defer { isExportProgressShown = false }
             
-            await model.exportRemovingTimecodeTrack(
-                to: fileURL,
-                revealInFinderOnCompletion: true
+            await model.export(
+                action: .removeTimecodeTrack,
+                toFolder: folderURL,
+                revealInFinderOnCompletion: true // only applies to macOS
             )
-            isExportProgressShown = false
         } catch {
-            model.error = ModelError.exportError(error)
+            model.error = .exportError(error)
         }
     }
 }

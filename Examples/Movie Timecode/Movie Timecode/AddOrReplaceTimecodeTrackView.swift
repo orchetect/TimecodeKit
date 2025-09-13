@@ -30,7 +30,7 @@ struct AddOrReplaceTimecodeTrackView: View {
                 }
                 Picker("SubFrames Base", selection: $newStartTimecode.subFramesBase) {
                     ForEach(Timecode.SubFramesBase.allCases) { subFramesBase in
-                        Text("\(subFramesBase)").tag(subFramesBase)
+                        Text("\(subFramesBase.description)").tag(subFramesBase)
                     }
                 }
                 
@@ -55,6 +55,23 @@ struct AddOrReplaceTimecodeTrackView: View {
             .formStyle(.grouped)
         }
         .padding()
+        
+        #if os(macOS)
+        // note that SwiftUI's .fileImporter does not produce a security-scoped URL suitable for writing to on macOS (but seems fine on iOS).
+        // also, SwiftUI's .fileExporter insists on writing the data to disk for us with no way to write to the URL manually.
+        // hence, our workaround is to use a custom NSOpenPanel wrapper.
+        .fileOpenPanel(isPresented: $isFolderPickerShown) { openPanel in
+            openPanel.canCreateDirectories = true
+            openPanel.canChooseDirectories = true
+            openPanel.canChooseFiles = false
+            openPanel.allowsMultipleSelection = false
+            openPanel.title = "Export"
+            openPanel.directoryURL = model.defaultFolder
+        } completion: { urls in
+            guard let url = urls?.first else { return }
+            Task { await handleResult(.success(url)) }
+        }
+        #else
         .fileImporter(
             isPresented: $isFolderPickerShown,
             allowedContentTypes: [.folder]
@@ -63,23 +80,23 @@ struct AddOrReplaceTimecodeTrackView: View {
         }
         .fileDialogDefaultDirectory(model.defaultFolder)
         .fileDialogConfirmationLabel("Export")
+        #endif
     }
     
     private func handleResult(_ result: Result<URL, Error>) async {
-        switch result {
-        case let .success(folderURL):
-            isExportProgressShown = true
-            guard let fileURL = model.uniqueExportURL(folder: folderURL) else { return }
-            print("Exporting to \(fileURL.path)")
+        do {
+            let folderURL = try result.get()
             
-            await model.exportReplacingTimecodeTrack(
-                startTimecode: newStartTimecode,
-                to: fileURL,
-                revealInFinderOnCompletion: true
+            isExportProgressShown = true
+            defer { isExportProgressShown = false }
+            
+            await model.export(
+                action: .replaceTimecodeTrack(startTimecode: newStartTimecode),
+                toFolder: folderURL,
+                revealInFinderOnCompletion: true // only applies to macOS
             )
-            isExportProgressShown = false
-        case let .failure(error):
-            model.error = ModelError.exportError(error)
+        } catch {
+            model.error = .exportError(error)
         }
     }
 }

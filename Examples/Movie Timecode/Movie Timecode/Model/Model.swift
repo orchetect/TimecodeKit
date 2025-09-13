@@ -8,18 +8,9 @@
 import Observation
 import TimecodeKit
 
-@Observable @MainActor class Model {
+@Observable @MainActor final class Model {
     private(set) var movie: Movie?
     var error: ModelError?
-}
-
-extension Model {
-    @MainActor struct Movie {
-        private(set) var avMovie: AVMovie
-        private(set) var frameRate: TimecodeFrameRate?
-        private(set) var timecodeStart: Timecode?
-        private(set) var containsTimecodeTrack: Bool = false
-    }
 }
 
 // MARK: - Handlers
@@ -161,63 +152,41 @@ extension Model {
 // MARK: - Movie Mutation and Export
 
 extension Model {
-    func exportReplacingTimecodeTrack(
-        startTimecode: Timecode,
-        to url: URL,
+    func export(
+        action: Movie.ExportAction,
+        toFolder folderURL: URL,
         revealInFinderOnCompletion: Bool
     ) async {
+        guard let fileURL = uniqueExportURL(folder: folderURL) else { return }
+        print("Exporting to \(fileURL.path)")
+        
         await export(
-            to: url,
+            action: action,
+            to: fileURL,
             revealInFinderOnCompletion: revealInFinderOnCompletion
-        ) { mutableMovie in
-            try await mutableMovie.replaceTimecodeTrack(startTimecode: startTimecode, fileType: .mov)
-        }
+        )
     }
     
-    func exportRemovingTimecodeTrack(
+    func export(
+        action: Movie.ExportAction,
         to url: URL,
         revealInFinderOnCompletion: Bool
-    ) async {
-        await export(
-            to: url,
-            revealInFinderOnCompletion: revealInFinderOnCompletion
-        ) { mutableMovie in
-            try await mutableMovie.removeTimecodeTracks()
-        }
-    }
-    
-    /// Creates a copy of the movie, performs the operation, exports to a new file,
-    /// and optionally reveals the new file in the Finder (macOS only).
-    private func export(
-        to url: URL,
-        revealInFinderOnCompletion: Bool,
-        _ mutation: @Sendable (_ mutableMovie: AVMutableMovie) async throws -> Void
     ) async {
         do {
-            let mutableMovie = try getMutableCopy()
-            try await mutation(mutableMovie)
-            try await mutableMovie.export(to: url)
-            
-            #if os(macOS)
-            if revealInFinderOnCompletion {
-                try url.revealInFinder()
+            guard let movie else {
+                throw ModelError.noMovieLoaded
             }
-            #endif
+            
+            try await movie.export(
+                action: action,
+                to: url,
+                revealInFinderOnCompletion: revealInFinderOnCompletion
+            )
+            
         } catch let err as ModelError {
             error = err
         } catch let err {
             error = .exportError(err)
         }
-    }
-    
-    /// Produces a mutable copy of the loaded movie.
-    private func getMutableCopy() throws -> AVMutableMovie {
-        guard let movie else {
-            throw ModelError.noMovieLoaded
-        }
-        guard let mutableMovie = movie.avMovie.mutableCopy() as? AVMutableMovie else {
-            throw ModelError.errorCreatingMutableMovieCopy
-        }
-        return mutableMovie
     }
 }
