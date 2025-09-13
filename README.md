@@ -70,11 +70,19 @@ The following video frame rates are supported. (Video rates)
      Add the package to your target using this URL: `https://github.com/orchetect/TimecodeKit`
    - In a Swift Package, add it to the Package.swift dependencies:
      ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.1")
+     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.4")
      ```
-2. Import the library:
+2. Import the entire library to use all features (core, AV, UI):
    ```swift
    import TimecodeKit
+   ```
+   
+   Or import individual targets as-needed:
+   
+   ```swift
+   import TimecodeKitCore // core value types
+   import TimecodeKitAV // AVFoundation extensions
+   import TimecodeKitUI // UI components
    ```
 
 ## Documentation
