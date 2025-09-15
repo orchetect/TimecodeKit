@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SwiftUI
 
 extension NSOpenPanel {
     public convenience init(
@@ -22,31 +23,33 @@ extension NSOpenPanel {
     }
     
     public func present(
-        completion: (_ urls: [URL]?) -> Void
+        completion: @MainActor @escaping (_ urls: [URL]?) -> Void
     ) {
         var selectedURLs: [URL]?
         
-        if runModal() == .OK {
-            selectedURLs = urls
+        // runModal() must be called asynchronously or we get a runtime exception on macOS 26
+        Task { @MainActor in
+            if runModal() == .OK {
+                selectedURLs = urls
+            }
+            
+            completion(selectedURLs)
         }
-        
-        completion(selectedURLs)
     }
 }
 
-import SwiftUI
-
+@MainActor
 public struct OpenPanelView<Content: View>: View {
     @Binding public var isPresented: Bool
     public let setup: ((_ panel: NSOpenPanel) -> Void)?
-    public let completion: (_ urls: [URL]?) -> Void
+    public let completion: @MainActor (_ urls: [URL]) -> Void
     public let content: Content
     
     @State private var panel: NSOpenPanel?
     
     public var body: some View {
         content
-            .onChange(of: isPresented) { oldValue, newValue in
+            .onChange(of: isPresented) { newValue in
                 newValue ? present() : close()
             }
     }
@@ -56,16 +59,17 @@ public struct OpenPanelView<Content: View>: View {
         setup?(newPanel)
         panel = newPanel
         
-        var selectedURLs: [URL]?
-        
         isPresented = true
-        if newPanel.runModal() == .OK {
-            selectedURLs = newPanel.urls
-        }
         
-        completion(selectedURLs)
-        panel = nil
-        isPresented = false
+        newPanel.present { urls in
+            isPresented = false
+            panel = nil
+            if let urls {
+                completion(urls)
+            } else {
+                // user cancelled or something else happened
+            }
+        }
     }
     
     private func close() {
@@ -79,7 +83,7 @@ extension View {
     public func fileOpenPanel(
         isPresented: Binding<Bool>,
         setup: ((NSOpenPanel) -> Void)? = nil,
-        completion: @escaping (_ urls: [URL]?) -> Void
+        completion: @MainActor @escaping (_ urls: [URL]?) -> Void
     ) -> some View {
         OpenPanelView(
             isPresented: isPresented,
