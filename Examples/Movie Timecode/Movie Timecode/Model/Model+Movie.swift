@@ -11,11 +11,25 @@ import TimecodeKit
 extension Model {
     struct Movie: Equatable, Hashable, Sendable {
         let avMovie: AVMovie
+        let url: URL?
         
         // cached metadata
         let frameRate: TimecodeFrameRate?
         let timecodeStart: Timecode?
         let containsTimecodeTrack: Bool
+        
+        init(
+            url: URL,
+            frameRate: TimecodeFrameRate?,
+            timecodeStart: Timecode?,
+            containsTimecodeTrack: Bool
+        ) {
+            avMovie = AVMovie(url: url)
+            self.url = url
+            self.frameRate = frameRate
+            self.timecodeStart = timecodeStart
+            self.containsTimecodeTrack = containsTimecodeTrack
+        }
         
         init(
             avMovie: AVMovie,
@@ -24,6 +38,7 @@ extension Model {
             containsTimecodeTrack: Bool
         ) {
             self.avMovie = avMovie
+            url = avMovie.url
             self.frameRate = frameRate
             self.timecodeStart = timecodeStart
             self.containsTimecodeTrack = containsTimecodeTrack

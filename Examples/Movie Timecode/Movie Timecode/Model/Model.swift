@@ -20,7 +20,13 @@ extension Model {
         switch result {
         case let .success(url):
             Task {
+                movie?.url?.stopAccessingSecurityScopedResource()
                 movie = nil // forces views to update
+                
+                guard url.startAccessingSecurityScopedResource() else {
+                    error = .permissionError
+                    return
+                }
                 await updateMetadata(newMovie: AVMovie(url: url))
                 error = nil
             }

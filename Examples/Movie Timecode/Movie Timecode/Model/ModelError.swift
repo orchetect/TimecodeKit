@@ -13,6 +13,7 @@ enum ModelError: LocalizedError {
     case exportError(_ details: Error?)
     case pathDoesNotExist
     case pathIsNotFolder
+    case permissionError
 }
 
 extension ModelError {
@@ -34,6 +35,8 @@ extension ModelError {
             "Path does not exist"
         case .pathIsNotFolder:
             "Path is not a folder"
+        case .permissionError:
+            "Disk permission error"
         }
     }
 }
