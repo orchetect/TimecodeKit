@@ -18,7 +18,7 @@ let package = Package(
     ],
     dependencies: [
         // used only for Dev tests, not part of regular unit tests
-        // .package(url: "https://github.com/orchetect/XCTestUtils", from: "1.0.3")
+        // .package(url: "https://github.com/orchetect/xctest-extensions", from: "2.0.0")
     ] + doccPluginDependency(),
     targets: [
         .target(
@@ -61,7 +61,10 @@ let package = Package(
         // when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
             name: "SwiftTimecodeDevTests",
-            dependencies: ["SwiftTimecodeCore"] // , "XCTestUtils"
+            dependencies: [
+                "SwiftTimecodeCore"
+                // .product(name: "XCTestExtensions", package: "xctest-extensions")
+            ]
         )
     ]
 )

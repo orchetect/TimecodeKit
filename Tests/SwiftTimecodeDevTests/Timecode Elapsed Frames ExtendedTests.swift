@@ -7,7 +7,7 @@
 @testable import SwiftTimecodeCore
 import XCTest
 
-// import XCTestUtils
+// import XCTestExtensions
 //
 // final class Timecode_ExtendedTests: XCTestCase {
 //     func testTimecode_Iterative() {
