@@ -58,6 +58,26 @@ The frame rate must also be supplied. This can be done easily with the `at:` ove
 let tc = try Timecode(.string("01:00:00:00"), at: .fps23_976)
 ```
 
+Timecode components can be get or set directly as instance properties.
+
+```swift
+let tc = try Timecode(.string("01:12:20:05"), at: .fps23_976)
+
+// get
+tc.days          // == 0
+tc.hours         // == 1
+tc.minutes       // == 12
+tc.seconds       // == 20
+tc.frames        // == 5
+tc.subFrames     // == 0
+
+// set
+tc.hours = 5
+tc.stringValue() // == "05:12:20:05"
+```
+
+A compact components struct can be used to initialize ``Timecode`` and can also be accessed using ``Timecode/components-swift.property``. See ``Components-swift.struct``.
+
 If additional properties need to be specified, supply a ``Timecode/Properties`` struct with the `using:` overload.
 
 ```swift
@@ -110,6 +130,7 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 - ``frames``
 - ``subFrames``
 - ``Component``
+- ``ComponentRanges``
 
 ### Properties
 
@@ -196,6 +217,10 @@ Timecode(.components(h: 23, m: 59, s: 59, f: 24), at: .fps24, by: .wrapping)
 
 - ``transform(using:)``
 - ``transformed(using:)``
+
+### Encoding
+
+- <doc:Timecode-Encoding>
 
 ### String Errors
 

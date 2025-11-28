@@ -1,4 +1,4 @@
-# ``swift-timecode``
+# ``SwiftTimecode``
 
 Umbrella module that imports the entire swift-timecode library. Contains a Getting Started guide.
 

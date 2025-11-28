@@ -8,115 +8,115 @@ See the <doc:Math> article for a guide on using math methods.
 
 ### Addition
 
-- ``Timecode/add(_:)-35dhi``
-- ``Timecode/add(_:by:)-1z454``
+- ``Timecode/add(_:)-(Timecode)``
+- ``Timecode/add(_:by:)-(Timecode,_)``
 
-- ``Timecode/add(_:)-915h3``
-- ``Timecode/add(_:by:)-1m7ah``
+- ``Timecode/add(_:)-(Timecode.Components)``
+- ``Timecode/add(_:by:)-(Timecode.Components,_)``
 
-- ``Timecode/add(_:)-9ru9i``
-- ``Timecode/add(_:by:)-7ca02``
+- ``Timecode/add(_:)-(TimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(TimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-7n3x6``
-- ``Timecode/add(_:by:)-5163j``
+- ``Timecode/add(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(AsyncTimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-1i0b6``
-- ``Timecode/add(_:by:)-80c69``
+- ``Timecode/add(_:)-(GuaranteedTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(GuaranteedTimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-5011j``
-- ``Timecode/add(_:by:)-7wdo4``
+- ``Timecode/add(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(RichTimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-780aj``
-- ``Timecode/add(_:by:)-1xjog``
+- ``Timecode/add(_:)-(AsyncRichTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(AsyncRichTimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-2v36p``
-- ``Timecode/add(_:by:)-3055l``
+- ``Timecode/add(_:)-(GuaranteedRichTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(GuaranteedRichTimecodeSourceValue,_)``
 
-- ``Timecode/add(_:)-8mprr``
-- ``Timecode/add(_:by:)-34zg6``
+- ``Timecode/add(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/add(_:by:)-(FormattedTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-972mh``
-- ``Timecode/adding(_:by:)-2fl7h``
+- ``Timecode/adding(_:)-(Timecode)``
+- ``Timecode/adding(_:by:)-(Timecode,_)``
 
-- ``Timecode/adding(_:)-1n8w6``
-- ``Timecode/adding(_:by:)-1op0e`` 
+- ``Timecode/adding(_:)-(Timecode.Components)``
+- ``Timecode/adding(_:by:)-(Timecode.Components,_)``
 
-- ``Timecode/adding(_:)-64k1i``
-- ``Timecode/adding(_:by:)-8egjm``
+- ``Timecode/adding(_:)-(TimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(TimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-19qjo``
-- ``Timecode/adding(_:by:)-73bh6``
+- ``Timecode/adding(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(AsyncTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-1wwhe``
-- ``Timecode/adding(_:by:)-9wvjs``
+- ``Timecode/adding(_:)-(GuaranteedTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(GuaranteedTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-29yhq``
-- ``Timecode/adding(_:by:)-7j36`` 
+- ``Timecode/adding(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(RichTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-29yto``
-- ``Timecode/adding(_:by:)-27jkt``
+- ``Timecode/adding(_:)-(AsyncRichTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(AsyncRichTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-462rx``
-- ``Timecode/adding(_:by:)-93tmz``
+- ``Timecode/adding(_:)-(GuaranteedRichTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(GuaranteedRichTimecodeSourceValue,_)``
 
-- ``Timecode/adding(_:)-5xq6h``
-- ``Timecode/adding(_:by:)-9w4iw``
+- ``Timecode/adding(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/adding(_:by:)-(FormattedTimecodeSourceValue,_)``
 
 ### Subtraction
 
-- ``Timecode/subtract(_:)-1f5mq``
-- ``Timecode/subtract(_:by:)-19vp0``
+- ``Timecode/subtract(_:)-(Timecode)``
+- ``Timecode/subtract(_:by:)-(Timecode,_)``
 
-- ``Timecode/subtract(_:)-9ctfn``
-- ``Timecode/subtract(_:by:)-9pl51``
+- ``Timecode/subtract(_:)-(Timecode.Components)``
+- ``Timecode/subtract(_:by:)-(Timecode.Components,_)``
 
-- ``Timecode/subtract(_:)-835rt``
-- ``Timecode/subtract(_:by:)-e94u``
+- ``Timecode/subtract(_:)-(TimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(TimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-t638``
-- ``Timecode/subtract(_:by:)-uszg``
+- ``Timecode/subtract(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(AsyncTimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-8x9n7``
-- ``Timecode/subtract(_:by:)-2c2fx``
+- ``Timecode/subtract(_:)-(GuaranteedTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(GuaranteedTimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-3y14p``
-- ``Timecode/subtract(_:by:)-8zriq``
+- ``Timecode/subtract(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(RichTimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-4eaq5``
-- ``Timecode/subtract(_:by:)-3y6tc``
+- ``Timecode/subtract(_:)-(AsyncRichTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(AsyncRichTimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-8unrb``
-- ``Timecode/subtract(_:by:)-61jc0``
+- ``Timecode/subtract(_:)-(GuaranteedRichTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(GuaranteedRichTimecodeSourceValue,_)``
 
-- ``Timecode/subtract(_:)-2clhm``
-- ``Timecode/subtract(_:by:)-951oa``
+- ``Timecode/subtract(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/subtract(_:by:)-(FormattedTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-2ms69``
-- ``Timecode/subtracting(_:by:)-9eks5``
+- ``Timecode/subtracting(_:)-(Timecode)``
+- ``Timecode/subtracting(_:by:)-(Timecode,_)``
 
-- ``Timecode/subtracting(_:)-8nsmp``
-- ``Timecode/subtracting(_:by:)-6myzc``
+- ``Timecode/subtracting(_:)-(Timecode.Components)``
+- ``Timecode/subtracting(_:by:)-(Timecode.Components,_)``
 
-- ``Timecode/subtracting(_:)-wqfx``
-- ``Timecode/subtracting(_:by:)-1edym``
+- ``Timecode/subtracting(_:)-(TimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(TimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-15gui``
-- ``Timecode/subtracting(_:by:)-57buu``
+- ``Timecode/subtracting(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(AsyncTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-3i0pb``
-- ``Timecode/subtracting(_:by:)-6xzzi``
+- ``Timecode/subtracting(_:)-(GuaranteedTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(GuaranteedTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-5jwl0``
-- ``Timecode/subtracting(_:by:)-7s2gd``
+- ``Timecode/subtracting(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(RichTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-3yet8`` 
-- ``Timecode/subtracting(_:by:)-85imt``
+- ``Timecode/subtracting(_:)-(AsyncRichTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(AsyncRichTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-2r7qo``
-- ``Timecode/subtracting(_:by:)-8g59b``
+- ``Timecode/subtracting(_:)-(GuaranteedRichTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(GuaranteedRichTimecodeSourceValue,_)``
 
-- ``Timecode/subtracting(_:)-94lq9``
-- ``Timecode/subtracting(_:by:)-8wjgl``
+- ``Timecode/subtracting(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/subtracting(_:by:)-(FormattedTimecodeSourceValue,_)``
 
 ### Multiplication
 
@@ -131,7 +131,7 @@ See the <doc:Math> article for a guide on using math methods.
 - ``Timecode/divide(_:)``
 - ``Timecode/divide(_:by:)``
 
-- ``Timecode/dividing(_:)-411cg``
+- ``Timecode/dividing(_:)-(Timecode)``
+- ``Timecode/dividing(_:)-(Timecode.Components)``
+- ``Timecode/dividing(_:)->Timecode``
 - ``Timecode/dividing(_:by:)``
-- ``Timecode/dividing(_:)-6wrjc``
-- ``Timecode/dividing(_:)-5xpva``

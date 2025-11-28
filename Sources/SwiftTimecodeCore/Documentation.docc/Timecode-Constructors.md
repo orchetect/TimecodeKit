@@ -4,39 +4,39 @@
 
 ### Source Value
 
-- ``Timecode/init(_:using:)-7x46s``
-- ``Timecode/init(_:using:by:)-19laj``
-- ``Timecode/init(_:at:base:limit:)-6eprh``
-- ``Timecode/init(_:at:base:limit:by:)-7daaz``
+- ``Timecode/init(_:using:)-(TimecodeSourceValue,_)``
+- ``Timecode/init(_:using:by:)-(TimecodeSourceValue,_,_)``
+- ``Timecode/init(_:at:base:limit:)-(TimecodeSourceValue,_,_,_)``
+- ``Timecode/init(_:at:base:limit:by:)-(TimecodeSourceValue,_,_,_,_)``
 
 ### Async Source Value
 
-- ``Timecode/init(_:using:)-2obvr``
-- ``Timecode/init(_:using:by:)-978c3``
-- ``Timecode/init(_:at:base:limit:)-45ucr``
-- ``Timecode/init(_:at:base:limit:by:)-7k12n``
+- ``Timecode/init(_:using:)-(AsyncTimecodeSourceValue,_)``
+- ``Timecode/init(_:using:by:)-(AsyncTimecodeSourceValue,_,_)``
+- ``Timecode/init(_:at:base:limit:)-(AsyncTimecodeSourceValue,_,_,_)``
+- ``Timecode/init(_:at:base:limit:by:)-(AsyncTimecodeSourceValue,_,_,_,_)``
 
 ### Guaranteed Source Value
 
-- ``Timecode/init(_:using:)-5hu6e``
-- ``Timecode/init(_:at:base:limit:)-dux2``
+- ``Timecode/init(_:using:)-(GuaranteedTimecodeSourceValue,_)``
+- ``Timecode/init(_:at:base:limit:)-(GuaranteedTimecodeSourceValue,_,_,_)``
 
 ### Rich Source Value
 
-- ``Timecode/init(_:)-60nf9``
-- ``Timecode/init(_:by:)``
+- ``Timecode/init(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/init(_:by:)-(RichTimecodeSourceValue,_)``
 
 ### Async Rich Source Value
 
-- ``Timecode/init(_:)-w15o``
+- ``Timecode/init(_:)-(AsyncRichTimecodeSourceValue)``
 
 ### Guaranteed Rich Source Value
 
-- ``Timecode/init(_:)-5xi0q``
+- ``Timecode/init(_:)-(GuaranteedRichTimecodeSourceValue)``
 
 ### Formatted Source Value
 
-- ``Timecode/init(_:using:)-2fc6x``
-- ``Timecode/init(_:using:by:)-xil6``
-- ``Timecode/init(_:at:base:limit:)-6vxuh``
-- ``Timecode/init(_:at:base:limit:by:)-7p0j2``
+- ``Timecode/init(_:using:)-(FormattedTimecodeSourceValue,_)``
+- ``Timecode/init(_:using:by:)-(FormattedTimecodeSourceValue,_,_)``
+- ``Timecode/init(_:at:base:limit:)-(FormattedTimecodeSourceValue,_,_,_)``
+- ``Timecode/init(_:at:base:limit:by:)-(FormattedTimecodeSourceValue,_,_,_,_)``

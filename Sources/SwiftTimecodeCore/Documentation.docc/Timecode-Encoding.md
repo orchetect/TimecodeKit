@@ -192,8 +192,8 @@ func validate(pastedTimecode: Timecode) {
 
 ### NSItemProvider
 
-- ``Timecode/init(from:propertiesForString:)-7hl9l``
-- ``Timecode/init(from:propertiesForString:)-1cqhu``
+- ``Timecode/init(from:propertiesForString:)-(NSItemProvider,_)``
+- ``Timecode/init(from:propertiesForString:)-([NSItemProvider],_)``
 - ``Timecode/itemProviders(stringFormat:)``
 
 ### Transferable

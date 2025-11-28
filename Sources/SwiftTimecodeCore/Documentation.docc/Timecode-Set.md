@@ -6,43 +6,43 @@ Set an existing ``Timecode`` instance to a new timecode.
 
 ### Source Value
 
-- ``Timecode/set(_:)-7h1e3``
-- ``Timecode/set(_:by:)-924y6``
-- ``Timecode/setting(_:)-8fycr``
-- ``Timecode/setting(_:by:)-4xxpr``
+- ``Timecode/set(_:)-(TimecodeSourceValue)``
+- ``Timecode/set(_:by:)-(TimecodeSourceValue,_)``
+- ``Timecode/setting(_:)-(TimecodeSourceValue)``
+- ``Timecode/setting(_:by:)-(TimecodeSourceValue,_)``
 
 ### Async Source Value
 
-- ``Timecode/set(_:)-78azr``
-- ``Timecode/set(_:by:)-6pcmt``
-- ``Timecode/setting(_:)-3p2sr``
-- ``Timecode/setting(_:by:)-9bsvo``
+- ``Timecode/set(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/set(_:by:)-(AsyncTimecodeSourceValue,_)``
+- ``Timecode/setting(_:)-(AsyncTimecodeSourceValue)``
+- ``Timecode/setting(_:by:)-(AsyncTimecodeSourceValue,_)``
 
 ### Guaranteed Source Value
 
-- ``Timecode/set(_:)-2nzja``
-- ``Timecode/setting(_:)-7duyt``
+- ``Timecode/set(_:)-(GuaranteedTimecodeSourceValue)``
+- ``Timecode/setting(_:)-(GuaranteedTimecodeSourceValue)``
 
 ### Rich Source Value
 
-- ``Timecode/set(_:)-1zpbl``
-- ``Timecode/set(_:by:)-8094b``
-- ``Timecode/setting(_:)-9wz6a``
-- ``Timecode/setting(_:by:)-4atep``
+- ``Timecode/set(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/set(_:by:)-(RichTimecodeSourceValue,_)``
+- ``Timecode/setting(_:)-(RichTimecodeSourceValue)``
+- ``Timecode/setting(_:by:)-(RichTimecodeSourceValue,_)``
 
 ### Async Rich Source Value
 
-- ``Timecode/set(_:)-5uzz``
-- ``Timecode/setting(_:)-5tip1``
+- ``Timecode/set(_:)-(AsyncRichTimecodeSourceValue)``
+- ``Timecode/setting(_:)-(AsyncRichTimecodeSourceValue)``
 
 ### Guaranteed Rich Source Value
 
-- ``Timecode/set(_:)-1qlc2``
-- ``Timecode/setting(_:)-3evhh``
+- ``Timecode/set(_:)->_``
+- ``Timecode/setting(_:)-(GuaranteedRichTimecodeSourceValue)``
 
 ### Formatted Source Value
 
-- ``Timecode/set(_:)-3il64``
-- ``Timecode/set(_:by:)-2wk8a``
-- ``Timecode/setting(_:)-37k7d``
-- ``Timecode/setting(_:by:)-8zidz``
+- ``Timecode/set(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/set(_:by:)-(FormattedTimecodeSourceValue,_)``
+- ``Timecode/setting(_:)-(FormattedTimecodeSourceValue)``
+- ``Timecode/setting(_:by:)-(FormattedTimecodeSourceValue,_)``
