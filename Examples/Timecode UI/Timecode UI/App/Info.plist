@@ -12,7 +12,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>com.orchetect.TimecodeKit.timecode</string>
+			<string>com.orchetect.timecode</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>

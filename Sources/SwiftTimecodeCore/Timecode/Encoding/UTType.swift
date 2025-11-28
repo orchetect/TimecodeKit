@@ -10,8 +10,8 @@ import UniformTypeIdentifiers
 
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension UTType {
-    /// UT Type defined in TimecodeKit to globally identify ``Timecode`` instances.
-    public static let timecode = UTType(exportedAs: "com.orchetect.TimecodeKit.timecode", conformingTo: .data)
+    /// UT Type defined in swift-timecode to globally identify ``Timecode`` instances.
+    public static let timecode = UTType(exportedAs: "com.orchetect.timecode", conformingTo: .data)
 }
 
 @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)

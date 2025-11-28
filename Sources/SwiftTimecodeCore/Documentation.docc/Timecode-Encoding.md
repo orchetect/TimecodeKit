@@ -18,7 +18,7 @@ To support exchange of ``Timecode`` instances, your app needs to export its UT T
    | Field | Content |
    | --- | --- |
    | Description | `Timecode` |
-   | Identifier | `com.orchetect.TimecodeKit.timecode` |
+   | Identifier | `com.orchetect.timecode` |
 
 ![Exported Types](app-target-exported-types.png)
 
@@ -93,7 +93,7 @@ See the <doc:#Pasted-Timecode-Validation-Against-Local-Context> section on how t
 >
 > If SwiftUI view modifiers using `NSItemProviders` are invoked without exporting `Timecode`'s UT Type, this error will be thrown:
 > 
-> `Type "com.orchetect.TimecodeKit.timecode" was expected to be declared and exported in the Info.plist of MyApp.app, but it was not found.`
+> `Type "com.orchetect.timecode" was expected to be declared and exported in the Info.plist of MyApp.app, but it was not found.`
 > 
 > See the <doc:#UT-Types> section for information on how to export this type in your app.
 
@@ -145,7 +145,7 @@ See the <doc:#Pasted-Timecode-Validation-Against-Local-Context> section on how t
 >
 > If SwiftUI view modifiers using the [`Transferable`](https://developer.apple.com/documentation/coretransferable/transferable) protocol are invoked without exporting `Timecode`'s UT Type, this error will be thrown:
 > 
-> `Type "com.orchetect.TimecodeKit.timecode" was expected to be declared and exported in the Info.plist of MyApp.app, but it was not found.`
+> `Type "com.orchetect.timecode" was expected to be declared and exported in the Info.plist of MyApp.app, but it was not found.`
 > 
 > See the <doc:#UT-Types> section for information on how to export this type in your app. 
 
