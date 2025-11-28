@@ -1,13 +1,13 @@
 //
 //  AddOrReplaceTimecodeTrackView.swift
-//  TimecodeKit • https://github.com/orchetect/TimecodeKit
-//  © 2020-2024 Steffan Andrews • Licensed under MIT License
+//  swift-timecode • https://github.com/orchetect/swift-timecode
+//  © 2020-2025 Steffan Andrews • Licensed under MIT License
 //
 
 import Observation
 import SwiftUI
-import TimecodeKit
-import TimecodeKitUI
+import SwiftTimecode
+import SwiftTimecodeUI
 
 struct AddOrReplaceTimecodeTrackView: View {
     @Environment(Model.self) private var model

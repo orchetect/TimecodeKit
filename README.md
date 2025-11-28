@@ -1,8 +1,8 @@
-![TimecodeKit](Images/timecodekit-banner.png)
+![swift-timecode](Images/swifttimecode-banner.png)
 
-# TimecodeKit
+# swift-timecode
 
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2FTimecodeKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/TimecodeKit) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/TimecodeKit/blob/main/LICENSE)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-timecode%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-timecode) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-timecode%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-timecode) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-timecode/blob/main/LICENSE)
 
 The most robust, precise and complete Swift library for working with SMPTE/EBU timecode. Supports 23 industry-standard timecode frame rates with a suite of conversions, calculations and integrations with Apple AV frameworks.
 
@@ -65,31 +65,45 @@ The following video frame rates are supported. (Video rates)
 
 ### Swift Package Manager (SPM)
 
-1. Add TimecodeKit as a dependency using Swift Package Manager.
-   - In an app project or framework, in Xcode:
-     Add the package to your target using this URL: `https://github.com/orchetect/TimecodeKit`
-   - In a Swift Package, add it to the Package.swift dependencies:
-     ```swift
-     .package(url: "https://github.com/orchetect/TimecodeKit", from: "2.3.4")
-     ```
-2. Import the entire library to use all features (core, AV, UI):
-   ```swift
-   import TimecodeKit
-   ```
-   
-   Or import individual targets as-needed:
-   
-   ```swift
-   import TimecodeKitCore // core value types
-   import TimecodeKitAV // AVFoundation extensions
-   import TimecodeKitUI // UI components
-   ```
+To add this package to an Xcode app project, use:
+
+ `https://github.com/orchetect/swift-timecode` as the URL.
+
+To add this package to a Swift package, add the dependency to your package and target in Package.swift:
+
+```swift
+let package = Package(
+    dependencies: [
+        .package(url: "https://github.com/orchetect/swift-timecode", from: "3.0.0")
+    ],
+    targets: [
+        .target(
+            dependencies: [
+                .product(name: "SwiftTimecode", package: "swift-timecode")
+            ]
+        )
+    ]
+)
+```
+
+Import the entire library to use all features (core, AV, UI):
+```swift
+import SwiftTimecode
+```
+
+Or import individual targets as-needed:
+
+```swift
+import SwiftTimecodeCore // core value types
+import SwiftTimecodeAV // AVFoundation extensions
+import SwiftTimecodeUI // UI components
+```
 
 ## Documentation
 
-See the [online documentation](https://orchetect.github.io/TimecodeKit) for library usage, getting started info, and 1.x → 2.x migration guide.
+See the [online documentation](https://orchetect.github.io/swift-timecode) for library usage and getting started info.
 
-Also check out the [Examples](Examples) folder for sample code to see TimecodeKit in action.
+Also check out the [Examples](Examples) folder for sample code to see swift-timecode in action.
 
 ## References
 
@@ -101,19 +115,23 @@ Coded by a bunch of 🐹 hamsters in a trenchcoat that calls itself [@orchetect]
 
 ## License
 
-Licensed under the MIT license. See [LICENSE](https://github.com/orchetect/TimecodeKit/blob/master/LICENSE) for details.
+Licensed under the MIT license. See [LICENSE](https://github.com/orchetect/swift-timecode/blob/master/LICENSE) for details.
 
 ## Sponsoring
 
-If you enjoy using TimecodeKit and want to contribute to open-source financially, GitHub sponsorship is much appreciated. Feedback and code contributions are also welcome.
+If you enjoy using swift-timecode and want to contribute to open-source financially, GitHub sponsorship is much appreciated. Feedback and code contributions are also welcome.
 
 ## Community & Support
 
 Please do not email maintainers for technical support. Several options are available for issues and questions:
 
-- Questions and feature ideas can be posted to [Discussions](https://github.com/orchetect/TimecodeKit/discussions).
-- If an issue is a verifiable bug with reproducible steps it may be posted in [Issues](https://github.com/orchetect/TimecodeKit/issues).
+- Questions and feature ideas can be posted to [Discussions](https://github.com/orchetect/swift-timecode/discussions).
+- If an issue is a verifiable bug with reproducible steps it may be posted in [Issues](https://github.com/orchetect/swift-timecode/issues).
 
 ## Contributions
 
-Contributions are welcome. Posting in [Discussions](https://github.com/orchetect/TimecodeKit/discussions) first prior to new submitting PRs for features or modifications is encouraged.
+Contributions are welcome. Posting in [Discussions](https://github.com/orchetect/swift-timecode/discussions) first prior to new submitting PRs for features or modifications is encouraged.
+
+## Legacy
+
+This repository was formerly known as TimecodeKit.

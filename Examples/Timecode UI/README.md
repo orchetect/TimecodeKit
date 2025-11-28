@@ -1,6 +1,6 @@
 # Timecode UI Example
 
-This example project demonstrates the UI components available in the **TimecodeKitUI** module.
+This example project demonstrates the UI components available in the **SwiftTimecodeUI** module.
 
 ## Platforms
 

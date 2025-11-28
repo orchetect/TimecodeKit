@@ -5,16 +5,16 @@ import Foundation
 import PackageDescription
 
 let package = Package(
-    name: "TimecodeKit",
+    name: "swift-timecode",
     defaultLocalization: "en",
     platforms: [
         .macOS(.v10_13), .iOS(.v12), .tvOS(.v12), .watchOS(.v4), .visionOS(.v1)
     ],
     products: [
-        .library(name: "TimecodeKit", targets: ["TimecodeKit"]),
-        .library(name: "TimecodeKitCore", type: .static, targets: ["TimecodeKitCore"]),
-        .library(name: "TimecodeKitAV", targets: ["TimecodeKitAV"]),
-        .library(name: "TimecodeKitUI", targets: ["TimecodeKitUI"])
+        .library(name: "SwiftTimecode", targets: ["SwiftTimecode"]),
+        .library(name: "SwiftTimecodeCore", type: .static, targets: ["SwiftTimecodeCore"]),
+        .library(name: "SwiftTimecodeAV", targets: ["SwiftTimecodeAV"]),
+        .library(name: "SwiftTimecodeUI", targets: ["SwiftTimecodeUI"])
     ],
     dependencies: [
         // used only for Dev tests, not part of regular unit tests
@@ -22,36 +22,36 @@ let package = Package(
     ] + doccPluginDependency(),
     targets: [
         .target(
-            name: "TimecodeKit",
-            dependencies: ["TimecodeKitCore", "TimecodeKitAV", "TimecodeKitUI"]
+            name: "SwiftTimecode",
+            dependencies: ["SwiftTimecodeCore", "SwiftTimecodeAV", "SwiftTimecodeUI"]
         ),
         .target(
-            name: "TimecodeKitCore",
+            name: "SwiftTimecodeCore",
             dependencies: []
         ),
         .target(
-            name: "TimecodeKitAV",
-            dependencies: ["TimecodeKitCore"]
+            name: "SwiftTimecodeAV",
+            dependencies: ["SwiftTimecodeCore"]
         ),
         .target(
-            name: "TimecodeKitUI",
-            dependencies: ["TimecodeKitCore"],
+            name: "SwiftTimecodeUI",
+            dependencies: ["SwiftTimecodeCore"],
             linkerSettings: [
                 .linkedFramework("SwiftUI", .when(platforms: [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]))
             ]
         ),
         .testTarget(
-            name: "TimecodeKitCoreTests",
-            dependencies: ["TimecodeKitCore"]
+            name: "SwiftTimecodeCoreTests",
+            dependencies: ["SwiftTimecodeCore"]
         ),
         .testTarget(
-            name: "TimecodeKitAVTests",
-            dependencies: ["TimecodeKitAV"],
+            name: "SwiftTimecodeAVTests",
+            dependencies: ["SwiftTimecodeAV"],
             resources: [.copy("TestResource/Media Files")]
         ),
         .testTarget(
-            name: "TimecodeKitUITests",
-            dependencies: ["TimecodeKitUI"],
+            name: "SwiftTimecodeUITests",
+            dependencies: ["SwiftTimecodeUI"],
             linkerSettings: [
                 .linkedFramework("SwiftUI", .when(platforms: [.macOS, .macCatalyst, .iOS, .tvOS, .watchOS, .visionOS]))
             ]
@@ -60,8 +60,8 @@ let package = Package(
         // (not meant to be run as unit tests, but only to verify library's computational integrity
         // when making major changes to the library, as these tests require modification to be meaningful)
         .testTarget(
-            name: "TimecodeKitDevTests",
-            dependencies: ["TimecodeKitCore"] // , "XCTestUtils"
+            name: "SwiftTimecodeDevTests",
+            dependencies: ["SwiftTimecodeCore"] // , "XCTestUtils"
         )
     ]
 )
@@ -69,6 +69,6 @@ let package = Package(
 /// Conditionally opt-in to Swift DocC Plugin when an environment flag is present.
 func doccPluginDependency() -> [Package.Dependency] {
     ProcessInfo.processInfo.environment["ENABLE_DOCC_PLUGIN"] != nil
-        ? [.package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.4.3")]
+        ? [.package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.4.5")]
         : []
 }
