@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2BCFBE92CC09AC400653C18 /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E2BCFBE82CC09AC400653C18 /* TimecodeKit */; };
+		E279FCEB2ED92F8500D3E12C /* SwiftTimecode in Frameworks */ = {isa = PBXBuildFile; productRef = E279FCEA2ED92F8500D3E12C /* SwiftTimecode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2BCFBE92CC09AC400653C18 /* TimecodeKit in Frameworks */,
+				E279FCEB2ED92F8500D3E12C /* SwiftTimecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = "Timecode UI";
 			packageProductDependencies = (
-				E2BCFBE82CC09AC400653C18 /* TimecodeKit */,
+				E279FCEA2ED92F8500D3E12C /* SwiftTimecode */,
 			);
 			productName = "TimecodeUI Example";
 			productReference = E2B3AE242CB2340100149DEF /* Timecode UI.app */;
@@ -114,7 +114,7 @@
 			mainGroup = E2B3AE1B2CB2340100149DEF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E2B3AE462CB238C900149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */,
+				E279FCE92ED92F8500D3E12C /* XCLocalSwiftPackageReference "../../../swift-timecode" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2B3AE252CB2340100149DEF /* Products */;
@@ -292,7 +292,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.TimecodeUI${DEVELOPERTEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.swift-timecode.TimecodeUI${DEVELOPERTEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -331,7 +331,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.TimecodeUI${DEVELOPERTEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.swift-timecode.TimecodeUI${DEVELOPERTEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -365,17 +365,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		E2B3AE462CB238C900149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */ = {
+		E279FCE92ED92F8500D3E12C /* XCLocalSwiftPackageReference "../../../swift-timecode" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../../TimecodeKit;
+			relativePath = "../../../swift-timecode";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E2BCFBE82CC09AC400653C18 /* TimecodeKit */ = {
+		E279FCEA2ED92F8500D3E12C /* SwiftTimecode */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E2B3AE462CB238C900149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */;
-			productName = TimecodeKit;
+			productName = SwiftTimecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

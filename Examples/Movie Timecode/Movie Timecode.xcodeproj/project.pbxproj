@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E212881E2CBDFD4200C6AB7D /* TimecodeKit in Frameworks */ = {isa = PBXBuildFile; productRef = E212881D2CBDFD4200C6AB7D /* TimecodeKit */; };
+		E279FC992ED92DE200D3E12C /* SwiftTimecode in Frameworks */ = {isa = PBXBuildFile; productRef = E279FC982ED92DE200D3E12C /* SwiftTimecode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E212881E2CBDFD4200C6AB7D /* TimecodeKit in Frameworks */,
+				E279FC992ED92DE200D3E12C /* SwiftTimecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +76,7 @@
 			);
 			name = "Movie Timecode";
 			packageProductDependencies = (
-				E212881D2CBDFD4200C6AB7D /* TimecodeKit */,
+				E279FC982ED92DE200D3E12C /* SwiftTimecode */,
 			);
 			productName = "Movie Timecode";
 			productReference = E2B3AD962CB1E50000149DEF /* Movie Timecode.app */;
@@ -108,7 +108,7 @@
 			mainGroup = E2B3AD8D2CB1E50000149DEF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E2B3ADB92CB1E65700149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */,
+				E279FC972ED92DE200D3E12C /* XCLocalSwiftPackageReference "../../../swift-timecode" */,
 			);
 			productRefGroup = E2B3AD972CB1E50000149DEF /* Products */;
 			projectDirPath = "";
@@ -289,7 +289,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.MovieTimecode${DEVELOPMENT_TEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.swift-timecode.MovieTimecode${DEVELOPMENT_TEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -331,7 +331,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.TimecodeKit.MovieTimecode${DEVELOPMENT_TEAM}";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orchetect.swift-timecode.MovieTimecode${DEVELOPMENT_TEAM}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -366,17 +366,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		E2B3ADB92CB1E65700149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */ = {
+		E279FC972ED92DE200D3E12C /* XCLocalSwiftPackageReference "../../../swift-timecode" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../../TimecodeKit;
+			relativePath = "../../../swift-timecode";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E212881D2CBDFD4200C6AB7D /* TimecodeKit */ = {
+		E279FC982ED92DE200D3E12C /* SwiftTimecode */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E2B3ADB92CB1E65700149DEF /* XCLocalSwiftPackageReference "../../../TimecodeKit" */;
-			productName = TimecodeKit;
+			productName = SwiftTimecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
